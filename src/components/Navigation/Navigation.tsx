@@ -134,7 +134,7 @@ export function Navigation() {
     border: `1px solid ${theme.colorNeutralStroke2}`,
     borderRadius: theme.borderRadiusMedium,
     cursor: 'pointer',
-    color: isHomePage ? theme.colorNeutralForegroundOnBrand : theme.colorNeutralForeground1,
+    color: theme.colorNeutralForeground1,
     transition: 'background-color 0.2s ease, transform 0.15s ease',
     padding: 0,
   };

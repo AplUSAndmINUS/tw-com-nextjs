@@ -58,16 +58,9 @@ export function CaseStudyLayout({
             {/* Content — 9 cols */}
             <article className='md:col-span-9'>
               <header className='mb-10 border-b pb-8'>
-                {industry && (
-                  <span className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
-                    {industry}
-                  </span>
-                )}
-                {!industry && (
-                  <span className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
-                    Case Study
-                  </span>
-                )}
+                <span className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
+                  {industry ?? 'Case Study'}
+                </span>
                 <h1 className='text-4xl font-bold mt-2'>{title}</h1>
                 {date && (
                   <time
@@ -86,16 +79,9 @@ export function CaseStudyLayout({
         ) : (
           <article className='max-w-4xl mx-auto'>
             <header className='mb-10 border-b pb-8'>
-              {industry && (
-                <span className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
-                  {industry}
-                </span>
-              )}
-              {!industry && (
-                <span className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
-                  Case Study
-                </span>
-              )}
+              <span className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
+                {industry ?? 'Case Study'}
+              </span>
               <h1 className='text-4xl font-bold mt-2'>{title}</h1>
               {date && (
                 <time
