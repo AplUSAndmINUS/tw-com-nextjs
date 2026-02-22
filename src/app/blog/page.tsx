@@ -29,8 +29,13 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const posts = await getAllContent('blog');
-  const allTags = Array.from(new Set(posts.flatMap((p) => p.tags))).sort();
+  const allPosts = await getAllContent('blog');
+  // Strip the full markdown body — the listing page only needs metadata fields.
+  // This keeps the client-side JSON payload small.
+  const posts = allPosts.map(({ content: _content, ...rest }) => ({
+    ...rest,
+    content: '',
+  }));
 
   return (
     <PageLayout>
