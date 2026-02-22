@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { PortfolioLayout } from '@/layouts/PortfolioLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { PortfolioDetailClient } from '@/components/PortfolioDetailClient';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -18,8 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = await getContentBySlug('portfolio', slug);
   if (!entry) return {};
   return {
-    title: entry.title,
-    description: entry.excerpt,
+    title: entry.seoTitle ?? entry.title,
+    description: entry.seoDescription ?? entry.excerpt,
+    keywords: entry.seoKeywords,
     metadataBase: new URL('https://terencewaters.com'),
     robots: {
       index: false,
@@ -39,8 +41,24 @@ export default async function PortfolioEntryPage({ params }: Props) {
   const { slug } = await params;
   const entry = await getContentBySlug('portfolio', slug);
   if (!entry) notFound();
+
+  const featureImage = entry.imageUrl
+    ? { src: entry.imageUrl, alt: entry.imageAlt ?? entry.title }
+    : undefined;
+
+  const basePath = entry.imageUrl
+    ? entry.imageUrl.substring(0, entry.imageUrl.lastIndexOf('/') + 1)
+    : '';
+
   return (
-    <PortfolioLayout title={entry.title}>
+    <PortfolioLayout
+      title={entry.title}
+      description={entry.excerpt}
+      featureImage={featureImage}
+    >
+      {entry.gallery && entry.gallery.length > 0 && (
+        <PortfolioDetailClient gallery={entry.gallery} basePath={basePath} />
+      )}
       <MDXRemote source={entry.content} />
     </PortfolioLayout>
   );

@@ -31,4 +31,19 @@ export const navItems: NavItem[] = [
     path: '/case-studies',
     description: 'In-depth project breakdowns',
   },
+  {
+    label: 'Videos',
+    path: '/videos',
+    description: 'Watch videos on technology, creativity, and personal development',
+  },
+  {
+    label: 'Podcasts',
+    path: '/podcasts',
+    description: 'Listen to podcast episodes',
+  },
+  {
+    label: 'Content Hub',
+    path: '/content',
+    description: 'All content in one place — blog, essays, portfolio, case studies, and more',
+  },
 ];
