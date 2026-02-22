@@ -13,8 +13,7 @@
 
 const https = require('https');
 
-const YOUTUBE_CHANNEL_ID =
-  process.env.YOUTUBE_CHANNEL_ID || 'UCterencewaters'; // Set YOUTUBE_CHANNEL_ID env var in Azure Static Web Apps
+const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || 'UCterencewaters'; // Set YOUTUBE_CHANNEL_ID env var in Azure Static Web Apps
 
 const MAX_RESULTS = 20;
 
@@ -33,12 +32,64 @@ function httpGet(url) {
           try {
             resolve(JSON.parse(data));
           } catch (err) {
-            reject(err);
+            reject(new Error(`JSON parse error: ${err.message}`));
           }
         });
       })
       .on('error', reject);
   });
+}
+
+/**
+ * Validates that each video has the required fields.
+ * @param {any[]} videos - Array of video objects
+ * @returns {{ valid: boolean, error?: string }}
+ */
+function validateVideos(videos) {
+  if (!Array.isArray(videos)) {
+    return {
+      valid: false,
+      error: 'Videos must be an array',
+    };
+  }
+
+  const requiredFields = [
+    'id',
+    'title',
+    'description',
+    'thumbnailUrl',
+    'publishedAt',
+  ];
+
+  for (let i = 0; i < videos.length; i++) {
+    const video = videos[i];
+
+    if (typeof video !== 'object' || video === null) {
+      return {
+        valid: false,
+        error: `Invalid video at index ${i}: expected an object`,
+      };
+    }
+
+    for (const field of requiredFields) {
+      if (!video[field] || typeof video[field] !== 'string') {
+        return {
+          valid: false,
+          error: `Invalid video at index ${i}: missing or invalid required field "${field}"`,
+        };
+      }
+    }
+
+    // Validate tags is an array
+    if (!Array.isArray(video.tags)) {
+      return {
+        valid: false,
+        error: `Invalid video at index ${i}: "tags" must be an array`,
+      };
+    }
+  }
+
+  return { valid: true };
 }
 
 /**
@@ -72,7 +123,9 @@ module.exports = async function (req, context) {
       return {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: 'Channel not found or no uploads playlist.' }),
+        body: JSON.stringify({
+          error: 'Channel not found or no uploads playlist.',
+        }),
       };
     }
 
@@ -103,6 +156,20 @@ module.exports = async function (req, context) {
       };
     });
 
+    // Validate the transformed videos
+    const validation = validateVideos(videos);
+    if (!validation.valid) {
+      context.log('Video validation error:', validation.error);
+      return {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          error: 'Invalid video data structure',
+          details: validation.error,
+        }),
+      };
+    }
+
     return {
       status: 200,
       headers: {
@@ -116,7 +183,10 @@ module.exports = async function (req, context) {
     return {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Failed to fetch videos.' }),
+      body: JSON.stringify({
+        error: 'Failed to fetch videos',
+        details: error.message,
+      }),
     };
   }
 };

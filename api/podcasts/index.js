@@ -38,6 +38,58 @@ function fetchBlob(url) {
 }
 
 /**
+ * Validates that the parsed data is a valid array of podcast episodes.
+ * @param {any} data - The parsed JSON data
+ * @returns {{ valid: boolean, error?: string, episodes?: any[] }}
+ */
+function validateEpisodes(data) {
+  if (!Array.isArray(data)) {
+    return {
+      valid: false,
+      error: 'Invalid episodes data: expected an array',
+    };
+  }
+
+  const requiredFields = [
+    'slug',
+    'title',
+    'description',
+    'audioUrl',
+    'publishedDate',
+  ];
+
+  for (let i = 0; i < data.length; i++) {
+    const episode = data[i];
+
+    if (typeof episode !== 'object' || episode === null) {
+      return {
+        valid: false,
+        error: `Invalid episode at index ${i}: expected an object`,
+      };
+    }
+
+    for (const field of requiredFields) {
+      if (!episode[field] || typeof episode[field] !== 'string') {
+        return {
+          valid: false,
+          error: `Invalid episode at index ${i}: missing or invalid required field "${field}"`,
+        };
+      }
+    }
+
+    // Validate tags is an array
+    if (!Array.isArray(episode.tags)) {
+      return {
+        valid: false,
+        error: `Invalid episode at index ${i}: "tags" must be an array`,
+      };
+    }
+  }
+
+  return { valid: true, episodes: data };
+}
+
+/**
  * @param {import('@azure/functions').HttpRequest} req
  * @param {import('@azure/functions').InvocationContext} context
  */
@@ -45,8 +97,7 @@ module.exports = async function (req, context) {
   context.log('podcasts function triggered');
 
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
-  const containerName =
-    process.env.PODCAST_CONTAINER_NAME || 'podcasts';
+  const containerName = process.env.PODCAST_CONTAINER_NAME || 'podcasts';
   const storageAccountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
   const episodesIndexUrl = process.env.PODCAST_EPISODES_INDEX_URL;
 
@@ -54,21 +105,52 @@ module.exports = async function (req, context) {
   if (episodesIndexUrl) {
     try {
       const raw = await fetchBlob(episodesIndexUrl);
-      const episodes = JSON.parse(raw);
+
+      let parsedData;
+      try {
+        parsedData = JSON.parse(raw);
+      } catch (parseError) {
+        context.log('JSON parse error:', parseError);
+        return {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            error: 'Invalid JSON in episodes file',
+            details: parseError.message,
+          }),
+        };
+      }
+
+      const validation = validateEpisodes(parsedData);
+      if (!validation.valid) {
+        context.log('Validation error:', validation.error);
+        return {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            error: 'Invalid episodes data structure',
+            details: validation.error,
+          }),
+        };
+      }
+
       return {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'public, max-age=1800',
         },
-        body: JSON.stringify({ episodes }),
+        body: JSON.stringify({ episodes: validation.episodes }),
       };
     } catch (error) {
       context.log('Error fetching episodes index:', error);
       return {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: 'Failed to fetch episodes.' }),
+        body: JSON.stringify({
+          error: 'Failed to fetch episodes',
+          details: error.message,
+        }),
       };
     }
   }
@@ -78,21 +160,52 @@ module.exports = async function (req, context) {
     const url = `https://${storageAccountName}.blob.core.windows.net/${containerName}/episodes.json`;
     try {
       const raw = await fetchBlob(url);
-      const episodes = JSON.parse(raw);
+
+      let parsedData;
+      try {
+        parsedData = JSON.parse(raw);
+      } catch (parseError) {
+        context.log('JSON parse error:', parseError);
+        return {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            error: 'Invalid JSON in episodes file',
+            details: parseError.message,
+          }),
+        };
+      }
+
+      const validation = validateEpisodes(parsedData);
+      if (!validation.valid) {
+        context.log('Validation error:', validation.error);
+        return {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            error: 'Invalid episodes data structure',
+            details: validation.error,
+          }),
+        };
+      }
+
       return {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'public, max-age=1800',
         },
-        body: JSON.stringify({ episodes }),
+        body: JSON.stringify({ episodes: validation.episodes }),
       };
     } catch (error) {
       context.log('Error fetching episodes from storage:', error);
       return {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: 'Failed to fetch episodes from storage.' }),
+        body: JSON.stringify({
+          error: 'Failed to fetch episodes from storage',
+          details: error.message,
+        }),
       };
     }
   }
