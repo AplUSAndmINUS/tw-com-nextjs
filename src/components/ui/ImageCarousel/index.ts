@@ -1,2 +1,2 @@
 export { ImageCarousel } from './ImageCarousel';
-export default ImageCarousel;
+export { ImageCarousel as default } from './ImageCarousel';
