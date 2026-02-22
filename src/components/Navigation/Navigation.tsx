@@ -22,9 +22,10 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { NavigationMenu } from './NavigationMenu';
 import { FluentIcon } from '../FluentIcon';
 import {
+  DismissSquare32Regular,
   Navigation32Regular,
-  WeatherSunny32Regular,
   WeatherMoon32Regular,
+  WeatherSunny32Regular,
 } from '@fluentui/react-icons';
 
 export interface BreadcrumbItem {
@@ -376,7 +377,7 @@ export function Navigation() {
                 //   <line x1='3' y1='18' x2='21' y2='18' />
                 // </svg>
                 <FluentIcon
-                  iconName={Navigation32Regular}
+                  iconName={DismissSquare32Regular}
                   color={theme.colorBrandForeground1}
                 />
               )}

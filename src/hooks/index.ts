@@ -14,6 +14,7 @@ export {
   useIsTabletPortrait,
   useDeviceOrientation,
 } from './useMediaQuery';
+export { useHoverState, useMultiHoverState } from './useHoverState';
 export { useReducedMotion } from './useReducedMotion';
 export { useScrollPosition } from './useScrollPosition';
 export { useToggle } from './useToggle';
