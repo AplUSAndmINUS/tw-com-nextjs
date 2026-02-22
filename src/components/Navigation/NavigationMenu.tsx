@@ -175,7 +175,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           color: theme.colorNeutralForeground3,
           fontSize: '0.875rem',
         }}>
-          &copy; {currentYear} Terence Waters. All rights reserved.
+          &copy; 2025-{currentYear} Terence Waters. All rights reserved.
         </Typography>
       </div>
     </div>

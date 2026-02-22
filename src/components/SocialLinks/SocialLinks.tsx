@@ -85,11 +85,11 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                   visibility: isSocialHovered(item.url) ? 'visible' : 'hidden',
                   transition:
                     'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
-                  fontSize: theme.typography.fontSizes.xl,
+                  fontSize: theme.typography.fontSizes.md,
                   letterSpacing: theme.typography.letterSpacing.tight,
                   fontWeight: theme.typography.fontWeights.semiBold,
                   color: theme.colorBrandForeground1,
-                  textTransform: 'lowercase',
+                  marginTop: '0.25rem',
                   backgroundColor:
                     theme.themeMode === 'high-contrast'
                       ? theme.colorNeutralBackground1

@@ -96,7 +96,7 @@ export function Footer() {
             className='text-gray-500 dark:text-gray-300'
             style={{ fontSize: '0.875rem' }}
           >
-            &copy; {year} Terence Waters. All rights reserved.
+            &copy; 2025-{year} Terence Waters. All rights reserved.
           </Typography>
         </div>
       </div>
