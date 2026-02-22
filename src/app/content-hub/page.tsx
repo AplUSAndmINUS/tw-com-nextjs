@@ -44,7 +44,7 @@ const contentCategories = [
   {
     title: 'Videos',
     description:
-      'In-depth videos, tutorials, and behind-the-scenes looks at what I\'m building.',
+      "In-depth videos, tutorials, and behind-the-scenes looks at what I'm building.",
     icon: '🎬',
     href: '/videos',
     cta: 'Watch Videos',
@@ -71,7 +71,7 @@ const contentCategories = [
   {
     title: 'Case Studies',
     description:
-      'Deep dives into specific projects — what worked, what didn\'t, and what I learned.',
+      "Deep dives into specific projects — what worked, what didn't, and what I learned.",
     icon: '🔬',
     href: '/case-studies',
     cta: 'Read Case Studies',

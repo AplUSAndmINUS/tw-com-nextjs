@@ -40,7 +40,14 @@ export default async function ArchivePage() {
     ...posts.map((p) => ({ ...p, type: 'Blog', href: `/blog/${p.slug}` })),
     ...portfolioEntries.map((p) => ({ ...p, type: 'Portfolio', href: `/portfolio/${p.slug}` })),
     ...caseStudies.map((c) => ({ ...c, type: 'Case Study', href: `/case-studies/${c.slug}` })),
-  ].sort((a, b) => (a.date < b.date ? 1 : -1));
+  ].sort((a, b) => {
+    const dateA = a.date || '';
+    const dateB = b.date || '';
+    if (!dateA && !dateB) return 0;
+    if (!dateA) return 1;
+    if (!dateB) return -1;
+    return dateA < dateB ? 1 : -1;
+  });
 
   const typeColor: Record<string, string> = {
     Blog: 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300',

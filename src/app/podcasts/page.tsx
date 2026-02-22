@@ -41,7 +41,7 @@ const shows = [
   {
     title: 'Build Notes',
     description:
-      'Short, focused episodes on what I\'m building, learning, and thinking about each week. Honest, unpolished, and practical.',
+      "Short, focused episodes on what I'm building, learning, and thinking about each week. Honest, unpolished, and practical.",
     frequency: 'Weekly',
     icon: '📓',
     status: 'Coming Soon',
