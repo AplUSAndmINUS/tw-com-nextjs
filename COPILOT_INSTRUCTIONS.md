@@ -1,48 +1,255 @@
-# Copilot Instructions for tw-com-nextjs
+# Guidelines for AI-Assisted Development in the TW.com Next.js System
 
-## Project Overview
-This is TerenceWaters.com rebuilt as a Next.js 15 App Router static site, mirroring the structure of Fluxline.pro's Next.js website but keeping TerenceWaters.com's theming.
+## Purpose
 
-## Tech Stack
-- Next.js 15 (App Router)
-- TypeScript
+These instructions define how GitHub Copilot should assist in building and maintaining the TW.com codebase. The goal is to ensure consistency, architectural integrity, and a clean developer experience while preserving the site's identity as a personal, author-driven platform.
+
+TW.com uses:
+- Next.js App Router
+- Static Site Generation (SSG)
 - Tailwind CSS
-- Fluent UI (@fluentui/react-components)
-- MDX/Markdown for content
-- gray-matter for frontmatter
-- next-mdx-remote for MDX rendering
-- Azure Static Web Apps (output: export)
+- Fluent UI theme integration
+- A file-based content system (Markdown/MDX)
+- A layout-driven design architecture
 
-## Architecture Decisions
-- `output: 'export'` for Azure SWA static hosting
-- Server Components by default (no `use client` unless necessary)
-- Content loaded from `/content` directory at build time
-- `@/*` path alias maps to `./src/*`
-- TypeScript strict mode enabled
+Copilot should follow these conventions at all times.
 
-## Directory Structure
-- `src/app/` — Next.js App Router pages
-- `src/components/` — Reusable UI components
-- `src/layouts/` — Page layout wrappers
-- `src/theme/` — Fluent UI theme configuration
-- `src/hooks/` — Custom React hooks
-- `src/utils/` — Utility functions
-- `src/lib/` — Core library code (content loading)
-- `src/content/` — TypeScript type definitions for content
-- `content/` — Markdown/MDX content files
-- `prompts/` — AI prompt logs
+---
 
-## Content Structure
-All content lives in `/content/{type}/{slug}.md` or `.mdx`.
-Content types: blog, essays, portfolio, case-studies.
+## 1. Core Principles
 
-## Theming
-Fluent UI is configured with a custom TerenceWaters.com brand palette (deep navy blue).
-Theme is defined in `src/theme/fluentTheme.ts`.
+### 1.1 — Follow Existing Patterns
 
-## Coding Conventions
+Copilot should:
+- Mirror the existing folder structure
+- Reuse established components, layouts, and utilities
+- Follow naming conventions already present in the project
+- Extend patterns rather than invent new ones
+
+Consistency is more important than novelty.
+
+### 1.2 — Composition Over Duplication
+
+Copilot should:
+- Use shared primitives (buttons, cards, wrappers, grids)
+- Avoid recreating components that already exist
+- Suggest refactoring when patterns repeat
+
+### 1.3 — Strict TypeScript
+
+Copilot must:
+- Use TypeScript everywhere
+- Infer types from existing interfaces
+- Avoid `any` unless explicitly required
+- Prefer typed objects, unions, and discriminated patterns
+
+---
+
+## 2. Project Structure
+
+```
+src/
+  app/
+  components/
+  layouts/
+  theme/
+  hooks/
+  utils/
+  content/
+public/
+content/
+prompts/
+```
+
+When generating new files, Copilot should place them in the correct directory automatically.
+
+---
+
+## 3. Next.js Guidelines
+
+### 3.1 — App Router Defaults
+
+Copilot should:
 - Use server components by default
-- Export named components (not default exports for components)
-- Use TypeScript interfaces for props
-- Layouts wrap RootLayout which includes Navigation and Footer
-- All content reading uses `src/lib/content.ts`
+- Use client components only when needed (`'use client'`)
+- Use `generateStaticParams` for SSG
+- Use `generateMetadata` for SEO
+
+### 3.2 — Routing
+
+Copilot should follow:
+- `/app/[slug]/page.tsx` for dynamic routes
+- `/app/(group)/page.tsx` for grouped layouts
+- `/app/layout.tsx` for global providers
+
+### 3.3 — Data Loading
+
+Copilot should:
+- Use file-based content loaders (`src/lib/content.ts`)
+- Use async server functions for content retrieval
+- Avoid client-side fetching unless interactive
+
+---
+
+## 4. Component Guidelines
+
+### 4.1 — Structure
+
+Components should include:
+- A named function component
+- Strongly typed props
+- Tailwind for layout
+- Fluent UI theme tokens for color/typography
+- Optional SCSS modules for complex styling
+- Accessibility attributes
+
+### 4.2 — File Organization
+
+Each component should include:
+- `ComponentName.tsx`
+- `ComponentName.module.scss` (only if needed)
+- `index.ts` for barrel exports
+
+---
+
+## 5. Layout System
+
+TW.com uses a layout-driven architecture. Copilot should use or extend:
+
+| Layout | Purpose |
+|--------|---------|
+| `RootLayout` | Navigation, Footer, global wrappers |
+| `PageLayout` | Standard page with max-width container |
+| `ContentLayout` | Long-form content (essays, articles) |
+| `ArticleLayout` | Blog posts with header/byline |
+| `PortfolioLayout` | Portfolio entries |
+| `CaseStudyLayout` | In-depth case studies |
+
+Layouts handle: structure, spacing, typography, navigation, metadata, and theming. Components should not duplicate layout responsibilities.
+
+---
+
+## 6. Content System
+
+### 6.1 — File-Based Content
+
+Copilot should:
+- Use Markdown or MDX in `/content/{type}/{slug}.md`
+- Parse frontmatter with `gray-matter`
+- Generate SSG pages via `generateStaticParams`
+- Use `src/lib/content.ts` for all content loading
+
+### 6.2 — Supported Content Types
+
+| Type | Directory |
+|------|-----------|
+| Blog posts | `content/blog/` |
+| Essays | `content/essays/` |
+| Portfolio entries | `content/portfolio/` |
+| Case studies | `content/case-studies/` |
+
+### 6.3 — Rendering
+
+Copilot should:
+- Use `next-mdx-remote/rsc` for server-side MDX rendering
+- Use semantic HTML (`<article>`, `<section>`, `<header>`)
+- Use accessible components with ARIA attributes
+
+---
+
+## 7. Theming
+
+### 7.1 — Fluent UI Theme
+
+Copilot should:
+- Use the `FluentProvider` in `src/app/providers.tsx`
+- Use the custom TW.com brand theme from `src/theme/fluentTheme.ts`
+- Use Fluent UI theme tokens for colors and typography
+- Avoid hardcoded color values
+
+### 7.2 — Tailwind
+
+Copilot should:
+- Use Tailwind for layout, spacing, and responsive behavior
+- Use `dark:` variants for dark mode support
+- Use custom utilities defined in `tailwind.config`
+
+---
+
+## 8. Performance & Accessibility
+
+Copilot must:
+- Use semantic HTML
+- Add ARIA attributes when needed (`aria-label`, `aria-current`, `role`)
+- Avoid unnecessary client components
+- Use `next/image` (`<Image />`) for all images
+- Use lazy loading where appropriate
+
+---
+
+## 9. Code Quality
+
+Copilot should:
+- Follow ESLint rules
+- Follow Prettier formatting
+- Avoid unused imports
+- Use descriptive variable names
+- Write self-documenting code
+
+---
+
+## 10. When Copilot Should Ask for Clarification
+
+Copilot should ask when:
+- A feature's purpose is unclear
+- A design intent is ambiguous
+- A new pattern might conflict with existing architecture
+
+---
+
+## 11. When Copilot Should Proceed Without Asking
+
+Copilot should proceed when:
+- The pattern already exists
+- The task is a direct extension of an existing feature
+- The instructions are explicit
+
+---
+
+## 12. Example Prompts for TW.com
+
+**Create a new essay page**
+> "Generate a new essay page using `ContentLayout` and load content from `/content/essays`."
+
+**Add a new blog post type**
+> "Extend the blog loader to support a new metadata field and update the article layout."
+
+**Add a new navigation item**
+> "Update the navigation config and header component to include a new 'Essays' section."
+
+**Create a portfolio card**
+> "Create a reusable portfolio card component using Tailwind and Fluent UI theme tokens."
+
+---
+
+## 13. Azure Architecture
+
+- Azure Static Web App fully runs in Azure
+- `output: 'export'` in `next.config.ts` for static export
+- Free tier on DEV, TEST, and PROD environments
+- Configured via `staticwebapp.config.json` at the project root
+- More infrastructure details will be added as the project evolves
+
+---
+
+## 14. Prompt Logging
+
+All AI-assisted development prompts should be logged in the `/prompts` folder for visibility. This project is primarily AI-driven with @Aplusandminus directing architecture and front-end build.
+
+Create a new file per session or feature: `prompts/YYYY-MM-DD-topic.md`
+
+---
+
+## 15. Final Rule
+
+Copilot should prioritize clarity, consistency, and the authorial voice of TW.com.

@@ -18,4 +18,4 @@ YYYY-MM-DD-topic.md
 
 | Date | Topic | File |
 |------|-------|------|
-| 2025-01-01 | Initial scaffold | [2025-01-01-initial-scaffold.md](./2025-01-01-initial-scaffold.md) |
+| — | — | *(none yet — add entries as prompts are logged)* |
