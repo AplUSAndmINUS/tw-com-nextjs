@@ -11,6 +11,8 @@
  * - Icon28Regular (28px)
  * - Icon32Regular (32px)
  * - Icon48Regular (48px)
+ *
+ * Icons are colored via the `primaryFill` prop, which directly sets the SVG fill.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -93,7 +95,6 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: iconColor,
     flexShrink: 0,
     cursor: onClick ? 'pointer' : undefined,
     lineHeight: 0, // Prevents extra spacing around icon
@@ -123,7 +124,7 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      <IconComponent />
+      <IconComponent primaryFill={iconColor} />
     </span>
   );
 };
