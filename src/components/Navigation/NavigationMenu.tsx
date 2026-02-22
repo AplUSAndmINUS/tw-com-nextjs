@@ -164,14 +164,14 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
       {/* Footer */}
       <div
         style={{
-          padding: '1.5rem 2rem',
+          padding: '0.5rem',
           borderTop: `1px solid ${theme.colorNeutralStroke2}`,
           textAlign: 'center',
         }}
       >
         <SocialLinks />
         <Typography variant='p' style={{
-          margin: '1rem 0 0',
+          marginBottom: '1rem',
           color: theme.colorNeutralForeground3,
           fontSize: '0.875rem',
         }}>

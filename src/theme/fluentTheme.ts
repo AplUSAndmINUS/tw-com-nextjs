@@ -620,7 +620,7 @@ export const typography = {
       fontSize: 'clamp(1.25rem, 2.5cqi, 1.75rem)',
       fontWeight: '500' as const,
       letterSpacing: '0.01em',
-      textTransform: 'uppercase' as const,
+      textTransform: 'lowercase' as const,
       lineHeight: '1.4',
     },
     h5: {
