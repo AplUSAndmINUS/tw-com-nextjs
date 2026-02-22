@@ -618,9 +618,10 @@ export const typography = {
     h4: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(1.25rem, 2.5cqi, 1.5rem)',
-      fontWeight: '500' as const,
+      fontWeight: '400' as const,
+      fontStyle: 'italic' as const,
       letterSpacing: '0.01em',
-      textTransform: 'lowercase' as const,
+      textTransform: 'capitalize' as const,
       lineHeight: '1.4',
     },
     h5: {
@@ -628,7 +629,7 @@ export const typography = {
       fontSize: 'clamp(1.125rem, 2cqi, 1.25rem)',
       fontWeight: '500' as const,
       letterSpacing: '0.01em',
-      textTransform: 'lowercase' as const,
+      textTransform: 'capitalize' as const,
       lineHeight: '1.5',
     },
     h6: {
@@ -636,7 +637,7 @@ export const typography = {
       fontSize: 'clamp(1rem, 1cqi, 1.25rem)',
       fontWeight: '800' as const,
       letterSpacing: '0.01em',
-      textTransform: 'uppercase' as const,
+      textTransform: 'titlecase' as const,
       lineHeight: '1.5',
     },
 

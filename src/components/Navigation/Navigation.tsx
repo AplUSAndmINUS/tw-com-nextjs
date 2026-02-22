@@ -357,7 +357,7 @@ export function Navigation() {
                 //   <line x1='6' y1='6' x2='18' y2='18' />
                 // </svg>
                 <FluentIcon
-                  iconName={Navigation32Regular}
+                  iconName={DismissSquare32Regular}
                   color={theme.colorBrandForeground1}
                 />
               ) : (
@@ -377,7 +377,7 @@ export function Navigation() {
                 //   <line x1='3' y1='18' x2='21' y2='18' />
                 // </svg>
                 <FluentIcon
-                  iconName={DismissSquare32Regular}
+                  iconName={Navigation32Regular}
                   color={theme.colorBrandForeground1}
                 />
               )}
