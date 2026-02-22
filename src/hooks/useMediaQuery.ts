@@ -31,10 +31,24 @@ const getMediaQuery = (
       if (screen === 'xs') {
         return `(max-width: ${breakpoints.sm - 1}px)`;
       }
-      const nextBreakpoint = Object.entries(breakpoints).find(
+      // Get breakpoints as ordered array and find the next one
+      const breakpointEntries = Object.entries(breakpoints) as [
+        ScreenSize,
+        number,
+      ][];
+      const currentIndex = breakpointEntries.findIndex(
         ([key]) => key === screen
-      )?.[1];
-      return `(min-width: ${breakpoint}px) and (max-width: ${nextBreakpoint ?? breakpoint - 1}px)`;
+      );
+      const nextBreakpoint =
+        currentIndex !== -1 && currentIndex < breakpointEntries.length - 1
+          ? breakpointEntries[currentIndex + 1][1]
+          : null;
+
+      if (nextBreakpoint) {
+        return `(min-width: ${breakpoint}px) and (max-width: ${nextBreakpoint - 1}px)`;
+      }
+      // If no next breakpoint (e.g., 'xxl'), just return min-width
+      return `(min-width: ${breakpoint}px)`;
     }
     default:
       return `(min-width: ${breakpoint}px)`;
@@ -156,10 +170,7 @@ export const useDeviceOrientation = (): DeviceOrientation => {
           window.innerHeight < window.innerWidth
         ) {
           setOrientation('mobile-landscape');
-        } else if (
-          window.innerWidth >= breakpoints.xxl &&
-          aspectRatio >= 2.0
-        ) {
+        } else if (window.innerWidth >= breakpoints.xxl && aspectRatio >= 2.0) {
           setOrientation('ultrawide');
         } else {
           setOrientation('landscape');
