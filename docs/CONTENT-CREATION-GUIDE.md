@@ -27,8 +27,6 @@ content/                        ← Markdown files (processed at build time)
     {slug}.md                   ← Simple flat blog post
     {slug}/
       post.md                   ← Blog post in slug-folder format (preferred)
-  essays/
-    {slug}.md
   portfolio/
     {slug}/
       post.md

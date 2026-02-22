@@ -78,7 +78,7 @@ export default function AboutPage() {
             </Typography>
             <ul className='space-y-3 list-none pl-0'>
               {[
-                { title: 'Write', body: 'Long-form articles, essays, and guides on technology, creativity, and personal growth.' },
+                { title: 'Write', body: 'Long-form articles and guides on technology, creativity, and personal growth.' },
                 { title: 'Create', body: 'Videos, podcasts, and multimedia content that explores ideas in depth.' },
                 { title: 'Coach', body: 'One-on-one sessions for creators, technologists, and leaders navigating change.' },
                 { title: 'Consult', body: 'Strategic and technical advisory for teams building products and platforms.' },

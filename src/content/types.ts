@@ -7,6 +7,7 @@ export interface GalleryItem {
 export interface ContentItem {
   slug: string;
   title: string;
+  type?: ContentType; // Content type (blog, portfolio, case-studies, etc.)
   /** ISO date string (falls back to publishedDate) */
   date: string;
   publishedDate?: string;
@@ -57,7 +58,6 @@ export interface PodcastEpisode {
 
 export type ContentType =
   | 'blog'
-  | 'essays'
   | 'portfolio'
   | 'case-studies'
   | 'videos'

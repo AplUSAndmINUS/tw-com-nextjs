@@ -1,12 +1,17 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { ContentItem, GalleryItem } from '@/content/types';
+import { ContentItem, GalleryItem, ContentType } from '@/content/types';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 
 /** Map raw frontmatter data to a strongly-typed ContentItem. */
-function mapFrontmatter(slug: string, data: Record<string, unknown>, content: string): ContentItem {
+function mapFrontmatter(
+  slug: string,
+  data: Record<string, unknown>,
+  content: string,
+  type?: ContentType
+): ContentItem {
   let date = '';
   if (data.date) {
     date = String(data.date);
@@ -17,6 +22,7 @@ function mapFrontmatter(slug: string, data: Record<string, unknown>, content: st
   return {
     slug,
     title: (data.title as string) ?? slug,
+    type,
     date,
     publishedDate: data.publishedDate ? String(data.publishedDate) : undefined,
     excerpt: (data.excerpt as string) ?? (data.description as string) ?? '',
@@ -64,14 +70,18 @@ export async function getAllContent(type: string): Promise<ContentItem[]> {
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const items: ContentItem[] = [];
+  const contentType = type as ContentType;
 
   for (const entry of entries) {
-    if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
+    if (
+      entry.isFile() &&
+      (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))
+    ) {
       const slug = entry.name.replace(/\.(md|mdx)$/, '');
       const filePath = path.join(dir, entry.name);
       const raw = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(raw);
-      items.push(mapFrontmatter(slug, data, content));
+      items.push(mapFrontmatter(slug, data, content, contentType));
     } else if (entry.isDirectory()) {
       // Slug-folder format: content/{type}/{slug}/post.md
       const slug = entry.name;
@@ -80,7 +90,7 @@ export async function getAllContent(type: string): Promise<ContentItem[]> {
         if (fs.existsSync(nested)) {
           const raw = fs.readFileSync(nested, 'utf-8');
           const { data, content } = matter(raw);
-          items.push(mapFrontmatter(slug, data, content));
+          items.push(mapFrontmatter(slug, data, content, contentType));
           break;
         }
       }
@@ -90,11 +100,15 @@ export async function getAllContent(type: string): Promise<ContentItem[]> {
   return items.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export async function getContentBySlug(type: string, slug: string): Promise<ContentItem | null> {
+export async function getContentBySlug(
+  type: string,
+  slug: string
+): Promise<ContentItem | null> {
   const filePath = resolveContentFile(type, slug);
   if (!filePath) return null;
 
   const raw = fs.readFileSync(filePath, 'utf-8');
   const { data, content } = matter(raw);
-  return mapFrontmatter(slug, data, content);
+  const contentType = type as ContentType;
+  return mapFrontmatter(slug, data, content, contentType);
 }

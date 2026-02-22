@@ -50,7 +50,7 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
       <div className='mb-8'>
         <h1 className='text-4xl font-bold mb-2'>Content Hub</h1>
         <p className='text-gray-600 dark:text-gray-400'>
-          Explore all content — blog posts, essays, portfolio work, and case studies in one place.
+          Explore all content — blog posts, portfolio work, and case studies in one place.
         </p>
       </div>
 
