@@ -5,6 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
+// TODO: Replace this Button component with FluentButton.tsx from TW.com and Fluxline.pro -TW
 export function Button({ variant = 'primary', children, className = '', ...props }: ButtonProps) {
   const variants = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
