@@ -67,7 +67,7 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           {item.label}
         </Typography>
       </div>
-      {item.description && (isActive || isHovered) && (
+      {/* {item.description && (isActive || isHovered) && ( --- IGNORE ---
         <Typography
           variant='p'
           style={{
@@ -79,7 +79,7 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
         >
           {item.description}
         </Typography>
-      )}
+      )} */}
     </Link>
   );
 }
