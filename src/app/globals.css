@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import url("https://use.typekit.net/tro2yxw.css");
+@import url('https://use.typekit.net/tro2yxw.css');
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
