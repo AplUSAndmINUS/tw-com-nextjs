@@ -299,8 +299,8 @@ export function Navigation() {
               <button
                 onClick={handleThemeClick}
                 style={buttonStyle}
-                aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-                title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+                aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
+                title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
               >
                 {isDark ? (
                   /* Sun icon */
@@ -342,7 +342,7 @@ export function Navigation() {
             >
               {activeModal === 'menu' ? (
                 /* X icon */
-                // <svg
+                // <svg --TODO: Remove when no longer needed -TW (IGNORE)--
                 //   width='18'
                 //   height='18'
                 //   viewBox='0 0 24 24'
@@ -361,7 +361,7 @@ export function Navigation() {
                 />
               ) : (
                 /* Hamburger icon */
-                // <svg
+                // <svg --TODO: Remove when no longer needed -TW (IGNORE)--
                 //   width='18'
                 //   height='18'
                 //   viewBox='0 0 24 24'
