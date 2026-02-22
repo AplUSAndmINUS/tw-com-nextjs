@@ -97,12 +97,11 @@ Displays social media links with hover effects and tooltips:
 
 ```tsx
 import { SocialIcons } from '@/components/SocialIcons';
-import { socialMediaLinks } from '@/config/socialMedia';
 
 function Footer() {
   return (
     <footer>
-      <SocialIcons icons={socialMediaLinks} />
+      <SocialIcons />
     </footer>
   );
 }

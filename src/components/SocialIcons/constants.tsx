@@ -18,7 +18,7 @@ export interface SocialIcon {
 export const getSocialIcons = (): SocialIcon[] => [
   {
     iconName: <FacebookLogo />,
-    url: 'https://www.facebook.com/TerenceRWaters',
+    url: 'https://www.facebook.com/aplusinflux',
     tooltip: 'Facebook',
     isTagline: true,
   },
