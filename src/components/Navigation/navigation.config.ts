@@ -17,9 +17,19 @@ export const navItems: NavItem[] = [
     description: 'Thoughts on technology, creativity, and the human experience',
   },
   {
-    label: 'Essays',
-    path: '/essays',
-    description: 'Long-form explorations and deep dives',
+    label: 'Videos',
+    path: '/videos',
+    description: 'Video content and series',
+  },
+  {
+    label: 'Podcasts',
+    path: '/podcasts',
+    description: 'Audio conversations and episodes',
+  },
+  {
+    label: 'Content Hub',
+    path: '/content-hub',
+    description: 'All content in one place',
   },
   {
     label: 'Portfolio',
