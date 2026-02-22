@@ -7,4 +7,4 @@ export interface ContentItem {
   content: string;
 }
 
-export type ContentType = 'blog' | 'essays' | 'portfolio' | 'case-studies';
+export type ContentType = 'blog' | 'portfolio' | 'case-studies';

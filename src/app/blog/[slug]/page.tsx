@@ -22,6 +22,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.excerpt,
     metadataBase: new URL('https://terencewaters.com'),
+    openGraph: {
+      title: `${post.title} | Terence Waters`,
+      description: post.excerpt,
+      url: `https://terencewaters.com/blog/${slug}`,
+      siteName: 'Terence Waters',
+      type: 'article',
+    },
     robots: {
       index: false,
       follow: false,
