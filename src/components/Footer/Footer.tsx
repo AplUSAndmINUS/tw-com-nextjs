@@ -4,13 +4,22 @@ import Link from 'next/link';
 import { Typography } from '../Typography';
 
 const footerLinks = {
-  writing: [
+  content: [
     { href: '/blog', label: 'Blog' },
-    { href: '/essays', label: 'Essays' },
+    { href: '/videos', label: 'Videos' },
+    { href: '/podcasts', label: 'Podcasts' },
+    { href: '/content-hub', label: 'Content Hub' },
   ],
   work: [
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/case-studies', label: 'Case Studies' },
+    { href: '/coaching', label: 'Coaching' },
+    { href: '/services', label: 'Services' },
+  ],
+  connect: [
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+    { href: '/archive', label: 'Archive' },
   ],
 };
 
@@ -23,7 +32,7 @@ export function Footer() {
       role='contentinfo'
     >
       <div className='max-w-6xl mx-auto px-6 py-12'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mb-8'>
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-8'>
           {/* Brand */}
           <div>
             <Link
@@ -42,17 +51,17 @@ export function Footer() {
             </Typography>
           </div>
 
-          {/* Writing links */}
+          {/* Content links */}
           <div className='flex flex-col gap-4 mb-2'>
             <Typography
               variant='h5'
               className='text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500'
               style={{ fontSize: '1.25rem' }}
             >
-              Writing
+              Content
             </Typography>
             <ul className='space-y-2' role='list'>
-              {footerLinks.writing.map(({ href, label }) => (
+              {footerLinks.content.map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -76,6 +85,29 @@ export function Footer() {
             </Typography>
             <ul className='space-y-2' role='list'>
               {footerLinks.work.map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className='text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Connect links */}
+          <div className='flex flex-col gap-4 mb-2'>
+            <Typography
+              variant='h5'
+              className='font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3'
+              style={{ fontSize: '1.25rem' }}
+            >
+              Connect
+            </Typography>
+            <ul className='space-y-2' role='list'>
+              {footerLinks.connect.map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
