@@ -1,6 +1,6 @@
 ---
 title: 'I Finally Launched My Site. Now What?'
-excerpt: 'After five years of starts, stops, pivots, and perfectionism, TerenceWaters.com is finally live. This isn't just a digital portfolio—it's a declaration. I'm here. I'm building. I'm becoming.'
+excerpt: 'After five years of starts, stops, pivots, and perfectionism, TerenceWaters.com is finally live. This is not just a digital portfolio, it is a declaration. I am here. I am building. I am becoming.'
 author: 'Terence Waters'
 publishedDate: '2025-08-07'
 date: '2025-08-07'

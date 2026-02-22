@@ -1,6 +1,6 @@
 ---
 title: 'Resonance Pt. 2: Discipline vs. Resonance'
-excerpt: 'Resonance fades without discipline. Explore how the Law of Opposites teaches us that the path to achievement is hard on purpose—and why discipline is the bridge between inspiration and transformation.'
+excerpt: 'Resonance fades without discipline. Explore how the Law of Opposites teaches us that the path to achievement is hard on purpose and why discipline is the bridge between inspiration and transformation.'
 author: 'Terence Waters'
 publishedDate: '2025-08-19'
 date: '2025-08-19'
