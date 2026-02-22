@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { RootLayout } from '@/layouts/RootLayout';
+import { SiteLayout } from '@/layouts/SiteLayout';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -7,8 +7,8 @@ interface PageLayoutProps {
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <RootLayout>
-      <div className="max-w-6xl mx-auto w-full">{children}</div>
-    </RootLayout>
+    <SiteLayout>
+      <div className='max-w-6xl mx-auto w-full'>{children}</div>
+    </SiteLayout>
   );
 }
