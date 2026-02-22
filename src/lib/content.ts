@@ -88,7 +88,7 @@ function mapFrontmatter(
     date,
     publishedDate: data.publishedDate ? String(data.publishedDate) : undefined,
     excerpt: (data.excerpt as string) ?? (data.description as string) ?? '',
-    tags: (data.tags as string[]) ?? [],
+    tags: validateStringArray(data.tags),
     content,
     author: (data.author as string) ?? undefined,
     imageUrl: (data.imageUrl as string) ?? undefined,
@@ -96,10 +96,10 @@ function mapFrontmatter(
     category: (data.category as string) ?? undefined,
     featured: typeof data.featured === 'boolean' ? data.featured : undefined,
     featuredImage: (data.featuredImage as string) ?? undefined,
-    gallery: (data.gallery as GalleryItem[]) ?? undefined,
+    gallery: validateGalleryItems(data.gallery),
     seoTitle: (data.seoTitle as string) ?? undefined,
     seoDescription: (data.seoDescription as string) ?? undefined,
-    seoKeywords: (data.seoKeywords as string[]) ?? undefined,
+    seoKeywords: validateStringArray(data.seoKeywords),
   };
 }
 

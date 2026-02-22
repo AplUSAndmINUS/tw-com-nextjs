@@ -21,16 +21,30 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
 
   // Load view preference from localStorage on mount
   useEffect(() => {
-    const savedView = localStorage.getItem('contentHubView') as ViewType | null;
-    if (savedView && ['grid', 'large', 'small'].includes(savedView)) {
-      setViewType(savedView);
+    if (typeof window === 'undefined') return;
+
+    try {
+      const savedView = localStorage.getItem(
+        'contentHubView'
+      ) as ViewType | null;
+      if (savedView && ['grid', 'large', 'small'].includes(savedView)) {
+        setViewType(savedView);
+      }
+    } catch (error) {
+      // Silently fail if localStorage is not available, use default 'grid' view
     }
   }, []);
 
   // Save view preference to localStorage
   const handleViewChange = (view: ViewType) => {
     setViewType(view);
-    localStorage.setItem('contentHubView', view);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('contentHubView', view);
+      } catch (error) {
+        // Silently fail if localStorage is not available
+      }
+    }
   };
 
   // Get unique content types

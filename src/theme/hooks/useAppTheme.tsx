@@ -89,14 +89,25 @@ export function useAppTheme(): UseAppThemeReturn {
 
   // Initialize theme from localStorage after mount (client-side only)
   useEffect(() => {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
+    if (typeof window === 'undefined') return;
 
-    if (stored && stored in themeMap) {
-      // User has a saved preference
-      setThemeModeState(stored);
-      setIsSystemTheme(false);
-    } else {
-      // No saved preference, use system theme
+    try {
+      const stored = localStorage.getItem(
+        THEME_STORAGE_KEY
+      ) as ThemeMode | null;
+
+      if (stored && stored in themeMap) {
+        // User has a saved preference
+        setThemeModeState(stored);
+        setIsSystemTheme(false);
+      } else {
+        // No saved preference, use system theme
+        const systemTheme = getSystemTheme();
+        setThemeModeState(systemTheme);
+        setIsSystemTheme(true);
+      }
+    } catch (error) {
+      // If localStorage access fails, fall back to system theme
       const systemTheme = getSystemTheme();
       setThemeModeState(systemTheme);
       setIsSystemTheme(true);
@@ -108,7 +119,13 @@ export function useAppTheme(): UseAppThemeReturn {
   // Set theme mode and persist to localStorage
   const setThemeMode = useCallback((mode: ThemeMode) => {
     setThemeModeState(mode);
-    localStorage.setItem(THEME_STORAGE_KEY, mode);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, mode);
+      } catch (error) {
+        // Silently fail if localStorage is not available
+      }
+    }
     setIsSystemTheme(false);
   }, []);
 
@@ -121,7 +138,13 @@ export function useAppTheme(): UseAppThemeReturn {
   const resetToSystemTheme = useCallback(() => {
     const systemTheme = getSystemTheme();
     setThemeModeState(systemTheme);
-    localStorage.removeItem(THEME_STORAGE_KEY);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem(THEME_STORAGE_KEY);
+      } catch (error) {
+        // Silently fail if localStorage is not available
+      }
+    }
     setIsSystemTheme(true);
   }, []);
 
