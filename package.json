@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "migrate:blog": "node scripts/migrate-blog.js"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.73.0",
