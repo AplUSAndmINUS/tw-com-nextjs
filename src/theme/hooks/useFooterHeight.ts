@@ -12,13 +12,13 @@ export const useFooterHeight = (): string => {
   const [footerHeight, setFooterHeight] = useState('200px'); // Default fallback
 
   useEffect(() => {
-    const calculateFooterHeight = () => {
-      // Look for the footer element - try multiple selectors
-      const footerElement =
-        document.querySelector('footer') ||
-        document.querySelector('[role="contentinfo"]') ||
-        document.querySelector('[data-footer]');
+    // Look for the footer element - try multiple selectors
+    const footerElement =
+      document.querySelector('footer') ||
+      document.querySelector('[role="contentinfo"]') ||
+      document.querySelector('[data-footer]');
 
+    const calculateFooterHeight = () => {
       if (footerElement) {
         const height = footerElement.getBoundingClientRect().height;
         setFooterHeight(`${height}px`);
@@ -34,7 +34,6 @@ export const useFooterHeight = (): string => {
 
     // Use ResizeObserver if available for more accurate detection
     let resizeObserver: ResizeObserver | null = null;
-    const footerElement = document.querySelector('footer');
 
     if (footerElement && window.ResizeObserver) {
       resizeObserver = new ResizeObserver(() => {

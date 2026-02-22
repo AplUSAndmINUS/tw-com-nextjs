@@ -12,13 +12,13 @@ export const useHeaderHeight = (): string => {
   const [headerHeight, setHeaderHeight] = useState('4rem'); // Default fallback
 
   useEffect(() => {
-    const calculateHeaderHeight = () => {
-      // Look for the header/nav element
-      const headerElement =
-        document.querySelector('nav') ||
-        document.querySelector('header') ||
-        document.querySelector('[role="banner"]');
+    // Look for the header/nav element - query once and reuse
+    const headerElement =
+      document.querySelector('nav') ||
+      document.querySelector('header') ||
+      document.querySelector('[role="banner"]');
 
+    const calculateHeaderHeight = () => {
       if (headerElement) {
         const height = headerElement.getBoundingClientRect().height;
         setHeaderHeight(`${height}px`);
@@ -34,7 +34,6 @@ export const useHeaderHeight = (): string => {
 
     // Use ResizeObserver if available for more accurate detection
     let resizeObserver: ResizeObserver | null = null;
-    const headerElement = document.querySelector('nav');
 
     if (headerElement && window.ResizeObserver) {
       resizeObserver = new ResizeObserver(() => {
