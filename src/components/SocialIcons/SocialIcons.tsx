@@ -75,7 +75,6 @@ export const SocialIcons: React.FC<SocialIconsProps> = ({
             >
               <FluentIcon
                 iconName={item.iconName as any}
-                size={isAuthorTagline ? 'small' : 'medium'}
                 variant='primary'
                 style={{
                   transform: `scale(${hoveredIcon === item.url ? 1.15 : 1})`,
