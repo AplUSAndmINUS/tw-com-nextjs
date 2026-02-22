@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Typography } from '../Typography';
 
 const footerLinks = {
   writing: [
@@ -27,21 +28,21 @@ export function Footer() {
           <div>
             <Link
               href='/'
-              className='text-lg font-bold tracking-tight hover:opacity-80 transition-opacity'
+              className='text-xl mb-2 font-bold tracking-tight hover:opacity-80 transition-opacity'
             >
               Terence Waters
             </Link>
-            <p className='mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-xs'>
+            <Typography variant='blockquote' className='mt-2 text-gray-500 dark:text-gray-400 max-w-xs' style={{ fontSize: '0.875rem' }}>
               Author, technologist, and creative thinker. Writing about
               technology, creativity, and the human experience.
-            </p>
+            </Typography>
           </div>
 
           {/* Writing links */}
           <div>
-            <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3'>
+            <Typography variant='h5' className='text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3'>
               Writing
-            </h3>
+            </Typography>
             <ul className='space-y-2' role='list'>
               {footerLinks.writing.map(({ href, label }) => (
                 <li key={href}>
@@ -58,9 +59,9 @@ export function Footer() {
 
           {/* Work links */}
           <div>
-            <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3'>
+            <Typography variant='h5' className='text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3'>
               Work
-            </h3>
+            </Typography>
             <ul className='space-y-2' role='list'>
               {footerLinks.work.map(({ href, label }) => (
                 <li key={href}>
@@ -77,10 +78,10 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className='pt-6 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-2'>
-          <p className='text-sm text-gray-500 dark:text-gray-400'>
+        <div className='pt-6 mt-2 flex flex-col sm:flex-row items-center justify-between gap-2'>
+          <Typography variant='blockquote' className='text-gray-500 dark:text-gray-400' style={{ fontSize: '0.875rem' }}>
             &copy; {year} Terence Waters. All rights reserved.
-          </p>
+          </Typography>
         </div>
       </div>
     </footer>
