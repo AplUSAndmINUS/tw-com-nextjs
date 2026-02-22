@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface TypographyProps {
   children: React.ReactNode;
+  as?: keyof JSX.IntrinsicElements;
   variant:
     | 'p'
     | 'h1'
@@ -65,6 +66,7 @@ interface TypographyProps {
  * Uses the extended theme system from fluentTheme.ts
  */
 export const Typography: React.FC<TypographyProps> = ({
+  as,
   variant,
   children,
   textAlign,
@@ -118,6 +120,7 @@ export const Typography: React.FC<TypographyProps> = ({
   const typeMergedStyles: React.CSSProperties = {
     ...themeDefaults,
     ...style,
+    ...(as ? { as } : {}),
     ...(fontSize ? { fontSize } : {}),
     ...(fontWeight ? { fontWeight } : {}),
     ...(fontWidth ? { fontWidth } : {}),

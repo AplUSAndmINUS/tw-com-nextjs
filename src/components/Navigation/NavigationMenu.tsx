@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { navItems } from './navigation.config';
+import { Typography } from '@/components/Typography';
 import type { NavItem, NavigationMenuProps } from './navigation.types';
 import { SocialLinks } from '../SocialLinks/SocialLinks';
 
@@ -49,12 +50,11 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           cursor: 'pointer',
         }}
       >
-        <span
-          style={{
-            color:
-              isActive || isHovered
-                ? theme.colorBrandForeground1
-                : theme.colorNeutralForeground1,
+        <Typography variant='blockquote' style={{
+          color:
+            isActive || isHovered
+              ? theme.colorBrandForeground1
+              : theme.colorNeutralForeground1,
             fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             fontWeight: isActive ? 600 : 400,
             fontFamily: theme.fontFamilyBase,
@@ -65,10 +65,11 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           aria-current={isActive ? 'page' : undefined}
         >
           {item.label}
-        </span>
+        </Typography>
       </div>
       {item.description && (isActive || isHovered) && (
-        <p
+        <Typography
+          variant='p'
           style={{
             margin: '0 1rem 0.5rem',
             color: theme.colorNeutralForeground3,
@@ -77,7 +78,7 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           }}
         >
           {item.description}
-        </p>
+        </Typography>
       )}
     </Link>
   );
@@ -106,18 +107,13 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
         }}
       >
-        <h2
-          style={{
-            margin: 0,
-            color: theme.colorBrandForeground1,
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontFamily: theme.fontFamilyBase,
-            fontWeight: 600,
-            textAlign: 'right',
-          }}
-        >
+        <Typography variant='h3' style={{
+          margin: 0,
+          color: theme.colorBrandForeground1,
+          textAlign: 'right',
+        }}>
           Menu
-        </h2>
+        </Typography>
       </div>
 
       {/* Navigation Items */}
@@ -174,15 +170,13 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         }}
       >
         <SocialLinks />
-        <p
-          style={{
-            margin: 0,
-            color: theme.colorNeutralForeground3,
-            fontSize: '0.875rem',
-          }}
-        >
+        <Typography variant='p' style={{
+          margin: '1rem 0 0',
+          color: theme.colorNeutralForeground3,
+          fontSize: '0.875rem',
+        }}>
           &copy; {currentYear} Terence Waters. All rights reserved.
-        </p>
+        </Typography>
       </div>
     </div>
   );
