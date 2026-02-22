@@ -20,6 +20,12 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { NavigationMenu } from './NavigationMenu';
+import { FluentIcon } from '../FluentIcon';
+import {
+  Navigation32Regular,
+  WeatherSunny32Regular,
+  WeatherMoon32Regular,
+} from '@fluentui/react-icons';
 
 export interface BreadcrumbItem {
   label: string;
@@ -128,11 +134,9 @@ export function Navigation() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '2.5rem',
-    height: '2.5rem',
+    width: '3rem',
+    height: '3rem',
     background: 'none',
-    border: `1px solid ${theme.colorNeutralStroke2}`,
-    borderRadius: theme.borderRadiusMedium,
     cursor: 'pointer',
     color: theme.colorNeutralForeground1,
     transition: 'background-color 0.2s ease, transform 0.15s ease',
@@ -224,7 +228,11 @@ export function Navigation() {
                       return (
                         <li
                           key={item.href}
-                          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                          }}
                           suppressHydrationWarning
                         >
                           {index > 0 && (
@@ -281,7 +289,7 @@ export function Navigation() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
+              gap: '1.5rem',
               marginLeft: '1rem',
             }}
             suppressHydrationWarning
@@ -296,22 +304,30 @@ export function Navigation() {
               >
                 {isDark ? (
                   /* Sun icon */
-                  <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
-                    <circle cx='12' cy='12' r='5' />
-                    <line x1='12' y1='1' x2='12' y2='3' />
-                    <line x1='12' y1='21' x2='12' y2='23' />
-                    <line x1='4.22' y1='4.22' x2='5.64' y2='5.64' />
-                    <line x1='18.36' y1='18.36' x2='19.78' y2='19.78' />
-                    <line x1='1' y1='12' x2='3' y2='12' />
-                    <line x1='21' y1='12' x2='23' y2='12' />
-                    <line x1='4.22' y1='19.78' x2='5.64' y2='18.36' />
-                    <line x1='18.36' y1='5.64' x2='19.78' y2='4.22' />
-                  </svg>
+                  // <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+                  //   <circle cx='12' cy='12' r='5' />
+                  //   <line x1='12' y1='1' x2='12' y2='3' />
+                  //   <line x1='12' y1='21' x2='12' y2='23' />
+                  //   <line x1='4.22' y1='4.22' x2='5.64' y2='5.64' />
+                  //   <line x1='18.36' y1='18.36' x2='19.78' y2='19.78' />
+                  //   <line x1='1' y1='12' x2='3' y2='12' />
+                  //   <line x1='21' y1='12' x2='23' y2='12' />
+                  //   <line x1='4.22' y1='19.78' x2='5.64' y2='18.36' />
+                  //   <line x1='18.36' y1='5.64' x2='19.78' y2='4.22' />
+                  // </svg>
+                  <FluentIcon
+                    iconName={WeatherMoon32Regular}
+                    color={theme.colorBrandForeground1}
+                  />
                 ) : (
                   /* Moon icon */
-                  <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
-                    <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
-                  </svg>
+                  <FluentIcon
+                    iconName={WeatherSunny32Regular}
+                    color={theme.colorBrandForeground1}
+                  />
+                  // <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+                  //   <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
+                  // </svg>
                 )}
               </button>
             )}
@@ -326,17 +342,43 @@ export function Navigation() {
             >
               {activeModal === 'menu' ? (
                 /* X icon */
-                <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
-                  <line x1='18' y1='6' x2='6' y2='18' />
-                  <line x1='6' y1='6' x2='18' y2='18' />
-                </svg>
+                // <svg
+                //   width='18'
+                //   height='18'
+                //   viewBox='0 0 24 24'
+                //   fill='none'
+                //   stroke='currentColor'
+                //   strokeWidth='2'
+                //   strokeLinecap='round'
+                //   strokeLinejoin='round'
+                // >
+                //   <line x1='18' y1='6' x2='6' y2='18' />
+                //   <line x1='6' y1='6' x2='18' y2='18' />
+                // </svg>
+                <FluentIcon
+                  iconName={Navigation32Regular}
+                  color={theme.colorBrandForeground1}
+                />
               ) : (
                 /* Hamburger icon */
-                <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
-                  <line x1='3' y1='12' x2='21' y2='12' />
-                  <line x1='3' y1='6' x2='21' y2='6' />
-                  <line x1='3' y1='18' x2='21' y2='18' />
-                </svg>
+                // <svg
+                //   width='18'
+                //   height='18'
+                //   viewBox='0 0 24 24'
+                //   fill='none'
+                //   stroke='currentColor'
+                //   strokeWidth='2'
+                //   strokeLinecap='round'
+                //   strokeLinejoin='round'
+                // >
+                //   <line x1='3' y1='12' x2='21' y2='12' />
+                //   <line x1='3' y1='6' x2='21' y2='6' />
+                //   <line x1='3' y1='18' x2='21' y2='18' />
+                // </svg>
+                <FluentIcon
+                  iconName={Navigation32Regular}
+                  color={theme.colorBrandForeground1}
+                />
               )}
             </button>
           </div>
