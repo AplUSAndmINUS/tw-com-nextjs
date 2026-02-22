@@ -13,6 +13,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { navItems } from './navigation.config';
 import type { NavItem, NavigationMenuProps } from './navigation.types';
+import { SocialLinks } from '../SocialLinks/SocialLinks';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -172,6 +173,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           textAlign: 'center',
         }}
       >
+        <SocialLinks />
         <p
           style={{
             margin: 0,

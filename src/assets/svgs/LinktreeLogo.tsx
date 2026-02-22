@@ -1,7 +1,6 @@
 import React from 'react';
-import { mergeStyles } from '@fluentui/react';
 
-import { useWindowSize } from '../../theme/hooks/useMediaQuery';
+import { useWindowSize } from '@/hooks/useMediaQuery';
 import { useAppTheme } from '../../theme/hooks/useAppTheme';
 
 interface LinktreeLogoProps {
@@ -13,31 +12,25 @@ export const LinktreeLogo: React.FC<LinktreeLogoProps> = ({
   className,
   style,
 }) => {
-  const { theme } = useAppTheme();
+  const { theme, isDark } = useAppTheme();
   const { windowHeight } = useWindowSize();
-  const rootClass = mergeStyles(
-    {
-      width: windowHeight < 700 ? '120px' : '160px',
-      height: windowHeight < 700 ? '32px' : '40px',
-      display: 'block',
-      overflow: 'hidden',
-      transition: 'transform 0.2s ease-in-out',
-      '&:hover': {
-        transform: 'scale(1.1)',
-      },
-    },
-    className
-  );
+  const rootClass: React.CSSProperties = {
+    width: windowHeight < 700 ? '120px' : '160px',
+    height: windowHeight < 700 ? '32px' : '40px',
+    display: 'block',
+    overflow: 'hidden',
+    transition: 'transform 0.2s ease-in-out',
+  };
   const isRedColorBlind = theme.themeMode === 'protanopia';
   const isGreenColorBlind = theme.themeMode === 'deuteranopia';
   const isBlueColorBlind = theme.themeMode === 'tritanopia';
   const isGrayscale = theme.themeMode === 'grayscale';
-  const isDarkMode = theme.themeMode === 'high-contrast' || theme.isInverted;
+  const isDarkMode = theme.themeMode === 'high-contrast' || isDark;
 
   return (
     <svg
-      className={rootClass}
-      style={style}
+      className={className}
+      style={{ ...rootClass, ...style }}
       viewBox='0 0 70 25'
       xmlns='http://www.w3.org/2000/svg'
     >
