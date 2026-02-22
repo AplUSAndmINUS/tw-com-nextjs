@@ -55,7 +55,7 @@ export const socialMediaLinks: SocialIcon[] = [
   },
   {
     iconName: 'Xbox', // Replace with Microsoft/Xbox SVG component
-    url: 'https://www.xbox.com/en-us/players/profile?player=AplUSAndmINUS',
+    url: 'https://www.xbox.com/en-US/play/user/APlusInFLUX',
     tooltip: 'Xbox',
     isTagline: false,
   },

@@ -160,7 +160,7 @@ export function Navigation() {
             : 'rgba(255, 255, 255, 0.85)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
+          borderBottom: `1px solid ${theme.colorBrandBackgroundStatic}`,
         }}
       >
         <div

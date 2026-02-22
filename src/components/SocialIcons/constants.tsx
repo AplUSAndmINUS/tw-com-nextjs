@@ -15,7 +15,6 @@ export interface SocialIcon {
   isTagline?: boolean;
 }
 
-
 export const getSocialIcons = (): SocialIcon[] => [
   {
     iconName: <FacebookLogo />,
@@ -55,7 +54,7 @@ export const getSocialIcons = (): SocialIcon[] => [
   },
   {
     iconName: <MicrosoftLogo />,
-    url: 'https://www.xbox.com/en-us/players/profile?player=AplUSAndmINUS',
+    url: 'https://www.xbox.com/en-US/play/user/APlusInFLUX',
     tooltip: 'Xbox',
     isTagline: false,
   },

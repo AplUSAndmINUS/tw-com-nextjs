@@ -593,7 +593,7 @@ export const typography = {
     // Headings
     h1: {
       fontFamily: fontFamily.heading,
-      fontSize: 'clamp(2.5rem, 8cqi, 6rem)',
+      fontSize: 'clamp(2.5rem, 8cqi, 4rem)',
       fontWeight: '700' as const,
       letterSpacing: '0.02em',
       textTransform: 'uppercase' as const,
@@ -601,7 +601,7 @@ export const typography = {
     },
     h2: {
       fontFamily: fontFamily.heading,
-      fontSize: 'clamp(2rem, 5cqi, 3.5rem)',
+      fontSize: 'clamp(2rem, 5cqi, 2.75rem)',
       fontWeight: '600' as const,
       letterSpacing: '0.01em',
       textTransform: 'uppercase' as const,
@@ -609,7 +609,7 @@ export const typography = {
     },
     h3: {
       fontFamily: fontFamily.heading,
-      fontSize: 'clamp(1.5rem, 3.5cqi, 2.25rem)',
+      fontSize: 'clamp(1.5rem, 3.5cqi, 2rem)',
       fontWeight: '600' as const,
       letterSpacing: '0.01em',
       textTransform: 'uppercase' as const,
@@ -617,7 +617,7 @@ export const typography = {
     },
     h4: {
       fontFamily: fontFamily.heading,
-      fontSize: 'clamp(1.25rem, 2.5cqi, 1.75rem)',
+      fontSize: 'clamp(1.25rem, 2.5cqi, 1.5rem)',
       fontWeight: '500' as const,
       letterSpacing: '0.01em',
       textTransform: 'lowercase' as const,
@@ -625,7 +625,7 @@ export const typography = {
     },
     h5: {
       fontFamily: fontFamily.base,
-      fontSize: 'clamp(1.125rem, 2cqi, 1.5rem)',
+      fontSize: 'clamp(1.125rem, 2cqi, 1.25rem)',
       fontWeight: '500' as const,
       letterSpacing: '0.01em',
       textTransform: 'lowercase' as const,
@@ -633,7 +633,7 @@ export const typography = {
     },
     h6: {
       fontFamily: fontFamily.base,
-      fontSize: 'clamp(1rem, 1cqi, 1.5rem)',
+      fontSize: 'clamp(1rem, 1cqi, 1.25rem)',
       fontWeight: '800' as const,
       letterSpacing: '0.01em',
       textTransform: 'uppercase' as const,
