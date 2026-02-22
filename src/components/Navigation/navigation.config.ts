@@ -12,6 +12,11 @@ export const navItems: NavItem[] = [
     description: 'Return to homepage',
   },
   {
+    label: 'About',
+    path: '/about',
+    description: 'Learn more about Terence Waters',
+  },
+  {
     label: 'Blog',
     path: '/blog',
     description: 'Thoughts on technology, creativity, and the human experience',
@@ -20,11 +25,6 @@ export const navItems: NavItem[] = [
     label: 'Videos',
     path: '/videos',
     description: 'Video content and series',
-  },
-  {
-    label: 'Podcasts',
-    path: '/podcasts',
-    description: 'Audio conversations and episodes',
   },
   {
     label: 'Content Hub',
@@ -42,18 +42,23 @@ export const navItems: NavItem[] = [
     description: 'In-depth project breakdowns',
   },
   {
-    label: 'Videos',
-    path: '/videos',
-    description: 'Watch videos on technology, creativity, and personal development',
-  },
-  {
     label: 'Podcasts',
     path: '/podcasts',
     description: 'Listen to podcast episodes',
   },
   {
-    label: 'Content Hub',
-    path: '/content',
-    description: 'All content in one place — blog, essays, portfolio, case studies, and more',
+    label: 'GitHub',
+    path: 'https://github.com/terencewaters',
+    description: 'View Terence Waters on GitHub',
+  },
+  {
+    label: 'Contact',
+    path: '/contact',
+    description: 'Get in touch with Terence Waters',
+  },
+  {
+    label: 'Newsletter',
+    path: '/newsletter',
+    description: 'Subscribe to the newsletter',
   },
 ];
