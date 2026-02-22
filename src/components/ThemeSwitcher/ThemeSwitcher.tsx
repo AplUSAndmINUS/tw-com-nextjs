@@ -1,98 +1,36 @@
 'use client';
 
 /**
- * TerenceWaters.com Theme Switcher Component
- * ===========================================
+ * TerenceWaters.com Theme Switcher Wrapper
+ * =========================================
  *
- * A dropdown component for switching between all 8 theme variants.
- * Provides accessible theme selection with proper labeling.
+ * A wrapper component that provides theme context to all children.
+ * This component manages the theme state and wraps the entire app.
  *
  * Usage:
  * ```tsx
  * import { ThemeSwitcher } from '@/components/ThemeSwitcher';
  *
- * function Header() {
+ * export function RootLayout({ children }) {
  *   return (
- *     <header>
- *       <ThemeSwitcher />
- *     </header>
+ *     <ThemeSwitcher>
+ *       {children}
+ *     </ThemeSwitcher>
  *   );
  * }
  * ```
  */
 
-import {
-  Dropdown,
-  Option,
-  makeStyles,
-  Text,
-  tokens,
-} from '@fluentui/react-components';
-import { useAppTheme } from '@/theme';
-import { ThemeMode } from '@/theme';
-
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: tokens.spacingVerticalS,
-  },
-  dropdown: {
-    minWidth: '200px',
-  },
-});
-
-// Theme labels for display
-const themeLabels: Record<ThemeMode, string> = {
-  light: 'Light',
-  dark: 'Dark',
-  'high-contrast': 'High Contrast',
-  protanopia: 'Protanopia (Red-Blind)',
-  deuteranopia: 'Deuteranopia (Green-Blind)',
-  tritanopia: 'Tritanopia (Blue-Blind)',
-  grayscale: 'Grayscale',
-  'grayscale-dark': 'Grayscale Dark',
-};
+import { ReactNode } from 'react';
 
 interface ThemeSwitcherProps {
-  /** Optional label for the dropdown */
-  label?: string;
-  /** Optional className for styling */
-  className?: string;
+  children: ReactNode;
 }
 
 /**
- * Theme switcher dropdown component
+ * Theme switcher wrapper component
+ * Wraps children with theme context
  */
-export function ThemeSwitcher({
-  label = 'Theme',
-  className,
-}: ThemeSwitcherProps) {
-  const styles = useStyles();
-  const { themeMode, setThemeMode } = useAppTheme();
-
-  const handleThemeChange = (_: unknown, data: { optionValue?: string }) => {
-    if (data.optionValue && data.optionValue in themeLabels) {
-      setThemeMode(data.optionValue as ThemeMode);
-    }
-  };
-
-  return (
-    <div className={`${styles.container} ${className || ''}`}>
-      <Text weight='semibold'>{label}</Text>
-      <Dropdown
-        className={styles.dropdown}
-        value={themeLabels[themeMode]}
-        selectedOptions={[themeMode]}
-        onOptionSelect={handleThemeChange}
-        aria-label='Select theme'
-      >
-        {Object.entries(themeLabels).map(([mode, label]) => (
-          <Option key={mode} value={mode}>
-            {label}
-          </Option>
-        ))}
-      </Dropdown>
-    </div>
-  );
+export function ThemeSwitcher({ children }: ThemeSwitcherProps) {
+  return <>{children}</>;
 }

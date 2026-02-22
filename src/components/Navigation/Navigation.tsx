@@ -15,18 +15,23 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="border-b border-gray-200 dark:border-gray-700" aria-label="Main navigation">
-      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
-        <Link href="/" className="text-xl font-bold tracking-tight">
+    <nav
+      className='border-b border-gray-200 dark:border-gray-700'
+      aria-label='Main navigation'
+    >
+      <div className='max-w-6xl mx-auto px-4 flex items-center justify-between h-16'>
+        <Link href='/' className='text-xl font-bold tracking-tight'>
           Terence Waters
         </Link>
-        <ul className="flex gap-6" role="list">
+        <ul className='flex gap-6' role='list'>
           {navLinks.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
                 className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                  pathname === href ? 'text-blue-600' : 'text-gray-600 dark:text-gray-300'
+                  pathname === href
+                    ? 'text-blue-600'
+                    : 'text-gray-600 dark:text-gray-300'
                 }`}
                 aria-current={pathname === href ? 'page' : undefined}
               >
