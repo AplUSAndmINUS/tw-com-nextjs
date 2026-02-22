@@ -56,9 +56,4 @@ export const navItems: NavItem[] = [
     path: '/contact',
     description: 'Get in touch with Terence Waters',
   },
-  {
-    label: 'Newsletter',
-    path: '/newsletter',
-    description: 'Subscribe to the newsletter',
-  },
 ];
