@@ -47,7 +47,6 @@ export function ImageCarousel({ images, basePath = '', className = '' }: ImageCa
               sizes='(max-width: 768px) 100vw, 75vw'
               className='object-contain'
               priority={active === 0}
-              unoptimized
             />
           </motion.div>
         </AnimatePresence>
@@ -107,7 +106,6 @@ export function ImageCarousel({ images, basePath = '', className = '' }: ImageCa
                 fill
                 sizes='64px'
                 className='object-cover'
-                unoptimized
               />
             </button>
           ))}

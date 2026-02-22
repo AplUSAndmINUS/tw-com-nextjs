@@ -14,7 +14,7 @@
 const https = require('https');
 
 const YOUTUBE_CHANNEL_ID =
-  process.env.YOUTUBE_CHANNEL_ID || 'UCterencewaters'; // replace with real ID
+  process.env.YOUTUBE_CHANNEL_ID || 'UCterencewaters'; // Set YOUTUBE_CHANNEL_ID env var in Azure Static Web Apps
 
 const MAX_RESULTS = 20;
 

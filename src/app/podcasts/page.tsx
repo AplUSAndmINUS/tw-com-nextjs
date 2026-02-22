@@ -31,7 +31,7 @@ const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
     description:
       'New podcast episodes from Terence Waters are coming soon. Stay tuned!',
     audioUrl: '',
-    publishedDate: new Date().toISOString().split('T')[0],
+    publishedDate: '2026-01-01',
     tags: [],
     category: 'Announcement',
   },

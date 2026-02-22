@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+/** YouTube video ID regex — 11 alphanumeric characters / hyphens / underscores */
+const YOUTUBE_ID_RE = /^[a-zA-Z0-9_-]{11}$/;
+
 interface VideoPlayerProps {
   youtubeId?: string;
   videoUrl?: string;
@@ -9,11 +12,13 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ youtubeId, videoUrl, title }: VideoPlayerProps) {
-  if (youtubeId) {
+  const safeYoutubeId = youtubeId && YOUTUBE_ID_RE.test(youtubeId) ? youtubeId : null;
+
+  if (safeYoutubeId) {
     return (
       <div className='relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-lg'>
         <iframe
-          src={`https://www.youtube.com/embed/${youtubeId}?rel=0`}
+          src={`https://www.youtube.com/embed/${safeYoutubeId}?rel=0`}
           title={title}
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
           allowFullScreen

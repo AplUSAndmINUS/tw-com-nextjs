@@ -20,7 +20,6 @@ export function PodcastCard({ episode }: PodcastCardProps) {
               fill
               sizes='80px'
               className='object-cover'
-              unoptimized
             />
           ) : (
             <div className='absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600'>

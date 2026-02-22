@@ -15,8 +15,6 @@ interface UnifiedContentClientProps {
   entries: UnifiedContentEntry[];
 }
 
-const CONTENT_TYPES = ['All', 'Blog', 'Essay', 'Portfolio', 'Case Study'];
-
 export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -25,6 +23,12 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
   const allTags = useMemo(() => {
     const set = new Set<string>();
     entries.forEach((e) => e.tags?.forEach((t) => set.add(t)));
+    return Array.from(set).sort();
+  }, [entries]);
+
+  const allContentTypes = useMemo(() => {
+    const set = new Set<string>();
+    entries.forEach((e) => set.add(e.contentType));
     return Array.from(set).sort();
   }, [entries]);
 
@@ -52,14 +56,24 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
 
       {/* Toolbar */}
       <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
-        {/* Type filter */}
+        {/* Type filter — derived from actual content types */}
         <div className='flex flex-wrap gap-2'>
-          {CONTENT_TYPES.map((type) => (
+          <button
+            onClick={() => setActiveType(null)}
+            className={`px-3 py-1 rounded-full text-sm transition-colors ${
+              activeType === null
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+          >
+            All
+          </button>
+          {allContentTypes.map((type) => (
             <button
               key={type}
-              onClick={() => setActiveType(type === 'All' ? null : type)}
+              onClick={() => setActiveType(type === activeType ? null : type)}
               className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                (type === 'All' && activeType === null) || activeType === type
+                activeType === type
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}

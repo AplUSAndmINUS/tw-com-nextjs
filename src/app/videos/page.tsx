@@ -32,7 +32,7 @@ const PLACEHOLDER_VIDEOS: VideoItem[] = [
     description:
       'Subscribe to @terencewaters on YouTube to be notified when new videos are published.',
     thumbnailUrl: '',
-    publishedAt: new Date().toISOString().split('T')[0],
+    publishedAt: '2026-01-01',
     tags: [],
     category: 'Announcement',
     duration: '',

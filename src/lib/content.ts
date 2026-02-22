@@ -7,11 +7,12 @@ const CONTENT_DIR = path.join(process.cwd(), 'content');
 
 /** Map raw frontmatter data to a strongly-typed ContentItem. */
 function mapFrontmatter(slug: string, data: Record<string, unknown>, content: string): ContentItem {
-  const date = data.date
-    ? String(data.date)
-    : data.publishedDate
-      ? String(data.publishedDate)
-      : '';
+  let date = '';
+  if (data.date) {
+    date = String(data.date);
+  } else if (data.publishedDate) {
+    date = String(data.publishedDate);
+  }
 
   return {
     slug,

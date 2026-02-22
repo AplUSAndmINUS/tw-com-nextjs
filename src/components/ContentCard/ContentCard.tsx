@@ -35,7 +35,6 @@ function GridCard({ item, href, contentType }: { item: ContentItem; href: string
               fill
               sizes='(max-width: 768px) 100vw, 33vw'
               className='object-cover group-hover:scale-[1.02] transition-transform duration-300'
-              unoptimized
             />
           </div>
         )}
@@ -86,7 +85,6 @@ function LargeCard({ item, href, contentType }: { item: ContentItem; href: strin
               fill
               sizes='(max-width: 768px) 100vw, 256px'
               className='object-cover group-hover:scale-[1.02] transition-transform duration-300'
-              unoptimized
             />
           </div>
         )}
@@ -137,7 +135,6 @@ function SmallCard({ item, href }: { item: ContentItem; href: string }) {
               fill
               sizes='64px'
               className='object-cover'
-              unoptimized
             />
           </div>
         )}
