@@ -1,0 +1,27 @@
+{
+  "name": "tw-com-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@fluentui/react-components": "^9.73.0",
+    "@next/mdx": "^16.1.6",
+    "gray-matter": "^4.0.3",
+    "next": "16.1.6",
+    "next-mdx-remote": "^6.0.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.33",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
