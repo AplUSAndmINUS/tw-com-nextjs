@@ -1,12 +1,8 @@
 'use client';
 
-import { FluentProvider as FUIFluentProvider } from '@fluentui/react-components';
-import { twTheme } from '@/theme';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { FluentThemeProvider } from '@/theme/providers/FluentThemeProvider';
 
 export function FluentProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <FUIFluentProvider theme={twTheme}>
-      {children}
-    </FUIFluentProvider>
-  );
+  return <FluentThemeProvider><ThemeSwitcher>{children}</ThemeSwitcher></FluentThemeProvider>;
 }

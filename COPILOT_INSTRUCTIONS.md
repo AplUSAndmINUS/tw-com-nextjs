@@ -176,8 +176,18 @@ Copilot should:
 
 Copilot should:
 
-- Use the `FluentProvider` in `src/app/providers.tsx`
+- Use the `FluentProvider` in `src/app/providers.tsx` which wraps `FluentThemeProvider`
 - Use the custom TW.com brand theme from `src/theme/fluentTheme.ts`
+- Use the `useAppTheme()` hook for theme management and switching
+- Support all 8 theme variants for comprehensive accessibility:
+  - `light`: Default light mode with deep navy brand
+  - `dark`: Default dark mode with inverted palette
+  - `high-contrast`: High contrast mode for visual accessibility
+  - `protanopia`: Red-blind color mode (for users with red-color deficiency)
+  - `deuteranopia`: Green-blind color mode (for users with green-color deficiency)
+  - `tritanopia`: Blue-blind color mode (for users with blue-color deficiency)
+  - `grayscale`: Grayscale light mode
+  - `grayscale-dark`: Grayscale dark mode
 - Use the extended theme system with:
   - `spacing`: Consistent rhythm system based on 1rem units
   - `animations`: Smooth easing functions and duration presets
@@ -189,6 +199,7 @@ Copilot should:
   - `typography`: Comprehensive font system with Roboto Flex and Proxima Nova
 - Use Fluent UI theme tokens for colors and typography
 - Avoid hardcoded color values
+- Use the `ThemeSwitcher` component from `src/components/ThemeSwitcher` for theme selection UI
 
 ### 7.2 — Animations
 

@@ -66,13 +66,21 @@ export interface IExtendedSpacing {
   l2: string;
 }
 
-export type ThemeMode = 'light' | 'dark';
+export type ThemeMode =
+  | 'light'
+  | 'dark'
+  | 'high-contrast'
+  | 'protanopia'
+  | 'deuteranopia'
+  | 'tritanopia'
+  | 'grayscale'
+  | 'grayscale-dark';
 
 // ============================================================================
 // BRAND COLORS
 // ============================================================================
 
-// TerenceWaters.com brand palette - deep navy blue primary
+// TerenceWaters.com brand palette - deep navy blue primary (Light Mode)
 const twBrand: BrandVariants = {
   10: '#020408',
   20: '#0d1a2e',
@@ -90,6 +98,146 @@ const twBrand: BrandVariants = {
   140: '#7aa8df',
   150: '#8eb9e7',
   160: '#a3caef',
+};
+
+// Dark theme brand palette
+const twBrandDark: BrandVariants = {
+  10: '#1a2a3f',
+  20: '#2d4562',
+  30: '#3F5FA1',
+  40: '#445F7E',
+  50: '#637a99',
+  60: '#8295b0',
+  70: '#A5C0E1',
+  80: '#B8CCEB',
+  90: '#CAD9F2',
+  100: '#d4e0f5',
+  110: '#dee7f7',
+  120: '#E2EAF6',
+  130: '#e8eef9',
+  140: '#EDF2F9',
+  150: '#f2f6fb',
+  160: '#F5F8FC',
+};
+
+// High contrast brand palette
+const twBrandHighContrast: BrandVariants = {
+  10: '#000000',
+  20: '#0a0a0a',
+  30: '#121212',
+  40: '#1a1a1a',
+  50: '#222222',
+  60: '#2a2a2a',
+  70: '#3399FF',
+  80: '#4da6ff',
+  90: '#66b3ff',
+  100: '#80c0ff',
+  110: '#99ccff',
+  120: '#b3d9ff',
+  130: '#cce6ff',
+  140: '#d9ecff',
+  150: '#e6f3ff',
+  160: '#F8F8F8',
+};
+
+// Protanopia (red-blind) brand palette
+const twBrandProtanopia: BrandVariants = {
+  10: '#001428',
+  20: '#002850',
+  30: '#003e72',
+  40: '#004578',
+  50: '#005299',
+  60: '#005A9E',
+  70: '#0066bb',
+  80: '#0078D4',
+  90: '#2B88D8',
+  100: '#4494dc',
+  110: '#5da0e0',
+  120: '#71AFE5',
+  130: '#8abee9',
+  140: '#a3cded',
+  150: '#C7E0F4',
+  160: '#EFF6FC',
+};
+
+// Deuteranopia (green-blind) brand palette
+const twBrandDeuteranopia: BrandVariants = {
+  10: '#001428',
+  20: '#002034',
+  30: '#002850',
+  40: '#003564',
+  50: '#004578',
+  60: '#00528c',
+  70: '#0063B1',
+  80: '#0070c5',
+  90: '#2680d9',
+  100: '#4894FE',
+  110: '#5f9ffe',
+  120: '#76aafe',
+  130: '#8db5fe',
+  140: '#a4c1ff',
+  150: '#C7E0F4',
+  160: '#EFF6FC',
+};
+
+// Tritanopia (blue-blind) brand palette
+const twBrandTritanopia: BrandVariants = {
+  10: '#1a0505',
+  20: '#340a0a',
+  30: '#4e0f0f',
+  40: '#761721',
+  50: '#8f1c28',
+  60: '#A4262C',
+  70: '#bd2b33',
+  80: '#D13438',
+  90: '#db4d51',
+  100: '#e5666a',
+  110: '#ef7f83',
+  120: '#f9989c',
+  130: '#ffb1b5',
+  140: '#ffcace',
+  150: '#E8A3A3',
+  160: '#FEF4F4',
+};
+
+// Grayscale (light) brand palette
+const twBrandGrayscale: BrandVariants = {
+  10: '#000000',
+  20: '#0d0d0d',
+  30: '#1A1A1A',
+  40: '#262626',
+  50: '#333333',
+  60: '#404040',
+  70: '#4d4d4d',
+  80: '#666666',
+  90: '#737373',
+  100: '#808080',
+  110: '#8c8c8c',
+  120: '#999999',
+  130: '#a6a6a6',
+  140: '#b3b3b3',
+  150: '#D9D9D9',
+  160: '#F8F8F8',
+};
+
+// Grayscale dark brand palette
+const twBrandGrayscaleDark: BrandVariants = {
+  10: '#000000',
+  20: '#0d0d0d',
+  30: '#1a1a1a',
+  40: '#262626',
+  50: '#333333',
+  60: '#404040',
+  70: '#4d4d4d',
+  80: '#666666',
+  90: '#808080',
+  100: '#8c8c8c',
+  110: '#999999',
+  120: '#a6a6a6',
+  130: '#bfbfbf',
+  140: '#d9d9d9',
+  150: '#e6e6e6',
+  160: '#ffffff',
 };
 
 // ============================================================================
@@ -571,7 +719,13 @@ export const typography = {
 
 // Create base themes from FluentUI
 const baseLightTheme = createLightTheme(twBrand);
-const baseDarkTheme = createDarkTheme(twBrand);
+const baseDarkTheme = createDarkTheme(twBrandDark);
+const baseHighContrastTheme = createDarkTheme(twBrandHighContrast);
+const baseProtanopiaTheme = createLightTheme(twBrandProtanopia);
+const baseDeuteranopiaTheme = createLightTheme(twBrandDeuteranopia);
+const baseTritanopiaTheme = createLightTheme(twBrandTritanopia);
+const baseGrayscaleTheme = createLightTheme(twBrandGrayscale);
+const baseGrayscaleDarkTheme = createDarkTheme(twBrandGrayscaleDark);
 
 // Extended light theme
 export const twLightTheme: IExtendedTheme = {
@@ -601,6 +755,108 @@ export const twDarkTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   themeMode: 'dark',
+};
+
+// Extended high-contrast theme
+export const twHighContrastTheme: IExtendedTheme = {
+  ...baseHighContrastTheme,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  themeMode: 'high-contrast',
+};
+
+// Extended protanopia theme (red-blind)
+export const twProtanopiaTheme: IExtendedTheme = {
+  ...baseProtanopiaTheme,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  themeMode: 'protanopia',
+};
+
+// Extended deuteranopia theme (green-blind)
+export const twDeuteranopiaTheme: IExtendedTheme = {
+  ...baseDeuteranopiaTheme,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  themeMode: 'deuteranopia',
+};
+
+// Extended tritanopia theme (blue-blind)
+export const twTritanopiaTheme: IExtendedTheme = {
+  ...baseTritanopiaTheme,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  themeMode: 'tritanopia',
+};
+
+// Extended grayscale theme
+export const twGrayscaleTheme: IExtendedTheme = {
+  ...baseGrayscaleTheme,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  themeMode: 'grayscale',
+};
+
+// Extended grayscale-dark theme
+export const twGrayscaleDarkTheme: IExtendedTheme = {
+  ...baseGrayscaleDarkTheme,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  themeMode: 'grayscale-dark',
+};
+
+// Theme map for easy access
+export const themeMap: Record<ThemeMode, IExtendedTheme> = {
+  light: twLightTheme,
+  dark: twDarkTheme,
+  'high-contrast': twHighContrastTheme,
+  protanopia: twProtanopiaTheme,
+  deuteranopia: twDeuteranopiaTheme,
+  tritanopia: twTritanopiaTheme,
+  grayscale: twGrayscaleTheme,
+  'grayscale-dark': twGrayscaleDarkTheme,
 };
 
 // Default export is the light theme; can be swapped at runtime
