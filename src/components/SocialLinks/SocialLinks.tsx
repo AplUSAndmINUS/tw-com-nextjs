@@ -45,7 +45,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
             <a
               href={item.url}
               target='_blank'
-              rel='noreferrer'
+              rel='noopener noreferrer'
               {...getSocialHoverProps(item.url)}
               style={{
                 display: 'flex',
@@ -55,25 +55,14 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                 height: isAuthorTagline ? '16px' : '24px',
               }}
             >
-              {typeof item.iconName === 'string' ? (
-                <FluentIcon
-                  iconName={item.iconName}
-                  size='medium'
-                  color={theme.colorBrandForeground1}
-                  style={{
-                    transform: `scale(${isSocialHovered(item.url) ? 1.15 : 1})`,
-                    transition: 'transform 0.3s ease-in-out',
-                  }}
-                />
-              ) : (
-                React.isValidElement(item.iconName) &&
-                React.cloneElement(item.iconName as React.ReactElement<any>, {
-                  style: {
-                    transform: `scale(${isSocialHovered(item.url) ? 1.15 : 1})`,
-                    transition: 'transform 0.3s ease-in-out',
-                  },
-                })
-              )}
+              <FluentIcon
+                iconName={item.iconName}
+                color={theme.colorBrandForeground1}
+                style={{
+                  transform: `scale(${isSocialHovered(item.url) ? 1.15 : 1})`,
+                  transition: 'transform 0.3s ease-in-out',
+                }}
+              />
               {/* Social link tooltip */}
               <span
                 style={{

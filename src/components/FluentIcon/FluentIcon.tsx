@@ -124,7 +124,7 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      <IconComponent primaryFill={iconColor} />
+      <IconComponent primaryFill={iconColor} style={{ color: iconColor }} />
     </span>
   );
 };

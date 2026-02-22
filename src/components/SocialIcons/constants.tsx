@@ -9,7 +9,10 @@ import YouTubeLogo from '@/assets/svgs/YouTubeLogo';
 import TiktokLogo from '@/assets/svgs/TiktokLogo';
 
 export interface SocialIcon {
-  iconName: string | React.ReactNode;
+  iconName: React.ComponentType<{
+    style?: React.CSSProperties;
+    className?: string;
+  }>;
   url: string;
   tooltip?: string;
   isTagline?: boolean;
@@ -17,43 +20,43 @@ export interface SocialIcon {
 
 export const getSocialIcons = (): SocialIcon[] => [
   {
-    iconName: <FacebookLogo />,
+    iconName: FacebookLogo,
     url: 'https://www.facebook.com/aplusinflux',
     tooltip: 'Facebook',
     isTagline: true,
   },
   {
-    iconName: <InstagramLogo />,
+    iconName: InstagramLogo,
     url: 'https://www.instagram.com/aplusinflux',
     tooltip: 'Instagram',
     isTagline: true,
   },
   {
-    iconName: <ThreadsLogo />,
+    iconName: ThreadsLogo,
     url: 'https://www.threads.com/@aplusinflux',
     tooltip: 'Threads',
     isTagline: true,
   },
   {
-    iconName: <LinkedInLogo />,
+    iconName: LinkedInLogo,
     url: 'https://www.linkedin.com/in/terencewaters',
     tooltip: 'LinkedIn',
     isTagline: true,
   },
   {
-    iconName: <YouTubeLogo />,
+    iconName: YouTubeLogo,
     url: 'https://www.youtube.com/@terencewaters',
     tooltip: 'YouTube',
     isTagline: true,
   },
   {
-    iconName: <TiktokLogo />,
+    iconName: TiktokLogo,
     url: 'https://www.tiktok.com/@aplusinflux',
     tooltip: 'TikTok',
     isTagline: false,
   },
   {
-    iconName: <MicrosoftLogo />,
+    iconName: MicrosoftLogo,
     url: 'https://www.xbox.com/en-US/play/user/APlusInFLUX',
     tooltip: 'Xbox',
     isTagline: false,
