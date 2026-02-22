@@ -47,11 +47,6 @@ export const navItems: NavItem[] = [
     description: 'Listen to podcast episodes',
   },
   {
-    label: 'GitHub',
-    path: 'https://github.com/terencewaters',
-    description: 'View Terence Waters on GitHub',
-  },
-  {
     label: 'Contact',
     path: '/contact',
     description: 'Get in touch with Terence Waters',

@@ -7,6 +7,7 @@ import LinkedInLogo from '@/assets/svgs/LinkedInLogo';
 import MicrosoftLogo from '@/assets/svgs/MicrosoftLogo';
 import YouTubeLogo from '@/assets/svgs/YouTubeLogo';
 import TiktokLogo from '@/assets/svgs/TiktokLogo';
+import GithubLogo from '@/assets/svgs/GitHubLogo';
 
 export interface SocialIcon {
   iconName: React.ComponentType<{
@@ -41,6 +42,12 @@ export const getSocialIcons = (): SocialIcon[] => [
     iconName: LinkedInLogo,
     url: 'https://www.linkedin.com/in/terencewaters',
     tooltip: 'LinkedIn',
+    isTagline: true,
+  },
+  {
+    iconName: GithubLogo,
+    url: 'https://github.com/aplusandminus',
+    tooltip: 'GitHub',
     isTagline: true,
   },
   {
