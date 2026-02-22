@@ -1,7 +1,11 @@
 {
   "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif,svg}", "/css/*", "/js/*"]
+    "rewrite": "/404.html",
+    "exclude": [
+      "/_next/*",
+      "/images/*.{png,jpg,gif,svg,ico,webp}",
+      "/*.{css,js,json,xml,txt}"
+    ]
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
@@ -10,7 +14,7 @@
   },
   "responseOverrides": {
     "404": {
-      "rewrite": "/404",
+      "rewrite": "/404.html",
       "statusCode": 404
     }
   }
