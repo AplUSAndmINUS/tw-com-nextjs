@@ -2,14 +2,17 @@
 
 import React, { useState } from 'react';
 import { GalleryItem } from '@/content/types';
-import { ImageCarousel } from '@/components/ImageCarousel';
+import { ImageCarousel } from '@/components/ui/ImageCarousel';
 
-interface PortfolioDetailClientProps {
+interface ContentGalleryClientProps {
   gallery: GalleryItem[];
   basePath?: string;
 }
 
-export function PortfolioDetailClient({ gallery, basePath = '' }: PortfolioDetailClientProps) {
+export function ContentGalleryClient({
+  gallery,
+  basePath = '',
+}: ContentGalleryClientProps) {
   const [showGallery, setShowGallery] = useState(false);
 
   if (!gallery || gallery.length === 0) return null;
@@ -20,12 +23,11 @@ export function PortfolioDetailClient({ gallery, basePath = '' }: PortfolioDetai
         onClick={() => setShowGallery((v) => !v)}
         className='text-sm text-blue-600 dark:text-blue-400 hover:underline mb-2'
       >
-        {showGallery ? 'Hide Gallery' : `View Gallery (${gallery.length} images)`}
+        {showGallery
+          ? 'Hide Gallery'
+          : `View Gallery (${gallery.length} images)`}
       </button>
-      {showGallery && (
-        <ImageCarousel images={gallery} basePath={basePath} />
-      )}
+      {showGallery && <ImageCarousel images={gallery} basePath={basePath} />}
     </div>
   );
 }
-

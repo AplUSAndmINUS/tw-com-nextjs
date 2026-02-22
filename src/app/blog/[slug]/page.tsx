@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { ArticleLayout } from '@/layouts/ArticleLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { BlogDetailClient } from '@/components/BlogDetailClient';
+import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -66,7 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
       featureImage={featureImage}
     >
       {post.gallery && post.gallery.length > 0 && (
-        <BlogDetailClient gallery={post.gallery} basePath={basePath} />
+        <ContentGalleryClient gallery={post.gallery} basePath={basePath} />
       )}
       <MDXRemote source={post.content} />
     </ArticleLayout>

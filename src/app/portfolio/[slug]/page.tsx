@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { PortfolioLayout } from '@/layouts/PortfolioLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { PortfolioDetailClient } from '@/components/PortfolioDetailClient';
+import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -64,7 +64,7 @@ export default async function PortfolioEntryPage({ params }: Props) {
       featureImage={featureImage}
     >
       {entry.gallery && entry.gallery.length > 0 && (
-        <PortfolioDetailClient gallery={entry.gallery} basePath={basePath} />
+        <ContentGalleryClient gallery={entry.gallery} basePath={basePath} />
       )}
       <MDXRemote source={entry.content} />
     </PortfolioLayout>

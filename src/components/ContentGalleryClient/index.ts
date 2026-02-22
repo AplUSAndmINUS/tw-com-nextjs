@@ -1,0 +1,1 @@
+export { ContentGalleryClient } from './ContentGalleryClient';
