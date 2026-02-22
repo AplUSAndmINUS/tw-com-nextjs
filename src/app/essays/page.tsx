@@ -6,6 +6,18 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Essays',
   description: 'Long-form writing on technology, creativity, and culture.',
+  metadataBase: new URL('https://terencewaters.com'),
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default async function EssaysPage() {

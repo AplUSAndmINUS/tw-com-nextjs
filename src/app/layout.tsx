@@ -10,6 +10,17 @@ export const metadata: Metadata = {
   },
   description: 'Author, technologist, and creative thinker.',
   metadataBase: new URL('https://terencewaters.com'),
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({

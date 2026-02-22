@@ -1,5 +1,26 @@
 import { PageLayout } from '@/layouts/PageLayout';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Terence Waters',
+    template: '%s | Terence Waters',
+  },
+  description: 'Author, technologist, and creative thinker.',
+  metadataBase: new URL('https://terencewaters.com'),
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
 
 export default function HomePage() {
   return (
