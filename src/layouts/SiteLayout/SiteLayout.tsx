@@ -1,21 +1,17 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { Navigation } from '@/components/Navigation';
-import { Footer } from '@/components/Footer';
+import { RootLayout } from '@/layouts/RootLayout';
 
 interface SiteLayoutProps {
   children: ReactNode;
 }
 
+/**
+ * SiteLayout – thin alias of RootLayout for backwards compatibility.
+ * Prefer importing RootLayout directly in new code.
+ */
 export function SiteLayout({ children }: SiteLayoutProps) {
-  return (
-    <div className='flex flex-col min-h-screen'>
-      <Navigation />
-      <main className='flex-1'>
-        {children}
-      </main>
-      <Footer />
-    </div>
-  );
+  return <RootLayout>{children}</RootLayout>;
 }
+

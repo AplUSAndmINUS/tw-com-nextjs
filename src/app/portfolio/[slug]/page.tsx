@@ -20,6 +20,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: entry.title,
     description: entry.excerpt,
+    metadataBase: new URL('https://terencewaters.com'),
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: {
+        index: false,
+        follow: false,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 

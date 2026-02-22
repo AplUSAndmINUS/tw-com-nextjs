@@ -17,9 +17,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getContentBySlug('blog', slug);
   if (!post) return {};
+
   return {
     title: post.title,
     description: post.excerpt,
+    metadataBase: new URL('https://terencewaters.com'),
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: {
+        index: false,
+        follow: false,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 

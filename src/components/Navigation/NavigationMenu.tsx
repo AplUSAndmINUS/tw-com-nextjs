@@ -1,0 +1,185 @@
+'use client';
+
+/**
+ * NavigationMenu Component
+ * Slide-in navigation menu panel matching Fluxline-Pro's navigation structure.
+ */
+
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { navItems } from './navigation.config';
+import { Typography } from '@/components/Typography';
+import type { NavItem, NavigationMenuProps } from './navigation.types';
+import { SocialLinks } from '../SocialLinks/SocialLinks';
+
+interface NavigationItemProps {
+  item: NavItem;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
+  const { theme } = useAppTheme();
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  return (
+    <Link
+      href={item.path}
+      onClick={onClick}
+      style={{ textDecoration: 'none', width: '100%', display: 'block' }}
+    >
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: '0.75rem',
+          padding: '0.75rem 1rem',
+          borderRadius: theme.borderRadiusMedium,
+          backgroundColor:
+            isActive || isHovered
+              ? theme.colorNeutralBackground1Hover
+              : 'transparent',
+          transition: 'background-color 0.2s ease',
+          cursor: 'pointer',
+        }}
+      >
+        <Typography variant='blockquote' style={{
+          color:
+            isActive || isHovered
+              ? theme.colorBrandForeground1
+              : theme.colorNeutralForeground1,
+            fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+            fontWeight: isActive ? 600 : 400,
+            fontFamily: theme.fontFamilyBase,
+            textAlign: 'right',
+            textTransform: 'capitalize',
+            transition: 'color 0.2s ease',
+          }}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          {item.label}
+        </Typography>
+      </div>
+      {/* {item.description && (isActive || isHovered) && ( --- IGNORE ---
+        <Typography
+          variant='p'
+          style={{
+            margin: '0 1rem 0.5rem',
+            color: theme.colorNeutralForeground3,
+            fontSize: '0.875rem',
+            textAlign: 'right',
+          }}
+        >
+          {item.description}
+        </Typography>
+      )} */}
+    </Link>
+  );
+}
+
+export function NavigationMenu({ onClose }: NavigationMenuProps) {
+  const { theme } = useAppTheme();
+  const { shouldReduceMotion } = useReducedMotion();
+  const pathname = usePathname();
+
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        minHeight: 0,
+      }}
+    >
+      {/* Menu Header */}
+      <div
+        style={{
+          padding: '1.5rem 2rem',
+          borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
+        }}
+      >
+        <Typography variant='h3' style={{
+          margin: 0,
+          color: theme.colorBrandForeground1,
+          textAlign: 'right',
+        }}>
+          Menu
+        </Typography>
+      </div>
+
+      {/* Navigation Items */}
+      <nav
+        aria-label='Site navigation'
+        style={{
+          flex: '1 1 auto',
+          overflowY: 'auto',
+          padding: '1.5rem 1rem',
+        }}
+      >
+        <ul
+          role='list'
+          style={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '0.25rem',
+          }}
+        >
+          <AnimatePresence>
+            {navItems.map((item, index) => (
+              <motion.li
+                key={item.path}
+                initial={shouldReduceMotion ? false : { opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: shouldReduceMotion ? 0 : index * 0.06,
+                  duration: shouldReduceMotion ? 0 : 0.25,
+                  ease: 'easeOut',
+                }}
+                style={{ width: '100%' }}
+              >
+                <NavigationItem
+                  item={item}
+                  isActive={pathname === item.path}
+                  onClick={onClose}
+                />
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
+      </nav>
+
+      {/* Footer */}
+      <div
+        style={{
+          padding: '0.5rem',
+          borderTop: `1px solid ${theme.colorNeutralStroke2}`,
+          textAlign: 'center',
+        }}
+      >
+        <SocialLinks />
+        <Typography variant='p' style={{
+          marginBottom: '1rem',
+          color: theme.colorNeutralForeground3,
+          fontSize: '0.875rem',
+        }}>
+          &copy; 2025-{currentYear} Terence Waters. All rights reserved.
+        </Typography>
+      </div>
+    </div>
+  );
+}
+
+export default NavigationMenu;
