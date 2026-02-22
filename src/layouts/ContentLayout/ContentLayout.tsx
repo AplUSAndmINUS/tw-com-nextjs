@@ -15,7 +15,7 @@ interface ContentLayoutProps {
 }
 
 /**
- * ContentLayout — long-form content (essays, articles).
+ * ContentLayout — long-form content (i.e., articles).
  *
  * Grid behaviour:
  * - Mobile / tablet-portrait: single column, image stacked above content

@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
+import { VideoListingClient } from '@/components/VideoListingClient';
+import { VideoItem } from '@/content/types';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 
@@ -29,11 +31,30 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Static placeholder videos — replaced at runtime by the Azure Function
+ * (api/videos) once the YouTube API key is configured.
+ */
+const PLACEHOLDER_VIDEOS: VideoItem[] = [
+  {
+    id: 'placeholder-1',
+    youtubeId: '',
+    title: 'Videos Coming Soon',
+    description:
+      'Subscribe to @terencewaters on YouTube to be notified when new videos are published.',
+    thumbnailUrl: '',
+    publishedAt: '2026-01-01',
+    tags: [],
+    category: 'Announcement',
+    duration: '',
+  },
+];
+
 const series = [
   {
     title: 'Build in Public',
     description:
-      'Behind-the-scenes looks at how I build products, systems, and creative projects — with full transparency on what works and what doesn\'t.',
+      "Behind-the-scenes looks at how I build products, systems, and creative projects — with full transparency on what works and what doesn't.",
     episodeCount: 'Coming Soon',
     icon: '🏗️',
   },
@@ -70,6 +91,12 @@ export default function VideosPage() {
           </Typography>
         </header>
 
+        {/* Video List from Azure Function */}
+        <section className='mb-12'>
+          <VideoListingClient videos={PLACEHOLDER_VIDEOS} />
+        </section>
+
+        {/* Video Series */}
         <section className='mb-12'>
           <Typography variant='h2' className='text-2xl font-semibold mb-6'>
             Series
@@ -95,6 +122,7 @@ export default function VideosPage() {
           </div>
         </section>
 
+        {/* Subscribe Section */}
         <section className='bg-gray-50 dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-700'>
           <Typography variant='h2' className='text-2xl font-semibold mb-3'>
             Subscribe

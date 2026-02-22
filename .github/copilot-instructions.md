@@ -131,7 +131,7 @@ TW.com uses a layout-driven architecture. Copilot should use or extend:
 | ----------------- | -------------------------------------- |
 | `RootLayout`      | Navigation, Footer, global wrappers    |
 | `PageLayout`      | Standard page with max-width container |
-| `ContentLayout`   | Long-form content (essays, articles)   |
+| `ContentLayout`   | Long-form content (i.e., articles)   |
 | `ArticleLayout`   | Blog posts with header/byline          |
 | `PortfolioLayout` | Portfolio entries                      |
 | `CaseStudyLayout` | In-depth case studies                  |
@@ -156,7 +156,6 @@ Copilot should:
 | Type              | Directory               |
 | ----------------- | ----------------------- |
 | Blog posts        | `content/blog/`         |
-| Essays            | `content/essays/`       |
 | Portfolio entries | `content/portfolio/`    |
 | Case studies      | `content/case-studies/` |
 
@@ -279,17 +278,13 @@ Copilot should proceed when:
 
 ## 13. Example Prompts for TW.com
 
-**Create a new essay page**
-
-> "Generate a new essay page using `ContentLayout` and load content from `/content/essays`."
-
 **Add a new blog post type**
 
 > "Extend the blog loader to support a new metadata field and update the article layout."
 
 **Add a new navigation item**
 
-> "Update the navigation config and header component to include a new 'Essays' section."
+> "Update the navigation config and header component to include a new 'Podcasts' section."
 
 **Create a portfolio card**
 

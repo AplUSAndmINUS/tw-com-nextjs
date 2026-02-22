@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PodcastListingClient } from '@/components/PodcastListingClient';
+import { PodcastEpisode } from '@/content/types';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 
@@ -28,6 +30,23 @@ export const metadata: Metadata = {
     },
   },
 };
+
+/**
+ * Static placeholder episodes — replaced at runtime by the Azure Function
+ * (api/podcasts) once the Azure Storage account is configured.
+ */
+const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
+  {
+    slug: 'coming-soon',
+    title: 'Podcasts Coming Soon',
+    description:
+      'New podcast episodes from Terence Waters are coming soon. Stay tuned!',
+    audioUrl: '',
+    publishedDate: '2026-01-01',
+    tags: [],
+    category: 'Announcement',
+  },
+];
 
 const shows = [
   {
@@ -65,6 +84,12 @@ export default function PodcastsPage() {
           </Typography>
         </header>
 
+        {/* Podcast Episodes from Azure Function */}
+        <section className='mb-12'>
+          <PodcastListingClient episodes={PLACEHOLDER_EPISODES} />
+        </section>
+
+        {/* Podcast Shows */}
         <section className='mb-12'>
           <Typography variant='h2' className='text-2xl font-semibold mb-6'>
             Shows
@@ -97,6 +122,7 @@ export default function PodcastsPage() {
           </div>
         </section>
 
+        {/* Stay Tuned Section */}
         <section className='bg-gray-50 dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-700'>
           <Typography variant='h2' className='text-2xl font-semibold mb-3'>
             Stay Tuned
@@ -112,8 +138,8 @@ export default function PodcastsPage() {
             variant='p'
             className='text-sm text-gray-500 dark:text-gray-500'
           >
-            Episodes will be available on Spotify, Apple Podcasts, and all
-            major podcast platforms.
+            Episodes will be available on Spotify, Apple Podcasts, and all major
+            podcast platforms.
           </Typography>
         </section>
       </div>

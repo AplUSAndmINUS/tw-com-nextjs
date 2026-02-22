@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { PortfolioLayout } from '@/layouts/PortfolioLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -18,8 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = await getContentBySlug('portfolio', slug);
   if (!entry) return {};
   return {
-    title: entry.title,
-    description: entry.excerpt,
+    title: entry.seoTitle ?? entry.title,
+    description: entry.seoDescription ?? entry.excerpt,
+    keywords: entry.seoKeywords,
     metadataBase: new URL('https://terencewaters.com'),
     openGraph: {
       title: `${entry.title} | Terence Waters`,
@@ -46,8 +48,20 @@ export default async function PortfolioEntryPage({ params }: Props) {
   const { slug } = await params;
   const entry = await getContentBySlug('portfolio', slug);
   if (!entry) notFound();
+
+  const featureImage = entry.imageUrl
+    ? { src: entry.imageUrl, alt: entry.imageAlt ?? entry.title }
+    : undefined;
+
   return (
-    <PortfolioLayout title={entry.title}>
+    <PortfolioLayout
+      title={entry.title}
+      description={entry.excerpt}
+      featureImage={featureImage}
+    >
+      {entry.gallery && entry.gallery.length > 0 && (
+        <ContentGalleryClient gallery={entry.gallery} />
+      )}
       <MDXRemote source={entry.content} />
     </PortfolioLayout>
   );
