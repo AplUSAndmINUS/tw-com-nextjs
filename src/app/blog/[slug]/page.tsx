@@ -54,10 +54,6 @@ export default async function BlogPostPage({ params }: Props) {
     ? { src: post.imageUrl, alt: post.imageAlt ?? post.title }
     : undefined;
 
-  const basePath = post.imageUrl
-    ? post.imageUrl.substring(0, post.imageUrl.lastIndexOf('/') + 1)
-    : '';
-
   return (
     <ArticleLayout
       title={post.title}
@@ -66,7 +62,7 @@ export default async function BlogPostPage({ params }: Props) {
       featureImage={featureImage}
     >
       {post.gallery && post.gallery.length > 0 && (
-        <ContentGalleryClient gallery={post.gallery} basePath={basePath} />
+        <ContentGalleryClient gallery={post.gallery} />
       )}
       <MDXRemote source={post.content} />
     </ArticleLayout>

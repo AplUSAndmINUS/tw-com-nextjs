@@ -6,13 +6,9 @@ import { ImageCarousel } from '@/components/ui/ImageCarousel';
 
 interface ContentGalleryClientProps {
   gallery: GalleryItem[];
-  basePath?: string;
 }
 
-export function ContentGalleryClient({
-  gallery,
-  basePath = '',
-}: ContentGalleryClientProps) {
+export function ContentGalleryClient({ gallery }: ContentGalleryClientProps) {
   const [showGallery, setShowGallery] = useState(false);
 
   if (!gallery || gallery.length === 0) return null;
@@ -27,7 +23,7 @@ export function ContentGalleryClient({
           ? 'Hide Gallery'
           : `View Gallery (${gallery.length} images)`}
       </button>
-      {showGallery && <ImageCarousel images={gallery} basePath={basePath} />}
+      {showGallery && <ImageCarousel images={gallery} />}
     </div>
   );
 }

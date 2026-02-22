@@ -53,10 +53,6 @@ export default async function PortfolioEntryPage({ params }: Props) {
     ? { src: entry.imageUrl, alt: entry.imageAlt ?? entry.title }
     : undefined;
 
-  const basePath = entry.imageUrl
-    ? entry.imageUrl.substring(0, entry.imageUrl.lastIndexOf('/') + 1)
-    : '';
-
   return (
     <PortfolioLayout
       title={entry.title}
@@ -64,7 +60,7 @@ export default async function PortfolioEntryPage({ params }: Props) {
       featureImage={featureImage}
     >
       {entry.gallery && entry.gallery.length > 0 && (
-        <ContentGalleryClient gallery={entry.gallery} basePath={basePath} />
+        <ContentGalleryClient gallery={entry.gallery} />
       )}
       <MDXRemote source={entry.content} />
     </PortfolioLayout>
