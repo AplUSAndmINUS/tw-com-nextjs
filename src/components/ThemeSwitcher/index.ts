@@ -1,2 +1,2 @@
-export { ThemeSwitcher } from './ThemeSwitcher';
-export { ThemeSelector as Theme } from './ThemeSelector';
+// Theme selector dropdown UI component
+export { ThemeSelector } from './ThemeSelector';
