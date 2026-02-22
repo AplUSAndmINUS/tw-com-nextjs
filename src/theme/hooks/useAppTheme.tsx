@@ -15,10 +15,11 @@
  * - grayscale-dark: Grayscale dark mode
  *
  * Features:
- * - LocalStorage persistence
+ * - LocalStorage persistence (loaded after mount to prevent SSR hydration issues)
  * - System preference detection
  * - Manual theme switching
  * - FluentUI theme integration
+ * - SSR-safe initialization
  */
 
 import { useEffect, useState, useCallback } from 'react';
@@ -33,18 +34,6 @@ const getSystemTheme = (): 'light' | 'dark' => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light';
-};
-
-// Get stored theme or fallback to system preference
-const getInitialTheme = (): ThemeMode => {
-  if (typeof window === 'undefined') return 'light';
-
-  const stored = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
-  if (stored && stored in themeMap) {
-    return stored;
-  }
-
-  return getSystemTheme();
 };
 
 export interface UseAppThemeReturn {
@@ -83,10 +72,11 @@ export interface UseAppThemeReturn {
  * ```
  */
 export function useAppTheme(): UseAppThemeReturn {
-  const [themeMode, setThemeModeState] = useState<ThemeMode>(() =>
-    getInitialTheme()
-  );
+  // Initialize with 'light' to prevent SSR hydration mismatch
+  // Actual theme will be loaded from localStorage in useEffect
+  const [themeMode, setThemeModeState] = useState<ThemeMode>('light');
   const [isSystemTheme, setIsSystemTheme] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Get current theme object
   const theme = themeMap[themeMode];
@@ -96,6 +86,24 @@ export function useAppTheme(): UseAppThemeReturn {
     themeMode === 'dark' ||
     themeMode === 'high-contrast' ||
     themeMode === 'grayscale-dark';
+
+  // Initialize theme from localStorage after mount (client-side only)
+  useEffect(() => {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
+
+    if (stored && stored in themeMap) {
+      // User has a saved preference
+      setThemeModeState(stored);
+      setIsSystemTheme(false);
+    } else {
+      // No saved preference, use system theme
+      const systemTheme = getSystemTheme();
+      setThemeModeState(systemTheme);
+      setIsSystemTheme(true);
+    }
+
+    setIsInitialized(true);
+  }, []); // Run once on mount
 
   // Set theme mode and persist to localStorage
   const setThemeMode = useCallback((mode: ThemeMode) => {
