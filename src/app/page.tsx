@@ -91,16 +91,16 @@ export default function HomePage() {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.6, ease: 'easeInOut' }}
-              style={{ transformOrigin: 'left' }}
-              className='md:mx-0 lg:mx-auto'
+              style={{ transformOrigin: 'center' }}
             >
               <hr
                 style={{
                   border: 'none',
                   height: '2px',
                   background: theme.semanticColors.border.emphasis,
-                  margin: '1.5rem auto',
+                  margin: '1rem 0',
                   maxWidth: '300px',
+                  width: '70%',
                 }}
               />
             </motion.div>

@@ -39,7 +39,7 @@ export function Footer({ isCompact = false }: FooterProps) {
       }`}
       role='contentinfo'
     >
-      <div className={`max-w-6xl mx-auto px-6 ${isCompact ? 'py-6' : 'py-12'}`}>
+      <div className={`max-w-6xl w-auto px-6 lg:px-12 ${isCompact ? 'py-6' : 'py-12'}`}>
         <div
           className={`grid grid-cols-1 md:grid-cols-4 gap-8 ${isCompact ? 'mb-4' : 'mb-8'}`}
         >
@@ -47,7 +47,7 @@ export function Footer({ isCompact = false }: FooterProps) {
           <div>
             <Link
               href='/'
-              className='text-xl mb-2 font-bold tracking-tight hover:opacity-80 transition-opacity'
+              className='text-xl font-bold tracking-tight hover:opacity-80 transition-opacity'
             >
               <Typography
                 variant='h4'

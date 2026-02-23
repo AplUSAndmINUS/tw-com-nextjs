@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
+import { useIsDesktop } from '@/hooks/useMediaQuery';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -31,6 +32,7 @@ export function PageLayout({
   featureImage,
   isHomePage = false,
 }: PageLayoutProps) {
+  const isDesktop = useIsDesktop();
   // Homepage: full-height contained layout (Fluxline.pro style)
   if (isHomePage) {
     return (
@@ -66,7 +68,7 @@ export function PageLayout({
                 <div className='flex-1 px-4 sm:px-6 lg:px-8 py-8'>
                   {children}
                 </div>
-                <Footer isCompact />
+                <Footer isCompact={!isHomePage || !isDesktop} />
               </div>
             </div>
           ) : (
@@ -75,7 +77,7 @@ export function PageLayout({
               <div className='flex-1 max-w-6xl w-full px-4 sm:px-6 lg:px-8 py-8'>
                 {children}
               </div>
-              <Footer isCompact />
+                <Footer isCompact={!isHomePage || !isDesktop} />
             </div>
           )}
         </div>
