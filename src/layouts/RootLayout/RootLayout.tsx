@@ -4,6 +4,8 @@ import { Footer } from '@/components/Footer';
 
 interface RootLayoutProps {
   children: ReactNode;
+  /** If true, renders a full-height contained layout (no page scroll) */
+  isContainedView?: boolean;
 }
 
 /**
@@ -13,8 +15,35 @@ interface RootLayoutProps {
  * Renders the Navigation (fixed header with breadcrumbs + slide-in menu)
  * and Footer, with a skip-to-content link for accessibility.
  * All other layouts should nest inside RootLayout.
+ *
+ * When isContainedView=true, creates a full-viewport layout (like Fluxline.pro)
+ * where content doesn't cause page scrolling on desktop.
  */
-export function RootLayout({ children }: RootLayoutProps) {
+export function RootLayout({
+  children,
+  isContainedView = false,
+}: RootLayoutProps) {
+  if (isContainedView) {
+    return (
+      <div className='flex flex-col h-screen overflow-hidden'>
+        <a
+          href='#main-content'
+          className='sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
+        >
+          Skip to main content
+        </a>
+        <Navigation />
+        {/* Flex-1 makes main content fill remaining height */}
+        <main
+          id='main-content'
+          className='flex-1 pt-16 overflow-hidden flex flex-col'
+        >
+          {children}
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className='flex flex-col min-h-screen'>
       <a

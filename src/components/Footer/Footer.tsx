@@ -24,16 +24,25 @@ const footerLinks = {
   ],
 };
 
-export function Footer() {
+interface FooterProps {
+  /** If true, renders a more compact footer suitable for contained viewports */
+  isCompact?: boolean;
+}
+
+export function Footer({ isCompact = false }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
     <footer
-      className='border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto mb-3'
+      className={`border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto ${
+        isCompact ? 'mb-0' : 'mb-3'
+      }`}
       role='contentinfo'
     >
-      <div className='max-w-6xl mx-auto px-6 py-12'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-8'>
+      <div className={`max-w-6xl mx-auto px-6 ${isCompact ? 'py-6' : 'py-12'}`}>
+        <div
+          className={`grid grid-cols-1 md:grid-cols-4 gap-8 ${isCompact ? 'mb-4' : 'mb-8'}`}
+        >
           {/* Brand */}
           <div>
             <Link
@@ -49,24 +58,29 @@ export function Footer() {
             </Link>
             <Typography
               variant='blockquote'
-              className='mt-2 text-gray-500 dark:text-gray-400 max-w-xs'
-              style={{ fontSize: '0.875rem' }}
+              className={`text-gray-500 dark:text-gray-400 max-w-xs ${
+                isCompact ? 'mt-1' : 'mt-2'
+              }`}
+              style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
             >
-              Author, technologist, and creative thinker. Writing about
-              technology, creativity, and the human experience.
+              {isCompact
+                ? 'Author, technologist, and creative thinker.'
+                : 'Author, technologist, and creative thinker. Writing about technology, creativity, and the human experience.'}
             </Typography>
           </div>
 
           {/* Content links */}
-          <div className='flex flex-col gap-4 mb-2'>
+          <div
+            className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'}`}
+          >
             <Typography
               variant='h5'
               className='text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
-              style={{ fontSize: '1.25rem' }}
+              style={{ fontSize: isCompact ? '1rem' : '1.25rem' }}
             >
               Content
             </Typography>
-            <ul className='space-y-2' role='list'>
+            <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
               {footerLinks.content.map(({ href, label }) => (
                 <li key={href}>
                   <ThemedLink href={href} variant='small' isFooter>
@@ -78,15 +92,20 @@ export function Footer() {
           </div>
 
           {/* Work links */}
-          <div className='flex flex-col gap-4 mb-2'>
+          <div
+            className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'}`}
+          >
             <Typography
               variant='h5'
-              className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3'
-              style={{ fontSize: '1.25rem' }}
+              className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
+              style={{
+                fontSize: isCompact ? '1rem' : '1.25rem',
+                marginBottom: isCompact ? '0' : '0.75rem',
+              }}
             >
               Work
             </Typography>
-            <ul className='space-y-2' role='list'>
+            <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
               {footerLinks.work.map(({ href, label }) => (
                 <li key={href}>
                   <ThemedLink href={href} variant='small' isFooter>
@@ -98,15 +117,20 @@ export function Footer() {
           </div>
 
           {/* Connect links */}
-          <div className='flex flex-col gap-4 mb-2'>
+          <div
+            className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'}`}
+          >
             <Typography
               variant='h5'
-              className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3'
-              style={{ fontSize: '1.25rem' }}
+              className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
+              style={{
+                fontSize: isCompact ? '1rem' : '1.25rem',
+                marginBottom: isCompact ? '0' : '0.75rem',
+              }}
             >
               Connect
             </Typography>
-            <ul className='space-y-2' role='list'>
+            <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
               {footerLinks.connect.map(({ href, label }) => (
                 <li key={href}>
                   <ThemedLink href={href} variant='small' isFooter>
@@ -119,11 +143,15 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className='pt-6 mt-2 flex flex-col sm:flex-row items-center justify-between gap-2'>
+        <div
+          className={`flex flex-col sm:flex-row items-center justify-between gap-2 ${
+            isCompact ? 'pt-3 mt-1' : 'pt-6 mt-2'
+          }`}
+        >
           <Typography
             variant='blockquote'
             className='text-gray-500 dark:text-gray-400'
-            style={{ fontSize: '0.875rem' }}
+            style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
           >
             &copy; 2025-{year} Terence Waters. All rights reserved.
           </Typography>

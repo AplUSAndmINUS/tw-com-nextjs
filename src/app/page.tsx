@@ -35,11 +35,8 @@ export default function HomePage() {
 
   return (
     <PageLayout isHomePage>
-      <section
-        className='flex flex-col items-start justify-end min-h-[70vh] px-4 py-12
-        lg:items-start lg:justify-center lg:pb-12'
-      >
-        <div className='max-w-3xl w-full text-left lg:text-center space-y-4'>
+      <section className='flex flex-col items-start justify-center h-full px-6 lg:px-12'>
+        <div className='max-w-3xl w-full text-left lg:text-left space-y-3'>
           {/* Greeting */}
           {animationStage >= 1 && (
             <motion.div {...fadeInUp}>
@@ -48,7 +45,7 @@ export default function HomePage() {
                 style={{
                   color: theme.semanticColors.text.muted,
                   fontWeight: theme.typography.fontWeights.light,
-                  marginBottom: '0.5rem',
+                  marginBottom: '0.25rem',
                 }}
               >
                 hi there! :)
@@ -64,7 +61,7 @@ export default function HomePage() {
                 style={{
                   color: theme.semanticColors.text.muted,
                   fontWeight: theme.typography.fontWeights.regular,
-                  marginBottom: '0.5rem',
+                  marginBottom: '0.25rem',
                 }}
               >
                 my name is
@@ -80,7 +77,7 @@ export default function HomePage() {
                 style={{
                   color: theme.semanticColors.text.heading,
                   fontWeight: theme.typography.fontWeights.bold,
-                  marginBottom: '1rem',
+                  marginBottom: '0.75rem',
                 }}
               >
                 Terence Waters
@@ -116,9 +113,9 @@ export default function HomePage() {
                 variant='p'
                 style={{
                   color: theme.semanticColors.text.primary,
-                  fontSize: '1.25rem',
+                  fontSize: '1.15rem',
                   fontWeight: theme.typography.fontWeights.medium,
-                  marginBottom: '0.75rem',
+                  marginBottom: '0.5rem',
                 }}
               >
                 Author, technologist, and creative thinker.
@@ -133,8 +130,8 @@ export default function HomePage() {
                 variant='p'
                 style={{
                   color: theme.semanticColors.text.muted,
-                  fontSize: '1.05rem',
-                  marginBottom: '2rem',
+                  fontSize: '1rem',
+                  marginBottom: '1.5rem',
                 }}
               >
                 Writing about resonance, authenticity, and building a life that
@@ -147,11 +144,11 @@ export default function HomePage() {
           {animationStage >= 7 && (
             <motion.div
               {...fadeInUp}
-              className='flex gap-4 flex-wrap justify-start lg:justify-center'
+              className='flex gap-4 flex-wrap justify-start'
             >
               <ThemedLink
                 href='/blog'
-                className='px-7 py-3 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+                className='px-6 py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
                 style={{
                   backgroundColor: theme.semanticColors.link.default,
                   color: theme.semanticColors.background.base,
@@ -162,7 +159,7 @@ export default function HomePage() {
               </ThemedLink>
               <ThemedLink
                 href='/portfolio'
-                className='px-7 py-3 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+                className='px-6 py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
                 style={{
                   border: `2px solid ${theme.semanticColors.border.emphasis}`,
                   color: theme.semanticColors.text.primary,
