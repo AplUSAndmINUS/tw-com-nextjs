@@ -57,7 +57,7 @@ export function RootLayout({
       <main id='main-content' className='flex-1 pt-16'>
         {children}
       </main>
-      <Footer />
+      <Footer isCompact />
     </div>
   );
 }

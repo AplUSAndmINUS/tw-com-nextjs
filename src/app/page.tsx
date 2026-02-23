@@ -35,7 +35,7 @@ export default function HomePage() {
 
   return (
     <PageLayout isHomePage>
-      <section className='flex flex-col items-start justify-center h-full px-6 lg:px-12'>
+      <section className='flex flex-col items-start justify-end md:justify-center h-full px-6 lg:px-12'>
         <div className='max-w-3xl w-full text-left lg:text-left space-y-3'>
           {/* Greeting */}
           {animationStage >= 1 && (
