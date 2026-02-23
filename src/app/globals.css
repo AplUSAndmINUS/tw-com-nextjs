@@ -1,9 +1,12 @@
-@import url('https://use.typekit.net/tro2yxw.css');
+@import url('https://use.typekit.net/dqf8seo.css');
 @import 'tailwindcss';
+
+/* Configure Tailwind to use class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
 }
 
 @theme inline {

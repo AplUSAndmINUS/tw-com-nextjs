@@ -161,6 +161,19 @@ export function useAppTheme(): UseAppThemeReturn {
     return () => mq.removeEventListener('change', handler);
   }, [isSystemTheme]);
 
+  // Sync dark mode with Tailwind by adding/removing 'dark' class on <html>
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const root = document.documentElement;
+
+    if (isDark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [isDark]);
+
   return {
     themeMode,
     theme,

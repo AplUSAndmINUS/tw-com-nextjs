@@ -44,7 +44,42 @@ export interface IExtendedTheme extends Theme {
   breakpoints: typeof breakpoints;
   mediaQueries: typeof mediaQueries;
   typography: typeof typography;
+  semanticColors: ISemanticColors;
   themeMode: ThemeMode;
+}
+
+export interface ISemanticColors {
+  text: {
+    primary: string;
+    heading: string;
+    muted: string;
+    disabled: string;
+  };
+  link: {
+    default: string;
+    hover: string;
+    visited: string;
+    active: string;
+    footer?: string; // Optional muted color for footer links
+  };
+  background: {
+    base: string;
+    elevated: string;
+    muted: string;
+  };
+  border: {
+    default: string;
+    muted: string;
+    emphasis: string;
+  };
+  selection: {
+    background: string;
+    text: string;
+  };
+  focus: {
+    ring: string;
+    outline: string;
+  };
 }
 
 export interface IExtendedSpacing {
@@ -238,6 +273,307 @@ const twBrandGrayscaleDark: BrandVariants = {
   140: '#d9d9d9',
   150: '#e6e6e6',
   160: '#ffffff',
+};
+
+// ============================================================================
+// SEMANTIC COLORS - Text & Interactive States
+// ============================================================================
+
+/**
+ * Accessible text and interactive colors for all 8 theme modes
+ * Designed for WCAG AAA compliance with book-inspired minimalism
+ */
+
+// Light Mode (default light theme)
+export const semanticColorsLight = {
+  text: {
+    primary: '#1a1a1a', // Body text - near black
+    heading: '#0d0d0d', // Headings - true black
+    muted: '#666666', // Captions, metadata
+    disabled: '#999999', // Disabled text
+  },
+  link: {
+    default: '#1a3667', // Deep navy (brand primary)
+    hover: '#2654a0', // Lighter navy on hover
+    visited: '#224a8d', // Slightly different for visited
+    active: '#122341', // Darker on click
+    footer: '#4a5568', // Muted gray-blue for footer
+  },
+  background: {
+    base: '#ffffff', // Page background
+    elevated: '#f8f8f8', // Cards, elevated surfaces
+    muted: '#f0f0f0', // Subtle backgrounds
+  },
+  border: {
+    default: '#e0e0e0', // Default borders
+    muted: '#f0f0f0', // Subtle borders
+    emphasis: '#1a3667', // Emphasized borders
+  },
+  selection: {
+    background: '#a3caef', // Text selection background
+    text: '#0d0d0d', // Text selection color
+  },
+  focus: {
+    ring: '#2654a0', // Focus ring color
+    outline: '#1a3667', // Focus outline
+  },
+};
+
+// Dark Mode (default dark theme - primary mode)
+export const semanticColorsDark = {
+  text: {
+    primary: '#e6e6e6', // Body text - near white
+    heading: '#f5f5f5', // Headings - true white
+    muted: '#999999', // Captions, metadata
+    disabled: '#666666', // Disabled text
+  },
+  link: {
+    default: '#8eb9e7', // Light navy (accessible on dark)
+    hover: '#a3caef', // Lighter on hover
+    visited: '#7aa8df', // Slightly different for visited
+    active: '#b8cceb', // Brighter on click
+    footer: '#bec4ce', // Muted gray-blue for footer (lighter on dark)
+  },
+  background: {
+    base: '#1a1a1a', // Page background
+    elevated: '#242424', // Cards, elevated surfaces
+    muted: '#2a2a2a', // Subtle backgrounds
+  },
+  border: {
+    default: '#404040', // Default borders
+    muted: '#333333', // Subtle borders
+    emphasis: '#8eb9e7', // Emphasized borders
+  },
+  selection: {
+    background: '#3F5FA1', // Text selection background
+    text: '#ffffff', // Text selection color
+  },
+  focus: {
+    ring: '#8eb9e7', // Focus ring color
+    outline: '#a3caef', // Focus outline
+  },
+};
+
+// High Contrast Mode
+export const semanticColorsHighContrast = {
+  text: {
+    primary: '#ffffff', // Pure white on black
+    heading: '#ffffff', // Pure white
+    muted: '#b3d9ff', // Light blue for muted
+    disabled: '#666666', // Gray for disabled
+  },
+  link: {
+    default: '#3399FF', // Bright blue (high contrast)
+    hover: '#66b3ff', // Lighter blue on hover
+    visited: '#80c0ff', // Even lighter for visited
+    active: '#4da6ff', // Active state
+    footer: '#99ccff', // Bright but softer for footer
+  },
+  background: {
+    base: '#000000', // Pure black
+    elevated: '#121212', // Slightly elevated
+    muted: '#1a1a1a', // Muted surfaces
+  },
+  border: {
+    default: '#ffffff', // White borders for contrast
+    muted: '#666666', // Gray for subtle
+    emphasis: '#3399FF', // Bright blue emphasis
+  },
+  selection: {
+    background: '#3399FF', // Bright blue selection
+    text: '#000000', // Black text
+  },
+  focus: {
+    ring: '#66b3ff', // Bright focus ring
+    outline: '#3399FF', // Bright outline
+  },
+};
+
+// Protanopia (Red-Blind) Mode
+export const semanticColorsProtanopia = {
+  text: {
+    primary: '#1a1a1a',
+    heading: '#0d0d0d',
+    muted: '#666666',
+    disabled: '#999999',
+  },
+  link: {
+    default: '#005299', // Strong blue (no red component)
+    hover: '#0078D4', // Brighter blue
+    visited: '#004578', // Darker blue
+    active: '#0066bb', // Active blue
+    footer: '#4a7ba7', // Muted blue for footer
+  },
+  background: {
+    base: '#ffffff',
+    elevated: '#f8f8f8',
+    muted: '#f0f0f0',
+  },
+  border: {
+    default: '#e0e0e0',
+    muted: '#f0f0f0',
+    emphasis: '#005299',
+  },
+  selection: {
+    background: '#C7E0F4',
+    text: '#0d0d0d',
+  },
+  focus: {
+    ring: '#0078D4',
+    outline: '#005299',
+  },
+};
+
+// Deuteranopia (Green-Blind) Mode
+export const semanticColorsDeuteranopia = {
+  text: {
+    primary: '#1a1a1a',
+    heading: '#0d0d0d',
+    muted: '#666666',
+    disabled: '#999999',
+  },
+  link: {
+    default: '#004578', // Blue (no green component)
+    hover: '#0070c5', // Brighter blue
+    visited: '#00528c', // Different blue shade
+    active: '#2680d9', // Active blue
+    footer: '#4a6a8a', // Muted blue for footer
+  },
+  background: {
+    base: '#ffffff',
+    elevated: '#f8f8f8',
+    muted: '#f0f0f0',
+  },
+  border: {
+    default: '#e0e0e0',
+    muted: '#f0f0f0',
+    emphasis: '#004578',
+  },
+  selection: {
+    background: '#C7E0F4',
+    text: '#0d0d0d',
+  },
+  focus: {
+    ring: '#0070c5',
+    outline: '#004578',
+  },
+};
+
+// Tritanopia (Blue-Blind) Mode
+export const semanticColorsTritanopia = {
+  text: {
+    primary: '#1a1a1a',
+    heading: '#0d0d0d',
+    muted: '#666666',
+    disabled: '#999999',
+  },
+  link: {
+    default: '#8f1c28', // Deep red (no blue component)
+    hover: '#D13438', // Brighter red
+    visited: '#761721', // Darker red
+    active: '#db4d51', // Active red
+    footer: '#a0555f', // Muted red for footer
+  },
+  background: {
+    base: '#ffffff',
+    elevated: '#f8f8f8',
+    muted: '#f0f0f0',
+  },
+  border: {
+    default: '#e0e0e0',
+    muted: '#f0f0f0',
+    emphasis: '#8f1c28',
+  },
+  selection: {
+    background: '#ffcace',
+    text: '#0d0d0d',
+  },
+  focus: {
+    ring: '#D13438',
+    outline: '#8f1c28',
+  },
+};
+
+// Grayscale (Light) Mode
+export const semanticColorsGrayscale = {
+  text: {
+    primary: '#1a1a1a',
+    heading: '#000000',
+    muted: '#666666',
+    disabled: '#999999',
+  },
+  link: {
+    default: '#333333', // Dark gray (underline required!)
+    hover: '#4d4d4d', // Medium gray
+    visited: '#262626', // Darker gray
+    active: '#666666', // Lighter on click
+    footer: '#737373', // Muted gray for footer
+  },
+  background: {
+    base: '#ffffff',
+    elevated: '#f8f8f8',
+    muted: '#f0f0f0',
+  },
+  border: {
+    default: '#e0e0e0',
+    muted: '#f0f0f0',
+    emphasis: '#333333',
+  },
+  selection: {
+    background: '#D9D9D9',
+    text: '#000000',
+  },
+  focus: {
+    ring: '#4d4d4d',
+    outline: '#333333',
+  },
+};
+
+// Grayscale Dark Mode
+export const semanticColorsGrayscaleDark = {
+  text: {
+    primary: '#e6e6e6',
+    heading: '#ffffff',
+    muted: '#999999',
+    disabled: '#666666',
+  },
+  link: {
+    default: '#bfbfbf', // Light gray (underline required!)
+    hover: '#d9d9d9', // Lighter gray
+    visited: '#a6a6a6', // Darker gray
+    active: '#e6e6e6', // Brightest on click
+    footer: '#999999', // Muted gray for footer
+  },
+  background: {
+    base: '#1a1a1a',
+    elevated: '#262626',
+    muted: '#333333',
+  },
+  border: {
+    default: '#404040',
+    muted: '#333333',
+    emphasis: '#bfbfbf',
+  },
+  selection: {
+    background: '#4d4d4d',
+    text: '#ffffff',
+  },
+  focus: {
+    ring: '#bfbfbf',
+    outline: '#d9d9d9',
+  },
+};
+
+// Map semantic colors to theme modes
+export const semanticColorsMap = {
+  light: semanticColorsLight,
+  dark: semanticColorsDark,
+  'high-contrast': semanticColorsHighContrast,
+  protanopia: semanticColorsProtanopia,
+  deuteranopia: semanticColorsDeuteranopia,
+  tritanopia: semanticColorsTritanopia,
+  grayscale: semanticColorsGrayscale,
+  'grayscale-dark': semanticColorsGrayscaleDark,
 };
 
 // ============================================================================
@@ -486,9 +822,15 @@ export const animations = {
  */
 
 export const fontFamily = {
-  base: 'Roboto Flex, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", system-ui, sans-serif',
-  mono: 'Roboto Mono, monospace',
-  heading: 'proxima-nova, sans-serif',
+  // Body text - Merriweather for authority and readability (matches book)
+  base: 'merriweather, Georgia, "Times New Roman", serif',
+  // Headings - Montserrat for modern geometric feel (matches book cover/chapters)
+  heading:
+    'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  // Code blocks - Roboto Mono for technical content
+  mono: 'Roboto Mono, "Courier New", monospace',
+  // Metadata/captions - Roboto Condensed for compact info
+  condensed: 'roboto-condensed, "Arial Narrow", sans-serif',
 };
 
 export const fontSizes = {
@@ -508,6 +850,7 @@ export const typography = {
     base: fontFamily.base,
     mono: fontFamily.mono,
     heading: fontFamily.heading,
+    condensed: fontFamily.condensed,
     h1: fontFamily.heading,
     h2: fontFamily.heading,
     h3: fontFamily.heading,
@@ -535,163 +878,169 @@ export const typography = {
   // Font definitions
   fonts: {
     tiny: {
-      fontFamily: fontFamily.base,
+      fontFamily: fontFamily.condensed,
       fontSize: fontSizes.xs,
-      fontWeight: '400' as const,
-      lineHeight: '1.6',
+      fontWeight: '300' as const,
+      letterSpacing: '0.02em',
+      lineHeight: '1.4',
     },
     xSmall: {
       fontFamily: fontFamily.base,
       fontSize: 'clamp(0.75rem, 1cqi, 0.875rem)',
       fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.5',
+      letterSpacing: '0',
+      lineHeight: '1.6',
     },
     small: {
       fontFamily: fontFamily.base,
       fontSize: 'clamp(0.875rem, 1.25cqi, 1rem)',
       fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.6',
+      letterSpacing: '0',
+      lineHeight: '1.7',
     },
     medium: {
       fontFamily: fontFamily.base,
       fontSize: fontSizes.base,
       fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.6',
+      letterSpacing: '0',
+      lineHeight: '1.75',
     },
     mediumPlus: {
       fontFamily: fontFamily.base,
       fontSize: 'clamp(1.125rem, 2cqi, 1.375rem)',
-      fontWeight: '500' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.6',
+      fontWeight: '400' as const,
+      letterSpacing: '0',
+      lineHeight: '1.7',
     },
     large: {
-      fontFamily: fontFamily.base,
+      fontFamily: fontFamily.heading,
       fontSize: 'clamp(1.25rem, 2.5cqi, 1.75rem)',
       fontWeight: '600' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.5',
-    },
-    xLarge: {
-      fontFamily: fontFamily.base,
-      fontSize: 'clamp(1.5rem, 3.5cqi, 2.25rem)',
-      fontWeight: '700' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.4',
-    },
-    xxLarge: {
-      fontFamily: fontFamily.base,
-      fontSize: 'clamp(2rem, 5cqi, 3.5rem)',
-      fontWeight: '700' as const,
-      letterSpacing: '0.01em',
+      letterSpacing: '-0.01em',
       lineHeight: '1.3',
     },
+    xLarge: {
+      fontFamily: fontFamily.heading,
+      fontSize: 'clamp(1.5rem, 3.5cqi, 2.25rem)',
+      fontWeight: '700' as const,
+      letterSpacing: '-0.02em',
+      lineHeight: '1.2',
+    },
+    xxLarge: {
+      fontFamily: fontFamily.heading,
+      fontSize: 'clamp(2rem, 5cqi, 3.5rem)',
+      fontWeight: '800' as const,
+      letterSpacing: '-0.02em',
+      lineHeight: '1.1',
+    },
 
-    // Headings
+    // Headings - Montserrat (matching book chapter titles)
     h1: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(2.5rem, 8cqi, 4rem)',
-      fontWeight: '700' as const,
+      fontWeight: '800' as const, // Extra Bold like book chapter titles
       letterSpacing: '-0.02em',
+      textTransform: 'uppercase' as const, // Like "THE RESONANCE CORE FRAMEWORK"
       lineHeight: '1.1',
     },
     h2: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(2rem, 5cqi, 2.75rem)',
-      fontWeight: '600' as const,
-      letterSpacing: '-0.01em',
-      lineHeight: '1.2',
+      fontWeight: '700' as const, // Bold
+      letterSpacing: '-0.015em',
+      textTransform: 'uppercase' as const,
+      lineHeight: '1.15',
     },
     h3: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(1.5rem, 3.5cqi, 2rem)',
-      fontWeight: '600' as const,
-      letterSpacing: '0',
-      lineHeight: '1.3',
+      fontWeight: '600' as const, // Semi-Bold
+      letterSpacing: '-0.01em',
+      lineHeight: '1.25',
     },
     h4: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(1.25rem, 2.5cqi, 1.5rem)',
       fontWeight: '600' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.4',
+      letterSpacing: '0',
+      lineHeight: '1.35',
     },
     h5: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(1.125rem, 2cqi, 1.25rem)',
-      fontWeight: '500' as const,
+      fontWeight: '500' as const, // Medium
       letterSpacing: '0.01em',
-      lineHeight: '1.5',
+      lineHeight: '1.4',
     },
     h6: {
       fontFamily: fontFamily.heading,
-      fontSize: 'clamp(1rem, 1cqi, 1.125rem)',
-      fontWeight: '500' as const,
-      letterSpacing: '0.01em',
+      fontSize: 'clamp(0.875rem, 1cqi, 1rem)',
+      fontWeight: '300' as const, // Light (like book chapter numbers)
+      letterSpacing: '0.15em', // Wide tracking like "CHAPTER 1"
+      textTransform: 'uppercase' as const,
       lineHeight: '1.5',
     },
 
-    // Body text
+    // Body text - Merriweather (matching book body)
     body: {
       fontFamily: fontFamily.base,
-      fontSize: 'clamp(1rem, 2cqi, 1.25rem)',
-      fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.6',
+      fontSize: 'clamp(1rem, 2cqi, 1.125rem)',
+      fontWeight: '400' as const, // Regular like book (10-11pt)
+      letterSpacing: '0',
+      lineHeight: '1.75', // Comfortable reading
     },
     bodySmall: {
       fontFamily: fontFamily.base,
-      fontSize: 'clamp(0.875rem, 1.75cqi, 0.875rem)',
+      fontSize: 'clamp(0.875rem, 1.75cqi, 1rem)',
       fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.5',
+      letterSpacing: '0',
+      lineHeight: '1.65',
     },
 
     // Special use cases
     label: {
-      fontFamily: fontFamily.base,
-      fontSize: 'clamp(0.875rem, 1.75cqi, 0.875rem)',
+      fontFamily: fontFamily.heading,
+      fontSize: 'clamp(0.75rem, 1.5cqi, 0.875rem)',
       fontWeight: '500' as const,
-      letterSpacing: '0.01em',
+      letterSpacing: '0.05em',
+      textTransform: 'uppercase' as const,
       lineHeight: '1.3',
     },
     quote: {
-      fontFamily: fontFamily.base,
-      fontSize: 'clamp(1.25rem, 2.5cqi, 1.25rem)',
-      fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.75',
+      fontFamily: fontFamily.heading,
+      fontSize: 'clamp(1.25rem, 2.5cqi, 1.5rem)',
+      fontWeight: '500' as const, // Medium
+      fontStyle: 'italic' as const, // Matching book pull quotes
+      letterSpacing: '0',
+      lineHeight: '1.6',
     },
     blockquote: {
       fontFamily: fontFamily.base,
       fontSize: 'clamp(1.125rem, 2.25cqi, 1.25rem)',
       fontWeight: '400' as const,
       fontStyle: 'italic' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.7',
+      letterSpacing: '0',
+      lineHeight: '1.75',
     },
     code: {
       fontFamily: fontFamily.mono,
-      fontSize: 'clamp(0.875rem, 1.75cqi, 0.875rem)',
+      fontSize: 'clamp(0.875rem, 1.75cqi, 0.9375rem)',
       fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.4',
+      letterSpacing: '0',
+      lineHeight: '1.5',
     },
     pre: {
       fontFamily: fontFamily.mono,
-      fontSize: 'clamp(0.875rem, 1.75cqi, 0.875rem)',
+      fontSize: 'clamp(0.875rem, 1.75cqi, 0.9375rem)',
       fontWeight: '400' as const,
       letterSpacing: '0',
       lineHeight: '1.6',
     },
     caption: {
-      fontFamily: fontFamily.base,
+      fontFamily: fontFamily.condensed,
       fontSize: 'clamp(0.75rem, 1.5cqi, 0.875rem)',
-      fontWeight: '400' as const,
-      letterSpacing: '0.01em',
+      fontWeight: '300' as const, // Light like book captions
+      letterSpacing: '0.02em',
       lineHeight: '1.4',
     },
 
@@ -699,43 +1048,49 @@ export const typography = {
     cardTitle: {
       fontFamily: fontFamily.heading,
       fontSize: 'clamp(1.25rem, 2.5cqi, 1.5rem)',
-      fontWeight: '600' as const,
-      letterSpacing: '0',
+      fontWeight: '700' as const, // Bold for hierarchy
+      letterSpacing: '-0.01em',
       lineHeight: '1.3',
     },
     cardSubtitle: {
-      fontFamily: fontFamily.base,
+      fontFamily: fontFamily.heading,
       fontSize: 'clamp(0.875rem, 1.75cqi, 1rem)',
       fontWeight: '500' as const,
-      letterSpacing: '0.01em',
+      letterSpacing: '0.05em',
+      textTransform: 'uppercase' as const,
       lineHeight: '1.4',
     },
     cardBody: {
       fontFamily: fontFamily.base,
-      fontSize: 'clamp(0.875rem, 1.75cqi, 1rem)',
+      fontSize: 'clamp(0.9375rem, 1.875cqi, 1rem)',
       fontWeight: '400' as const,
-      letterSpacing: '0.01em',
-      lineHeight: '1.6',
+      letterSpacing: '0',
+      lineHeight: '1.65',
     },
     cardMeta: {
-      fontFamily: fontFamily.base,
+      fontFamily: fontFamily.condensed,
       fontSize: 'clamp(0.75rem, 1.5cqi, 0.875rem)',
-      fontWeight: '400' as const,
-      letterSpacing: '0.01em',
+      fontWeight: '300' as const, // Light for metadata
+      letterSpacing: '0.05em',
+      textTransform: 'uppercase' as const,
       lineHeight: '1.3',
     },
   },
 
   lineHeights: {
     tight: 1.2,
-    normal: 1.5,
+    snug: 1.4,
+    normal: 1.6,
     relaxed: 1.75,
   },
 
   letterSpacing: {
-    tight: '-0.025em',
-    normal: '0.01em',
-    wide: '0.025em',
+    tighter: '-0.02em',
+    tight: '-0.01em',
+    normal: '0',
+    wide: '0.05em',
+    wider: '0.1em',
+    widest: '0.15em',
   },
 
   textShadows: {
@@ -778,6 +1133,7 @@ export const twLightTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsLight,
   themeMode: 'light',
 };
 
@@ -793,6 +1149,7 @@ export const twDarkTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsDark,
   themeMode: 'dark',
 };
 
@@ -808,6 +1165,7 @@ export const twHighContrastTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsHighContrast,
   themeMode: 'high-contrast',
 };
 
@@ -823,6 +1181,7 @@ export const twProtanopiaTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsProtanopia,
   themeMode: 'protanopia',
 };
 
@@ -838,6 +1197,7 @@ export const twDeuteranopiaTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsDeuteranopia,
   themeMode: 'deuteranopia',
 };
 
@@ -853,6 +1213,7 @@ export const twTritanopiaTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsTritanopia,
   themeMode: 'tritanopia',
 };
 
@@ -868,6 +1229,7 @@ export const twGrayscaleTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsGrayscale,
   themeMode: 'grayscale',
 };
 
@@ -883,6 +1245,7 @@ export const twGrayscaleDarkTheme: IExtendedTheme = {
   breakpoints,
   mediaQueries,
   typography,
+  semanticColors: semanticColorsGrayscaleDark,
   themeMode: 'grayscale-dark',
 };
 
