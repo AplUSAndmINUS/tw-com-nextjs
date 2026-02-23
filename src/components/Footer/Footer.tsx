@@ -42,14 +42,14 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
     <>
       {/* Mobile-only toggle button for homepage */}
       {isHomePage && (
-        <div className='lg:hidden flex justify-center py-4'>
+        <div className='lg:hidden flex justify-center py-6'>
           <button
             onClick={() => setIsFooterVisible(!isFooterVisible)}
             className='px-6 py-2 rounded-lg transition-all font-medium'
             style={{
-              border: `1px solid ${theme.semanticColors.border.default}`,
-              backgroundColor: theme.semanticColors.background.base,
+              border: `2px solid ${theme.semanticColors.border.emphasis}`,
               color: theme.semanticColors.text.primary,
+              backgroundColor: 'transparent',
               boxShadow: theme.shadows.button,
               fontFamily: theme.typography.fonts.body.fontFamily,
             }}

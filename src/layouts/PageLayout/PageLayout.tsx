@@ -72,7 +72,7 @@ export function PageLayout({
           ) : (
             /* No feature image - single column with footer */
             <div className='flex-1 flex flex-col lg:overflow-y-auto'>
-              <div className='flex-1 max-w-6xl w-full px-4 sm:px-6 lg:px-8 py-8'>
+              <div className='flex-1 max-w-6xl w-full px-4 sm:px-6 lg:px-8 md:py-8'>
                 {children}
               </div>
               <Footer isHomePage />
