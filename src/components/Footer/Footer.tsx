@@ -34,12 +34,16 @@ export function Footer() {
       <div className='max-w-6xl mx-auto px-6 py-12'>
         <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mb-8'>
           {/* Brand */}
-          <div>
+          <div className='!p-4'>
             <Link
               href='/'
               className='text-xl mb-2 font-bold tracking-tight hover:opacity-80 transition-opacity'
             >
-              Terence Waters
+              <Typography variant='h4'
+                className='text-gray-900 dark:text-gray-500'
+              >
+                Terence Waters
+              </Typography>
             </Link>
             <Typography
               variant='blockquote'
