@@ -10,6 +10,9 @@ interface PageLayoutProps {
     alt: string;
     title?: string;
   };
+
+  /// If true, applies special layout/styling for the homepage (e.g. removes top padding)
+  isHomePage?: boolean;
 }
 
 /**
@@ -19,7 +22,11 @@ interface PageLayoutProps {
  * - Mobile / tablet-portrait: single column, image stacked above content (12 cols)
  * - Tablet-landscape / desktop / ultrawide: 3-col image + 9-col content
  */
-export function PageLayout({ children, featureImage }: PageLayoutProps) {
+export function PageLayout({
+  children,
+  featureImage,
+  isHomePage = false,
+}: PageLayoutProps) {
   return (
     <SiteLayout>
       <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8'>
@@ -28,7 +35,9 @@ export function PageLayout({ children, featureImage }: PageLayoutProps) {
           <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
             {/* Feature image — 3 cols on md+, full width on mobile */}
             <aside className='md:col-span-3 md:sticky md:top-20'>
-              <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
+              <div
+                className={`relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4] ${!isHomePage ? 'flex items-center justify-center' : ''}`}
+              >
                 <Image
                   src={featureImage.src}
                   alt={featureImage.alt}
