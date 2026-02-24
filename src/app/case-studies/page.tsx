@@ -6,11 +6,13 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Case Studies',
-  description: 'In-depth explorations of projects, challenges, and lessons learned.',
+  description:
+    'In-depth explorations of projects, challenges, and lessons learned.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Case Studies | Terence Waters',
-    description: 'In-depth explorations of projects, challenges, and lessons learned.',
+    description:
+      'In-depth explorations of projects, challenges, and lessons learned.',
     url: 'https://terencewaters.com/case-studies',
     siteName: 'Terence Waters',
     type: 'website',
@@ -38,7 +40,7 @@ export default async function CaseStudiesPage() {
             Case Studies
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             Deep dives into specific projects — what I built, the challenges I
@@ -47,7 +49,10 @@ export default async function CaseStudiesPage() {
         </header>
 
         {caseStudies.length === 0 ? (
-          <Typography variant='p' className='text-gray-500 dark:text-gray-400'>
+          <Typography
+            variant='body'
+            className='text-gray-500 dark:text-gray-400'
+          >
             Case studies coming soon.
           </Typography>
         ) : (
@@ -55,16 +60,20 @@ export default async function CaseStudiesPage() {
             {caseStudies.map((cs) => (
               <article key={cs.slug} className='border-b pb-8'>
                 <div className='flex items-center gap-3 mb-2'>
-                  {cs.tags.length > 0 && cs.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className='text-xs uppercase tracking-wide font-semibold text-blue-600 dark:text-blue-400'
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {cs.tags.length > 0 &&
+                    cs.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className='text-xs uppercase tracking-wide font-semibold text-blue-600 dark:text-blue-400'
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   {cs.date && (
-                    <time dateTime={cs.date} className='text-sm text-gray-500 dark:text-gray-400'>
+                    <time
+                      dateTime={cs.date}
+                      className='text-sm text-gray-500 dark:text-gray-400'
+                    >
                       {cs.date}
                     </time>
                   )}
@@ -79,7 +88,7 @@ export default async function CaseStudiesPage() {
                 </Link>
                 {cs.excerpt && (
                   <Typography
-                    variant='p'
+                    variant='body'
                     className='mt-3 text-gray-600 dark:text-gray-400'
                   >
                     {cs.excerpt}
@@ -99,4 +108,3 @@ export default async function CaseStudiesPage() {
     </PageLayout>
   );
 }
-

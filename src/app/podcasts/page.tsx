@@ -76,7 +76,7 @@ export default function PodcastsPage() {
             Podcasts
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             Long-form conversations and short dispatches on technology,
@@ -109,7 +109,7 @@ export default function PodcastsPage() {
                   </div>
                 </div>
                 <Typography
-                  variant='p'
+                  variant='body'
                   className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3'
                 >
                   {show.description}
@@ -128,14 +128,14 @@ export default function PodcastsPage() {
             Stay Tuned
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-gray-600 dark:text-gray-400 mb-2'
           >
             Podcasts are launching soon. Subscribe to the newsletter or follow
             on social media to be notified when new episodes drop.
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-sm text-gray-500 dark:text-gray-500'
           >
             Episodes will be available on Spotify, Apple Podcasts, and all major

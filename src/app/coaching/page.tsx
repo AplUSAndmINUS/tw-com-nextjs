@@ -81,7 +81,7 @@ export default function CoachingPage() {
             Coaching & Offerings
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             I help creators, technologists, and leaders navigate transitions,
@@ -104,7 +104,7 @@ export default function CoachingPage() {
                 </div>
               </div>
               <Typography
-                variant='p'
+                variant='body'
                 className='text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4'
               >
                 {offering.description}
@@ -126,7 +126,7 @@ export default function CoachingPage() {
             Ready to Start?
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
           >
             Whether you&apos;re navigating a career change, launching a creative

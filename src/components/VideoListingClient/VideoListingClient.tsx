@@ -23,7 +23,9 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
 
   const allCategories = useMemo(() => {
     const set = new Set<string>();
-    videos.forEach((v) => { if (v.category) set.add(v.category); });
+    videos.forEach((v) => {
+      if (v.category) set.add(v.category);
+    });
     return Array.from(set).sort();
   }, [videos]);
 
@@ -49,7 +51,12 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
             />
           )}
           {allTags.length > 0 && (
-            <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+            <TagFilter
+              tags={allTags}
+              activeTag={activeTag}
+              onTagChange={setActiveTag}
+              label='Tags'
+            />
           )}
         </div>
         <ViewSwitcher current={viewType} onChange={setViewType} />
