@@ -6,10 +6,15 @@ import { useState, useEffect } from 'react';
  *
  * @param targetValue - The current value (e.g., pathname)
  * @param duration - Duration of fade in milliseconds (default: 300)
+ * @returns Object containing:
+ *   - style: CSS style object with opacity and transition
+ *   - displayedValue: The currently displayed value (lags behind targetValue during transition)
+ *   - fadeStage: Internal state machine stage ('in' | 'out' | 'pending-in')
+ *   - isTransitioning: Boolean indicating if a transition is in progress
  *
  * @example
  * const pathname = usePathname();
- * const { style, displayedValue } = useFadeInOut(pathname, 300);
+ * const { style, displayedValue, isTransitioning } = useFadeInOut(pathname, 300);
  *
  * return <div style={style}>{children}</div>
  */
@@ -36,12 +41,16 @@ export function useFadeInOut<T>(targetValue: T, duration: number = 300) {
   }, [fadeStage, targetValue, duration]);
 
   // After value updates, trigger fade in
+  // Use requestAnimationFrame for reliable reflow before transition
   useEffect(() => {
     if (fadeStage === 'pending-in') {
-      const timeout = setTimeout(() => {
-        setFadeStage('in');
-      }, 10);
-      return () => clearTimeout(timeout);
+      // Double rAF ensures the DOM has updated and browser has painted
+      const rafId = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setFadeStage('in');
+        });
+      });
+      return () => cancelAnimationFrame(rafId);
     }
   }, [fadeStage]);
 
@@ -50,5 +59,10 @@ export function useFadeInOut<T>(targetValue: T, duration: number = 300) {
     transition: `opacity ${duration}ms ease-in-out`,
   };
 
-  return { style, displayedValue, fadeStage };
+  return {
+    style,
+    displayedValue,
+    fadeStage,
+    isTransitioning: fadeStage !== 'in',
+  };
 }
