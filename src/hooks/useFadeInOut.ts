@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 
 /**
  * Hook for managing fade in/out transitions between content changes.
@@ -23,7 +23,8 @@ export function useFadeInOut<T>(targetValue: T, duration: number = 300) {
   const [fadeStage, setFadeStage] = useState<'in' | 'out' | 'pending-in'>('in');
 
   // When target changes, start fade out
-  useEffect(() => {
+  // Use useLayoutEffect to set opacity to 0 BEFORE browser paint, preventing flash
+  useLayoutEffect(() => {
     if (targetValue !== displayedValue) {
       setFadeStage('out');
     }
