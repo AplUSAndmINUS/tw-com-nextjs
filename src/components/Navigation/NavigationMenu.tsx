@@ -69,7 +69,7 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
       </div>
       {/* {item.description && (isActive || isHovered) && ( --- IGNORE ---
         <Typography
-          variant='p'
+          variant='body'
           style={{
             margin: '0 1rem 0.5rem',
             color: theme.colorNeutralForeground3,
@@ -170,7 +170,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         }}
       >
         <SocialLinks />
-        <Typography variant='p' style={{
+        <Typography variant='body' style={{
           marginBottom: '1rem',
           color: theme.colorNeutralForeground3,
           fontSize: '0.875rem',

@@ -77,7 +77,7 @@ export default function ServicesPage() {
             Services
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             I partner with teams, founders, and creators to build better
@@ -93,7 +93,7 @@ export default function ServicesPage() {
                 {service.title}
               </Typography>
               <Typography
-                variant='p'
+                variant='body'
                 className='text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4'
               >
                 {service.description}
@@ -113,7 +113,7 @@ export default function ServicesPage() {
             Work With Me
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
           >
             Whether you need a thought partner, a technical advisor, or a

@@ -34,6 +34,34 @@ import {
 // TYPE DEFINITIONS
 // ============================================================================
 
+export type TypographyVariant =
+  | 'tiny'
+  | 'xSmall'
+  | 'small'
+  | 'medium'
+  | 'mediumPlus'
+  | 'large'
+  | 'xLarge'
+  | 'xxLarge'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'body'
+  | 'bodySmall'
+  | 'label'
+  | 'quote'
+  | 'blockquote'
+  | 'code'
+  | 'pre'
+  | 'caption'
+  | 'cardTitle'
+  | 'cardSubtitle'
+  | 'cardBody'
+  | 'cardMeta';
+
 export interface IExtendedTheme extends Theme {
   spacing: IExtendedSpacing;
   animations: typeof animations;

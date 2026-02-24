@@ -46,7 +46,7 @@ export default function AboutPage() {
             About Me
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3'
           >
             Author, technologist, and creative thinker.
@@ -58,13 +58,20 @@ export default function AboutPage() {
             <Typography variant='h2' className='text-2xl font-semibold mb-4'>
               My Story
             </Typography>
-            <Typography variant='p' className='text-gray-700 dark:text-gray-300 leading-relaxed'>
-              I&apos;m Terence Waters — a writer, technologist, and lifelong learner
-              based at the intersection of human experience and technological
-              possibility. For over two decades I&apos;ve been building things,
-              breaking things, and writing about what I find along the way.
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300 leading-relaxed'
+            >
+              I&apos;m Terence Waters — a writer, technologist, and lifelong
+              learner based at the intersection of human experience and
+              technological possibility. For over two decades I&apos;ve been
+              building things, breaking things, and writing about what I find
+              along the way.
             </Typography>
-            <Typography variant='p' className='text-gray-700 dark:text-gray-300 leading-relaxed mt-4'>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300 leading-relaxed mt-4'
+            >
               My work spans software development, content creation, coaching,
               and consulting. I believe technology is most powerful when it
               serves people — and that the best ideas are communicated clearly,
@@ -78,14 +85,33 @@ export default function AboutPage() {
             </Typography>
             <ul className='space-y-3 list-none pl-0'>
               {[
-                { title: 'Write', body: 'Long-form articles and guides on technology, creativity, and personal growth.' },
-                { title: 'Create', body: 'Videos, podcasts, and multimedia content that explores ideas in depth.' },
-                { title: 'Coach', body: 'One-on-one sessions for creators, technologists, and leaders navigating change.' },
-                { title: 'Consult', body: 'Strategic and technical advisory for teams building products and platforms.' },
+                {
+                  title: 'Write',
+                  body: 'Long-form articles and guides on technology, creativity, and personal growth.',
+                },
+                {
+                  title: 'Create',
+                  body: 'Videos, podcasts, and multimedia content that explores ideas in depth.',
+                },
+                {
+                  title: 'Coach',
+                  body: 'One-on-one sessions for creators, technologists, and leaders navigating change.',
+                },
+                {
+                  title: 'Consult',
+                  body: 'Strategic and technical advisory for teams building products and platforms.',
+                },
               ].map(({ title, body }) => (
                 <li key={title} className='flex gap-3'>
-                  <span className='font-semibold text-blue-600 dark:text-blue-400 min-w-[80px]'>{title}</span>
-                  <Typography variant='p' className='text-gray-700 dark:text-gray-300'>{body}</Typography>
+                  <span className='font-semibold text-blue-600 dark:text-blue-400 min-w-[80px]'>
+                    {title}
+                  </span>
+                  <Typography
+                    variant='body'
+                    className='text-gray-700 dark:text-gray-300'
+                  >
+                    {body}
+                  </Typography>
                 </li>
               ))}
             </ul>
@@ -95,10 +121,13 @@ export default function AboutPage() {
             <Typography variant='h2' className='text-2xl font-semibold mb-4'>
               Background
             </Typography>
-            <Typography variant='p' className='text-gray-700 dark:text-gray-300 leading-relaxed'>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300 leading-relaxed'
+            >
               I&apos;ve worked across industries — from enterprise software and
-              cloud architecture to independent media and creative production.
-              I hold a passion for education, storytelling, and the ways
+              cloud architecture to independent media and creative production. I
+              hold a passion for education, storytelling, and the ways
               technology reshapes how we learn, connect, and grow.
             </Typography>
           </section>

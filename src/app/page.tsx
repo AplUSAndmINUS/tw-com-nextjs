@@ -176,7 +176,7 @@ export default function HomePage() {
           {animationStage >= 5 && (
             <motion.div {...fadeInUp} style={{ marginBottom: '0.25rem' }}>
               <Typography
-                variant='p'
+                variant='body'
                 style={{
                   color: theme.semanticColors.text.primary,
                   fontSize: isMobileLandscape
@@ -201,7 +201,7 @@ export default function HomePage() {
             !isTabletLandscape && (
               <motion.div {...fadeInUp}>
                 <Typography
-                  variant='p'
+                  variant='body'
                   style={{
                     color: theme.semanticColors.text.muted,
                     fontSize: '1rem',

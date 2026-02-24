@@ -6,8 +6,7 @@ import { getAllContent } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Archive',
-  description:
-    'Past articles, projects, and writing from across the years.',
+  description: 'Past articles, projects, and writing from across the years.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Archive | Terence Waters',
@@ -38,8 +37,16 @@ export default async function ArchivePage() {
 
   const allItems = [
     ...posts.map((p) => ({ ...p, type: 'Blog', href: `/blog/${p.slug}` })),
-    ...portfolioEntries.map((p) => ({ ...p, type: 'Portfolio', href: `/portfolio/${p.slug}` })),
-    ...caseStudies.map((c) => ({ ...c, type: 'Case Study', href: `/case-studies/${c.slug}` })),
+    ...portfolioEntries.map((p) => ({
+      ...p,
+      type: 'Portfolio',
+      href: `/portfolio/${p.slug}`,
+    })),
+    ...caseStudies.map((c) => ({
+      ...c,
+      type: 'Case Study',
+      href: `/case-studies/${c.slug}`,
+    })),
   ].sort((a, b) => {
     const dateA = a.date || '';
     const dateB = b.date || '';
@@ -51,8 +58,10 @@ export default async function ArchivePage() {
 
   const typeColor: Record<string, string> = {
     Blog: 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300',
-    Portfolio: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
-    'Case Study': 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300',
+    Portfolio:
+      'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
+    'Case Study':
+      'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300',
   };
 
   return (
@@ -63,7 +72,7 @@ export default async function ArchivePage() {
             Archive
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3'
           >
             A complete archive of articles, projects, and case studies — sorted
@@ -72,7 +81,10 @@ export default async function ArchivePage() {
         </header>
 
         {allItems.length === 0 ? (
-          <Typography variant='p' className='text-gray-500 dark:text-gray-400'>
+          <Typography
+            variant='body'
+            className='text-gray-500 dark:text-gray-400'
+          >
             No archived content yet. Check back soon.
           </Typography>
         ) : (
@@ -108,7 +120,7 @@ export default async function ArchivePage() {
                   </Link>
                   {item.excerpt && (
                     <Typography
-                      variant='p'
+                      variant='body'
                       className='mt-1 text-sm text-gray-600 dark:text-gray-400'
                     >
                       {item.excerpt}

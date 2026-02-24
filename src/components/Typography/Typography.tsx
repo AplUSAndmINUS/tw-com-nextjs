@@ -2,24 +2,27 @@
 
 import React, { JSX } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { TypographyVariant } from '@/theme/fluentTheme';
+
+type HtmlTag =
+  | 'p'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'pre'
+  | 'blockquote'
+  | 'code'
+  | 'label'
+  | 'span'
+  | 'div';
 
 interface TypographyProps {
   children: React.ReactNode;
-  variant:
-    | 'p'
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h6'
-    | 'pre'
-    | 'quote'
-    | 'code'
-    | 'blockquote'
-    | 'label'
-    | 'caption'
-    | 'span';
+  variant: TypographyVariant;
+  as?: HtmlTag;
   textAlign?: 'left' | 'center' | 'right';
   backgroundColor?: string;
   color?: string;
@@ -66,6 +69,7 @@ interface TypographyProps {
  */
 export const Typography: React.FC<TypographyProps> = ({
   variant,
+  as,
   children,
   textAlign,
   backgroundColor,
@@ -108,11 +112,21 @@ export const Typography: React.FC<TypographyProps> = ({
 }) => {
   const { theme } = useAppTheme();
 
-  // Get theme defaults for the variant, fallback to 'body' if not found
-  const themeDefaults =
-    theme.typography.fonts[variant as keyof typeof theme.typography.fonts] ||
-    theme.typography.fonts.body ||
-    {};
+  // Get theme defaults for the variant
+  const themeDefaults = theme.typography.fonts[variant] || {};
+
+  // Default HTML tag mapping if 'as' is not provided
+  const getDefaultTag = (variant: TypographyVariant): HtmlTag => {
+    if (variant.startsWith('h')) return variant as HtmlTag; // h1-h6
+    if (variant === 'pre' || variant === 'code') return variant as HtmlTag;
+    if (variant === 'blockquote') return 'blockquote';
+    if (variant === 'label') return 'label';
+    if (variant === 'caption') return 'span';
+    return 'p'; // Default to paragraph for body, small, medium, etc.
+  };
+
+  // Use provided 'as' prop or infer from variant
+  const tag = as || getDefaultTag(variant);
 
   // Build the style object, giving precedence to props, then theme defaults
   const typeMergedStyles: React.CSSProperties = {
@@ -159,26 +173,6 @@ export const Typography: React.FC<TypographyProps> = ({
       ? { hyphens: 'none', wordBreak: 'keep-all', overflowWrap: 'normal' }
       : {}),
   };
-
-  // List of allowed tags for safety
-  const allowedTags = [
-    'p',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'pre',
-    'blockquote',
-    'code',
-    'label',
-    'caption',
-    'span',
-  ];
-
-  // Fallback to 'p' if variant is not allowed
-  const tag = allowedTags.includes(variant) ? variant : 'p';
 
   return React.createElement(
     tag,

@@ -2,6 +2,7 @@
 'use client';
 
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { TypographyVariant } from '@/theme/fluentTheme';
 import Link from 'next/link';
 import { useState } from 'react';
 import type { LinkProps } from 'next/link';
@@ -11,7 +12,10 @@ interface ThemedLinkProps extends Omit<LinkProps, 'href'> {
   children: React.ReactNode;
   className?: string;
   isFooter?: boolean; // New prop to indicate if this is a footer link
-  variant?: 'body' | 'small' | 'caption'; // Simpler variant list
+  variant?: Extract<
+    TypographyVariant,
+    'body' | 'bodySmall' | 'small' | 'caption'
+  >; // Typography variants suitable for links
   style?: React.CSSProperties;
 }
 
@@ -27,7 +31,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   const { theme } = useAppTheme();
   const [isHovered, setIsHovered] = useState(false);
 
-  // Get typography defaults
+  // Get typography defaults - now type-safe!
   const typographyStyle = theme.typography.fonts[variant];
 
   // Handle grayscale - always underline
