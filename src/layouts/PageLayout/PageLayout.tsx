@@ -4,6 +4,9 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
+import BackgroundLandscape from '@/assets/images/HomePageCover4kLandscape.jpg';
+import BackgroundPortrait from '@/assets/images/HomePageCover4kPortrait.jpg';
+import { useIsDesktop, useIsPortrait } from '@/hooks/useMediaQuery';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -31,6 +34,18 @@ export function PageLayout({
   featureImage,
   isHomePage = false,
 }: PageLayoutProps) {
+  const isDesktop = useIsDesktop();
+  const isPortrait = useIsPortrait();
+
+  // Determine which background image to use
+  // Desktop (lg+): always landscape
+  // Mobile/Tablet (< lg): portrait if height > width, otherwise landscape
+  const backgroundImage = isDesktop
+    ? BackgroundLandscape
+    : isPortrait
+      ? BackgroundPortrait
+      : BackgroundLandscape;
+
   // Homepage: full-height contained layout (Fluxline.pro style)
   if (isHomePage) {
     return (
@@ -71,7 +86,15 @@ export function PageLayout({
             </div>
           ) : (
             /* No feature image - single column with footer */
-            <div className='flex-1 flex flex-col lg:overflow-y-auto'>
+            <div
+              className='flex-1 flex flex-col lg:overflow-y-auto'
+              style={{
+                backgroundImage: `url(${backgroundImage.src})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
               <div className='flex-1 max-w-6xl w-full px-4 sm:px-6 lg:px-8 md:py-8'>
                 {children}
               </div>

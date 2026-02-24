@@ -26,7 +26,7 @@ const footerLinks = {
     { href: '/archive', label: 'Archive' },
   ],
   social: [
-    { href: 'https://linktr.ee/aplusinflux', label: 'LinkTree' },
+    { href: 'https://linktr.ee/aplusinflux', label: 'Linktree' },
     { href: 'https://www.linkedin.com/in/terencewaters', label: 'LinkedIn' },
     { href: 'https://github.com/aplusandminus', label: 'GitHub' },
     { href: 'https://www.instagram.com/aplusinflux', label: 'Instagram' },
@@ -114,7 +114,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
       {/* Footer content */}
       <footer
         id='footer-content'
-        className={`border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto mb-0 ${
+        className={`border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0 ${
           isHomePage && !isFooterVisible ? 'hidden lg:block' : ''
         } ${
           isHomePage && isFooterVisible
@@ -147,7 +147,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
           className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-8'}`}
         >
           <div
-            className={`grid grid-cols-1 md:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-8'}`}
+            className={`grid grid-cols-1 md:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-2'}`}
           >
             {/* Brand */}
             <div>
@@ -202,8 +202,8 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
 
           {/* Bottom bar */}
           <div
-            className={`flex flex-col sm:flex-row items-center justify-between sm:pb-0 md:gap-2 ${
-              isCompact ? 'md:pt-3 md:mt-1' : 'md:pt-6 md:mt-2'
+            className={`flex flex-col sm:flex-row items-center justify-between pb-4 sm:pb-0 md:gap-2 ${
+              isCompact ? 'pt-0' : 'pt-1'
             }`}
           >
             <Typography

@@ -1,11 +1,11 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink';
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export default function HomePage() {
@@ -37,8 +37,15 @@ export default function HomePage() {
 
   return (
     <PageLayout isHomePage>
-      <section className='flex flex-col items-start justify-end md:justify-center h-full sm:px-4 md:px-6 lg:px-12'>
-        <div className='max-w-3xl w-full text-left lg:text-left space-y-3'>
+      <section className='flex flex-col items-start justify-end lg:justify-center h-full sm:px-4 md:px-6 lg:px-12'>
+        {/* Translucent card container around text */}
+        <div
+          className='max-w-3xl w-full text-left lg:text-left space-y-3 p-6 sm:p-8 md:p-10 rounded-2xl backdrop-blur-sm'
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+          }}
+        >
           {/* Greeting */}
           {animationStage >= 1 && (
             <motion.div {...fadeInUp}>
