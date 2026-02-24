@@ -6,7 +6,11 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
 import BackgroundLandscape from '@/assets/images/HomePageCover4kLandscape.jpg';
 import BackgroundPortrait from '@/assets/images/HomePageCover4kPortrait.jpg';
-import { useIsLandscape, useIsPortrait } from '@/hooks/useMediaQuery';
+import {
+  useIsLandscape,
+  useIsMobile,
+  useIsPortrait,
+} from '@/hooks/useMediaQuery';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -36,6 +40,7 @@ export function PageLayout({
 }: PageLayoutProps) {
   const isPortrait = useIsPortrait();
   const isLandscape = useIsLandscape();
+  const isMobile = useIsMobile();
 
   // Determine which background image to use
   // Desktop (lg+): always landscape
@@ -96,7 +101,10 @@ export function PageLayout({
               }}
               suppressHydrationWarning
             >
-              <div className='flex-1 max-w-6xl w-full px-4 sm:px-6 lg:px-8 md:py-8'>
+              <div
+                className='flex-1 w-full px-4 sm:px-6 lg:px-8 md:py-8'
+                style={{ maxWidth: '1920px', margin: '0 auto' }}
+              >
                 {children}
               </div>
               <Footer isHomePage />
@@ -110,10 +118,15 @@ export function PageLayout({
   // Standard pages: normal scrolling layout
   return (
     <SiteLayout>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8'>
+      {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
+      <div
+        className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-fluentui'
+      >
         {featureImage ? (
           /* 3/9 responsive grid */
-          <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start'>
+          <div
+            className={`grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 ${isMobile ? 'items-start' : 'items-center'}`}
+          >
             {/* Feature image — 3 cols on lg+, sticky on desktop */}
             <aside className='lg:col-span-3 lg:sticky lg:top-20'>
               <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
@@ -140,7 +153,7 @@ export function PageLayout({
           </div>
         ) : (
           /* No feature image — full-width content */
-          <div className='max-w-6xl w-full mx-auto'>{children}</div>
+          <div className='w-full max-width-fluentui' style={{ margin: '0 auto' }}>{children}</div>
         )}
       </div>
     </SiteLayout>

@@ -34,7 +34,7 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
   }, [videos, activeTag, activeCategory]);
 
   return (
-    <div className='max-w-6xl mx-auto px-4 py-12'>
+    <div className='mx-auto px-4 py-12 max-width-fluentui'>
       <div className='mb-8'>
         <h1 className='text-4xl font-bold mb-2'>Videos</h1>
         <p className='text-gray-600 dark:text-gray-400'>

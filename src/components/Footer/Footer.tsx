@@ -122,8 +122,10 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
         </div>
       )}
 
+      {/* had to set the max-width here instead of on the parent because the parent needs to stretch full width for the backdrop blur effect to cover the entire screen, but the content inside should be constrained to match the max width of the Navigation and main content. -TW */}
       <div
-        className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-8'}`}
+        className={`px-6 lg:pl-12 lg:pr-8 max-width-fluentui ${isCompact ? 'py-6' : 'py-8'}`}
+        style={{ margin: '0 auto' }}
       >
         <div
           className={`grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
@@ -221,13 +223,15 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
         </div>
       )}
 
-      {/* Desktop footer (always visible, no animation) */}
-      <footer
-        className={`hidden lg:block border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0`}
-        role='contentinfo'
-      >
-        {footerContent}
-      </footer>
+      {/* Desktop footer (homepage only, always visible, no animation) */}
+      {isHomePage && (
+        <footer
+          className={`hidden lg:block border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0`}
+          role='contentinfo'
+        >
+          {footerContent}
+        </footer>
+      )}
 
       {/* Mobile footer (animated slide in/out on homepage) */}
       <AnimatePresence>

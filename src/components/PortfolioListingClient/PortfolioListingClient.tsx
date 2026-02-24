@@ -36,7 +36,7 @@ export function PortfolioListingClient({ entries }: PortfolioListingClientProps)
   }, [entries, activeTag, activeCategory]);
 
   return (
-    <div className='max-w-6xl mx-auto px-4 py-12'>
+    <div className='mx-auto px-4 py-12 max-width-fluentui'>
       <h1 className='text-4xl font-bold mb-6'>Portfolio</h1>
 
       {/* Toolbar */}

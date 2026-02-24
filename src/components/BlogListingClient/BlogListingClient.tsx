@@ -23,7 +23,9 @@ export function BlogListingClient({ posts }: BlogListingClientProps) {
 
   const allCategories = useMemo(() => {
     const set = new Set<string>();
-    posts.forEach((p) => { if (p.category) set.add(p.category); });
+    posts.forEach((p) => {
+      if (p.category) set.add(p.category);
+    });
     return Array.from(set).sort();
   }, [posts]);
 
@@ -36,7 +38,7 @@ export function BlogListingClient({ posts }: BlogListingClientProps) {
   }, [posts, activeTag, activeCategory]);
 
   return (
-    <div className='max-w-6xl mx-auto px-4 py-12'>
+    <div className='mx-auto px-4 py-12 max-width-fluentui'>
       <h1 className='text-4xl font-bold mb-6'>Blog</h1>
 
       {/* Toolbar */}
@@ -56,7 +58,12 @@ export function BlogListingClient({ posts }: BlogListingClientProps) {
 
       {allTags.length > 0 && (
         <div className='mb-6'>
-          <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+          <TagFilter
+            tags={allTags}
+            activeTag={activeTag}
+            onTagChange={setActiveTag}
+            label='Tags'
+          />
         </div>
       )}
 
