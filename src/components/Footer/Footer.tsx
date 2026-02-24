@@ -28,12 +28,6 @@ const footerLinks = {
     { href: '/contact', label: 'Contact' },
     { href: '/archive', label: 'Archive' },
   ],
-  social: [
-    { href: 'https://linktr.ee/aplusinflux', label: 'Linktree' },
-    { href: 'https://www.linkedin.com/in/terencewaters', label: 'LinkedIn' },
-    { href: 'https://github.com/aplusandminus', label: 'GitHub' },
-    { href: 'https://www.instagram.com/aplusinflux', label: 'Instagram' },
-  ],
 };
 
 interface FooterLinkSectionProps {
@@ -66,16 +60,19 @@ function FooterLinkSection({
       >
         {title}
       </Typography>
-      {title === 'Social' && <SocialLinks isFooter />}
-      <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
-        {links.map(({ href, label }) => (
-          <li key={href}>
-            <ThemedLink href={href} variant='small' isFooter>
-              {label}
-            </ThemedLink>
-          </li>
-        ))}
-      </ul>
+      {title === 'Social' ? (
+        <SocialLinks isFooter />
+      ) : (
+        <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
+          {links.map(({ href, label }) => (
+            <li key={href}>
+              <ThemedLink href={href} variant='small' isFooter>
+                {label}
+              </ThemedLink>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -178,7 +175,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
           )}
           <FooterLinkSection
             title='Social'
-            links={footerLinks.social}
+            links={[]} // Empty array since SocialLinks component handles rendering
             isCompact={isCompact}
           />
         </div>
