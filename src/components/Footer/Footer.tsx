@@ -63,9 +63,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
       {/* Footer content */}
       <footer
         id='footer-content'
-        className={`border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto ${
-          isCompact ? 'mb-0' : 'mb-2'
-        } ${isHomePage ? 'lg:block' : ''} ${isHomePage && !isFooterVisible ? 'hidden lg:block' : ''}`}
+        className={`border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto mb-0' ${isHomePage ? 'lg:block' : ''} ${isHomePage && !isFooterVisible ? 'hidden lg:block' : ''}`}
         role='contentinfo'
       >
         <div
