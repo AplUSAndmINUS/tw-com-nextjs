@@ -75,6 +75,21 @@ After adding fonts, Adobe will give you a `<link>` tag that looks like:
 <link rel="stylesheet" href="https://use.typekit.net/YOUR-PROJECT-ID.css" />
 ```
 
+### Step 3.5: Configure Font Display (Important!)
+
+**Enable `font-display: swap` to prevent Flash of Invisible Text (FOIT):**
+
+1. In your Adobe Fonts project settings, click "Advanced Settings"
+2. Find "Font Display" option
+3. Select **"Swap"** instead of "Auto"
+4. Save changes
+
+**Why this matters:**
+
+- **Without swap**: Users see invisible text while fonts load (FOIT)
+- **With swap**: Users see fallback fonts immediately, then swap to Adobe Fonts when ready
+- **Better UX**: Content is readable immediately on slow connections
+
 ### Step 4: Add to Your Layout
 
 Add this to your `src/app/layout.tsx` in the `<head>`:
@@ -101,6 +116,61 @@ export default function RootLayout({
   );
 }
 ```
+
+### Step 5: Verify Configuration
+
+**Automated Font Verification:**
+
+The project includes a build-time verification script that ensures all required fonts are properly configured before deployment. This prevents font loading issues in production.
+
+**What it checks:**
+
+- ✅ All required font weights are present
+- ✅ Both normal and italic styles where needed
+- ✅ `font-display: swap` is configured
+- ✅ Adobe Fonts project is accessible
+
+**When it runs:**
+
+- Automatically before `yarn dev`
+- Automatically before `yarn build`
+- Manually with `yarn verify:fonts`
+
+**Expected output:**
+
+```bash
+🔍 Verifying Adobe Fonts configuration...
+
+📦 Project ID: dqf8seo
+🔗 URL: https://use.typekit.net/dqf8seo.css
+
+✓ Found 11 font face declarations
+
+✓ font-display: swap is configured
+
+✅ All required fonts are configured:
+
+   ✓ Montserrat 300
+   ✓ Montserrat 300 italic
+   ✓ Montserrat 500
+   ✓ Montserrat 500 italic
+   ✓ Montserrat 600
+   ✓ Montserrat 700
+   ✓ Montserrat 800
+   ✓ Merriweather 400
+   ✓ Merriweather 400 italic
+   ✓ Roboto Condensed 300
+   ✓ Roboto Mono 400
+
+🎉 Font verification complete!
+```
+
+**If verification fails:**
+
+1. Check that all fonts are added to your Adobe Fonts project
+2. Ensure the project ID in `src/app/globals.css` matches your project
+3. Verify `font-display: swap` is enabled in project settings
+4. See the error output for specific missing fonts
 
 ---
 
@@ -157,3 +227,64 @@ This typography system creates:
 ✅ **Professional Polish** — Wide letter-spacing on labels/metadata (inspired by premium print)
 
 Your website will now feel like an extension of your book brand! 🎉
+
+---
+
+## Fallback Font Strategy
+
+If Adobe Fonts fail to load (network issues, project misconfiguration, etc.), the site gracefully falls back to system fonts:
+
+### Fallback Chain:
+
+| Primary Font         | Fallback Fonts                                          |
+| -------------------- | ------------------------------------------------------- |
+| **Montserrat**       | -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif |
+| **Merriweather**     | Georgia, Times New Roman, serif                         |
+| **Roboto Condensed** | Arial Narrow, sans-serif                                |
+| **Roboto Mono**      | Courier New, monospace                                  |
+
+### Why These Fallbacks:
+
+- **Georgia** → Close serif alternative to Merriweather, widely available
+- **System Sans** → Modern, clean fallback for Montserrat
+- **Arial Narrow** → Condensed sans-serif similar to Roboto Condensed
+- **Courier New** → Universal monospace for code blocks
+
+### Testing Fallbacks:
+
+To test how the site looks with fallback fonts:
+
+1. Temporarily comment out the Adobe Fonts link in `globals.css`
+2. Clear browser cache
+3. Reload the site
+
+The design should remain readable and hierarchically clear, though less aligned with the book's aesthetic.
+
+---
+
+## Troubleshooting
+
+### Fonts not loading?
+
+1. **Check browser console** for 404 or CORS errors
+2. **Verify project ID** in `src/app/globals.css` (line 1)
+3. **Run verification**: `yarn verify:fonts`
+4. **Check Adobe Fonts project** is published (not draft)
+5. **Clear browser cache** and hard reload
+
+### Verification script fails?
+
+1. **Check internet connection** (script needs to fetch CSS)
+2. **Verify Adobe Fonts URL** is accessible
+3. **Update missing fonts** in your Adobe Fonts project
+4. **Re-publish project** after making changes
+
+### Font weights look wrong?
+
+1. **Verify correct weights** are added in Adobe Fonts project
+2. **Check CSS specificity** isn't overriding font-weight
+3. **Inspect element** to see computed font-family and font-weight
+
+---
+
+**Need help?** See the [Adobe Fonts documentation](https://helpx.adobe.com/fonts/using/add-fonts-website.html) or reach out to the team.
