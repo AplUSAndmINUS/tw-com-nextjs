@@ -295,8 +295,8 @@ export function Navigation() {
             }}
             suppressHydrationWarning
           >
-            {/* Theme toggle — only light/dark */}
-            {(themeMode === 'light' || themeMode === 'dark') && (
+            {/* Theme toggle — only light/dark, hidden on homepage */}
+            {!isHomePage && (themeMode === 'light' || themeMode === 'dark') && (
               <button
                 onClick={handleThemeClick}
                 style={buttonStyle}

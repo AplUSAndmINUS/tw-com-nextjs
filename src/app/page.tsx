@@ -7,11 +7,29 @@ import { ThemedLink } from '@/components/ThemedLink';
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import type { ThemeMode } from '@/theme/fluentTheme';
 
 export default function HomePage() {
-  const { theme } = useAppTheme();
+  const { theme, themeMode, setThemeMode } = useAppTheme();
   const [animationStage, setAnimationStage] = useState(0);
+  const [previousTheme, setPreviousTheme] = useState<ThemeMode | null>(null);
   const isMobile = useIsMobile();
+
+  // Force dark mode on homepage
+  useEffect(() => {
+    // Save current theme
+    if (themeMode !== 'dark') {
+      setPreviousTheme(themeMode);
+      setThemeMode('dark');
+    }
+
+    // Restore previous theme on unmount
+    return () => {
+      if (previousTheme && previousTheme !== 'dark') {
+        setThemeMode(previousTheme);
+      }
+    };
+  }, []); // Only run on mount/unmount
 
   useEffect(() => {
     const stages = [
@@ -133,7 +151,7 @@ export default function HomePage() {
           )}
 
           {/* Tagline - Line 2 */}
-          {animationStage >= 6 && (
+          {animationStage >= 6 && !isMobile && (
             <motion.div {...fadeInUp}>
               <Typography
                 variant='p'

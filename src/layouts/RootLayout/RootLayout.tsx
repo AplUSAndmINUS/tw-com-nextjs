@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { PageTransition } from '@/components/PageTransition';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -38,7 +39,9 @@ export function RootLayout({
           id='main-content'
           className='flex-1 pt-16 overflow-hidden flex flex-col'
         >
-          {children}
+          <PageTransition duration={300} className='flex-1 flex flex-col'>
+            {children}
+          </PageTransition>
         </main>
       </div>
     );
@@ -55,7 +58,7 @@ export function RootLayout({
       <Navigation />
       {/* pt-16 offsets the fixed header (~4rem/64px) */}
       <main id='main-content' className='flex-1 pt-16'>
-        {children}
+        <PageTransition duration={300}>{children}</PageTransition>
       </main>
       <Footer isCompact />
     </div>
