@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { VideoItem } from '@/content/types';
+import { VideoItem, ViewType } from '@/content/types';
 import { VideoCard } from '@/components/VideoCard';
 import { TagFilter } from '@/components/TagFilter';
+import { ViewSwitcher } from '@/components/ViewSwitcher';
 
 interface VideoListingClientProps {
   videos: VideoItem[];
 }
 
 export function VideoListingClient({ videos }: VideoListingClientProps) {
+  const [viewType, setViewType] = useState<ViewType>('grid');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
@@ -34,37 +36,45 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
   }, [videos, activeTag, activeCategory]);
 
   return (
-    <div className='max-w-6xl mx-auto px-4 py-12'>
-      <div className='mb-8'>
-        <h1 className='text-4xl font-bold mb-2'>Videos</h1>
-        <p className='text-gray-600 dark:text-gray-400'>
-          Watch videos from Terence Waters on technology, creativity, and personal development.
-        </p>
-      </div>
-
-      {/* Filters */}
-      <div className='flex flex-col gap-3 mb-8'>
-        {allCategories.length > 0 && (
-          <TagFilter
-            tags={allCategories}
-            activeTag={activeCategory}
-            onTagChange={setActiveCategory}
-            label='Category'
-          />
-        )}
-        {allTags.length > 0 && (
-          <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
-        )}
+    <div>
+      {/* Toolbar */}
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
+        <div className='flex flex-col gap-3 flex-1'>
+          {allCategories.length > 0 && (
+            <TagFilter
+              tags={allCategories}
+              activeTag={activeCategory}
+              onTagChange={setActiveCategory}
+              label='Category'
+            />
+          )}
+          {allTags.length > 0 && (
+            <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+          )}
+        </div>
+        <ViewSwitcher current={viewType} onChange={setViewType} />
       </div>
 
       {filtered.length === 0 ? (
         <p className='text-gray-500 dark:text-gray-400 py-12 text-center'>
           No videos match the selected filters.
         </p>
-      ) : (
+      ) : viewType === 'grid' ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
           {filtered.map((video) => (
-            <VideoCard key={video.id} video={video} />
+            <VideoCard key={video.id} video={video} viewType='grid' />
+          ))}
+        </div>
+      ) : viewType === 'large' ? (
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+          {filtered.map((video) => (
+            <VideoCard key={video.id} video={video} viewType='large' />
+          ))}
+        </div>
+      ) : (
+        <div>
+          {filtered.map((video) => (
+            <VideoCard key={video.id} video={video} viewType='small' />
           ))}
         </div>
       )}

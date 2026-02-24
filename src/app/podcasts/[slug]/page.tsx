@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageLayout } from '@/layouts/PageLayout';
 import { AudioPlayer } from '@/components/AudioPlayer';
+import { ContentDetailNav } from '@/components/ContentDetailNav';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -34,6 +35,11 @@ export default async function PodcastEpisodePage({ params }: Props) {
   return (
     <PageLayout>
       <div className='max-w-3xl mx-auto px-4 py-12'>
+        <ContentDetailNav
+          prevHref='/podcasts'
+          prevTitle='All Podcasts'
+          hubHref='/content-hub'
+        />
         <span className='text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wide'>
           Podcast Episode
         </span>

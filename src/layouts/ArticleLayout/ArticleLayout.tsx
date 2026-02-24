@@ -13,6 +13,8 @@ interface ArticleLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional navigation slot rendered above the article body (outside prose) */
+  nav?: ReactNode;
 }
 
 /**
@@ -28,6 +30,7 @@ export function ArticleLayout({
   date,
   author,
   featureImage,
+  nav,
 }: ArticleLayoutProps) {
   return (
     <SiteLayout>
@@ -57,6 +60,7 @@ export function ArticleLayout({
 
             {/* Article — 9 cols */}
             <article className='md:col-span-9'>
+              {nav && <div>{nav}</div>}
               <header className='mb-8 border-b pb-6'>
                 <h1 className='text-4xl font-bold'>{title}</h1>
                 <div className='flex items-center gap-4 mt-3 text-sm text-gray-500'>
@@ -73,6 +77,7 @@ export function ArticleLayout({
           </div>
         ) : (
           <article className='max-w-3xl mx-auto'>
+            {nav && <div>{nav}</div>}
             <header className='mb-8 border-b pb-6'>
               <h1 className='text-4xl font-bold'>{title}</h1>
               <div className='flex items-center gap-4 mt-3 text-sm text-gray-500'>

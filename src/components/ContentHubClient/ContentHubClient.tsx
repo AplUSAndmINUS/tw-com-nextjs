@@ -18,6 +18,8 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
   const [selectedType, setSelectedType] = useState<string>('all');
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   // Load view preference from localStorage on mount
   useEffect(() => {
@@ -76,6 +78,14 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
       result = result.filter((item) => item.tags?.includes(selectedTag));
     }
 
+    // Filter by date range
+    if (dateFrom) {
+      result = result.filter((item) => item.date >= dateFrom);
+    }
+    if (dateTo) {
+      result = result.filter((item) => item.date <= dateTo);
+    }
+
     // Sort
     result.sort((a, b) => {
       switch (sortBy) {
@@ -91,7 +101,9 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
     });
 
     return result;
-  }, [allContent, selectedType, selectedTag, sortBy]);
+  }, [allContent, selectedType, selectedTag, sortBy, dateFrom, dateTo]);
+
+  const hasDateFilter = dateFrom || dateTo;
 
   return (
     <div className='space-y-6'>
@@ -202,8 +214,8 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
-                aria-label='Large view'
-                title='Large view'
+                aria-label='Large tile view'
+                title='Large tile view'
               >
                 <svg
                   className='w-4 h-4'
@@ -220,8 +232,8 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
-                aria-label='List view'
-                title='List view'
+                aria-label='Small tile view'
+                title='Small tile view'
               >
                 <svg
                   className='w-4 h-4'
@@ -237,6 +249,51 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Date Range Filter */}
+        <div className='mt-3 pt-3 border-t border-gray-200 dark:border-gray-800 flex flex-wrap gap-3 items-center'>
+          <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+            Date range:
+          </span>
+          <div className='flex items-center gap-2'>
+            <label
+              htmlFor='date-from'
+              className='text-xs text-gray-500 dark:text-gray-400'
+            >
+              From
+            </label>
+            <input
+              id='date-from'
+              type='date'
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className='px-2 py-1 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+            />
+          </div>
+          <div className='flex items-center gap-2'>
+            <label
+              htmlFor='date-to'
+              className='text-xs text-gray-500 dark:text-gray-400'
+            >
+              To
+            </label>
+            <input
+              id='date-to'
+              type='date'
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className='px-2 py-1 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+            />
+          </div>
+          {hasDateFilter && (
+            <button
+              onClick={() => { setDateFrom(''); setDateTo(''); }}
+              className='text-xs text-blue-600 dark:text-blue-400 hover:underline'
+            >
+              Clear dates
+            </button>
+          )}
         </div>
 
         {/* Results count */}

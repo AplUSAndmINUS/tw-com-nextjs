@@ -12,6 +12,8 @@ interface PortfolioLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional navigation slot rendered above the content body (outside prose) */
+  nav?: ReactNode;
 }
 
 /**
@@ -26,6 +28,7 @@ export function PortfolioLayout({
   title,
   description,
   featureImage,
+  nav,
 }: PortfolioLayoutProps) {
   return (
     <SiteLayout>
@@ -55,6 +58,7 @@ export function PortfolioLayout({
 
             {/* Content — 9 cols */}
             <div className='md:col-span-9'>
+              {nav && <div>{nav}</div>}
               <header className='mb-10'>
                 <h1 className='text-4xl font-bold'>{title}</h1>
                 {description && (
@@ -70,6 +74,7 @@ export function PortfolioLayout({
           </div>
         ) : (
           <div className='max-w-5xl mx-auto'>
+            {nav && <div>{nav}</div>}
             <header className='mb-10'>
               <h1 className='text-4xl font-bold'>{title}</h1>
               {description && (

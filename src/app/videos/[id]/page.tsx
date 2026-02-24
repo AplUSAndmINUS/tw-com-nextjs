@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageLayout } from '@/layouts/PageLayout';
 import { VideoPlayer } from '@/components/VideoPlayer';
+import { ContentDetailNav } from '@/components/ContentDetailNav';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -35,6 +36,11 @@ export default async function VideoPlayerPage({ params }: Props) {
   return (
     <PageLayout>
       <div className='max-w-4xl mx-auto px-4 py-12'>
+        <ContentDetailNav
+          prevHref='/videos'
+          prevTitle='All Videos'
+          hubHref='/content-hub'
+        />
         <VideoPlayer youtubeId={id} title={`Video ${id}`} />
         <div className='mt-6'>
           <a
