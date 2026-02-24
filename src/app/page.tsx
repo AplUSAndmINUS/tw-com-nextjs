@@ -73,6 +73,7 @@ export default function HomePage() {
                   color: theme.semanticColors.text.muted,
                   fontWeight: theme.typography.fontWeights.light,
                   marginBottom: '0.25rem',
+                  fontSize: isMobile ? '1.25rem' : undefined,
                 }}
               >
                 hi there! :)
@@ -89,6 +90,7 @@ export default function HomePage() {
                   color: theme.semanticColors.text.muted,
                   fontWeight: theme.typography.fontWeights.regular,
                   marginBottom: '0.25rem',
+                  fontSize: isMobile ? '1.5rem' : undefined,
                 }}
               >
                 my name is
@@ -105,6 +107,7 @@ export default function HomePage() {
                   color: theme.semanticColors.text.heading,
                   fontWeight: theme.typography.fontWeights.bold,
                   marginBottom: '0.75rem',
+                  fontSize: isMobile ? '2rem' : undefined,
                 }}
               >
                 Terence Waters
@@ -140,7 +143,7 @@ export default function HomePage() {
                 variant='p'
                 style={{
                   color: theme.semanticColors.text.primary,
-                  fontSize: '1.15rem',
+                  fontSize: isMobile ? '0.95rem' : '1.15rem',
                   fontWeight: theme.typography.fontWeights.medium,
                   marginBottom: '0.5rem',
                 }}
@@ -175,7 +178,7 @@ export default function HomePage() {
             >
               <ThemedLink
                 href='/blog'
-                className='px-6 py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+                className={`py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${isMobile ? 'px-4' : 'px-6'}`}
                 style={{
                   backgroundColor: theme.semanticColors.link.default,
                   color: theme.semanticColors.background.base,
@@ -186,7 +189,7 @@ export default function HomePage() {
               </ThemedLink>
               <ThemedLink
                 href='/portfolio'
-                className='px-6 py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+                className={`py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${isMobile ? 'px-4' : 'px-6'}`}
                 style={{
                   border: `2px solid ${theme.semanticColors.border.emphasis}`,
                   color: theme.semanticColors.text.primary,
