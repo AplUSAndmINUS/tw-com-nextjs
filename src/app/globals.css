@@ -24,3 +24,18 @@ body {
 .max-width-content {
   max-width: 1920px;
 }
+
+/* Homepage background images - automatically switches based on viewport aspect ratio */
+.homepage-background {
+  background-image: url('/images/HomePageCover4kLandscape.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Switch to portrait background when viewport is taller than wide */
+@media (max-aspect-ratio: 1/1) {
+  .homepage-background {
+    background-image: url('/images/HomePageCover4kPortrait.jpg');
+  }
+}

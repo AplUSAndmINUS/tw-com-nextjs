@@ -4,13 +4,7 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
-import BackgroundLandscape from '@/assets/images/HomePageCover4kLandscape.jpg';
-import BackgroundPortrait from '@/assets/images/HomePageCover4kPortrait.jpg';
-import {
-  useIsLandscape,
-  useIsMobile,
-  useIsPortrait,
-} from '@/hooks/useMediaQuery';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -38,18 +32,7 @@ export function PageLayout({
   featureImage,
   isHomePage = false,
 }: PageLayoutProps) {
-  const isPortrait = useIsPortrait();
-  const isLandscape = useIsLandscape();
   const isMobile = useIsMobile();
-
-  // Determine which background image to use
-  // Desktop (lg+): always landscape except when monitor is flipped, which the isLandscape and isPortrait hooks will detect
-  // Mobile/Tablet (< lg): portrait if height > width, otherwise landscape
-  const backgroundImage = isLandscape
-    ? BackgroundLandscape
-    : isPortrait
-      ? BackgroundPortrait
-      : BackgroundLandscape;
 
   // Homepage: full-height contained layout (Fluxline.pro style)
   if (isHomePage) {
@@ -91,16 +74,8 @@ export function PageLayout({
             </div>
           ) : (
             /* No feature image - single column with footer */
-            <div
-              className='flex-1 flex flex-col lg:overflow-y-auto'
-              style={{
-                backgroundImage: `url(${backgroundImage.src})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-              suppressHydrationWarning
-            >
+            /* Background image automatically switches portrait/landscape via CSS media query */
+            <div className='flex-1 flex flex-col lg:overflow-y-auto homepage-background'>
               <div
                 className='flex-1 w-full px-4 sm:px-6 lg:px-8 md:py-8'
                 style={{ maxWidth: '1920px', margin: '0 auto' }}
