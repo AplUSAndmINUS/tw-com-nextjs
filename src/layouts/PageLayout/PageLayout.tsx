@@ -94,6 +94,7 @@ export function PageLayout({
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
               }}
+              suppressHydrationWarning
             >
               <div className='flex-1 max-w-6xl w-full px-4 sm:px-6 lg:px-8 md:py-8'>
                 {children}

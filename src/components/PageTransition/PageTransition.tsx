@@ -28,7 +28,7 @@ export function PageTransition({
   const { style } = useFadeInOut(pathname, duration);
 
   return (
-    <div style={style} className={className}>
+    <div style={style} className={className} suppressHydrationWarning>
       {children}
     </div>
   );
