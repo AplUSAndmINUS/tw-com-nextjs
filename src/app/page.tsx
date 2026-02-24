@@ -6,10 +6,12 @@ import { ThemedLink } from '@/components/ThemedLink';
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export default function HomePage() {
   const { theme } = useAppTheme();
   const [animationStage, setAnimationStage] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const stages = [
@@ -144,7 +146,7 @@ export default function HomePage() {
           {animationStage >= 7 && (
             <motion.div
               {...fadeInUp}
-              className='flex gap-4 flex-wrap justify-start'
+              className={`flex gap-4 flex-wrap ${isMobile ? 'justify-center' : 'justify-start'}`}
             >
               <ThemedLink
                 href='/blog'

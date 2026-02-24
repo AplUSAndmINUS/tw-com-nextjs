@@ -26,10 +26,10 @@ const footerLinks = {
     { href: '/archive', label: 'Archive' },
   ],
   social: [
-    { href: 'https://twitter.com/terencewaters', label: 'Twitter' },
+    { href: 'https://linktr.ee/aplusinflux', label: 'LinkTree' },
     { href: 'https://www.linkedin.com/in/terencewaters', label: 'LinkedIn' },
-    { href: 'https://github.com/terencewaters', label: 'GitHub' },
-    { href: 'https://www.instagram.com/terencewaters', label: 'Instagram' },
+    { href: 'https://github.com/aplusandminus', label: 'GitHub' },
+    { href: 'https://www.instagram.com/aplusinflux', label: 'Instagram' },
   ],
 };
 
@@ -144,7 +144,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
         )}
 
         <div
-          className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-10'}`}
+          className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-8'}`}
         >
           <div
             className={`grid grid-cols-1 md:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-8'}`}
