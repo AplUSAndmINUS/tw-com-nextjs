@@ -9,10 +9,12 @@ import { getSocialIcons } from '../SocialIcons/constants';
 
 interface SocialLinksProps {
   isAuthorTagline?: boolean;
+  isFooter?: boolean;
 }
 
 export const SocialLinks: React.FC<SocialLinksProps> = ({
   isAuthorTagline = false,
+  isFooter = false,
 }) => {
   const { theme, isDark } = useAppTheme();
   const { isHovered: isSocialHovered, getHoverProps: getSocialHoverProps } =
@@ -24,14 +26,17 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       flexDirection: 'row' as const,
       alignItems: 'center',
       justifyContent: isAuthorTagline ? 'flex-start' : 'space-between',
-      gap: '1rem',
-      padding: isAuthorTagline
-        ? 'clamp(0.5rem, 1vh, 0.75rem)'
-        : 'clamp(1rem, 2vh, 1.5rem)',
-      backgroundColor:
-        theme.gradients[isDark ? 'dark' : 'light'].menu,
-      borderTop: isAuthorTagline ? `1px solid ${theme.colorBrandForeground2}` : 'none',
-      width: '100%',
+      gap: isFooter ? '0.25rem' : '1rem',
+      padding: isFooter
+        ? '0'
+        : isAuthorTagline
+          ? 'clamp(0.5rem, 1vh, 0.75rem)'
+          : 'clamp(1rem, 2vh, 1.5rem)',
+      backgroundColor: theme.gradients[isDark ? 'dark' : 'light'].menu,
+      borderTop: isAuthorTagline
+        ? `1px solid ${theme.colorBrandForeground2}`
+        : 'none',
+      width: isFooter ? '75%' : '100%',
       flexShrink: 0,
     },
   };
@@ -39,7 +44,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
   return (
     <div style={styles.footer}>
       {getSocialIcons().map((item) => {
-        if (!item.isTagline && isAuthorTagline) return null;
+        if (!item.isTagline && (isAuthorTagline)) return null;
         return (
           <div style={{ position: 'relative' }} key={item.url}>
             <a

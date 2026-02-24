@@ -1,15 +1,19 @@
-import { PageLayout } from '@/layouts/PageLayout';
 import { Metadata } from 'next';
-import Link from 'next/link';
-import { Typography } from '@/components/Typography';
+import HomePageClient from './HomePageClient';
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Terence Waters',
-    template: '%s | Terence Waters',
-  },
-  description: 'Author, technologist, and creative thinker.',
+  title: 'Terence Waters - Author, Technologist, Creative Thinker',
+  description:
+    'Welcome to the personal website of Terence Waters, an author, technologist, and creative thinker. Explore his blog, portfolio, and case studies.',
   metadataBase: new URL('https://terencewaters.com'),
+  openGraph: {
+    title: 'Terence Waters - Author, Technologist, Creative Thinker',
+    description:
+      'Welcome to the personal website of Terence Waters, an author, technologist, and creative thinker. Explore his blog, portfolio, and case studies.',
+    url: 'https://terencewaters.com',
+    siteName: 'Terence Waters',
+    type: 'website',
+  },
   robots: {
     index: false,
     follow: false,
@@ -24,32 +28,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <PageLayout>
-      <section className='flex flex-col items-center justify-center min-h-[60vh] text-center px-4'>
-        <Typography variant='h1'>Terence Waters</Typography>
-        <Typography
-          variant='p'
-          className='text-gray-600 dark:text-gray-400 mb-8 max-w-2xl'
-        >
-          Author, technologist, and creative thinker. Writing about technology,
-          creativity, and the human experience.
-        </Typography>
-        <div className='flex gap-4 flex-wrap justify-center'>
-          <Link
-            href='/blog'
-            className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
-          >
-            Read the Blog
-          </Link>
-          <Link
-            href='/portfolio'
-            className='px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
-          >
-            View Portfolio
-          </Link>
-        </div>
-      </section>
-    </PageLayout>
-  );
+  return <HomePageClient />;
 }

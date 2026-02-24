@@ -1,9 +1,12 @@
-@import url('https://use.typekit.net/tro2yxw.css');
+@import url('https://use.typekit.net/dqf8seo.css');
 @import 'tailwindcss';
+
+/* Configure Tailwind to use class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
 }
 
 @theme inline {
@@ -15,4 +18,24 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+/* this overrides the default max-width of 1280px that Fluent UI applies to its content containers, allowing it to stretch wider on large screens while still being constrained to a reasonable width. -TW */
+.max-width-content {
+  max-width: 1920px;
+}
+
+/* Homepage background images - automatically switches based on viewport aspect ratio */
+.homepage-background {
+  background-image: url('/images/HomePageCover4kLandscape.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Switch to portrait background when viewport is taller than wide */
+@media (max-aspect-ratio: 1/1) {
+  .homepage-background {
+    background-image: url('/images/HomePageCover4kPortrait.jpg');
+  }
 }

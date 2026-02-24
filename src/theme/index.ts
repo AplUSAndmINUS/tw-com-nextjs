@@ -1,3 +1,23 @@
+/**
+ * TW.com Theme System
+ * ===================
+ *
+ * IMPORTANT: To access theme values in components, always use the useAppTheme() hook.
+ * Extended theme properties (spacing, animations, typography, themeMode, etc.) are
+ * NOT available through FluentUI's useTheme() hook.
+ *
+ * @example Correct usage
+ * ```tsx
+ * import { useAppTheme } from '@/theme';
+ *
+ * function MyComponent() {
+ *   const { theme, themeMode } = useAppTheme();
+ *   // ✅ Has access to ALL theme properties including extended ones
+ *   return <div style={{ padding: theme.spacing.md }} />;
+ * }
+ * ```
+ */
+
 // Theme objects
 export {
   twTheme,
@@ -42,3 +62,4 @@ export { useHeaderHeight } from './hooks/useHeaderHeight';
 
 // Providers
 export { FluentThemeProvider } from './providers/FluentThemeProvider';
+export { ExtendedThemeProvider } from './providers/ExtendedThemeProvider';

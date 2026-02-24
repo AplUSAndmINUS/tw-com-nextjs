@@ -1,7 +1,7 @@
 'use client';
 
-import { FluentThemeProvider } from '@/theme/providers/FluentThemeProvider';
+import { ExtendedThemeProvider } from '@/theme/providers/ExtendedThemeProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <FluentThemeProvider>{children}</FluentThemeProvider>;
+  return <ExtendedThemeProvider>{children}</ExtendedThemeProvider>;
 }

@@ -83,7 +83,7 @@ export default function VideosPage() {
             Videos
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             Exploring technology, creativity, and what it means to build
@@ -109,7 +109,7 @@ export default function VideosPage() {
                   {s.title}
                 </Typography>
                 <Typography
-                  variant='p'
+                  variant='body'
                   className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3'
                 >
                   {s.description}
@@ -128,7 +128,7 @@ export default function VideosPage() {
             Subscribe
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-gray-600 dark:text-gray-400 mb-2'
           >
             New videos are published regularly. Subscribe on YouTube to get
