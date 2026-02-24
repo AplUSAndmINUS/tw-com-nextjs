@@ -43,7 +43,7 @@ export function PageLayout({
   const isMobile = useIsMobile();
 
   // Determine which background image to use
-  // Desktop (lg+): always landscape
+  // Desktop (lg+): always landscape except when monitor is flipped, which the isLandscape and isPortrait hooks will detect
   // Mobile/Tablet (< lg): portrait if height > width, otherwise landscape
   const backgroundImage = isLandscape
     ? BackgroundLandscape
