@@ -78,7 +78,7 @@ function FooterLinkSection({
 }
 
 interface FooterProps {
-  /** If true, renders a more compact footer suitable for contained viewports */
+  /** If true, renders a more compact footer with reduced padding and smaller text (used for standard pages) */
   isCompact?: boolean;
   /** If true, enables collapsible footer on mobile (homepage only) */
   isHomePage?: boolean;

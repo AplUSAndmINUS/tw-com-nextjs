@@ -21,7 +21,7 @@ interface PageLayoutProps {
     title?: string;
   };
 
-  /// If true, applies special layout/styling for the homepage (full-height contained view)
+  // If true, applies special layout/styling for the homepage (full-height contained view)
   isHomePage?: boolean;
 }
 
