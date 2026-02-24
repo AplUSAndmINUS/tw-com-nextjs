@@ -6,7 +6,7 @@ import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink';
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import type { ThemeMode } from '@/theme/fluentTheme';
 
 export default function HomePage() {
@@ -14,6 +14,7 @@ export default function HomePage() {
   const [animationStage, setAnimationStage] = useState(0);
   const [previousTheme, setPreviousTheme] = useState<ThemeMode | null>(null);
   const isMobile = useIsMobile();
+  const isMobileLandscape = useIsMobileLandscape();
 
   // Force dark mode on homepage
   useEffect(() => {
@@ -58,7 +59,11 @@ export default function HomePage() {
       <section className='flex flex-col items-start justify-end lg:justify-center h-full sm:px-4 md:px-6 lg:px-12'>
         {/* Translucent card container around text */}
         <div
-          className='max-w-3xl w-full text-left lg:text-left space-y-3 p-6 sm:p-8 md:p-10 rounded-2xl backdrop-blur-sm'
+          className={`text-left lg:text-left rounded-2xl backdrop-blur-sm ${
+            isMobileLandscape
+              ? 'w-1/2 space-y-2 p-3'
+              : 'w-full max-w-3xl space-y-3 p-6 md:p-10'
+          }`}
           style={{
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
@@ -73,7 +78,8 @@ export default function HomePage() {
                   color: theme.semanticColors.text.muted,
                   fontWeight: theme.typography.fontWeights.light,
                   marginBottom: '0.25rem',
-                  fontSize: isMobile ? '1.25rem' : undefined,
+                  fontSize:
+                    isMobileLandscape || isMobile ? '1.25rem' : undefined,
                 }}
               >
                 hi there! :)
@@ -89,8 +95,9 @@ export default function HomePage() {
                 style={{
                   color: theme.semanticColors.text.muted,
                   fontWeight: theme.typography.fontWeights.regular,
-                  marginBottom: '0.25rem',
-                  fontSize: isMobile ? '1.5rem' : undefined,
+                  marginBottom: isMobileLandscape ? '0.25rem' : '0.25rem',
+                  fontSize:
+                    isMobileLandscape || isMobile ? '1.15rem' : undefined,
                 }}
               >
                 my name is
@@ -106,8 +113,12 @@ export default function HomePage() {
                 style={{
                   color: theme.semanticColors.text.heading,
                   fontWeight: theme.typography.fontWeights.bold,
-                  marginBottom: '0.75rem',
-                  fontSize: isMobile ? '2rem' : undefined,
+                  marginBottom: isMobileLandscape ? '0.3rem' : '0.75rem',
+                  fontSize: isMobileLandscape
+                    ? '1.5rem'
+                    : isMobile
+                      ? '2rem'
+                      : undefined,
                 }}
               >
                 Terence Waters
@@ -128,8 +139,8 @@ export default function HomePage() {
                   border: 'none',
                   height: '2px',
                   background: theme.semanticColors.border.emphasis,
-                  margin: '1rem 0',
-                  maxWidth: '300px',
+                  margin: isMobileLandscape ? '0.3rem 0' : '1rem 0',
+                  maxWidth: isMobileLandscape ? '200px' : '300px',
                   width: '70%',
                 }}
               />
@@ -143,9 +154,13 @@ export default function HomePage() {
                 variant='p'
                 style={{
                   color: theme.semanticColors.text.primary,
-                  fontSize: isMobile ? '0.95rem' : '1.15rem',
+                  fontSize: isMobileLandscape
+                    ? '0.8rem'
+                    : isMobile
+                      ? '0.95rem'
+                      : '1.15rem',
                   fontWeight: theme.typography.fontWeights.medium,
-                  marginBottom: '0.5rem',
+                  marginBottom: isMobileLandscape ? '0.3rem' : '0.5rem',
                 }}
               >
                 Author, technologist, and creative thinker.
@@ -154,7 +169,7 @@ export default function HomePage() {
           )}
 
           {/* Tagline - Line 2 */}
-          {animationStage >= 6 && !isMobile && (
+          {animationStage >= 6 && !isMobile && !isMobileLandscape && (
             <motion.div {...fadeInUp}>
               <Typography
                 variant='p'
@@ -174,11 +189,17 @@ export default function HomePage() {
           {animationStage >= 7 && (
             <motion.div
               {...fadeInUp}
-              className={`flex gap-4 flex-wrap ${isMobile ? 'justify-center' : 'justify-start'}`}
+              className={`flex ${isMobileLandscape ? 'gap-2' : 'gap-4'} flex-wrap ${isMobile ? 'justify-center' : 'justify-start'}`}
             >
               <ThemedLink
                 href='/blog'
-                className={`py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${isMobile ? 'px-4' : 'px-6'}`}
+                className={`rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${
+                  isMobileLandscape
+                    ? 'px-3 py-1.5'
+                    : isMobile
+                      ? 'px-4 py-2.5'
+                      : 'px-6 py-2.5'
+                }`}
                 style={{
                   backgroundColor: theme.semanticColors.link.default,
                   color: theme.semanticColors.background.base,
@@ -189,7 +210,13 @@ export default function HomePage() {
               </ThemedLink>
               <ThemedLink
                 href='/portfolio'
-                className={`py-2.5 rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${isMobile ? 'px-4' : 'px-6'}`}
+                className={`rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${
+                  isMobileLandscape
+                    ? 'px-3 py-1'
+                    : isMobile
+                      ? 'px-4 py-2.5'
+                      : 'px-6 py-2.5'
+                }`}
                 style={{
                   border: `2px solid ${theme.semanticColors.border.emphasis}`,
                   color: theme.semanticColors.text.primary,

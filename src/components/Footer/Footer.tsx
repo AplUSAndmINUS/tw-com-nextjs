@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 import { useSlideInOut } from '@/hooks';
+import { useIsMobileLandscape } from '@/hooks/useMediaQuery';
 
 const footerLinks = {
   content: [
@@ -95,12 +96,13 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
     duration: 0.3,
     distance: 100,
   });
+  const isMobileLandscape = useIsMobileLandscape();
 
   // Footer content (reused for both animated and static versions)
   const footerContent = (
     <>
       {/* Mobile-only hide button inside footer overlay */}
-      {isHomePage && isFooterVisible && (
+      {isHomePage && isFooterVisible && !isMobileLandscape && (
         <div className='lg:hidden flex justify-center py-4 border-b border-gray-300 dark:border-gray-600'>
           <button
             onClick={() => setIsFooterVisible(false)}
@@ -197,7 +199,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
   return (
     <>
       {/* Mobile-only toggle button for homepage (when footer is hidden) */}
-      {isHomePage && !isFooterVisible && (
+      {isHomePage && !isFooterVisible && !isMobileLandscape && (
         <div className='lg:hidden flex justify-center py-6'>
           <button
             onClick={() => setIsFooterVisible(!isFooterVisible)}
