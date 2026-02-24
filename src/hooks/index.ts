@@ -14,6 +14,7 @@ export {
   useIsPortrait,
   useIsMobileLandscape,
   useIsTabletPortrait,
+  useIsTabletLandscape,
   useDeviceOrientation,
 } from './useMediaQuery';
 export { useHoverState, useMultiHoverState } from './useHoverState';

@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 import { useSlideInOut } from '@/hooks';
-import { useIsMobileLandscape } from '@/hooks/useMediaQuery';
+import { useIsMobileLandscape, useIsTablet } from '@/hooks/useMediaQuery';
 
 const footerLinks = {
   content: [
@@ -97,6 +97,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
     distance: 100,
   });
   const isMobileLandscape = useIsMobileLandscape();
+  const isTablet = useIsTablet();
 
   // Footer content (reused for both animated and static versions)
   const footerContent = (
@@ -125,7 +126,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
         className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-8'}`}
       >
         <div
-          className={`grid grid-cols-1 md:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-2'}`}
+          className={`grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
         >
           {/* Brand */}
           <div>
@@ -165,12 +166,14 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
             links={footerLinks.work}
             isCompact={isCompact}
           />
-          <FooterLinkSection
-            title='Connect'
-            links={footerLinks.connect}
-            isCompact={isCompact}
-            className='hidden md:flex'
-          />
+          {!isTablet && (
+            <FooterLinkSection
+              title='Connect'
+              links={footerLinks.connect}
+              isCompact={isCompact}
+              className='hidden md:flex'
+            />
+          )}
           <FooterLinkSection
             title='Social'
             links={footerLinks.social}

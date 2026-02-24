@@ -6,7 +6,7 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
 import BackgroundLandscape from '@/assets/images/HomePageCover4kLandscape.jpg';
 import BackgroundPortrait from '@/assets/images/HomePageCover4kPortrait.jpg';
-import { useIsDesktop, useIsPortrait } from '@/hooks/useMediaQuery';
+import { useIsLandscape, useIsPortrait } from '@/hooks/useMediaQuery';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -34,13 +34,13 @@ export function PageLayout({
   featureImage,
   isHomePage = false,
 }: PageLayoutProps) {
-  const isDesktop = useIsDesktop();
   const isPortrait = useIsPortrait();
+  const isLandscape = useIsLandscape();
 
   // Determine which background image to use
   // Desktop (lg+): always landscape
   // Mobile/Tablet (< lg): portrait if height > width, otherwise landscape
-  const backgroundImage = isDesktop
+  const backgroundImage = isLandscape
     ? BackgroundLandscape
     : isPortrait
       ? BackgroundPortrait
