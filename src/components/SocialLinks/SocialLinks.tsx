@@ -44,7 +44,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
   return (
     <div style={styles.footer}>
       {getSocialIcons().map((item) => {
-        if (!item.isTagline && (isAuthorTagline || isFooter)) return null;
+        if (!item.isTagline && (isAuthorTagline)) return null;
         return (
           <div style={{ position: 'relative' }} key={item.url}>
             <a
