@@ -70,7 +70,7 @@ export default function ContactPage() {
             Contact
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             I&apos;d love to hear from you. Whether you have a question, an
@@ -86,7 +86,7 @@ export default function ContactPage() {
                 {option.title}
               </Typography>
               <Typography
-                variant='p'
+                variant='body'
                 className='text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4'
               >
                 {option.description}
@@ -106,7 +106,7 @@ export default function ContactPage() {
             Follow Along
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-gray-600 dark:text-gray-400 mb-2'
           >
             The best way to stay connected is through my newsletter and social
@@ -114,7 +114,7 @@ export default function ContactPage() {
             what I&apos;m working on.
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-gray-600 dark:text-gray-400 text-sm'
           >
             Find me on LinkedIn, YouTube, and other platforms via the social

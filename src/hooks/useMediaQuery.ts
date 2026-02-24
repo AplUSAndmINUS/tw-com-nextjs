@@ -145,12 +145,24 @@ export const useIsTabletPortrait = () => {
   return isTablet && isPortrait;
 };
 
+export const useIsTabletLandscape = () => {
+  const { windowWidth, windowHeight } = useWindowSize();
+  // Extends to 1280px to catch iPad Air (1180px) and iPad Pro 11" (1194px)
+  const TABLET_LANDSCAPE_MAX = 1280;
+  return (
+    windowWidth >= breakpoints.sm &&
+    windowWidth <= TABLET_LANDSCAPE_MAX &&
+    windowWidth > windowHeight
+  );
+};
+
 type DeviceOrientation =
   | 'landscape'
   | 'portrait'
   | 'square'
   | 'mobile-landscape'
   | 'tablet-portrait'
+  | 'tablet-landscape'
   | 'ultrawide'
   | 'large-portrait';
 
@@ -165,11 +177,18 @@ export const useDeviceOrientation = (): DeviceOrientation => {
       const SQUARE_THRESHOLD = 1.15;
 
       if (aspectRatio >= LANDSCAPE_THRESHOLD) {
+        // Tablet landscape threshold extended to 1280px for iPad Air (1180px)
+        const TABLET_LANDSCAPE_MAX = 1280;
         if (
-          window.innerWidth <= breakpoints.lg &&
+          window.innerWidth <= TABLET_LANDSCAPE_MAX &&
           window.innerHeight < window.innerWidth
         ) {
-          setOrientation('mobile-landscape');
+          // Check if it's specifically a tablet in landscape
+          if (window.innerWidth >= breakpoints.sm) {
+            setOrientation('tablet-landscape');
+          } else {
+            setOrientation('mobile-landscape');
+          }
         } else if (window.innerWidth >= breakpoints.xxl && aspectRatio >= 2.0) {
           setOrientation('ultrawide');
         } else {

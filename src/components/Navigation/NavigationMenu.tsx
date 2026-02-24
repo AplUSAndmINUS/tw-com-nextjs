@@ -15,6 +15,7 @@ import { navItems } from './navigation.config';
 import { Typography } from '@/components/Typography';
 import type { NavItem, NavigationMenuProps } from './navigation.types';
 import { SocialLinks } from '../SocialLinks/SocialLinks';
+import { useIsMobileLandscape } from '@/hooks/useMediaQuery';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -50,14 +51,13 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           cursor: 'pointer',
         }}
       >
-        <Typography variant='blockquote' style={{
+        <Typography variant='h4' style={{
           color:
             isActive || isHovered
               ? theme.colorBrandForeground1
               : theme.colorNeutralForeground1,
             fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             fontWeight: isActive ? 600 : 400,
-            fontFamily: theme.fontFamilyBase,
             textAlign: 'right',
             textTransform: 'capitalize',
             transition: 'color 0.2s ease',
@@ -69,7 +69,7 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
       </div>
       {/* {item.description && (isActive || isHovered) && ( --- IGNORE ---
         <Typography
-          variant='p'
+          variant='body'
           style={{
             margin: '0 1rem 0.5rem',
             color: theme.colorNeutralForeground3,
@@ -88,7 +88,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
   const { theme } = useAppTheme();
   const { shouldReduceMotion } = useReducedMotion();
   const pathname = usePathname();
-
+  const isMobileLandscape = useIsMobileLandscape();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -103,7 +103,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
       {/* Menu Header */}
       <div
         style={{
-          padding: '1.5rem 2rem',
+          padding: isMobileLandscape ? '1rem 1.5rem' : '1.5rem 2rem',
           borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
         }}
       >
@@ -122,7 +122,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         style={{
           flex: '1 1 auto',
           overflowY: 'auto',
-          padding: '1.5rem 1rem',
+          padding: isMobileLandscape ? '1rem' : '1.5rem 2rem',
         }}
       >
         <ul
@@ -164,13 +164,13 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
       {/* Footer */}
       <div
         style={{
-          padding: '0.5rem',
+          padding: isMobileLandscape ? '0.25rem' : '0.5rem',
           borderTop: `1px solid ${theme.colorNeutralStroke2}`,
           textAlign: 'center',
         }}
       >
         <SocialLinks />
-        <Typography variant='p' style={{
+        <Typography variant='body' style={{
           marginBottom: '1rem',
           color: theme.colorNeutralForeground3,
           fontSize: '0.875rem',

@@ -184,7 +184,7 @@ export function Navigation() {
                   color: theme.colorNeutralForeground1,
                   fontSize: '1.25rem',
                   fontWeight: 600,
-                  fontFamily: theme.fontFamilyBase,
+                  fontFamily: theme.typography.fontFamilies.h3,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
@@ -203,7 +203,7 @@ export function Navigation() {
                       color: theme.colorBrandForeground1,
                       fontSize: '1.25rem',
                       fontWeight: 600,
-                      fontFamily: theme.fontFamilyBase,
+                      fontFamily: theme.typography.fontFamilies.h3,
                       textDecoration: 'none',
                     }}
                   >
@@ -253,7 +253,7 @@ export function Navigation() {
                                 color: theme.colorNeutralForeground1,
                                 fontSize: '1.125rem',
                                 fontWeight: 600,
-                                fontFamily: theme.fontFamilyBase,
+                                fontFamily: theme.typography.fontFamilies.h3,
                               }}
                               aria-current='page'
                             >
@@ -268,7 +268,7 @@ export function Navigation() {
                                   : theme.colorNeutralForeground2,
                                 fontSize: isFirst ? '1.25rem' : '1.125rem',
                                 fontWeight: isFirst ? 600 : 400,
-                                fontFamily: theme.fontFamilyBase,
+                                fontFamily: theme.typography.fontFamilies.h3,
                                 textDecoration: 'none',
                                 transition: 'color 0.2s ease',
                               }}
@@ -295,8 +295,8 @@ export function Navigation() {
             }}
             suppressHydrationWarning
           >
-            {/* Theme toggle — only light/dark */}
-            {(themeMode === 'light' || themeMode === 'dark') && (
+            {/* Theme toggle — only light/dark, hidden on homepage */}
+            {!isHomePage && (themeMode === 'light' || themeMode === 'dark') && (
               <button
                 onClick={handleThemeClick}
                 style={buttonStyle}

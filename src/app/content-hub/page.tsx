@@ -98,7 +98,7 @@ export default async function ContentHubPage() {
             Content Hub
           </Typography>
           <Typography
-            variant='p'
+            variant='body'
             className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
           >
             Everything I create — all in one place. Articles, videos, podcasts,
@@ -127,7 +127,7 @@ export default async function ContentHubPage() {
                     {category.title}
                   </Typography>
                   <Typography
-                    variant='p'
+                    variant='body'
                     className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4'
                   >
                     {category.description}

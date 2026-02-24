@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import Image from 'next/image';
-import { SiteLayout } from '@/layouts/SiteLayout';
+import { HomePageLayout } from './HomePageLayout';
+import { StandardPageLayout } from './StandardPageLayout';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -10,51 +10,36 @@ interface PageLayoutProps {
     alt: string;
     title?: string;
   };
+
+  // If true, applies special layout/styling for the homepage (full-height contained view)
+  isHomePage?: boolean;
 }
 
 /**
- * PageLayout — standard page wrapper.
+ * PageLayout — Server-first layout router
  *
- * Grid behaviour:
- * - Mobile / tablet-portrait: single column, image stacked above content (12 cols)
- * - Tablet-landscape / desktop / ultrawide: 3-col image + 9-col content
+ * Delegates to specialized layout components:
+ * - HomePageLayout: Client component with contained viewport and resize listeners
+ * - StandardPageLayout: Server component with normal scrolling behavior
+ *
+ * This separation keeps standard pages server-rendered and avoids unnecessary
+ * client-side resize listeners when homepage features aren't needed.
  */
-export function PageLayout({ children, featureImage }: PageLayoutProps) {
-  return (
-    <SiteLayout>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8'>
-        {featureImage ? (
-          /* 3/9 responsive grid */
-          <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
-            {/* Feature image — 3 cols on md+, full width on mobile */}
-            <aside className='md:col-span-3 md:sticky md:top-20'>
-              <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
-                <Image
-                  src={featureImage.src}
-                  alt={featureImage.alt}
-                  fill
-                  sizes='(max-width: 768px) 100vw, 25vw'
-                  className='object-cover'
-                  priority
-                />
-                {featureImage.title && (
-                  <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <h2 className='text-white text-xl font-semibold'>
-                      {featureImage.title}
-                    </h2>
-                  </div>
-                )}
-              </div>
-            </aside>
+export function PageLayout({
+  children,
+  featureImage,
+  isHomePage = false,
+}: PageLayoutProps) {
+  // Route to appropriate layout component
+  if (isHomePage) {
+    return (
+      <HomePageLayout featureImage={featureImage}>{children}</HomePageLayout>
+    );
+  }
 
-            {/* Main content — 9 cols on md+, full width on mobile */}
-            <div className='md:col-span-9'>{children}</div>
-          </div>
-        ) : (
-          /* No feature image — full-width content */
-          <div className='max-w-6xl mx-auto w-full'>{children}</div>
-        )}
-      </div>
-    </SiteLayout>
+  return (
+    <StandardPageLayout featureImage={featureImage}>
+      {children}
+    </StandardPageLayout>
   );
 }

@@ -21,7 +21,9 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
 
   const allCategories = useMemo(() => {
     const set = new Set<string>();
-    videos.forEach((v) => { if (v.category) set.add(v.category); });
+    videos.forEach((v) => {
+      if (v.category) set.add(v.category);
+    });
     return Array.from(set).sort();
   }, [videos]);
 
@@ -34,11 +36,12 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
   }, [videos, activeTag, activeCategory]);
 
   return (
-    <div className='max-w-6xl mx-auto px-4 py-12'>
+    <div className='mx-auto px-4 py-12 max-width-content'>
       <div className='mb-8'>
         <h1 className='text-4xl font-bold mb-2'>Videos</h1>
         <p className='text-gray-600 dark:text-gray-400'>
-          Watch videos from Terence Waters on technology, creativity, and personal development.
+          Watch videos from Terence Waters on technology, creativity, and
+          personal development.
         </p>
       </div>
 
@@ -53,7 +56,12 @@ export function VideoListingClient({ videos }: VideoListingClientProps) {
           />
         )}
         {allTags.length > 0 && (
-          <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+          <TagFilter
+            tags={allTags}
+            activeTag={activeTag}
+            onTagChange={setActiveTag}
+            label='Tags'
+          />
         )}
       </div>
 
