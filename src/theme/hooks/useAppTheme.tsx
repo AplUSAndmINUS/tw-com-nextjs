@@ -56,18 +56,40 @@ export interface UseAppThemeReturn {
 /**
  * Hook for managing application theme
  *
+ * IMPORTANT: This is the ONLY way to access extended theme properties (spacing,
+ * animations, typography, themeMode, etc.). These properties are NOT available
+ * through FluentUI's useTheme() hook because they contain non-serializable
+ * objects that would break FluentUI's CSS rendering.
+ *
+ * Always use useAppTheme() when you need:
+ * - Extended theme properties (spacing, animations, borderRadius, etc.)
+ * - themeMode value
+ * - semanticColors
+ * - Theme control methods (setThemeMode, toggleTheme)
+ *
  * @example
  * ```tsx
+ * // ✅ CORRECT - Access extended theme
  * function MyComponent() {
- *   const { theme, themeMode, setThemeMode, toggleTheme } = useAppTheme();
+ *   const { theme, themeMode, setThemeMode } = useAppTheme();
  *
  *   return (
- *     <FluentProvider theme={theme}>
- *       <Button onClick={toggleTheme}>
- *         Current: {themeMode}
- *       </Button>
- *     </FluentProvider>
+ *     <div style={{ padding: theme.spacing.md }}>
+ *       Mode: {themeMode}
+ *     </div>
  *   );
+ * }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // ❌ INCORRECT - Don't use FluentUI's useTheme for extended properties
+ * import { useTheme } from '@fluentui/react-components';
+ *
+ * function MyComponent() {
+ *   const theme = useTheme();
+ *   console.log(theme.spacing);   // ❌ undefined
+ *   console.log(theme.themeMode); // ❌ undefined
  * }
  * ```
  */

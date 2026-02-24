@@ -17,7 +17,21 @@ import { FluentProvider } from '@fluentui/react-components';
  * - All FluentUI base theme properties (colors, fonts, etc.)
  * - semanticColors (safe - contains only primitive string values)
  *
- * Use `useAppTheme()` to access the full theme with extended properties.
+ * IMPORTANT: Extended properties (spacing, animations, etc.) and themeMode are
+ * NOT available through FluentUI's theme context. Components MUST use the
+ * useAppTheme() hook to access these properties. Never use FluentUI's useTheme()
+ * hook for extended properties.
+ *
+ * @example
+ * // ✅ CORRECT - Use useAppTheme() for extended properties
+ * const { theme, themeMode } = useAppTheme();
+ * console.log(theme.themeMode);  // ✅ Works
+ * console.log(theme.spacing);    // ✅ Works
+ *
+ * // ❌ INCORRECT - FluentUI's useTheme() cannot access extended properties
+ * const { theme } = useTheme();
+ * console.log(theme.themeMode);  // ❌ undefined
+ * console.log(theme.spacing);    // ❌ undefined
  */
 export function ExtendedThemeProvider({
   children,
@@ -27,7 +41,8 @@ export function ExtendedThemeProvider({
   const { theme } = useAppTheme();
 
   // Filter out extended properties that contain non-serializable objects
-  // Everything else (including semanticColors) passes through to FluentProvider
+  // IMPORTANT: themeMode is also filtered out here, meaning it's NOT available in
+  // FluentUI's theme context. Components must use useAppTheme() to access it.
   const {
     spacing,
     animations,
