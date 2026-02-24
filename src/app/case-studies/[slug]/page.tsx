@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { CaseStudyLayout } from '@/layouts/CaseStudyLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { mdxComponents } from '@/components/MarkdownContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -48,7 +49,7 @@ export default async function CaseStudyPage({ params }: Props) {
   if (!cs) notFound();
   return (
     <CaseStudyLayout title={cs.title} date={cs.date}>
-      <MDXRemote source={cs.content} />
+      <MDXRemote source={cs.content} components={mdxComponents} />
     </CaseStudyLayout>
   );
 }

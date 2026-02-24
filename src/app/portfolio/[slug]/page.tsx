@@ -5,6 +5,7 @@ import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
+import { mdxComponents } from '@/components/MarkdownContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -78,7 +79,7 @@ export default async function PortfolioEntryPage({ params }: Props) {
       {entry.gallery && entry.gallery.length > 0 && (
         <ContentGalleryClient gallery={entry.gallery} />
       )}
-      <MDXRemote source={entry.content} />
+      <MDXRemote source={entry.content} components={mdxComponents} />
     </PortfolioLayout>
   );
 }
