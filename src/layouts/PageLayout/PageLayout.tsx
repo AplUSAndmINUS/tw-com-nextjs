@@ -119,9 +119,7 @@ export function PageLayout({
   return (
     <SiteLayout>
       {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
-      <div
-        className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-fluentui'
-      >
+      <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-content'>
         {featureImage ? (
           /* 3/9 responsive grid */
           <div
@@ -153,7 +151,12 @@ export function PageLayout({
           </div>
         ) : (
           /* No feature image — full-width content */
-          <div className='w-full max-width-fluentui' style={{ margin: '0 auto' }}>{children}</div>
+          <div
+            className='w-full max-width-content'
+            style={{ margin: '0 auto' }}
+          >
+            {children}
+          </div>
         )}
       </div>
     </SiteLayout>

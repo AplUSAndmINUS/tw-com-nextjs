@@ -124,7 +124,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
 
       {/* had to set the max-width here instead of on the parent because the parent needs to stretch full width for the backdrop blur effect to cover the entire screen, but the content inside should be constrained to match the max width of the Navigation and main content. -TW */}
       <div
-        className={`px-6 lg:pl-12 lg:pr-8 max-width-fluentui ${isCompact ? 'py-6' : 'py-8'}`}
+        className={`px-6 lg:pl-12 lg:pr-8 max-width-content ${isCompact ? 'py-6' : 'py-8'}`}
         style={{ margin: '0 auto' }}
       >
         <div

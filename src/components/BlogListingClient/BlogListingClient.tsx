@@ -38,7 +38,7 @@ export function BlogListingClient({ posts }: BlogListingClientProps) {
   }, [posts, activeTag, activeCategory]);
 
   return (
-    <div className='mx-auto px-4 py-12 max-width-fluentui'>
+    <div className='mx-auto px-4 py-12 max-width-content'>
       <h1 className='text-4xl font-bold mb-6'>Blog</h1>
 
       {/* Toolbar */}

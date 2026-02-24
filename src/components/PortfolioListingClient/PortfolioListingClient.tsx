@@ -10,7 +10,9 @@ interface PortfolioListingClientProps {
   entries: ContentItem[];
 }
 
-export function PortfolioListingClient({ entries }: PortfolioListingClientProps) {
+export function PortfolioListingClient({
+  entries,
+}: PortfolioListingClientProps) {
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -23,7 +25,9 @@ export function PortfolioListingClient({ entries }: PortfolioListingClientProps)
 
   const allCategories = useMemo(() => {
     const set = new Set<string>();
-    entries.forEach((e) => { if (e.category) set.add(e.category); });
+    entries.forEach((e) => {
+      if (e.category) set.add(e.category);
+    });
     return Array.from(set).sort();
   }, [entries]);
 
@@ -36,7 +40,7 @@ export function PortfolioListingClient({ entries }: PortfolioListingClientProps)
   }, [entries, activeTag, activeCategory]);
 
   return (
-    <div className='mx-auto px-4 py-12 max-width-fluentui'>
+    <div className='mx-auto px-4 py-12 max-width-content'>
       <h1 className='text-4xl font-bold mb-6'>Portfolio</h1>
 
       {/* Toolbar */}
@@ -56,7 +60,12 @@ export function PortfolioListingClient({ entries }: PortfolioListingClientProps)
 
       {allTags.length > 0 && (
         <div className='mb-6'>
-          <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+          <TagFilter
+            tags={allTags}
+            activeTag={activeTag}
+            onTagChange={setActiveTag}
+            label='Tags'
+          />
         </div>
       )}
 
