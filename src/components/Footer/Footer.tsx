@@ -67,7 +67,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
         role='contentinfo'
       >
         <div
-          className={`max-w-9xl w-full px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-12'}`}
+          className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-12'}`}
         >
           <div
             className={`grid grid-cols-1 md:grid-cols-4 gap-8 ${isCompact ? 'mb-4' : 'mb-8'}`}
