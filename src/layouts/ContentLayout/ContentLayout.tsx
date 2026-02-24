@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
+import { Typography } from '@/components/Typography';
 
 interface ContentLayoutProps {
   children: ReactNode;
@@ -45,9 +46,9 @@ export function ContentLayout({
                 />
                 {featureImage.title && (
                   <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <h2 className='text-white text-xl font-semibold'>
+                    <Typography variant='h5' color='#ffffff'>
                       {featureImage.title}
-                    </h2>
+                    </Typography>
                   </div>
                 )}
               </div>
@@ -56,37 +57,31 @@ export function ContentLayout({
             {/* Content — 9 cols */}
             <article className='md:col-span-9'>
               <header className='mb-8'>
-                <h1 className='text-4xl font-bold'>{title}</h1>
+                <Typography variant='h1'>{title}</Typography>
                 {date && (
-                  <time
-                    className='text-sm text-gray-500 mt-2 block'
-                    dateTime={date}
-                  >
-                    {date}
+                  <time className='mt-2 block' dateTime={date}>
+                    <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                      {date}
+                    </Typography>
                   </time>
                 )}
               </header>
-              <div className='prose prose-lg dark:prose-invert max-w-none'>
-                {children}
-              </div>
+              <div>{children}</div>
             </article>
           </div>
         ) : (
           <article className='max-w-3xl mx-auto'>
             <header className='mb-8'>
-              <h1 className='text-4xl font-bold'>{title}</h1>
+              <Typography variant='h1'>{title}</Typography>
               {date && (
-                <time
-                  className='text-sm text-gray-500 mt-2 block'
-                  dateTime={date}
-                >
-                  {date}
+                <time className='mt-2 block' dateTime={date}>
+                  <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                    {date}
+                  </Typography>
                 </time>
               )}
             </header>
-            <div className='prose prose-lg dark:prose-invert max-w-none'>
-              {children}
-            </div>
+            <div>{children}</div>
           </article>
         )}
       </div>
