@@ -5,6 +5,7 @@ import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
 const footerLinks = {
   content: [
@@ -24,7 +25,57 @@ const footerLinks = {
     { href: '/contact', label: 'Contact' },
     { href: '/archive', label: 'Archive' },
   ],
+  social: [
+    { href: 'https://twitter.com/terencewaters', label: 'Twitter' },
+    { href: 'https://www.linkedin.com/in/terencewaters', label: 'LinkedIn' },
+    { href: 'https://github.com/terencewaters', label: 'GitHub' },
+    { href: 'https://www.instagram.com/terencewaters', label: 'Instagram' },
+  ],
 };
+
+interface FooterLinkSectionProps {
+  title: string;
+  links: Array<{ href: string; label: string }>;
+  isCompact: boolean;
+  className?: string;
+}
+
+/**
+ * FooterLinkSection — Reusable footer link group component
+ */
+function FooterLinkSection({
+  title,
+  links,
+  isCompact,
+  className = '',
+}: FooterLinkSectionProps) {
+  return (
+    <div
+      className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'} ${className}`}
+    >
+      <Typography
+        variant='h5'
+        className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
+        style={{
+          fontSize: isCompact ? '1rem' : '1.25rem',
+          marginBottom: isCompact ? '0' : '0.75rem',
+        }}
+      >
+        {title}
+      </Typography>
+      {title === 'Social' && <SocialLinks isFooter />}
+      <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
+        {links.map(({ href, label }) => (
+          <li key={href}>
+            <ThemedLink href={href} variant='small' isFooter>
+              {label}
+            </ThemedLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 interface FooterProps {
   /** If true, renders a more compact footer suitable for contained viewports */
@@ -40,8 +91,8 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
 
   return (
     <>
-      {/* Mobile-only toggle button for homepage */}
-      {isHomePage && (
+      {/* Mobile-only toggle button for homepage (when footer is hidden) */}
+      {isHomePage && !isFooterVisible && (
         <div className='lg:hidden flex justify-center py-6'>
           <button
             onClick={() => setIsFooterVisible(!isFooterVisible)}
@@ -55,7 +106,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
             }}
             aria-controls='footer-content'
           >
-            {isFooterVisible ? 'Hide' : 'Show'} Footer
+            Show Footer
           </button>
         </div>
       )}
@@ -63,14 +114,40 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
       {/* Footer content */}
       <footer
         id='footer-content'
-        className={`border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto mb-0' ${isHomePage ? 'lg:block' : ''} ${isHomePage && !isFooterVisible ? 'hidden lg:block' : ''}`}
+        className={`border-t bg-slate-100 dark:bg-slate-800 border-gray-200 dark:border-gray-700 mt-auto mb-0 ${
+          isHomePage && !isFooterVisible ? 'hidden lg:block' : ''
+        } ${
+          isHomePage && isFooterVisible
+            ? 'fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto lg:relative lg:block shadow-2xl lg:shadow-none'
+            : ''
+        } ${isHomePage ? 'lg:block' : ''}`}
         role='contentinfo'
       >
+        {/* Mobile-only hide button inside footer overlay */}
+        {isHomePage && isFooterVisible && (
+          <div className='lg:hidden flex justify-center py-4 border-b border-gray-300 dark:border-gray-600'>
+            <button
+              onClick={() => setIsFooterVisible(false)}
+              className='px-6 py-2 rounded-lg transition-all font-medium'
+              style={{
+                border: `2px solid ${theme.semanticColors.border.emphasis}`,
+                color: theme.semanticColors.text.primary,
+                backgroundColor: 'transparent',
+                boxShadow: theme.shadows.button,
+                fontFamily: theme.typography.fonts.body.fontFamily,
+              }}
+              aria-controls='footer-content'
+            >
+              Hide Footer
+            </button>
+          </div>
+        )}
+
         <div
-          className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-12'}`}
+          className={`max-w-9xl px-6 lg:pl-12 lg:pr-8 ${isCompact ? 'py-6' : 'py-10'}`}
         >
           <div
-            className={`grid grid-cols-1 md:grid-cols-4 gap-8 ${isCompact ? 'mb-4' : 'mb-8'}`}
+            className={`grid grid-cols-1 md:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-8'}`}
           >
             {/* Brand */}
             <div>
@@ -98,83 +175,35 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
               </Typography>
             </div>
 
-            {/* Content links */}
-            <div
-              className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'}`}
-            >
-              <Typography
-                variant='h5'
-                className='text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
-                style={{ fontSize: isCompact ? '1rem' : '1.25rem' }}
-              >
-                Content
-              </Typography>
-              <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
-                {footerLinks.content.map(({ href, label }) => (
-                  <li key={href}>
-                    <ThemedLink href={href} variant='small' isFooter>
-                      {label}
-                    </ThemedLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Work links */}
-            <div
-              className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'}`}
-            >
-              <Typography
-                variant='h5'
-                className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
-                style={{
-                  fontSize: isCompact ? '1rem' : '1.25rem',
-                  marginBottom: isCompact ? '0' : '0.75rem',
-                }}
-              >
-                Work
-              </Typography>
-              <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
-                {footerLinks.work.map(({ href, label }) => (
-                  <li key={href}>
-                    <ThemedLink href={href} variant='small' isFooter>
-                      {label}
-                    </ThemedLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Connect links - hidden on mobile */}
-            <div
-              className={`hidden md:flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'}`}
-            >
-              <Typography
-                variant='h5'
-                className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
-                style={{
-                  fontSize: isCompact ? '1rem' : '1.25rem',
-                  marginBottom: isCompact ? '0' : '0.75rem',
-                }}
-              >
-                Connect
-              </Typography>
-              <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
-                {footerLinks.connect.map(({ href, label }) => (
-                  <li key={href}>
-                    <ThemedLink href={href} variant='small' isFooter>
-                      {label}
-                    </ThemedLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Link sections */}
+            <FooterLinkSection
+              title='Content'
+              links={footerLinks.content}
+              isCompact={isCompact}
+              className='hidden md:flex'
+            />
+            <FooterLinkSection
+              title='Work'
+              links={footerLinks.work}
+              isCompact={isCompact}
+            />
+            <FooterLinkSection
+              title='Connect'
+              links={footerLinks.connect}
+              isCompact={isCompact}
+              className='hidden md:flex'
+            />
+            <FooterLinkSection
+              title='Social'
+              links={footerLinks.social}
+              isCompact={isCompact}
+            />
           </div>
 
           {/* Bottom bar */}
           <div
-            className={`flex flex-col sm:flex-row items-center justify-between gap-2 ${
-              isCompact ? 'pt-3 mt-1' : 'pt-6 mt-2'
+            className={`flex flex-col sm:flex-row items-center justify-between sm:pb-0 md:gap-2 ${
+              isCompact ? 'md:pt-3 md:mt-1' : 'md:pt-6 md:mt-2'
             }`}
           >
             <Typography
