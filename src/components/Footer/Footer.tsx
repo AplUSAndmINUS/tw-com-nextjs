@@ -113,6 +113,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
               fontFamily: theme.typography.fonts.body.fontFamily,
             }}
             aria-controls='footer-content'
+            aria-expanded={isFooterVisible}
           >
             Hide Footer
           </button>
@@ -214,6 +215,7 @@ export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
               fontFamily: theme.typography.fonts.body.fontFamily,
             }}
             aria-controls='footer-content'
+            aria-expanded={isFooterVisible}
           >
             Show Footer
           </button>
