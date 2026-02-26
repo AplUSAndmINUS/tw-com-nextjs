@@ -14,6 +14,14 @@ export type { ButtonProps, ButtonVariant, ButtonSize } from './Button/Button';
 export { Input } from './Input/Input';
 export type { InputProps, InputVariant, InputSize } from './Input/Input';
 
+// DateInput
+export { DateInput } from './DateInput/DateInput';
+export type {
+  DateInputProps,
+  DateInputVariant,
+  DateInputSize,
+} from './DateInput/DateInput';
+
 // Textarea
 export { Textarea } from './Textarea/Textarea';
 export type {

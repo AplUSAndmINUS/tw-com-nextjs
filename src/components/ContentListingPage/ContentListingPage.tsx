@@ -9,7 +9,7 @@ import { Callout } from '@/components/Callout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useContentFilterStore, ViewType } from '@/store';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
-import { Button, Select, SelectOption } from '@/components/Form';
+import { Button, Select, SelectOption, DateInput } from '@/components/Form';
 import { Hero } from '@/components/Hero';
 
 /**
@@ -221,33 +221,11 @@ export function ContentListingPage({
         {/* From Date - Hidden on Mobile and Tablet */}
         {onDateFromChange && !isMobile && !isTablet && (
           <div style={{ minWidth: '0' }}>
-            <label
-              htmlFor='date-from-input'
-              style={{
-                display: 'block',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                color: theme.palette.neutralPrimary,
-                marginBottom: theme.spacing.xs,
-              }}
-            >
-              From Date
-            </label>
-            <input
-              id='date-from-input'
-              type='date'
+            <DateInput
+              label='From Date'
               value={dateFrom}
               onChange={(e) => onDateFromChange(e.target.value)}
-              aria-label='From date'
-              style={{
-                width: '100%',
-                padding: `${theme.spacing.s1} ${theme.spacing.s1}`,
-                borderRadius: theme.borderRadius.container.small,
-                border: `1px solid ${theme.palette.neutralQuaternary}`,
-                backgroundColor: theme.palette.white,
-                color: theme.palette.neutralPrimary,
-                fontSize: '0.875rem',
-              }}
+              fullWidth
             />
           </div>
         )}
@@ -255,33 +233,11 @@ export function ContentListingPage({
         {/* To Date - Hidden on Mobile and Tablet */}
         {onDateToChange && !isMobile && !isTablet && (
           <div style={{ minWidth: '0' }}>
-            <label
-              htmlFor='date-to-input'
-              style={{
-                display: 'block',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                color: theme.palette.neutralPrimary,
-                marginBottom: theme.spacing.xs,
-              }}
-            >
-              To Date
-            </label>
-            <input
-              id='date-to-input'
-              type='date'
+            <DateInput
+              label='To Date'
               value={dateTo}
               onChange={(e) => onDateToChange(e.target.value)}
-              aria-label='To date'
-              style={{
-                width: '100%',
-                padding: `${theme.spacing.s1} ${theme.spacing.s1}`,
-                borderRadius: theme.borderRadius.container.small,
-                border: `1px solid ${theme.palette.neutralQuaternary}`,
-                backgroundColor: theme.palette.white,
-                color: theme.palette.neutralPrimary,
-                fontSize: '0.875rem',
-              }}
+              fullWidth
             />
           </div>
         )}
