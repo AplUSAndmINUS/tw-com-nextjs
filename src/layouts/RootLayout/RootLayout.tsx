@@ -37,7 +37,7 @@ export function RootLayout({
         {/* Flex-1 makes main content fill remaining height */}
         <main
           id='main-content'
-          className='flex-1 pt-16 overflow-y-scroll overflow-x-hidden flex flex-col'
+          className='flex-1 pt-16 overflow-y-auto overflow-x-hidden flex flex-col'
         >
           <PageTransition duration={300} className='flex-1 flex flex-col'>
             {children}
