@@ -155,9 +155,9 @@ export function ContentListingPage({
 
   // View type options for dropdown
   const viewOptions: SelectOption[] = [
-    { key: 'grid', text: 'Grid View' },
-    { key: 'small', text: 'Small Tile' },
-    { key: 'large', text: 'Large Tile' },
+    { value: 'grid', label: 'Grid View' },
+    { value: 'small', label: 'Small Tile' },
+    { value: 'large', label: 'Large Tile' },
   ];
 
   // Ensure filters array is always defined
@@ -176,9 +176,9 @@ export function ContentListingPage({
   // Render filter controls
   const renderFilters = () => {
     const sortOptions: SelectOption[] = [
-      { key: 'date-desc', text: 'Newest First' },
-      { key: 'date-asc', text: 'Oldest First' },
-      { key: 'title', text: 'Title A-Z' },
+      { value: 'date-desc', label: 'Newest First' },
+      { value: 'date-asc', label: 'Oldest First' },
+      { value: 'title', label: 'Title A-Z' },
     ];
 
     const hasDateFilter = dateFrom || dateTo;
