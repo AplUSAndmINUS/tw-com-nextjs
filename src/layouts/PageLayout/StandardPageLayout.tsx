@@ -74,21 +74,29 @@ export function StandardPageLayout({
         </div>
 
         {/* Tablet/Desktop: Fixed Show Footer button at bottom center */}
-        {!isMobile && !isFooterVisible && (
-          <button
-            onMouseEnter={() => setIsFooterVisible(true)}
-            className='hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-2 rounded-lg transition-all font-medium items-center justify-center'
-            style={{
-              border: `2px solid ${theme.semanticColors.border.emphasis}`,
-              color: theme.semanticColors.text.primary,
-              backgroundColor: theme.semanticColors.background.base,
-              boxShadow: theme.shadows.button,
-              fontFamily: theme.typography.fonts.body.fontFamily,
-            }}
-            aria-label='Show footer navigation'
-          >
-            Show Footer
-          </button>
+        {!isMobile && (
+          <AnimatePresence>
+            {!isFooterVisible && (
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                onMouseEnter={() => setIsFooterVisible(true)}
+                className='hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-2 rounded-lg transition-all font-medium items-center justify-center'
+                style={{
+                  border: `2px solid ${theme.semanticColors.border.emphasis}`,
+                  color: theme.semanticColors.text.primary,
+                  backgroundColor: theme.semanticColors.background.base,
+                  boxShadow: theme.shadows.button,
+                  fontFamily: theme.typography.fonts.body.fontFamily,
+                }}
+                aria-label='Show footer navigation'
+              >
+                Show Footer
+              </motion.button>
+            )}
+          </AnimatePresence>
         )}
 
         {/* Tablet/Desktop: Animated footer overlay */}
