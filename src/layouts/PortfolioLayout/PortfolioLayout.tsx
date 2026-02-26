@@ -61,7 +61,7 @@ export function PortfolioLayout({
             <div className='md:col-span-9'>
               {nav && <div>{nav}</div>}
               <header className='mb-10'>
-                <Typography variant='h1'>{title}</Typography>
+                <Typography variant='h2'>{title}</Typography>
                 {description && (
                   <Typography
                     variant='body'
@@ -79,7 +79,7 @@ export function PortfolioLayout({
           <div className='max-w-5xl mx-auto'>
             {nav && <div>{nav}</div>}
             <header className='mb-10'>
-              <Typography variant='h1'>{title}</Typography>
+              <Typography variant='h2'>{title}</Typography>
               {description && (
                 <Typography
                   variant='body'

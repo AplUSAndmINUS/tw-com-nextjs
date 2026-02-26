@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
+import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
 interface ArticleLayoutProps {
   children: ReactNode;
@@ -63,46 +64,68 @@ export function ArticleLayout({
             <article className='md:col-span-9'>
               {nav && <div>{nav}</div>}
               <header className='mb-8 border-b pb-6'>
-                <Typography variant='h1'>{title}</Typography>
+                <Typography variant='h2'>{title}</Typography>
                 <div className='flex items-center gap-4 mt-3'>
                   {author && (
-                    <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                    <Typography
+                      variant='caption'
+                      color='var(--colorNeutralForeground2)'
+                    >
                       By {author}
                     </Typography>
                   )}
                   {date && (
                     <time dateTime={date}>
-                      <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                      <Typography
+                        variant='caption'
+                        color='var(--colorNeutralForeground2)'
+                      >
                         {date}
                       </Typography>
                     </time>
                   )}
                 </div>
+                {author && (
+                  <div className='mt-3'>
+                    <SocialLinks isAuthorTagline={true} />
+                  </div>
+                )}
               </header>
               <div>{children}</div>
             </article>
           </div>
         ) : (
-          <article className='max-w-3xl mx-auto'>
+          <article className='max-width-content mx-auto'>
             {nav && <div>{nav}</div>}
-            <header className='mb-8 border-b pb-6'>
-              <Typography variant='h1'>{title}</Typography>
+            <header className='mb-8 pb-6'>
+              <Typography variant='h2'>{title}</Typography>
               <div className='flex items-center gap-4 mt-3'>
                 {author && (
-                  <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                  <Typography
+                    variant='caption'
+                    color='var(--colorNeutralForeground2)'
+                  >
                     By {author}
                   </Typography>
                 )}
                 {date && (
                   <time dateTime={date}>
-                    <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                    <Typography
+                      variant='caption'
+                      color='var(--colorNeutralForeground2)'
+                    >
                       {date}
                     </Typography>
                   </time>
                 )}
               </div>
+              {author && (
+                <div className='mt-3'>
+                  <SocialLinks isAuthorTagline={true} />
+                </div>
+              )}
             </header>
-            <div>{children}</div>
+            <div className='border-t'>{children}</div>
           </article>
         )}
       </div>

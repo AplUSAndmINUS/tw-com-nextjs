@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { ThemedLink } from '@/components/ThemedLink';
 
 interface ContentDetailNavProps {
   /** URL of the previous entry (undefined if this is the first) */
@@ -25,54 +25,76 @@ export function ContentDetailNav({
   return (
     <nav
       aria-label='Content navigation'
-      className='flex flex-wrap items-center justify-between gap-3 py-4 mb-6 border-b border-gray-200 dark:border-gray-700 text-sm'
+      className='flex flex-wrap items-center justify-between gap-4 py-6 mb-8 border-b border-gray-200 dark:border-gray-700'
     >
       {/* Previous */}
       <div className='flex-1 min-w-0'>
         {prevHref ? (
-          <Link
+          <ThemedLink
             href={prevHref}
-            className='group inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
+            className='group inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-all'
+            style={{ fontSize: '1rem', fontWeight: 500 }}
             aria-label={prevTitle ? `Previous: ${prevTitle}` : 'Previous'}
           >
-            <span aria-hidden='true'>←</span>
-            <span className='truncate max-w-[12rem] sm:max-w-xs'>
+            <span aria-hidden='true' style={{ fontSize: '1.25rem' }}>
+              ←
+            </span>
+            <span className='truncate max-w-[10rem] sm:max-w-xs'>
               {prevTitle ?? 'Previous'}
             </span>
-          </Link>
+          </ThemedLink>
         ) : (
-          <span className='text-gray-300 dark:text-gray-600 inline-flex items-center gap-1.5'>
-            <span aria-hidden='true'>←</span>
+          <span
+            className='inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600'
+            style={{ fontSize: '1rem' }}
+          >
+            <span aria-hidden='true' style={{ fontSize: '1.25rem' }}>
+              ←
+            </span>
             <span>Previous</span>
           </span>
         )}
       </div>
 
       {/* Content Hub */}
-      <Link
+      <ThemedLink
         href={hubHref}
-        className='flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors'
+        className='flex-shrink-0 px-5 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-all'
+        style={{
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
+        }}
       >
         Content Hub
-      </Link>
+      </ThemedLink>
 
       {/* Next */}
       <div className='flex-1 min-w-0 text-right'>
         {nextHref ? (
-          <Link
+          <ThemedLink
             href={nextHref}
-            className='group inline-flex items-center justify-end gap-1.5 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
+            className='group inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-all'
+            style={{ fontSize: '1rem', fontWeight: 500 }}
             aria-label={nextTitle ? `Next: ${nextTitle}` : 'Next'}
           >
-            <span className='truncate max-w-[12rem] sm:max-w-xs'>
+            <span className='truncate max-w-[10rem] sm:max-w-xs'>
               {nextTitle ?? 'Next'}
             </span>
-            <span aria-hidden='true'>→</span>
-          </Link>
+            <span aria-hidden='true' style={{ fontSize: '1.25rem' }}>
+              →
+            </span>
+          </ThemedLink>
         ) : (
-          <span className='text-gray-300 dark:text-gray-600 inline-flex items-center justify-end gap-1.5'>
+          <span
+            className='inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600'
+            style={{ fontSize: '1rem' }}
+          >
             <span>Next</span>
-            <span aria-hidden='true'>→</span>
+            <span aria-hidden='true' style={{ fontSize: '1.25rem' }}>
+              →
+            </span>
           </span>
         )}
       </div>
