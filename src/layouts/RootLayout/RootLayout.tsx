@@ -7,6 +7,8 @@ interface RootLayoutProps {
   children: ReactNode;
   /** If true, renders a full-height contained layout (no page scroll) */
   isContainedView?: boolean;
+  /** If false, suppresses the default footer (for layouts that handle their own footer) */
+  showFooter?: boolean;
 }
 
 /**
@@ -23,6 +25,7 @@ interface RootLayoutProps {
 export function RootLayout({
   children,
   isContainedView = false,
+  showFooter = true,
 }: RootLayoutProps) {
   if (isContainedView) {
     return (
@@ -60,7 +63,7 @@ export function RootLayout({
       <main id='main-content' className='flex-1 pt-16'>
         <PageTransition duration={300}>{children}</PageTransition>
       </main>
-      <Footer isCompact />
+      {showFooter && <Footer isCompact />}
     </div>
   );
 }

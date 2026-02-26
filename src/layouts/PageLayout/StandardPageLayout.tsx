@@ -36,7 +36,7 @@ export function StandardPageLayout({
   // Contained viewport layout with feature image
   if (featureImage) {
     return (
-      <SiteLayout>
+      <SiteLayout showFooter={false}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
         <div className='h-full flex flex-col md:flex-row md:overflow-hidden'>
           {/* Left image pane - fixed and vertically centered on tablet/desktop */}
@@ -73,7 +73,7 @@ export function StandardPageLayout({
 
   // Standard scrolling layout without feature image
   return (
-    <SiteLayout>
+    <SiteLayout showFooter={true}>
       {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
       <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-content'>
         <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
