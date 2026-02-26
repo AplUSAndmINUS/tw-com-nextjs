@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
@@ -74,19 +74,14 @@ export const Hero: React.FC<HeroProps> = ({
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Resolve icon names to components
   const BackArrowIcon = resolveIconName('ArrowLeft24Regular');
   const IconComponent = iconName ? resolveIconName(iconName) : undefined;
 
-  /** Truncates text to first sentence (up to and including first period) */
-  const getFirstSentence = (text: string): string => {
-    const periodIndex = text.indexOf('.');
-    if (periodIndex === -1) {
-      return text;
-    }
-    return text.substring(0, periodIndex + 1);
-  };
+  // Determine if description is long enough to warrant truncation (rough estimate: >150 chars)
+  const shouldTruncate = description && description.length > 150;
 
   return (
     <div
@@ -231,17 +226,54 @@ export const Hero: React.FC<HeroProps> = ({
       )}
 
       {description && (
-        <Typography
-          variant='body'
-          style={{
-            color: theme.palette.neutralSecondary,
-            fontSize: isMobile ? '0.9375rem' : '1.0625rem',
-            lineHeight: 1.6,
-            marginBottom: '1rem',
-          }}
-        >
-          {isMobile ? getFirstSentence(description) : description}
-        </Typography>
+        <div style={{ marginBottom: '1rem' }}>
+          <Typography
+            variant='body'
+            style={{
+              color: theme.palette.neutralSecondary,
+              fontSize: isMobile ? '0.9375rem' : '1.0625rem',
+              lineHeight: 1.6,
+              margin: 0,
+              // Use CSS line-clamp for mobile when not expanded
+              ...(isMobile && !isExpanded && shouldTruncate
+                ? {
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }
+                : {}),
+            }}
+          >
+            {description}
+          </Typography>
+          {isMobile && shouldTruncate && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className='rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+              style={{
+                marginTop: '0.75rem',
+                padding: '0.5rem 0.75rem',
+                border: `2px solid ${theme.semanticColors.border.emphasis}`,
+                color: theme.semanticColors.text.primary,
+                backgroundColor: 'transparent',
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: theme.typography.fonts.body.fontFamily,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              aria-expanded={isExpanded ? 'true' : 'false'}
+              aria-label={
+                isExpanded ? 'Show less description' : 'Show more description'
+              }
+            >
+              {isExpanded ? 'Show less' : 'Read more'}
+            </button>
+          )}
+        </div>
       )}
 
       {filters && (
