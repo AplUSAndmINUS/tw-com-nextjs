@@ -45,26 +45,6 @@ export function StandardPageLayout({
     distance: 100,
   });
 
-  // Footer hide button (rendered inside footer overlay)
-  const footerHideButton = (
-    <div className='flex justify-center py-4 border-b border-gray-300 dark:border-gray-600'>
-      <button
-        onClick={() => setIsFooterVisible(false)}
-        className='px-6 py-2 rounded-lg transition-all font-medium'
-        style={{
-          border: `2px solid ${theme.semanticColors.border.emphasis}`,
-          color: theme.semanticColors.text.primary,
-          backgroundColor: 'transparent',
-          boxShadow: theme.shadows.button,
-          fontFamily: theme.typography.fonts.body.fontFamily,
-        }}
-        aria-label='Hide footer navigation'
-      >
-        Hide Footer
-      </button>
-    </div>
-  );
-
   // Contained viewport layout with feature image
   if (featureImage) {
     return (
@@ -88,30 +68,28 @@ export function StandardPageLayout({
           <div className='flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'>
             <div className='flex-1 px-4 sm:px-6 lg:px-8 py-8'>{children}</div>
 
-            {/* Tablet/Desktop: Show Footer button centered */}
-            {!isMobile && !isFooterVisible && (
-              <div className='flex justify-center items-center py-6 border-t border-gray-200 dark:border-gray-700'>
-                <button
-                  onClick={() => setIsFooterVisible(true)}
-                  className='px-6 py-2 rounded-lg transition-all font-medium'
-                  style={{
-                    border: `2px solid ${theme.semanticColors.border.emphasis}`,
-                    color: theme.semanticColors.text.primary,
-                    backgroundColor: 'transparent',
-                    boxShadow: theme.shadows.button,
-                    fontFamily: theme.typography.fonts.body.fontFamily,
-                  }}
-                  aria-label='Show footer navigation'
-                >
-                  Show Footer
-                </button>
-              </div>
-            )}
-
             {/* Mobile: Standard footer always visible */}
             {isMobile && <Footer isCompact />}
           </div>
         </div>
+
+        {/* Tablet/Desktop: Fixed Show Footer button at bottom center */}
+        {!isMobile && !isFooterVisible && (
+          <button
+            onMouseEnter={() => setIsFooterVisible(true)}
+            className='hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-2 rounded-lg transition-all font-medium items-center justify-center'
+            style={{
+              border: `2px solid ${theme.semanticColors.border.emphasis}`,
+              color: theme.semanticColors.text.primary,
+              backgroundColor: theme.semanticColors.background.base,
+              boxShadow: theme.shadows.button,
+              fontFamily: theme.typography.fonts.body.fontFamily,
+            }}
+            aria-label='Show footer navigation'
+          >
+            Show Footer
+          </button>
+        )}
 
         {/* Tablet/Desktop: Animated footer overlay */}
         {!isMobile && (
@@ -119,14 +97,12 @@ export function StandardPageLayout({
             {isFooterVisible && (
               <motion.footer
                 {...animationProps}
+                onMouseLeave={() => setIsFooterVisible(false)}
                 id='footer-content'
                 className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 shadow-2xl'
                 role='contentinfo'
               >
-                <FooterContent
-                  isCompact={false}
-                  headerContent={footerHideButton}
-                />
+                <FooterContent isCompact={false} />
               </motion.footer>
             )}
           </AnimatePresence>
