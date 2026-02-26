@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { ContentItem, GalleryItem, ContentType } from '@/content/types';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content');
+const CONTENT_DIR = path.join(process.cwd(), 'public');
 
 /**
  * Validates and returns a properly typed array of GalleryItem objects.
@@ -106,18 +106,26 @@ function mapFrontmatter(
 /**
  * Resolve the markdown file path for a given type + slug.
  *
- * Lookup order:
- *  1. content/{type}/{slug}.md (or .mdx)
- *  2. content/{type}/{slug}/post.md (slug-folder format)
+ * New lookup structure:
+ *  1. public/{type}/{slug}/markdown/post.md (or .mdx)
+ *  2. Fallback to old structure for backwards compatibility
  */
 function resolveContentFile(type: string, slug: string): string | null {
   const dir = path.join(CONTENT_DIR, type);
 
+  // New structure: public/{type}/{slug}/markdown/post.md
+  for (const ext of ['md', 'mdx']) {
+    const newStructure = path.join(dir, slug, 'markdown', `post.${ext}`);
+    if (fs.existsSync(newStructure)) return newStructure;
+  }
+
+  // Fallback: old flat structure
   for (const ext of ['md', 'mdx']) {
     const flat = path.join(dir, `${slug}.${ext}`);
     if (fs.existsSync(flat)) return flat;
   }
 
+  // Fallback: old nested structure
   for (const ext of ['md', 'mdx']) {
     const nested = path.join(dir, slug, `post.${ext}`);
     if (fs.existsSync(nested)) return nested;
@@ -139,21 +147,36 @@ export async function getAllContent(type: string): Promise<ContentItem[]> {
       entry.isFile() &&
       (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))
     ) {
+      // Flat file structure (backwards compatibility)
       const slug = entry.name.replace(/\.(md|mdx)$/, '');
       const filePath = path.join(dir, entry.name);
       const raw = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(raw);
       items.push(mapFrontmatter(slug, data, content, contentType));
     } else if (entry.isDirectory()) {
-      // Slug-folder format: content/{type}/{slug}/post.md
       const slug = entry.name;
+
+      // New structure: public/{type}/{slug}/markdown/post.md
       for (const ext of ['md', 'mdx']) {
-        const nested = path.join(dir, slug, `post.${ext}`);
-        if (fs.existsSync(nested)) {
-          const raw = fs.readFileSync(nested, 'utf-8');
+        const newStructure = path.join(dir, slug, 'markdown', `post.${ext}`);
+        if (fs.existsSync(newStructure)) {
+          const raw = fs.readFileSync(newStructure, 'utf-8');
           const { data, content } = matter(raw);
           items.push(mapFrontmatter(slug, data, content, contentType));
           break;
+        }
+      }
+
+      // Fallback: old structure public/{type}/{slug}/post.md
+      if (items.findIndex((item) => item.slug === slug) === -1) {
+        for (const ext of ['md', 'mdx']) {
+          const oldStructure = path.join(dir, slug, `post.${ext}`);
+          if (fs.existsSync(oldStructure)) {
+            const raw = fs.readFileSync(oldStructure, 'utf-8');
+            const { data, content } = matter(raw);
+            items.push(mapFrontmatter(slug, data, content, contentType));
+            break;
+          }
         }
       }
     }
