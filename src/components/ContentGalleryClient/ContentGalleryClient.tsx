@@ -2,28 +2,35 @@
 
 import React, { useState } from 'react';
 import { GalleryItem } from '@/content/types';
-import { ImageCarousel } from '@/components/ui/ImageCarousel';
+import { ImageCarouselModal } from '@/components/ImageCarouselModal';
+import { Button } from '@/components/Form';
 
 interface ContentGalleryClientProps {
   gallery: GalleryItem[];
 }
 
 export function ContentGalleryClient({ gallery }: ContentGalleryClientProps) {
-  const [showGallery, setShowGallery] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!gallery || gallery.length === 0) return null;
 
   return (
-    <div className='mb-8'>
-      <button
-        onClick={() => setShowGallery((v) => !v)}
-        className='text-sm text-blue-600 dark:text-blue-400 hover:underline mb-2'
+    <div style={{ marginBottom: '2rem' }}>
+      <Button
+        variant='secondary'
+        onClick={() => setIsModalOpen(true)}
+        style={{ marginBottom: '1rem' }}
       >
-        {showGallery
-          ? 'Hide Gallery'
-          : `View Gallery (${gallery.length} images)`}
-      </button>
-      {showGallery && <ImageCarousel images={gallery} />}
+        View Gallery ({gallery.length}{' '}
+        {gallery.length === 1 ? 'image' : 'images'})
+      </Button>
+
+      <ImageCarouselModal
+        isOpen={isModalOpen}
+        onDismiss={() => setIsModalOpen(false)}
+        images={gallery}
+        initialIndex={0}
+      />
     </div>
   );
 }
