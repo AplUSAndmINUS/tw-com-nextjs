@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import { PodcastEpisode } from '@/content/types';
+import PodcastImage from '@/assets/images/Podcasts1400x1875.jpg'
 
 export const metadata: Metadata = {
   title: 'Podcasts',
@@ -48,7 +49,12 @@ const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
 
 export default function PodcastsPage() {
   return (
-    <PageLayout>
+    <PageLayout
+      featureImage={{
+        src: PodcastImage.src,
+        alt: 'Podcasts',
+        title: 'Podcasts',
+      }}>
       <PodcastListingClientWrapper initialEpisodes={PLACEHOLDER_EPISODES} />
     </PageLayout>
   );

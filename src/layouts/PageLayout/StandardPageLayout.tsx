@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
+import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -33,23 +33,11 @@ export function StandardPageLayout({
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start lg:items-center'>
             {/* Feature image — 3 cols on lg+, sticky on desktop */}
             <aside className='lg:col-span-3 lg:sticky lg:top-20'>
-              <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
-                <Image
-                  src={featureImage.src}
-                  alt={featureImage.alt}
-                  fill
-                  sizes='(max-width: 1024px) 100vw, 25vw'
-                  className='object-cover'
-                  priority
-                />
-                {featureImage.title && (
-                  <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <h2 className='text-white text-xl font-semibold'>
-                      {featureImage.title}
-                    </h2>
-                  </div>
-                )}
-              </div>
+              <ResponsiveFeatureImage
+                src={featureImage.src}
+                alt={featureImage.alt}
+                title={featureImage.title}
+              />
             </aside>
 
             {/* Main content — 9 cols on lg+, full width on mobile */}

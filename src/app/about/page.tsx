@@ -36,8 +36,8 @@ export default function AboutPage() {
     <PageLayout
       featureImage={{
         src: AboutPortrait.src,
-        alt: 'Terence Waters',
-        title: 'Terence Waters',
+        alt: 'About Me',
+        title: 'About Me',
       }}
     >
       <div className='py-8'>

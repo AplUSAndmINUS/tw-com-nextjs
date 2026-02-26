@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
 import { CaseStudyListingClientWrapper } from '@/components/CaseStudyListingClientWrapper';
+import CaseStudyImage from '@/assets/images/CaseStudy1400x1867.jpg';
 
 export const metadata: Metadata = {
   title: 'Case Studies',
@@ -39,7 +40,13 @@ export default async function CaseStudiesPage() {
   }));
 
   return (
-    <PageLayout>
+    <PageLayout
+      featureImage={{
+        src: CaseStudyImage.src,
+        alt: 'Case Studies',
+        title: 'Case Studies',
+      }}
+    >
       <CaseStudyListingClientWrapper
         initialCaseStudies={caseStudiesWithoutContent}
       />

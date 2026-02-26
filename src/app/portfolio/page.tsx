@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
 import { PortfolioListingClientWrapper } from '@/components/PortfolioListingClientWrapper';
+import PortfolioImage from '@/assets/images/Portfolio1280x1815.jpg';
 
 export const metadata: Metadata = {
   title: 'Portfolio',
@@ -37,7 +38,13 @@ export default async function PortfolioPage() {
   }));
 
   return (
-    <PageLayout>
+    <PageLayout
+      featureImage={{
+        src: PortfolioImage.src,
+        alt: 'Portfolio',
+        title: 'Portfolio',
+      }}
+    >
       <PortfolioListingClientWrapper initialEntries={entriesWithoutContent} />
     </PageLayout>
   );

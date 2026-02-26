@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { VideoListingClientWrapper } from '@/components/VideoListingClientWrapper';
 import { VideoItem } from '@/content/types';
+import VideoImage from '@/assets/images/Video1200x2150.jpg';
 
 export const metadata: Metadata = {
   title: 'Videos',
@@ -50,7 +51,13 @@ const PLACEHOLDER_VIDEOS: VideoItem[] = [
 
 export default function VideosPage() {
   return (
-    <PageLayout>
+    <PageLayout
+      featureImage={{
+        src: VideoImage.src,
+        alt: 'Videos',
+        title: 'Videos',
+      }}
+    >
       <VideoListingClientWrapper initialVideos={PLACEHOLDER_VIDEOS} />
     </PageLayout>
   );
