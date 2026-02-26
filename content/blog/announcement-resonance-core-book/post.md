@@ -30,9 +30,9 @@ seoKeywords:
   - 'sustainable change'
   - 'human alignment'
   - 'life framework'
-featuredImage: 'RCF_logo.jpeg'
+featuredImage: '/public/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
 gallery:
-  - url: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
+  - url: '/public/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
     alt: 'The Resonance Core Framework™ Logo'
     caption: 'The Resonance Core Framework™ Logo'
   - url: '/blog/announcement-resonance-core-book/images/RCF_book_concept.jpg'

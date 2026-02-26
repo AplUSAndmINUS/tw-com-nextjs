@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { VideoItem, ViewType } from '@/content/types';
+import { VideoItem } from '@/content/types';
+import { ViewType } from '@/store';
 
 interface VideoCardProps {
   video: VideoItem;
@@ -94,7 +95,10 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
                 {video.description}
               </p>
             )}
-            <time className='block mt-3 text-xs text-gray-400' dateTime={video.publishedAt}>
+            <time
+              className='block mt-3 text-xs text-gray-400'
+              dateTime={video.publishedAt}
+            >
               {video.publishedAt}
             </time>
           </div>
@@ -148,7 +152,10 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
               {video.description}
             </p>
           )}
-          <time className='block mt-2 text-xs text-gray-400' dateTime={video.publishedAt}>
+          <time
+            className='block mt-2 text-xs text-gray-400'
+            dateTime={video.publishedAt}
+          >
             {video.publishedAt}
           </time>
         </div>
