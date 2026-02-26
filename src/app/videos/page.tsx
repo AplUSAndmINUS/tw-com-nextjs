@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
-import { PageLayout } from '@/layouts/PageLayout';
-import { VideoListingClient } from '@/components/VideoListingClient';
+import { VideoListingClientWrapper } from '@/components/VideoListingClientWrapper';
 import { VideoItem } from '@/content/types';
-import { Typography } from '@/components/Typography';
-import { Card } from '@/components/ui/Card';
 
 export const metadata: Metadata = {
   title: 'Videos',
@@ -49,6 +46,10 @@ const PLACEHOLDER_VIDEOS: VideoItem[] = [
     duration: '',
   },
 ];
+
+export default function VideosPage() {
+  return <VideoListingClientWrapper initialVideos={PLACEHOLDER_VIDEOS} />;
+}
 
 const series = [
   {

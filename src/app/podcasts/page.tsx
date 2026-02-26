@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
-import { PageLayout } from '@/layouts/PageLayout';
-import { PodcastListingClient } from '@/components/PodcastListingClient';
+import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import { PodcastEpisode } from '@/content/types';
-import { Typography } from '@/components/Typography';
-import { Card } from '@/components/ui/Card';
 
 export const metadata: Metadata = {
   title: 'Podcasts',
@@ -47,6 +44,10 @@ const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
     category: 'Announcement',
   },
 ];
+
+export default function PodcastsPage() {
+  return <PodcastListingClientWrapper initialEpisodes={PLACEHOLDER_EPISODES} />;
+}
 
 const shows = [
   {

@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
-import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
-import { Typography } from '@/components/Typography';
-import Link from 'next/link';
+import { CaseStudyListingClientWrapper } from '@/components/CaseStudyListingClientWrapper';
 
 export const metadata: Metadata = {
   title: 'Case Studies',
@@ -32,6 +30,12 @@ export const metadata: Metadata = {
 
 export default async function CaseStudiesPage() {
   const caseStudies = await getAllContent('case-studies');
+
+  // Strip content field to reduce payload size
+  const caseStudiesWithoutContent = caseStudies.map(({ content, ...rest }) => rest);
+
+  return <CaseStudyListingClientWrapper initialCaseStudies={caseStudiesWithoutContent} />;
+}
   return (
     <PageLayout>
       <div className='max-w-4xl mx-auto py-8'>

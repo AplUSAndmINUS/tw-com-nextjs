@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
-import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
-import { PortfolioListingClient } from '@/components/PortfolioListingClient';
-import { Typography } from '@/components/Typography';
-import PortfolioPortrait from '@/assets/images/Portfolio1280x1815.jpg';
+import { PortfolioListingClientWrapper } from '@/components/PortfolioListingClientWrapper';
 
 export const metadata: Metadata = {
   title: 'Portfolio',
@@ -31,30 +28,11 @@ export const metadata: Metadata = {
 
 export default async function PortfolioPage() {
   const entries = await getAllContent('portfolio');
-  return (
-    <PageLayout
-      featureImage={{
-        src: PortfolioPortrait.src,
-        alt: 'Portfolio by Terence Waters',
-        title: 'Portfolio',
-      }}
-    >
-      <div className='py-8'>
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            Portfolio
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
-          >
-            Selected creative and technical work — projects I&apos;ve built,
-            led, or contributed to.
-          </Typography>
-        </header>
 
-        <PortfolioListingClient entries={entries} />
-      </div>
-    </PageLayout>
+  // Strip content field to reduce payload size
+  const entriesWithoutContent = entries.map(({ content, ...rest }) => rest);
+
+  return (
+    <PortfolioListingClientWrapper initialEntries={entriesWithoutContent} />
   );
 }
