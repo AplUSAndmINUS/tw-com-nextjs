@@ -4,6 +4,8 @@ import { PortfolioLayout } from '@/layouts/PortfolioLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentGalleryClient } from '@/components/ContentGalleryClient';
+import { ContentDetailNav } from '@/components/ContentDetailNav';
+import { mdxComponents } from '@/components/MarkdownContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -49,6 +51,13 @@ export default async function PortfolioEntryPage({ params }: Props) {
   const entry = await getContentBySlug('portfolio', slug);
   if (!entry) notFound();
 
+  // Build prev/next navigation from sorted entry list
+  const allEntries = await getAllContent('portfolio');
+  const sortedSlugs = allEntries.map((e) => e.slug);
+  const currentIndex = sortedSlugs.indexOf(slug);
+  const prevEntry = currentIndex < sortedSlugs.length - 1 ? allEntries[currentIndex + 1] : null;
+  const nextEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
+
   const featureImage = entry.imageUrl
     ? { src: entry.imageUrl, alt: entry.imageAlt ?? entry.title }
     : undefined;
@@ -58,11 +67,19 @@ export default async function PortfolioEntryPage({ params }: Props) {
       title={entry.title}
       description={entry.excerpt}
       featureImage={featureImage}
+      nav={
+        <ContentDetailNav
+          prevHref={prevEntry ? `/portfolio/${prevEntry.slug}` : undefined}
+          prevTitle={prevEntry?.title}
+          nextHref={nextEntry ? `/portfolio/${nextEntry.slug}` : undefined}
+          nextTitle={nextEntry?.title}
+        />
+      }
     >
       {entry.gallery && entry.gallery.length > 0 && (
         <ContentGalleryClient gallery={entry.gallery} />
       )}
-      <MDXRemote source={entry.content} />
+      <MDXRemote source={entry.content} components={mdxComponents} />
     </PortfolioLayout>
   );
 }

@@ -4,6 +4,8 @@ import { ArticleLayout } from '@/layouts/ArticleLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentGalleryClient } from '@/components/ContentGalleryClient';
+import { ContentDetailNav } from '@/components/ContentDetailNav';
+import { mdxComponents } from '@/components/MarkdownContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -50,6 +52,13 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getContentBySlug('blog', slug);
   if (!post) notFound();
 
+  // Build prev/next navigation from sorted post list
+  const allPosts = await getAllContent('blog');
+  const sortedSlugs = allPosts.map((p) => p.slug);
+  const currentIndex = sortedSlugs.indexOf(slug);
+  const prevPost = currentIndex < sortedSlugs.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+
   const featureImage = post.imageUrl
     ? { src: post.imageUrl, alt: post.imageAlt ?? post.title }
     : undefined;
@@ -60,11 +69,19 @@ export default async function BlogPostPage({ params }: Props) {
       date={post.publishedDate ?? post.date}
       author={post.author}
       featureImage={featureImage}
+      nav={
+        <ContentDetailNav
+          prevHref={prevPost ? `/blog/${prevPost.slug}` : undefined}
+          prevTitle={prevPost?.title}
+          nextHref={nextPost ? `/blog/${nextPost.slug}` : undefined}
+          nextTitle={nextPost?.title}
+        />
+      }
     >
       {post.gallery && post.gallery.length > 0 && (
         <ContentGalleryClient gallery={post.gallery} />
       )}
-      <MDXRemote source={post.content} />
+      <MDXRemote source={post.content} components={mdxComponents} />
     </ArticleLayout>
   );
 }

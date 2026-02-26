@@ -62,6 +62,42 @@ export type TypographyVariant =
   | 'cardBody'
   | 'cardMeta';
 
+/**
+ * Palette compatibility layer for Fluent UI v8 naming conventions
+ * Maps familiar v8 names to v9 color tokens
+ */
+export interface IPalette {
+  // Primary colors
+  themePrimary: string;
+  themeLighterAlt: string;
+  themeLighter: string;
+  themeLight: string;
+  themeTertiary: string;
+  themeSecondary: string;
+  themeDarkAlt: string;
+  themeDark: string;
+  themeDarker: string;
+
+  // Neutral colors
+  neutralLighterAlt: string;
+  neutralLighter: string;
+  neutralLight: string;
+  neutralQuaternaryAlt: string;
+  neutralQuaternary: string;
+  neutralTertiaryAlt: string;
+  neutralTertiary: string;
+  neutralSecondary: string;
+  neutralSecondaryAlt: string;
+  neutralPrimaryAlt: string;
+  neutralPrimary: string;
+  neutralDark: string;
+
+  // Other colors
+  black: string;
+  white: string;
+  redDark: string;
+}
+
 export interface IExtendedTheme extends Theme {
   spacing: IExtendedSpacing;
   animations: typeof animations;
@@ -73,6 +109,7 @@ export interface IExtendedTheme extends Theme {
   mediaQueries: typeof mediaQueries;
   typography: typeof typography;
   semanticColors: ISemanticColors;
+  palette: IPalette; // v8 compatibility layer
   themeMode: ThemeMode;
 }
 
@@ -1149,6 +1186,57 @@ const baseTritanopiaTheme = createLightTheme(twBrandTritanopia);
 const baseGrayscaleTheme = createLightTheme(twBrandGrayscale);
 const baseGrayscaleDarkTheme = createDarkTheme(twBrandGrayscaleDark);
 
+// ============================================================================
+// PALETTE COMPATIBILITY LAYER (Fluent UI v8 naming → v9 tokens)
+// ============================================================================
+
+/**
+ * Creates a v8-style palette object from a v9 theme
+ * This allows using familiar v8 names like `palette.neutralPrimary`
+ * while actually using v9 tokens under the hood
+ */
+const createPalette = (baseTheme: Theme): IPalette => ({
+  // Primary/brand colors
+  themePrimary: baseTheme.colorBrandForeground1,
+  themeLighterAlt: baseTheme.colorBrandBackground,
+  themeLighter: baseTheme.colorBrandBackground2,
+  themeLight: baseTheme.colorBrandForeground2,
+  themeTertiary: baseTheme.colorBrandForegroundLink,
+  themeSecondary: baseTheme.colorBrandForeground1,
+  themeDarkAlt: baseTheme.colorBrandForeground1,
+  themeDark: baseTheme.colorBrandForeground2,
+  themeDarker: baseTheme.colorBrandForeground2,
+
+  // Neutral colors (text and backgrounds)
+  neutralLighterAlt: baseTheme.colorNeutralBackground1,
+  neutralLighter: baseTheme.colorNeutralBackground1Hover,
+  neutralLight: baseTheme.colorNeutralBackground2,
+  neutralQuaternaryAlt: baseTheme.colorNeutralBackground3,
+  neutralQuaternary: baseTheme.colorNeutralStroke1,
+  neutralTertiaryAlt: baseTheme.colorNeutralStroke2,
+  neutralTertiary: baseTheme.colorNeutralForeground3,
+  neutralSecondary: baseTheme.colorNeutralForeground2,
+  neutralSecondaryAlt: baseTheme.colorNeutralForeground2,
+  neutralPrimaryAlt: baseTheme.colorNeutralForeground1,
+  neutralPrimary: baseTheme.colorNeutralForeground1,
+  neutralDark: baseTheme.colorNeutralForegroundDisabled,
+
+  // Fixed colors
+  black: baseTheme.colorNeutralForeground1,
+  white: baseTheme.colorNeutralBackground1,
+  redDark: baseTheme.colorPaletteRedForeground1,
+});
+
+// Create palette objects for each theme
+const paletteLight = createPalette(baseLightTheme);
+const paletteDark = createPalette(baseDarkTheme);
+const paletteHighContrast = createPalette(baseHighContrastTheme);
+const paletteProtanopia = createPalette(baseProtanopiaTheme);
+const paletteDeuteranopia = createPalette(baseDeuteranopiaTheme);
+const paletteTritanopia = createPalette(baseTritanopiaTheme);
+const paletteGrayscale = createPalette(baseGrayscaleTheme);
+const paletteGrayscaleDark = createPalette(baseGrayscaleDarkTheme);
+
 // Extended light theme
 export const twLightTheme: IExtendedTheme = {
   ...baseLightTheme,
@@ -1162,6 +1250,7 @@ export const twLightTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsLight,
+  palette: paletteLight,
   themeMode: 'light',
 };
 
@@ -1178,6 +1267,7 @@ export const twDarkTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsDark,
+  palette: paletteDark,
   themeMode: 'dark',
 };
 
@@ -1194,6 +1284,7 @@ export const twHighContrastTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsHighContrast,
+  palette: paletteHighContrast,
   themeMode: 'high-contrast',
 };
 
@@ -1210,6 +1301,7 @@ export const twProtanopiaTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsProtanopia,
+  palette: paletteProtanopia,
   themeMode: 'protanopia',
 };
 
@@ -1226,6 +1318,7 @@ export const twDeuteranopiaTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsDeuteranopia,
+  palette: paletteDeuteranopia,
   themeMode: 'deuteranopia',
 };
 
@@ -1242,6 +1335,7 @@ export const twTritanopiaTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsTritanopia,
+  palette: paletteTritanopia,
   themeMode: 'tritanopia',
 };
 
@@ -1258,6 +1352,7 @@ export const twGrayscaleTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsGrayscale,
+  palette: paletteGrayscale,
   themeMode: 'grayscale',
 };
 
@@ -1274,6 +1369,7 @@ export const twGrayscaleDarkTheme: IExtendedTheme = {
   mediaQueries,
   typography,
   semanticColors: semanticColorsGrayscaleDark,
+  palette: paletteGrayscaleDark,
   themeMode: 'grayscale-dark',
 };
 

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
+import { Typography } from '@/components/Typography';
 
 interface PortfolioLayoutProps {
   children: ReactNode;
@@ -12,6 +13,8 @@ interface PortfolioLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional navigation slot rendered above the content body (outside prose) */
+  nav?: ReactNode;
 }
 
 /**
@@ -26,6 +29,7 @@ export function PortfolioLayout({
   title,
   description,
   featureImage,
+  nav,
 }: PortfolioLayoutProps) {
   return (
     <SiteLayout>
@@ -45,9 +49,9 @@ export function PortfolioLayout({
                 />
                 {featureImage.title && (
                   <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <h2 className='text-white text-xl font-semibold'>
+                    <Typography variant='h5' color='#ffffff'>
                       {featureImage.title}
-                    </h2>
+                    </Typography>
                   </div>
                 )}
               </div>
@@ -55,32 +59,38 @@ export function PortfolioLayout({
 
             {/* Content — 9 cols */}
             <div className='md:col-span-9'>
+              {nav && <div>{nav}</div>}
               <header className='mb-10'>
-                <h1 className='text-4xl font-bold'>{title}</h1>
+                <Typography variant='h2'>{title}</Typography>
                 {description && (
-                  <p className='text-xl text-gray-600 dark:text-gray-400 mt-3'>
+                  <Typography
+                    variant='body'
+                    color='var(--colorNeutralForeground2)'
+                    marginTop='0.75rem'
+                  >
                     {description}
-                  </p>
+                  </Typography>
                 )}
               </header>
-              <div className='prose prose-lg dark:prose-invert max-w-none'>
-                {children}
-              </div>
+              <div>{children}</div>
             </div>
           </div>
         ) : (
           <div className='max-w-5xl mx-auto'>
+            {nav && <div>{nav}</div>}
             <header className='mb-10'>
-              <h1 className='text-4xl font-bold'>{title}</h1>
+              <Typography variant='h2'>{title}</Typography>
               {description && (
-                <p className='text-xl text-gray-600 dark:text-gray-400 mt-3'>
+                <Typography
+                  variant='body'
+                  color='var(--colorNeutralForeground2)'
+                  marginTop='0.75rem'
+                >
                   {description}
-                </p>
+                </Typography>
               )}
             </header>
-            <div className='prose prose-lg dark:prose-invert max-w-none'>
-              {children}
-            </div>
+            <div>{children}</div>
           </div>
         )}
       </div>

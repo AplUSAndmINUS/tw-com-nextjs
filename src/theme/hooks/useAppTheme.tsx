@@ -30,7 +30,7 @@ const THEME_STORAGE_KEY = 'tw-theme-mode';
 
 // Prefer system theme by default
 const getSystemTheme = (): 'light' | 'dark' => {
-  if (typeof window === 'undefined') return 'light';
+  if (typeof window === 'undefined') return 'dark';
   return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light';
@@ -94,9 +94,9 @@ export interface UseAppThemeReturn {
  * ```
  */
 export function useAppTheme(): UseAppThemeReturn {
-  // Initialize with 'light' to prevent SSR hydration mismatch
+  // Initialize with 'dark' to prevent SSR hydration mismatch and to set as default before useEffect runs. The actual theme will be loaded from localStorage in useEffect.
   // Actual theme will be loaded from localStorage in useEffect
-  const [themeMode, setThemeModeState] = useState<ThemeMode>('light');
+  const [themeMode, setThemeModeState] = useState<ThemeMode>('dark');
   const [isSystemTheme, setIsSystemTheme] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 

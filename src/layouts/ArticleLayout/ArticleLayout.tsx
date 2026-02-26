@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
+import { Typography } from '@/components/Typography';
+import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
 interface ArticleLayoutProps {
   children: ReactNode;
@@ -13,6 +15,8 @@ interface ArticleLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional navigation slot rendered above the article body (outside prose) */
+  nav?: ReactNode;
 }
 
 /**
@@ -28,6 +32,7 @@ export function ArticleLayout({
   date,
   author,
   featureImage,
+  nav,
 }: ArticleLayoutProps) {
   return (
     <SiteLayout>
@@ -47,9 +52,9 @@ export function ArticleLayout({
                 />
                 {featureImage.title && (
                   <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <h2 className='text-white text-xl font-semibold'>
+                    <Typography variant='h5' color='#ffffff'>
                       {featureImage.title}
-                    </h2>
+                    </Typography>
                   </div>
                 )}
               </div>
@@ -57,34 +62,70 @@ export function ArticleLayout({
 
             {/* Article — 9 cols */}
             <article className='md:col-span-9'>
+              {nav && <div>{nav}</div>}
               <header className='mb-8 border-b pb-6'>
-                <h1 className='text-4xl font-bold'>{title}</h1>
-                <div className='flex items-center gap-4 mt-3 text-sm text-gray-500'>
-                  {author && <span>By {author}</span>}
+                <Typography variant='h2'>{title}</Typography>
+                <div className='flex items-center gap-4 mt-3'>
+                  {author && (
+                    <Typography
+                      variant='caption'
+                      color='var(--colorNeutralForeground2)'
+                    >
+                      By {author}
+                    </Typography>
+                  )}
                   {date && (
-                    <time dateTime={date}>{date}</time>
+                    <time dateTime={date}>
+                      <Typography
+                        variant='caption'
+                        color='var(--colorNeutralForeground2)'
+                      >
+                        {date}
+                      </Typography>
+                    </time>
                   )}
                 </div>
+                {author && (
+                  <div className='mt-3'>
+                    <SocialLinks isAuthorTagline={true} />
+                  </div>
+                )}
               </header>
-              <div className='prose prose-lg dark:prose-invert max-w-none'>
-                {children}
-              </div>
+              <div>{children}</div>
             </article>
           </div>
         ) : (
-          <article className='max-w-3xl mx-auto'>
-            <header className='mb-8 border-b pb-6'>
-              <h1 className='text-4xl font-bold'>{title}</h1>
-              <div className='flex items-center gap-4 mt-3 text-sm text-gray-500'>
-                {author && <span>By {author}</span>}
+          <article className='max-width-content mx-auto'>
+            {nav && <div>{nav}</div>}
+            <header className='mb-8 pb-6'>
+              <Typography variant='h2'>{title}</Typography>
+              <div className='flex items-center gap-4 mt-3'>
+                {author && (
+                  <Typography
+                    variant='caption'
+                    color='var(--colorNeutralForeground2)'
+                  >
+                    By {author}
+                  </Typography>
+                )}
                 {date && (
-                  <time dateTime={date}>{date}</time>
+                  <time dateTime={date}>
+                    <Typography
+                      variant='caption'
+                      color='var(--colorNeutralForeground2)'
+                    >
+                      {date}
+                    </Typography>
+                  </time>
                 )}
               </div>
+              {author && (
+                <div className='mt-3'>
+                  <SocialLinks isAuthorTagline={true} />
+                </div>
+              )}
             </header>
-            <div className='prose prose-lg dark:prose-invert max-w-none'>
-              {children}
-            </div>
+            <div className='border-t'>{children}</div>
           </article>
         )}
       </div>

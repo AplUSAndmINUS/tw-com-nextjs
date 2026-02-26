@@ -1,0 +1,1 @@
+export { ContentDetailNav } from './ContentDetailNav';

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
-import { BlogListingClient } from '@/components/BlogListingClient';
+import { BlogListingClientWrapper } from '@/components/BlogListingClientWrapper';
+import BlogPostImage from '@/assets/images/Blog1280x1815.jpg';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -38,9 +39,14 @@ export default async function BlogPage() {
   }));
 
   return (
-    <PageLayout>
-      <BlogListingClient posts={posts} />
+    <PageLayout
+      featureImage={{
+        src: BlogPostImage.src,
+        alt: 'Blog',
+        title: 'Blog',
+      }}
+    >
+      <BlogListingClientWrapper initialPosts={posts} />
     </PageLayout>
   );
 }
-

@@ -1,0 +1,1 @@
+export { ResponsiveFeatureImage } from './ResponsiveFeatureImage';
