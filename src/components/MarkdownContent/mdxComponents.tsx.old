@@ -120,9 +120,9 @@ export const mdxComponents: MDXComponents = {
   ),
 
   // ── Body paragraph ───────────────────────────────────────────────────────
-  // Typography variant 'p' falls back to the theme's 'body' font definition.
+  // Typography variant 'body' renders using the theme's body font definition.
   p: ({ children }) => (
-    <Typography variant='p' color={fg1} marginBottom='1rem'>
+    <Typography variant='body' color={fg1} marginBottom='1rem'>
       {children}
     </Typography>
   ),

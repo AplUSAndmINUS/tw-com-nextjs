@@ -64,7 +64,7 @@ export function PortfolioLayout({
                 <Typography variant='h1'>{title}</Typography>
                 {description && (
                   <Typography
-                    variant='p'
+                    variant='body'
                     color='var(--colorNeutralForeground2)'
                     marginTop='0.75rem'
                   >
@@ -82,7 +82,7 @@ export function PortfolioLayout({
               <Typography variant='h1'>{title}</Typography>
               {description && (
                 <Typography
-                  variant='p'
+                  variant='body'
                   color='var(--colorNeutralForeground2)'
                   marginTop='0.75rem'
                 >
