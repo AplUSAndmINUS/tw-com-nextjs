@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import { PodcastEpisode } from '@/content/types';
 
@@ -46,7 +47,11 @@ const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
 ];
 
 export default function PodcastsPage() {
-  return <PodcastListingClientWrapper initialEpisodes={PLACEHOLDER_EPISODES} />;
+  return (
+    <PageLayout>
+      <PodcastListingClientWrapper initialEpisodes={PLACEHOLDER_EPISODES} />
+    </PageLayout>
+  );
 }
 
 const shows = [

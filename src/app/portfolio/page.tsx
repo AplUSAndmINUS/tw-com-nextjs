@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
 import { PortfolioListingClientWrapper } from '@/components/PortfolioListingClientWrapper';
 
@@ -33,6 +34,8 @@ export default async function PortfolioPage() {
   const entriesWithoutContent = entries.map(({ content, ...rest }) => rest);
 
   return (
-    <PortfolioListingClientWrapper initialEntries={entriesWithoutContent} />
+    <PageLayout>
+      <PortfolioListingClientWrapper initialEntries={entriesWithoutContent} />
+    </PageLayout>
   );
 }
