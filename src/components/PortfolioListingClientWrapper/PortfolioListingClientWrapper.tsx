@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
   FilterConfig,
+  SortOption,
 } from '@/components/ContentListingPage';
 import { ContentItem } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
@@ -25,6 +26,9 @@ export function PortfolioListingClientWrapper({
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   // Extract unique tags and categories
   const allTags = useMemo(() => {
@@ -43,27 +47,48 @@ export function PortfolioListingClientWrapper({
     return Array.from(categorySet).sort();
   }, [initialEntries]);
 
-  // Filter portfolio entries based on selected filters
+  // Filter and sort portfolio entries
   const filteredEntries = useMemo(() => {
     let filtered = [...initialEntries];
 
+    // Filter by tag
     if (selectedTag) {
       filtered = filtered.filter((entry) => entry.tags?.includes(selectedTag));
     }
 
+    // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter(
         (entry) => entry.category === selectedCategory
       );
     }
 
-    // Sort by date (newest first)
-    return filtered.sort((a, b) => {
-      const dateA = a.date ? new Date(a.date).getTime() : 0;
-      const dateB = b.date ? new Date(b.date).getTime() : 0;
-      return dateB - dateA;
+    // Filter by date range
+    if (dateFrom) {
+      filtered = filtered.filter(
+        (entry) => entry.date && entry.date >= dateFrom
+      );
+    }
+    if (dateTo) {
+      filtered = filtered.filter((entry) => entry.date && entry.date <= dateTo);
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-desc':
+          return (b.date || '').localeCompare(a.date || '');
+        case 'date-asc':
+          return (a.date || '').localeCompare(b.date || '');
+        case 'title':
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
     });
-  }, [initialEntries, selectedTag, selectedCategory]);
+
+    return filtered;
+  }, [initialEntries, selectedTag, selectedCategory, dateFrom, dateTo, sortBy]);
 
   // Transform portfolio entries to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -85,6 +110,7 @@ export function PortfolioListingClientWrapper({
         imageUrl: entry.imageUrl || entry.featuredImage,
         imageAlt: entry.imageAlt || entry.title,
         imageText: formattedDate,
+        tags: entry.tags,
       };
     });
   }, [filteredEntries]);
@@ -127,6 +153,16 @@ export function PortfolioListingClientWrapper({
       basePath='/portfolio'
       cards={cards}
       filters={filters}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onDateFromChange={setDateFrom}
+      onDateToChange={setDateTo}
+      onClearDates={() => {
+        setDateFrom('');
+        setDateTo('');
+      }}
       resultsMessage={resultsMessage}
       emptyStateTitle='No portfolio entries found'
       emptyStateMessage='Try adjusting your filters to see more projects.'

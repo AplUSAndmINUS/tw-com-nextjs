@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
   FilterConfig,
+  SortOption,
 } from '@/components/ContentListingPage';
 import { PodcastEpisode } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
@@ -25,6 +26,9 @@ export function PodcastListingClientWrapper({
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   // Extract unique tags and categories
   const allTags = useMemo(() => {
@@ -43,29 +47,59 @@ export function PodcastListingClientWrapper({
     return Array.from(categorySet).sort();
   }, [initialEpisodes]);
 
-  // Filter episodes based on selected filters
+  // Filter and sort episodes
   const filteredEpisodes = useMemo(() => {
     let filtered = [...initialEpisodes];
 
+    // Filter by tag
     if (selectedTag) {
       filtered = filtered.filter((episode) =>
         episode.tags?.includes(selectedTag)
       );
     }
 
+    // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter(
         (episode) => episode.category === selectedCategory
       );
     }
 
-    // Sort by date (newest first)
-    return filtered.sort((a, b) => {
-      const dateA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-      const dateB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
-      return dateB - dateA;
+    // Filter by date range
+    if (dateFrom) {
+      filtered = filtered.filter(
+        (episode) => episode.publishedDate && episode.publishedDate >= dateFrom
+      );
+    }
+    if (dateTo) {
+      filtered = filtered.filter(
+        (episode) => episode.publishedDate && episode.publishedDate <= dateTo
+      );
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-desc':
+          return (b.publishedDate || '').localeCompare(a.publishedDate || '');
+        case 'date-asc':
+          return (a.publishedDate || '').localeCompare(b.publishedDate || '');
+        case 'title':
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
     });
-  }, [initialEpisodes, selectedTag, selectedCategory]);
+
+    return filtered;
+  }, [
+    initialEpisodes,
+    selectedTag,
+    selectedCategory,
+    dateFrom,
+    dateTo,
+    sortBy,
+  ]);
 
   // Transform episodes to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -90,6 +124,7 @@ export function PodcastListingClientWrapper({
         imageUrl: undefined,
         imageAlt: episode.title,
         imageText: formattedDate,
+        tags: episode.tags,
       };
     });
   }, [filteredEpisodes]);
@@ -132,6 +167,16 @@ export function PodcastListingClientWrapper({
       basePath='/podcasts'
       cards={cards}
       filters={filters}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onDateFromChange={setDateFrom}
+      onDateToChange={setDateTo}
+      onClearDates={() => {
+        setDateFrom('');
+        setDateTo('');
+      }}
       resultsMessage={resultsMessage}
       emptyStateTitle='No podcast episodes found'
       emptyStateMessage='Try adjusting your filters to see more episodes.'

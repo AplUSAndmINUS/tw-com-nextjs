@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
   FilterConfig,
+  SortOption,
 } from '@/components/ContentListingPage';
 import { ContentItem } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
@@ -25,6 +26,9 @@ export function CaseStudyListingClientWrapper({
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   // Extract unique tags and categories
   const allTags = useMemo(() => {
@@ -43,25 +47,51 @@ export function CaseStudyListingClientWrapper({
     return Array.from(categorySet).sort();
   }, [initialCaseStudies]);
 
-  // Filter case studies based on selected filters
+  // Filter and sort case studies
   const filteredCaseStudies = useMemo(() => {
     let filtered = [...initialCaseStudies];
 
+    // Filter by tag
     if (selectedTag) {
       filtered = filtered.filter((cs) => cs.tags?.includes(selectedTag));
     }
 
+    // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter((cs) => cs.category === selectedCategory);
     }
 
-    // Sort by date (newest first)
-    return filtered.sort((a, b) => {
-      const dateA = a.date ? new Date(a.date).getTime() : 0;
-      const dateB = b.date ? new Date(b.date).getTime() : 0;
-      return dateB - dateA;
+    // Filter by date range
+    if (dateFrom) {
+      filtered = filtered.filter((cs) => cs.date && cs.date >= dateFrom);
+    }
+    if (dateTo) {
+      filtered = filtered.filter((cs) => cs.date && cs.date <= dateTo);
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-desc':
+          return (b.date || '').localeCompare(a.date || '');
+        case 'date-asc':
+          return (a.date || '').localeCompare(b.date || '');
+        case 'title':
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
     });
-  }, [initialCaseStudies, selectedTag, selectedCategory]);
+
+    return filtered;
+  }, [
+    initialCaseStudies,
+    selectedTag,
+    selectedCategory,
+    dateFrom,
+    dateTo,
+    sortBy,
+  ]);
 
   // Transform case studies to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -83,6 +113,7 @@ export function CaseStudyListingClientWrapper({
         imageUrl: cs.imageUrl || cs.featuredImage,
         imageAlt: cs.imageAlt || cs.title,
         imageText: formattedDate,
+        tags: cs.tags,
       };
     });
   }, [filteredCaseStudies]);
@@ -125,6 +156,16 @@ export function CaseStudyListingClientWrapper({
       basePath='/case-studies'
       cards={cards}
       filters={filters}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onDateFromChange={setDateFrom}
+      onDateToChange={setDateTo}
+      onClearDates={() => {
+        setDateFrom('');
+        setDateTo('');
+      }}
       resultsMessage={resultsMessage}
       emptyStateTitle='No case studies found'
       emptyStateMessage='Try adjusting your filters to see more case studies.'

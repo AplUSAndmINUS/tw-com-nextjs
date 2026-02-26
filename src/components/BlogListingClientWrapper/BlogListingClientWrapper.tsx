@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
   FilterConfig,
+  SortOption,
 } from '@/components/ContentListingPage';
 import { ContentItem } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
@@ -25,6 +26,9 @@ export function BlogListingClientWrapper({
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   // Extract unique tags and categories
   const allTags = useMemo(() => {
@@ -43,25 +47,44 @@ export function BlogListingClientWrapper({
     return Array.from(categorySet).sort();
   }, [initialPosts]);
 
-  // Filter blog posts based on selected filters
+  // Filter and sort blog posts
   const filteredPosts = useMemo(() => {
     let filtered = [...initialPosts];
 
+    // Filter by tag
     if (selectedTag) {
       filtered = filtered.filter((post) => post.tags?.includes(selectedTag));
     }
 
+    // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter((post) => post.category === selectedCategory);
     }
 
-    // Sort by date (newest first)
-    return filtered.sort((a, b) => {
-      const dateA = a.date ? new Date(a.date).getTime() : 0;
-      const dateB = b.date ? new Date(b.date).getTime() : 0;
-      return dateB - dateA;
+    // Filter by date range
+    if (dateFrom) {
+      filtered = filtered.filter((post) => post.date && post.date >= dateFrom);
+    }
+    if (dateTo) {
+      filtered = filtered.filter((post) => post.date && post.date <= dateTo);
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-desc':
+          return (b.date || '').localeCompare(a.date || '');
+        case 'date-asc':
+          return (a.date || '').localeCompare(b.date || '');
+        case 'title':
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
     });
-  }, [initialPosts, selectedTag, selectedCategory]);
+
+    return filtered;
+  }, [initialPosts, selectedTag, selectedCategory, dateFrom, dateTo, sortBy]);
 
   // Transform blog posts to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -86,6 +109,7 @@ export function BlogListingClientWrapper({
         imageUrl: post.imageUrl || post.featuredImage,
         imageAlt: post.imageAlt || post.title,
         imageText: formattedDate,
+        tags: post.tags,
       };
     });
   }, [filteredPosts]);
@@ -125,6 +149,16 @@ export function BlogListingClientWrapper({
       basePath='/blog'
       cards={cards}
       filters={filters}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onDateFromChange={setDateFrom}
+      onDateToChange={setDateTo}
+      onClearDates={() => {
+        setDateFrom('');
+        setDateTo('');
+      }}
       resultsMessage={resultsMessage}
       emptyStateTitle='No blog posts found'
       emptyStateMessage='Try adjusting your filters to see more posts.'

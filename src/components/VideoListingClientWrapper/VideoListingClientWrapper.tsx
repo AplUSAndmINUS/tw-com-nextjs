@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
   FilterConfig,
+  SortOption,
 } from '@/components/ContentListingPage';
 import { VideoItem } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
@@ -25,6 +26,9 @@ export function VideoListingClientWrapper({
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
   // Extract unique tags and categories
   const allTags = useMemo(() => {
@@ -43,27 +47,50 @@ export function VideoListingClientWrapper({
     return Array.from(categorySet).sort();
   }, [initialVideos]);
 
-  // Filter videos based on selected filters
+  // Filter and sort videos
   const filteredVideos = useMemo(() => {
     let filtered = [...initialVideos];
 
+    // Filter by tag
     if (selectedTag) {
       filtered = filtered.filter((video) => video.tags?.includes(selectedTag));
     }
 
+    // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter(
         (video) => video.category === selectedCategory
       );
     }
 
-    // Sort by date (newest first)
-    return filtered.sort((a, b) => {
-      const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
-      const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
-      return dateB - dateA;
+    // Filter by date range
+    if (dateFrom) {
+      filtered = filtered.filter(
+        (video) => video.publishedAt && video.publishedAt >= dateFrom
+      );
+    }
+    if (dateTo) {
+      filtered = filtered.filter(
+        (video) => video.publishedAt && video.publishedAt <= dateTo
+      );
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-desc':
+          return (b.publishedAt || '').localeCompare(a.publishedAt || '');
+        case 'date-asc':
+          return (a.publishedAt || '').localeCompare(b.publishedAt || '');
+        case 'title':
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
     });
-  }, [initialVideos, selectedTag, selectedCategory]);
+
+    return filtered;
+  }, [initialVideos, selectedTag, selectedCategory, dateFrom, dateTo, sortBy]);
 
   // Transform videos to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -85,6 +112,7 @@ export function VideoListingClientWrapper({
         imageUrl: video.thumbnailUrl,
         imageAlt: video.title,
         imageText: formattedDate,
+        tags: video.tags,
       };
     });
   }, [filteredVideos]);
@@ -127,6 +155,16 @@ export function VideoListingClientWrapper({
       basePath='/videos'
       cards={cards}
       filters={filters}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onDateFromChange={setDateFrom}
+      onDateToChange={setDateTo}
+      onClearDates={() => {
+        setDateFrom('');
+        setDateTo('');
+      }}
       resultsMessage={resultsMessage}
       emptyStateTitle='No videos found'
       emptyStateMessage='Try adjusting your filters to see more videos.'

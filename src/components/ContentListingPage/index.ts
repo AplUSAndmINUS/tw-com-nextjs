@@ -4,4 +4,5 @@ export type {
   FilterConfig,
   SingleSelectFilter,
   MultiSelectFilter,
+  SortOption,
 } from './ContentListingPage';

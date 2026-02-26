@@ -13,6 +13,7 @@ export interface AdaptiveCard {
   imageUrl?: string;
   imageAlt: string;
   imageText: string; // Date or other text overlay
+  tags?: string[];
 }
 
 export interface AdaptiveCardGridProps {
@@ -152,10 +153,38 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   WebkitLineClamp: 3,
                   WebkitBoxOrient: 'vertical',
                   overflow: 'hidden',
+                  marginBottom:
+                    card.tags && card.tags.length > 0 ? theme.spacing.s1 : 0,
                 }}
               >
                 {card.description}
               </p>
+              {card.tags && card.tags.length > 0 && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: theme.spacing.xs,
+                    marginTop: theme.spacing.s1,
+                  }}
+                >
+                  {card.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: '0.75rem',
+                        padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
+                        borderRadius: theme.borderRadius.container.small,
+                        backgroundColor: theme.palette.neutralLighter,
+                        color: theme.palette.neutralSecondary,
+                        border: `1px solid ${theme.palette.neutralQuaternaryAlt}`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         ))}
@@ -253,10 +282,38 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical',
                   overflow: 'hidden',
+                  marginBottom:
+                    card.tags && card.tags.length > 0 ? theme.spacing.xs : 0,
                 }}
               >
                 {card.description}
               </p>
+              {card.tags && card.tags.length > 0 && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: theme.spacing.xs,
+                    marginTop: theme.spacing.xs,
+                  }}
+                >
+                  {card.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: '0.7rem',
+                        padding: `2px ${theme.spacing.xs}`,
+                        borderRadius: theme.borderRadius.container.small,
+                        backgroundColor: theme.palette.neutralLighter,
+                        color: theme.palette.neutralSecondary,
+                        border: `1px solid ${theme.palette.neutralQuaternaryAlt}`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         ))}
@@ -364,10 +421,38 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   fontSize: isMobile ? '0.9375rem' : '1rem',
                   color: theme.palette.neutralSecondary,
                   lineHeight: 1.6,
+                  marginBottom:
+                    card.tags && card.tags.length > 0 ? theme.spacing.m : 0,
                 }}
               >
                 {card.description}
               </p>
+              {card.tags && card.tags.length > 0 && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: theme.spacing.s1,
+                    marginTop: theme.spacing.s1,
+                  }}
+                >
+                  {card.tags.slice(0, 5).map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: '0.75rem',
+                        padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
+                        borderRadius: theme.borderRadius.container.small,
+                        backgroundColor: theme.palette.neutralLighter,
+                        color: theme.palette.neutralSecondary,
+                        border: `1px solid ${theme.palette.neutralQuaternaryAlt}`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
