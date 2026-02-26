@@ -1,6 +1,13 @@
-import { ReactNode } from 'react';
+'use client';
+
+import { ReactNode, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
+import { FooterContent } from '@/components/Footer/FooterContent';
+import { Footer } from '@/components/Footer';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useSlideInOut, useIsMobile } from '@/hooks';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -15,43 +22,127 @@ interface StandardPageLayoutProps {
 }
 
 /**
- * StandardPageLayout — Server component for standard (non-homepage) pages
+ * StandardPageLayout — Client component for standard (non-homepage) pages
  *
- * Provides a normal scrolling layout with optional feature image.
- * Uses CSS media queries instead of JS hooks for responsive behavior.
+ * Behavior:
+ * - With featureImage: Contained viewport (Fluxline.pro style)
+ *   - Mobile: Normal scrolling
+ *   - Tablet/Desktop: Contained viewport, left image centered, right content scrollable
+ *   - Footer: Overlay with show/hide button on all viewport sizes
+ * - Without featureImage: Normal scrolling layout
  */
 export function StandardPageLayout({
   children,
   featureImage,
 }: StandardPageLayoutProps) {
-  return (
-    <SiteLayout>
-      {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
-      <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-content'>
-        {featureImage ? (
-          /* 3/9 responsive grid - use items-start on mobile, items-center on desktop via CSS */
-          <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start lg:items-center'>
-            {/* Feature image — 3 cols on lg+, sticky on desktop */}
-            <aside className='lg:col-span-3 lg:sticky lg:top-20'>
+  const { theme } = useAppTheme();
+  const isMobile = useIsMobile();
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+  const { animationProps } = useSlideInOut({
+    direction: 'up',
+    duration: 0.3,
+    distance: 100,
+  });
+
+  // Footer hide button (rendered inside footer overlay)
+  const footerHideButton = (
+    <div className='flex justify-center py-4 border-b border-gray-300 dark:border-gray-600'>
+      <button
+        onClick={() => setIsFooterVisible(false)}
+        className='px-6 py-2 rounded-lg transition-all font-medium'
+        style={{
+          border: `2px solid ${theme.semanticColors.border.emphasis}`,
+          color: theme.semanticColors.text.primary,
+          backgroundColor: 'transparent',
+          boxShadow: theme.shadows.button,
+          fontFamily: theme.typography.fonts.body.fontFamily,
+        }}
+        aria-label='Hide footer navigation'
+      >
+        Hide Footer
+      </button>
+    </div>
+  );
+
+  // Contained viewport layout with feature image
+  if (featureImage) {
+    return (
+      <SiteLayout isContainedView={!isMobile}>
+        {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
+        <div className='h-full flex flex-col md:flex-row md:overflow-hidden'>
+          {/* Left image pane - fixed and vertically centered on tablet/desktop */}
+          {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
+          <aside className='md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'>
+            <div className='w-full max-w-md px-4 py-6 md:py-0'>
               <ResponsiveFeatureImage
                 src={featureImage.src}
                 alt={featureImage.alt}
                 title={featureImage.title}
               />
-            </aside>
+            </div>
+          </aside>
 
-            {/* Main content — 9 cols on lg+, full width on mobile */}
-            <div className='lg:col-span-9'>{children}</div>
+          {/* Right content pane - scrollable independently with responsive margins */}
+          {/* Tablet portrait (md): 50% left margin | Tablet landscape+ (lg): 33% left margin */}
+          <div className='flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'>
+            <div className='flex-1 px-4 sm:px-6 lg:px-8 py-8'>{children}</div>
+
+            {/* Tablet/Desktop: Show Footer button centered */}
+            {!isMobile && !isFooterVisible && (
+              <div className='flex justify-center items-center py-6 border-t border-gray-200 dark:border-gray-700'>
+                <button
+                  onClick={() => setIsFooterVisible(true)}
+                  className='px-6 py-2 rounded-lg transition-all font-medium'
+                  style={{
+                    border: `2px solid ${theme.semanticColors.border.emphasis}`,
+                    color: theme.semanticColors.text.primary,
+                    backgroundColor: 'transparent',
+                    boxShadow: theme.shadows.button,
+                    fontFamily: theme.typography.fonts.body.fontFamily,
+                  }}
+                  aria-label='Show footer navigation'
+                >
+                  Show Footer
+                </button>
+              </div>
+            )}
+
+            {/* Mobile: Standard footer always visible */}
+            {isMobile && <Footer isCompact />}
           </div>
-        ) : (
-          /* No feature image — full-width content */
-          <div
-            className='w-full max-width-content'
-            style={{ margin: '0 auto' }}
-          >
-            {children}
-          </div>
+        </div>
+
+        {/* Tablet/Desktop: Animated footer overlay */}
+        {!isMobile && (
+          <AnimatePresence>
+            {isFooterVisible && (
+              <motion.footer
+                {...animationProps}
+                id='footer-content'
+                className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 shadow-2xl'
+                role='contentinfo'
+              >
+                <FooterContent
+                  isCompact={false}
+                  headerContent={footerHideButton}
+                />
+              </motion.footer>
+            )}
+          </AnimatePresence>
         )}
+      </SiteLayout>
+    );
+  }
+
+  // Standard scrolling layout without feature image
+  return (
+    <SiteLayout>
+      {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
+      <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-content'>
+        <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
+          {children}
+        </div>
       </div>
     </SiteLayout>
   );
