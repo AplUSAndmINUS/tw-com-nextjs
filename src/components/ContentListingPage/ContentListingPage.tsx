@@ -8,7 +8,7 @@ import { AdaptiveCardGrid, AdaptiveCard } from '@/components/AdaptiveCardGrid';
 import { Callout } from '@/components/Callout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useContentFilterStore, ViewType } from '@/store';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { FormButton, FormSelect, FormSelectOption } from '@/components/Form';
 import { Hero } from '@/components/Hero';
 
@@ -151,6 +151,7 @@ export function ContentListingPage({
   const { theme } = useAppTheme();
   const { viewType, setViewType } = useContentFilterStore();
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   // View type options for dropdown
   const viewOptions: FormSelectOption[] = [
@@ -224,8 +225,8 @@ export function ContentListingPage({
           </div>
         )}
 
-        {/* From Date - Hidden on Mobile */}
-        {onDateFromChange && !isMobile && (
+        {/* From Date - Hidden on Mobile and Tablet */}
+        {onDateFromChange && !isMobile && !isTablet && (
           <div style={{ minWidth: '0' }}>
             <label
               htmlFor='date-from-input'
@@ -258,8 +259,8 @@ export function ContentListingPage({
           </div>
         )}
 
-        {/* To Date - Hidden on Mobile */}
-        {onDateToChange && !isMobile && (
+        {/* To Date - Hidden on Mobile and Tablet */}
+        {onDateToChange && !isMobile && !isTablet && (
           <div style={{ minWidth: '0' }}>
             <label
               htmlFor='date-to-input'
@@ -348,7 +349,7 @@ export function ContentListingPage({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: isMobile
+                gridTemplateColumns: isMobile || isTablet
                   ? 'repeat(2, 1fr)'
                   : 'repeat(3, 1fr)',
                 gap: theme.spacing.m,
