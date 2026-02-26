@@ -9,7 +9,7 @@ import { Callout } from '@/components/Callout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useContentFilterStore, ViewType } from '@/store';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
-import { FormButton, FormSelect, FormSelectOption } from '@/components/Form';
+import { Button, Select, SelectOption } from '@/components/Form';
 import { Hero } from '@/components/Hero';
 
 /**
@@ -19,7 +19,7 @@ export interface SingleSelectFilter {
   type: 'single';
   label: string;
   placeholder?: string;
-  options: FormSelectOption[];
+  options: SelectOption[];
   value: string | undefined;
   onChange: (value: string | undefined) => void;
 }
@@ -31,7 +31,7 @@ export interface MultiSelectFilter {
   type: 'multi';
   label: string;
   placeholder?: string;
-  options: FormSelectOption[];
+  options: SelectOption[];
   selectedKeys: string[];
   onChange: (selectedKeys: string[]) => void;
 }
@@ -154,7 +154,7 @@ export function ContentListingPage({
   const isTablet = useIsTablet();
 
   // View type options for dropdown
-  const viewOptions: FormSelectOption[] = [
+  const viewOptions: SelectOption[] = [
     { key: 'grid', text: 'Grid View' },
     { key: 'small', text: 'Small Tile' },
     { key: 'large', text: 'Large Tile' },
@@ -175,7 +175,7 @@ export function ContentListingPage({
 
   // Render filter controls
   const renderFilters = () => {
-    const sortOptions: FormSelectOption[] = [
+    const sortOptions: SelectOption[] = [
       { key: 'date-desc', text: 'Newest First' },
       { key: 'date-asc', text: 'Oldest First' },
       { key: 'title', text: 'Title A-Z' },
@@ -190,11 +190,11 @@ export function ContentListingPage({
           if (filter.type === 'single') {
             return (
               <div key={index} style={{ minWidth: '0' }}>
-                <FormSelect
+                <Select
                   label={filter.label}
                   options={filter.options}
                   value={filter.value}
-                  onChange={filter.onChange}
+                  onChange={(e) => filter.onChange(e.target.value || undefined)}
                   placeholder={filter.placeholder || `Select ${filter.label}`}
                 />
               </div>
@@ -207,12 +207,12 @@ export function ContentListingPage({
         {/* Sort Selector */}
         {onSortChange && (
           <div style={{ minWidth: '0' }}>
-            <FormSelect
+            <Select
               label='Sort'
               options={sortOptions}
               value={sortBy}
-              onChange={(value) =>
-                onSortChange((value as SortOption) || 'date-desc')
+              onChange={(e) =>
+                onSortChange((e.target.value as SortOption) || 'date-desc')
               }
             />
           </div>
@@ -288,11 +288,13 @@ export function ContentListingPage({
 
         {/* View Type Selector */}
         <div style={{ minWidth: '0' }}>
-          <FormSelect
+          <Select
             label='View'
             options={viewOptions}
             value={viewType}
-            onChange={(value) => setViewType((value as ViewType) || 'grid')}
+            onChange={(e) =>
+              setViewType((e.target.value as ViewType) || 'grid')
+            }
           />
         </div>
 
@@ -305,7 +307,7 @@ export function ContentListingPage({
               alignItems: 'flex-end',
             }}
           >
-            <FormButton
+            <Button
               variant='secondary'
               onClick={onClearDates}
               style={{
@@ -315,7 +317,7 @@ export function ContentListingPage({
               }}
             >
               Clear Dates
-            </FormButton>
+            </Button>
           </div>
         )}
       </>
@@ -425,13 +427,13 @@ export function ContentListingPage({
                 }}
               >
                 {ctaSection.buttons.map((button, index) => (
-                  <FormButton
+                  <Button
                     key={index}
                     variant={button.variant}
                     onClick={() => router.push(button.path)}
                   >
                     {button.label}
-                  </FormButton>
+                  </Button>
                 ))}
               </div>
             </Callout>

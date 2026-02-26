@@ -124,8 +124,8 @@ export function CaseStudyListingClientWrapper({
       type: 'single',
       label: 'Category',
       options: [
-        { key: '', text: 'All Categories' },
-        ...allCategories.map((cat) => ({ key: cat, text: cat })),
+        { value: '', label: 'All Categories' },
+        ...allCategories.map((cat) => ({ value: cat, label: cat })),
       ],
       value: selectedCategory || '',
       onChange: (key) => setSelectedCategory(key || undefined),
@@ -134,8 +134,8 @@ export function CaseStudyListingClientWrapper({
       type: 'single',
       label: 'Tag',
       options: [
-        { key: '', text: 'All Tags' },
-        ...allTags.map((tag) => ({ key: tag, text: tag })),
+        { value: '', label: 'All Tags' },
+        ...allTags.map((tag) => ({ value: tag, label: tag })),
       ],
       value: selectedTag || '',
       onChange: (key) => setSelectedTag(key || undefined),

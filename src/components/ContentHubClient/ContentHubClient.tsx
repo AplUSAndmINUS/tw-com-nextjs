@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { ContentItem } from '@/content/types';
 import { ViewType } from '@/store';
 import { GridView, LargeView, SmallView } from '@/components/ContentViews';
+import { Select, SelectOption } from '@/components/Form';
 
 interface ContentHubClientProps {
   allContent: ContentItem[];
@@ -52,7 +53,11 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
 
   // Get unique content types
   const contentTypes = useMemo(() => {
-    const types = new Set(allContent.map((item) => item.type));
+    const types = new Set(
+      allContent
+        .map((item) => item.type)
+        .filter((type) => type !== undefined) as string[]
+    );
     return ['all', ...Array.from(types).sort()];
   }, [allContent]);
 
@@ -114,73 +119,54 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
           {/* Left side: Filters */}
           <div className='flex flex-wrap gap-3 items-center'>
             {/* Content Type Filter */}
-            <div className='flex items-center gap-2'>
-              <label
-                htmlFor='type-filter'
-                className='text-sm font-medium text-gray-700 dark:text-gray-300'
-              >
-                Type:
-              </label>
-              <select
-                id='type-filter'
+            <div style={{ minWidth: '200px' }}>
+              <Select
+                label='Type'
+                size='small'
+                options={contentTypes.map(
+                  (type): SelectOption => ({
+                    value: type,
+                    label:
+                      type === 'all'
+                        ? 'All Types'
+                        : (type?.charAt(0).toUpperCase() ?? '') +
+                          (type?.slice(1) ?? ''),
+                  })
+                )}
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className='px-3 py-1.5 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-              >
-                {contentTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type === 'all'
-                      ? 'All Types'
-                      : (type?.charAt(0).toUpperCase() ?? '') +
-                        (type?.slice(1) ?? '')}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             {/* Tag Filter */}
-            <div className='flex items-center gap-2'>
-              <label
-                htmlFor='tag-filter'
-                className='text-sm font-medium text-gray-700 dark:text-gray-300'
-              >
-                Tag:
-              </label>
-              <select
-                id='tag-filter'
+            <div style={{ minWidth: '200px' }}>
+              <Select
+                label='Tag'
+                size='small'
+                options={allTags.slice(0, 20).map(
+                  (tag): SelectOption => ({
+                    value: tag,
+                    label: tag === 'all' ? 'All Tags' : tag,
+                  })
+                )}
                 value={selectedTag}
                 onChange={(e) => setSelectedTag(e.target.value)}
-                className='px-3 py-1.5 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-              >
-                {allTags.slice(0, 20).map((tag) => (
-                  <option key={tag} value={tag}>
-                    {tag === 'all' ? 'All Tags' : tag}
-                  </option>
-                ))}
-                {allTags.length > 20 && (
-                  <option disabled>...and {allTags.length - 20} more</option>
-                )}
-              </select>
+              />
             </div>
 
             {/* Sort */}
-            <div className='flex items-center gap-2'>
-              <label
-                htmlFor='sort-filter'
-                className='text-sm font-medium text-gray-700 dark:text-gray-300'
-              >
-                Sort:
-              </label>
-              <select
-                id='sort-filter'
+            <div style={{ minWidth: '180px' }}>
+              <Select
+                label='Sort'
+                size='small'
+                options={[
+                  { value: 'date-desc', label: 'Newest First' },
+                  { value: 'date-asc', label: 'Oldest First' },
+                  { value: 'title', label: 'Title A-Z' },
+                ]}
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className='px-3 py-1.5 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-              >
-                <option value='date-desc'>Newest First</option>
-                <option value='date-asc'>Oldest First</option>
-                <option value='title'>Title A-Z</option>
-              </select>
+              />
             </div>
           </div>
 
