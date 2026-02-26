@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { PodcastEpisode, ViewType } from '@/content/types';
+import { PodcastEpisode } from '@/content/types';
+import { ViewType } from '@/store';
 import { PodcastCard } from '@/components/PodcastCard';
 import { TagFilter } from '@/components/TagFilter';
 import { ViewSwitcher } from '@/components/ViewSwitcher';
@@ -23,7 +24,9 @@ export function PodcastListingClient({ episodes }: PodcastListingClientProps) {
 
   const allCategories = useMemo(() => {
     const set = new Set<string>();
-    episodes.forEach((e) => { if (e.category) set.add(e.category); });
+    episodes.forEach((e) => {
+      if (e.category) set.add(e.category);
+    });
     return Array.from(set).sort();
   }, [episodes]);
 
@@ -49,7 +52,12 @@ export function PodcastListingClient({ episodes }: PodcastListingClientProps) {
             />
           )}
           {allTags.length > 0 && (
-            <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+            <TagFilter
+              tags={allTags}
+              activeTag={activeTag}
+              onTagChange={setActiveTag}
+              label='Tags'
+            />
           )}
         </div>
         <ViewSwitcher current={viewType} onChange={setViewType} />
@@ -68,7 +76,11 @@ export function PodcastListingClient({ episodes }: PodcastListingClientProps) {
       ) : (
         <div>
           {filtered.map((episode) => (
-            <PodcastCard key={episode.slug} episode={episode} viewType={viewType} />
+            <PodcastCard
+              key={episode.slug}
+              episode={episode}
+              viewType={viewType}
+            />
           ))}
         </div>
       )}

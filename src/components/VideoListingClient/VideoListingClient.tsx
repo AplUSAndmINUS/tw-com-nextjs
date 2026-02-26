@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { VideoItem, ViewType } from '@/content/types';
+import { VideoItem } from '@/content/types';
+import { ViewType } from '@/store';
 import { VideoCard } from '@/components/VideoCard';
 import { TagFilter } from '@/components/TagFilter';
 import { ViewSwitcher } from '@/components/ViewSwitcher';

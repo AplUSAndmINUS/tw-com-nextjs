@@ -32,13 +32,13 @@ seoKeywords:
   - 'life framework'
 featuredImage: 'RCF_logo.jpeg'
 gallery:
-  - url: '/blog/posts/announcement-resonance-core-book/images/RCF_logo.jpeg'
+  - url: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
     alt: 'The Resonance Core Framework™ Logo'
     caption: 'The Resonance Core Framework™ Logo'
-  - url: '/blog/posts/announcement-resonance-core-book/images/RCF_book_concept.jpg'
+  - url: '/blog/announcement-resonance-core-book/images/RCF_book_concept.jpg'
     alt: 'The Resonance Core Framework™ Book Concept'
     caption: 'The Resonance Core Framework™ Book Concept'
-  - url: '/blog/posts/announcement-resonance-core-book/images/drive_model_framework.jpeg'
+  - url: '/blog/announcement-resonance-core-book/images/drive_model_framework.jpeg'
     alt: 'The DRIVE Model Framework: Aligning our identity with our goals'
     caption: 'The DRIVE Model Framework: Aligning our identity with our goals'
 ---

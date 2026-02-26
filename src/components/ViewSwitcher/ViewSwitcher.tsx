@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ViewType } from '@/content/types';
+import { ViewType } from '@/store';
 
 interface ViewSwitcherProps {
   current: ViewType;

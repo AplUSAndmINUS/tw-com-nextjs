@@ -1,7 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type ViewType = 'grid' | 'small-tile' | 'large-tile';
+/**
+ * View type for content listings
+ * Matches the values expected by AdaptiveCardGrid component
+ */
+export type ViewType = 'grid' | 'small' | 'large';
 
 interface ContentFilterState {
   viewType: ViewType;

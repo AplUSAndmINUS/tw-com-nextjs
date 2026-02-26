@@ -62,5 +62,3 @@ export type ContentType =
   | 'case-studies'
   | 'videos'
   | 'podcasts';
-
-export type ViewType = 'grid' | 'large' | 'small';

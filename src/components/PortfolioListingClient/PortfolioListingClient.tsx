@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ContentItem, ViewType } from '@/content/types';
+import { ContentItem } from '@/content/types';
+import { ViewType } from '@/store';
 import { ContentCard } from '@/components/ContentCard';
 import { ViewSwitcher } from '@/components/ViewSwitcher';
 import { TagFilter } from '@/components/TagFilter';

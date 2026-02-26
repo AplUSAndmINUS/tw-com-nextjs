@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ContentItem } from '@/content/types';
-import { ViewType } from '@/content/types';
+import { ViewType } from '@/store';
 
 interface ContentCardProps {
   item: ContentItem;
@@ -11,7 +11,12 @@ interface ContentCardProps {
   contentType?: string;
 }
 
-export function ContentCard({ item, href, viewType = 'grid', contentType }: ContentCardProps) {
+export function ContentCard({
+  item,
+  href,
+  viewType = 'grid',
+  contentType,
+}: ContentCardProps) {
   if (viewType === 'large') {
     return <LargeCard item={item} href={href} contentType={contentType} />;
   }
@@ -23,7 +28,15 @@ export function ContentCard({ item, href, viewType = 'grid', contentType }: Cont
 
 // ─── Grid Card ────────────────────────────────────────────────────────────────
 
-function GridCard({ item, href, contentType }: { item: ContentItem; href: string; contentType?: string }) {
+function GridCard({
+  item,
+  href,
+  contentType,
+}: {
+  item: ContentItem;
+  href: string;
+  contentType?: string;
+}) {
   return (
     <Link href={href} className='group block'>
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
@@ -59,7 +72,10 @@ function GridCard({ item, href, contentType }: { item: ContentItem; href: string
           {item.tags && item.tags.length > 0 && (
             <div className='mt-2 flex flex-wrap gap-1'>
               {item.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'>
+                <span
+                  key={tag}
+                  className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
+                >
                   {tag}
                 </span>
               ))}
@@ -73,7 +89,15 @@ function GridCard({ item, href, contentType }: { item: ContentItem; href: string
 
 // ─── Large Card ───────────────────────────────────────────────────────────────
 
-function LargeCard({ item, href, contentType }: { item: ContentItem; href: string; contentType?: string }) {
+function LargeCard({
+  item,
+  href,
+  contentType,
+}: {
+  item: ContentItem;
+  href: string;
+  contentType?: string;
+}) {
   return (
     <Link href={href} className='group block'>
       <article className='flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700 py-8'>
@@ -109,7 +133,10 @@ function LargeCard({ item, href, contentType }: { item: ContentItem; href: strin
           {item.tags && item.tags.length > 0 && (
             <div className='mt-2 flex flex-wrap gap-1'>
               {item.tags.slice(0, 5).map((tag) => (
-                <span key={tag} className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'>
+                <span
+                  key={tag}
+                  className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
+                >
                   {tag}
                 </span>
               ))}

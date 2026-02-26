@@ -156,20 +156,13 @@ export function ContentListingPage({
   // View type options for dropdown
   const viewOptions: FormSelectOption[] = [
     { key: 'grid', text: 'Grid View' },
-    { key: 'small-tile', text: 'Small Tile' },
-    { key: 'large-tile', text: 'Large Tile' },
+    { key: 'small', text: 'Small Tile' },
+    { key: 'large', text: 'Large Tile' },
   ];
 
   // Ensure filters array is always defined
   const safeFilters = filters || [];
   const safeCards = cards || [];
-
-  // Map view type for grid component
-  const getViewType = (): 'grid' | 'small' | 'large' => {
-    if (viewType === 'small-tile') return 'small';
-    if (viewType === 'large-tile') return 'large';
-    return 'grid';
-  };
 
   // Handle card click
   const handleCardClick = (id: string) => {
@@ -349,9 +342,8 @@ export function ContentListingPage({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: isMobile || isTablet
-                  ? 'repeat(2, 1fr)'
-                  : 'repeat(3, 1fr)',
+                gridTemplateColumns:
+                  isMobile || isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
                 gap: theme.spacing.m,
                 width: '100%',
               }}
@@ -405,7 +397,7 @@ export function ContentListingPage({
             <AdaptiveCardGrid
               cards={safeCards}
               basePath={basePath}
-              viewType={getViewType()}
+              viewType={viewType}
               onCardClick={handleCardClick}
             />
           )}

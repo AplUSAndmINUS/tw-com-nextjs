@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ContentItem, ViewType } from '@/content/types';
+import { ContentItem } from '@/content/types';
+import { ViewType } from '@/store';
 import { ContentCard } from '@/components/ContentCard';
 import { ViewSwitcher } from '@/components/ViewSwitcher';
 import { TagFilter } from '@/components/TagFilter';
@@ -42,7 +43,7 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
 
   const featuredEntries = useMemo(
     () => filtered.filter((e) => e.featured),
-    [filtered],
+    [filtered]
   );
 
   return (
@@ -50,7 +51,8 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
       <div className='mb-8'>
         <h1 className='text-4xl font-bold mb-2'>Content Hub</h1>
         <p className='text-gray-600 dark:text-gray-400'>
-          Explore all content — blog posts, portfolio work, and case studies in one place.
+          Explore all content — blog posts, portfolio work, and case studies in
+          one place.
         </p>
       </div>
 
@@ -88,7 +90,12 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
       {/* Tag filter */}
       {allTags.length > 0 && (
         <div className='mb-6'>
-          <TagFilter tags={allTags} activeTag={activeTag} onTagChange={setActiveTag} label='Tags' />
+          <TagFilter
+            tags={allTags}
+            activeTag={activeTag}
+            onTagChange={setActiveTag}
+            label='Tags'
+          />
         </div>
       )}
 

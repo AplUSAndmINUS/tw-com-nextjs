@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { PodcastEpisode, ViewType } from '@/content/types';
+import { PodcastEpisode } from '@/content/types';
+import { ViewType } from '@/store';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -30,11 +31,16 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
           </div>
           <div className='p-4 flex flex-col flex-1'>
             <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
-              {episode.season !== undefined && episode.episode !== undefined && (
-                <span>S{episode.season}E{episode.episode}</span>
-              )}
+              {episode.season !== undefined &&
+                episode.episode !== undefined && (
+                  <span>
+                    S{episode.season}E{episode.episode}
+                  </span>
+                )}
               {episode.category && (
-                <span className='text-purple-600 dark:text-purple-400 font-medium'>{episode.category}</span>
+                <span className='text-purple-600 dark:text-purple-400 font-medium'>
+                  {episode.category}
+                </span>
               )}
             </div>
             <h2 className='font-semibold text-base group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2 flex-1'>
@@ -47,7 +53,9 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
             )}
             <div className='mt-2 flex items-center gap-2 text-xs text-gray-400'>
               {episode.publishedDate && (
-                <time dateTime={episode.publishedDate}>{episode.publishedDate}</time>
+                <time dateTime={episode.publishedDate}>
+                  {episode.publishedDate}
+                </time>
               )}
               {episode.duration && <span>{episode.duration}</span>}
             </div>
@@ -83,7 +91,9 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
             <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
               {episode.category && <span>{episode.category}</span>}
               {episode.publishedDate && (
-                <time dateTime={episode.publishedDate}>{episode.publishedDate}</time>
+                <time dateTime={episode.publishedDate}>
+                  {episode.publishedDate}
+                </time>
               )}
               {episode.duration && <span>{episode.duration}</span>}
             </div>
@@ -118,13 +128,19 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
         <div className='flex-1 min-w-0'>
           <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
             {episode.season !== undefined && episode.episode !== undefined && (
-              <span>S{episode.season}E{episode.episode}</span>
+              <span>
+                S{episode.season}E{episode.episode}
+              </span>
             )}
             {episode.category && (
-              <span className='text-purple-600 dark:text-purple-400 font-medium'>{episode.category}</span>
+              <span className='text-purple-600 dark:text-purple-400 font-medium'>
+                {episode.category}
+              </span>
             )}
             {episode.publishedDate && (
-              <time dateTime={episode.publishedDate}>{episode.publishedDate}</time>
+              <time dateTime={episode.publishedDate}>
+                {episode.publishedDate}
+              </time>
             )}
             {episode.duration && <span>{episode.duration}</span>}
           </div>
@@ -139,7 +155,10 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
           {episode.tags && episode.tags.length > 0 && (
             <div className='mt-1.5 flex flex-wrap gap-1'>
               {episode.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'>
+                <span
+                  key={tag}
+                  className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
+                >
                   {tag}
                 </span>
               ))}

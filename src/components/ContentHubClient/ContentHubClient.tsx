@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { ContentItem, ViewType } from '@/content/types';
+import { ContentItem } from '@/content/types';
+import { ViewType } from '@/store';
 import { GridView, LargeView, SmallView } from '@/components/ContentViews';
 
 interface ContentHubClientProps {
@@ -288,7 +289,10 @@ export function ContentHubClient({ allContent }: ContentHubClientProps) {
           </div>
           {hasDateFilter && (
             <button
-              onClick={() => { setDateFrom(''); setDateTo(''); }}
+              onClick={() => {
+                setDateFrom('');
+                setDateTo('');
+              }}
               className='text-xs text-blue-600 dark:text-blue-400 hover:underline'
             >
               Clear dates
