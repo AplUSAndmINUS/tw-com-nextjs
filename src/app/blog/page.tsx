@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
-import { BlogListingClient } from '@/components/BlogListingClient';
+import { BlogListingClientWrapper } from '@/components/BlogListingClientWrapper';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -39,8 +39,7 @@ export default async function BlogPage() {
 
   return (
     <PageLayout>
-      <BlogListingClient posts={posts} />
+      <BlogListingClientWrapper initialPosts={posts} />
     </PageLayout>
   );
 }
-

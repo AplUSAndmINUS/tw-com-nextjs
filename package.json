@@ -14,13 +14,15 @@
   "dependencies": {
     "@fluentui/react-components": "^9.73.0",
     "@fluentui/react-icons": "^2.0.319",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.34.3",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "sass": "^1.97.3"
+    "sass": "^1.97.3",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -29,7 +31,7 @@
     "@types/react-dom": "^19",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
-    "typescript": "5.9.3",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "typescript": "5.9.3"
   }
 }

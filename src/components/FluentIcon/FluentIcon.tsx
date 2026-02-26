@@ -115,15 +115,16 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
 
   const IconComponent = iconName as React.ComponentType<any>;
 
+  const containerProps = {
+    style: wrapperStyles,
+    className,
+    'aria-label': ariaLabel,
+    onClick,
+    ...(onClick && { role: 'button', tabIndex: 0 }),
+  };
+
   return (
-    <span
-      style={wrapperStyles}
-      className={className}
-      aria-label={ariaLabel}
-      onClick={onClick}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-    >
+    <span {...containerProps}>
       <IconComponent primaryFill={iconColor} style={{ color: iconColor }} />
     </span>
   );
