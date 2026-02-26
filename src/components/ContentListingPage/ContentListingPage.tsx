@@ -191,17 +191,19 @@ export function ContentListingPage({
 
     return (
       <>
+        {/* Dynamic Filters (Category, Tag, etc.) */}
         {safeFilters.map((filter, index) => {
           if (filter.type === 'single') {
             return (
-              <FormSelect
-                key={index}
-                label={filter.label}
-                options={filter.options}
-                value={filter.value}
-                onChange={filter.onChange}
-                placeholder={filter.placeholder || `Select ${filter.label}`}
-              />
+              <div key={index} style={{ minWidth: '0' }}>
+                <FormSelect
+                  label={filter.label}
+                  options={filter.options}
+                  value={filter.value}
+                  onChange={filter.onChange}
+                  placeholder={filter.placeholder || `Select ${filter.label}`}
+                />
+              </div>
             );
           }
           // Multi-select not implemented yet - can be added later
@@ -210,7 +212,7 @@ export function ContentListingPage({
 
         {/* Sort Selector */}
         {onSortChange && (
-          <div style={{ minWidth: '200px', flex: '1 1 200px' }}>
+          <div style={{ minWidth: '0' }}>
             <FormSelect
               label='Sort'
               options={sortOptions}
@@ -222,100 +224,76 @@ export function ContentListingPage({
           </div>
         )}
 
-        {/* Date Range Filter */}
-        {(onDateFromChange || onDateToChange) && (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: isMobile ? 'column' : 'row',
-              gap: theme.spacing.s1,
-              alignItems: isMobile ? 'stretch' : 'flex-end',
-              flex: '1 1 auto',
-            }}
-          >
-            {onDateFromChange && (
-              <div style={{ flex: '1 1 150px', minWidth: '150px' }}>
-                <label
-                  htmlFor='date-from-input'
-                  style={{
-                    display: 'block',
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
-                    color: theme.palette.neutralPrimary,
-                    marginBottom: theme.spacing.xs,
-                  }}
-                >
-                  From Date
-                </label>
-                <input
-                  id='date-from-input'
-                  type='date'
-                  value={dateFrom}
-                  onChange={(e) => onDateFromChange(e.target.value)}
-                  aria-label='From date'
-                  style={{
-                    width: '100%',
-                    padding: `${theme.spacing.s1} ${theme.spacing.s1}`,
-                    borderRadius: theme.borderRadius.container.small,
-                    border: `1px solid ${theme.palette.neutralQuaternary}`,
-                    backgroundColor: theme.palette.white,
-                    color: theme.palette.neutralPrimary,
-                    fontSize: '0.875rem',
-                  }}
-                />
-              </div>
-            )}
-            {onDateToChange && (
-              <div style={{ flex: '1 1 150px', minWidth: '150px' }}>
-                <label
-                  htmlFor='date-to-input'
-                  style={{
-                    display: 'block',
-                    fontSize: '0.875rem',
-                    fontWeight: 500,
-                    color: theme.palette.neutralPrimary,
-                    marginBottom: theme.spacing.xs,
-                  }}
-                >
-                  To Date
-                </label>
-                <input
-                  id='date-to-input'
-                  type='date'
-                  value={dateTo}
-                  onChange={(e) => onDateToChange(e.target.value)}
-                  aria-label='To date'
-                  style={{
-                    width: '100%',
-                    padding: `${theme.spacing.s1} ${theme.spacing.s1}`,
-                    borderRadius: theme.borderRadius.container.small,
-                    border: `1px solid ${theme.palette.neutralQuaternary}`,
-                    backgroundColor: theme.palette.white,
-                    color: theme.palette.neutralPrimary,
-                    fontSize: '0.875rem',
-                  }}
-                />
-              </div>
-            )}
-            {hasDateFilter && onClearDates && (
-              <div style={{ flex: '0 0 auto' }}>
-                <FormButton
-                  variant='secondary'
-                  onClick={onClearDates}
-                  style={{
-                    padding: `${theme.spacing.s1} ${theme.spacing.m}`,
-                    minHeight: '36px',
-                  }}
-                >
-                  Clear Dates
-                </FormButton>
-              </div>
-            )}
+        {/* From Date - Hidden on Mobile */}
+        {onDateFromChange && !isMobile && (
+          <div style={{ minWidth: '0' }}>
+            <label
+              htmlFor='date-from-input'
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                color: theme.palette.neutralPrimary,
+                marginBottom: theme.spacing.xs,
+              }}
+            >
+              From Date
+            </label>
+            <input
+              id='date-from-input'
+              type='date'
+              value={dateFrom}
+              onChange={(e) => onDateFromChange(e.target.value)}
+              aria-label='From date'
+              style={{
+                width: '100%',
+                padding: `${theme.spacing.s1} ${theme.spacing.s1}`,
+                borderRadius: theme.borderRadius.container.small,
+                border: `1px solid ${theme.palette.neutralQuaternary}`,
+                backgroundColor: theme.palette.white,
+                color: theme.palette.neutralPrimary,
+                fontSize: '0.875rem',
+              }}
+            />
+          </div>
+        )}
+
+        {/* To Date - Hidden on Mobile */}
+        {onDateToChange && !isMobile && (
+          <div style={{ minWidth: '0' }}>
+            <label
+              htmlFor='date-to-input'
+              style={{
+                display: 'block',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                color: theme.palette.neutralPrimary,
+                marginBottom: theme.spacing.xs,
+              }}
+            >
+              To Date
+            </label>
+            <input
+              id='date-to-input'
+              type='date'
+              value={dateTo}
+              onChange={(e) => onDateToChange(e.target.value)}
+              aria-label='To date'
+              style={{
+                width: '100%',
+                padding: `${theme.spacing.s1} ${theme.spacing.s1}`,
+                borderRadius: theme.borderRadius.container.small,
+                border: `1px solid ${theme.palette.neutralQuaternary}`,
+                backgroundColor: theme.palette.white,
+                color: theme.palette.neutralPrimary,
+                fontSize: '0.875rem',
+              }}
+            />
           </div>
         )}
 
         {/* View Type Selector */}
-        <div style={{ minWidth: '200px', flex: '1 1 200px' }}>
+        <div style={{ minWidth: '0' }}>
           <FormSelect
             label='View'
             options={viewOptions}
@@ -323,6 +301,29 @@ export function ContentListingPage({
             onChange={(value) => setViewType((value as ViewType) || 'grid')}
           />
         </div>
+
+        {/* Clear Dates Button - Hidden on Mobile, Shows when dates are set */}
+        {hasDateFilter && onClearDates && !isMobile && (
+          <div
+            style={{
+              minWidth: '0',
+              display: 'flex',
+              alignItems: 'flex-end',
+            }}
+          >
+            <FormButton
+              variant='secondary'
+              onClick={onClearDates}
+              style={{
+                padding: `${theme.spacing.s1} ${theme.spacing.m}`,
+                minHeight: '36px',
+                width: '100%',
+              }}
+            >
+              Clear Dates
+            </FormButton>
+          </div>
+        )}
       </>
     );
   };
@@ -346,8 +347,10 @@ export function ContentListingPage({
           filters={
             <div
               style={{
-                display: 'flex',
-                flexWrap: 'wrap',
+                display: 'grid',
+                gridTemplateColumns: isMobile
+                  ? 'repeat(2, 1fr)'
+                  : 'repeat(3, 1fr)',
                 gap: theme.spacing.m,
                 width: '100%',
               }}
