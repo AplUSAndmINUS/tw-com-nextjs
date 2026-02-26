@@ -94,7 +94,7 @@ export interface UseAppThemeReturn {
  * ```
  */
 export function useAppTheme(): UseAppThemeReturn {
-  // Initialize with 'dark' to prevent SSR hydration mismatch
+  // Initialize with 'dark' to prevent SSR hydration mismatch and to set as default before useEffect runs. The actual theme will be loaded from localStorage in useEffect.
   // Actual theme will be loaded from localStorage in useEffect
   const [themeMode, setThemeModeState] = useState<ThemeMode>('dark');
   const [isSystemTheme, setIsSystemTheme] = useState(false);
