@@ -81,6 +81,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           <motion.div
             key={card.id}
             variants={itemVariants}
+            initial='hidden'
+            animate='visible'
             style={{
               cursor: 'pointer',
               borderRadius: theme.borderRadius.container.medium,
@@ -179,6 +181,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           <motion.div
             key={card.id}
             variants={itemVariants}
+            initial='hidden'
+            animate='visible'
             style={{
               display: 'flex',
               gap: theme.spacing.m,
@@ -277,6 +281,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         <motion.div
           key={card.id}
           variants={itemVariants}
+          initial='hidden'
+          animate='visible'
           style={{
             cursor: 'pointer',
             borderRadius: theme.borderRadius.container.medium,

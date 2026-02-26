@@ -33,9 +33,10 @@ export default async function CaseStudiesPage() {
   const caseStudies = await getAllContent('case-studies');
 
   // Strip content field to reduce payload size
-  const caseStudiesWithoutContent = caseStudies.map(
-    ({ content, ...rest }) => rest
-  );
+  const caseStudiesWithoutContent = caseStudies.map(({ content, ...rest }) => ({
+    ...rest,
+    content: '',
+  }));
 
   return (
     <PageLayout>

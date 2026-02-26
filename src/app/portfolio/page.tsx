@@ -31,7 +31,10 @@ export default async function PortfolioPage() {
   const entries = await getAllContent('portfolio');
 
   // Strip content field to reduce payload size
-  const entriesWithoutContent = entries.map(({ content, ...rest }) => rest);
+  const entriesWithoutContent = entries.map(({ content, ...rest }) => ({
+    ...rest,
+    content: '',
+  }));
 
   return (
     <PageLayout>
