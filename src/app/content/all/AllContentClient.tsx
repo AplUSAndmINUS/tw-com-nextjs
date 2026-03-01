@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
@@ -15,11 +16,27 @@ interface AllContentClientProps {
 }
 
 export function AllContentClient({ allContent }: AllContentClientProps) {
+  const router = useRouter();
   const [selectedType, setSelectedType] = useState<string | undefined>();
   const [selectedTag, setSelectedTag] = useState<string | undefined>();
   const [sortBy, setSortBy] = useState<SortOption>('date-desc');
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
+
+  // Route to correct detail page based on content type
+  const handleCardClick = (id: string) => {
+    const item = allContent.find((c) => c.slug === id);
+    if (!item || !item.type) return;
+
+    const typePathMap: Record<string, string> = {
+      blog: '/blog',
+      portfolio: '/portfolio',
+      'case-studies': '/case-studies',
+    };
+
+    const basePath = typePathMap[item.type] || '/content';
+    router.push(`${basePath}/${id}`);
+  };
 
   // Extract unique tags and types
   const allTags = Array.from(
@@ -151,6 +168,7 @@ export function AllContentClient({ allContent }: AllContentClientProps) {
         setDateFrom('');
         setDateTo('');
       }}
+      onCardClick={handleCardClick}
       resultsMessage={
         selectedType || selectedTag || dateFrom || dateTo
           ? `Showing ${filteredCards.length} of ${allContent.length} items`
