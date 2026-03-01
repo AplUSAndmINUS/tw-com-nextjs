@@ -105,11 +105,6 @@ export function useAppTheme(): UseAppThemeReturn {
     [setPreference]
   );
 
-  // Hydrate Zustand store from localStorage on client mount
-  useEffect(() => {
-    useUserPreferencesStore.persist.rehydrate();
-  }, []);
-
   // Sync dark mode with Tailwind by adding/removing 'dark' class on <html>
   useEffect(() => {
     if (typeof window === 'undefined') return;
