@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PageHeader } from '@/components/PageHeader';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import EducationPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
@@ -37,7 +38,11 @@ const offerings = [
     duration: '60 minutes',
     description:
       'A dedicated session to work through your specific challenge — career pivots, creative blocks, technical decisions, or leadership development.',
-    highlights: ['Personalized agenda', 'Recorded session (optional)', 'Follow-up notes'],
+    highlights: [
+      'Personalized agenda',
+      'Recorded session (optional)',
+      'Follow-up notes',
+    ],
     icon: '🎯',
   },
   {
@@ -45,7 +50,11 @@ const offerings = [
     duration: '4-week program',
     description:
       'A structured program for creators ready to grow their audience, refine their content strategy, and build sustainable creative habits.',
-    highlights: ['Weekly 1:1 sessions', 'Content review & feedback', 'Growth strategy'],
+    highlights: [
+      'Weekly 1:1 sessions',
+      'Content review & feedback',
+      'Growth strategy',
+    ],
     icon: '🚀',
   },
   {
@@ -53,7 +62,11 @@ const offerings = [
     duration: '8-week program',
     description:
       'For software engineers, technical leads, and those transitioning into tech roles. Covers career strategy, communication, and leadership skills.',
-    highlights: ['Resume & portfolio review', 'Interview prep', 'Career roadmap'],
+    highlights: [
+      'Resume & portfolio review',
+      'Interview prep',
+      'Career roadmap',
+    ],
     icon: '💡',
   },
   {
@@ -61,7 +74,11 @@ const offerings = [
     duration: 'Custom format',
     description:
       'Interactive workshops for teams and communities on creativity, technology, productivity, and building in public.',
-    highlights: ['Team facilitation', 'Custom curriculum', 'Actionable takeaways'],
+    highlights: [
+      'Team facilitation',
+      'Custom curriculum',
+      'Actionable takeaways',
+    ],
     icon: '👥',
   },
 ];
@@ -75,19 +92,12 @@ export default function CoachingPage() {
         title: 'Coaching & Offerings',
       }}
     >
-      <div className='py-8'>
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            Coaching & Offerings
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
-          >
-            I help creators, technologists, and leaders navigate transitions,
-            unlock their potential, and build with intention.
-          </Typography>
-        </header>
+      <div className='pt-0 pb-8 md:py-8'>
+        <PageHeader
+          title='Coaching & Offerings'
+          subtitle='I help creators, technologists, and leaders navigate transitions, unlock their potential, and build with intention.'
+          subtitleClassName='max-w-2xl'
+        />
 
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
           {offerings.map((offering) => (
@@ -111,7 +121,10 @@ export default function CoachingPage() {
               </Typography>
               <ul className='space-y-1 mb-4'>
                 {offering.highlights.map((item) => (
-                  <li key={item} className='text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2'>
+                  <li
+                    key={item}
+                    className='text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2'
+                  >
                     <span className='text-green-500'>✓</span>
                     {item}
                   </li>

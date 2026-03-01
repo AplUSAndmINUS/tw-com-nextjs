@@ -1,7 +1,8 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useFadeInOut } from '@/hooks';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useReducedMotion } from '@/hooks';
 import { ReactNode } from 'react';
 
 interface PageTransitionProps {
@@ -11,8 +12,10 @@ interface PageTransitionProps {
 }
 
 /**
- * PageTransition - Wraps page content with fade in/out transitions.
- * Automatically fades out when route changes, then fades in new content.
+ * PageTransition - Wraps page content with Framer Motion fade in/out transitions.
+ * Uses AnimatePresence with mode='wait' so the old page fades out before the new
+ * page fades in. The key={pathname} ensures re-animation on every route change.
+ * Respects the OS-level prefers-reduced-motion media query.
  *
  * @example
  * <PageTransition>
@@ -25,11 +28,22 @@ export function PageTransition({
   className = '',
 }: PageTransitionProps) {
   const pathname = usePathname();
-  const { style } = useFadeInOut(pathname, duration);
+  const { shouldReduceMotion } = useReducedMotion();
+
+  const durationSeconds = shouldReduceMotion ? 0 : duration / 1000;
 
   return (
-    <div style={style} className={className} suppressHydrationWarning>
-      {children}
-    </div>
+    <AnimatePresence mode='wait'>
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: durationSeconds, ease: 'easeInOut' }}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }

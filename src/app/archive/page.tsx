@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PageHeader } from '@/components/PageHeader';
 import { Typography } from '@/components/Typography';
 import { getAllContent } from '@/lib/content';
 
@@ -66,19 +67,11 @@ export default async function ArchivePage() {
 
   return (
     <PageLayout>
-      <div className='max-w-4xl mx-auto py-8'>
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            Archive
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3'
-          >
-            A complete archive of articles, projects, and case studies — sorted
-            by most recent.
-          </Typography>
-        </header>
+      <div className='max-w-4xl mx-auto pt-0 pb-8 md:py-8'>
+        <PageHeader
+          title='Archive'
+          subtitle='A complete archive of articles, projects, and case studies — sorted by most recent.'
+        />
 
         {allItems.length === 0 ? (
           <Typography

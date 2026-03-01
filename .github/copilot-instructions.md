@@ -220,6 +220,42 @@ Copilot should:
 - Use `dark:` variants for dark mode support
 - Use custom utilities defined in `tailwind.config`
 
+### 7.4 — Page Transitions
+
+TW.com uses a `PageTransition` component (at `src/components/PageTransition/`) for smooth fade-in/out transitions between all pages. This mirrors the Fluxline.pro approach.
+
+**How it works:**
+
+- `PageTransition` wraps all page content inside `RootLayout` (via `SiteLayout`)
+- It uses Framer Motion's `AnimatePresence` with `mode='wait'` so the old page fully fades out before the new page fades in
+- `key={pathname}` ensures the animation re-runs on every route change
+- Initial page load also fades in from `opacity: 0`, giving every page (including the homepage) a consistent fade-in on first visit
+- Respects `prefers-reduced-motion` via the `useReducedMotion` hook — sets duration to `0` when the user prefers reduced motion
+
+**Usage pattern:**
+
+```tsx
+// Automatically applied via RootLayout — no manual wrapping needed per page
+// src/layouts/RootLayout/RootLayout.tsx
+<main id='main-content'>
+  <PageTransition duration={300}>{children}</PageTransition>
+</main>
+```
+
+**Key files:**
+
+| File | Purpose |
+| ---- | ------- |
+| `src/components/PageTransition/PageTransition.tsx` | Framer Motion `AnimatePresence` + `motion.div` wrapper |
+| `src/hooks/useFadeInOut.ts` | Lower-level CSS-based fade hook (available for non-page use cases) |
+| `src/hooks/useReducedMotion.ts` | Detects OS `prefers-reduced-motion` preference |
+
+Copilot should:
+
+- Never add manual fade animations to individual page components — `RootLayout` handles this globally
+- Use `PageTransition` directly only when wrapping content outside of `RootLayout`
+- Always respect `useReducedMotion` when building custom animations
+
 ---
 
 ## 8. Performance & Accessibility

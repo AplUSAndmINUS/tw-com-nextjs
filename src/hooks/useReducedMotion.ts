@@ -5,11 +5,14 @@ import React from 'react';
 /**
  * Detects whether the user prefers reduced motion.
  * Respects the OS-level `prefers-reduced-motion` media query.
+ *
+ * Uses useLayoutEffect to read the media query before first paint,
+ * ensuring reduced-motion is respected immediately on all renders.
  */
 export const useReducedMotion = () => {
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const handleChange = (e: MediaQueryListEvent) => {

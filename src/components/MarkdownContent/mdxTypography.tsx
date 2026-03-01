@@ -74,9 +74,9 @@ const typoStyles = {
       'var(--fontFamilyProximaNova, Montserrat, system-ui, sans-serif)',
   },
   body: {
-    fontSize: '1.0625rem',
+    fontSize: '1.125rem',
     fontWeight: 400,
-    lineHeight: 1.7,
+    lineHeight: 1.4,
     fontFamily: 'var(--fontFamilyMerriweather, Georgia, serif)',
   },
   code: {

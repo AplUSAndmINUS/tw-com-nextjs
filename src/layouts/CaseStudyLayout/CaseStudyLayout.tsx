@@ -30,9 +30,35 @@ export function CaseStudyLayout({
   industry,
   featureImage,
 }: CaseStudyLayoutProps) {
+  const headerContent = (
+    <header className='mb-6 md:mb-10 border-b pb-4 md:pb-8'>
+      <Typography
+        variant='label'
+        color='var(--colorBrandForeground1)'
+        style={{
+          display: 'block',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
+        }}
+      >
+        {industry ?? 'Case Study'}
+      </Typography>
+      <Typography variant='h1' marginTop='0.5rem'>
+        {title}
+      </Typography>
+      {date && (
+        <time className='mt-2 block' dateTime={date}>
+          <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+            {date}
+          </Typography>
+        </time>
+      )}
+    </header>
+  );
+
   return (
     <SiteLayout>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8'>
+      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'>
         {featureImage ? (
           <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
             {/* Feature image — sticky sidebar on md+ */}
@@ -58,45 +84,13 @@ export function CaseStudyLayout({
 
             {/* Content — 9 cols */}
             <article className='md:col-span-9'>
-              <header className='mb-10 border-b pb-8'>
-                <Typography
-                  variant='label'
-                  color='var(--colorBrandForeground1)'
-                  style={{ display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}
-                >
-                  {industry ?? 'Case Study'}
-                </Typography>
-                <Typography variant='h1' marginTop='0.5rem'>{title}</Typography>
-                {date && (
-                  <time className='mt-2 block' dateTime={date}>
-                    <Typography variant='caption' color='var(--colorNeutralForeground2)'>
-                      {date}
-                    </Typography>
-                  </time>
-                )}
-              </header>
+              {headerContent}
               <div>{children}</div>
             </article>
           </div>
         ) : (
           <article className='max-w-4xl mx-auto'>
-            <header className='mb-10 border-b pb-8'>
-              <Typography
-                variant='label'
-                color='var(--colorBrandForeground1)'
-                style={{ display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}
-              >
-                {industry ?? 'Case Study'}
-              </Typography>
-              <Typography variant='h1' marginTop='0.5rem'>{title}</Typography>
-              {date && (
-                <time className='mt-2 block' dateTime={date}>
-                  <Typography variant='caption' color='var(--colorNeutralForeground2)'>
-                    {date}
-                  </Typography>
-                </time>
-              )}
-            </header>
+            {headerContent}
             <div>{children}</div>
           </article>
         )}

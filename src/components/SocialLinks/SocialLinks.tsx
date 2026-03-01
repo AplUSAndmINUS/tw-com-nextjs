@@ -30,7 +30,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       padding: isFooter
         ? '0'
         : isAuthorTagline
-          ? 'clamp(0.5rem, 1vh, 0.75rem)'
+          ? 'clamp(0.5rem, 1vh, 1rem)'
           : 'clamp(1rem, 2vh, 1.5rem)',
       backgroundColor: theme.gradients[isDark ? 'dark' : 'light'].menu,
       borderTop: isAuthorTagline
@@ -56,8 +56,8 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: isAuthorTagline ? '16px' : '24px',
-                height: isAuthorTagline ? '16px' : '24px',
+                width: isAuthorTagline ? '20px' : '24px',
+                height: isAuthorTagline ? '20px' : '24px',
               }}
             >
               <FluentIcon
