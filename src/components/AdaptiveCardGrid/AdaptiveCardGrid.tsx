@@ -87,6 +87,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     ? theme.semanticColors.background.elevated
     : theme.semanticColors.background.muted;
 
+  const headingFontFamily =
+    'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
   const getAccentColor = (index: number) =>
     accentPalette[index % accentPalette.length];
 
@@ -172,6 +175,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   style={{
                     fontSize: '1.25rem',
                     fontWeight: 600,
+                    fontFamily: headingFontFamily,
                     color: theme.semanticColors.text.heading,
                     marginBottom: theme.spacing.s1,
                     lineHeight: 1.3,
@@ -300,6 +304,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   style={{
                     fontSize: isMobile ? '1rem' : '1.125rem',
                     fontWeight: 600,
+                    fontFamily: headingFontFamily,
                     color: theme.semanticColors.text.heading,
                     marginBottom: theme.spacing.xs,
                     lineHeight: 1.3,
@@ -462,6 +467,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   style={{
                     fontSize: isMobile ? '1.5rem' : '1.75rem',
                     fontWeight: 600,
+                    fontFamily: headingFontFamily,
                     color: theme.semanticColors.text.heading,
                     marginBottom: theme.spacing.m,
                     lineHeight: 1.3,

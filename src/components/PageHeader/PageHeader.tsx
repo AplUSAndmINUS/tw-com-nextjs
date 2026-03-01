@@ -29,7 +29,18 @@ export function PageHeader({
   titleClassName,
   subtitleClassName,
 }: PageHeaderProps) {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
+
+  const isLightFamilyMode =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const headerSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
 
   // Deterministic accent color based on title (consistent per page)
   const accentPalette = useMemo(
@@ -53,7 +64,10 @@ export function PageHeader({
     return accentPalette[Math.abs(hash) % accentPalette.length];
   }, [title, accentPalette]);
 
-  const headerClasses = ['mb-6 md:mb-10 pb-4 md:pb-8', className]
+  const headerClasses = [
+    'mb-6 md:mb-10 px-6 py-5 md:px-10 md:py-8 rounded-xl',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -67,7 +81,9 @@ export function PageHeader({
       style={{
         borderBottom: `1px solid ${theme.semanticColors.border.default}`,
         borderTop: `4px solid ${accentColor}`,
+        backgroundColor: headerSurfaceColor,
         background: `linear-gradient(160deg, ${accentColor}14 0%, transparent 100%)`,
+        boxShadow: theme.shadows.card,
       }}
     >
       <Typography variant='h1' className={resolvedTitleClassName}>
