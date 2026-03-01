@@ -259,7 +259,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 <div
                   style={{
                     width: isMobile ? '80px' : '120px',
-                    height: '100%',
+                    height: isMobile ? '80px' : '120px',
                     flexShrink: 0,
                     borderRadius: theme.borderRadius.container.small,
                     overflow: 'hidden',
@@ -399,7 +399,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 <div
                   style={{
                     width: isMobile ? '100%' : '320px',
-                    height: isMobile ? '200px' : '100%',
+                    height: isMobile ? '200px' : '240px',
                     flexShrink: 0,
                     backgroundColor: theme.semanticColors.background.muted,
                     position: 'relative',
