@@ -18,8 +18,9 @@ interface PageHeaderProps {
  * Shared top-of-page header with consistent responsive spacing.
  * Mobile is intentionally tighter to reduce large visual gaps.
  *
- * Accent color is determined by title hash—same page always gets the same accent.
- * Text colors remain unchanged across all theme modes.
+ * All colors driven by theme.semanticColors tokens—automatically adapts across
+ * all 8 theme modes (light, dark, high-contrast, colorblind variants, grayscale).
+ * Accent color is deterministic (based on title hash) for consistent visual identity per page.
  */
 export function PageHeader({
   title,
@@ -60,13 +61,6 @@ export function PageHeader({
     .filter(Boolean)
     .join(' ');
 
-  const resolvedSubtitleClassName = [
-    'mt-3 text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400',
-    subtitleClassName,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
     <header
       className={headerClasses}
@@ -80,7 +74,15 @@ export function PageHeader({
         {title}
       </Typography>
       {subtitle && (
-        <Typography variant='body' className={resolvedSubtitleClassName}>
+        <Typography
+          variant='body'
+          className={['mt-3 text-base sm:text-lg md:text-xl', subtitleClassName]
+            .filter(Boolean)
+            .join(' ')}
+          style={{
+            color: theme.semanticColors.text.muted,
+          }}
+        >
           {subtitle}
         </Typography>
       )}
