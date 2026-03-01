@@ -37,7 +37,7 @@ export function SiteLayout({
   return (
     <RootLayout isContainedView={isContainedView} showFooter={showFooter}>
       <div
-        className={!isContainedView ? 'min-h-full' : undefined}
+        className={isContainedView ? 'w-full h-full' : 'w-full min-h-full'}
         style={backgroundStyle}
       >
         {children}
