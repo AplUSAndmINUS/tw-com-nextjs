@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
@@ -83,24 +83,44 @@ export const Hero: React.FC<HeroProps> = ({
   // Determine if description is long enough to warrant truncation (rough estimate: >150 chars)
   const shouldTruncate = description && description.length > 150;
 
+  // Deterministic accent by title keeps visual identity per page without extra props.
+  const accentPalette = useMemo(
+    () => [
+      theme.semanticColors.link.default,
+      theme.semanticColors.link.hover,
+      theme.semanticColors.link.visited,
+      theme.semanticColors.border.emphasis,
+      theme.palette.themePrimary,
+      theme.palette.themeSecondary,
+    ],
+    [theme]
+  );
+
+  const accentColor = useMemo(() => {
+    const hash = Array.from(title).reduce(
+      (acc, char) => acc + char.charCodeAt(0),
+      0
+    );
+    return accentPalette[hash % accentPalette.length];
+  }, [title, accentPalette]);
+
   return (
     <div
       className={`${className}`}
       style={{
         border: showBorder
-          ? `1px solid ${theme.palette.neutralTertiary}`
+          ? `1px solid ${theme.semanticColors.border.default}`
           : 'none',
-        backgroundColor:
-          theme.themeMode === 'high-contrast'
-            ? theme.semanticColors.background.base
-            : theme.palette.neutralLight,
+        borderTop: `4px solid ${accentColor}`,
+        backgroundColor: theme.semanticColors.background.elevated,
+        backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
         padding: isMobile
           ? `${theme.spacing.l}`
           : isTablet
             ? `${theme.spacing.xl} ${theme.spacing.xxl}`
             : `${theme.spacing.xxl} ${theme.spacing.xxxl}`,
         borderRadius: theme.borderRadius.container.medium,
-        boxShadow: showShadow ? theme.shadows.hero : 'none',
+        boxShadow: showShadow ? theme.shadows.hero : theme.shadows.card,
         marginTop: !isMobile && !isTablet ? theme.spacing.xl : undefined,
         display: 'flex',
         flexDirection: 'column',
@@ -125,28 +145,29 @@ export const Hero: React.FC<HeroProps> = ({
                 width: isMobile ? '2rem' : '2.5rem',
                 height: isMobile ? '2rem' : '2.5rem',
                 borderRadius: theme.borderRadius.container.small,
-                backgroundColor: theme.palette.neutralLighter,
-                border: `1px solid ${theme.palette.neutralQuaternary}`,
+                backgroundColor: theme.semanticColors.background.muted,
+                border: `1px solid ${theme.semanticColors.border.default}`,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor =
-                  theme.palette.neutralLight;
-                e.currentTarget.style.borderColor =
-                  theme.palette.neutralTertiary;
+                  theme.semanticColors.background.base;
+                e.currentTarget.style.borderColor = accentColor;
+                e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor =
-                  theme.palette.neutralLighter;
+                  theme.semanticColors.background.muted;
                 e.currentTarget.style.borderColor =
-                  theme.palette.neutralQuaternary;
+                  theme.semanticColors.border.default;
+                e.currentTarget.style.boxShadow = 'none';
               }}
             >
               <BackArrowIcon
                 style={{
                   fontSize: isMobile ? '1.25rem' : '1.5rem',
-                  color: theme.palette.themePrimary,
+                  color: accentColor,
                 }}
               />
             </div>
@@ -156,7 +177,7 @@ export const Hero: React.FC<HeroProps> = ({
           <IconComponent
             style={{
               fontSize: isMobile ? '2rem' : '2.5rem',
-              color: theme.palette.themePrimary,
+              color: accentColor,
               flexShrink: 0,
               paddingRight: '0.25rem',
               width: isMobile ? '36px' : '48px',
@@ -167,7 +188,7 @@ export const Hero: React.FC<HeroProps> = ({
         <Typography
           variant='h1'
           style={{
-            color: theme.palette.neutralPrimary,
+            color: theme.semanticColors.text.heading,
             margin: 0,
             fontSize: isMobile ? '1.75rem' : '2.5rem',
             lineHeight: 1.2,
@@ -178,12 +199,23 @@ export const Hero: React.FC<HeroProps> = ({
         </Typography>
       </div>
 
+      <div
+        style={{
+          width: isMobile ? '5rem' : '7rem',
+          height: '0.25rem',
+          borderRadius: theme.borderRadius.container.small,
+          background: `linear-gradient(90deg, ${accentColor} 0%, ${theme.semanticColors.link.hover} 100%)`,
+          marginTop: isMobile ? theme.spacing.xs : theme.spacing.s1,
+          marginBottom: theme.spacing.s1,
+        }}
+      />
+
       {subtitle && (
         <Typography
           variant='h2'
           style={{
             fontStyle: 'italic',
-            color: theme.palette.neutralSecondary,
+            color: theme.semanticColors.text.primary,
             fontSize: isMobile ? '1rem' : '1.25rem',
             margin: 0,
           }}
@@ -206,7 +238,7 @@ export const Hero: React.FC<HeroProps> = ({
               variant='body'
               style={{
                 fontSize: '0.875rem',
-                color: theme.palette.neutralSecondary,
+                color: theme.semanticColors.text.muted,
                 margin: 0,
               }}
             >
@@ -218,7 +250,7 @@ export const Hero: React.FC<HeroProps> = ({
               variant='body'
               style={{
                 fontSize: '0.875rem',
-                color: theme.palette.neutralSecondary,
+                color: theme.semanticColors.text.muted,
                 margin: 0,
               }}
             >
@@ -233,7 +265,7 @@ export const Hero: React.FC<HeroProps> = ({
           <Typography
             variant='body'
             style={{
-              color: theme.palette.neutralSecondary,
+              color: theme.semanticColors.text.muted,
               fontSize: isMobile ? '0.9375rem' : '1.0625rem',
               lineHeight: 1.6,
               margin: 0,
@@ -258,8 +290,8 @@ export const Hero: React.FC<HeroProps> = ({
                 marginTop: '0.75rem',
                 padding: '0.5rem 0.75rem',
                 border: `2px solid ${theme.semanticColors.border.emphasis}`,
-                color: theme.semanticColors.text.primary,
-                backgroundColor: 'transparent',
+                color: accentColor,
+                backgroundColor: theme.semanticColors.background.base,
                 fontSize: '0.875rem',
                 fontWeight: 600,
                 cursor: 'pointer',

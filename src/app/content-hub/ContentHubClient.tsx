@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Typography } from '@/components/Typography';
@@ -57,6 +58,17 @@ const contentCategories = [
 
 export function ContentHubClient() {
   const { theme } = useAppTheme();
+  const [focusedCard, setFocusedCard] = useState<string | null>(null);
+
+  // Token-driven accents so color behavior adapts automatically across all theme modes.
+  const accentPalette = [
+    theme.semanticColors.link.default,
+    theme.semanticColors.link.hover,
+    theme.semanticColors.link.visited,
+    theme.semanticColors.border.emphasis,
+    theme.palette.themePrimary,
+    theme.palette.themeSecondary,
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,82 +97,124 @@ export function ContentHubClient() {
         width: '100%',
       }}
     >
-      {contentCategories.map((category) => (
-        <motion.div
-          key={category.title}
-          variants={itemVariants}
-          initial='hidden'
-          animate='visible'
-        >
-          <Link href={category.href} className='block h-full'>
-            <motion.div
-              style={{
-                borderRadius: theme.borderRadius.container.medium,
-                border: `1px solid ${theme.palette.neutralQuaternary}`,
-                backgroundColor: theme.palette.neutralLighter,
-                padding: theme.spacing.m,
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'all 0.2s ease',
-                cursor: 'pointer',
-              }}
-              whileHover={{
-                scale: 1.02,
-                boxShadow: theme.shadows.card,
-              }}
+      {contentCategories.map((category, index) => {
+        const accentColor = accentPalette[index % accentPalette.length];
+        const isFocused = focusedCard === category.title;
+
+        return (
+          <motion.div
+            key={category.title}
+            variants={itemVariants}
+            initial='hidden'
+            animate='visible'
+          >
+            <Link
+              href={category.href}
+              className='block h-full rounded-xl focus-visible:outline-none'
+              onFocus={() => setFocusedCard(category.title)}
+              onBlur={() => setFocusedCard(null)}
+              aria-label={`${category.title}: ${category.description}`}
             >
-              {/* Icon and Title Row */}
-              <div
+              <motion.div
                 style={{
+                  borderRadius: theme.borderRadius.container.medium,
+                  border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
+                  backgroundColor: theme.semanticColors.background.elevated,
+                  backgroundImage: `linear-gradient(165deg, ${accentColor}14 0%, transparent 38%)`,
+                  padding: theme.spacing.m,
+                  height: '100%',
                   display: 'flex',
-                  gap: theme.spacing.m,
-                  marginBottom: theme.spacing.m,
-                  alignItems: 'center',
+                  flexDirection: 'column',
+                  transition: 'all 0.2s ease',
+                  cursor: 'pointer',
+                  boxShadow: isFocused
+                    ? `0 0 0 3px ${theme.semanticColors.focus.ring}`
+                    : 'none',
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  backgroundColor: theme.semanticColors.background.muted,
+                  borderColor: accentColor,
+                  boxShadow: theme.shadows.card,
                 }}
               >
-                <div style={{ fontSize: '2.25rem', flexShrink: 0 }}>
-                  {category.icon}
-                </div>
-                <Typography
-                  variant='h3'
-                  className='text-xl font-semibold'
+                <div
                   style={{
-                    color: theme.palette.neutralPrimary,
-                    lineHeight: 1.3,
+                    width: '100%',
+                    height: '4px',
+                    borderRadius: theme.borderRadius.container.small,
+                    backgroundColor: accentColor,
+                    marginBottom: theme.spacing.m,
+                  }}
+                />
+
+                {/* Icon and Title Row */}
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: theme.spacing.m,
+                    marginBottom: theme.spacing.m,
+                    alignItems: 'center',
                   }}
                 >
-                  {category.title}
+                  <div
+                    style={{
+                      fontSize: '2rem',
+                      flexShrink: 0,
+                      width: '3rem',
+                      height: '3rem',
+                      borderRadius: theme.borderRadius.container.small,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor:
+                        theme.semanticColors.selection.background,
+                      color: theme.semanticColors.selection.text,
+                      border: `1px solid ${theme.semanticColors.border.default}`,
+                    }}
+                  >
+                    {category.icon}
+                  </div>
+                  <Typography
+                    variant='h3'
+                    className='text-xl font-semibold'
+                    style={{
+                      color: theme.semanticColors.text.heading,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {category.title}
+                  </Typography>
+                </div>
+
+                {/* Description */}
+                <Typography
+                  variant='body'
+                  className='text-sm mb-4 flex-grow'
+                  style={{
+                    color: theme.semanticColors.text.muted,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {category.description}
                 </Typography>
-              </div>
 
-              {/* Description */}
-              <Typography
-                variant='body'
-                className='text-sm mb-4 flex-grow'
-                style={{
-                  color: theme.palette.neutralSecondary,
-                  lineHeight: 1.5,
-                }}
-              >
-                {category.description}
-              </Typography>
-
-              {/* CTA */}
-              <span
-                style={{
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  color: theme.palette.themePrimary,
-                }}
-                className='hover:underline'
-              >
-                {category.cta} →
-              </span>
-            </motion.div>
-          </Link>
-        </motion.div>
-      ))}
+                {/* CTA */}
+                <span
+                  style={{
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    color: accentColor,
+                  }}
+                  className='hover:underline'
+                >
+                  {category.cta} →
+                </span>
+              </motion.div>
+            </Link>
+          </motion.div>
+        );
+      })}
     </motion.div>
   );
 }
