@@ -11,8 +11,6 @@ import { resolveIconName } from '@/utils/iconResolver';
 export interface HeroProps {
   /** Main heading text */
   title: string;
-  /** Subtitle text (styled as italic secondary color) */
-  subtitle?: string;
   /** Description text (styled as body text with relaxed line height) */
   description?: string;
   /** Effective date for legal documents */
@@ -49,7 +47,6 @@ export interface HeroProps {
  * ```tsx
  * <Hero
  *   title="Blog"
- *   subtitle="Insights and thoughts"
  *   description="Explore articles on technology and design"
  *   iconName="DocumentText24Regular"
  * />
@@ -57,7 +54,6 @@ export interface HeroProps {
  */
 export const Hero: React.FC<HeroProps> = ({
   title,
-  subtitle,
   effectiveDate,
   lastUpdated,
   iconName,
@@ -136,7 +132,6 @@ export const Hero: React.FC<HeroProps> = ({
             : `${theme.spacing.xxl} ${theme.spacing.xxxl}`,
         borderRadius: theme.borderRadius.container.medium,
         boxShadow: showShadow ? theme.shadows.hero : theme.shadows.card,
-        marginTop: !isMobile && !isTablet ? theme.spacing.xl : undefined,
         display: 'flex',
         flexDirection: 'column',
         gap: isMobile ? theme.spacing.m : theme.spacing.xs,
@@ -223,20 +218,6 @@ export const Hero: React.FC<HeroProps> = ({
           marginBottom: theme.spacing.s1,
         }}
       />
-
-      {subtitle && (
-        <Typography
-          variant='h2'
-          style={{
-            fontStyle: 'italic',
-            color: theme.semanticColors.text.primary,
-            fontSize: isMobile ? '1rem' : '1.25rem',
-            margin: 0,
-          }}
-        >
-          {subtitle}
-        </Typography>
-      )}
 
       {(effectiveDate || lastUpdated) && (
         <div

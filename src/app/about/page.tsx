@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
-import { PageHeader } from '@/components/PageHeader';
+import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 
@@ -41,13 +41,13 @@ export default function AboutPage() {
       }}
     >
       <div className='pt-0 pb-8 md:py-8'>
-        <PageHeader
+        <Hero
           title='About Me'
           iconName='Person24Regular'
-          subtitle='Author, technologist, and creative thinker.'
+          description='Author, technologist, and creative thinker.'
         />
 
-        <div className='prose prose-lg dark:prose-invert max-w-none space-y-8'>
+        <div className='mt-8 prose prose-lg dark:prose-invert max-w-none space-y-8'>
           <section>
             <Typography variant='h2' className='text-2xl font-semibold mb-4'>
               My Story

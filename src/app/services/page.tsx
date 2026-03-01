@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
-import { PageHeader } from '@/components/PageHeader';
+import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import ConsultingPortrait from '@/assets/images/ConsultingPortrait.jpg';
@@ -73,14 +73,13 @@ export default function ServicesPage() {
       }}
     >
       <div className='pt-0 pb-8 md:py-8'>
-        <PageHeader
+        <Hero
           title='Services'
           iconName='Settings24Regular'
-          subtitle='I partner with teams, founders, and creators to build better products, clearer strategies, and more meaningful content.'
-          subtitleClassName='max-w-2xl'
+          description='I partner with teams, founders, and creators to build better products, clearer strategies, and more meaningful content.'
         />
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
+        <div className='mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
           {services.map((service) => (
             <Card key={service.title}>
               <div className='text-3xl mb-3'>{service.icon}</div>
