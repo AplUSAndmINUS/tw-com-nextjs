@@ -30,7 +30,7 @@ export function ContentLayout({
 }: ContentLayoutProps) {
   return (
     <SiteLayout>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8'>
+      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'>
         {featureImage ? (
           <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
             {/* Feature image — sticky sidebar on md+ */}
@@ -60,7 +60,10 @@ export function ContentLayout({
                 <Typography variant='h1'>{title}</Typography>
                 {date && (
                   <time className='mt-2 block' dateTime={date}>
-                    <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                    <Typography
+                      variant='caption'
+                      color='var(--colorNeutralForeground2)'
+                    >
                       {date}
                     </Typography>
                   </time>
@@ -75,7 +78,10 @@ export function ContentLayout({
               <Typography variant='h1'>{title}</Typography>
               {date && (
                 <time className='mt-2 block' dateTime={date}>
-                  <Typography variant='caption' color='var(--colorNeutralForeground2)'>
+                  <Typography
+                    variant='caption'
+                    color='var(--colorNeutralForeground2)'
+                  >
                     {date}
                   </Typography>
                 </time>

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PageHeader } from '@/components/PageHeader';
 import { Typography } from '@/components/Typography';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 
@@ -40,18 +41,11 @@ export default function AboutPage() {
         title: 'About Me',
       }}
     >
-      <div className='py-8'>
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            About Me
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3'
-          >
-            Author, technologist, and creative thinker.
-          </Typography>
-        </header>
+      <div className='pt-0 pb-8 md:py-8'>
+        <PageHeader
+          title='About Me'
+          subtitle='Author, technologist, and creative thinker.'
+        />
 
         <div className='prose prose-lg dark:prose-invert max-w-none space-y-8'>
           <section>

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PageHeader } from '@/components/PageHeader';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
@@ -61,22 +62,15 @@ export default function ContactPage() {
       featureImage={{
         src: LinkedInPortrait.src,
         alt: 'Terence Waters',
-        title: 'Let\'s Talk',
+        title: "Let's Talk",
       }}
     >
-      <div className='py-8'>
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            Contact
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
-          >
-            I&apos;d love to hear from you. Whether you have a question, an
-            opportunity, or just want to connect — reach out.
-          </Typography>
-        </header>
+      <div className='pt-0 pb-8 md:py-8'>
+        <PageHeader
+          title='Contact'
+          subtitle="I'd love to hear from you. Whether you have a question, an opportunity, or just want to connect — reach out."
+          subtitleClassName='max-w-2xl'
+        />
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
           {contactOptions.map((option) => (

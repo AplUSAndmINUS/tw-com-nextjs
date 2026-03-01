@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PageHeader } from '@/components/PageHeader';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import { ContentHubClient } from '@/components/ContentHubClient';
@@ -91,20 +92,13 @@ export default async function ContentHubPage() {
         title: 'Content Hub',
       }}
     >
-      <div className='py-8'>
+      <div className='pt-0 pb-8 md:py-8'>
         {/* Header */}
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            Content Hub
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
-          >
-            Everything I create — all in one place. Articles, videos, podcasts,
-            and deep dives into the ideas and work that matter most.
-          </Typography>
-        </header>
+        <PageHeader
+          title='Content Hub'
+          subtitle='Everything I create — all in one place. Articles, videos, podcasts, and deep dives into the ideas and work that matter most.'
+          subtitleClassName='max-w-2xl'
+        />
 
         {/* Quick Links Section */}
         <section className='mb-12'>

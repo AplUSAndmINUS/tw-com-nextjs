@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
+import { PageHeader } from '@/components/PageHeader';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import ConsultingPortrait from '@/assets/images/ConsultingPortrait.jpg';
@@ -71,19 +72,12 @@ export default function ServicesPage() {
         title: 'Services',
       }}
     >
-      <div className='py-8'>
-        <header className='mb-10 border-b pb-8'>
-          <Typography variant='h1' className='text-4xl font-bold'>
-            Services
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-xl text-gray-600 dark:text-gray-400 mt-3 max-w-2xl'
-          >
-            I partner with teams, founders, and creators to build better
-            products, clearer strategies, and more meaningful content.
-          </Typography>
-        </header>
+      <div className='pt-0 pb-8 md:py-8'>
+        <PageHeader
+          title='Services'
+          subtitle='I partner with teams, founders, and creators to build better products, clearer strategies, and more meaningful content.'
+          subtitleClassName='max-w-2xl'
+        />
 
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
           {services.map((service) => (
@@ -117,7 +111,8 @@ export default function ServicesPage() {
             className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
           >
             Whether you need a thought partner, a technical advisor, or a
-            content collaborator — I&apos;d love to hear about what you&apos;re building.
+            content collaborator — I&apos;d love to hear about what you&apos;re
+            building.
           </Typography>
           <Link
             href='/contact'

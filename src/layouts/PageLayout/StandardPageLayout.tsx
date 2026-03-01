@@ -38,7 +38,7 @@ export function StandardPageLayout({
     return (
       <SiteLayout showFooter={false}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-        <div className='h-full flex flex-col md:flex-row md:overflow-hidden'>
+        <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
           {/* Left image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
           <aside className='md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'>
@@ -54,7 +54,9 @@ export function StandardPageLayout({
           {/* Right content pane - scrollable independently with responsive margins */}
           {/* Tablet portrait (md): 50% left margin | Tablet landscape+ (lg): 33% left margin */}
           <div className='flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'>
-            <div className='flex-1 px-4 sm:px-6 lg:px-8 py-8'>{children}</div>
+            <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col'>
+              <div className='md:w-full md:my-auto'>{children}</div>
+            </div>
 
             {/* Mobile: Standard footer always visible (shown only on mobile) */}
             <div className='md:hidden'>
@@ -75,7 +77,7 @@ export function StandardPageLayout({
   return (
     <SiteLayout showFooter={true}>
       {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
-      <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 max-width-content'>
+      <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 max-width-content'>
         <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
           {children}
         </div>
