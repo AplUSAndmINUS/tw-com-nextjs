@@ -8,6 +8,8 @@
  * - Breadcrumb navigation on desktop
  * - Current page title on mobile
  * - Slide-in navigation menu modal
+ * - Settings panel modal
+ * - Left-handed / right-handed layout support
  * - Theme toggle button
  * - Framer Motion animations
  */
@@ -20,10 +22,12 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { NavigationMenu } from './NavigationMenu';
+import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
 import {
   DismissSquare32Regular,
   Navigation32Regular,
+  Settings32Regular,
   WeatherMoon32Regular,
   WeatherSunny32Regular,
 } from '@fluentui/react-icons';
@@ -38,13 +42,23 @@ export function Navigation() {
   const [activeModal, setActiveModal] = React.useState<
     'menu' | 'settings' | null
   >(null);
+  const [isViewTransitioning, setIsViewTransitioning] = React.useState(false);
   const [isMounted, setIsMounted] = React.useState(false);
 
-  const { theme, themeMode, setThemeMode } = useAppTheme();
+  const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const { theme, themeMode, setThemeMode, layoutPreference } = useAppTheme();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
   const isMobile = isMounted ? isMobileHook : false;
   const { shouldReduceMotion } = useReducedMotion();
+
+  const isLeftHanded = layoutPreference === 'left-handed';
+
+  const isDark =
+    themeMode === 'dark' ||
+    themeMode === 'high-contrast' ||
+    themeMode === 'grayscale-dark';
 
   // Generate breadcrumb items from pathname
   const breadcrumbItems: BreadcrumbItem[] = React.useMemo(() => {
@@ -69,24 +83,61 @@ export function Navigation() {
     breadcrumbItems[breadcrumbItems.length - 1]?.label ?? 'Home';
   const isHomePage = pathname === '/';
 
-  const isDark =
-    themeMode === 'dark' ||
-    themeMode === 'high-contrast' ||
-    themeMode === 'grayscale-dark';
-
   const handleThemeClick = () => {
     if (themeMode !== 'light' && themeMode !== 'dark') return;
     setThemeMode(isDark ? 'light' : 'dark');
   };
 
+  // Matches the modal exit transition duration (0.25s = 250ms) + small buffer
+  const MODAL_SWITCH_DELAY = 300;
+
+  const switchToModal = (target: 'menu' | 'settings') => {
+    // Clear any existing timeout before scheduling a new one
+    if (modalSwitchTimeoutRef.current) {
+      clearTimeout(modalSwitchTimeoutRef.current);
+    }
+
+    setIsViewTransitioning(true);
+    modalSwitchTimeoutRef.current = setTimeout(() => {
+      setActiveModal(target);
+      setIsViewTransitioning(false);
+      modalSwitchTimeoutRef.current = null;
+    }, MODAL_SWITCH_DELAY);
+  };
+
+  const handleSettingsClick = () => {
+    if (activeModal === 'settings') {
+      setActiveModal(null);
+    } else if (activeModal === 'menu') {
+      switchToModal('settings');
+    } else {
+      setActiveModal('settings');
+    }
+  };
+
   const handleMenuClick = () => {
-    setActiveModal((prev) => (prev === 'menu' ? null : 'menu'));
+    if (activeModal === 'menu') {
+      setActiveModal(null);
+    } else if (activeModal === 'settings') {
+      switchToModal('menu');
+    } else {
+      setActiveModal('menu');
+    }
   };
 
   const handleModalClose = () => setActiveModal(null);
 
   React.useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  // Clean up modal switch timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (modalSwitchTimeoutRef.current) {
+        clearTimeout(modalSwitchTimeoutRef.current);
+      }
+    };
   }, []);
 
   // Close on Escape
@@ -98,9 +149,14 @@ export function Navigation() {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [activeModal]);
 
-  // Modal animation variants
+  // For left-handed mode, the modal slides from the left; otherwise from the right
+  const modalSlideFrom = isLeftHanded ? '-100%' : '100%';
+
   const modalVariants: Variants = {
-    hidden: { x: '100%', opacity: shouldReduceMotion ? 1 : 0 },
+    hidden: {
+      x: shouldReduceMotion ? '0%' : modalSlideFrom,
+      opacity: shouldReduceMotion ? 1 : 0,
+    },
     visible: {
       x: '0%',
       opacity: 1,
@@ -110,7 +166,7 @@ export function Navigation() {
       },
     },
     exit: {
-      x: '100%',
+      x: shouldReduceMotion ? '0%' : modalSlideFrom,
       opacity: shouldReduceMotion ? 1 : 0,
       transition: {
         duration: shouldReduceMotion ? 0 : 0.25,
@@ -137,12 +193,23 @@ export function Navigation() {
     justifyContent: 'center',
     width: '3rem',
     height: '3rem',
-    background: 'none',
+    backgroundColor: isDark
+      ? 'transparent'
+      : theme.semanticColors.background.elevated,
+    border: isDark
+      ? '1px solid transparent'
+      : `1px solid ${theme.semanticColors.border.default}`,
+    borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
     color: theme.colorNeutralForeground1,
     transition: 'background-color 0.2s ease, transform 0.15s ease',
     padding: 0,
   };
+
+  // Modal position: right side by default, left side in left-handed mode
+  const modalPositionStyle: React.CSSProperties = isLeftHanded
+    ? { position: 'absolute', top: 0, left: 0, bottom: 0 }
+    : { position: 'absolute', top: 0, right: 0, bottom: 0 };
 
   return (
     <div suppressHydrationWarning>
@@ -158,10 +225,11 @@ export function Navigation() {
           zIndex: 50,
           backgroundColor: isDark
             ? 'rgba(15, 15, 15, 0.8)'
-            : 'rgba(255, 255, 255, 0.85)',
+            : theme.gradients.light.solid,
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: `1px solid ${theme.colorBrandBackgroundStatic}`,
+          borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+          boxShadow: isDark ? 'none' : theme.shadows.s,
         }}
       >
         <div
@@ -178,7 +246,6 @@ export function Navigation() {
           {/* Left: Breadcrumbs (desktop) or page title (mobile) */}
           <div style={{ flex: 1, minWidth: 0 }} suppressHydrationWarning>
             {isMobile ? (
-              /* Mobile: current page title */
               <span
                 style={{
                   color: theme.colorNeutralForeground1,
@@ -194,7 +261,6 @@ export function Navigation() {
                 {isHomePage ? 'Terence Waters' : currentPageTitle}
               </span>
             ) : (
-              /* Desktop: breadcrumb trail */
               <nav aria-label='Breadcrumb' suppressHydrationWarning>
                 {isHomePage ? (
                   <Link
@@ -290,7 +356,7 @@ export function Navigation() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '1.5rem',
+              gap: '0.5rem',
               marginLeft: '1rem',
             }}
             suppressHydrationWarning
@@ -309,7 +375,6 @@ export function Navigation() {
                     color={theme.colorBrandForeground1}
                   />
                 ) : (
-                  /* Moon icon */
                   <FluentIcon
                     iconName={WeatherSunny32Regular}
                     color={theme.colorBrandForeground1}
@@ -317,6 +382,29 @@ export function Navigation() {
                 )}
               </button>
             )}
+
+            {/* Settings toggle */}
+            <button
+              onClick={handleSettingsClick}
+              style={buttonStyle}
+              aria-label={
+                activeModal === 'settings' ? 'Close settings' : 'Open settings'
+              }
+              aria-expanded={activeModal === 'settings'}
+              aria-controls='settings-panel'
+            >
+              {activeModal === 'settings' ? (
+                <FluentIcon
+                  iconName={DismissSquare32Regular}
+                  color={theme.colorBrandForeground1}
+                />
+              ) : (
+                <FluentIcon
+                  iconName={Settings32Regular}
+                  color={theme.colorBrandForeground1}
+                />
+              )}
+            </button>
 
             {/* Menu toggle */}
             <button
@@ -342,9 +430,9 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Navigation Modal */}
+      {/* Modal overlay for both menu and settings */}
       <AnimatePresence mode='wait'>
-        {isMounted && activeModal === 'menu' && (
+        {isMounted && activeModal && (
           <motion.div
             variants={backdropVariants}
             initial='hidden'
@@ -358,33 +446,38 @@ export function Navigation() {
               backdropFilter: 'blur(4px)',
             }}
             onClick={handleModalClose}
-            aria-hidden='true'
           >
             <motion.div
-              id='navigation-menu'
+              id={activeModal === 'menu' ? 'navigation-menu' : 'settings-panel'}
               role='dialog'
               aria-modal='true'
-              aria-label='Site navigation'
+              aria-label={
+                activeModal === 'menu' ? 'Site navigation' : 'Settings panel'
+              }
               variants={modalVariants}
               initial='hidden'
               animate='visible'
               exit='exit'
               style={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                bottom: 0,
+                ...modalPositionStyle,
                 width: '100%',
-                maxWidth: '400px',
+                maxWidth: isMobile ? '350px' : '400px',
                 backgroundColor: isDark
                   ? theme.colorNeutralBackground2
                   : theme.colorNeutralBackground1,
                 boxShadow: theme.shadow64,
                 overflowY: 'auto',
+                opacity: isViewTransitioning ? 0 : 1,
+                transition: 'opacity 0.3s ease-in-out',
               }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
-              <NavigationMenu onClose={handleModalClose} />
+              {activeModal === 'menu' && (
+                <NavigationMenu onClose={handleModalClose} />
+              )}
+              {activeModal === 'settings' && (
+                <SettingsPanel onClose={handleModalClose} />
+              )}
             </motion.div>
           </motion.div>
         )}

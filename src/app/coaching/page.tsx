@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
-import { PageHeader } from '@/components/PageHeader';
+import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import EducationPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
@@ -93,13 +93,13 @@ export default function CoachingPage() {
       }}
     >
       <div className='pt-0 pb-8 md:py-8'>
-        <PageHeader
+        <Hero
           title='Coaching & Offerings'
-          subtitle='I help creators, technologists, and leaders navigate transitions, unlock their potential, and build with intention.'
-          subtitleClassName='max-w-2xl'
+          iconName='Person24Regular'
+          description='I help creators, technologists, and leaders navigate transitions, unlock their potential, and build with intention.'
         />
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
+        <div className='mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
           {offerings.map((offering) => (
             <Card key={offering.title}>
               <div className='flex items-center gap-3 mb-3'>

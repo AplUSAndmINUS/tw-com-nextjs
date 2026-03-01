@@ -72,6 +72,25 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     theme.palette.themeSecondary,
   ];
 
+  const isLightFamilyMode =
+    theme.themeMode === 'light' ||
+    theme.themeMode === 'protanopia' ||
+    theme.themeMode === 'deuteranopia' ||
+    theme.themeMode === 'tritanopia' ||
+    theme.themeMode === 'grayscale';
+
+  const cardSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+
+  const cardHoverSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.elevated
+    : theme.semanticColors.background.muted;
+
+  const headingFontFamily =
+    theme.typography?.fontFamilies?.heading ??
+    'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
   const getAccentColor = (index: number) =>
     accentPalette[index % accentPalette.length];
 
@@ -104,14 +123,15 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 cursor: 'pointer',
                 borderRadius: theme.borderRadius.container.medium,
                 overflow: 'hidden',
-                backgroundColor: theme.semanticColors.background.elevated,
+                backgroundColor: cardSurfaceColor,
+                backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
                 border: `1px solid ${theme.semanticColors.border.default}`,
                 borderTop: `4px solid ${accentColor}`,
                 transition: 'all 0.2s ease',
               }}
               whileHover={{
                 scale: 1.02,
-                backgroundColor: theme.semanticColors.background.muted,
+                backgroundColor: cardHoverSurfaceColor,
                 borderColor: accentColor,
                 boxShadow: theme.shadows.card,
               }}
@@ -156,6 +176,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   style={{
                     fontSize: '1.25rem',
                     fontWeight: 600,
+                    fontFamily: headingFontFamily,
                     color: theme.semanticColors.text.heading,
                     marginBottom: theme.spacing.s1,
                     lineHeight: 1.3,
@@ -242,14 +263,15 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 cursor: 'pointer',
                 borderRadius: theme.borderRadius.container.medium,
                 overflow: 'hidden',
-                backgroundColor: theme.semanticColors.background.elevated,
+                backgroundColor: cardSurfaceColor,
+                backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
                 border: `1px solid ${theme.semanticColors.border.default}`,
                 borderLeft: `4px solid ${accentColor}`,
                 padding: theme.spacing.m,
                 transition: 'all 0.2s ease',
               }}
               whileHover={{
-                backgroundColor: theme.semanticColors.background.muted,
+                backgroundColor: cardHoverSurfaceColor,
                 borderColor: accentColor,
                 boxShadow: theme.shadows.card,
               }}
@@ -283,6 +305,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   style={{
                     fontSize: isMobile ? '1rem' : '1.125rem',
                     fontWeight: 600,
+                    fontFamily: headingFontFamily,
                     color: theme.semanticColors.text.heading,
                     marginBottom: theme.spacing.xs,
                     lineHeight: 1.3,
@@ -376,13 +399,14 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               cursor: 'pointer',
               borderRadius: theme.borderRadius.container.medium,
               overflow: 'hidden',
-              backgroundColor: theme.semanticColors.background.elevated,
+              backgroundColor: cardSurfaceColor,
+              backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
               border: `1px solid ${theme.semanticColors.border.default}`,
               borderTop: `4px solid ${accentColor}`,
               transition: 'all 0.2s ease',
             }}
             whileHover={{
-              backgroundColor: theme.semanticColors.background.muted,
+              backgroundColor: cardHoverSurfaceColor,
               borderColor: accentColor,
               boxShadow: theme.shadows.card,
             }}
@@ -444,6 +468,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   style={{
                     fontSize: isMobile ? '1.5rem' : '1.75rem',
                     fontWeight: 600,
+                    fontFamily: headingFontFamily,
                     color: theme.semanticColors.text.heading,
                     marginBottom: theme.spacing.m,
                     lineHeight: 1.3,

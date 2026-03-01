@@ -1,8 +1,11 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -17,31 +20,42 @@ interface StandardPageLayoutProps {
 }
 
 /**
- * StandardPageLayout — Server component for standard (non-homepage) pages
+ * StandardPageLayout — Client component for standard (non-homepage) pages
  *
  * Behavior:
  * - With featureImage: Contained viewport (Fluxline.pro style)
  *   - Mobile: Normal scrolling with standard footer
- *   - Tablet/Desktop: Contained viewport, left image centered, right content scrollable
+ *   - Tablet/Desktop: Contained viewport with mirrored image/content panes based on layout preference
  *   - Footer: Overlay with show/hide button (client component) on tablet/desktop only
  * - Without featureImage: Normal scrolling layout
  *
- * Performance: Layout structure is server-rendered. Interactive footer overlay
- * is a separate client component, minimizing JavaScript bundle size.
+ * Performance: Keeps the same structure while reading layout preference from
+ * client state so the feature-image pane can mirror left/right.
  */
 export function StandardPageLayout({
   children,
   featureImage,
 }: StandardPageLayoutProps) {
+  const { layoutPreference } = useAppTheme();
+  const isLeftHanded = layoutPreference === 'left-handed';
+
+  const imagePaneClasses = isLeftHanded
+    ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
+    : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
+
+  const contentPaneClasses = isLeftHanded
+    ? 'flex-1 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
+    : 'flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
+
   // Contained viewport layout with feature image
   if (featureImage) {
     return (
       <SiteLayout showFooter={false}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
         <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
-          {/* Left image pane - fixed and vertically centered on tablet/desktop */}
+          {/* Feature image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
-          <aside className='md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'>
+          <aside className={imagePaneClasses}>
             <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
               <ResponsiveFeatureImage
                 src={featureImage.src}
@@ -51,9 +65,9 @@ export function StandardPageLayout({
             </div>
           </aside>
 
-          {/* Right content pane - scrollable independently with responsive margins */}
-          {/* Tablet portrait (md): 50% left margin | Tablet landscape+ (lg): 33% left margin */}
-          <div className='flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'>
+          {/* Content pane - scrollable independently with responsive mirrored margins */}
+          {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
+          <div className={contentPaneClasses}>
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col'>
               <div className='md:w-full md:my-auto'>{children}</div>
             </div>

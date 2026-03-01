@@ -1,25 +1,26 @@
 'use client';
 
 import React from 'react';
+import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 
 /**
  * Detects whether the user prefers reduced motion.
- * Respects the OS-level `prefers-reduced-motion` media query.
- *
- * Uses useLayoutEffect to read the media query before first paint,
- * ensuring reduced-motion is respected immediately on all renders.
+ * Checks both the OS-level `prefers-reduced-motion` media query
+ * and the user's stored preference in the Zustand store.
+ * Returns shouldReduceMotion = true if either is set.
  */
 export const useReducedMotion = () => {
-  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
+  const { preferences } = useUserPreferencesStore();
+  const [osPreference, setOsPreference] = React.useState(false);
 
   React.useLayoutEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
+      setOsPreference(e.matches);
     };
 
-    setPrefersReducedMotion(mediaQuery.matches);
+    setOsPreference(mediaQuery.matches);
     mediaQuery.addEventListener('change', handleChange);
 
     return () => {
@@ -27,9 +28,12 @@ export const useReducedMotion = () => {
     };
   }, []);
 
+  const shouldReduceMotion = preferences.reducedMotion || osPreference;
+
   return {
-    shouldReduceMotion: prefersReducedMotion,
-    osPreference: prefersReducedMotion,
+    shouldReduceMotion,
+    userPreference: preferences.reducedMotion,
+    osPreference,
   };
 };
 

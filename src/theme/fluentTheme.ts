@@ -789,9 +789,9 @@ export const shadows = {
  */
 export const gradients = {
   dark: {
-    solid: '#1F1F1F',
+    solid: '#1E1E1E',
     background:
-      '#1F1F1F radial-gradient(circle at 20% 50%, #2A2A2A 0%, #2E2E2E 30%, #1C1C1C 70%, #171717 100%)',
+      '#1E1E1E radial-gradient(circle at 22% 48%, #292929 0%, #262626 34%, #202020 68%, #1B1B1B 100%)',
     menu: '#1F1F1F radial-gradient(circle at 80% 50%, #252525 0%, #2A2A2A 30%, #242424 70%, #1A1A1A 100%)',
     radial:
       '#1F1F1F radial-gradient(circle at center, #2A2A2A 0%, #242424 30%, #1F1F1F 70%, #1A1A1A 100%)',
@@ -800,9 +800,9 @@ export const gradients = {
       'linear-gradient(90deg, #1F1F1F 0%, #242424 50%, #1F1F1F 100%) no-repeat center',
   },
   light: {
-    solid: '#FFFFFF',
+    solid: '#F4F2ED',
     background:
-      '#FFFFFF radial-gradient(circle at 20% 50%, #FEFEFE 0%, #F8F8F8 30%, #F2F2F2 70%, #ECECEC 100%)',
+      '#F4F2ED radial-gradient(circle at 22% 48%, #F8F6F2 0%, #F2EEE6 36%, #EEEAE2 70%, #EAE6DE 100%)',
     menu: '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',
     radial:
       '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',

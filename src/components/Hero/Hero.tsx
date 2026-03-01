@@ -11,8 +11,6 @@ import { resolveIconName } from '@/utils/iconResolver';
 export interface HeroProps {
   /** Main heading text */
   title: string;
-  /** Subtitle text (styled as italic secondary color) */
-  subtitle?: string;
   /** Description text (styled as body text with relaxed line height) */
   description?: string;
   /** Effective date for legal documents */
@@ -33,7 +31,7 @@ export interface HeroProps {
   showShadow?: boolean;
   /** Show back arrow icon next to title @default false */
   backArrow?: boolean;
-  /** Path for back arrow link @default '/content' */
+  /** Path for back arrow link @default '/content-hub' */
   backArrowPath?: string;
   /** Filter controls to display below description */
   filters?: React.ReactNode;
@@ -49,7 +47,6 @@ export interface HeroProps {
  * ```tsx
  * <Hero
  *   title="Blog"
- *   subtitle="Insights and thoughts"
  *   description="Explore articles on technology and design"
  *   iconName="DocumentText24Regular"
  * />
@@ -57,7 +54,6 @@ export interface HeroProps {
  */
 export const Hero: React.FC<HeroProps> = ({
   title,
-  subtitle,
   effectiveDate,
   lastUpdated,
   iconName,
@@ -68,10 +64,10 @@ export const Hero: React.FC<HeroProps> = ({
   showBorder = true,
   showShadow = false,
   backArrow = false,
-  backArrowPath = '/content',
+  backArrowPath = '/content-hub',
   filters,
 }) => {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -104,6 +100,21 @@ export const Hero: React.FC<HeroProps> = ({
     return accentPalette[hash % accentPalette.length];
   }, [title, accentPalette]);
 
+  const isLightFamilyMode =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const heroSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+
+  const controlSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.elevated
+    : theme.semanticColors.background.muted;
+
   return (
     <div
       className={`${className}`}
@@ -112,7 +123,7 @@ export const Hero: React.FC<HeroProps> = ({
           ? `1px solid ${theme.semanticColors.border.default}`
           : 'none',
         borderTop: `4px solid ${accentColor}`,
-        backgroundColor: theme.semanticColors.background.elevated,
+        backgroundColor: heroSurfaceColor,
         backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
         padding: isMobile
           ? `${theme.spacing.l}`
@@ -121,7 +132,6 @@ export const Hero: React.FC<HeroProps> = ({
             : `${theme.spacing.xxl} ${theme.spacing.xxxl}`,
         borderRadius: theme.borderRadius.container.medium,
         boxShadow: showShadow ? theme.shadows.hero : theme.shadows.card,
-        marginTop: !isMobile && !isTablet ? theme.spacing.xl : undefined,
         display: 'flex',
         flexDirection: 'column',
         gap: isMobile ? theme.spacing.m : theme.spacing.xs,
@@ -145,7 +155,7 @@ export const Hero: React.FC<HeroProps> = ({
                 width: isMobile ? '2rem' : '2.5rem',
                 height: isMobile ? '2rem' : '2.5rem',
                 borderRadius: theme.borderRadius.container.small,
-                backgroundColor: theme.semanticColors.background.muted,
+                backgroundColor: controlSurfaceColor,
                 border: `1px solid ${theme.semanticColors.border.default}`,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -157,8 +167,7 @@ export const Hero: React.FC<HeroProps> = ({
                 e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  theme.semanticColors.background.muted;
+                e.currentTarget.style.backgroundColor = controlSurfaceColor;
                 e.currentTarget.style.borderColor =
                   theme.semanticColors.border.default;
                 e.currentTarget.style.boxShadow = 'none';
@@ -209,20 +218,6 @@ export const Hero: React.FC<HeroProps> = ({
           marginBottom: theme.spacing.s1,
         }}
       />
-
-      {subtitle && (
-        <Typography
-          variant='h2'
-          style={{
-            fontStyle: 'italic',
-            color: theme.semanticColors.text.primary,
-            fontSize: isMobile ? '1rem' : '1.25rem',
-            margin: 0,
-          }}
-        >
-          {subtitle}
-        </Typography>
-      )}
 
       {(effectiveDate || lastUpdated) && (
         <div

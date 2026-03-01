@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import ContentPortrait from '@/assets/images/Content1280x1815.jpg';
 import { PageLayout } from '@/layouts/PageLayout';
-import { PageHeader } from '@/components/PageHeader';
+import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { ContentHubClient } from './ContentHubClient';
 
@@ -42,14 +42,14 @@ export default function ContentHubPage() {
     >
       <div className='pt-0 pb-8 md:py-8'>
         {/* Header */}
-        <PageHeader
+        <Hero
           title='Content Hub'
-          subtitle='Everything I create — all in one place. Articles, videos, podcasts, and deep dives into the ideas and work that matter most.'
-          subtitleClassName='max-w-2xl'
+          iconName='Search24Regular'
+          description='Everything I create — all in one place. Articles, videos, podcasts, and deep dives into the ideas and work that matter most.'
         />
 
         {/* Browse by Category */}
-        <section>
+        <section className='mt-8'>
           <Typography variant='h2' className='text-2xl font-bold mb-4'>
             Browse by Category
           </Typography>

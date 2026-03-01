@@ -32,10 +32,10 @@ export function HomePageLayout({
   return (
     <SiteLayout isContainedView>
       {/* Mobile: normal scrolling | Desktop: contained viewport */}
-      <div className='h-full overflow-y-auto lg:overflow-hidden flex flex-col'>
+      <div className='h-full w-full overflow-y-auto lg:overflow-hidden flex flex-col'>
         {featureImage ? (
           /* Desktop: 3/9 grid with sticky left pane */
-          <div className='flex-1 lg:grid lg:grid-cols-12 lg:h-full lg:overflow-hidden'>
+          <div className='flex-1 w-full lg:grid lg:grid-cols-12 lg:h-full lg:overflow-hidden'>
             {/* Left image pane - sticky, non-scrollable on desktop */}
             <aside className='lg:col-span-3 lg:h-full lg:overflow-hidden relative'>
               <div className='relative w-full h-64 lg:h-full'>
@@ -66,7 +66,7 @@ export function HomePageLayout({
         ) : (
           /* No feature image - single column with footer */
           /* Background image automatically switches portrait/landscape via CSS media query */
-          <div className='flex-1 flex flex-col lg:overflow-y-auto homepage-background'>
+          <div className='flex-1 w-full flex flex-col lg:overflow-y-auto homepage-background'>
             <div
               className='flex-1 w-full px-4 sm:px-6 lg:px-8 md:py-8'
               style={{ maxWidth: '1920px', margin: '0 auto' }}

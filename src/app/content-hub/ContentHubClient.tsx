@@ -46,18 +46,10 @@ const contentCategories = [
     href: '/case-studies',
     cta: 'Read Case Studies',
   },
-  {
-    title: 'View All Content',
-    description:
-      'Browse everything together with advanced filtering by type, tag, and date.',
-    icon: '🔍',
-    href: '/content/all',
-    cta: 'Explore All',
-  },
 ];
 
 export function ContentHubClient() {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
 
   // Token-driven accents so color behavior adapts automatically across all theme modes.
@@ -69,6 +61,21 @@ export function ContentHubClient() {
     theme.palette.themePrimary,
     theme.palette.themeSecondary,
   ];
+
+  const isLightFamilyMode =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const cardSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+
+  const cardHoverSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.elevated
+    : theme.semanticColors.background.muted;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -119,8 +126,8 @@ export function ContentHubClient() {
                 style={{
                   borderRadius: theme.borderRadius.container.medium,
                   border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
-                  backgroundColor: theme.semanticColors.background.elevated,
-                  backgroundImage: `linear-gradient(165deg, ${accentColor}14 0%, transparent 38%)`,
+                  backgroundColor: cardSurfaceColor,
+                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
                   padding: theme.spacing.m,
                   height: '100%',
                   display: 'flex',
@@ -133,7 +140,7 @@ export function ContentHubClient() {
                 }}
                 whileHover={{
                   scale: 1.02,
-                  backgroundColor: theme.semanticColors.background.muted,
+                  backgroundColor: cardHoverSurfaceColor,
                   borderColor: accentColor,
                   boxShadow: theme.shadows.card,
                 }}

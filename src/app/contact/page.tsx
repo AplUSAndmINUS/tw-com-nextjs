@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
-import { PageHeader } from '@/components/PageHeader';
+import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { Card } from '@/components/ui/Card';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
@@ -66,13 +66,13 @@ export default function ContactPage() {
       }}
     >
       <div className='pt-0 pb-8 md:py-8'>
-        <PageHeader
+        <Hero
           title='Contact'
-          subtitle="I'd love to hear from you. Whether you have a question, an opportunity, or just want to connect — reach out."
-          subtitleClassName='max-w-2xl'
+          iconName='Mail24Regular'
+          description="I'd love to hear from you. Whether you have a question, an opportunity, or just want to connect — reach out."
         />
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
+        <div className='mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
           {contactOptions.map((option) => (
             <Card key={option.title}>
               <div className='text-3xl mb-3'>{option.icon}</div>

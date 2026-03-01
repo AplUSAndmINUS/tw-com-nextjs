@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
-import { PageHeader } from '@/components/PageHeader';
+import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { getAllContent } from '@/lib/content';
 
@@ -68,20 +68,21 @@ export default async function ArchivePage() {
   return (
     <PageLayout>
       <div className='max-w-4xl mx-auto pt-0 pb-8 md:py-8'>
-        <PageHeader
+        <Hero
           title='Archive'
-          subtitle='A complete archive of articles, projects, and case studies — sorted by most recent.'
+          iconName='DocumentText24Regular'
+          description='A complete archive of articles, projects, and case studies — sorted by most recent.'
         />
 
         {allItems.length === 0 ? (
           <Typography
             variant='body'
-            className='text-gray-500 dark:text-gray-400'
+            className='mt-8 text-gray-500 dark:text-gray-400'
           >
             No archived content yet. Check back soon.
           </Typography>
         ) : (
-          <div className='space-y-6'>
+          <div className='mt-8 space-y-6'>
             {allItems.map((item) => (
               <article
                 key={`${item.type}-${item.slug}`}
