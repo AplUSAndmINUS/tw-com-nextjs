@@ -180,8 +180,6 @@ export function PodcastListingClientWrapper({
       resultsMessage={resultsMessage}
       emptyStateTitle='No podcast episodes found'
       emptyStateMessage='Try adjusting your filters to see more episodes.'
-      backArrow={true}
-      backArrowPath='/content'
     />
   );
 }

@@ -168,8 +168,6 @@ export function VideoListingClientWrapper({
       resultsMessage={resultsMessage}
       emptyStateTitle='No videos found'
       emptyStateMessage='Try adjusting your filters to see more videos.'
-      backArrow={true}
-      backArrowPath='/content'
     />
   );
 }

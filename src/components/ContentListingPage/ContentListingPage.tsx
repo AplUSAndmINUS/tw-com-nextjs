@@ -144,7 +144,7 @@ export function ContentListingPage({
   ctaSection,
   onCardClick,
   backArrow = false,
-  backArrowPath = '/content',
+  backArrowPath = '/content-hub',
   customSection,
 }: ContentListingPageProps) {
   const router = useRouter();

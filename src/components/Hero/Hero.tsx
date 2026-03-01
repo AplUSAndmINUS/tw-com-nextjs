@@ -31,7 +31,7 @@ export interface HeroProps {
   showShadow?: boolean;
   /** Show back arrow icon next to title @default false */
   backArrow?: boolean;
-  /** Path for back arrow link @default '/content' */
+  /** Path for back arrow link @default '/content-hub' */
   backArrowPath?: string;
   /** Filter controls to display below description */
   filters?: React.ReactNode;
@@ -64,7 +64,7 @@ export const Hero: React.FC<HeroProps> = ({
   showBorder = true,
   showShadow = false,
   backArrow = false,
-  backArrowPath = '/content',
+  backArrowPath = '/content-hub',
   filters,
 }) => {
   const { theme, themeMode } = useAppTheme();

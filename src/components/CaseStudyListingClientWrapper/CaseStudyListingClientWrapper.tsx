@@ -169,8 +169,6 @@ export function CaseStudyListingClientWrapper({
       resultsMessage={resultsMessage}
       emptyStateTitle='No case studies found'
       emptyStateMessage='Try adjusting your filters to see more case studies.'
-      backArrow={true}
-      backArrowPath='/content'
     />
   );
 }
