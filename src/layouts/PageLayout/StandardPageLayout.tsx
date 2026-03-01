@@ -42,7 +42,7 @@ export function StandardPageLayout({
           {/* Left image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
           <aside className='md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'>
-            <div className='w-full max-w-md px-4 py-6 md:py-0'>
+            <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
               <ResponsiveFeatureImage
                 src={featureImage.src}
                 alt={featureImage.alt}

@@ -62,7 +62,8 @@ export function ResponsiveFeatureImage({
 
   // Map aspect ratio to predefined Tailwind classes
   const getAspectClass = () => {
-    if (!shouldApplyDynamicRatio) return 'aspect-[3/4]';
+    // On mobile: use square aspect ratio to keep image compact and fit within 1/3 viewport
+    if (!shouldApplyDynamicRatio) return 'aspect-square';
 
     switch (aspectRatio) {
       case '16/9':
@@ -94,7 +95,7 @@ export function ResponsiveFeatureImage({
         onLoad={handleImageLoad}
       />
       {title && (
-        <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
+        <div className='hidden md:block absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
           <Typography variant='h3' className='text-white text-xl font-semibold'>
             {title}
           </Typography>

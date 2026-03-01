@@ -15,7 +15,7 @@ import { navItems } from './navigation.config';
 import { Typography } from '@/components/Typography';
 import type { NavItem, NavigationMenuProps } from './navigation.types';
 import { SocialLinks } from '../SocialLinks/SocialLinks';
-import { useIsMobileLandscape } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -26,6 +26,7 @@ interface NavigationItemProps {
 function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
   const { theme } = useAppTheme();
   const [isHovered, setIsHovered] = React.useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <Link
@@ -41,7 +42,7 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           alignItems: 'center',
           justifyContent: 'flex-end',
           gap: '0.75rem',
-          padding: '0.75rem 1rem',
+          padding: isMobile ? '0.75rem 0 1rem 0.75rem' : '0.75rem 1rem',
           borderRadius: theme.borderRadiusMedium,
           backgroundColor:
             isActive || isHovered
