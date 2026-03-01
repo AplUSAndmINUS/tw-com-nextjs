@@ -158,6 +158,9 @@ export const Hero: React.FC<HeroProps> = ({
               fontSize: isMobile ? '2rem' : '2.5rem',
               color: theme.palette.themePrimary,
               flexShrink: 0,
+              paddingRight: '0.25rem',
+              width: isMobile ? '36px' : '48px',
+              height: isMobile ? '36px' : '48px',
             }}
           />
         )}
