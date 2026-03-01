@@ -4,37 +4,19 @@
  * TerenceWaters.com Theme Hook
  * =============================
  *
- * Manages theme state with support for 8 theme variants:
- * - light: Default light mode
- * - dark: Default dark mode
- * - high-contrast: High contrast mode for accessibility
- * - protanopia: Red-blind color mode
- * - deuteranopia: Green-blind color mode
- * - tritanopia: Blue-blind color mode
- * - grayscale: Grayscale light mode
- * - grayscale-dark: Grayscale dark mode
+ * Manages theme state via the Zustand userPreferences store with support for
+ * 8 theme variants, font scaling, layout preference, and reduced motion.
  *
- * Features:
- * - LocalStorage persistence (loaded after mount to prevent SSR hydration issues)
- * - System preference detection
- * - Manual theme switching
- * - FluentUI theme integration
- * - SSR-safe initialization
+ * This is the ONLY way to access extended theme properties (spacing,
+ * animations, typography, themeMode, etc.). These properties are NOT available
+ * through FluentUI's useTheme() hook.
  */
 
-import { useEffect, useState, useCallback } from 'react';
-import { ThemeMode, IExtendedTheme, themeMap } from '../fluentTheme';
+import { useEffect, useCallback } from 'react';
+import { IExtendedTheme, themeMap, ThemeMode } from '../fluentTheme';
+import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 
-// LocalStorage key for theme persistence
-const THEME_STORAGE_KEY = 'tw-theme-mode';
-
-// Prefer system theme by default
-const getSystemTheme = (): 'light' | 'dark' => {
-  if (typeof window === 'undefined') return 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-};
+export type { ThemeMode };
 
 export interface UseAppThemeReturn {
   /** Current theme mode */
@@ -45,16 +27,24 @@ export interface UseAppThemeReturn {
   setThemeMode: (mode: ThemeMode) => void;
   /** Toggle between light and dark modes */
   toggleTheme: () => void;
-  /** Reset to system preference */
-  resetToSystemTheme: () => void;
   /** Check if current theme is dark */
   isDark: boolean;
-  /** Check if using system preference */
-  isSystemTheme: boolean;
+  /** Current font scale (1.0 = 100%) */
+  fontScale: number;
+  /** Set font scale */
+  setFontScale: (scale: number) => void;
+  /** Layout preference for left/right-handed navigation */
+  layoutPreference: 'left-handed' | 'right-handed';
+  /** Set layout preference */
+  setLayoutPreference: (pref: 'left-handed' | 'right-handed') => void;
+  /** Whether reduced motion is enabled (user preference) */
+  reducedMotion: boolean;
+  /** Set reduced motion user preference */
+  setReducedMotion: (enabled: boolean) => void;
 }
 
 /**
- * Hook for managing application theme
+ * Hook for managing application theme and user preferences.
  *
  * IMPORTANT: This is the ONLY way to access extended theme properties (spacing,
  * animations, typography, themeMode, etc.). These properties are NOT available
@@ -66,129 +56,64 @@ export interface UseAppThemeReturn {
  * - themeMode value
  * - semanticColors
  * - Theme control methods (setThemeMode, toggleTheme)
- *
- * @example
- * ```tsx
- * // ✅ CORRECT - Access extended theme
- * function MyComponent() {
- *   const { theme, themeMode, setThemeMode } = useAppTheme();
- *
- *   return (
- *     <div style={{ padding: theme.spacing.md }}>
- *       Mode: {themeMode}
- *     </div>
- *   );
- * }
- * ```
- *
- * @example
- * ```tsx
- * // ❌ INCORRECT - Don't use FluentUI's useTheme for extended properties
- * import { useTheme } from '@fluentui/react-components';
- *
- * function MyComponent() {
- *   const theme = useTheme();
- *   console.log(theme.spacing);   // ❌ undefined
- *   console.log(theme.themeMode); // ❌ undefined
- * }
- * ```
+ * - Font scale, layout preference, reduced motion
  */
 export function useAppTheme(): UseAppThemeReturn {
-  // Initialize with 'dark' to prevent SSR hydration mismatch and to set as default before useEffect runs. The actual theme will be loaded from localStorage in useEffect.
-  // Actual theme will be loaded from localStorage in useEffect
-  const [themeMode, setThemeModeState] = useState<ThemeMode>('dark');
-  const [isSystemTheme, setIsSystemTheme] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const { preferences, setPreference } = useUserPreferencesStore();
 
-  // Get current theme object
-  const theme = themeMap[themeMode];
+  const themeMode = preferences.themeMode;
+  const fontScale = preferences.fontScale;
+  const layoutPreference = preferences.layoutPreference;
+  const reducedMotion = preferences.reducedMotion;
 
-  // Check if current theme is dark variant
+  const theme = themeMap[themeMode] as IExtendedTheme;
+
   const isDark =
     themeMode === 'dark' ||
     themeMode === 'high-contrast' ||
     themeMode === 'grayscale-dark';
 
-  // Initialize theme from localStorage after mount (client-side only)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+  const setThemeMode = useCallback(
+    (mode: ThemeMode) => {
+      setPreference('themeMode', mode);
+    },
+    [setPreference]
+  );
 
-    try {
-      const stored = localStorage.getItem(
-        THEME_STORAGE_KEY
-      ) as ThemeMode | null;
-
-      if (stored && stored in themeMap) {
-        // User has a saved preference
-        setThemeModeState(stored);
-        setIsSystemTheme(false);
-      } else {
-        // No saved preference, use system theme
-        const systemTheme = getSystemTheme();
-        setThemeModeState(systemTheme);
-        setIsSystemTheme(true);
-      }
-    } catch (error) {
-      // If localStorage access fails, fall back to system theme
-      const systemTheme = getSystemTheme();
-      setThemeModeState(systemTheme);
-      setIsSystemTheme(true);
-    }
-
-    setIsInitialized(true);
-  }, []); // Run once on mount
-
-  // Set theme mode and persist to localStorage
-  const setThemeMode = useCallback((mode: ThemeMode) => {
-    setThemeModeState(mode);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem(THEME_STORAGE_KEY, mode);
-      } catch (error) {
-        // Silently fail if localStorage is not available
-      }
-    }
-    setIsSystemTheme(false);
-  }, []);
-
-  // Toggle between light and dark modes
   const toggleTheme = useCallback(() => {
-    setThemeMode(isDark ? 'light' : 'dark');
-  }, [isDark, setThemeMode]);
+    setPreference('themeMode', isDark ? 'light' : 'dark');
+  }, [isDark, setPreference]);
 
-  // Reset to system preference
-  const resetToSystemTheme = useCallback(() => {
-    const systemTheme = getSystemTheme();
-    setThemeModeState(systemTheme);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem(THEME_STORAGE_KEY);
-      } catch (error) {
-        // Silently fail if localStorage is not available
-      }
-    }
-    setIsSystemTheme(true);
-  }, []);
+  const setFontScale = useCallback(
+    (scale: number) => {
+      setPreference('fontScale', scale);
+    },
+    [setPreference]
+  );
 
-  // Listen to system theme changes when using system preference
+  const setLayoutPreference = useCallback(
+    (pref: 'left-handed' | 'right-handed') => {
+      setPreference('layoutPreference', pref);
+    },
+    [setPreference]
+  );
+
+  const setReducedMotion = useCallback(
+    (enabled: boolean) => {
+      setPreference('reducedMotion', enabled);
+    },
+    [setPreference]
+  );
+
+  // Hydrate Zustand store from localStorage on client mount
   useEffect(() => {
-    if (!isSystemTheme) return;
-
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e: MediaQueryListEvent) => {
-      setThemeModeState(e.matches ? 'dark' : 'light');
-    };
-
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, [isSystemTheme]);
+    useUserPreferencesStore.persist.rehydrate();
+  }, []);
 
   // Sync dark mode with Tailwind by adding/removing 'dark' class on <html>
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const root = document.documentElement;
-
     if (isDark) {
       root.classList.add('dark');
     } else {
@@ -201,8 +126,12 @@ export function useAppTheme(): UseAppThemeReturn {
     theme,
     setThemeMode,
     toggleTheme,
-    resetToSystemTheme,
     isDark,
-    isSystemTheme,
+    fontScale,
+    setFontScale,
+    layoutPreference,
+    setLayoutPreference,
+    reducedMotion,
+    setReducedMotion,
   };
 }
