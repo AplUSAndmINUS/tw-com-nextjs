@@ -45,6 +45,8 @@ export function Navigation() {
   const [isViewTransitioning, setIsViewTransitioning] = React.useState(false);
   const [isMounted, setIsMounted] = React.useState(false);
 
+  const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
   const { theme, themeMode, setThemeMode, layoutPreference } = useAppTheme();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
@@ -90,10 +92,16 @@ export function Navigation() {
   const MODAL_SWITCH_DELAY = 300;
 
   const switchToModal = (target: 'menu' | 'settings') => {
+    // Clear any existing timeout before scheduling a new one
+    if (modalSwitchTimeoutRef.current) {
+      clearTimeout(modalSwitchTimeoutRef.current);
+    }
+
     setIsViewTransitioning(true);
-    setTimeout(() => {
+    modalSwitchTimeoutRef.current = setTimeout(() => {
       setActiveModal(target);
       setIsViewTransitioning(false);
+      modalSwitchTimeoutRef.current = null;
     }, MODAL_SWITCH_DELAY);
   };
 
@@ -121,6 +129,15 @@ export function Navigation() {
 
   React.useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  // Clean up modal switch timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (modalSwitchTimeoutRef.current) {
+        clearTimeout(modalSwitchTimeoutRef.current);
+      }
+    };
   }, []);
 
   // Close on Escape
@@ -429,7 +446,6 @@ export function Navigation() {
               backdropFilter: 'blur(4px)',
             }}
             onClick={handleModalClose}
-            aria-hidden='true'
           >
             <motion.div
               id={activeModal === 'menu' ? 'navigation-menu' : 'settings-panel'}

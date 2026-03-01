@@ -93,8 +93,6 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     <div
       className='h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden'
       style={{ background: panelBg }}
-      role='dialog'
-      aria-modal='true'
       aria-label='Settings panel'
     >
       {/* Header */}

@@ -88,6 +88,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     : theme.semanticColors.background.muted;
 
   const headingFontFamily =
+    theme.typography?.fontFamilies?.heading ??
     'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
   const getAccentColor = (index: number) =>
