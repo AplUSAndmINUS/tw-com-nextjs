@@ -10,7 +10,6 @@ import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 import type { ThemeMode } from '@/store/userPreferencesStore';
-import styles from './SettingsPanel.module.scss';
 
 interface SettingsPanelProps {
   onClose?: () => void;
@@ -27,14 +26,18 @@ function SettingRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.settingRow}>
-      <div className={styles.settingLabel}>
-        <span className={styles.settingTitle}>{label}</span>
+    <div className='flex items-center justify-between gap-4 py-3 border-t border-[rgba(128,128,128,0.15)] first:border-t-0'>
+      <div className='flex min-w-0 flex-1 flex-col gap-[0.15rem]'>
+        <span className='text-[0.9375rem] font-medium leading-[1.3]'>
+          {label}
+        </span>
         {description && (
-          <span className={styles.settingDesc}>{description}</span>
+          <span className='text-[0.8125rem] leading-[1.4] opacity-80'>
+            {description}
+          </span>
         )}
       </div>
-      <div className={styles.settingControl}>{children}</div>
+      <div className='shrink-0'>{children}</div>
     </div>
   );
 }
@@ -55,9 +58,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
   const handleResetSettings = () => {
     if (
-      window.confirm(
-        'Reset all settings to defaults? This cannot be undone.'
-      )
+      window.confirm('Reset all settings to defaults? This cannot be undone.')
     ) {
       resetPreferences();
     }
@@ -80,17 +81,17 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     themeMode === 'grayscale-dark';
 
   const panelBg = isDark
-    ? theme.colorNeutralBackground2
-    : theme.colorNeutralBackground1;
-  const headerBorderColor = theme.colorNeutralStroke2;
-  const headingColor = theme.colorBrandForeground1;
-  const textColor = theme.colorNeutralForeground1;
-  const labelColor = theme.colorNeutralForeground2;
-  const sectionHeadingColor = theme.colorNeutralForeground1;
+    ? theme.semanticColors.background.elevated
+    : theme.semanticColors.background.base;
+  const headerBorderColor = theme.semanticColors.border.default;
+  const headingColor = theme.semanticColors.text.heading;
+  const textColor = theme.semanticColors.text.primary;
+  const labelColor = theme.semanticColors.text.muted;
+  const sectionHeadingColor = theme.semanticColors.text.heading;
 
   return (
     <div
-      className={styles.settingsPanel}
+      className='h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden'
       style={{ background: panelBg }}
       role='dialog'
       aria-modal='true'
@@ -98,16 +99,19 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     >
       {/* Header */}
       <div
-        className={styles.settingsHeader}
+        className='shrink-0 px-8 py-6'
         style={{ borderBottom: `1px solid ${headerBorderColor}` }}
       >
-        <div className={styles.settingsHeaderRow}>
-          <h2 className={styles.settingsTitle} style={{ color: headingColor }}>
+        <div className='mb-1 flex items-center justify-between gap-2'>
+          <h2
+            className='m-0 text-[clamp(1.25rem,2.5vw,1.75rem)] font-bold leading-[1.2]'
+            style={{ color: headingColor }}
+          >
             Settings
           </h2>
           {onClose && (
             <button
-              className={styles.closeButton}
+              className='shrink-0 rounded bg-transparent px-2 py-1 text-lg leading-none transition-opacity duration-150 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
               onClick={onClose}
               aria-label='Close settings'
               style={{ color: labelColor }}
@@ -116,36 +120,36 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             </button>
           )}
         </div>
-        <p className={styles.settingsSubtitle} style={{ color: labelColor }}>
+        <p className='m-0 text-sm leading-[1.4]' style={{ color: labelColor }}>
           Customize your experience
         </p>
       </div>
 
       {/* Settings Content */}
-      <div className={styles.settingsContent}>
+      <div
+        className='flex-1 overflow-x-hidden overflow-y-auto px-8 py-6'
+        style={{ color: textColor }}
+      >
         {/* Appearance Section */}
-        <section className={styles.section}>
+        <section className='mb-8 last:mb-0'>
           <h3
-            className={styles.sectionHeading}
+            className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
             style={{ color: sectionHeadingColor }}
           >
             Appearance
           </h3>
 
-          <SettingRow
-            label='Theme'
-            description='Choose your color theme'
-          >
+          <SettingRow label='Theme' description='Choose your color theme'>
             <select
               value={themeMode}
               onChange={(e) => setThemeMode(e.target.value as ThemeMode)}
-              className={styles.select}
+              className='min-w-40 cursor-pointer rounded-md px-[0.6rem] py-[0.4rem] text-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
               style={{
                 background: isDark
-                  ? theme.colorNeutralBackground3
-                  : theme.colorNeutralBackground1,
+                  ? theme.semanticColors.background.muted
+                  : theme.semanticColors.background.elevated,
                 color: textColor,
-                border: `1px solid ${theme.colorNeutralStroke2}`,
+                border: `1px solid ${theme.semanticColors.border.default}`,
               }}
               aria-label='Select theme'
             >
@@ -161,8 +165,11 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             label='Font Size'
             description={`${Math.round(fontScale * 100)}%`}
           >
-            <div className={styles.sliderWrapper}>
-              <span className={styles.sliderMin} style={{ color: labelColor }}>
+            <div className='flex items-center gap-2'>
+              <span
+                className='text-xs font-medium'
+                style={{ color: labelColor }}
+              >
                 A
               </span>
               <input
@@ -172,18 +179,16 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 step={0.05}
                 value={fontScale}
                 onChange={(e) => setFontScale(parseFloat(e.target.value))}
-                className={styles.slider}
+                className='h-[6px] w-[120px] cursor-pointer appearance-none rounded'
                 style={
                   {
-                    '--slider-fill': theme.colorBrandBackground,
-                    '--slider-track': isDark
-                      ? theme.colorNeutralBackground4
-                      : theme.colorNeutralStroke2,
+                    accentColor: theme.semanticColors.link.default,
+                    background: `linear-gradient(to right, ${theme.semanticColors.link.default} 0%, ${theme.semanticColors.link.default} ${((fontScale - preferences.minFontScale) / (preferences.maxFontScale - preferences.minFontScale)) * 100}%, ${isDark ? theme.semanticColors.background.muted : theme.semanticColors.border.default} ${((fontScale - preferences.minFontScale) / (preferences.maxFontScale - preferences.minFontScale)) * 100}%, ${isDark ? theme.semanticColors.background.muted : theme.semanticColors.border.default} 100%)`,
                   } as React.CSSProperties
                 }
                 aria-label='Font size'
               />
-              <span className={styles.sliderMax} style={{ color: labelColor }}>
+              <span className='text-lg font-bold' style={{ color: labelColor }}>
                 A
               </span>
             </div>
@@ -191,9 +196,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         </section>
 
         {/* Layout Section */}
-        <section className={styles.section}>
+        <section className='mb-8 last:mb-0'>
           <h3
-            className={styles.sectionHeading}
+            className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
             style={{ color: sectionHeadingColor }}
           >
             Layout
@@ -203,20 +208,20 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             label='Navigation Side'
             description='Choose navigation panel position'
           >
-            <div className={styles.segmentedControl}>
+            <div className='flex gap-1'>
               <button
-                className={`${styles.segmentButton} ${layoutPreference === 'right-handed' ? styles.segmentActive : ''}`}
+                className='cursor-pointer rounded-md px-[0.6rem] py-[0.35rem] text-[0.8125rem] font-medium transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
                 style={
                   layoutPreference === 'right-handed'
                     ? {
-                        background: theme.colorBrandBackground,
-                        color: theme.colorNeutralForegroundOnBrand,
-                        border: `1px solid ${theme.colorBrandBackground}`,
+                        background: theme.semanticColors.link.default,
+                        color: theme.semanticColors.selection.text,
+                        border: `1px solid ${theme.semanticColors.link.default}`,
                       }
                     : {
                         background: 'transparent',
                         color: labelColor,
-                        border: `1px solid ${theme.colorNeutralStroke2}`,
+                        border: `1px solid ${theme.semanticColors.border.default}`,
                       }
                 }
                 onClick={() => setLayoutPreference('right-handed')}
@@ -225,18 +230,18 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 Right (Default)
               </button>
               <button
-                className={`${styles.segmentButton} ${layoutPreference === 'left-handed' ? styles.segmentActive : ''}`}
+                className='cursor-pointer rounded-md px-[0.6rem] py-[0.35rem] text-[0.8125rem] font-medium transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
                 style={
                   layoutPreference === 'left-handed'
                     ? {
-                        background: theme.colorBrandBackground,
-                        color: theme.colorNeutralForegroundOnBrand,
-                        border: `1px solid ${theme.colorBrandBackground}`,
+                        background: theme.semanticColors.link.default,
+                        color: theme.semanticColors.selection.text,
+                        border: `1px solid ${theme.semanticColors.link.default}`,
                       }
                     : {
                         background: 'transparent',
                         color: labelColor,
-                        border: `1px solid ${theme.colorNeutralStroke2}`,
+                        border: `1px solid ${theme.semanticColors.border.default}`,
                       }
                 }
                 onClick={() => setLayoutPreference('left-handed')}
@@ -249,9 +254,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         </section>
 
         {/* Accessibility Section */}
-        <section className={styles.section}>
+        <section className='mb-8 last:mb-0'>
           <h3
-            className={styles.sectionHeading}
+            className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
             style={{ color: sectionHeadingColor }}
           >
             Accessibility
@@ -264,23 +269,23 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             <button
               role='switch'
               aria-checked={reducedMotion}
-              className={`${styles.toggle} ${reducedMotion ? styles.toggleOn : ''}`}
+              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-xl p-0 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
               style={
                 reducedMotion
                   ? {
-                      background: theme.colorBrandBackground,
+                      background: theme.semanticColors.link.default,
                     }
                   : {
                       background: isDark
-                        ? theme.colorNeutralBackground4
-                        : theme.colorNeutralStroke2,
+                        ? theme.semanticColors.background.muted
+                        : theme.semanticColors.border.default,
                     }
               }
               onClick={() => setReducedMotion(!reducedMotion)}
               aria-label='Toggle reduced motion'
             >
               <span
-                className={`${styles.toggleThumb} ${reducedMotion ? styles.toggleThumbOn : ''}`}
+                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white transition-transform duration-200 ${reducedMotion ? 'translate-x-5' : ''}`}
               />
             </button>
           </SettingRow>
@@ -292,16 +297,16 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             <button
               role='switch'
               aria-checked={themeMode === 'high-contrast'}
-              className={`${styles.toggle} ${themeMode === 'high-contrast' ? styles.toggleOn : ''}`}
+              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-xl p-0 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
               style={
                 themeMode === 'high-contrast'
                   ? {
-                      background: theme.colorBrandBackground,
+                      background: theme.semanticColors.link.default,
                     }
                   : {
                       background: isDark
-                        ? theme.colorNeutralBackground4
-                        : theme.colorNeutralStroke2,
+                        ? theme.semanticColors.background.muted
+                        : theme.semanticColors.border.default,
                     }
               }
               onClick={() =>
@@ -312,7 +317,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Toggle high contrast'
             >
               <span
-                className={`${styles.toggleThumb} ${themeMode === 'high-contrast' ? styles.toggleThumbOn : ''}`}
+                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white transition-transform duration-200 ${themeMode === 'high-contrast' ? 'translate-x-5' : ''}`}
               />
             </button>
           </SettingRow>
@@ -321,14 +326,14 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
       {/* Footer */}
       <div
-        className={styles.settingsFooter}
+        className='shrink-0 px-8 py-5'
         style={{ borderTop: `1px solid ${headerBorderColor}` }}
       >
         <button
-          className={styles.resetButton}
+          className='w-full cursor-pointer rounded-lg bg-transparent px-4 py-[0.65rem] text-sm font-semibold transition-opacity duration-200 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
           style={{
-            color: theme.colorStatusDangerForeground1,
-            border: `1px solid ${theme.colorStatusDangerForeground1}`,
+            color: theme.palette.redDark,
+            border: `1px solid ${theme.palette.redDark}`,
           }}
           onClick={handleResetSettings}
         >
