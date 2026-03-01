@@ -30,7 +30,7 @@ export function SiteLayout({
     ? {
         background: isDarkMode
           ? theme.gradients.dark.background
-          : theme.gradients.light.background,
+          : `linear-gradient( 180deg, rgba(245, 245, 245, 0.22) 0%, rgba(235, 235, 235, 0.16) 45%, rgba(225, 225, 225, 0.20) 100% ), ${theme.gradients.light.background}`,
       }
     : undefined;
 

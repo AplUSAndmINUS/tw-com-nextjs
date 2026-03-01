@@ -136,7 +136,10 @@ export function Navigation() {
   const modalSlideFrom = isLeftHanded ? '-100%' : '100%';
 
   const modalVariants: Variants = {
-    hidden: { x: shouldReduceMotion ? '0%' : modalSlideFrom, opacity: shouldReduceMotion ? 1 : 0 },
+    hidden: {
+      x: shouldReduceMotion ? '0%' : modalSlideFrom,
+      opacity: shouldReduceMotion ? 1 : 0,
+    },
     visible: {
       x: '0%',
       opacity: 1,
@@ -173,7 +176,13 @@ export function Navigation() {
     justifyContent: 'center',
     width: '3rem',
     height: '3rem',
-    background: 'none',
+    backgroundColor: isDark
+      ? 'transparent'
+      : theme.semanticColors.background.elevated,
+    border: isDark
+      ? '1px solid transparent'
+      : `1px solid ${theme.semanticColors.border.default}`,
+    borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
     color: theme.colorNeutralForeground1,
     transition: 'background-color 0.2s ease, transform 0.15s ease',
@@ -199,10 +208,11 @@ export function Navigation() {
           zIndex: 50,
           backgroundColor: isDark
             ? 'rgba(15, 15, 15, 0.8)'
-            : 'rgba(255, 255, 255, 0.85)',
+            : theme.gradients.light.solid,
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: `1px solid ${theme.colorBrandBackgroundStatic}`,
+          borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+          boxShadow: isDark ? 'none' : theme.shadows.s,
         }}
       >
         <div

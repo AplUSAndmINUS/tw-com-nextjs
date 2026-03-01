@@ -800,9 +800,9 @@ export const gradients = {
       'linear-gradient(90deg, #1F1F1F 0%, #242424 50%, #1F1F1F 100%) no-repeat center',
   },
   light: {
-    solid: '#F7F5F2',
+    solid: '#F4F2ED',
     background:
-      '#F7F5F2 radial-gradient(circle at 22% 48%, #FBFAF8 0%, #F4F1EC 34%, #EEEAE4 68%, #E8E3DC 100%)',
+      '#F4F2ED radial-gradient(circle at 22% 48%, #F8F6F2 0%, #F2EEE6 36%, #EEEAE2 70%, #EAE6DE 100%)',
     menu: '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',
     radial:
       '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',

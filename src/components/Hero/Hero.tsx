@@ -71,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({
   backArrowPath = '/content',
   filters,
 }) => {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -104,6 +104,21 @@ export const Hero: React.FC<HeroProps> = ({
     return accentPalette[hash % accentPalette.length];
   }, [title, accentPalette]);
 
+  const isLightFamilyMode =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const heroSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+
+  const controlSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.elevated
+    : theme.semanticColors.background.muted;
+
   return (
     <div
       className={`${className}`}
@@ -112,7 +127,7 @@ export const Hero: React.FC<HeroProps> = ({
           ? `1px solid ${theme.semanticColors.border.default}`
           : 'none',
         borderTop: `4px solid ${accentColor}`,
-        backgroundColor: theme.semanticColors.background.elevated,
+        backgroundColor: heroSurfaceColor,
         backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
         padding: isMobile
           ? `${theme.spacing.l}`
@@ -145,7 +160,7 @@ export const Hero: React.FC<HeroProps> = ({
                 width: isMobile ? '2rem' : '2.5rem',
                 height: isMobile ? '2rem' : '2.5rem',
                 borderRadius: theme.borderRadius.container.small,
-                backgroundColor: theme.semanticColors.background.muted,
+                backgroundColor: controlSurfaceColor,
                 border: `1px solid ${theme.semanticColors.border.default}`,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -157,8 +172,7 @@ export const Hero: React.FC<HeroProps> = ({
                 e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  theme.semanticColors.background.muted;
+                e.currentTarget.style.backgroundColor = controlSurfaceColor;
                 e.currentTarget.style.borderColor =
                   theme.semanticColors.border.default;
                 e.currentTarget.style.boxShadow = 'none';
