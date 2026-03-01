@@ -48,7 +48,7 @@ export function PageHeader({
     let hash = 0;
     for (let i = 0; i < title.length; i++) {
       hash = (hash << 5) - hash + title.charCodeAt(i);
-      hash = hash & hash;
+      hash = hash | 0; // Force 32-bit signed int
     }
     return accentPalette[Math.abs(hash) % accentPalette.length];
   }, [title, accentPalette]);

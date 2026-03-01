@@ -20,13 +20,18 @@ import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 interface NavigationItemProps {
   item: NavItem;
   isActive: boolean;
+  isMobile: boolean;
   onClick: () => void;
 }
 
-function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
+function NavigationItem({
+  item,
+  isActive,
+  isMobile,
+  onClick,
+}: NavigationItemProps) {
   const { theme } = useAppTheme();
   const [isHovered, setIsHovered] = React.useState(false);
-  const isMobile = useIsMobile();
 
   return (
     <Link
@@ -52,11 +57,13 @@ function NavigationItem({ item, isActive, onClick }: NavigationItemProps) {
           cursor: 'pointer',
         }}
       >
-        <Typography variant='h4' style={{
-          color:
-            isActive || isHovered
-              ? theme.colorBrandForeground1
-              : theme.colorNeutralForeground1,
+        <Typography
+          variant='h4'
+          style={{
+            color:
+              isActive || isHovered
+                ? theme.colorBrandForeground1
+                : theme.colorNeutralForeground1,
             fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             fontWeight: isActive ? 600 : 400,
             textAlign: 'right',
@@ -89,6 +96,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
   const { theme } = useAppTheme();
   const { shouldReduceMotion } = useReducedMotion();
   const pathname = usePathname();
+  const isMobile = useIsMobile();
   const isMobileLandscape = useIsMobileLandscape();
   const currentYear = new Date().getFullYear();
 
@@ -108,11 +116,14 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
         }}
       >
-        <Typography variant='h3' style={{
-          margin: 0,
-          color: theme.colorBrandForeground1,
-          textAlign: 'right',
-        }}>
+        <Typography
+          variant='h3'
+          style={{
+            margin: 0,
+            color: theme.colorBrandForeground1,
+            textAlign: 'right',
+          }}
+        >
           Menu
         </Typography>
       </div>
@@ -154,6 +165,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
                 <NavigationItem
                   item={item}
                   isActive={pathname === item.path}
+                  isMobile={isMobile}
                   onClick={onClose}
                 />
               </motion.li>
@@ -171,11 +183,14 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         }}
       >
         <SocialLinks />
-        <Typography variant='body' style={{
-          marginBottom: '1rem',
-          color: theme.colorNeutralForeground3,
-          fontSize: '0.875rem',
-        }}>
+        <Typography
+          variant='body'
+          style={{
+            marginBottom: '1rem',
+            color: theme.colorNeutralForeground3,
+            fontSize: '0.875rem',
+          }}
+        >
           &copy; 2025-{currentYear} Terence Waters. All rights reserved.
         </Typography>
       </div>
