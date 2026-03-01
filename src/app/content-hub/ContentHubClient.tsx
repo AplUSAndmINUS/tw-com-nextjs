@@ -46,14 +46,6 @@ const contentCategories = [
     href: '/case-studies',
     cta: 'Read Case Studies',
   },
-  {
-    title: 'View All Content',
-    description:
-      'Browse everything together with advanced filtering by type, tag, and date.',
-    icon: '🔍',
-    href: '/content/all',
-    cta: 'Explore All',
-  },
 ];
 
 export function ContentHubClient() {
