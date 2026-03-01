@@ -75,6 +75,7 @@ export default function ServicesPage() {
       <div className='pt-0 pb-8 md:py-8'>
         <PageHeader
           title='Services'
+          iconName='Settings24Regular'
           subtitle='I partner with teams, founders, and creators to build better products, clearer strategies, and more meaningful content.'
           subtitleClassName='max-w-2xl'
         />

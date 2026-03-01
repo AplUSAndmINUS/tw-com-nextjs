@@ -44,6 +44,7 @@ export default function ContentHubPage() {
         {/* Header */}
         <PageHeader
           title='Content Hub'
+          iconName='Search24Regular'
           subtitle='Everything I create — all in one place. Articles, videos, podcasts, and deep dives into the ideas and work that matter most.'
           subtitleClassName='max-w-2xl'
         />

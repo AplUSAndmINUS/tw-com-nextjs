@@ -3,9 +3,12 @@
 import { ReactNode, useMemo } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
+import { FluentIcon } from '@/components/FluentIcon';
+import { resolveIconName } from '@/utils/iconResolver';
 
 interface PageHeaderProps {
   title: string;
+  iconName?: string;
   subtitle?: ReactNode;
   className?: string;
   titleClassName?: string;
@@ -24,6 +27,7 @@ interface PageHeaderProps {
  */
 export function PageHeader({
   title,
+  iconName,
   subtitle,
   className,
   titleClassName,
@@ -75,6 +79,8 @@ export function PageHeader({
     .filter(Boolean)
     .join(' ');
 
+  const IconComponent = resolveIconName(iconName);
+
   return (
     <header
       className={headerClasses}
@@ -86,9 +92,33 @@ export function PageHeader({
         boxShadow: theme.shadows.card,
       }}
     >
-      <Typography variant='h1' className={resolvedTitleClassName}>
-        {title}
-      </Typography>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing.s1,
+        }}
+      >
+        {IconComponent && (
+          <FluentIcon
+            iconName={IconComponent}
+            color={accentColor}
+            style={{
+              width: '3rem',
+              height: '3rem',
+              fontSize: '3rem',
+              display: 'inline-flex',
+            }}
+          />
+        )}
+        <Typography
+          variant='h2'
+          className={resolvedTitleClassName}
+          style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)' }}
+        >
+          {title}
+        </Typography>
+      </div>
       {subtitle && (
         <Typography
           variant='body'

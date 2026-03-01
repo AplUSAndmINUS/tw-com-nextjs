@@ -68,6 +68,7 @@ export default function ContactPage() {
       <div className='pt-0 pb-8 md:py-8'>
         <PageHeader
           title='Contact'
+          iconName='Mail24Regular'
           subtitle="I'd love to hear from you. Whether you have a question, an opportunity, or just want to connect — reach out."
           subtitleClassName='max-w-2xl'
         />

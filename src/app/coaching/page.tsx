@@ -95,6 +95,7 @@ export default function CoachingPage() {
       <div className='pt-0 pb-8 md:py-8'>
         <PageHeader
           title='Coaching & Offerings'
+          iconName='Person24Regular'
           subtitle='I help creators, technologists, and leaders navigate transitions, unlock their potential, and build with intention.'
           subtitleClassName='max-w-2xl'
         />

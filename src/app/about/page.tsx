@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
 import { PageHeader } from '@/components/PageHeader';
@@ -44,6 +43,7 @@ export default function AboutPage() {
       <div className='pt-0 pb-8 md:py-8'>
         <PageHeader
           title='About Me'
+          iconName='Person24Regular'
           subtitle='Author, technologist, and creative thinker.'
         />
 
