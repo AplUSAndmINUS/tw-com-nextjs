@@ -29,9 +29,14 @@ export function FontScaleProvider({ children }: FontScaleProviderProps) {
       typeof preferences.fontScale === 'number' ? preferences.fontScale : 1;
     const newFontSize = BASE_FONT_SIZE * fontScale;
     if (isNaN(newFontSize) || newFontSize < MIN_FONT_SIZE_PX || newFontSize > MAX_FONT_SIZE_PX) return;
+    
+    // Capture the original inline style to restore later
+    const originalFontSize = document.documentElement.style.fontSize;
     document.documentElement.style.fontSize = `${newFontSize}px`;
+    
     return () => {
-      document.documentElement.style.fontSize = `${BASE_FONT_SIZE}px`;
+      // Restore original inline style (or clear if none existed)
+      document.documentElement.style.fontSize = originalFontSize;
     };
   }, [preferences.fontScale]);
 
