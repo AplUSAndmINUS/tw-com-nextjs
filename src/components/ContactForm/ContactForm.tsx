@@ -213,7 +213,7 @@ export const ContactForm: React.FC = () => {
             loading={isLoading}
             disabled={isLoading}
           >
-            Send
+            Send Message
           </Button>
         </div>
       </div>
