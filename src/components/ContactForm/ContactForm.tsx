@@ -99,6 +99,8 @@ export const ContactForm: React.FC = () => {
   if (isSuccess) {
     return (
       <div
+        role='status'
+        aria-live='polite'
         style={{
           padding: theme.spacing.xl,
           backgroundColor: theme.semanticColors.background.elevated,
@@ -123,13 +125,19 @@ export const ContactForm: React.FC = () => {
           Thank you for reaching out. I&apos;ll get back to you as soon as
           possible.
         </Typography>
-        <Button
-          variant='outlined'
-          style={{ marginTop: theme.spacing.l }}
-          onClick={() => setIsSuccess(false)}
+        <a
+          href='https://terencewaters.com'
+          rel='noopener noreferrer'
+          target='_self'
         >
-          Send Another Message
-        </Button>
+          <Button
+            type='button'
+            variant='primary'
+            aria-label='Return to home page'
+          >
+            Return to Home
+          </Button>
+        </a>
       </div>
     );
   }
@@ -144,7 +152,7 @@ export const ContactForm: React.FC = () => {
         }}
       >
         <Input
-          label='name'
+          label='Name'
           name='name'
           type='text'
           placeholder='enter your name'
@@ -158,7 +166,7 @@ export const ContactForm: React.FC = () => {
         />
 
         <Input
-          label='email'
+          label='Email'
           name='email'
           type='email'
           placeholder='enter your email'
@@ -172,7 +180,7 @@ export const ContactForm: React.FC = () => {
         />
 
         <Textarea
-          label='message'
+          label='Message'
           name='message'
           placeholder='enter a message'
           value={form.message}
@@ -205,7 +213,7 @@ export const ContactForm: React.FC = () => {
             loading={isLoading}
             disabled={isLoading}
           >
-            send
+            Send
           </Button>
         </div>
       </div>
