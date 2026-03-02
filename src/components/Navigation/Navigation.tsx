@@ -202,14 +202,24 @@ export function Navigation() {
     borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
     color: theme.colorNeutralForeground1,
-    transition: 'background-color 0.2s ease, transform 0.15s ease',
+    transition: 'background-color 0.2s ease',
     padding: 0,
   };
 
   // Modal position: right side by default, left side in left-handed mode
   const modalPositionStyle: React.CSSProperties = isLeftHanded
-    ? { position: 'absolute', top: 0, left: 0, bottom: 0 }
-    : { position: 'absolute', top: 0, right: 0, bottom: 0 };
+    ? {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+      }
+    : {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+      };
 
   return (
     <div suppressHydrationWarning>
@@ -237,6 +247,7 @@ export function Navigation() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            flexDirection: isLeftHanded ? 'row-reverse' : 'row',
             padding: '0.75rem 1.5rem',
             maxWidth: '1920px',
             margin: '0 auto',
@@ -357,7 +368,9 @@ export function Navigation() {
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
-              marginLeft: '1rem',
+              marginLeft: isLeftHanded ? '0' : '1rem',
+              marginRight: isLeftHanded ? '1rem' : '0',
+              flexDirection: isLeftHanded ? 'row-reverse' : 'row',
             }}
             suppressHydrationWarning
           >
