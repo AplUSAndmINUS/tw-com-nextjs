@@ -5,6 +5,7 @@ import { Typography } from '@/components/Typography';
 import { UnifiedPageWrapper } from '@/components/UnifiedPageWrapper/UnifiedPageWrapper';
 import { ContactForm } from '@/components/ContactForm';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
+import { Button } from '@/components/Form/Button/Button';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -48,13 +49,17 @@ export default function ContactPage() {
             description="Let's discuss your needs and goals! Whether you're seeking project estimates, personalized training, strategic consulting, or web development solutions—I'm happy to help. Send me a message or click the button below to get started!"
           >
             <a
-              href='https://calendly.com/terencewaters'
-              target='_blank'
+              href='https://outlook.office.com/book/Bookings@terencewaters.com/'
               rel='noopener noreferrer'
-              className='inline-block px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded font-semibold hover:bg-blue-700 dark:hover:bg-blue-400 transition-all hover:scale-105 active:scale-95'
-              aria-label='Book a free consultation with Terence Waters'
+              target='_blank'
             >
-              book a free consultation
+              <Button
+                type='button'
+                variant='primary'
+                aria-label='Book a free consultation with Terence Waters'
+              >
+                Book a Free Consultation
+              </Button>
             </a>
           </Hero>
 
