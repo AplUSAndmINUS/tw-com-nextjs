@@ -155,7 +155,7 @@ export const ContactForm: React.FC = () => {
           label='Name'
           name='name'
           type='text'
-          placeholder='enter your name'
+          placeholder='Enter your name'
           value={form.name}
           onChange={handleChange}
           error={errors.name}
@@ -169,7 +169,7 @@ export const ContactForm: React.FC = () => {
           label='Email'
           name='email'
           type='email'
-          placeholder='enter your email'
+          placeholder='Enter your email'
           value={form.email}
           onChange={handleChange}
           error={errors.email}
@@ -182,7 +182,7 @@ export const ContactForm: React.FC = () => {
         <Textarea
           label='Message'
           name='message'
-          placeholder='enter a message'
+          placeholder='Enter a message'
           value={form.message}
           onChange={handleChange}
           error={errors.message}
