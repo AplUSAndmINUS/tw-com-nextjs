@@ -188,15 +188,19 @@ module.exports = async function (req, context) {
     };
   }
 
+  // Strip newlines from single-line fields to prevent email body injection
+  const sanitizedName = name.replace(/[\r\n]/g, '');
+  const sanitizedEmail = email.replace(/[\r\n]/g, '');
+
   // Build email payload for SMTP2Go
   const emailPayload = {
     api_key: apiKey,
     to: [toEmail],
     sender: fromEmail,
-    subject: `Contact form submission from ${name}`,
+    subject: `Contact form submission from ${sanitizedName}`,
     text_body: [
-      `Name: ${name}`,
-      `Email: ${email}`,
+      `Name: ${sanitizedName}`,
+      `Email: ${sanitizedEmail}`,
       '',
       'Message:',
       message,
