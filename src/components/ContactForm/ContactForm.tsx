@@ -27,7 +27,11 @@ interface FormErrors {
  */
 export const ContactForm: React.FC = () => {
   const { theme } = useAppTheme();
-  const [form, setForm] = useState<FormState>({ name: '', email: '', message: '' });
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    email: '',
+    message: '',
+  });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -76,7 +80,9 @@ export const ContactForm: React.FC = () => {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data?.error || 'Failed to send message. Please try again.');
+        throw new Error(
+          data?.error || 'Failed to send message. Please try again.'
+        );
       }
 
       setIsSuccess(true);
@@ -103,12 +109,19 @@ export const ContactForm: React.FC = () => {
       >
         <Typography
           variant='h3'
-          style={{ color: theme.semanticColors.text.heading, marginBottom: theme.spacing.s1 }}
+          style={{
+            color: theme.semanticColors.text.heading,
+            marginBottom: theme.spacing.s1,
+          }}
         >
           Message Sent!
         </Typography>
-        <Typography variant='body' style={{ color: theme.semanticColors.text.muted }}>
-          Thank you for reaching out. I&apos;ll get back to you as soon as possible.
+        <Typography
+          variant='body'
+          style={{ color: theme.semanticColors.text.muted }}
+        >
+          Thank you for reaching out. I&apos;ll get back to you as soon as
+          possible.
         </Typography>
         <Button
           variant='outlined'
@@ -123,7 +136,13 @@ export const ContactForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.m }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: theme.spacing.m,
+        }}
+      >
         <Input
           label='name'
           name='name'
@@ -134,6 +153,7 @@ export const ContactForm: React.FC = () => {
           error={errors.name}
           required
           fullWidth
+          maxLength={200}
           aria-label='Your name'
         />
 
@@ -147,6 +167,7 @@ export const ContactForm: React.FC = () => {
           error={errors.email}
           required
           fullWidth
+          maxLength={254}
           aria-label='Your email address'
         />
 
@@ -160,6 +181,8 @@ export const ContactForm: React.FC = () => {
           required
           fullWidth
           rows={5}
+          maxLength={5000}
+          showCount
           aria-label='Your message'
         />
 

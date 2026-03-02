@@ -44,7 +44,10 @@ function httpPost(url, payload) {
       res.on('data', (chunk) => (responseBody += chunk));
       res.on('end', () => {
         try {
-          resolve({ statusCode: res.statusCode, body: JSON.parse(responseBody) });
+          resolve({
+            statusCode: res.statusCode,
+            body: JSON.parse(responseBody),
+          });
         } catch {
           reject(new Error('Failed to parse SMTP2Go response'));
         }
@@ -102,7 +105,8 @@ module.exports = async function (req, context) {
   // Parse request body
   let body;
   try {
-    const rawBody = typeof req.body === 'string' ? req.body : await req.text?.() ?? '';
+    const rawBody =
+      typeof req.body === 'string' ? req.body : ((await req.text?.()) ?? '');
     body = rawBody ? JSON.parse(rawBody) : req.body;
   } catch {
     return {
@@ -122,6 +126,41 @@ module.exports = async function (req, context) {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'name, email, and message are required' }),
+    };
+  }
+
+  // Validate field lengths
+  const MAX_NAME_LENGTH = 200;
+  const MAX_EMAIL_LENGTH = 254;
+  const MAX_MESSAGE_LENGTH = 5000;
+
+  if (name.length > MAX_NAME_LENGTH) {
+    return {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        error: `Name must not exceed ${MAX_NAME_LENGTH} characters`,
+      }),
+    };
+  }
+
+  if (email.length > MAX_EMAIL_LENGTH) {
+    return {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        error: `Email must not exceed ${MAX_EMAIL_LENGTH} characters`,
+      }),
+    };
+  }
+
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    return {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        error: `Message must not exceed ${MAX_MESSAGE_LENGTH} characters`,
+      }),
     };
   }
 
@@ -179,7 +218,9 @@ module.exports = async function (req, context) {
       return {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: 'Failed to send email. Please try again later.' }),
+        body: JSON.stringify({
+          error: 'Failed to send email. Please try again later.',
+        }),
       };
     }
 
@@ -187,14 +228,18 @@ module.exports = async function (req, context) {
     return {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Your message has been sent successfully.' }),
+      body: JSON.stringify({
+        message: 'Your message has been sent successfully.',
+      }),
     };
   } catch (error) {
     context.log('Error calling SMTP2Go:', error);
     return {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Failed to send email. Please try again later.' }),
+      body: JSON.stringify({
+        error: 'Failed to send email. Please try again later.',
+      }),
     };
   }
 };
