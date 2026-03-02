@@ -2,8 +2,9 @@ import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
-import { Card } from '@/components/ui/Card';
+import { ContactForm } from '@/components/ContactForm';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
+import { Button } from '@/components/Form/Button/Button';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -29,92 +30,47 @@ export const metadata: Metadata = {
   },
 };
 
-const contactOptions = [
-  {
-    title: 'General Inquiries',
-    description:
-      'For questions, collaboration proposals, or just to say hello.',
-    icon: '✉️',
-    href: 'mailto:hello@terencewaters.com',
-    label: 'hello@terencewaters.com',
-  },
-  {
-    title: 'Speaking & Events',
-    description:
-      'Interested in having me speak at your event, conference, or workshop?',
-    icon: '🎤',
-    href: 'mailto:speaking@terencewaters.com',
-    label: 'speaking@terencewaters.com',
-  },
-  {
-    title: 'Consulting & Advisory',
-    description:
-      'For business engagements, technical consulting, and strategic advisory.',
-    icon: '⚙️',
-    href: 'mailto:consulting@terencewaters.com',
-    label: 'consulting@terencewaters.com',
-  },
-];
-
 export default function ContactPage() {
   return (
     <PageLayout
       featureImage={{
         src: LinkedInPortrait.src,
         alt: 'Terence Waters',
-        title: "Let's Talk",
+        title: 'Contact Me',
       }}
     >
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className='pt-0 pb-8 md:py-8 flex flex-col gap-8'>
+        {/* Let's Connect section */}
         <Hero
-          title='Contact'
+          title="Let's Connect!"
           iconName='Mail24Regular'
-          description="I'd love to hear from you. Whether you have a question, an opportunity, or just want to connect — reach out."
-        />
+          description="Let's discuss your needs and goals! Whether you're seeking project estimates, personalized training, strategic consulting, or web development solutions—I'm happy to help. Send me a message or click the button below to get started!"
+        >
+          <a
+            href='https://outlook.office.com/book/Bookings@terencewaters.com/'
+            rel='noopener noreferrer'
+            target='_blank'
+          >
+            <Button
+              type='button'
+              variant='primary'
+              aria-label='Book a free consultation with Terence Waters'
+            >
+              Book a Free Consultation
+            </Button>
+          </a>
+        </Hero>
 
-        <div className='mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
-          {contactOptions.map((option) => (
-            <Card key={option.title}>
-              <div className='text-3xl mb-3'>{option.icon}</div>
-              <Typography variant='h3' className='text-lg font-semibold mb-2'>
-                {option.title}
-              </Typography>
-              <Typography
-                variant='body'
-                className='text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4'
-              >
-                {option.description}
-              </Typography>
-              <a
-                href={option.href}
-                className='text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline break-all'
-              >
-                {option.label}
-              </a>
-            </Card>
-          ))}
+        {/* Contact Me Form section */}
+        <div className='flex flex-col gap-4'>
+          <Typography
+            variant='h2'
+            className='text-2xl font-bold uppercase tracking-wide'
+          >
+            Contact Me Form
+          </Typography>
+          <ContactForm />
         </div>
-
-        <section className='bg-gray-50 dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-700'>
-          <Typography variant='h2' className='text-2xl font-semibold mb-3'>
-            Follow Along
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-gray-600 dark:text-gray-400 mb-2'
-          >
-            The best way to stay connected is through my newsletter and social
-            channels. I share ideas, updates, and behind-the-scenes looks at
-            what I&apos;m working on.
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-gray-600 dark:text-gray-400 text-sm'
-          >
-            Find me on LinkedIn, YouTube, and other platforms via the social
-            links in the navigation menu.
-          </Typography>
-        </section>
       </div>
     </PageLayout>
   );

@@ -16,6 +16,28 @@ const contentCategories = [
     cta: 'Read Articles',
   },
   {
+    title: 'Portfolio',
+    description: 'Selected creative work and technical projects.',
+    icon: '🗂️',
+    href: '/portfolio',
+    cta: 'View Work',
+  },
+  {
+    title: 'Case Studies',
+    description:
+      "Deep dives into specific projects — what worked, what didn't, and what I learned.",
+    icon: '🔬',
+    href: '/case-studies',
+    cta: 'Read Case Studies',
+  },
+  {
+    title: 'GitHub',
+    description: 'Open source projects, code samples, and technical experiments.',
+    icon: '💻',
+    href: '/github/',
+    cta: 'Explore Code',
+  },
+  {
     title: 'Videos',
     description:
       "In-depth videos, tutorials, and behind-the-scenes looks at what I'm building.",
@@ -30,21 +52,6 @@ const contentCategories = [
     icon: '🎙️',
     href: '/podcasts',
     cta: 'Listen Now',
-  },
-  {
-    title: 'Portfolio',
-    description: 'Selected creative work and technical projects.',
-    icon: '🗂️',
-    href: '/portfolio',
-    cta: 'View Work',
-  },
-  {
-    title: 'Case Studies',
-    description:
-      "Deep dives into specific projects — what worked, what didn't, and what I learned.",
-    icon: '🔬',
-    href: '/case-studies',
-    cta: 'Read Case Studies',
   },
 ];
 
