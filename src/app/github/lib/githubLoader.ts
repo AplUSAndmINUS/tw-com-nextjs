@@ -41,11 +41,8 @@ async function fetchAllPages(
 
   try {
     while (nextUrl && pageCount < MAX_PAGES) {
-      const response = await fetch(nextUrl, {
-        headers,
-        // Cache for 15 minutes where supported (ISR-compatible environments)
-        next: { revalidate: 900 },
-      });
+      // Note: Runs at build time only (static export with output: 'export')
+      const response = await fetch(nextUrl, { headers });
 
       if (!response.ok) {
         console.error(

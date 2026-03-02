@@ -133,7 +133,13 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 outlineColor: theme.semanticColors.focus.ring,
               }}
             >
-              <Typography variant='h3' style={{ color: theme.colorPaletteRedForeground1 }}>X</Typography>
+              <Typography
+                as='span'
+                variant='h3'
+                style={{ color: theme.colorPaletteRedForeground1 }}
+              >
+                X
+              </Typography>
             </button>
           )}
         </div>

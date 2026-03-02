@@ -75,7 +75,7 @@ export function GitHubClientWrapper({
       imageText: [
         repo.language,
         repo.updated_at
-          ? `Updated ${format(new Date(repo.updated_at), 'MMM d, yyyy')}`
+          ? `Updated ${format(new Date(repo.updated_at.split('T')[0]), 'MMM d, yyyy')}`
           : null,
         repo.stargazers_count > 0 ? `★ ${repo.stargazers_count}` : null,
       ]
