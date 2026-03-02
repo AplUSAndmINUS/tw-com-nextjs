@@ -22,6 +22,8 @@ interface NavigationItemProps {
   isActive: boolean;
   isMobile: boolean;
   onClick: () => void;
+  textAlignment: 'left' | 'right';
+  flexAlignment: 'flex-start' | 'flex-end';
 }
 
 function NavigationItem({
@@ -29,6 +31,8 @@ function NavigationItem({
   isActive,
   isMobile,
   onClick,
+  textAlignment,
+  flexAlignment,
 }: NavigationItemProps) {
   const { theme } = useAppTheme();
   const [isHovered, setIsHovered] = React.useState(false);
@@ -45,7 +49,7 @@ function NavigationItem({
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end',
+          justifyContent: flexAlignment,
           gap: '0.75rem',
           padding: isMobile ? '0.75rem 0 1rem 0.75rem' : '0.75rem 1rem',
           borderRadius: theme.borderRadiusMedium,
@@ -66,7 +70,7 @@ function NavigationItem({
                 : theme.colorNeutralForeground1,
             fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             fontWeight: isActive ? 600 : 400,
-            textAlign: 'right',
+            textAlign: textAlignment,
             textTransform: 'capitalize',
             transition: 'color 0.2s ease',
           }}
@@ -93,12 +97,16 @@ function NavigationItem({
 }
 
 export function NavigationMenu({ onClose }: NavigationMenuProps) {
-  const { theme } = useAppTheme();
+  const { theme, layoutPreference } = useAppTheme();
   const { shouldReduceMotion } = useReducedMotion();
   const pathname = usePathname();
   const isMobile = useIsMobile();
   const isMobileLandscape = useIsMobileLandscape();
   const currentYear = new Date().getFullYear();
+
+  const isLeftHanded = layoutPreference === 'left-handed';
+  const textAlignment = isLeftHanded ? 'left' : 'right';
+  const flexAlignment = isLeftHanded ? 'flex-start' : 'flex-end';
 
   return (
     <div
@@ -121,7 +129,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           style={{
             margin: 0,
             color: theme.colorBrandForeground1,
-            textAlign: 'right',
+            textAlign: textAlignment,
           }}
         >
           Menu
@@ -145,7 +153,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
             padding: 0,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-end',
+            alignItems: flexAlignment,
             gap: '0.25rem',
           }}
         >
@@ -167,6 +175,8 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
                   isActive={pathname === item.path}
                   isMobile={isMobile}
                   onClick={onClose}
+                  textAlignment={textAlignment}
+                  flexAlignment={flexAlignment}
                 />
               </motion.li>
             ))}

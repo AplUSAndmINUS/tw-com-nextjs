@@ -10,6 +10,9 @@ import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 import type { ThemeMode } from '@/store/userPreferencesStore';
+import { Typography } from '../Typography';
+import { Select } from '../Form/Select/Select';
+import { Input } from '../Form/Input/Input';
 
 interface SettingsPanelProps {
   onClose?: () => void;
@@ -27,17 +30,25 @@ function SettingRow({
 }) {
   return (
     <div className='flex items-center justify-between gap-4 py-3 border-t border-[rgba(128,128,128,0.15)] first:border-t-0'>
-      <div className='flex min-w-0 flex-1 flex-col gap-[0.15rem]'>
-        <span className='text-[0.9375rem] font-medium leading-[1.3]'>
-          {label}
-        </span>
-        {description && (
-          <span className='text-[0.8125rem] leading-[1.4] opacity-80'>
-            {description}
-          </span>
-        )}
-      </div>
-      <div className='shrink-0'>{children}</div>
+      {label && description && (
+        <div className='flex min-w-0 flex-1 flex-col gap-[0.15rem]'>
+          <Typography
+            variant='label'
+            className='text-[0.9375rem] font-medium leading-[1.3]'
+          >
+            {label}
+          </Typography>
+          {description && (
+            <Typography
+              variant='label'
+              className='text-[0.8125rem] leading-[1.4] opacity-80'
+            >
+              {description}
+            </Typography>
+          )}
+        </div>
+      )}
+      <div className='flex-shrink-0'>{children}</div>
     </div>
   );
 }
@@ -101,26 +112,38 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         style={{ borderBottom: `1px solid ${headerBorderColor}` }}
       >
         <div className='mb-1 flex items-center justify-between gap-2'>
-          <h2
+          <Typography
+            variant='h3'
             className='m-0 text-[clamp(1.25rem,2.5vw,1.75rem)] font-bold leading-[1.2]'
             style={{ color: headingColor }}
           >
             Settings
-          </h2>
+          </Typography>
           {onClose && (
             <button
-              className='shrink-0 rounded bg-transparent px-2 py-1 text-lg leading-none transition-opacity duration-150 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
+              type='button'
+              className='shrink-0 rounded bg-transparent px-2 py-1 text-lg leading-none transition-opacity duration-150 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
               onClick={onClose}
               aria-label='Close settings'
-              style={{ color: labelColor }}
+              style={{
+                color: labelColor,
+                cursor: 'pointer',
+                fontFamily: theme.typography.fonts.body.fontFamily,
+                fontSize: '1.25rem',
+                outlineColor: theme.semanticColors.focus.ring,
+              }}
             >
-              ✕
+              <Typography variant='h3' style={{ color: theme.colorPaletteRedForeground1 }}>X</Typography>
             </button>
           )}
         </div>
-        <p className='m-0 text-sm leading-[1.4]' style={{ color: labelColor }}>
+        <Typography
+          variant='body'
+          className='m-0'
+          style={{ color: labelColor }}
+        >
           Customize your experience
-        </p>
+        </Typography>
       </div>
 
       {/* Settings Content */}
@@ -130,15 +153,20 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
       >
         {/* Appearance Section */}
         <section className='mb-8 last:mb-0'>
-          <h3
+          <Typography
+            variant='h3'
             className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
-            style={{ color: sectionHeadingColor }}
+            style={{ color: sectionHeadingColor, marginBottom: 0 }}
           >
             Appearance
-          </h3>
+          </Typography>
 
-          <SettingRow label='Theme' description='Choose your color theme'>
-            <select
+          <SettingRow label='' description=''>
+            <Select
+              options={themeOptions.map((opt) => ({
+                value: opt.value,
+                label: opt.label,
+              }))}
               value={themeMode}
               onChange={(e) => setThemeMode(e.target.value as ThemeMode)}
               className='min-w-40 cursor-pointer rounded-md px-[0.6rem] py-[0.4rem] text-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
@@ -150,13 +178,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 border: `1px solid ${theme.semanticColors.border.default}`,
               }}
               aria-label='Select theme'
-            >
-              {themeOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+            />
           </SettingRow>
 
           <SettingRow
@@ -170,7 +192,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               >
                 A
               </span>
-              <input
+              <Input
                 type='range'
                 min={preferences.minFontScale}
                 max={preferences.maxFontScale}
@@ -195,53 +217,54 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
         {/* Layout Section */}
         <section className='mb-8 last:mb-0'>
-          <h3
+          <Typography
+            variant='h3'
             className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
             style={{ color: sectionHeadingColor }}
           >
             Layout
-          </h3>
+          </Typography>
 
           <SettingRow
             label='Navigation Side'
             description='Choose navigation panel position'
           >
-            <div className='flex gap-1'>
+            <div className='flex flex-col gap-2'>
               <button
-                className='cursor-pointer rounded-md px-[0.6rem] py-[0.35rem] text-[0.8125rem] font-medium transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
-                style={
-                  layoutPreference === 'right-handed'
-                    ? {
-                        background: theme.semanticColors.link.default,
-                        color: theme.semanticColors.selection.text,
-                        border: `1px solid ${theme.semanticColors.link.default}`,
-                      }
-                    : {
-                        background: 'transparent',
-                        color: labelColor,
-                        border: `1px solid ${theme.semanticColors.border.default}`,
-                      }
-                }
+                className='cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                style={{
+                  background:
+                    layoutPreference === 'right-handed'
+                      ? theme.semanticColors.link.default
+                      : 'transparent',
+                  color:
+                    layoutPreference === 'right-handed'
+                      ? theme.semanticColors.background.base
+                      : labelColor,
+                  border: `1px solid ${theme.semanticColors.border.default}`,
+                  fontFamily: theme.typography.fonts.body.fontFamily,
+                  outlineColor: theme.semanticColors.focus.ring,
+                }}
                 onClick={() => setLayoutPreference('right-handed')}
                 aria-pressed={layoutPreference === 'right-handed'}
               >
                 Right (Default)
               </button>
               <button
-                className='cursor-pointer rounded-md px-[0.6rem] py-[0.35rem] text-[0.8125rem] font-medium transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
-                style={
-                  layoutPreference === 'left-handed'
-                    ? {
-                        background: theme.semanticColors.link.default,
-                        color: theme.semanticColors.selection.text,
-                        border: `1px solid ${theme.semanticColors.link.default}`,
-                      }
-                    : {
-                        background: 'transparent',
-                        color: labelColor,
-                        border: `1px solid ${theme.semanticColors.border.default}`,
-                      }
-                }
+                className='cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                style={{
+                  background:
+                    layoutPreference === 'left-handed'
+                      ? theme.semanticColors.link.default
+                      : 'transparent',
+                  color:
+                    layoutPreference === 'left-handed'
+                      ? theme.semanticColors.background.base
+                      : labelColor,
+                  border: `1px solid ${theme.semanticColors.border.default}`,
+                  fontFamily: theme.typography.fonts.body.fontFamily,
+                  outlineColor: theme.semanticColors.focus.ring,
+                }}
                 onClick={() => setLayoutPreference('left-handed')}
                 aria-pressed={layoutPreference === 'left-handed'}
               >
@@ -253,37 +276,36 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
         {/* Accessibility Section */}
         <section className='mb-8 last:mb-0'>
-          <h3
+          <Typography
+            variant='h3'
             className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
             style={{ color: sectionHeadingColor }}
           >
             Accessibility
-          </h3>
+          </Typography>
 
           <SettingRow
             label='Reduce Motion'
             description='Minimize animations and transitions'
           >
             <button
+              type='button'
               role='switch'
               aria-checked={reducedMotion}
-              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-xl p-0 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
-              style={
-                reducedMotion
-                  ? {
-                      background: theme.semanticColors.link.default,
-                    }
-                  : {
-                      background: isDark
-                        ? theme.semanticColors.background.muted
-                        : theme.semanticColors.border.default,
-                    }
-              }
+              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
+              style={{
+                background: reducedMotion
+                  ? theme.semanticColors.link.default
+                  : isDark
+                    ? theme.semanticColors.background.muted
+                    : theme.semanticColors.border.default,
+                outlineColor: theme.semanticColors.focus.ring,
+              }}
               onClick={() => setReducedMotion(!reducedMotion)}
               aria-label='Toggle reduced motion'
             >
               <span
-                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white transition-transform duration-200 ${reducedMotion ? 'translate-x-5' : ''}`}
+                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${reducedMotion ? 'translate-x-5' : ''}`}
               />
             </button>
           </SettingRow>
@@ -293,20 +315,19 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             description='Increase contrast for better visibility'
           >
             <button
+              type='button'
               role='switch'
               aria-checked={themeMode === 'high-contrast'}
-              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-xl p-0 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
-              style={
-                themeMode === 'high-contrast'
-                  ? {
-                      background: theme.semanticColors.link.default,
-                    }
-                  : {
-                      background: isDark
-                        ? theme.semanticColors.background.muted
-                        : theme.semanticColors.border.default,
-                    }
-              }
+              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
+              style={{
+                background:
+                  themeMode === 'high-contrast'
+                    ? theme.semanticColors.link.default
+                    : isDark
+                      ? theme.semanticColors.background.muted
+                      : theme.semanticColors.border.default,
+                outlineColor: theme.semanticColors.focus.ring,
+              }}
               onClick={() =>
                 setThemeMode(
                   themeMode === 'high-contrast' ? 'dark' : 'high-contrast'
@@ -315,7 +336,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Toggle high contrast'
             >
               <span
-                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white transition-transform duration-200 ${themeMode === 'high-contrast' ? 'translate-x-5' : ''}`}
+                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${themeMode === 'high-contrast' ? 'translate-x-5' : ''}`}
               />
             </button>
           </SettingRow>
@@ -328,10 +349,13 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         style={{ borderTop: `1px solid ${headerBorderColor}` }}
       >
         <button
-          className='w-full cursor-pointer rounded-lg bg-transparent px-4 py-[0.65rem] text-sm font-semibold transition-opacity duration-200 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
+          type='button'
+          className='w-full cursor-pointer rounded-lg bg-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 hover:opacity-80 hover:scale-[1.01] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
           style={{
             color: theme.palette.redDark,
             border: `1px solid ${theme.palette.redDark}`,
+            fontFamily: theme.typography.fonts.body.fontFamily,
+            outlineColor: theme.semanticColors.focus.ring,
           }}
           onClick={handleResetSettings}
         >
