@@ -55,7 +55,8 @@ export default async function PortfolioEntryPage({ params }: Props) {
   const allEntries = await getAllContent('portfolio');
   const sortedSlugs = allEntries.map((e) => e.slug);
   const currentIndex = sortedSlugs.indexOf(slug);
-  const prevEntry = currentIndex < sortedSlugs.length - 1 ? allEntries[currentIndex + 1] : null;
+  const prevEntry =
+    currentIndex < sortedSlugs.length - 1 ? allEntries[currentIndex + 1] : null;
   const nextEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
 
   const featureImage = entry.imageUrl
@@ -73,6 +74,8 @@ export default async function PortfolioEntryPage({ params }: Props) {
           prevTitle={prevEntry?.title}
           nextHref={nextEntry ? `/portfolio/${nextEntry.slug}` : undefined}
           nextTitle={nextEntry?.title}
+          listingPath='/portfolio'
+          listingLabel='Portfolio'
         />
       }
     >

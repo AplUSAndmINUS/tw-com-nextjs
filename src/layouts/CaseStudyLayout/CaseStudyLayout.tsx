@@ -14,6 +14,8 @@ interface CaseStudyLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional navigation slot rendered above the case study header */
+  nav?: ReactNode;
 }
 
 /**
@@ -29,6 +31,7 @@ export function CaseStudyLayout({
   date,
   industry,
   featureImage,
+  nav,
 }: CaseStudyLayoutProps) {
   const headerContent = (
     <header className='mb-6 md:mb-10 border-b pb-4 md:pb-8'>
@@ -84,12 +87,14 @@ export function CaseStudyLayout({
 
             {/* Content — 9 cols */}
             <article className='md:col-span-9'>
+              {nav && <div>{nav}</div>}
               {headerContent}
               <div>{children}</div>
             </article>
           </div>
         ) : (
           <article className='max-w-4xl mx-auto'>
+            {nav && <div>{nav}</div>}
             {headerContent}
             <div>{children}</div>
           </article>

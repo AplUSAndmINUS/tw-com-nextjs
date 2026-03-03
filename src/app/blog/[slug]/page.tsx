@@ -56,7 +56,8 @@ export default async function BlogPostPage({ params }: Props) {
   const allPosts = await getAllContent('blog');
   const sortedSlugs = allPosts.map((p) => p.slug);
   const currentIndex = sortedSlugs.indexOf(slug);
-  const prevPost = currentIndex < sortedSlugs.length - 1 ? allPosts[currentIndex + 1] : null;
+  const prevPost =
+    currentIndex < sortedSlugs.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   const featureImage = post.imageUrl
@@ -75,6 +76,8 @@ export default async function BlogPostPage({ params }: Props) {
           prevTitle={prevPost?.title}
           nextHref={nextPost ? `/blog/${nextPost.slug}` : undefined}
           nextTitle={nextPost?.title}
+          listingPath='/blog'
+          listingLabel='Blog'
         />
       }
     >

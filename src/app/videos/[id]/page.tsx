@@ -38,7 +38,8 @@ export default async function VideoPlayerPage({ params }: Props) {
       <div className='max-w-4xl mx-auto px-4 py-12'>
         <ContentDetailNav
           prevHref='/videos'
-          hubHref='/content-hub'
+          listingPath='/videos'
+          listingLabel='Videos'
         />
         <VideoPlayer youtubeId={id} title={`Video ${id}`} />
         <div className='mt-6'>

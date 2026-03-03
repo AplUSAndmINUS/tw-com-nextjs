@@ -4,6 +4,7 @@ import { CaseStudyLayout } from '@/layouts/CaseStudyLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentGalleryClient } from '@/components/ContentGalleryClient';
+import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 
 interface Props {
@@ -49,11 +50,40 @@ export default async function CaseStudyPage({ params }: Props) {
   const { slug } = await params;
   const cs = await getContentBySlug('case-studies', slug);
   if (!cs) notFound();
+
+  // Build prev/next navigation from sorted case study list
+  const allCaseStudies = await getAllContent('case-studies');
+  const sortedSlugs = allCaseStudies.map((c) => c.slug);
+  const currentIndex = sortedSlugs.indexOf(slug);
+  const prevCaseStudy =
+    currentIndex < sortedSlugs.length - 1
+      ? allCaseStudies[currentIndex + 1]
+      : null;
+  const nextCaseStudy =
+    currentIndex > 0 ? allCaseStudies[currentIndex - 1] : null;
+
   return (
-    <C{cs.gallery && cs.gallery.length > 0 && (
+    <CaseStudyLayout
+      title={cs.title}
+      date={cs.date}
+      nav={
+        <ContentDetailNav
+          prevHref={
+            prevCaseStudy ? `/case-studies/${prevCaseStudy.slug}` : undefined
+          }
+          prevTitle={prevCaseStudy?.title}
+          nextHref={
+            nextCaseStudy ? `/case-studies/${nextCaseStudy.slug}` : undefined
+          }
+          nextTitle={nextCaseStudy?.title}
+          listingPath='/case-studies'
+          listingLabel='Case Studies'
+        />
+      }
+    >
+      {cs.gallery && cs.gallery.length > 0 && (
         <ContentGalleryClient gallery={cs.gallery} />
       )}
-      aseStudyLayout title={cs.title} date={cs.date}>
       <MDXRemote source={cs.content} components={mdxComponents} />
     </CaseStudyLayout>
   );
