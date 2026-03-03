@@ -340,7 +340,41 @@ Copilot should proceed when:
 
 ---
 
-## 15. Prompt Logging
+## 15. Token-Based Access Control (DEV / TEST)
+
+DEV and TEST deployments are protected by a token gate.
+PROD is publicly accessible.
+
+### How it works
+
+1. `NEXT_PUBLIC_ENVIRONMENT` is set at **build time** in the GitHub Actions workflow (values: `dev`, `test`, `prod`).
+2. The `AccessGate` component (wrapping the entire app in `src/app/providers.tsx`) checks this value.
+3. On DEV/TEST, the gate prompts users for an access token.
+4. The token is validated by the `/api/auth/validate-token` Azure Function, which reads `ACCESS_TOKEN` from Azure SWA Application Settings — never from the browser.
+5. A validated token is stored in `localStorage` so return visits are seamless.
+
+### Key files
+
+| File | Role |
+|------|------|
+| `src/lib/environment.ts` | Build-time environment detection (`getEnvironment`, `requiresAuthentication`) |
+| `src/hooks/useAccessControl.ts` | Token state management and API validation |
+| `src/components/AccessGate/AccessGate.tsx` | Full-screen token gate UI |
+| `api/auth/validate-token/index.js` | Server-side token validation Azure Function |
+| `.github/workflows/azure-static-web-apps-lively-mud-07cef801e.yml` | DEV deployment (sets `NEXT_PUBLIC_ENVIRONMENT: dev`) |
+| `.github/workflows/azure-static-web-apps-test.yml` | TEST deployment (sets `NEXT_PUBLIC_ENVIRONMENT: test`) |
+| `.github/workflows/azure-static-web-apps-prod.yml` | PROD deployment (sets `NEXT_PUBLIC_ENVIRONMENT: prod`) |
+
+### Copilot rules
+
+- Do **not** hardcode tokens or secrets anywhere in source code.
+- Do **not** skip the `AccessGate` wrapper in `providers.tsx`.
+- The `STORAGE_KEY` in `useAccessControl.ts` is `tw_access_token`.
+- Full setup documentation is in `TOKEN_ACCESS_README.md`.
+
+---
+
+## 16. Prompt Logging
 
 All AI-assisted development prompts should be logged in the `/prompts` folder for visibility. This project is primarily AI-driven with @Aplusandminus directing architecture and front-end build.
 
