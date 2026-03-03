@@ -55,7 +55,7 @@ function NavigationItem({
           borderRadius: theme.borderRadiusMedium,
           backgroundColor:
             isActive || isHovered
-              ? theme.colorNeutralBackground1Hover
+              ? theme.palette.neutralTertiaryAlt
               : 'transparent',
           transition: 'background-color 0.2s ease',
           cursor: 'pointer',
@@ -119,6 +119,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
     >
       {/* Menu Header */}
       <div
+        className='flex items-center justify-between'
         style={{
           padding: isMobileLandscape ? '1rem 1.5rem' : '1.5rem 2rem',
           borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
@@ -134,6 +135,28 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         >
           Menu
         </Typography>
+        {onClose && (
+          <button
+            onClick={onClose}
+            style={{
+              marginLeft: 'auto',
+              background: 'none',
+              border: 'none',
+              color: theme.colorBrandForeground1,
+              cursor: 'pointer',
+              fontSize: '1rem',
+            }}
+            aria-label='Close menu'
+          >
+            <Typography
+              as='span'
+              variant='h3'
+              style={{ color: theme.colorPaletteRedForeground1 }}
+            >
+              X
+            </Typography>
+          </button>
+        )}
       </div>
 
       {/* Navigation Items */}
