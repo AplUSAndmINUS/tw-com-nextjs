@@ -57,7 +57,7 @@ export function ImageCarousel({ images, basePath = '', className = '' }: ImageCa
             <button
               onClick={prev}
               aria-label='Previous image'
-              className='absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors'
+              className='absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors'
             >
               ‹
             </button>

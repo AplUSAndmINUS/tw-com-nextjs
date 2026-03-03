@@ -48,3 +48,9 @@ body {
     background-image: url('/images/HomePageCover4kPortrait.jpg');
   }
 }
+
+/* Hide first h1 or h2 in prose content to prevent duplicate titles */
+.prose-content-body > h1:first-child,
+.prose-content-body > h2:first-child {
+  display: none;
+}

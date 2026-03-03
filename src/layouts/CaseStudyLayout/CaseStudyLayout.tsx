@@ -1,7 +1,11 @@
+'use client';
+
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
+import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
+import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 
 interface CaseStudyLayoutProps {
   children: ReactNode;
@@ -33,6 +37,8 @@ export function CaseStudyLayout({
   featureImage,
   nav,
 }: CaseStudyLayoutProps) {
+  const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
+
   const headerContent = (
     <header className='mb-6 md:mb-10 border-b pb-4 md:pb-8'>
       <Typography
@@ -60,12 +66,12 @@ export function CaseStudyLayout({
   );
 
   return (
-    <SiteLayout>
+    <SiteLayout showFooter={false}>
       <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'>
         {featureImage ? (
-          <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
-            {/* Feature image — sticky sidebar on md+ */}
-            <aside className='md:col-span-3 md:sticky md:top-20'>
+          <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row'>
+            {/* Feature image pane - fixed and vertically centered on md+ */}
+            <aside className={imagePaneClasses}>
               <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
                 <Image
                   src={featureImage.src}
@@ -85,18 +91,22 @@ export function CaseStudyLayout({
               </div>
             </aside>
 
-            {/* Content — 9 cols */}
-            <article className='md:col-span-9'>
+            {/* Content pane */}
+            <article className={contentPaneClasses}>
               {nav && <div>{nav}</div>}
               {headerContent}
-              <div>{children}</div>
+              <div className='prose-content-body'>{children}</div>
             </article>
+            {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
+            <div className='hidden md:block'>
+              <FooterOverlay />
+            </div>
           </div>
         ) : (
           <article className='max-w-4xl mx-auto'>
             {nav && <div>{nav}</div>}
             {headerContent}
-            <div>{children}</div>
+            <div className='prose-content-body'>{children}</div>
           </article>
         )}
       </div>

@@ -1,7 +1,10 @@
+'use client';
+
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
+import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 
 interface PortfolioLayoutProps {
   children: ReactNode;
@@ -31,13 +34,15 @@ export function PortfolioLayout({
   featureImage,
   nav,
 }: PortfolioLayoutProps) {
+  const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
+
   return (
     <SiteLayout>
       <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'>
         {featureImage ? (
-          <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
-            {/* Feature image — sticky sidebar on md+ */}
-            <aside className='md:col-span-3 md:sticky md:top-20'>
+          <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row'>
+            {/* Feature image pane - fixed and vertically centered on md+ */}
+            <aside className={imagePaneClasses}>
               <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
                 <Image
                   src={featureImage.src}
@@ -57,8 +62,8 @@ export function PortfolioLayout({
               </div>
             </aside>
 
-            {/* Content — 9 cols */}
-            <div className='md:col-span-9'>
+            {/* Content pane */}
+            <div className={contentPaneClasses}>
               {nav && <div>{nav}</div>}
               <header className='mb-10'>
                 <Typography variant='h2'>{title}</Typography>
@@ -72,7 +77,7 @@ export function PortfolioLayout({
                   </Typography>
                 )}
               </header>
-              <div>{children}</div>
+              <div className='prose-content-body'>{children}</div>
             </div>
           </div>
         ) : (
@@ -90,7 +95,7 @@ export function PortfolioLayout({
                 </Typography>
               )}
             </header>
-            <div>{children}</div>
+            <div className='prose-content-body'>{children}</div>
           </div>
         )}
       </div>
