@@ -7,6 +7,7 @@ import { Typography } from '@/components/Typography';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
+import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 
 interface ArticleLayoutProps {
   children: ReactNode;
@@ -64,37 +65,43 @@ export function ArticleLayout({
 
           {/* Article content pane */}
           <article className={contentPaneClasses}>
-            {nav && <div>{nav}</div>}
-            <header className='mb-8 border-b pb-6'>
-              <Typography variant='h2'>{title}</Typography>
-              <div className='flex items-center gap-4 mt-3'>
-                {author && (
-                  <Typography
-                    variant='caption'
-                    color='var(--colorNeutralForeground2)'
-                  >
-                    By {author}
-                  </Typography>
-                )}
-                {date && (
-                  <time dateTime={date}>
+            <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32'>
+              {nav && <div>{nav}</div>}
+              <header className='mb-8 border-b pb-6'>
+                <Typography variant='h2'>{title}</Typography>
+                <div className='flex items-center gap-4 mt-3'>
+                  {author && (
                     <Typography
                       variant='caption'
                       color='var(--colorNeutralForeground2)'
                     >
-                      {date}
+                      By {author}
                     </Typography>
-                  </time>
-                )}
-              </div>
-              {author && (
-                <div className='mt-3'>
-                  <SocialLinks isAuthorTagline={true} />
+                  )}
+                  {date && (
+                    <time dateTime={date}>
+                      <Typography
+                        variant='caption'
+                        color='var(--colorNeutralForeground2)'
+                      >
+                        {date}
+                      </Typography>
+                    </time>
+                  )}
                 </div>
-              )}
-            </header>
-            <div className='prose-content-body'>{children}</div>
+                {author && (
+                  <div className='mt-3'>
+                    <SocialLinks isAuthorTagline={true} />
+                  </div>
+                )}
+              </header>
+              <div className='prose-content-body'>{children}</div>
+            </div>
           </article>
+          {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
+          <div className='hidden md:block'>
+            <FooterOverlay hideButton={true} />
+          </div>
         </div>
       ) : (
         <article className='max-width-content mx-auto'>

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
+import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 
 interface PortfolioLayoutProps {
   children: ReactNode;
@@ -64,20 +65,26 @@ export function PortfolioLayout({
 
             {/* Content pane */}
             <div className={contentPaneClasses}>
-              {nav && <div>{nav}</div>}
-              <header className='mb-10'>
-                <Typography variant='h2'>{title}</Typography>
-                {description && (
-                  <Typography
-                    variant='body'
-                    color='var(--colorNeutralForeground2)'
-                    marginTop='0.75rem'
-                  >
-                    {description}
-                  </Typography>
-                )}
-              </header>
-              <div className='prose-content-body'>{children}</div>
+              <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32'>
+                {nav && <div>{nav}</div>}
+                <header className='mb-10'>
+                  <Typography variant='h2'>{title}</Typography>
+                  {description && (
+                    <Typography
+                      variant='body'
+                      color='var(--colorNeutralForeground2)'
+                      marginTop='0.75rem'
+                    >
+                      {description}
+                    </Typography>
+                  )}
+                </header>
+                <div className='prose-content-body'>{children}</div>
+              </div>
+            </div>
+            {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
+            <div className='hidden md:block'>
+              <FooterOverlay hideButton={true} />
             </div>
           </div>
         ) : (

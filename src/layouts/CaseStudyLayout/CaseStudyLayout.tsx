@@ -93,13 +93,15 @@ export function CaseStudyLayout({
 
             {/* Content pane */}
             <article className={contentPaneClasses}>
-              {nav && <div>{nav}</div>}
-              {headerContent}
-              <div className='prose-content-body'>{children}</div>
+              <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32'>
+                {nav && <div>{nav}</div>}
+                {headerContent}
+                <div className='prose-content-body'>{children}</div>
+              </div>
             </article>
             {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
             <div className='hidden md:block'>
-              <FooterOverlay />
+              <FooterOverlay hideButton={true} />
             </div>
           </div>
         ) : (
