@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
-import { PodcastEpisode } from '@/content/types';
-import PodcastImage from '@/assets/images/Podcasts1400x1875.jpg'
+import type { PodcastEpisode } from '@/content/types';
+import PodcastImage from '@/assets/images/Podcasts1400x1875.jpg';
 
 export const metadata: Metadata = {
   title: 'Podcasts',

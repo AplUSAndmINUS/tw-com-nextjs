@@ -1,20 +1,17 @@
 ---
 title: 'The Pathless Path Is Mine: Living, Trusting, Becoming'
-excerpt: >-
-  Today I listened to The Pathless Path and something resonated deeply. I am the
-  torchbearer of my own myth, walking a path that does not exist until I step
-  onto it. This is my journey of self-employment, faith, and becoming.
-author: Terence Waters
+excerpt: 'Today I listened to The Pathless Path and something resonated deeply. I am the torchbearer of my own myth, walking a path that does not exist until I step onto it. This is my journey of self-employment, faith, and becoming.'
+author: 'Terence Waters'
 publishedDate: '2025-09-25'
 date: '2025-09-25'
-category: Personal
+category: 'Personal'
 tags:
-  - Fluxline
-  - self-employment
-  - personal-growth
-  - mindfulness
-  - balance
-  - faith
+  - 'Fluxline'
+  - 'self-employment'
+  - 'personal-growth'
+  - 'mindfulness'
+  - 'balance'
+  - 'faith'
 featured: false
 ---
 

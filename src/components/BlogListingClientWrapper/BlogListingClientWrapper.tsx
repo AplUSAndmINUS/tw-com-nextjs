@@ -162,7 +162,8 @@ export function BlogListingClientWrapper({
       resultsMessage={resultsMessage}
       emptyStateTitle='No blog posts found'
       emptyStateMessage='Try adjusting your filters to see more posts.'
-      backArrow={false}
+      backArrow={true}
+      backArrowPath='/content-hub'
     />
   );
 }

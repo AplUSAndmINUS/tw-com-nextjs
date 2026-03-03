@@ -1,8 +1,15 @@
-import { ReactNode } from 'react';
-import Image from 'next/image';
+'use client';
+
+import { ReactNode, useState } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
+import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
+import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
+import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
+import { ImageCarouselModal } from '@/components/ImageCarouselModal';
+import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
+import { GalleryItem } from '@/content/types';
 
 interface ArticleLayoutProps {
   children: ReactNode;
@@ -15,6 +22,8 @@ interface ArticleLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional gallery images for the modal carousel */
+  gallery?: GalleryItem[];
   /** Optional navigation slot rendered above the article body (outside prose) */
   nav?: ReactNode;
 }
@@ -32,103 +41,144 @@ export function ArticleLayout({
   date,
   author,
   featureImage,
+  gallery,
   nav,
 }: ArticleLayoutProps) {
+  const footerHeight = useFooterHeight();
+  const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Build gallery images for modal: use full gallery if available, otherwise just feature image
+  const modalImages: GalleryItem[] =
+    gallery && gallery.length > 0
+      ? gallery
+      : featureImage
+        ? [
+            {
+              url: featureImage.src,
+              alt: featureImage.alt,
+              caption: featureImage.title,
+            },
+          ]
+        : [];
+
   return (
     <SiteLayout>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'>
-        {featureImage ? (
-          <div className='grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-start'>
-            {/* Feature image — sticky sidebar on md+ */}
-            <aside className='md:col-span-3 md:sticky md:top-20'>
-              <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
-                <Image
-                  src={featureImage.src}
-                  alt={featureImage.alt}
-                  fill
-                  sizes='(max-width: 768px) 100vw, 25vw'
-                  className='object-cover'
-                  priority
-                />
-                {featureImage.title && (
-                  <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <Typography variant='h5' color='#ffffff'>
-                      {featureImage.title}
-                    </Typography>
-                  </div>
-                )}
-              </div>
-            </aside>
+      {featureImage ? (
+        <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
+          {/* Feature image pane - fixed and vertically centered on md+ */}
+          <aside
+            className={imagePaneClasses}
+            style={{
+              bottom: `calc(${footerHeight} + 1rem)`,
+            }}
+          >
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity'
+              aria-label='View image fullscreen'
+            >
+              <ResponsiveFeatureImage
+                src={featureImage.src}
+                alt={featureImage.alt}
+                title={featureImage.title}
+              />
+              {featureImage.title && (
+                <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
+                  <Typography variant='h5' color='#ffffff'>
+                    {featureImage.title}
+                  </Typography>
+                </div>
+              )}
+            </button>
+          </aside>
 
-            {/* Article — 9 cols */}
-            <article className='md:col-span-9'>
-              {nav && <div>{nav}</div>}
-              <header className='mb-8 border-b pb-6'>
-                <Typography variant='h2'>{title}</Typography>
-                <div className='flex items-center gap-4 mt-3'>
-                  {author && (
-                    <Typography
-                      variant='caption'
-                      color='var(--colorNeutralForeground2)'
-                    >
-                      By {author}
-                    </Typography>
-                  )}
-                  {date && (
-                    <time dateTime={date}>
+          {/* Image modal */}
+          {modalImages.length > 0 && (
+            <ImageCarouselModal
+              isOpen={isModalOpen}
+              onDismiss={() => setIsModalOpen(false)}
+              images={modalImages}
+              initialIndex={0}
+            />
+          )}
+
+          {/* Article content pane */}
+          <article className={contentPaneClasses}>
+            <div className='px-4 sm:px-6 lg:px-8 py-6 pb-16 md:pb-40 min-h-full flex flex-col'>
+              <div className='flex-1 flex flex-col justify-center'>
+                {nav && <div>{nav}</div>}
+                <header className='mb-8 border-b pb-6'>
+                  <Typography variant='h2'>{title}</Typography>
+                  <div className='flex items-center gap-4 mt-3'>
+                    {author && (
                       <Typography
                         variant='caption'
                         color='var(--colorNeutralForeground2)'
                       >
-                        {date}
+                        By {author}
                       </Typography>
-                    </time>
-                  )}
-                </div>
-                {author && (
-                  <div className='mt-3'>
-                    <SocialLinks isAuthorTagline={true} />
+                    )}
+                    {date && (
+                      <time dateTime={date}>
+                        <Typography
+                          variant='caption'
+                          color='var(--colorNeutralForeground2)'
+                        >
+                          {date}
+                        </Typography>
+                      </time>
+                    )}
                   </div>
-                )}
-              </header>
-              <div>{children}</div>
-            </article>
+                  {author && (
+                    <div className='mt-3'>
+                      <SocialLinks isAuthorTagline={true} />
+                    </div>
+                  )}
+                </header>
+                <div className='prose-content-body'>{children}</div>
+              </div>
+            </div>
+          </article>
+          {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
+          <div className='hidden md:block'>
+            <FooterOverlay hideButton={true} />
           </div>
-        ) : (
-          <article className='max-width-content mx-auto'>
-            {nav && <div>{nav}</div>}
-            <header className='mb-8 pb-6'>
-              <Typography variant='h2'>{title}</Typography>
-              <div className='flex items-center gap-4 mt-3'>
-                {author && (
+        </div>
+      ) : (
+        <article className='max-width-content mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12 md:pb-16'>
+          {nav && <div className='mb-6'>{nav}</div>}
+          <header className='mb-8 pb-6'>
+            <Typography variant='h2'>{title}</Typography>
+            <div className='flex items-center gap-4 mt-3'>
+              {author && (
+                <Typography
+                  variant='caption'
+                  color='var(--colorNeutralForeground2)'
+                >
+                  By {author}
+                </Typography>
+              )}
+              {date && (
+                <time dateTime={date}>
                   <Typography
                     variant='caption'
                     color='var(--colorNeutralForeground2)'
                   >
-                    By {author}
+                    {date}
                   </Typography>
-                )}
-                {date && (
-                  <time dateTime={date}>
-                    <Typography
-                      variant='caption'
-                      color='var(--colorNeutralForeground2)'
-                    >
-                      {date}
-                    </Typography>
-                  </time>
-                )}
-              </div>
-              {author && (
-                <div className='mt-3'>
-                  <SocialLinks isAuthorTagline={true} />
-                </div>
+                </time>
               )}
-            </header>
-            <div className='border-t'>{children}</div>
-          </article>
-        )}
-      </div>
+            </div>
+            {author && (
+              <div className='mt-3'>
+                <SocialLinks isAuthorTagline={true} />
+              </div>
+            )}
+          </header>
+          <div className='border-t'>{children}</div>
+        </article>
+      )}
     </SiteLayout>
   );
 }

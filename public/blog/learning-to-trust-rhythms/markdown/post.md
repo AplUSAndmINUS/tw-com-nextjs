@@ -1,20 +1,17 @@
 ---
-title: When My Rhythms Broke and How I am Learning to Trust Them Again
-excerpt: >-
-  A personal essay on losing and rebuilding circadian rhythm. When rhythm
-  breaks, everything wobbles. This is my journey back to alignment, one morning
-  at a time.
-author: Terence Waters
+title: 'When My Rhythms Broke and How I am Learning to Trust Them Again'
+excerpt: 'A personal essay on losing and rebuilding circadian rhythm. When rhythm breaks, everything wobbles. This is my journey back to alignment, one morning at a time.'
+author: 'Terence Waters'
 publishedDate: '2025-12-22'
 date: '2025-12-22'
-category: Personal
+category: 'Personal'
 tags:
-  - personal-essay
-  - mental-health
-  - wellness
-  - circadian-rhythm
-  - self-care
-  - recovery
+  - 'personal-essay'
+  - 'mental-health'
+  - 'wellness'
+  - 'circadian-rhythm'
+  - 'self-care'
+  - 'recovery'
 featured: false
 ---
 
