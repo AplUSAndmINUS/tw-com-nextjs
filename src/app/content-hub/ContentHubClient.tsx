@@ -14,6 +14,7 @@ const contentCategories = [
     icon: '✍️',
     href: '/blog',
     cta: 'Read Articles',
+    disabled: false,
   },
   {
     title: 'Portfolio',
@@ -21,6 +22,7 @@ const contentCategories = [
     icon: '🗂️',
     href: '/portfolio',
     cta: 'View Work',
+    disabled: false,
   },
   {
     title: 'Case Studies',
@@ -29,13 +31,16 @@ const contentCategories = [
     icon: '🔬',
     href: '/case-studies',
     cta: 'Read Case Studies',
+    disabled: false,
   },
   {
     title: 'GitHub',
-    description: 'Open source projects, code samples, and technical experiments.',
+    description:
+      'Open source projects, code samples, and technical experiments.',
     icon: '💻',
     href: '/github/',
     cta: 'Explore Code',
+    disabled: false,
   },
   {
     title: 'Videos',
@@ -44,6 +49,7 @@ const contentCategories = [
     icon: '🎬',
     href: '/videos',
     cta: 'Watch Videos',
+    disabled: false,
   },
   {
     title: 'Podcasts',
@@ -52,6 +58,7 @@ const contentCategories = [
     icon: '🎙️',
     href: '/podcasts',
     cta: 'Listen Now',
+    disabled: true,
   },
 ];
 
@@ -114,6 +121,134 @@ export function ContentHubClient() {
       {contentCategories.map((category, index) => {
         const accentColor = accentPalette[index % accentPalette.length];
         const isFocused = focusedCard === category.title;
+        const isDisabled = category.disabled;
+
+        const cardContent = (
+          <motion.div
+            style={{
+              position: 'relative',
+              borderRadius: theme.borderRadius.container.medium,
+              border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
+              backgroundColor: cardSurfaceColor,
+              backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+              padding: theme.spacing.m,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              transition: 'all 0.2s ease',
+              cursor: isDisabled ? 'not-allowed' : 'pointer',
+              opacity: isDisabled ? 0.6 : 1,
+              boxShadow: isFocused
+                ? `0 0 0 3px ${theme.semanticColors.focus.ring}`
+                : 'none',
+            }}
+            whileHover={
+              isDisabled
+                ? {}
+                : {
+                    scale: 1.02,
+                    backgroundColor: cardHoverSurfaceColor,
+                    borderColor: accentColor,
+                    boxShadow: theme.shadows.card,
+                  }
+            }
+          >
+            {/* Coming Soon Badge */}
+            {isDisabled && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: theme.spacing.s,
+                  right: theme.spacing.s,
+                  backgroundColor: theme.palette.themePrimary,
+                  color: theme.palette.white,
+                  padding: `${theme.spacing.xs} ${theme.spacing.s}`,
+                  borderRadius: theme.borderRadius.container.small,
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  boxShadow: theme.shadows.button,
+                  zIndex: 1,
+                }}
+              >
+                Coming Soon!
+              </div>
+            )}
+
+            <div
+              style={{
+                width: '100%',
+                height: '4px',
+                borderRadius: theme.borderRadius.container.small,
+                backgroundColor: accentColor,
+                marginBottom: theme.spacing.m,
+              }}
+            />
+
+            {/* Icon and Title Row */}
+            <div
+              style={{
+                display: 'flex',
+                gap: theme.spacing.m,
+                marginBottom: theme.spacing.m,
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '2rem',
+                  flexShrink: 0,
+                  width: '3rem',
+                  height: '3rem',
+                  borderRadius: theme.borderRadius.container.small,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: theme.semanticColors.selection.background,
+                  color: theme.semanticColors.selection.text,
+                  border: `1px solid ${theme.semanticColors.border.default}`,
+                }}
+              >
+                {category.icon}
+              </div>
+              <Typography
+                variant='h3'
+                className='text-xl font-semibold'
+                style={{
+                  color: theme.semanticColors.text.heading,
+                  lineHeight: 1.3,
+                }}
+              >
+                {category.title}
+              </Typography>
+            </div>
+
+            {/* Description */}
+            <Typography
+              variant='body'
+              className='text-sm mb-4 flex-grow'
+              style={{
+                color: theme.semanticColors.text.muted,
+                lineHeight: 1.5,
+              }}
+            >
+              {category.description}
+            </Typography>
+
+            {/* CTA */}
+            <span
+              style={{
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                color: accentColor,
+              }}
+              className='hover:underline'
+            >
+              {category.cta} →
+            </span>
+          </motion.div>
+        );
 
         return (
           <motion.div
@@ -122,110 +257,24 @@ export function ContentHubClient() {
             initial='hidden'
             animate='visible'
           >
-            <Link
-              href={category.href}
-              className='block h-full rounded-xl focus-visible:outline-none'
-              onFocus={() => setFocusedCard(category.title)}
-              onBlur={() => setFocusedCard(null)}
-              aria-label={`${category.title}: ${category.description}`}
-            >
-              <motion.div
-                style={{
-                  borderRadius: theme.borderRadius.container.medium,
-                  border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
-                  backgroundColor: cardSurfaceColor,
-                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                  padding: theme.spacing.m,
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all 0.2s ease',
-                  cursor: 'pointer',
-                  boxShadow: isFocused
-                    ? `0 0 0 3px ${theme.semanticColors.focus.ring}`
-                    : 'none',
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  backgroundColor: cardHoverSurfaceColor,
-                  borderColor: accentColor,
-                  boxShadow: theme.shadows.card,
-                }}
+            {isDisabled ? (
+              <div
+                className='block h-full rounded-xl'
+                aria-label={`${category.title}: ${category.description} (Coming Soon)`}
               >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '4px',
-                    borderRadius: theme.borderRadius.container.small,
-                    backgroundColor: accentColor,
-                    marginBottom: theme.spacing.m,
-                  }}
-                />
-
-                {/* Icon and Title Row */}
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: theme.spacing.m,
-                    marginBottom: theme.spacing.m,
-                    alignItems: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: '2rem',
-                      flexShrink: 0,
-                      width: '3rem',
-                      height: '3rem',
-                      borderRadius: theme.borderRadius.container.small,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor:
-                        theme.semanticColors.selection.background,
-                      color: theme.semanticColors.selection.text,
-                      border: `1px solid ${theme.semanticColors.border.default}`,
-                    }}
-                  >
-                    {category.icon}
-                  </div>
-                  <Typography
-                    variant='h3'
-                    className='text-xl font-semibold'
-                    style={{
-                      color: theme.semanticColors.text.heading,
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {category.title}
-                  </Typography>
-                </div>
-
-                {/* Description */}
-                <Typography
-                  variant='body'
-                  className='text-sm mb-4 flex-grow'
-                  style={{
-                    color: theme.semanticColors.text.muted,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {category.description}
-                </Typography>
-
-                {/* CTA */}
-                <span
-                  style={{
-                    fontSize: '0.875rem',
-                    fontWeight: 600,
-                    color: accentColor,
-                  }}
-                  className='hover:underline'
-                >
-                  {category.cta} →
-                </span>
-              </motion.div>
-            </Link>
+                {cardContent}
+              </div>
+            ) : (
+              <Link
+                href={category.href}
+                className='block h-full rounded-xl focus-visible:outline-none'
+                onFocus={() => setFocusedCard(category.title)}
+                onBlur={() => setFocusedCard(null)}
+                aria-label={`${category.title}: ${category.description}`}
+              >
+                {cardContent}
+              </Link>
+            )}
           </motion.div>
         );
       })}
