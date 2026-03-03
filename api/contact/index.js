@@ -18,6 +18,13 @@ const https = require('https');
 
 const SMTP2GO_API_URL = 'https://api.smtp2go.com/v3/email/send';
 
+const CORS_HEADERS = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
 /**
  * Performs an HTTPS POST with a JSON body and returns the parsed response.
  * @param {string} url
@@ -93,11 +100,20 @@ function htmlEncode(value) {
 module.exports = async function (req, context) {
   context.log('contact function triggered');
 
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return {
+      status: 204,
+      headers: CORS_HEADERS,
+      body: '',
+    };
+  }
+
   // Only accept POST
   if (req.method !== 'POST') {
     return {
       status: 405,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   }
@@ -111,7 +127,7 @@ module.exports = async function (req, context) {
   } catch {
     return {
       status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: 'Invalid JSON body' }),
     };
   }
@@ -124,7 +140,7 @@ module.exports = async function (req, context) {
   if (!name || !email || !message) {
     return {
       status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: 'name, email, and message are required' }),
     };
   }
@@ -137,7 +153,7 @@ module.exports = async function (req, context) {
   if (name.length > MAX_NAME_LENGTH) {
     return {
       status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         error: `Name must not exceed ${MAX_NAME_LENGTH} characters`,
       }),
@@ -147,7 +163,7 @@ module.exports = async function (req, context) {
   if (email.length > MAX_EMAIL_LENGTH) {
     return {
       status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         error: `Email must not exceed ${MAX_EMAIL_LENGTH} characters`,
       }),
@@ -157,7 +173,7 @@ module.exports = async function (req, context) {
   if (message.length > MAX_MESSAGE_LENGTH) {
     return {
       status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         error: `Message must not exceed ${MAX_MESSAGE_LENGTH} characters`,
       }),
@@ -169,7 +185,7 @@ module.exports = async function (req, context) {
   if (!emailRegex.test(email)) {
     return {
       status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: 'Invalid email address' }),
     };
   }
@@ -183,7 +199,7 @@ module.exports = async function (req, context) {
     context.log('Missing required environment variables for contact function');
     return {
       status: 503,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: 'Email service is not configured' }),
     };
   }
@@ -221,7 +237,7 @@ module.exports = async function (req, context) {
       context.log('SMTP2Go error:', result.body);
       return {
         status: 500,
-        headers: { 'Content-Type': 'application/json' },
+        headers: CORS_HEADERS,
         body: JSON.stringify({
           error: 'Failed to send email. Please try again later.',
         }),
@@ -231,7 +247,7 @@ module.exports = async function (req, context) {
     context.log('Contact email sent successfully via SMTP2Go');
     return {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         message: 'Your message has been sent successfully.',
       }),
@@ -240,7 +256,7 @@ module.exports = async function (req, context) {
     context.log('Error calling SMTP2Go:', error);
     return {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         error: 'Failed to send email. Please try again later.',
       }),
