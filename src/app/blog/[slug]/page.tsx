@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { ArticleLayout } from '@/layouts/ArticleLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 
@@ -81,9 +80,7 @@ export default async function BlogPostPage({ params }: Props) {
         />
       }
     >
-      {post.gallery && post.gallery.length > 0 && (
-        <ContentGalleryClient gallery={post.gallery} />
-      )}
+      {/* Gallery removed - feature image now opens in modal via ArticleLayout */}
       <MDXRemote source={post.content} components={mdxComponents} />
     </ArticleLayout>
   );

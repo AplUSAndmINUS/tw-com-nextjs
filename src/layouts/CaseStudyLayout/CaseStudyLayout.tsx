@@ -1,11 +1,12 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
+import { ImageCarouselModal } from '@/components/ImageCarouselModal';
 
 interface CaseStudyLayoutProps {
   children: ReactNode;
@@ -38,6 +39,7 @@ export function CaseStudyLayout({
   nav,
 }: CaseStudyLayoutProps) {
   const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const headerContent = (
     <header className='mb-6 md:mb-10 border-b pb-4 md:pb-8'>
@@ -72,7 +74,11 @@ export function CaseStudyLayout({
           <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row'>
             {/* Feature image pane - fixed and vertically centered on md+ */}
             <aside className={imagePaneClasses}>
-              <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity'
+                aria-label='View image fullscreen'
+              >
                 <Image
                   src={featureImage.src}
                   alt={featureImage.alt}
@@ -88,15 +94,31 @@ export function CaseStudyLayout({
                     </Typography>
                   </div>
                 )}
-              </div>
+              </button>
             </aside>
+
+            {/* Image modal */}
+            <ImageCarouselModal
+              isOpen={isModalOpen}
+              onDismiss={() => setIsModalOpen(false)}
+              images={[
+                {
+                  url: featureImage.src,
+                  alt: featureImage.alt,
+                  caption: featureImage.title,
+                },
+              ]}
+              initialIndex={0}
+            />
 
             {/* Content pane */}
             <article className={contentPaneClasses}>
-              <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32'>
-                {nav && <div>{nav}</div>}
-                {headerContent}
-                <div className='prose-content-body'>{children}</div>
+              <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32 min-h-full flex flex-col'>
+                <div className='flex-1 flex flex-col justify-center'>
+                  {nav && <div>{nav}</div>}
+                  {headerContent}
+                  <div className='prose-content-body'>{children}</div>
+                </div>
               </div>
             </article>
             {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}

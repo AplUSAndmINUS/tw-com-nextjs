@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
@@ -8,6 +8,7 @@ import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
+import { ImageCarouselModal } from '@/components/ImageCarouselModal';
 
 interface ArticleLayoutProps {
   children: ReactNode;
@@ -40,6 +41,7 @@ export function ArticleLayout({
   nav,
 }: ArticleLayoutProps) {
   const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <SiteLayout>
@@ -47,7 +49,11 @@ export function ArticleLayout({
         <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
           {/* Feature image pane - fixed and vertically centered on md+ */}
           <aside className={imagePaneClasses}>
-            <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity'
+              aria-label='View image fullscreen'
+            >
               <ResponsiveFeatureImage
                 src={featureImage.src}
                 alt={featureImage.alt}
@@ -60,42 +66,58 @@ export function ArticleLayout({
                   </Typography>
                 </div>
               )}
-            </div>
+            </button>
           </aside>
+
+          {/* Image modal */}
+          <ImageCarouselModal
+            isOpen={isModalOpen}
+            onDismiss={() => setIsModalOpen(false)}
+            images={[
+              {
+                url: featureImage.src,
+                alt: featureImage.alt,
+                caption: featureImage.title,
+              },
+            ]}
+            initialIndex={0}
+          />
 
           {/* Article content pane */}
           <article className={contentPaneClasses}>
-            <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32'>
-              {nav && <div>{nav}</div>}
-              <header className='mb-8 border-b pb-6'>
-                <Typography variant='h2'>{title}</Typography>
-                <div className='flex items-center gap-4 mt-3'>
-                  {author && (
-                    <Typography
-                      variant='caption'
-                      color='var(--colorNeutralForeground2)'
-                    >
-                      By {author}
-                    </Typography>
-                  )}
-                  {date && (
-                    <time dateTime={date}>
+            <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32 min-h-full flex flex-col'>
+              <div className='flex-1 flex flex-col justify-center'>
+                {nav && <div>{nav}</div>}
+                <header className='mb-8 border-b pb-6'>
+                  <Typography variant='h2'>{title}</Typography>
+                  <div className='flex items-center gap-4 mt-3'>
+                    {author && (
                       <Typography
                         variant='caption'
                         color='var(--colorNeutralForeground2)'
                       >
-                        {date}
+                        By {author}
                       </Typography>
-                    </time>
-                  )}
-                </div>
-                {author && (
-                  <div className='mt-3'>
-                    <SocialLinks isAuthorTagline={true} />
+                    )}
+                    {date && (
+                      <time dateTime={date}>
+                        <Typography
+                          variant='caption'
+                          color='var(--colorNeutralForeground2)'
+                        >
+                          {date}
+                        </Typography>
+                      </time>
+                    )}
                   </div>
-                )}
-              </header>
-              <div className='prose-content-body'>{children}</div>
+                  {author && (
+                    <div className='mt-3'>
+                      <SocialLinks isAuthorTagline={true} />
+                    </div>
+                  )}
+                </header>
+                <div className='prose-content-body'>{children}</div>
+              </div>
             </div>
           </article>
           {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
