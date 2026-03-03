@@ -40,7 +40,7 @@ export default function AboutPage() {
         title: 'About Me',
       }}
     >
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className='max-width-content pt-0 pb-8 md:py-8'>
         <Hero
           title='About Me'
           iconName='Person24Regular'

@@ -301,7 +301,7 @@ export function VideoListingClientWrapper() {
   }, [activeTab]);
 
   return (
-    <div className='pt-0 pb-8 md:py-8'>
+    <div className='max-width-content pt-0 pb-8 md:py-8'>
       {/* Page Header */}
       <Hero
         title='Videos'

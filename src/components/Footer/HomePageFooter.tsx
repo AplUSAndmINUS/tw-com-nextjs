@@ -50,7 +50,12 @@ export function HomePageFooter() {
     <>
       {/* Mobile-only toggle button (when footer is hidden) */}
       {!isFooterVisible && !isMobileLandscape && (
-        <div className='lg:hidden flex justify-center py-6'>
+        <div
+          className='lg:hidden flex justify-center py-6'
+          style={{
+            borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
+          }}
+        >
           <button
             onClick={() => setIsFooterVisible(true)}
             className='px-6 py-2 rounded-lg transition-all font-medium'
@@ -72,6 +77,9 @@ export function HomePageFooter() {
       <footer
         className='hidden lg:block border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0'
         role='contentinfo'
+        style={{
+          borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
+        }}
       >
         <FooterContent isCompact={false} />
       </footer>

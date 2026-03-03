@@ -20,8 +20,13 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
-/* this overrides the default max-width of 1280px that Fluent UI applies to its content containers, allowing it to stretch wider on large screens while still being constrained to a reasonable width. -TW */
+/* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */
+/* Used to constraint the content width (9col) on larger screens while allowing it to be full width on smaller screens */
 .max-width-content {
+  max-width: 1200px;
+}
+
+.max-width-content-footer {
   max-width: 1920px;
 }
 
