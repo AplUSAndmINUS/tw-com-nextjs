@@ -19,8 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cs = await getContentBySlug('case-studies', slug);
   if (!cs) return {};
   return {
-    title: cs.title,
-    description: cs.excerpt,
+    title: cs.seoTitle ?? cs.title,
+    description: cs.seoDescription ?? cs.excerpt,
+    keywords: cs.seoKeywords,
     metadataBase: new URL('https://terencewaters.com'),
     openGraph: {
       title: `${cs.title} | Terence Waters`,
