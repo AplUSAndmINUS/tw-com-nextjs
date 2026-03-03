@@ -94,10 +94,10 @@ function htmlEncode(value) {
 }
 
 /**
- * @param {import('@azure/functions').HttpRequest} req
  * @param {import('@azure/functions').InvocationContext} context
+ * @param {import('@azure/functions').HttpRequest} req
  */
-module.exports = async function (req, context) {
+module.exports = async function (context, req) {
   context.log('contact function triggered');
 
   // Handle CORS preflight
