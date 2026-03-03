@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { CaseStudyLayout } from '@/layouts/CaseStudyLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 import { mdxComponents } from '@/components/MarkdownContent';
 
 interface Props {
@@ -49,7 +50,10 @@ export default async function CaseStudyPage({ params }: Props) {
   const cs = await getContentBySlug('case-studies', slug);
   if (!cs) notFound();
   return (
-    <CaseStudyLayout title={cs.title} date={cs.date}>
+    <C{cs.gallery && cs.gallery.length > 0 && (
+        <ContentGalleryClient gallery={cs.gallery} />
+      )}
+      aseStudyLayout title={cs.title} date={cs.date}>
       <MDXRemote source={cs.content} components={mdxComponents} />
     </CaseStudyLayout>
   );
