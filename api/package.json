@@ -1,0 +1,14 @@
+{
+  "name": "tw-com-api",
+  "version": "1.0.0",
+  "description": "Azure Functions for TW.com",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
