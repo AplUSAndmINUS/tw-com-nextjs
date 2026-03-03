@@ -22,10 +22,6 @@ import {
   formatDuration,
 } from '@/app/videos/types';
 
-interface VideoListingClientWrapperProps {
-  initialVideos?: any[];
-}
-
 /**
  * VideoCard Component
  * Displays a YouTube video as a clickable large-tile card
@@ -264,9 +260,7 @@ function VideoModal({
  * VideoListingClientWrapper Component
  * Main client component for the /videos page - fetches from YouTube API
  */
-export function VideoListingClientWrapper({
-  initialVideos,
-}: VideoListingClientWrapperProps) {
+export function VideoListingClientWrapper() {
   const { theme } = useAppTheme();
   const [activeTab, setActiveTab] = useState<VideoType>('videos');
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
