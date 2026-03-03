@@ -9,12 +9,6 @@ interface PortfolioLayoutProps {
   children: ReactNode;
   title: string;
   description?: string;
-  /** Optional feature image displayed in the left column */
-  featureImage?: {
-    src: string;
-    alt: string;
-    title?: string;
-  };
   /** Optional navigation slot rendered above the content body (outside prose) */
   nav?: ReactNode;
 }
@@ -28,7 +22,6 @@ export function PortfolioLayout({
   children,
   title,
   description,
-  featureImage,
   nav,
 }: PortfolioLayoutProps) {
   const footerHeight = useFooterHeight();

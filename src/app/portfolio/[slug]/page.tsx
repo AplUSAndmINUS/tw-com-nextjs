@@ -59,15 +59,10 @@ export default async function PortfolioEntryPage({ params }: Props) {
     currentIndex < sortedSlugs.length - 1 ? allEntries[currentIndex + 1] : null;
   const nextEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
 
-  const featureImage = entry.imageUrl
-    ? { src: entry.imageUrl, alt: entry.imageAlt ?? entry.title }
-    : undefined;
-
   return (
     <PortfolioLayout
       title={entry.title}
       description={entry.excerpt}
-      featureImage={featureImage}
       nav={
         <ContentDetailNav
           prevHref={prevEntry ? `/portfolio/${prevEntry.slug}` : undefined}
