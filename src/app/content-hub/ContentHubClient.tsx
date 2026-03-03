@@ -241,11 +241,13 @@ export function ContentHubClient() {
               style={{
                 fontSize: '0.875rem',
                 fontWeight: 600,
-                color: accentColor,
+                color: isDisabled
+                  ? theme.semanticColors.text.muted
+                  : accentColor,
               }}
-              className='hover:underline'
+              className={isDisabled ? '' : 'hover:underline'}
             >
-              {category.cta} →
+              {isDisabled ? 'Coming Soon' : `${category.cta} →`}
             </span>
           </motion.div>
         );
