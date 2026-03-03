@@ -1,20 +1,17 @@
 ---
-title: The Morning My Book Finally Told Me What It Really Is
-excerpt: >-
-  A deeply personal reflection on identity transformation. My book is not just a
-  framework, it is my spirituality, my philosophy, my purpose. This morning,
-  everything finally made sense.
-author: Terence Waters
+title: 'The Morning My Book Finally Told Me What It Really Is'
+excerpt: 'A deeply personal reflection on identity transformation. My book is not just a framework, it is my spirituality, my philosophy, my purpose. This morning, everything finally made sense.'
+author: 'Terence Waters'
 publishedDate: '2026-02-10'
 date: '2026-02-10'
-category: Personal
+category: 'Personal'
 tags:
-  - identity
-  - writing
-  - spirituality
-  - purpose
-  - transformation
-  - personal-growth
+  - 'identity'
+  - 'writing'
+  - 'spirituality'
+  - 'purpose'
+  - 'transformation'
+  - 'personal-growth'
 featured: false
 ---
 

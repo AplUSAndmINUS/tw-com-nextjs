@@ -7,12 +7,17 @@ import { Typography } from '@/components/Typography';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
 import { resolveIconName } from '@/utils/iconResolver';
+import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
 export interface HeroProps {
   /** Main heading text */
   title: string;
   /** Description text (styled as body text with relaxed line height) */
   description?: string;
+  /** Author name for blog posts/articles */
+  author?: string;
+  /** Publish date for blog posts/articles */
+  date?: string;
   /** Effective date for legal documents */
   effectiveDate?: string;
   /** Last updated date for legal documents */
@@ -56,6 +61,8 @@ export const Hero: React.FC<HeroProps> = ({
   title,
   effectiveDate,
   lastUpdated,
+  author,
+  date,
   iconName,
   description,
   children,
@@ -251,6 +258,58 @@ export const Hero: React.FC<HeroProps> = ({
             >
               <strong>Last Updated:</strong> {lastUpdated}
             </Typography>
+          )}
+        </div>
+      )}
+
+      {(author || date) && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+            marginTop: '0.5rem',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              flexWrap: 'wrap',
+            }}
+          >
+            {author && (
+              <Typography
+                variant='caption'
+                style={{
+                  fontSize: '0.875rem',
+                  color: theme.semanticColors.text.muted,
+                  margin: 0,
+                }}
+              >
+                By {author}
+              </Typography>
+            )}
+            {date && (
+              <time dateTime={date}>
+                <Typography
+                  variant='caption'
+                  style={{
+                    fontSize: '0.875rem',
+                    color: theme.semanticColors.text.muted,
+                    margin: 0,
+                  }}
+                >
+                  {date}
+                </Typography>
+              </time>
+            )}
+          </div>
+          {author && (
+            <div style={{ marginTop: '0.25rem' }}>
+              <SocialLinks isAuthorTagline={true} />
+            </div>
           )}
         </div>
       )}

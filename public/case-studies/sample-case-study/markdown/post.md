@@ -1,16 +1,11 @@
 ---
 title: Migrating from React SPA to Next.js
 date: '2025-02-01'
-excerpt: >-
-  How I migrated TerenceWaters.com from a React-based Static Web App to a
-  Next.js App Router site.
-tags:
-  - migration
-  - nextjs
-  - azure
+excerpt: How I migrated TerenceWaters.com from a React-based Static Web App to a Next.js App Router site.
+tags: [migration, nextjs, azure]
 ---
 
-# Migrating from React SPA to Next.js
+## Migrating from React SPA to Next.js
 
 ## The Challenge
 

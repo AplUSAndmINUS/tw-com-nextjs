@@ -3,7 +3,7 @@
  * migrate-blog.js
  *
  * Fetches blog entries from the legacy TerenceWaters.com Azure Function API
- * and converts them into Markdown files for the /content/blog directory.
+ * and converts them into Markdown files for the /public/blog directory.
  *
  * Usage:
  *   node scripts/migrate-blog.js [options]
@@ -12,13 +12,13 @@
  *   --api-url <url>    Base API URL (default: https://api.terencewaters.com)
  *   --api-key <key>    API key for authentication (optional)
  *   --input   <file>   Path to a local JSON file instead of fetching from API
- *   --output  <dir>    Output directory (default: ./content/blog)
+ *   --output  <dir>    Output directory (default: ./public/blog)
  *   --force            Overwrite existing markdown files
  *   --include-drafts   Include Draft and Archived posts (default: Published only)
  *   --help             Show this help message
  *
  * Examples:
- *   # Fetch from live API and write to ./content/blog
+ *   # Fetch from live API and write to ./public/blog
  *   node scripts/migrate-blog.js
  *
  *   # Fetch with an API key
@@ -65,7 +65,7 @@ Options:
   --api-url <url>    Base API URL (default: https://api.terencewaters.com)
   --api-key <key>    API key passed as x-api-key header (optional)
   --input   <file>   Path to a local JSON file instead of fetching from API
-  --output  <dir>    Output directory (default: ./content/blog)
+  --output  <dir>    Output directory (default: ./public/blog)
   --force            Overwrite existing markdown files
   --include-drafts   Include Draft/Archived posts (default: Published only)
   --help             Show this help message
@@ -76,7 +76,8 @@ Options:
 const API_BASE_URL = getArg('--api-url') || 'https://api.terencewaters.com';
 const API_KEY = getArg('--api-key') || null;
 const INPUT_FILE = getArg('--input') || null;
-const OUTPUT_DIR = getArg('--output') || path.join(process.cwd(), 'content', 'blog');
+const OUTPUT_DIR =
+  getArg('--output') || path.join(process.cwd(), 'public', 'blog');
 const FORCE = hasFlag('--force');
 const INCLUDE_DRAFTS = hasFlag('--include-drafts');
 
@@ -219,8 +220,8 @@ function sanitiseSlug(raw) {
   return raw
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, '-') // replace non-alphanumeric with hyphens
-    .replace(/-+/g, '-')          // collapse consecutive hyphens
-    .replace(/^-|-$/g, '');       // strip leading/trailing hyphens
+    .replace(/-+/g, '-') // collapse consecutive hyphens
+    .replace(/^-|-$/g, ''); // strip leading/trailing hyphens
 }
 
 // ---------------------------------------------------------------------------
@@ -230,7 +231,7 @@ function sanitiseSlug(raw) {
 function resolveAuthorName(authorSlug) {
   const knownAuthors = {
     'terence-waters': 'Terence Waters',
-    'tw': 'Terence Waters',
+    tw: 'Terence Waters',
   };
   return knownAuthors[authorSlug] || authorSlug;
 }
@@ -266,7 +267,8 @@ function yamlString(value) {
 
 function buildFrontmatter(post) {
   // API field 'publishDate' maps to frontmatter fields 'date' and 'publishedDate'
-  const date = toDateString(post.publishDate) || toDateString(post.timestamp) || '';
+  const date =
+    toDateString(post.publishDate) || toDateString(post.timestamp) || '';
   const author = resolveAuthorName(post.authorSlug || '');
   const tags = Array.isArray(post.tagsList) ? post.tagsList : [];
   const excerpt = (post.description || '').trim();
@@ -387,7 +389,9 @@ async function main() {
     const existed = fs.existsSync(outputPath);
 
     if (existed && !FORCE) {
-      console.log(`  [SKIP] ${slug}.md already exists (use --force to overwrite)`);
+      console.log(
+        `  [SKIP] ${slug}.md already exists (use --force to overwrite)`
+      );
       skipped += 1;
       continue;
     }

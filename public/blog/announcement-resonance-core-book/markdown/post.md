@@ -1,54 +1,44 @@
 ---
-title: >-
-  Introducing The Resonance Core Framework™: A New Approach to Human Alignment
-  and Change
-excerpt: >-
-  After months of research, testing, and lived application, I'm sharing the
-  first public preview of The Resonance Core Framework™—a system designed to
-  help people create meaningful, aligned, and sustainable change in their lives.
-author: Terence Waters
+title: 'Introducing The Resonance Core Framework™: A New Approach to Human Alignment and Change'
+excerpt: "After months of research, testing, and lived application, I'm sharing the first public preview of The Resonance Core Framework™—a system designed to help people create meaningful, aligned, and sustainable change in their lives."
+author: 'Terence Waters'
 publishedDate: '2026-02-04'
 date: '2026-02-04'
-category: Framework Announcement
+category: 'Framework Announcement'
 tags:
-  - Resonance Core Framework
-  - Book Announcement
-  - Personal Growth
-  - Alignment
-  - Self-Help
-  - Transformation
-  - Decision Making
-  - Life Framework
-imageUrl: /blog/announcement-resonance-core-book/images/RCF_logo.jpeg
-imageAlt: >-
-  The Resonance Core Framework™ logo representing alignment and human
-  transformation
+  - 'Resonance Core Framework'
+  - 'Book Announcement'
+  - 'Personal Growth'
+  - 'Alignment'
+  - 'Self-Help'
+  - 'Transformation'
+  - 'Decision Making'
+  - 'Life Framework'
+imageUrl: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
+imageAlt: 'The Resonance Core Framework™ logo representing alignment and human transformation'
 featured: true
-seoTitle: Introducing The Resonance Core Framework™ | A New Approach to Aligned Change
-seoDescription: >-
-  Discover The Resonance Core Framework™—a practical, trackable system for
-  creating meaningful change through alignment. Built on universal truths,
-  psychological research, and lived experience.
+seoTitle: 'Introducing The Resonance Core Framework™ | A New Approach to Aligned Change'
+seoDescription: 'Discover The Resonance Core Framework™—a practical, trackable system for creating meaningful change through alignment. Built on universal truths, psychological research, and lived experience.'
 seoKeywords:
-  - Resonance Core Framework
-  - personal transformation
-  - alignment framework
-  - self-help
-  - decision making
-  - personal growth
-  - life change
-  - sustainable change
-  - human alignment
-  - life framework
-featuredImage: /blog/announcement-resonance-core-book/images/RCF_logo.jpeg
+  - 'Resonance Core Framework'
+  - 'personal transformation'
+  - 'alignment framework'
+  - 'self-help'
+  - 'decision making'
+  - 'personal growth'
+  - 'life change'
+  - 'sustainable change'
+  - 'human alignment'
+  - 'life framework'
+featuredImage: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
 gallery:
-  - url: /blog/announcement-resonance-core-book/images/RCF_logo.jpeg
-    alt: The Resonance Core Framework™ Logo
-    caption: The Resonance Core Framework™ Logo
-  - url: /blog/announcement-resonance-core-book/images/RCF_book_concept.jpg
-    alt: The Resonance Core Framework™ Book Concept
-    caption: The Resonance Core Framework™ Book Concept
-  - url: /blog/announcement-resonance-core-book/images/drive_model_framework.jpeg
+  - url: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
+    alt: 'The Resonance Core Framework™ Logo'
+    caption: 'The Resonance Core Framework™ Logo'
+  - url: '/blog/announcement-resonance-core-book/images/RCF_book_concept.jpg'
+    alt: 'The Resonance Core Framework™ Book Concept'
+    caption: 'The Resonance Core Framework™ Book Concept'
+  - url: '/blog/announcement-resonance-core-book/images/drive_model_framework.jpeg'
     alt: 'The DRIVE Model Framework: Aligning our identity with our goals'
     caption: 'The DRIVE Model Framework: Aligning our identity with our goals'
 ---

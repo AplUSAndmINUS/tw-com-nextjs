@@ -37,16 +37,14 @@ export default async function PodcastEpisodePage({ params }: Props) {
       <div className='max-w-3xl mx-auto px-4 py-12'>
         <ContentDetailNav
           prevHref='/podcasts'
-          hubHref='/content-hub'
+          listingPath='/podcasts'
+          listingLabel='Podcasts'
         />
         <span className='text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wide'>
           Podcast Episode
         </span>
         <h1 className='text-3xl font-bold mt-2 mb-6'>Episode: {slug}</h1>
-        <AudioPlayer
-          audioUrl=''
-          title={`Episode: ${slug}`}
-        />
+        <AudioPlayer audioUrl='' title={`Episode: ${slug}`} />
         <p className='mt-8 text-gray-500 dark:text-gray-400'>
           Full episode details coming soon.
         </p>
