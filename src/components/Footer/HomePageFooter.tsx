@@ -50,12 +50,7 @@ export function HomePageFooter() {
     <>
       {/* Mobile-only toggle button (when footer is hidden) */}
       {!isFooterVisible && !isMobileLandscape && (
-        <div
-          className='lg:hidden flex justify-center py-6'
-          style={{
-            borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
-          }}
-        >
+        <div className='lg:hidden flex justify-center py-6'>
           <button
             onClick={() => setIsFooterVisible(true)}
             className='px-6 py-2 rounded-lg transition-all font-medium'
