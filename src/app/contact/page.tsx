@@ -39,7 +39,7 @@ export default function ContactPage() {
         title: 'Contact Me',
       }}
     >
-      <div className='pt-0 pb-8 md:py-8 flex flex-col gap-8'>
+      <div className='max-width-content pt-0 pb-8 md:py-8 flex flex-col gap-8'>
         {/* Let's Connect section */}
         <Hero
           title="Let's Connect!"
