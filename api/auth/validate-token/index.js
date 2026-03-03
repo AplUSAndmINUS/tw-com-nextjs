@@ -15,6 +15,8 @@
 
 'use strict';
 
+const crypto = require('crypto');
+
 const CORS_HEADERS = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
@@ -110,8 +112,17 @@ module.exports = async function (context, req) {
       };
     }
 
-    // Compare tokens
-    const isValid = token === validToken;
+    // Compare tokens using constant-time equality to prevent timing attacks
+    let isValid = false;
+    try {
+      const tokenBuf = Buffer.from(token);
+      const validBuf = Buffer.from(validToken);
+      isValid =
+        tokenBuf.length === validBuf.length &&
+        crypto.timingSafeEqual(tokenBuf, validBuf);
+    } catch {
+      isValid = false;
+    }
 
     if (isValid) {
       return {

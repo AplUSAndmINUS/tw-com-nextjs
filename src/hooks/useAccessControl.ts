@@ -115,7 +115,7 @@ export function useAccessControl() {
     };
 
     initializeAuth();
-    // validateToken is memoised with no changing deps — safe to omit
+    // validateToken is memoized with no changing deps — safe to omit
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authRequired]);
 
