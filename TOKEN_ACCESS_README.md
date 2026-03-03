@@ -122,15 +122,9 @@ passed to the build step:
 
 | Branch | Workflow file | Environment |
 |--------|--------------|-------------|
-| `develop` | `azure-static-web-apps-lively-mud-07cef801e.yml` | `dev` |
+| `develop` | `azure-static-web-apps-dev.yml` | `dev` |
 | `test` | `azure-static-web-apps-test.yml` | `test` |
 | `master` | `azure-static-web-apps-prod.yml` | `prod` |
-
-The TEST and PROD workflows require the following GitHub repository secrets
-to be configured by an administrator:
-
-- `AZURE_STATIC_WEB_APPS_API_TOKEN_TEST`
-- `AZURE_STATIC_WEB_APPS_API_TOKEN_PROD`
 
 ---
 
