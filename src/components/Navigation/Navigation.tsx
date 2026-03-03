@@ -398,6 +398,7 @@ export function Navigation() {
 
             {/* Settings toggle */}
             <button
+              type='button'
               onClick={handleSettingsClick}
               style={buttonStyle}
               aria-label={
@@ -421,6 +422,7 @@ export function Navigation() {
 
             {/* Menu toggle */}
             <button
+              type='button'
               onClick={handleMenuClick}
               style={buttonStyle}
               aria-label={activeModal === 'menu' ? 'Close menu' : 'Open menu'}

@@ -279,6 +279,7 @@ export const Hero: React.FC<HeroProps> = ({
           </Typography>
           {isMobile && shouldTruncate && (
             <button
+              type='button'
               onClick={() => setIsExpanded(!isExpanded)}
               className='rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
               style={{
