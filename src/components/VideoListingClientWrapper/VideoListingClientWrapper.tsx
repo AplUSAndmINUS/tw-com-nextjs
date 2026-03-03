@@ -306,7 +306,7 @@ export function VideoListingClientWrapper() {
       <Hero
         title='Videos'
         iconName='Video24Regular'
-        description='Watch videos from the @terencewaters YouTube channel — tutorials, live streams, playlists, and more.'
+        description='Watch videos from the @aplusinflux YouTube channel — tutorials, live streams, playlists, and more.'
       />
 
       {/* Tab Navigation */}

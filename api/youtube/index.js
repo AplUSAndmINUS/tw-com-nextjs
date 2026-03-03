@@ -3,7 +3,7 @@
 /**
  * Azure Function: api/youtube
  *
- * Fetches videos, live streams, and playlists from the @terencewaters YouTube channel via YouTube Data API v3.
+ * Fetches videos, live streams, and playlists from the @aplusinflux YouTube channel via YouTube Data API v3.
  *
  * Environment variables required:
  *   YOUTUBE_API_KEY  — Your Google/YouTube Data API v3 key
@@ -19,7 +19,7 @@
 const https = require('https');
 
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
-const CHANNEL_HANDLE = 'terencewaters';
+const CHANNEL_HANDLE = 'aplusinflux';
 
 const CORS_HEADERS = {
   'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function httpGet(url) {
 }
 
 /**
- * Resolve @terencewaters handle to channel ID.
+ * Resolve @aplusinflux handle to channel ID.
  * @param {string} apiKey
  * @returns {Promise<string | null>}
  */
