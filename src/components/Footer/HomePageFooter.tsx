@@ -72,6 +72,9 @@ export function HomePageFooter() {
       <footer
         className='hidden lg:block border-t backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0'
         role='contentinfo'
+        style={{
+          borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
+        }}
       >
         <FooterContent isCompact={false} />
       </footer>

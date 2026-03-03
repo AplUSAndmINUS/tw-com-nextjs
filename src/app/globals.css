@@ -5,8 +5,9 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #1a1a1a;
+  /* Always use dark background to prevent white from showing through */
+  --background: #0f1419;
+  --foreground: #e4e4e7;
 }
 
 @theme inline {
@@ -18,10 +19,18 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, sans-serif;
+  /* Ensure dark background always, even if theme changes */
+  background-color: #0f1419 !important;
 }
 
-/* this overrides the default max-width of 1280px that Fluent UI applies to its content containers, allowing it to stretch wider on large screens while still being constrained to a reasonable width. -TW */
+/* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */
+/* Used to constrain the content width (9col) on larger screens while allowing it to be full width on smaller screens */
 .max-width-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.max-width-content-footer {
   max-width: 1920px;
 }
 
