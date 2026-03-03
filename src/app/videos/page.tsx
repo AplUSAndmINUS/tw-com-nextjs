@@ -1,28 +1,35 @@
 import { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { VideoListingClientWrapper } from '@/components/VideoListingClientWrapper';
-import { VideoItem } from '@/content/types';
 import VideoImage from '@/assets/images/Video1200x2150.jpg';
 
 export const metadata: Metadata = {
   title: 'Videos',
   description:
-    'Video content exploring technology, creativity, and the human experience.',
+    'Watch videos from the @terencewaters YouTube channel — tutorials, live streams, playlists, and more.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Videos | Terence Waters',
     description:
-      'Video content exploring technology, creativity, and the human experience.',
+      'Watch videos from the @terencewaters YouTube channel — tutorials, live streams, playlists, and more.',
     url: 'https://terencewaters.com/videos',
     siteName: 'Terence Waters',
+    images: [
+      {
+        url: VideoImage.src,
+        width: 1200,
+        height: 2150,
+        alt: 'Terence Waters Videos',
+      },
+    ],
     type: 'website',
   },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
     googleBot: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
@@ -31,24 +38,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * Static placeholder videos — replaced at runtime by the Azure Function
- * (api/videos) once the YouTube API key is configured.
+ * Videos Page - Server Component
+ * Renders the video listing client component that fetches from YouTube API
  */
-const PLACEHOLDER_VIDEOS: VideoItem[] = [
-  {
-    id: 'placeholder-1',
-    youtubeId: '',
-    title: 'Videos Coming Soon',
-    description:
-      'Subscribe to @terencewaters on YouTube to be notified when new videos are published.',
-    thumbnailUrl: '',
-    publishedAt: '2026-01-01',
-    tags: [],
-    category: 'Announcement',
-    duration: '',
-  },
-];
-
 export default function VideosPage() {
   return (
     <PageLayout
@@ -58,7 +50,7 @@ export default function VideosPage() {
         title: 'Videos',
       }}
     >
-      <VideoListingClientWrapper initialVideos={PLACEHOLDER_VIDEOS} />
+      <VideoListingClientWrapper />
     </PageLayout>
   );
 }
