@@ -69,6 +69,7 @@ export default async function BlogPostPage({ params }: Props) {
       date={post.publishedDate ?? post.date}
       author={post.author}
       featureImage={featureImage}
+      gallery={post.gallery}
       nav={
         <ContentDetailNav
           prevHref={prevPost ? `/blog/${prevPost.slug}` : undefined}

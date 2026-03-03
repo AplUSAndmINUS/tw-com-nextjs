@@ -7,6 +7,8 @@ import { Typography } from '@/components/Typography';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 import { ImageCarouselModal } from '@/components/ImageCarouselModal';
+import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
+import { GalleryItem } from '@/content/types';
 
 interface CaseStudyLayoutProps {
   children: ReactNode;
@@ -19,6 +21,8 @@ interface CaseStudyLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional gallery images for the modal carousel */
+  gallery?: GalleryItem[];
   /** Optional navigation slot rendered above the case study header */
   nav?: ReactNode;
 }
@@ -36,10 +40,26 @@ export function CaseStudyLayout({
   date,
   industry,
   featureImage,
+  gallery,
   nav,
 }: CaseStudyLayoutProps) {
+  const footerHeight = useFooterHeight();
   const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Build gallery images for modal: use full gallery if available, otherwise just feature image
+  const modalImages: GalleryItem[] =
+    gallery && gallery.length > 0
+      ? gallery
+      : featureImage
+        ? [
+            {
+              url: featureImage.src,
+              alt: featureImage.alt,
+              caption: featureImage.title,
+            },
+          ]
+        : [];
 
   const headerContent = (
     <header className='mb-6 md:mb-10 border-b pb-4 md:pb-8'>
@@ -68,12 +88,22 @@ export function CaseStudyLayout({
   );
 
   return (
-    <SiteLayout showFooter={false}>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'>
+    <SiteLayout>
+      <div
+        className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'
+        style={{
+          minHeight: `calc(100vh - 4rem - ${footerHeight})`,
+        }}
+      >
         {featureImage ? (
           <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row'>
             {/* Feature image pane - fixed and vertically centered on md+ */}
-            <aside className={imagePaneClasses}>
+            <aside
+              className={imagePaneClasses}
+              style={{
+                bottom: `calc(${footerHeight} + 1rem)`,
+              }}
+            >
               <button
                 onClick={() => setIsModalOpen(true)}
                 className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity'
@@ -98,18 +128,14 @@ export function CaseStudyLayout({
             </aside>
 
             {/* Image modal */}
-            <ImageCarouselModal
-              isOpen={isModalOpen}
-              onDismiss={() => setIsModalOpen(false)}
-              images={[
-                {
-                  url: featureImage.src,
-                  alt: featureImage.alt,
-                  caption: featureImage.title,
-                },
-              ]}
-              initialIndex={0}
-            />
+            {modalImages.length > 0 && (
+              <ImageCarouselModal
+                isOpen={isModalOpen}
+                onDismiss={() => setIsModalOpen(false)}
+                images={modalImages}
+                initialIndex={0}
+              />
+            )}
 
             {/* Content pane */}
             <article className={contentPaneClasses}>

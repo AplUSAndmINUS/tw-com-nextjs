@@ -9,6 +9,8 @@ import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 import { ImageCarouselModal } from '@/components/ImageCarouselModal';
+import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
+import { GalleryItem } from '@/content/types';
 
 interface ArticleLayoutProps {
   children: ReactNode;
@@ -21,6 +23,8 @@ interface ArticleLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional gallery images for the modal carousel */
+  gallery?: GalleryItem[];
   /** Optional navigation slot rendered above the article body (outside prose) */
   nav?: ReactNode;
 }
@@ -38,17 +42,38 @@ export function ArticleLayout({
   date,
   author,
   featureImage,
+  gallery,
   nav,
 }: ArticleLayoutProps) {
+  const footerHeight = useFooterHeight();
   const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Build gallery images for modal: use full gallery if available, otherwise just feature image
+  const modalImages: GalleryItem[] =
+    gallery && gallery.length > 0
+      ? gallery
+      : featureImage
+        ? [
+            {
+              url: featureImage.src,
+              alt: featureImage.alt,
+              caption: featureImage.title,
+            },
+          ]
+        : [];
 
   return (
     <SiteLayout>
       {featureImage ? (
         <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
           {/* Feature image pane - fixed and vertically centered on md+ */}
-          <aside className={imagePaneClasses}>
+          <aside
+            className={imagePaneClasses}
+            style={{
+              bottom: `calc(${footerHeight} + 1rem)`,
+            }}
+          >
             <button
               onClick={() => setIsModalOpen(true)}
               className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity'
@@ -70,18 +95,14 @@ export function ArticleLayout({
           </aside>
 
           {/* Image modal */}
-          <ImageCarouselModal
-            isOpen={isModalOpen}
-            onDismiss={() => setIsModalOpen(false)}
-            images={[
-              {
-                url: featureImage.src,
-                alt: featureImage.alt,
-                caption: featureImage.title,
-              },
-            ]}
-            initialIndex={0}
-          />
+          {modalImages.length > 0 && (
+            <ImageCarouselModal
+              isOpen={isModalOpen}
+              onDismiss={() => setIsModalOpen(false)}
+              images={modalImages}
+              initialIndex={0}
+            />
+          )}
 
           {/* Article content pane */}
           <article className={contentPaneClasses}>
@@ -128,7 +149,7 @@ export function ArticleLayout({
       ) : (
         <article className='max-width-content mx-auto'>
           {nav && <div>{nav}</div>}
-          <header className='mb-8 pb-6'>
+          <header className='mb-2 pb-6'>
             <Typography variant='h2'>{title}</Typography>
             <div className='flex items-center gap-4 mt-3'>
               {author && (

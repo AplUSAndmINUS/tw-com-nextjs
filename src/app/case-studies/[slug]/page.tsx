@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { CaseStudyLayout } from '@/layouts/CaseStudyLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 
@@ -62,10 +61,16 @@ export default async function CaseStudyPage({ params }: Props) {
   const nextCaseStudy =
     currentIndex > 0 ? allCaseStudies[currentIndex - 1] : null;
 
+  const featureImage = cs.imageUrl
+    ? { src: cs.imageUrl, alt: cs.imageAlt ?? cs.title }
+    : undefined;
+
   return (
     <CaseStudyLayout
       title={cs.title}
       date={cs.date}
+      featureImage={featureImage}
+      gallery={cs.gallery}
       nav={
         <ContentDetailNav
           prevHref={
@@ -81,9 +86,7 @@ export default async function CaseStudyPage({ params }: Props) {
         />
       }
     >
-      {cs.gallery && cs.gallery.length > 0 && (
-        <ContentGalleryClient gallery={cs.gallery} />
-      )}
+      {/* Gallery removed - feature image now opens in modal via CaseStudyLayout */}
       <MDXRemote source={cs.content} components={mdxComponents} />
     </CaseStudyLayout>
   );

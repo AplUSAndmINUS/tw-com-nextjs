@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
+import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
 
 interface PortfolioLayoutProps {
   children: ReactNode;
@@ -30,12 +31,19 @@ export function PortfolioLayout({
   featureImage,
   nav,
 }: PortfolioLayoutProps) {
+  const footerHeight = useFooterHeight();
+
   return (
     <SiteLayout>
-      <div className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 pb-8 md:py-8 min-h-[calc(100vh-4rem)]'>
+      <div
+        className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 pb-8 md:py-8'
+        style={{
+          minHeight: `calc(100vh - 4rem - ${footerHeight})`,
+        }}
+      >
         <div className='max-w-5xl mx-auto h-full flex flex-col justify-center'>
           {nav && <div>{nav}</div>}
-          <header className='mb-10'>
+          <header className='mb-2'>
             <Typography variant='h2'>{title}</Typography>
             {description && (
               <Typography

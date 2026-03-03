@@ -5,7 +5,7 @@ excerpt: How I migrated TerenceWaters.com from a React-based Static Web App to a
 tags: [migration, nextjs, azure]
 ---
 
-# Migrating from React SPA to Next.js
+## Migrating from React SPA to Next.js
 
 ## The Challenge
 
