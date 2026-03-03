@@ -24,9 +24,10 @@ body {
 }
 
 /* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */
-/* Used to constraint the content width (9col) on larger screens while allowing it to be full width on smaller screens */
+/* Used to constrain the content width (9col) on larger screens while allowing it to be full width on smaller screens */
 .max-width-content {
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .max-width-content-footer {
