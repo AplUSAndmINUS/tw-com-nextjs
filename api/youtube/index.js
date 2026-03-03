@@ -108,15 +108,14 @@ async function fetchVideos(apiKey, channelId, type, pageToken) {
   }
 
   // Fetch videos or live streams
-  const eventType = type === 'live' ? 'live' : 'none';
   const params = new URLSearchParams({
     part: 'snippet',
     channelId,
     maxResults: '24',
     order: 'date',
     type: 'video',
-    eventType,
     key: apiKey,
+    ...(type === 'live' ? { eventType: 'live' } : {}),
     ...(pageToken ? { pageToken } : {}),
   });
   const searchUrl = `${YOUTUBE_API_BASE}/search?${params}`;

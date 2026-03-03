@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     images: [
       {
-        url: '/images/Video1200x2150.jpg',
+        url: VideoImage.src,
         width: 1200,
         height: 2150,
         alt: 'Terence Waters Videos',
