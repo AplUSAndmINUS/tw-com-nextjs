@@ -1,20 +1,17 @@
 ---
-title: I Finally Launched My Site. Now What?
-excerpt: >-
-  After five years of starts, stops, pivots, and perfectionism,
-  TerenceWaters.com is finally live. This is not just a digital portfolio, it is
-  a declaration. I am here. I am building. I am becoming.
-author: Terence Waters
+title: 'I Finally Launched My Site. Now What?'
+excerpt: 'After five years of starts, stops, pivots, and perfectionism, TerenceWaters.com is finally live. This is not just a digital portfolio, it is a declaration. I am here. I am building. I am becoming.'
+author: 'Terence Waters'
 publishedDate: '2025-08-07'
 date: '2025-08-07'
-category: Business
+category: 'Business'
 tags:
-  - Fluxline
-  - technology
-  - resonance
-  - determination
-  - celebration
-  - transition
+  - 'Fluxline'
+  - 'technology'
+  - 'resonance'
+  - 'determination'
+  - 'celebration'
+  - 'transition'
 featured: false
 ---
 

@@ -1,21 +1,18 @@
 ---
 title: 'The Whole Damn Story: My Journey to Polyamory'
-excerpt: >-
-  For years, I chased a version of love I thought I was supposed to want. After
-  countless relationships and self-discovery, I finally found what works for me:
-  solo polyamory. This is my truth, unapologetically.
-author: Terence Waters
+excerpt: 'For years, I chased a version of love I thought I was supposed to want. After countless relationships and self-discovery, I finally found what works for me: solo polyamory. This is my truth, unapologetically.'
+author: 'Terence Waters'
 publishedDate: '2025-08-24'
 date: '2025-08-24'
-category: Personal
+category: 'Personal'
 tags:
-  - Polyamory
-  - Relationships
-  - Self-Discovery
-  - Authenticity
-  - Personal Growth
-  - LGBTQ+
-  - Solo Polyamory
+  - 'Polyamory'
+  - 'Relationships'
+  - 'Self-Discovery'
+  - 'Authenticity'
+  - 'Personal Growth'
+  - 'LGBTQ+'
+  - 'Solo Polyamory'
 featured: false
 ---
 

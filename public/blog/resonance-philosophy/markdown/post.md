@@ -1,20 +1,17 @@
 ---
 title: 'Part 1: The Philosophy of Resonance'
-excerpt: >-
-  People make their best decisions when they act in alignment with who they are.
-  That alignment is resonance—the emotional pull toward transformation. This is
-  where it all begins.
-author: Terence Waters
+excerpt: 'People make their best decisions when they act in alignment with who they are. That alignment is resonance—the emotional pull toward transformation. This is where it all begins.'
+author: 'Terence Waters'
 publishedDate: '2025-08-04'
 date: '2025-08-04'
-category: Business
+category: 'Business'
 tags:
-  - Fluxline
-  - resonance
-  - personal growth
-  - emotional architecture
-  - intentionality
-  - Ryan Reynolds
+  - 'Fluxline'
+  - 'resonance'
+  - 'personal growth'
+  - 'emotional architecture'
+  - 'intentionality'
+  - 'Ryan Reynolds'
 featured: false
 ---
 

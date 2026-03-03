@@ -1,13 +1,8 @@
 ---
 title: TerenceWaters.com Redesign
 date: '2025-01-01'
-excerpt: >-
-  A full redesign and rebuild of TerenceWaters.com using Next.js and Azure
-  Static Web Apps.
-tags:
-  - nextjs
-  - azure
-  - design
+excerpt: A full redesign and rebuild of TerenceWaters.com using Next.js and Azure Static Web Apps.
+tags: [nextjs, azure, design]
 ---
 
 # TerenceWaters.com Redesign

@@ -34,11 +34,11 @@ src/
   content/      # TypeScript types for content models
   utils/        # Utility helpers
 public/
-  blog/         # Blog post content (Markdown/MDX)
-  portfolio/    # Portfolio entry content
-  case-studies/ # Case study content
-content/        # Legacy content directory (flat .md files)
-docs/           # Developer documentation
+  blog/           # Blog posts (Markdown/MDX in {slug}/markdown/post.md)
+  portfolio/      # Portfolio entries
+  case-studies/   # Case studies
+  images/         # Static assets
+docs/             # Developer documentation
 prompts/        # AI prompt logs
 api/            # Azure Functions (v2 model)
 ```

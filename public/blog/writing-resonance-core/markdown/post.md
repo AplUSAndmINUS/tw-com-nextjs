@@ -1,20 +1,17 @@
 ---
-title: Why I am Writing The Resonance Core Framework
-excerpt: >-
-  I did not plan to write a book this year. But sometimes life hands you a
-  pattern so persistent that ignoring it feels like betraying yourself. This is
-  why I am sharing the framework that changed my life.
-author: Terence Waters
+title: 'Why I am Writing The Resonance Core Framework'
+excerpt: 'I did not plan to write a book this year. But sometimes life hands you a pattern so persistent that ignoring it feels like betraying yourself. This is why I am sharing the framework that changed my life.'
+author: 'Terence Waters'
 publishedDate: '2026-02-04'
 date: '2026-02-04'
-category: Personal Development
+category: 'Personal Development'
 tags:
-  - Resonance Core
-  - personal development
-  - transformation
-  - self-help
-  - alignment
-  - framework
+  - 'Resonance Core'
+  - 'personal development'
+  - 'transformation'
+  - 'self-help'
+  - 'alignment'
+  - 'framework'
 featured: false
 ---
 

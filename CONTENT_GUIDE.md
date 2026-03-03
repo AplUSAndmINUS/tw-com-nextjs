@@ -43,22 +43,18 @@ content/
     (managed via Azure Function)
 ```
 
-### Two Formats Supported
+### Content Structure
 
-1. **Flat File** - For simple content without local images:
+All content lives in `/public/{type}/{slug}/markdown/post.md` with images in `/public/{type}/{slug}/images/`:
 
-   ```
-   content/blog/my-post.md
-   ```
-
-2. **Folder Format** - For content with images:
-   ```
-   content/blog/my-post/
-     post.md
-     images/
-       image1.jpg
-       image2.png
-   ```
+```
+public/blog/my-post/
+  markdown/
+    post.md
+  images/
+    image1.jpg
+    image2.png
+```
 
 ---
 
@@ -66,9 +62,9 @@ content/
 
 ### Blog Posts
 
-**Location:** `/content/blog/`
+**Location:** `/public/blog/`
 
-**Example:** `content/blog/my-first-post/post.md`
+**Example:** `public/blog/my-first-post/markdown/post.md`
 
 ```yaml
 ---
@@ -137,9 +133,9 @@ More content...
 
 ### Portfolio Entries
 
-**Location:** `/content/portfolio/`
+**Location:** `/public/portfolio/`
 
-**Example:** `content/portfolio/fluxline-pro/post.md`
+**Example:** `public/portfolio/fluxline-pro/markdown/post.md`
 
 ```yaml
 ---
@@ -197,9 +193,9 @@ Describe your project, the problem it solves, your role, and key achievements.
 
 ### Case Studies
 
-**Location:** `/content/case-studies/`
+**Location:** `/public/case-studies/`
 
-**Example:** `content/case-studies/ecommerce-migration/post.md`
+**Example:** `public/case-studies/ecommerce-migration/markdown/post.md`
 
 ```yaml
 ---
@@ -436,7 +432,8 @@ Features:
 ### Step 1: Create the folder structure
 
 ```bash
-mkdir -p content/blog/introduction-to-nextjs/images
+mkdir -p public/blog/introduction-to-nextjs/markdown
+mkdir -p public/blog/introduction-to-nextjs/images
 ```
 
 ### Step 2: Add images
@@ -511,7 +508,7 @@ Next.js is a powerful React framework that enables you to build fast, production
 - Check that the file is named `post.md` (in folder format) or has `.md` extension (flat format)
 - Verify the frontmatter is valid YAML (proper indentation, quotes, etc.)
 - Ensure `publishedDate` is in the correct format (YYYY-MM-DD)
-- Check that the file is in the correct directory (`content/blog/`, etc.)
+- Check that the file is in the correct directory (`public/blog/{slug}/markdown/`, etc.)
 
 ### Images not loading?
 
