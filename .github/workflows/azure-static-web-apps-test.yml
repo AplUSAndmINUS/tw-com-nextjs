@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD — TEST
+name: TEST-Azure Static Web Apps CI/CD
 
 on:
   push:
