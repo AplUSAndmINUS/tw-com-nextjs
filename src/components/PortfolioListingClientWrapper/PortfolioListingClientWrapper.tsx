@@ -166,6 +166,8 @@ export function PortfolioListingClientWrapper({
       resultsMessage={resultsMessage}
       emptyStateTitle='No portfolio entries found'
       emptyStateMessage='Try adjusting your filters to see more projects.'
+      backArrow={true}
+      backArrowPath='/content-hub'
     />
   );
 }

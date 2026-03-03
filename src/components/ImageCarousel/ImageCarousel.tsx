@@ -12,7 +12,11 @@ interface ImageCarouselProps {
   className?: string;
 }
 
-export function ImageCarousel({ images, basePath = '', className = '' }: ImageCarouselProps) {
+export function ImageCarousel({
+  images,
+  basePath = '',
+  className = '',
+}: ImageCarouselProps) {
   const [active, setActive] = useState(0);
 
   if (!images || images.length === 0) return null;
@@ -57,14 +61,14 @@ export function ImageCarousel({ images, basePath = '', className = '' }: ImageCa
             <button
               onClick={prev}
               aria-label='Previous image'
-              className='absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors'
+              className='absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl'
             >
               ‹
             </button>
             <button
               onClick={next}
               aria-label='Next image'
-              className='absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors'
+              className='absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl'
             >
               ›
             </button>
@@ -94,7 +98,7 @@ export function ImageCarousel({ images, basePath = '', className = '' }: ImageCa
               key={i}
               onClick={() => setActive(i)}
               aria-label={`View image ${i + 1}: ${img.alt}`}
-              className={`relative flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-colors ${
+              className={`relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md overflow-hidden border-2 transition-colors ${
                 i === active
                   ? 'border-blue-500'
                   : 'border-transparent hover:border-gray-400'

@@ -152,7 +152,7 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: '60vh',
+          minHeight: '70vh',
         }}
       >
         {/* Image container with navigation */}
@@ -165,7 +165,7 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             padding: theme.spacing.xl,
-            minHeight: 0,
+            minHeight: '500px',
           }}
         >
           {/* Previous button */}
@@ -237,9 +237,7 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
                   position: 'relative',
                   width: '100%',
                   height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  minHeight: '400px',
                 }}
               >
                 <Image

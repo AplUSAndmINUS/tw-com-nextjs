@@ -1,10 +1,8 @@
 ---
 title: Hello World
 date: '2025-01-01'
-excerpt: 'Welcome to the new TerenceWaters.com, built with Next.js.'
-tags:
-  - nextjs
-  - announcement
+excerpt: Welcome to the new TerenceWaters.com, built with Next.js.
+tags: [nextjs, announcement]
 ---
 
 # Hello World

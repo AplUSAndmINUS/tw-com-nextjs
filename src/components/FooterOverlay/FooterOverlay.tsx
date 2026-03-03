@@ -6,13 +6,18 @@ import { FooterContent } from '@/components/Footer/FooterContent';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useSlideInOut } from '@/hooks';
 
+interface FooterOverlayProps {
+  /** If true, hides the "Show Footer" button (e.g., on article pages where footer should not overlay content) */
+  hideButton?: boolean;
+}
+
 /**
  * FooterOverlay — Client component for interactive footer overlay
  *
  * Used on tablet/desktop viewports for hover-triggered footer display.
  * Separated from StandardPageLayout to keep the layout server-rendered.
  */
-export function FooterOverlay() {
+export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
   const { theme } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
 
@@ -24,9 +29,9 @@ export function FooterOverlay() {
 
   return (
     <>
-      {/* Show Footer button - hidden when footer is visible */}
+      {/* Show Footer button - hidden when footer is visible or when hideButton is true */}
       <AnimatePresence>
-        {!isFooterVisible && (
+        {!hideButton && !isFooterVisible && (
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

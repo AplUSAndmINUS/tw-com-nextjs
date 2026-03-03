@@ -131,7 +131,7 @@ TW.com uses a layout-driven architecture. Copilot should use or extend:
 | ----------------- | -------------------------------------- |
 | `RootLayout`      | Navigation, Footer, global wrappers    |
 | `PageLayout`      | Standard page with max-width container |
-| `ContentLayout`   | Long-form content (i.e., articles)   |
+| `ContentLayout`   | Long-form content (i.e., articles)     |
 | `ArticleLayout`   | Blog posts with header/byline          |
 | `PortfolioLayout` | Portfolio entries                      |
 | `CaseStudyLayout` | In-depth case studies                  |
@@ -146,18 +146,20 @@ Layouts handle: structure, spacing, typography, navigation, metadata, and themin
 
 Copilot should:
 
-- Use Markdown or MDX in `/content/{type}/{slug}.md`
+- Use Markdown or MDX in `/public/{type}/{slug}/markdown/post.md`
 - Parse frontmatter with `gray-matter`
 - Generate SSG pages via `generateStaticParams`
 - Use `src/lib/content.ts` for all content loading
 
 ### 6.2 — Supported Content Types
 
-| Type              | Directory               |
-| ----------------- | ----------------------- |
-| Blog posts        | `content/blog/`         |
-| Portfolio entries | `content/portfolio/`    |
-| Case studies      | `content/case-studies/` |
+| Type              | Directory              |
+| ----------------- | ---------------------- |
+| Blog posts        | `public/blog/`         |
+| Portfolio entries | `public/portfolio/`    |
+| Case studies      | `public/case-studies/` |
+
+All content follows the structure: `public/{type}/{slug}/markdown/post.md`
 
 ### 6.3 — Rendering
 
@@ -244,11 +246,11 @@ TW.com uses a `PageTransition` component (at `src/components/PageTransition/`) f
 
 **Key files:**
 
-| File | Purpose |
-| ---- | ------- |
-| `src/components/PageTransition/PageTransition.tsx` | Framer Motion `AnimatePresence` + `motion.div` wrapper |
-| `src/hooks/useFadeInOut.ts` | Lower-level CSS-based fade hook (available for non-page use cases) |
-| `src/hooks/useReducedMotion.ts` | Detects OS `prefers-reduced-motion` preference |
+| File                                               | Purpose                                                            |
+| -------------------------------------------------- | ------------------------------------------------------------------ |
+| `src/components/PageTransition/PageTransition.tsx` | Framer Motion `AnimatePresence` + `motion.div` wrapper             |
+| `src/hooks/useFadeInOut.ts`                        | Lower-level CSS-based fade hook (available for non-page use cases) |
+| `src/hooks/useReducedMotion.ts`                    | Detects OS `prefers-reduced-motion` preference                     |
 
 Copilot should:
 
