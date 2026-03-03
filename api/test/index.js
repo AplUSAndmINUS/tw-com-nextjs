@@ -1,4 +1,4 @@
-module.exports = async function (req, context) {
+module.exports = async function (context, req) {
   context.log('Test function triggered');
 
   return {
