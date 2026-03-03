@@ -106,7 +106,7 @@ export function ArticleLayout({
 
           {/* Article content pane */}
           <article className={contentPaneClasses}>
-            <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32 min-h-full flex flex-col'>
+            <div className='px-4 sm:px-6 lg:px-8 py-6 pb-16 md:pb-40 min-h-full flex flex-col'>
               <div className='flex-1 flex flex-col justify-center'>
                 {nav && <div>{nav}</div>}
                 <header className='mb-8 border-b pb-6'>
@@ -147,9 +147,9 @@ export function ArticleLayout({
           </div>
         </div>
       ) : (
-        <article className='max-width-content mx-auto'>
-          {nav && <div>{nav}</div>}
-          <header className='mb-2 pb-6'>
+        <article className='max-width-content mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12 md:pb-16'>
+          {nav && <div className='mb-6'>{nav}</div>}
+          <header className='mb-8 pb-6'>
             <Typography variant='h2'>{title}</Typography>
             <div className='flex items-center gap-4 mt-3'>
               {author && (

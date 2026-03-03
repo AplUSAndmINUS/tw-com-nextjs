@@ -139,7 +139,7 @@ export function CaseStudyLayout({
 
             {/* Content pane */}
             <article className={contentPaneClasses}>
-              <div className='px-4 sm:px-6 lg:px-8 py-6 pb-32 min-h-full flex flex-col'>
+              <div className='px-4 sm:px-6 lg:px-8 py-6 pb-16 md:pb-40 min-h-full flex flex-col'>
                 <div className='flex-1 flex flex-col justify-center'>
                   {nav && <div>{nav}</div>}
                   {headerContent}
@@ -153,8 +153,8 @@ export function CaseStudyLayout({
             </div>
           </div>
         ) : (
-          <article className='max-w-4xl mx-auto'>
-            {nav && <div>{nav}</div>}
+          <article className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12 md:pb-16'>
+            {nav && <div className='mb-6'>{nav}</div>}
             {headerContent}
             <div className='prose-content-body'>{children}</div>
           </article>

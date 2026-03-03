@@ -42,8 +42,8 @@ export function PortfolioLayout({
         }}
       >
         <div className='max-w-5xl mx-auto h-full flex flex-col justify-center'>
-          {nav && <div>{nav}</div>}
-          <header className='mb-2'>
+          {nav && <div className='mb-6'>{nav}</div>}
+          <header className='mb-8'>
             <Typography variant='h2'>{title}</Typography>
             {description && (
               <Typography
