@@ -230,7 +230,7 @@ export function Navigation() {
         role='banner'
         suppressHydrationWarning
         style={{
-          position: 'fixed',
+          position: 'static',
           top: 0,
           left: 0,
           right: 0,
@@ -242,6 +242,12 @@ export function Navigation() {
           WebkitBackdropFilter: 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
           boxShadow: isDark ? 'none' : theme.shadows.s,
+          // Mobile Safari fixed positioning fixes
+          transform: 'translateZ(0)',
+          WebkitTransform: 'translateZ(0)',
+          willChange: 'transform',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
         }}
       >
         <div
