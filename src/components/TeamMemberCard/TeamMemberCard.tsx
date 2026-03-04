@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ContactCard24Regular } from '@fluentui/react-icons';
+import { ArrowExpand20Regular, ContactCard24Regular } from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -144,16 +144,54 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           </Typography>
         </div>
 
-        {/* Click to view details hint */}
+        {/* Bottom bar: tagline social icons (left) + expand affordance (right) */}
         <div
           style={{
-            fontSize: '0.75rem',
-            color: theme.palette.themeSecondary,
-            fontStyle: 'italic',
-            opacity: 0.7,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 'auto',
+            paddingTop: theme.spacing.s1,
           }}
         >
-          Click to view details
+          {/* Social icons — tagline subset only */}
+          <div style={{ display: 'flex', gap: theme.spacing.m, justifyContent: 'space-between', alignItems: 'center' }}>
+            {member.socialLinks
+              ?.filter((s) => s.isTagline)
+              .map((item) => (
+                <a
+                  key={item.url}
+                  href={item.url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  aria-label={item.tooltip}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '18px',
+                    height: '18px',
+                    opacity: 0.65,
+                    transition: 'opacity 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.65'; }}
+                >
+                  <FluentIcon
+                    iconName={item.iconName}
+                    color={theme.palette.themeSecondary}
+                  />
+                </a>
+              ))}
+          </div>
+
+          {/* Expand icon — signals the card is clickable */}
+          <FluentIcon
+            iconName={ArrowExpand20Regular}
+            color={theme.palette.themeSecondary}
+            style={{ opacity: isHovered ? 0.9 : 0.5, transition: 'opacity 0.3s ease' }}
+          />
         </div>
       </div>
 
