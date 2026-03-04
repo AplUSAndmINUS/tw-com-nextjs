@@ -7,23 +7,13 @@
 
 import React from 'react';
 import Image from 'next/image';
-import {
-  ContactCard24Regular,
-  Mail20Regular,
-  Open20Regular,
-} from '@fluentui/react-icons';
+import { ContactCard24Regular } from '@fluentui/react-icons';
 import { Modal } from '@/components/Modal';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMember } from './TeamMemberCard';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
-
-interface SocialLink {
-  platform: string;
-  url: string;
-  icon: React.ComponentType<any>;
-}
 
 interface TeamMemberModalProps {
   isOpen: boolean;
@@ -44,14 +34,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
     theme.themeMode === 'high-contrast' ||
     theme.themeMode === 'grayscale-dark';
 
-  // Map social links to platform data with Fluent UI icon components
-  const socialLinks: SocialLink[] = Object.entries(
-    member.socialLinks || {}
-  ).map(([platform, url]) => ({
-    platform,
-    url,
-    icon: getSocialIconComponent(platform),
-  }));
+  const socialLinks = member.socialLinks ?? [];
 
   return (
     <Modal
@@ -141,10 +124,10 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
                   gap: theme.spacing.m,
                 }}
               >
-                {socialLinks.map(({ platform, url, icon }) => (
+                {socialLinks.map((item) => (
                   <a
-                    key={platform}
-                    href={url}
+                    key={item.url}
+                    href={item.url}
                     target='_blank'
                     rel='noopener noreferrer'
                     style={{
@@ -173,10 +156,10 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
                     }}
                   >
                     <FluentIcon
-                      iconName={icon}
+                      iconName={item.iconName}
                       color={theme.palette.themePrimary}
                     />
-                    {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                    {item.tooltip}
                   </a>
                 ))}
               </div>
@@ -219,17 +202,5 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
     </Modal>
   );
 };
-
-/**
- * Map social platform names to Fluent UI icon components
- */
-function getSocialIconComponent(platform: string): React.ComponentType<any> {
-  const iconMap: Record<string, React.ComponentType<any>> = {
-    email: Mail20Regular,
-  };
-
-  // Use generic Open icon for all social links
-  return iconMap[platform.toLowerCase()] || Open20Regular;
-}
 
 export default TeamMemberModal;

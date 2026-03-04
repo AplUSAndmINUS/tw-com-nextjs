@@ -13,6 +13,7 @@ import { FluentIcon } from '@/components/FluentIcon';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMemberModal } from './TeamMemberModal';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
+import { type SocialIcon } from '@/components/SocialIcons/constants';
 
 export interface TeamMember {
   id: string;
@@ -20,16 +21,7 @@ export interface TeamMember {
   role: string;
   bio: string;
   photo?: string;
-  socialLinks?: {
-    linkedin?: string;
-    instagram?: string;
-    facebook?: string;
-    twitter?: string;
-    threads?: string;
-    tiktok?: string;
-    github?: string;
-    email?: string;
-  };
+  socialLinks?: SocialIcon[];
 }
 
 interface TeamMemberCardProps {

@@ -13,6 +13,7 @@ import { FooterOverlay } from '@/components/FooterOverlay';
 import { TeamMemberCard, type TeamMember } from '@/components/TeamMemberCard';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
+import { getSocialIcons } from '@/components/SocialIcons/constants';
 
 interface AboutPageClientProps {
   children: React.ReactNode;
@@ -31,15 +32,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
     role: 'CEO, Founder & Chief Architect',
     bio: 'Visionary technologist and systems thinker, architecting transformative digital experiences and coaching frameworks.',
     photo: AboutPortrait.src,
-    socialLinks: {
-      linkedin: 'https://www.linkedin.com/in/terencewaters',
-      instagram: 'https://www.instagram.com/aplusinflux',
-      facebook: 'https://www.facebook.com/aplusinflux',
-      twitter: 'https://twitter.com/aplusinflux',
-      threads: 'https://www.threads.com/@aplusinflux',
-      github: 'https://github.com/aplusandminus',
-      email: 'mailto:terence@example.com',
-    },
+    socialLinks: getSocialIcons(),
   };
 
   const cardPaneClasses = isLeftHanded
