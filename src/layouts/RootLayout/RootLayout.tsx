@@ -60,7 +60,7 @@ export function RootLayout({
       </a>
       <Navigation />
       {/* pt-16 offsets the fixed header (~4rem/64px) */}
-      <main id='main-content' className='flex-1 pt-0'>
+      <main id='main-content' className='flex-1 pt-16'>
         <PageTransition duration={300}>{children}</PageTransition>
       </main>
       {showFooter && <Footer isCompact />}
