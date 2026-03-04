@@ -4,7 +4,7 @@
  * AccessGate Component
  *
  * Provides token-based access control for DEV and TEST environments.
- * Shows a full-screen gate that requires a valid access token before
+ * Shows a token input form within StandardPageLayout that requires a valid access token before
  * allowing access to the site content.
  *
  * On PROD (or when auth is not required) the component is transparent
@@ -17,6 +17,7 @@ import { Input } from '@/components/Form/Input/Input';
 import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
 import { useAccessControl } from '@/hooks/useAccessControl';
+import { StandardPageLayout } from '@/layouts/PageLayout/StandardPageLayout';
 
 interface AccessGateProps {
   children: React.ReactNode;
@@ -24,8 +25,14 @@ interface AccessGateProps {
 
 export const AccessGate: React.FC<AccessGateProps> = ({ children }) => {
   const { theme, isDark } = useAppTheme();
-  const { isAuthenticated, isLoading, error, environment, authRequired, submitToken } =
-    useAccessControl();
+  const {
+    isAuthenticated,
+    isLoading,
+    error,
+    environment,
+    authRequired,
+    submitToken,
+  } = useAccessControl();
   const [tokenInput, setTokenInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -34,28 +41,26 @@ export const AccessGate: React.FC<AccessGateProps> = ({ children }) => {
     return <>{children}</>;
   }
 
-  // Show a minimal loading state while checking a persisted token
+  // Show a loading state while checking a persisted token
   if (isLoading) {
     return (
-      <div
-        role='status'
-        aria-live='polite'
-        style={{
-          position: 'fixed',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: isDark
-            ? theme.palette.neutralDark
-            : theme.palette.neutralLighter,
-          color: theme.semanticColors.text.primary,
-          fontFamily: theme.typography.fonts.body.fontFamily,
-          fontSize: theme.typography.fonts.body.fontSize,
-        }}
-      >
-        Loading&hellip;
-      </div>
+      <StandardPageLayout>
+        <div
+          role='status'
+          aria-live='polite'
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '50vh',
+            color: theme.semanticColors.text.primary,
+            fontFamily: theme.typography.fonts.body.fontFamily,
+            fontSize: theme.typography.fonts.body.fontSize,
+          }}
+        >
+          Loading&hellip;
+        </div>
+      </StandardPageLayout>
     );
   }
 
@@ -73,107 +78,103 @@ export const AccessGate: React.FC<AccessGateProps> = ({ children }) => {
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: isDark
-          ? theme.palette.neutralDark
-          : theme.palette.neutralLighter,
-        fontFamily: theme.typography.fonts.body.fontFamily,
-      }}
-    >
+    <StandardPageLayout>
       <div
         style={{
-          maxWidth: '480px',
-          width: '100%',
-          margin: '0 1rem',
-          padding: '2.5rem',
-          backgroundColor: isDark ? theme.palette.black : theme.palette.white,
-          borderRadius: theme.borderRadius.l,
-          boxShadow: theme.shadows.xl,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '50vh',
         }}
       >
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <Typography
-            variant='h2'
-            style={{
-              color: theme.semanticColors.link.default,
-              marginBottom: '0.5rem',
-            }}
-          >
-            Terence Waters
-          </Typography>
-          <Typography
-            variant='h4'
-            style={{ color: theme.semanticColors.text.muted }}
-          >
-            {environment === 'dev' ? 'Development' : 'Test'} Environment
-          </Typography>
-        </div>
-
-        {/* Body */}
-        <Typography
-          variant='body'
-          style={{
-            color: theme.semanticColors.text.muted,
-            textAlign: 'center',
-            marginBottom: '1.5rem',
-          }}
-        >
-          This is a protected environment. Please enter your access token to
-          continue.
-        </Typography>
-
-        <form onSubmit={handleSubmit}>
-          <Input
-            type='password'
-            placeholder='Enter access token'
-            value={tokenInput}
-            onChange={(e) => setTokenInput(e.target.value)}
-            disabled={isSubmitting}
-            error={error || undefined}
-            autoComplete='current-password'
-            autoFocus
-            fullWidth
-            style={{ marginBottom: '1rem' }}
-          />
-
-          <Button
-            type='submit'
-            variant='primary'
-            size='large'
-            fullWidth
-            loading={isSubmitting}
-            disabled={!tokenInput.trim() || isSubmitting}
-          >
-            {isSubmitting ? 'Validating…' : 'Access Site'}
-          </Button>
-        </form>
-
-        {/* Footer note */}
         <div
           style={{
-            marginTop: '1.5rem',
-            paddingTop: '1.5rem',
-            borderTop: `1px solid ${theme.palette.neutralQuaternary}`,
+            maxWidth: '480px',
+            width: '100%',
+            padding: '2.5rem',
+            backgroundColor: isDark ? theme.palette.black : theme.palette.white,
+            borderRadius: theme.borderRadius.l,
+            boxShadow: theme.shadows.xl,
           }}
         >
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <Typography
+              variant='h2'
+              style={{
+                color: theme.semanticColors.link.default,
+                marginBottom: '0.5rem',
+              }}
+            >
+              Terence Waters
+            </Typography>
+            <Typography
+              variant='h4'
+              style={{ color: theme.semanticColors.text.muted }}
+            >
+              {environment === 'dev' ? 'Development' : 'Test'} Environment
+            </Typography>
+          </div>
+
+          {/* Body */}
           <Typography
-            variant='bodySmall'
+            variant='body'
             style={{
-              color: theme.semanticColors.text.disabled,
+              color: theme.semanticColors.text.muted,
               textAlign: 'center',
+              marginBottom: '1.5rem',
             }}
           >
-            Need access? Contact the site administrator for an access token.
+            This is a protected environment. Please enter your access token to
+            continue.
           </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <Input
+              type='password'
+              placeholder='Enter access token'
+              value={tokenInput}
+              onChange={(e) => setTokenInput(e.target.value)}
+              disabled={isSubmitting}
+              error={error || undefined}
+              autoComplete='current-password'
+              autoFocus
+              fullWidth
+              style={{ marginBottom: '1rem' }}
+            />
+
+            <Button
+              type='submit'
+              variant='primary'
+              size='large'
+              fullWidth
+              loading={isSubmitting}
+              disabled={!tokenInput.trim() || isSubmitting}
+            >
+              {isSubmitting ? 'Validating…' : 'Access Site'}
+            </Button>
+          </form>
+
+          {/* Footer note */}
+          <div
+            style={{
+              marginTop: '1.5rem',
+              paddingTop: '1.5rem',
+              borderTop: `1px solid ${theme.palette.neutralQuaternary}`,
+            }}
+          >
+            <Typography
+              variant='bodySmall'
+              style={{
+                color: theme.semanticColors.text.disabled,
+                textAlign: 'center',
+              }}
+            >
+              Need access? Contact the site administrator for an access token.
+            </Typography>
+          </div>
         </div>
       </div>
-    </div>
+    </StandardPageLayout>
   );
 };

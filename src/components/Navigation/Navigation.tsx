@@ -21,6 +21,7 @@ import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useAccessControl } from '@/hooks/useAccessControl';
 import { NavigationMenu } from './NavigationMenu';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
@@ -52,6 +53,7 @@ export function Navigation() {
   const isMobileHook = useIsMobile();
   const isMobile = isMounted ? isMobileHook : false;
   const { shouldReduceMotion } = useReducedMotion();
+  const { authRequired, isAuthenticated } = useAccessControl();
 
   const isLeftHanded = layoutPreference === 'left-handed';
 
@@ -397,50 +399,56 @@ export function Navigation() {
             )}
 
             {/* Settings toggle */}
-            <button
-              type='button'
-              onClick={handleSettingsClick}
-              style={buttonStyle}
-              aria-label={
-                activeModal === 'settings' ? 'Close settings' : 'Open settings'
-              }
-              aria-expanded={activeModal === 'settings'}
-              aria-controls='settings-panel'
-            >
-              {activeModal === 'settings' ? (
-                <FluentIcon
-                  iconName={DismissSquare32Regular}
-                  color={theme.colorBrandForeground1}
-                />
-              ) : (
-                <FluentIcon
-                  iconName={Settings32Regular}
-                  color={theme.colorBrandForeground1}
-                />
-              )}
-            </button>
+            {!(authRequired && !isAuthenticated) && (
+              <button
+                type='button'
+                onClick={handleSettingsClick}
+                style={buttonStyle}
+                aria-label={
+                  activeModal === 'settings'
+                    ? 'Close settings'
+                    : 'Open settings'
+                }
+                aria-expanded={activeModal === 'settings'}
+                aria-controls='settings-panel'
+              >
+                {activeModal === 'settings' ? (
+                  <FluentIcon
+                    iconName={DismissSquare32Regular}
+                    color={theme.colorBrandForeground1}
+                  />
+                ) : (
+                  <FluentIcon
+                    iconName={Settings32Regular}
+                    color={theme.colorBrandForeground1}
+                  />
+                )}
+              </button>
+            )}
 
             {/* Menu toggle */}
-            <button
-              type='button'
-              onClick={handleMenuClick}
-              style={buttonStyle}
-              aria-label={activeModal === 'menu' ? 'Close menu' : 'Open menu'}
-              aria-expanded={activeModal === 'menu'}
-              aria-controls='navigation-menu'
-            >
-              {activeModal === 'menu' ? (
-                <FluentIcon
-                  iconName={DismissSquare32Regular}
-                  color={theme.colorBrandForeground1}
-                />
-              ) : (
-                <FluentIcon
-                  iconName={Navigation32Regular}
-                  color={theme.colorBrandForeground1}
-                />
-              )}
-            </button>
+            {!(authRequired && !isAuthenticated) && (
+              <button
+                type='button'
+                onClick={handleMenuClick}
+                style={buttonStyle}
+                aria-label={activeModal === 'menu' ? 'Close menu' : 'Open menu'}
+                aria-expanded={activeModal === 'menu'}
+                aria-controls='navigation-menu'
+              >
+                {activeModal === 'menu' ? (
+                  <FluentIcon
+                    iconName={DismissSquare32Regular}
+                    color={theme.colorBrandForeground1}
+                  />
+                ) : (
+                  <FluentIcon
+                    iconName={Navigation32Regular}
+                    color={theme.colorBrandForeground1}
+                  />
+                )}
+              </button>
+            )}
           </div>
         </div>
       </nav>
