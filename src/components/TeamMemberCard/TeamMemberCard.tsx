@@ -14,6 +14,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMemberModal } from './TeamMemberModal';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import { type SocialIcon } from '@/components/SocialIcons/constants';
+import { useMouseHoverState } from '@/hooks/useHoverState';
 
 export interface TeamMember {
   id: string;
@@ -34,7 +35,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   maxWidth = '350px',
 }) => {
   const { theme } = useAppTheme();
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isHovered, hoverProps] = useMouseHoverState();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { filter } = useColorVisionFilter();
 
@@ -46,8 +47,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   return (
     <>
       <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        {...hoverProps}
         onClick={() => setIsModalOpen(true)}
         style={{
           display: 'flex',
