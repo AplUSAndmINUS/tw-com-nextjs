@@ -7,7 +7,7 @@ import { Textarea } from '@/components/Form/Textarea/Textarea';
 import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
 import { getApiBaseUrl } from '@/lib/environment';
-import { useReCaptcha } from '@/hooks/useReCaptcha';
+import { useReCaptcha } from '@/components/ReCaptchaProvider';
 import {
   validateForm,
   isFormValid,

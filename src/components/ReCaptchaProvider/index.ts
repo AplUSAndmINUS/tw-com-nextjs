@@ -1,1 +1,1 @@
-export { ReCaptchaProvider } from './ReCaptchaProvider';
+export { ReCaptchaProvider, useReCaptcha } from './ReCaptchaProvider';
