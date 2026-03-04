@@ -12,7 +12,14 @@ tags:
   - 'determination'
   - 'celebration'
   - 'transition'
+imageUrl: '/blog/site-launched/images/terence-waters-site-launch.jpg'
+imageAlt: 'TerenceWaters.com site launch illustration'
 featured: false
+featuredImage: '/blog/site-launched/images/terence-waters-site-launch.jpg'
+gallery:
+  - url: '/blog/site-launched/images/terence-waters-site-launch.jpg'
+    alt: 'Site launch celebration with rocket'
+    caption: 'TerenceWaters.com Launch - Five years in the making'
 ---
 
 After five years of starts, stops, pivots, and perfectionism, TerenceWaters.com is finally live.

@@ -12,7 +12,14 @@ tags:
   - 'discipline'
   - 'emotional architecture'
   - 'intentionality'
+imageUrl: '/blog/discipline-vs-resonance/images/discipline-resonance.jpg'
+imageAlt: 'Balance scales showing discipline and resonance in equilibrium'
 featured: false
+featuredImage: '/blog/discipline-vs-resonance/images/discipline-resonance.jpg'
+gallery:
+  - url: '/blog/discipline-vs-resonance/images/discipline-resonance.jpg'
+    alt: 'Discipline vs Resonance balance scales'
+    caption: 'Resonance calls you to action—Discipline keeps you on its path'
 ---
 
 ## 💪 Resonance, Part 2: Discipline vs. Resonance
