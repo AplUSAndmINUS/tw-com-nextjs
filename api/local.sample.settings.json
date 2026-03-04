@@ -1,0 +1,19 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "YOUTUBE_API_KEY": "api-key-placeholder",
+    "SMTP2GO_API_KEY": "api-key-placeholder",
+    "CONTACT_FROM_EMAIL": "youremail@example.com",
+    "CONTACT_TO_EMAIL": "youremail@example.com",
+    "NEXT_PUBLIC_ENVIRONMENT": "dev",
+    "ENVIRONMENT": "dev",
+    "ACCESS_TOKEN": "access-token-placeholder",
+    "RECAPTCHA_SECRET_KEY": "recaptcha-secret-key-placeholder"
+  },
+  "Host": {
+    "CORS": "*",
+    "CORSCredentials": false
+  }
+}

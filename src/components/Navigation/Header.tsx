@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Navigation / Header Component
+ * Header Component
  *
  * Matches Fluxline-Pro's header architecture:
  * - Fixed position with backdrop blur
@@ -39,7 +39,7 @@ export interface BreadcrumbItem {
   isClickable?: boolean;
 }
 
-export function Navigation() {
+export function Header() {
   const [activeModal, setActiveModal] = React.useState<
     'menu' | 'settings' | null
   >(null);

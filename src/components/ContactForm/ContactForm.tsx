@@ -1,81 +1,114 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
 import { Textarea } from '@/components/Form/Textarea/Textarea';
 import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
-
-interface FormState {
-  name: string;
-  email: string;
-  message: string;
-}
-
-interface FormErrors {
-  name?: string;
-  email?: string;
-  message?: string;
-}
+import { getApiBaseUrl } from '@/lib/environment';
+import {
+  validateForm,
+  isFormValid,
+  getVisibleErrors,
+  type ContactFormData,
+  type ContactFormErrors,
+  type ContactFormTouched,
+} from './validation';
 
 /**
  * ContactForm Component
  *
  * Three-field contact form (name, email, message) that submits
  * to the /api/contact Azure Function endpoint via SMTP2Go.
+ *
+ * Validation:
+ * - Name: minimum 10 characters
+ * - Email: valid email format
+ * - Message: minimum 15 characters
+ * - Errors only shown after field is touched (onBlur)
+ * - Submit button disabled until all fields are valid
+ *
+ * Security:
+ * - Google reCAPTCHA v3 protection against spam
  */
 export const ContactForm: React.FC = () => {
   const { theme } = useAppTheme();
-  const [form, setForm] = useState<FormState>({
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [form, setForm] = useState<ContactFormData>({
     name: '',
     email: '',
     message: '',
   });
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<ContactFormTouched>({
+    name: false,
+    email: false,
+    message: false,
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {};
-    if (!form.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-    if (!form.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-    if (!form.message.trim()) {
-      newErrors.message = 'Message is required';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  // Derive errors synchronously from current form state
+  const errors = useMemo(() => validateForm(form), [form]);
+
+  // Check if submit button should be enabled
+  const isSubmitDisabled = isLoading || !isFormValid(errors);
+
+  // Get only the errors for touched fields
+  const visibleErrors = getVisibleErrors(errors, touched);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
+  };
+
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
 
-    if (!validate()) return;
+    // Mark all fields as touched on submit attempt
+    setTouched({ name: true, email: true, message: true });
+
+    // Re-validate with current form values to guarantee fresh validation
+    const currentErrors = validateForm(form);
+    if (!isFormValid(currentErrors)) {
+      return;
+    }
 
     setIsLoading(true);
     try {
-      const response = await fetch('/api/contact', {
+      // Get reCAPTCHA token
+      let recaptchaToken: string | undefined;
+      if (executeRecaptcha) {
+        try {
+          recaptchaToken = await executeRecaptcha('contact_form_submit');
+        } catch (recaptchaError) {
+          console.error('reCAPTCHA error:', recaptchaError);
+          throw new Error(
+            'Unable to verify reCAPTCHA. Please try again or contact support.'
+          );
+        }
+      }
+
+      const apiUrl = getApiBaseUrl();
+      const response = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          recaptchaToken,
+        }),
       });
 
       if (!response.ok) {
@@ -87,6 +120,7 @@ export const ContactForm: React.FC = () => {
 
       setIsSuccess(true);
       setForm({ name: '', email: '', message: '' });
+      setTouched({ name: false, email: false, message: false });
     } catch (err) {
       setSubmitError(
         err instanceof Error ? err.message : 'An unexpected error occurred.'
@@ -155,14 +189,17 @@ export const ContactForm: React.FC = () => {
           label='Name'
           name='name'
           type='text'
-          placeholder='Enter your name'
+          placeholder='Enter your name (min. 10 characters)'
           value={form.name}
           onChange={handleChange}
-          error={errors.name}
+          onBlur={handleBlur}
+          error={visibleErrors.name}
           required
           fullWidth
           maxLength={200}
           aria-label='Your name'
+          aria-invalid={!!visibleErrors.name}
+          aria-describedby={visibleErrors.name ? 'name-error' : undefined}
         />
 
         <Input
@@ -172,26 +209,32 @@ export const ContactForm: React.FC = () => {
           placeholder='Enter your email'
           value={form.email}
           onChange={handleChange}
-          error={errors.email}
+          onBlur={handleBlur}
+          error={visibleErrors.email}
           required
           fullWidth
           maxLength={254}
           aria-label='Your email address'
+          aria-invalid={!!visibleErrors.email}
+          aria-describedby={visibleErrors.email ? 'email-error' : undefined}
         />
 
         <Textarea
           label='Message'
           name='message'
-          placeholder='Enter a message'
+          placeholder='Enter a message (min. 15 characters)'
           value={form.message}
           onChange={handleChange}
-          error={errors.message}
+          onBlur={handleBlur}
+          error={visibleErrors.message}
           required
           fullWidth
           rows={5}
           maxLength={5000}
           showCount
           aria-label='Your message'
+          aria-invalid={!!visibleErrors.message}
+          aria-describedby={visibleErrors.message ? 'message-error' : undefined}
         />
 
         {submitError && (
@@ -211,7 +254,12 @@ export const ContactForm: React.FC = () => {
             type='submit'
             variant='primary'
             loading={isLoading}
-            disabled={isLoading}
+            disabled={isSubmitDisabled}
+            aria-label={
+              isSubmitDisabled
+                ? 'Complete all fields to send message'
+                : 'Send message'
+            }
           >
             Send Message
           </Button>

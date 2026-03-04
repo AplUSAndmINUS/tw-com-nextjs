@@ -7,6 +7,7 @@
  *   SMTP2GO_API_KEY        — Your SMTP2Go API key
  *   CONTACT_FROM_EMAIL     — Sender address (must be verified in SMTP2Go)
  *   CONTACT_TO_EMAIL       — Recipient address for contact form submissions
+ *   RECAPTCHA_SECRET_KEY   — Google reCAPTCHA v3 secret key for spam protection
  *
  * Deploy to Azure Static Web Apps alongside the Next.js static export.
  * The function will be accessible at /api/contact.
@@ -17,6 +18,8 @@
 const https = require('https');
 
 const SMTP2GO_API_URL = 'https://api.smtp2go.com/v3/email/send';
+const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+const RECAPTCHA_MIN_SCORE = 0.5; // Minimum score to accept (0.0 - 1.0)
 
 const CORS_HEADERS = {
   'Content-Type': 'application/json',
@@ -56,7 +59,7 @@ function httpPost(url, payload) {
             body: JSON.parse(responseBody),
           });
         } catch {
-          reject(new Error('Failed to parse SMTP2Go response'));
+          reject(new Error('Failed to parse response'));
         }
       });
     });
@@ -65,6 +68,95 @@ function httpPost(url, payload) {
     req.write(data);
     req.end();
   });
+}
+
+/**
+ * Performs an HTTPS POST with URL-encoded form data.
+ * @param {string} url
+ * @param {object} params - Key-value pairs to encode
+ * @returns {Promise<{ statusCode: number; body: object }>}
+ */
+function httpPostForm(url, params) {
+  return new Promise((resolve, reject) => {
+    const formData = new URLSearchParams(params).toString();
+    const urlObj = new URL(url);
+
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(formData),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let responseBody = '';
+      res.on('data', (chunk) => (responseBody += chunk));
+      res.on('end', () => {
+        try {
+          resolve({
+            statusCode: res.statusCode,
+            body: JSON.parse(responseBody),
+          });
+        } catch {
+          reject(new Error('Failed to parse reCAPTCHA response'));
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(formData);
+    req.end();
+  });
+}
+
+/**
+ * Verifies a reCAPTCHA v3 token with Google's API.
+ * @param {string} token - The reCAPTCHA token from the client
+ * @param {string} secretKey - The reCAPTCHA secret key
+ * @returns {Promise<{ success: boolean; score?: number; error?: string }>}
+ */
+async function verifyRecaptcha(token, secretKey) {
+  if (!token) {
+    return { success: false, error: 'reCAPTCHA token is required' };
+  }
+
+  if (!secretKey) {
+    return { success: false, error: 'reCAPTCHA secret key not configured' };
+  }
+
+  try {
+    const result = await httpPostForm(RECAPTCHA_VERIFY_URL, {
+      secret: secretKey,
+      response: token,
+    });
+
+    const { success, score, 'error-codes': errorCodes } = result.body;
+
+    if (!success) {
+      return {
+        success: false,
+        error: `reCAPTCHA verification failed: ${errorCodes?.join(', ') || 'unknown error'}`,
+      };
+    }
+
+    if (typeof score === 'number' && score < RECAPTCHA_MIN_SCORE) {
+      return {
+        success: false,
+        score,
+        error: `reCAPTCHA score too low: ${score} (minimum: ${RECAPTCHA_MIN_SCORE})`,
+      };
+    }
+
+    return { success: true, score };
+  } catch (error) {
+    return {
+      success: false,
+      error: `reCAPTCHA verification error: ${error.message}`,
+    };
+  }
 }
 
 /**
@@ -135,6 +227,36 @@ module.exports = async function (context, req) {
   const name = sanitize(body?.name ?? '');
   const email = sanitize(body?.email ?? '');
   const message = sanitize(body?.message ?? '');
+  const recaptchaToken = body?.recaptchaToken;
+
+  // Verify reCAPTCHA token (if configured)
+  const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+  if (recaptchaSecretKey) {
+    context.log('Verifying reCAPTCHA token');
+    const recaptchaResult = await verifyRecaptcha(
+      recaptchaToken,
+      recaptchaSecretKey
+    );
+
+    if (!recaptchaResult.success) {
+      context.log('reCAPTCHA verification failed:', recaptchaResult.error);
+      return {
+        status: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: 'Failed to verify reCAPTCHA. Please try again.',
+        }),
+      };
+    }
+
+    context.log(
+      `reCAPTCHA verified successfully (score: ${recaptchaResult.score})`
+    );
+  } else {
+    context.log(
+      'Warning: RECAPTCHA_SECRET_KEY not configured. Skipping reCAPTCHA verification.'
+    );
+  }
 
   // Validate required fields
   if (!name || !email || !message) {

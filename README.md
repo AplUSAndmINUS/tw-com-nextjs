@@ -21,6 +21,41 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Local Setup
+
+#### Frontend Environment Variables
+
+1. Copy `.env.example` to `.env.local`:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. For local development, only `NEXT_PUBLIC_ENVIRONMENT` is required:
+   - `NEXT_PUBLIC_ENVIRONMENT=dev` (enables token gate)
+   - `NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your-site-key` (optional, for reCAPTCHA)
+
+#### Azure Functions Configuration
+
+1. Copy `api/local.sample.settings.json` to `api/local.settings.json`:
+
+   ```bash
+   cp api/local.sample.settings.json api/local.settings.json
+   ```
+
+2. Fill in your server-side secrets:
+   - `ACCESS_TOKEN` — Token for DEV/TEST gate
+   - `ENVIRONMENT` — Should match `NEXT_PUBLIC_ENVIRONMENT`
+   - `RECAPTCHA_SECRET_KEY` — reCAPTCHA secret (server-side)
+   - `SMTP2GO_API_KEY` — Email service API key
+   - `CONTACT_FROM_EMAIL` / `CONTACT_TO_EMAIL` — Contact form emails
+   - `YOUTUBE_API_KEY` — YouTube API key (if needed)
+
+3. Start Azure Functions:
+   ```bash
+   cd api && func start
+   ```
+
 ## Project Structure
 
 ```
@@ -66,6 +101,7 @@ See [TOKEN_ACCESS_README.md](./TOKEN_ACCESS_README.md) for full setup and config
 - [Component Usage Guide](docs/COMPONENTS.md)
 - [Semantic Colors](docs/SEMANTIC-COLORS.md)
 - [Adobe Fonts Setup](docs/ADOBE-FONTS-SETUP.md)
+- [reCAPTCHA Setup](docs/RECAPTCHA-SETUP.md)
 
 ## Contributing
 

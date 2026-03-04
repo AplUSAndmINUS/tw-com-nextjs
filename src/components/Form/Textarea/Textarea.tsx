@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 export type TextareaSize = 'small' | 'medium' | 'large';
@@ -71,6 +71,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       value,
       defaultValue,
       rows = 4,
+      onFocus: externalOnFocus,
+      onBlur: externalOnBlur,
+      onChange: externalOnChange,
       ...rest
     },
     ref
@@ -82,6 +85,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
     const textareaId =
       id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
+
+    // Sync external value prop with internal state for character count
+    useEffect(() => {
+      if (value !== undefined) {
+        setCurrentValue(value);
+      }
+    }, [value]);
 
     const sizeConfig = {
       small: {
@@ -178,9 +188,17 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setCurrentValue(e.target.value);
-      if (rest.onChange) {
-        rest.onChange(e);
-      }
+      externalOnChange?.(e);
+    };
+
+    const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setIsFocused(true);
+      externalOnFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setIsFocused(false);
+      externalOnBlur?.(e);
     };
 
     const currentLength = String(currentValue).length;
@@ -216,8 +234,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           value={value}
           defaultValue={defaultValue}
           style={textareaStyles}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           onChange={handleChange}
           {...rest}
         />

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useReducedMotion } from '@/hooks';
+import { getApiBaseUrl } from '@/lib/environment';
 import { Hero } from '@/components/Hero';
 import { Modal } from '@/components/Modal';
 import { Button } from '@/components/Form/Button/Button';
@@ -277,7 +278,8 @@ export function VideoListingClientWrapper() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/youtube?type=${activeTab}`);
+        const apiUrl = getApiBaseUrl();
+        const res = await fetch(`${apiUrl}/api/youtube?type=${activeTab}`);
         if (!res.ok) throw new Error('Failed to fetch videos');
         const data = await res.json();
         if (!cancelled) {
