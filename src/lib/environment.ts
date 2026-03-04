@@ -40,12 +40,13 @@ export function requiresAuthentication(): boolean {
  * For local development (localhost:3000), uses NEXT_PUBLIC_API_URL if set
  * (should point to http://localhost:7071 for local Azure Functions).
  *
- * For deployed environments, the API is co-hosted with the site at /api.
+ * For deployed environments (Azure Static Web Apps), returns empty string
+ * because Azure SWA automatically prefixes function routes with /api.
  */
 export function getApiBaseUrl(): string {
   // Check if we're in a browser environment
   if (typeof window === 'undefined') {
-    return '/api';
+    return '';
   }
 
   // For localhost development, check for explicit API URL
@@ -56,6 +57,6 @@ export function getApiBaseUrl(): string {
     }
   }
 
-  // Default: API is co-hosted with the site
-  return '/api';
+  // Default: Azure SWA handles /api prefix automatically
+  return '';
 }
