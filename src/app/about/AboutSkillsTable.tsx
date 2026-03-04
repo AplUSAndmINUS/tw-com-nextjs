@@ -9,7 +9,7 @@ import {
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 
 const SKILL_CATEGORIES = [
   {
@@ -60,6 +60,7 @@ const SKILL_CATEGORIES = [
 export const AboutSkillsTable: React.FC = () => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   const accentColor = theme.palette.themePrimary;
 
@@ -67,8 +68,7 @@ export const AboutSkillsTable: React.FC = () => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
-        gap: theme.spacing.m,
+        gridTemplateColumns: isMobile || isTablet ? '1fr' : 'repeat(3, 1fr)',
       }}
     >
       {SKILL_CATEGORIES.map((cat) => {
