@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
@@ -86,26 +86,7 @@ export const Hero: React.FC<HeroProps> = ({
   // Determine if description is long enough to warrant truncation (rough estimate: >150 chars)
   const shouldTruncate = description && description.length > 150;
 
-  // Deterministic accent by title keeps visual identity per page without extra props.
-  const accentPalette = useMemo(
-    () => [
-      theme.semanticColors.link.default,
-      theme.semanticColors.link.hover,
-      theme.semanticColors.link.visited,
-      theme.semanticColors.border.emphasis,
-      theme.palette.themePrimary,
-      theme.palette.themeSecondary,
-    ],
-    [theme]
-  );
-
-  const accentColor = useMemo(() => {
-    const hash = Array.from(title).reduce(
-      (acc, char) => acc + char.charCodeAt(0),
-      0
-    );
-    return accentPalette[hash % accentPalette.length];
-  }, [title, accentPalette]);
+  const accentColor = theme.palette.themePrimary;
 
   const isLightFamilyMode =
     themeMode === 'light' ||

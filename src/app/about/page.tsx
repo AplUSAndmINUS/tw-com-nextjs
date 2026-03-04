@@ -1,19 +1,24 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
-import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
+import { PercentageBullet } from '@/components/PercentageBullet';
+import { ABOUT_SKILLS } from '@/content/aboutSkills';
+import { AboutPageClient } from './AboutPageClient';
+import { AboutCapabilities } from './AboutCapabilities';
+import { AboutTimeline } from './AboutTimeline';
+import { AboutSkillsTable } from './AboutSkillsTable';
+import SectionHeading from './SectionHeading';
 
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Author, technologist, and creative thinker. Learn more about Terence Waters.',
+    'Founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'About | Terence Waters',
     description:
-      'Author, technologist, and creative thinker. Learn more about Terence Waters.',
+      'Founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
     url: 'https://terencewaters.com/about',
     siteName: 'Terence Waters',
     type: 'profile',
@@ -31,117 +36,216 @@ export const metadata: Metadata = {
   },
 };
 
+const FEATURED_PROJECTS = [
+  {
+    name: 'Fluxline Resonance Group 2.0',
+    period: 'Q3 2025–Q1 2026',
+    roles: 'CEO · Technical Lead · Main Architect',
+    skills: 'Azure, Next.js, C#, CI/CD, Brand Identity',
+  },
+  {
+    name: 'MyIntermountain Unified Intranet',
+    period: 'Q1–Q4 2024',
+    roles: 'Technical Lead · Sr Developer · Scrum Lead',
+    skills: 'IT Architecture, Agile, Cross-team Strategy',
+  },
+  {
+    name: 'Affiliates iLogin Implementation',
+    period: 'Q2 2022–Q1 2025',
+    roles: 'Project Manager · Technical Lead',
+    skills: 'Project Management, Stakeholder Facilitation',
+  },
+  {
+    name: 'Employee Portal .NET SharePoint',
+    period: 'Q3 2021–Q4 2022',
+    roles: 'Design Lead · Front-end Dev · IT Architecture',
+    skills: 'UX Research, Prototyping, Design Systems',
+  },
+  {
+    name: 'Provider Digital Experience',
+    period: 'Q3 2020–Q2 2021',
+    roles: 'Lead Designer · Front-end Development',
+    skills: 'UI/UX, Design Thinking, User Testing',
+  },
+  {
+    name: 'MyHealth+ App & Website',
+    period: 'Q2 2019–Q2 2020',
+    roles: 'Front-end Dev · Solutions Analyst',
+    skills: 'Full-stack, Agile, User Training & Support',
+  },
+];
+
+const EDUCATION = [
+  { credential: 'MBA – IT Management', school: 'Western Governors University', year: '2019' },
+  { credential: 'B.S. – Web Design & Development', school: 'Independence University', year: '2017' },
+  { credential: 'Certificate – Web Programming', school: 'Salt Lake Community College', year: '2015' },
+];
+
+const CERTIFICATIONS = [
+  'NASM Certified Personal Trainer (2025)',
+  'Google Project Management Certification (2023)',
+  'Azure AI & Fundamentals (2021–2024)',
+  'M365 Fundamentals & Developer (2021–2024)',
+  'Professional Scrum Master I — PSM I (2021)',
+  'ITIL Foundations v3 — AXELOS (2016)',
+  'Adobe Creative Cloud Certified (2017–2022)',
+  'A+ Certification — CompTIA (2002)',
+];
+
 export default function AboutPage() {
   return (
-    <PageLayout
-      featureImage={{
-        src: AboutPortrait.src,
-        alt: 'About Me',
-        title: 'About Me',
-      }}
-    >
-      <div className='max-width-content pt-0 pb-8 md:py-8'>
+    <AboutPageClient>
+      <div className='max-width-content pt-0 xs:pb-0 md:pb-16 md:py-8'>
+
+        {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
           title='About Me'
           iconName='Person24Regular'
-          description='Author, technologist, and creative thinker.'
-        />
-
-        <div className='mt-8 prose prose-lg dark:prose-invert max-w-none space-y-8'>
-          <section>
-            <Typography variant='h2' className='text-2xl font-semibold mb-4'>
-              My Story
-            </Typography>
-            <Typography
-              variant='body'
-              className='text-gray-700 dark:text-gray-300 leading-relaxed'
-            >
-              I&apos;m Terence Waters — a writer, technologist, and lifelong
-              learner based at the intersection of human experience and
-              technological possibility. For over two decades I&apos;ve been
-              building things, breaking things, and writing about what I find
-              along the way.
-            </Typography>
-            <Typography
-              variant='body'
-              className='text-gray-700 dark:text-gray-300 leading-relaxed mt-4'
-            >
-              My work spans software development, content creation, coaching,
-              and consulting. I believe technology is most powerful when it
-              serves people — and that the best ideas are communicated clearly,
-              with honesty and purpose.
-            </Typography>
-          </section>
-
-          <section>
-            <Typography variant='h2' className='text-2xl font-semibold mb-4'>
-              What I Do
-            </Typography>
-            <ul className='space-y-3 list-none pl-0'>
-              {[
-                {
-                  title: 'Write',
-                  body: 'Long-form articles and guides on technology, creativity, and personal growth.',
-                },
-                {
-                  title: 'Create',
-                  body: 'Videos, podcasts, and multimedia content that explores ideas in depth.',
-                },
-                {
-                  title: 'Coach',
-                  body: 'One-on-one sessions for creators, technologists, and leaders navigating change.',
-                },
-                {
-                  title: 'Consult',
-                  body: 'Strategic and technical advisory for teams building products and platforms.',
-                },
-              ].map(({ title, body }) => (
-                <li key={title} className='flex gap-3'>
-                  <span className='font-semibold text-blue-600 dark:text-blue-400 min-w-[80px]'>
-                    {title}
-                  </span>
-                  <Typography
-                    variant='body'
-                    className='text-gray-700 dark:text-gray-300'
-                  >
-                    {body}
-                  </Typography>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section>
-            <Typography variant='h2' className='text-2xl font-semibold mb-4'>
-              Background
-            </Typography>
-            <Typography
-              variant='body'
-              className='text-gray-700 dark:text-gray-300 leading-relaxed'
-            >
-              I&apos;ve worked across industries — from enterprise software and
-              cloud architecture to independent media and creative production. I
-              hold a passion for education, storytelling, and the ways
-              technology reshapes how we learn, connect, and grow.
-            </Typography>
-          </section>
-
-          <div className='flex gap-4 flex-wrap pt-4'>
+          description='Dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
+        >
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <Link
               href='/contact'
-              className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium'
+              className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors'
             >
-              Get in Touch
+              Book a Consultation
             </Link>
             <Link
-              href='/services'
-              className='px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium'
+              href='https://fluxline.pro'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
             >
-              View Services
+              Visit Fluxline.pro
             </Link>
           </div>
-        </div>
+        </Hero>
+
+        {/* ── Professional Summary ─────────────────────────────────────────── */}
+        <section className='mt-10 space-y-4'>
+          <SectionHeading>Professional Summary</SectionHeading>
+          <Typography variant='body' style={{ lineHeight: 1.75, fontSize: '1rem' }}>
+            Architect of transformative systems, brand experiences, and
+            human-centric technology — I specialize in modular web development,
+            IT infrastructure, and scalable design ecosystems with a focus on
+            emotional clarity, strategic innovation, and long-term impact.
+          </Typography>
+          <Typography variant='body' style={{ lineHeight: 1.75, fontSize: '1rem' }}>
+            Over 15 years as a technologist, educator, and founder have shaped
+            someone who bridges enterprise precision with human-centered
+            creativity. As founder of{' '}
+            <a
+              href='https://fluxline.pro'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-blue-600 dark:text-blue-400 hover:underline'
+            >
+              Fluxline Resonance Group
+            </a>
+            , I help clients build not just solutions — but philosophies,
+            brands, and living identities that evolve with them.
+          </Typography>
+        </section>
+
+        {/* ── Core Capabilities ────────────────────────────────────────────── */}
+        <section className='mt-12'>
+          <SectionHeading>Core Capabilities &amp; Expertise</SectionHeading>
+          <AboutCapabilities />
+        </section>
+
+        {/* ── Work Experience ──────────────────────────────────────────────── */}
+        <section className='mt-12'>
+          <SectionHeading>Work Experience</SectionHeading>
+          <AboutTimeline />
+        </section>
+
+        {/* ── Featured Projects ────────────────────────────────────────────── */}
+        <section className='mt-12'>
+          <SectionHeading>Featured Projects</SectionHeading>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {FEATURED_PROJECTS.map((project) => (
+              <div
+                key={project.name}
+                className='rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-900/50 space-y-1'
+              >
+                <p className='font-semibold text-gray-900 dark:text-white text-sm leading-snug'>
+                  {project.name}
+                </p>
+                <p className='text-xs text-blue-600 dark:text-blue-400 font-medium'>
+                  {project.period}
+                </p>
+                <p className='text-xs text-gray-500 dark:text-gray-400'>
+                  {project.roles}
+                </p>
+                <p className='text-xs text-gray-400 dark:text-gray-500 italic'>
+                  {project.skills}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Skills ───────────────────────────────────────────────────────── */}
+        <section className='mt-12'>
+          <SectionHeading>Skills</SectionHeading>
+          <AboutSkillsTable />
+        </section>
+
+        {/* ── Education & Certifications ───────────────────────────────────── */}
+        <section className='mt-12'>
+          <SectionHeading>Education &amp; Certifications</SectionHeading>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div>
+              <h3 className='text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>
+                Degrees
+              </h3>
+              <ul className='space-y-3'>
+                {EDUCATION.map((item) => (
+                  <li key={item.credential} className='flex flex-col'>
+                    <span className='font-semibold text-gray-900 dark:text-white text-sm'>
+                      {item.credential}
+                    </span>
+                    <span className='text-xs text-gray-500 dark:text-gray-400'>
+                      {item.school} · {item.year}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className='text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>
+                Certifications
+              </h3>
+              <ul className='space-y-2'>
+                {CERTIFICATIONS.map((cert) => (
+                  <li
+                    key={cert}
+                    className='flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300'
+                  >
+                    <span className='mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 flex-shrink-0' />
+                    {cert}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
+        <section className='mt-16 md:p-8 xs:p-2 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
+          <SectionHeading>Skills &amp; Expertise</SectionHeading>
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
+            {ABOUT_SKILLS.map((skill) => (
+              <PercentageBullet
+                key={skill.name}
+                name={skill.name}
+                percentage={skill.percentage}
+              />
+            ))}
+          </div>
+        </section>
+
       </div>
-    </PageLayout>
+    </AboutPageClient>
   );
 }
