@@ -106,16 +106,16 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
         }}
       >
         <div style={circleContainerStyle}>
-          <svg width='200' height='200' viewBox='0 0 200 200'>
+          <svg width='100' height='100' viewBox='0 0 100 100'>
             {/* Background circle */}
-            <circle style={circleBackgroundStyle} cx='100' cy='100' r='92' />
+            <circle style={circleBackgroundStyle} cx='50' cy='50' r='46' />
             {/* Animated percentage circle */}
             <circle
               style={circleStyle}
-              cx='100'
-              cy='100'
-              r='92'
-              transform='rotate(-90 100 100)'
+              cx='50'
+              cy='50'
+              r='46'
+              transform='rotate(-90 50 50)'
             />
           </svg>
           <Typography
