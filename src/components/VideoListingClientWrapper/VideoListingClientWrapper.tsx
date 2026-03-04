@@ -37,6 +37,7 @@ function VideoCard({
 }) {
   const { theme } = useAppTheme();
   const [hovered, setHovered] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const duration = formatDuration(video.duration);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -44,6 +45,10 @@ function VideoCard({
       e.preventDefault();
       onClick();
     }
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
   };
 
   return (
@@ -66,11 +71,13 @@ function VideoCard({
     >
       {/* Thumbnail */}
       <div className='relative' style={{ paddingTop: '56.25%' }}>
-        {video.thumbnailUrl ? (
+        {video.thumbnailUrl && !imageError ? (
           <img
             src={video.thumbnailUrl}
             alt={video.title}
             className='absolute top-0 left-0 w-full h-full object-cover'
+            onError={handleImageError}
+            loading='lazy'
           />
         ) : (
           <div

@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
 import { Textarea } from '@/components/Form/Textarea/Textarea';
 import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
 import { getApiBaseUrl } from '@/lib/environment';
+import { useReCaptcha } from '@/hooks/useReCaptcha';
 import {
   validateForm,
   isFormValid,
@@ -35,7 +35,7 @@ import {
  */
 export const ContactForm: React.FC = () => {
   const { theme } = useAppTheme();
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useReCaptcha();
   const [form, setForm] = useState<ContactFormData>({
     name: '',
     email: '',
