@@ -279,7 +279,7 @@ export function VideoListingClientWrapper() {
       setError(null);
       try {
         const apiUrl = getApiBaseUrl();
-        const res = await fetch(`${apiUrl}/youtube?type=${activeTab}`);
+        const res = await fetch(`${apiUrl}/api/youtube?type=${activeTab}`);
         if (!res.ok) throw new Error('Failed to fetch videos');
         const data = await res.json();
         if (!cancelled) {

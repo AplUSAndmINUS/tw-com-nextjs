@@ -51,7 +51,7 @@ export const useAccessControlStore = create<AccessControlState>()(
           set({ isLoading: true, error: '' });
 
           try {
-            const apiUrl = `${getApiBaseUrl()}/auth/validate-token`;
+            const apiUrl = `${getApiBaseUrl()}/api/auth/validate-token`;
             const response = await fetch(apiUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
