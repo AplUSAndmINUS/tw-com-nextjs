@@ -6,8 +6,8 @@
  * stored in Azure Static Web Apps configuration.
  *
  * Environment variables required (DEV/TEST only):
- *   ACCESS_TOKEN   — The valid access token for the current environment
- *   ENVIRONMENT    — The current environment (dev, test, or prod)
+ *   ACCESS_TOKEN   - The valid access token for the current environment
+ *   ENVIRONMENT    - The current environment (dev, test, or prod)
  *
  * Deploy to Azure Static Web Apps alongside the Next.js static export.
  * The function will be accessible at /api/auth/validate-token.
