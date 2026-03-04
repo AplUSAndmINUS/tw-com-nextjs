@@ -1,7 +1,5 @@
 import React from 'react';
-import { Stack, mergeStyles } from '@fluentui/react';
-
-import { useAppTheme } from '@/hooks/useAppTheme';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface PercentageBulletProps {
   isMobile?: boolean;
@@ -22,43 +20,49 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
   const animationDuration = 1500; // Increased from 1000 to 1500 ms to make it slower
 
   const getCircleColor = () => {
-    if (percentage >= 98) return theme.semanticColors.successText;
-    if (percentage < 70) return theme.semanticColors.errorBackground;
-    if (percentage >= 70 && percentage <= 90)
-      return theme.semanticColors.messageText;
+    if (percentage >= 98) return theme.palette.themePrimary;
+    if (percentage < 70) return theme.palette.redDark;
+    if (percentage >= 70 && percentage <= 90) return theme.palette.themeDarkAlt;
     return theme.palette.themePrimary;
   };
 
-  const containerClass = mergeStyles({
+  const containerStyle: React.CSSProperties = {
     maxWidth: !isMobile ? '150px' : '200px',
     marginLeft: !isMobile ? '16px' : '0',
-  });
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
 
-  const circleContainerClass = mergeStyles({
+  const circleContainerStyle: React.CSSProperties = {
     width: '100px',
     height: '100px',
     position: 'relative',
     margin: '0',
-  });
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
 
-  const circleBackgroundClass = mergeStyles({
+  const circleBackgroundStyle: React.CSSProperties = {
     fill: 'none',
     stroke:
       theme.themeMode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
     strokeWidth: '5',
-  });
+  };
 
-  const circleClass = mergeStyles({
+  const circleStyle: React.CSSProperties = {
     fill: 'none',
     stroke: getCircleColor(),
     strokeWidth: '5',
     strokeLinecap: 'round',
-    strokeDasharray: circumference,
+    strokeDasharray: circumference.toString(),
     strokeDashoffset: `calc(${100 - animatedPercentage}% * ${circumference} / 100)`,
-    transition: 'none', // We'll handle animation with requestAnimationFrame
-  });
+    transition: 'none',
+  };
 
-  const numberClass = mergeStyles({
+  const numberStyle: React.CSSProperties = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -67,29 +71,23 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
     padding: '0.25rem',
     color: getCircleColor(),
     fontWeight: 600,
-    fontVariationSettings: theme.typography.fonts.h6.fontVariationSettings,
-    fontFamily: theme.fonts.medium.fontFamily,
-    fontWidth: theme.fonts.medium.fontWidth,
-    fontStyle: theme.fonts.medium.fontStyle,
-    fontSize: theme.typography.fontSizes.clamp7,
-  });
+    fontFamily: theme.typography.fonts.h6.fontFamily,
+    fontSize: theme.typography.fontSizes.lg,
+  };
 
-  const textClass = mergeStyles({
-    fontSize: theme.typography.fontSizes.clamp5,
+  const textStyle: React.CSSProperties = {
+    fontSize: theme.typography.fontSizes.sm,
     textAlign: 'center',
     marginTop: '8px',
-    fontVariationSettings: theme.typography.fonts.homeH3.fontVariationSettings,
     fontWeight: 400,
     hyphens: 'none',
     wordBreak: 'keep-all',
     overflowWrap: 'normal',
     color: getCircleColor(),
-    fontFamily: theme.fonts.medium.fontFamily,
-    fontWidth: theme.fonts.medium.fontWidth,
-    fontStyle: theme.fonts.medium.fontStyle,
+    fontFamily: theme.typography.fonts.body.fontFamily,
     textTransform: 'lowercase',
     lineHeight: '1.2',
-  });
+  };
 
   // Animation function using requestAnimationFrame
   const animateCircle = React.useCallback(
@@ -123,29 +121,32 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
   }, [animateCircle]); // Re-run when animateCircle changes
 
   return (
-    <Stack
-      className={containerClass}
-      horizontalAlign='center'
-      verticalAlign='center'
-    >
-      <Stack horizontalAlign='center' verticalAlign='center'>
-        <div className={circleContainerClass}>
+    <div style={containerStyle}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={circleContainerStyle}>
           <svg width='100' height='100' viewBox='0 0 100 100'>
             {/* Background circle */}
-            <circle className={circleBackgroundClass} cx='50' cy='50' r='46' />
+            <circle style={circleBackgroundStyle} cx='50' cy='50' r='46' />
             {/* Animated percentage circle */}
             <circle
-              className={circleClass}
+              style={circleStyle}
               cx='50'
               cy='50'
               r='46'
               transform='rotate(-90 50 50)'
             />
           </svg>
-          <div className={numberClass}>{Math.round(animatedPercentage)}</div>
+          <div style={numberStyle}>{Math.round(animatedPercentage)}</div>
         </div>
-        <div className={textClass}>{name}</div>
-      </Stack>
-    </Stack>
+        <div style={textStyle}>{name}</div>
+      </div>
+    </div>
   );
 };

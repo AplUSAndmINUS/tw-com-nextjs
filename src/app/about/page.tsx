@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography';
 import { PercentageBullet } from '@/components/PercentageBullet';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
+import { AboutPageClient } from './AboutPageClient';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -35,13 +36,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <PageLayout
-      featureImage={{
-        src: AboutPortrait.src,
-        alt: 'About Me',
-        title: 'About Me',
-      }}
-    >
+    <AboutPageClient>
       <div className='max-width-content pt-0 pb-8 md:py-8'>
         <Hero
           title='About Me'
@@ -159,6 +154,6 @@ export default function AboutPage() {
           </section>
         </div>
       </div>
-    </PageLayout>
+    </AboutPageClient>
   );
 }

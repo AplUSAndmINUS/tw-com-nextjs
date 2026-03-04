@@ -1,0 +1,235 @@
+'use client';
+
+/**
+ * TeamMemberModal Component
+ * Displays detailed team member information in a modal
+ */
+
+import React from 'react';
+import Image from 'next/image';
+import {
+  ContactCard24Regular,
+  Mail20Regular,
+  Open20Regular,
+} from '@fluentui/react-icons';
+import { Modal } from '@/components/Modal';
+import { Typography } from '@/components/Typography';
+import { FluentIcon } from '@/components/FluentIcon';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { TeamMember } from './TeamMemberCard';
+import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
+
+interface SocialLink {
+  platform: string;
+  url: string;
+  icon: React.ComponentType<any>;
+}
+
+interface TeamMemberModalProps {
+  isOpen: boolean;
+  onDismiss: () => void;
+  member: TeamMember;
+}
+
+export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
+  isOpen,
+  onDismiss,
+  member,
+}) => {
+  const { theme } = useAppTheme();
+  const { filter } = useColorVisionFilter();
+
+  const isDark =
+    theme.themeMode === 'dark' ||
+    theme.themeMode === 'high-contrast' ||
+    theme.themeMode === 'grayscale-dark';
+
+  // Map social links to platform data with Fluent UI icon components
+  const socialLinks: SocialLink[] = Object.entries(
+    member.socialLinks || {}
+  ).map(([platform, url]) => ({
+    platform,
+    url,
+    icon: getSocialIconComponent(platform),
+  }));
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onDismiss={onDismiss}
+      ariaLabel={`${member.name} - Team Member Details`}
+      maxWidth='900px'
+      showCloseButton={true}
+    >
+      {/* Header with photo and info */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          gap: theme.spacing.l,
+          marginBottom: theme.spacing.l,
+          flexWrap: 'wrap',
+        }}
+      >
+        {/* Photo */}
+        <div
+          style={{
+            position: 'relative',
+            flexShrink: 0,
+            width: '200px',
+            height: '200px',
+            borderRadius: theme.borderRadius.container.medium,
+            overflow: 'hidden',
+            backgroundColor: theme.palette.neutralLighter,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {member.photo ? (
+            <Image
+              src={member.photo}
+              alt={`${member.name} - ${member.role}`}
+              fill
+              style={{
+                objectFit: 'cover',
+                filter: filter,
+              }}
+              sizes='200px'
+            />
+          ) : (
+            <FluentIcon
+              iconName={ContactCard24Regular}
+              color={theme.palette.neutralTertiary}
+            />
+          )}
+        </div>
+
+        {/* Info */}
+        <div style={{ flex: 1, minWidth: '280px' }}>
+          <Typography
+            variant='h2'
+            style={{
+              color: theme.palette.neutralPrimary,
+              marginBottom: theme.spacing.s1,
+            }}
+          >
+            {member.name}
+          </Typography>
+
+          <Typography
+            variant='body'
+            style={{
+              color: theme.palette.themeSecondary,
+              fontWeight: theme.typography.fontWeights.semiBold,
+              fontSize: '1.125rem',
+              fontStyle: 'italic',
+              marginBottom: theme.spacing.m,
+            }}
+          >
+            {member.role}
+          </Typography>
+
+          {/* Social Links */}
+          {socialLinks.length > 0 && (
+            <div style={{ marginTop: theme.spacing.m }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: theme.spacing.m,
+                }}
+              >
+                {socialLinks.map(({ platform, url, icon }) => (
+                  <a
+                    key={platform}
+                    href={url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: `${theme.spacing.s1} ${theme.spacing.m}`,
+                      borderRadius: theme.borderRadius.container.small,
+                      backgroundColor: theme.palette.neutralQuaternaryAlt,
+                      color: theme.palette.themePrimary,
+                      textDecoration: 'none',
+                      transition: 'all 0.2s ease',
+                      fontSize: '0.875rem',
+                      fontWeight: theme.typography.fontWeights.semiBold,
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget;
+                      el.style.backgroundColor = theme.palette.themeLighter;
+                      el.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget;
+                      el.style.backgroundColor =
+                        theme.palette.neutralQuaternaryAlt;
+                      el.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <FluentIcon
+                      iconName={icon}
+                      color={theme.palette.themePrimary}
+                    />
+                    {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Bio section */}
+      <div
+        style={{
+          padding: theme.spacing.m,
+          backgroundColor: isDark
+            ? theme.palette.neutralLighterAlt
+            : theme.palette.neutralQuaternaryAlt,
+          borderLeft: `4px solid ${theme.palette.themePrimary}`,
+          borderRadius: theme.borderRadius.container.small,
+          marginTop: theme.spacing.m,
+        }}
+      >
+        <Typography
+          variant='h4'
+          style={{
+            color: theme.palette.themePrimary,
+            marginBottom: theme.spacing.s2,
+          }}
+        >
+          About
+        </Typography>
+        <Typography
+          variant='body'
+          style={{
+            color: theme.palette.neutralPrimary,
+            lineHeight: theme.typography.lineHeights.relaxed,
+          }}
+        >
+          {member.bio}
+        </Typography>
+      </div>
+    </Modal>
+  );
+};
+
+/**
+ * Map social platform names to Fluent UI icon components
+ */
+function getSocialIconComponent(platform: string): React.ComponentType<any> {
+  const iconMap: Record<string, React.ComponentType<any>> = {
+    email: Mail20Regular,
+  };
+
+  // Use generic Open icon for all social links
+  return iconMap[platform.toLowerCase()] || Open20Regular;
+}
+
+export default TeamMemberModal;
