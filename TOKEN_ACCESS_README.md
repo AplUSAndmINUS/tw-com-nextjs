@@ -17,14 +17,14 @@ This document describes the token-based access control system used to lock down 
 
 ### Components
 
-| File | Purpose |
-|------|---------|
-| `api/auth/validate-token/function.json` | Azure Function binding configuration |
-| `api/auth/validate-token/index.js` | Server-side token validation logic |
-| `src/lib/environment.ts` | Build-time environment detection utility |
-| `src/hooks/useAccessControl.ts` | Client-side token state management hook |
-| `src/components/AccessGate/AccessGate.tsx` | Full-screen token gate UI component |
-| `src/app/providers.tsx` | Wraps the app with `<AccessGate>` |
+| File                                       | Purpose                                  |
+| ------------------------------------------ | ---------------------------------------- |
+| `api/validate-token/function.json`         | Azure Function binding configuration     |
+| `api/validate-token/index.js`              | Server-side token validation logic       |
+| `src/lib/environment.ts`                   | Build-time environment detection utility |
+| `src/hooks/useAccessControl.ts`            | Client-side token state management hook  |
+| `src/components/AccessGate/AccessGate.tsx` | Full-screen token gate UI component      |
+| `src/app/providers.tsx`                    | Wraps the app with `<AccessGate>`        |
 
 ### Flow
 
@@ -52,8 +52,8 @@ This document describes the token-based access control system used to lock down 
 
 Set in the GitHub Actions workflow — **baked into the static export**.
 
-| Variable | Values | Purpose |
-|----------|--------|---------|
+| Variable                  | Values                    | Purpose                                               |
+| ------------------------- | ------------------------- | ----------------------------------------------------- |
 | `NEXT_PUBLIC_ENVIRONMENT` | `dev` \| `test` \| `prod` | Tells the frontend which environment it is running in |
 
 ### Runtime (Azure Function)
@@ -61,10 +61,10 @@ Set in the GitHub Actions workflow — **baked into the static export**.
 Set as **Application Settings** in the Azure Static Web Apps portal.  
 These values are **never** exposed to the browser.
 
-| Variable | Values | Purpose |
-|----------|--------|---------|
-| `ACCESS_TOKEN` | any secure string | The token users must enter to access the site |
-| `ENVIRONMENT` | `dev` \| `test` \| `prod` | Tells the Azure Function whether to enforce token validation |
+| Variable       | Values                    | Purpose                                                      |
+| -------------- | ------------------------- | ------------------------------------------------------------ |
+| `ACCESS_TOKEN` | any secure string         | The token users must enter to access the site                |
+| `ENVIRONMENT`  | `dev` \| `test` \| `prod` | Tells the Azure Function whether to enforce token validation |
 
 ---
 
@@ -77,22 +77,26 @@ These values are **never** exposed to the browser.
 3. Under **Application settings**, click **+ Add** and set:
 
 **DEV environment:**
+
 ```
 ENVIRONMENT = dev
 ACCESS_TOKEN = <your-dev-token>
 ```
 
 **TEST environment:**
+
 ```
 ENVIRONMENT = test
 ACCESS_TOKEN = <your-test-token>
 ```
 
 **PROD environment:**
+
 ```
 ENVIRONMENT = prod
 ```
-*(No `ACCESS_TOKEN` needed — PROD is publicly accessible.)*
+
+_(No `ACCESS_TOKEN` needed — PROD is publicly accessible.)_
 
 ### Setting variables with Azure CLI
 
@@ -120,11 +124,11 @@ az staticwebapp appsettings set \
 Each branch maps to an environment via the `NEXT_PUBLIC_ENVIRONMENT` variable
 passed to the build step:
 
-| Branch | Workflow file | Environment |
-|--------|--------------|-------------|
-| `develop` | `azure-static-web-apps-dev.yml` | `dev` |
-| `test` | `azure-static-web-apps-test.yml` | `test` |
-| `master` | `azure-static-web-apps-prod.yml` | `prod` |
+| Branch    | Workflow file                    | Environment |
+| --------- | -------------------------------- | ----------- |
+| `develop` | `azure-static-web-apps-dev.yml`  | `dev`       |
+| `test`    | `azure-static-web-apps-test.yml` | `test`      |
+| `master`  | `azure-static-web-apps-prod.yml` | `prod`      |
 
 ---
 
@@ -139,6 +143,7 @@ openssl rand -hex 32
 ```
 
 **Best practices:**
+
 - Use different tokens for DEV and TEST
 - Tokens should be at least 32 characters
 - Store tokens in Azure Key Vault for additional security
@@ -198,62 +203,76 @@ The API will be available at `http://localhost:7071/api/auth/validate-token`.
 ### `POST /api/auth/validate-token`
 
 **Request:**
+
 ```json
 { "token": "user-submitted-token" }
 ```
 
 **Success (200):**
+
 ```json
-{ "valid": true, "environment": "dev", "message": "Token validated successfully" }
+{
+  "valid": true,
+  "environment": "dev",
+  "message": "Token validated successfully"
+}
 ```
 
 **Invalid token (401):**
+
 ```json
 { "valid": false, "environment": "dev", "error": "Invalid token" }
 ```
 
 **Missing token (400):**
+
 ```json
 { "valid": false, "environment": "dev", "error": "Token is required" }
 ```
 
 **Missing server config (500):**
+
 ```json
 { "valid": false, "environment": "dev", "error": "Server configuration error" }
 ```
 
 **Production environment (200):**
+
 ```json
-{ "valid": true, "environment": "prod", "message": "Production environment - no token required" }
+{
+  "valid": true,
+  "environment": "prod",
+  "message": "Production environment - no token required"
+}
 ```
 
 ---
 
 ## Troubleshooting
 
-| Symptom | Solution |
-|---------|---------|
-| Token gate appears on PROD | Verify `NEXT_PUBLIC_ENVIRONMENT=prod` in the PROD workflow |
-| "Server configuration error" | Set `ACCESS_TOKEN` in Azure SWA Application Settings |
-| Token validation always fails | Verify the token matches `ACCESS_TOKEN` in Azure SWA settings |
-| API returns 404 | Confirm the `api/auth/validate-token/` function is deployed |
-| Token accepted but gate re-appears | User may have cleared `localStorage`; re-enter the token |
+| Symptom                            | Solution                                                      |
+| ---------------------------------- | ------------------------------------------------------------- |
+| Token gate appears on PROD         | Verify `NEXT_PUBLIC_ENVIRONMENT=prod` in the PROD workflow    |
+| "Server configuration error"       | Set `ACCESS_TOKEN` in Azure SWA Application Settings          |
+| Token validation always fails      | Verify the token matches `ACCESS_TOKEN` in Azure SWA settings |
+| API returns 404                    | Confirm the `api/auth/validate-token/` function is deployed   |
+| Token accepted but gate re-appears | User may have cleared `localStorage`; re-enter the token      |
 
 ---
 
 ## Security Considerations
 
-- ✅ Tokens validated server-side (Azure Function) — token never verified in client code  
-- ✅ No tokens in source code  
-- ✅ HTTPS enforced by Azure Static Web Apps  
-- ✅ Environment-specific tokens  
-- ⚠️ Validated token is stored in `localStorage` (client-accessible)  
-- ⚠️ No rate limiting on the validation endpoint  
-- ⚠️ No token expiration  
+- ✅ Tokens validated server-side (Azure Function) — token never verified in client code
+- ✅ No tokens in source code
+- ✅ HTTPS enforced by Azure Static Web Apps
+- ✅ Environment-specific tokens
+- ⚠️ Validated token is stored in `localStorage` (client-accessible)
+- ⚠️ No rate limiting on the validation endpoint
+- ⚠️ No token expiration
 
 For higher security, consider adding Azure API Management for rate limiting,
 or replacing this system with Azure Active Directory authentication.
 
 ---
 
-*Last updated: March 2026*
+_Last updated: March 2026_
