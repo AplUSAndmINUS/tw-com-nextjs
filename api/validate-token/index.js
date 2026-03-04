@@ -1,5 +1,5 @@
 /**
- * Azure Function: api/auth/validate-token
+ * Azure Function: api/validate-token
  *
  * Validates access tokens for DEV and TEST environments.
  * Compares the provided token against the ACCESS_TOKEN environment variable
