@@ -7,6 +7,7 @@ import { Input } from '@/components/Form/Input/Input';
 import { Textarea } from '@/components/Form/Textarea/Textarea';
 import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
+import { getApiBaseUrl } from '@/lib/environment';
 import {
   validateForm,
   isFormValid,
@@ -103,7 +104,7 @@ export const ContactForm: React.FC = () => {
         }
       }
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+      const apiUrl = getApiBaseUrl();
       const response = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
