@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 
 export interface AdaptiveCard {
   id: string;
@@ -38,6 +39,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const router = useRouter();
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
+  const { isHovered, getHoverProps } = useMouseMultiHoverState();
 
   const handleCardClick = (id: string) => {
     if (onCardClick) {
@@ -62,15 +64,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     visible: { opacity: 1, y: 0 },
   };
 
-  // Theme-token accents adapt automatically across dark/light/high-contrast and colorblind modes.
-  const accentPalette = [
-    theme.semanticColors.link.default,
-    theme.semanticColors.link.hover,
-    theme.semanticColors.link.visited,
-    theme.semanticColors.border.emphasis,
-    theme.palette.themePrimary,
-    theme.palette.themeSecondary,
-  ];
+  const accentColor = theme.palette.themePrimary;
 
   const isLightFamilyMode =
     theme.themeMode === 'light' ||
@@ -91,9 +85,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     theme.typography?.fontFamilies?.heading ??
     'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
-  const getAccentColor = (index: number) =>
-    accentPalette[index % accentPalette.length];
-
   // Grid View (3 columns on desktop, 2 on tablet, 1 on mobile)
   if (viewType === 'grid') {
     return (
@@ -110,8 +101,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           width: '100%',
         }}
       >
-        {cards.map((card, index) => {
-          const accentColor = getAccentColor(index);
+        {cards.map((card) => {
 
           return (
             <motion.div
@@ -119,22 +109,21 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               variants={itemVariants}
               initial='hidden'
               animate='visible'
+            >
+            <div
               style={{
                 cursor: 'pointer',
                 borderRadius: theme.borderRadius.container.medium,
                 overflow: 'hidden',
-                backgroundColor: cardSurfaceColor,
+                backgroundColor: isHovered(card.id) ? cardHoverSurfaceColor : cardSurfaceColor,
                 backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                border: `1px solid ${theme.semanticColors.border.default}`,
+                border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                 borderTop: `4px solid ${accentColor}`,
-                transition: 'all 0.2s ease',
+                transition: 'all 0.3s ease',
+                transform: isHovered(card.id) ? 'translateY(-4px)' : 'translateY(0)',
+                boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
               }}
-              whileHover={{
-                scale: 1.02,
-                backgroundColor: cardHoverSurfaceColor,
-                borderColor: accentColor,
-                boxShadow: theme.shadows.card,
-              }}
+              {...getHoverProps(card.id)}
               onClick={() => handleCardClick(card.id)}
             >
               {card.imageUrl && (
@@ -227,6 +216,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   </div>
                 )}
               </div>
+            </div>
             </motion.div>
           );
         })}
@@ -248,8 +238,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           width: '100%',
         }}
       >
-        {cards.map((card, index) => {
-          const accentColor = getAccentColor(index);
+        {cards.map((card) => {
 
           return (
             <motion.div
@@ -257,24 +246,24 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               variants={itemVariants}
               initial='hidden'
               animate='visible'
+            >
+            <div
               style={{
                 display: 'flex',
                 gap: theme.spacing.m,
                 cursor: 'pointer',
                 borderRadius: theme.borderRadius.container.medium,
                 overflow: 'hidden',
-                backgroundColor: cardSurfaceColor,
+                backgroundColor: isHovered(card.id) ? cardHoverSurfaceColor : cardSurfaceColor,
                 backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                border: `1px solid ${theme.semanticColors.border.default}`,
+                border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                 borderLeft: `4px solid ${accentColor}`,
                 padding: theme.spacing.m,
-                transition: 'all 0.2s ease',
+                transition: 'all 0.3s ease',
+                transform: isHovered(card.id) ? 'translateY(-4px)' : 'translateY(0)',
+                boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
               }}
-              whileHover={{
-                backgroundColor: cardHoverSurfaceColor,
-                borderColor: accentColor,
-                boxShadow: theme.shadows.card,
-              }}
+              {...getHoverProps(card.id)}
               onClick={() => handleCardClick(card.id)}
             >
               {card.imageUrl && (
@@ -366,6 +355,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   </div>
                 )}
               </div>
+            </div>
             </motion.div>
           );
         })}
@@ -386,8 +376,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         width: '100%',
       }}
     >
-      {cards.map((card, index) => {
-        const accentColor = getAccentColor(index);
+      {cards.map((card) => {
 
         return (
           <motion.div
@@ -395,21 +384,21 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
             variants={itemVariants}
             initial='hidden'
             animate='visible'
+          >
+          <div
             style={{
               cursor: 'pointer',
               borderRadius: theme.borderRadius.container.medium,
               overflow: 'hidden',
-              backgroundColor: cardSurfaceColor,
+              backgroundColor: isHovered(card.id) ? cardHoverSurfaceColor : cardSurfaceColor,
               backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-              border: `1px solid ${theme.semanticColors.border.default}`,
+              border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
               borderTop: `4px solid ${accentColor}`,
-              transition: 'all 0.2s ease',
+              transition: 'all 0.3s ease',
+              transform: isHovered(card.id) ? 'translateY(-4px)' : 'translateY(0)',
+              boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
             }}
-            whileHover={{
-              backgroundColor: cardHoverSurfaceColor,
-              borderColor: accentColor,
-              boxShadow: theme.shadows.card,
-            }}
+            {...getHoverProps(card.id)}
             onClick={() => handleCardClick(card.id)}
           >
             <div
@@ -516,6 +505,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 )}
               </div>
             </div>
+          </div>
           </motion.div>
         );
       })}
