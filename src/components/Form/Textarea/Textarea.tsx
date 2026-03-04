@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 export type TextareaSize = 'small' | 'medium' | 'large';
@@ -82,6 +82,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
     const textareaId =
       id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
+
+    // Sync external value prop with internal state for character count
+    useEffect(() => {
+      if (value !== undefined) {
+        setCurrentValue(value);
+      }
+    }, [value]);
 
     const sizeConfig = {
       small: {
