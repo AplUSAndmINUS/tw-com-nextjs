@@ -18,6 +18,7 @@ import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { StandardPageLayout } from '@/layouts/PageLayout/StandardPageLayout';
+import { getApiBaseUrl } from '@/lib/environment';
 
 interface AccessGateProps {
   children: React.ReactNode;
