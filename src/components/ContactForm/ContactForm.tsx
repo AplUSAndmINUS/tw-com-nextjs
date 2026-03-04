@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
 import { Textarea } from '@/components/Form/Textarea/Textarea';
@@ -27,9 +28,13 @@ import {
  * - Message: minimum 15 characters
  * - Errors only shown after field is touched (onBlur)
  * - Submit button disabled until all fields are valid
+ *
+ * Security:
+ * - Google reCAPTCHA v3 protection against spam
  */
 export const ContactForm: React.FC = () => {
   const { theme } = useAppTheme();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [form, setForm] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -85,10 +90,26 @@ export const ContactForm: React.FC = () => {
 
     setIsLoading(true);
     try {
+      // Get reCAPTCHA token
+      let recaptchaToken: string | undefined;
+      if (executeRecaptcha) {
+        try {
+          recaptchaToken = await executeRecaptcha('contact_form_submit');
+        } catch (recaptchaError) {
+          console.error('reCAPTCHA error:', recaptchaError);
+          throw new Error(
+            'Unable to verify reCAPTCHA. Please try again or contact support.'
+          );
+        }
+      }
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          recaptchaToken,
+        }),
       });
 
       if (!response.ok) {

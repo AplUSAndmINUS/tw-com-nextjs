@@ -66,6 +66,7 @@ See [TOKEN_ACCESS_README.md](./TOKEN_ACCESS_README.md) for full setup and config
 - [Component Usage Guide](docs/COMPONENTS.md)
 - [Semantic Colors](docs/SEMANTIC-COLORS.md)
 - [Adobe Fonts Setup](docs/ADOBE-FONTS-SETUP.md)
+- [reCAPTCHA Setup](docs/RECAPTCHA-SETUP.md)
 
 ## Contributing
 
