@@ -15,6 +15,7 @@ import { TeamMemberModal } from './TeamMemberModal';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import { type SocialIcon } from '@/components/SocialIcons/constants';
 import { useMouseHoverState } from '@/hooks/useHoverState';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export interface TeamMember {
   id: string;
@@ -35,6 +36,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   maxWidth = '350px',
 }) => {
   const { theme } = useAppTheme();
+  const isMobile = useIsMobile();
   const [isHovered, hoverProps] = useMouseHoverState();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { filter } = useColorVisionFilter();
@@ -47,8 +49,8 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   return (
     <>
       <div
-        {...hoverProps}
-        onClick={() => setIsModalOpen(true)}
+        {...(!isMobile ? hoverProps : {})}
+        onClick={!isMobile ? () => setIsModalOpen(true) : undefined}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -67,7 +69,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           transition: 'all 0.3s ease',
           transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
           boxShadow: isHovered ? theme.shadows.m : 'none',
-          cursor: 'pointer',
+          cursor: isMobile ? 'default' : 'pointer',
           maxWidth,
           width: '100%',
         }}
@@ -186,20 +188,24 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
               ))}
           </div>
 
-          {/* Expand icon — signals the card is clickable */}
-          <FluentIcon
-            iconName={ArrowExpand20Regular}
-            color={theme.palette.themeSecondary}
-            style={{ opacity: isHovered ? 0.9 : 0.5, transition: 'opacity 0.3s ease' }}
-          />
+          {/* Expand icon — signals the card is clickable (desktop only) */}
+          {!isMobile && (
+            <FluentIcon
+              iconName={ArrowExpand20Regular}
+              color={theme.palette.themeSecondary}
+              style={{ opacity: isHovered ? 0.9 : 0.5, transition: 'opacity 0.3s ease' }}
+            />
+          )}
         </div>
       </div>
 
-      <TeamMemberModal
-        isOpen={isModalOpen}
-        onDismiss={() => setIsModalOpen(false)}
-        member={member}
-      />
+      {!isMobile && (
+        <TeamMemberModal
+          isOpen={isModalOpen}
+          onDismiss={() => setIsModalOpen(false)}
+          member={member}
+        />
+      )}
     </>
   );
 };

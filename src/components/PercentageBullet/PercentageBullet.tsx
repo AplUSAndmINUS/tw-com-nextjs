@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { Typography } from '@/components/Typography/Typography';
 
 interface PercentageBulletProps {
   isMobile?: boolean;
@@ -15,7 +16,7 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
   percentage,
 }) => {
   const { theme } = useAppTheme();
-  const circumference = 2 * Math.PI * 46;
+  const circumference = 2 * Math.PI * 92; // Must match SVG r='92'
   const [animatedPercentage, setAnimatedPercentage] = React.useState(0);
   const animationRef = React.useRef<number | null>(null);
   const startTimeRef = React.useRef<number | null>(null);
@@ -59,36 +60,8 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
     stroke: getCircleColor(),
     strokeWidth: '5',
     strokeLinecap: 'round',
-    strokeDasharray: circumference.toString(),
-    strokeDashoffset: `calc(${100 - animatedPercentage}% * ${circumference} / 100)`,
-    transition: 'none',
-  };
-
-  const numberStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    margin: '0',
-    padding: '0.25rem',
-    color: getCircleColor(),
-    fontWeight: 600,
-    fontFamily: theme.typography.fonts.h6.fontFamily,
-    fontSize: theme.typography.fontSizes.lg,
-  };
-
-  const textStyle: React.CSSProperties = {
-    fontSize: theme.typography.fontSizes.sm,
-    textAlign: 'center',
-    marginTop: '8px',
-    fontWeight: 400,
-    hyphens: 'none',
-    wordBreak: 'keep-all',
-    overflowWrap: 'normal',
-    color: getCircleColor(),
-    fontFamily: theme.typography.fonts.body.fontFamily,
-    textTransform: 'lowercase',
-    lineHeight: '1.2',
+    strokeDasharray: circumference,
+    strokeDashoffset: circumference * (1 - animatedPercentage / 100),
   };
 
   // Animation function using requestAnimationFrame
@@ -133,21 +106,39 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
         }}
       >
         <div style={circleContainerStyle}>
-          <svg width='100' height='100' viewBox='0 0 100 100'>
+          <svg width='200' height='200' viewBox='0 0 200 200'>
             {/* Background circle */}
-            <circle style={circleBackgroundStyle} cx='50' cy='50' r='46' />
+            <circle style={circleBackgroundStyle} cx='100' cy='100' r='92' />
             {/* Animated percentage circle */}
             <circle
               style={circleStyle}
-              cx='50'
-              cy='50'
-              r='46'
-              transform='rotate(-90 50 50)'
+              cx='100'
+              cy='100'
+              r='92'
+              transform='rotate(-90 100 100)'
             />
           </svg>
-          <div style={numberStyle}>{Math.round(animatedPercentage)}</div>
+          <Typography
+            variant='h3'
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              margin: '0',
+              padding: '0.25rem',
+              color: getCircleColor(),
+            }}
+          >
+            {Math.round(animatedPercentage)}
+          </Typography>
         </div>
-        <div style={textStyle}>{name}</div>
+        <Typography
+          variant='label'
+          style={{ textAlign: 'center', lineHeight: '1.3', marginTop: '0.35rem' }}
+        >
+          {name}
+        </Typography>
       </div>
     </div>
   );
