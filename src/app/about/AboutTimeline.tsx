@@ -26,17 +26,7 @@ const TIMELINE_ENTRIES: TimelineEntry[] = [
     ],
   },
   {
-    period: '2016 — 2021',
-    title: 'Adjunct Professor',
-    org: 'Salt Lake Community College (SATTS)',
-    bullets: [
-      'Taught JavaScript, W3 development, graphic design, and Adobe Creative Cloud.',
-      'Mentored students in front-end/back-end development, Git workflows, and design principles.',
-      'Conducted critiques, program reviews, and curriculum evaluations.',
-    ],
-  },
-  {
-    period: '2015 — 2021',
+    period: '2015 — 2025',
     title: 'Senior Software Engineer / Solutions Analyst',
     org: 'Intermountain Healthcare',
     bullets: [
@@ -44,6 +34,16 @@ const TIMELINE_ENTRIES: TimelineEntry[] = [
       'Led UX/UI initiatives, user testing, and design thinking workshops across multiple departments.',
       'Managed change, knowledge, and ITSM processes for large-scale system implementations.',
       'Served as IT Architecture Liaison and Design Facilitator on platform unification projects.',
+    ],
+  },
+  {
+    period: '2016 — 2021',
+    title: 'Adjunct Professor',
+    org: 'Salt Lake Community College (SATTS)',
+    bullets: [
+      'Taught JavaScript, W3 development, graphic design, and Adobe Creative Cloud.',
+      'Mentored students in front-end/back-end development, Git workflows, and design principles.',
+      'Conducted critiques, program reviews, and curriculum evaluations.',
     ],
   },
   {

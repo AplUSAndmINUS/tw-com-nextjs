@@ -66,15 +66,7 @@ export function ContentHubClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
 
-  // Token-driven accents so color behavior adapts automatically across all theme modes.
-  const accentPalette = [
-    theme.semanticColors.link.default,
-    theme.semanticColors.link.hover,
-    theme.semanticColors.link.visited,
-    theme.semanticColors.border.emphasis,
-    theme.palette.themePrimary,
-    theme.palette.themeSecondary,
-  ];
+  const accentColor = theme.palette.themePrimary;
 
   const isLightFamilyMode =
     themeMode === 'light' ||
@@ -118,8 +110,7 @@ export function ContentHubClient() {
         width: '100%',
       }}
     >
-      {contentCategories.map((category, index) => {
-        const accentColor = accentPalette[index % accentPalette.length];
+      {contentCategories.map((category) => {
         const isFocused = focusedCard === category.title;
         const isDisabled = category.disabled;
 

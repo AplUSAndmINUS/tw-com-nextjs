@@ -51,8 +51,8 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
           flexDirection: 'row',
           alignItems: 'flex-start',
           gap: theme.spacing.l,
-          marginBottom: theme.spacing.l,
           flexWrap: 'wrap',
+          padding: theme.spacing.xl,
         }}
       >
         {/* Photo */}
@@ -171,13 +171,10 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
       {/* Bio section */}
       <div
         style={{
-          padding: theme.spacing.m,
           backgroundColor: isDark
             ? theme.palette.neutralLighterAlt
             : theme.palette.neutralQuaternaryAlt,
-          borderLeft: `4px solid ${theme.palette.themePrimary}`,
-          borderRadius: theme.borderRadius.container.small,
-          marginTop: theme.spacing.m,
+          padding: `0 ${theme.spacing.xl} ${theme.spacing.xl} ${theme.spacing.xl}`,
         }}
       >
         <Typography

@@ -8,6 +8,7 @@ import { AboutPageClient } from './AboutPageClient';
 import { AboutCapabilities } from './AboutCapabilities';
 import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
+import SectionHeading from './SectionHeading';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -34,17 +35,6 @@ export const metadata: Metadata = {
     },
   },
 };
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <div className='mb-6'>
-      <h2 className='text-2xl font-bold uppercase tracking-wide text-gray-900 dark:text-white'>
-        {children}
-      </h2>
-      <div className='mt-2 w-16 h-1 bg-blue-600 dark:bg-blue-500 rounded-full' />
-    </div>
-  );
-}
 
 const FEATURED_PROJECTS = [
   {
@@ -243,10 +233,7 @@ export default function AboutPage() {
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
         <section className='mt-16 p-8 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
-          <h2 className='text-2xl font-bold uppercase tracking-wide text-gray-900 dark:text-white'>
-            Skills &amp; Expertise
-          </h2>
-          <div className='mt-2 w-16 h-1 bg-blue-600 dark:bg-blue-500 rounded-full mb-8' />
+          <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-start justify-items-center'>
             {ABOUT_SKILLS.map((skill) => (
               <PercentageBullet

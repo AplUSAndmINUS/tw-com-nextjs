@@ -377,7 +377,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
       }}
     >
       {cards.map((card) => {
-        const accentColor = getAccentColor(index);
 
         return (
           <motion.div
