@@ -61,11 +61,7 @@ export const AboutSkillsTable: React.FC = () => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
 
-  const accentPalette = [
-    theme.palette.themePrimary,
-    theme.semanticColors.link.default,
-    theme.semanticColors.border.emphasis,
-  ];
+  const accentColor = theme.palette.themePrimary;
 
   return (
     <div
@@ -75,8 +71,7 @@ export const AboutSkillsTable: React.FC = () => {
         gap: theme.spacing.m,
       }}
     >
-      {SKILL_CATEGORIES.map((cat, index) => {
-        const accentColor = accentPalette[index % accentPalette.length];
+      {SKILL_CATEGORIES.map((cat) => {
         return (
           <div
             key={cat.category}

@@ -44,14 +44,7 @@ export const AboutCapabilities: React.FC = () => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
 
-  const accentPalette = [
-    theme.semanticColors.link.default,
-    theme.semanticColors.link.hover,
-    theme.semanticColors.border.emphasis,
-    theme.palette.themePrimary,
-    theme.palette.themeSecondary,
-    theme.semanticColors.link.visited,
-  ];
+  const accentColor = theme.palette.themePrimary;
 
   return (
     <div
@@ -61,8 +54,7 @@ export const AboutCapabilities: React.FC = () => {
         gap: `${theme.spacing.l} ${theme.spacing.xl}`,
       }}
     >
-      {CAPABILITIES.map((cap, index) => {
-        const accentColor = accentPalette[index % accentPalette.length];
+      {CAPABILITIES.map((cap) => {
         return (
           <div
             key={cap.title}

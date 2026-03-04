@@ -64,15 +64,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     visible: { opacity: 1, y: 0 },
   };
 
-  // Theme-token accents adapt automatically across dark/light/high-contrast and colorblind modes.
-  const accentPalette = [
-    theme.semanticColors.link.default,
-    theme.semanticColors.link.hover,
-    theme.semanticColors.link.visited,
-    theme.semanticColors.border.emphasis,
-    theme.palette.themePrimary,
-    theme.palette.themeSecondary,
-  ];
+  const accentColor = theme.palette.themePrimary;
 
   const isLightFamilyMode =
     theme.themeMode === 'light' ||
@@ -93,9 +85,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     theme.typography?.fontFamilies?.heading ??
     'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
-  const getAccentColor = (index: number) =>
-    accentPalette[index % accentPalette.length];
-
   // Grid View (3 columns on desktop, 2 on tablet, 1 on mobile)
   if (viewType === 'grid') {
     return (
@@ -112,8 +101,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           width: '100%',
         }}
       >
-        {cards.map((card, index) => {
-          const accentColor = getAccentColor(index);
+        {cards.map((card) => {
 
           return (
             <motion.div
@@ -250,8 +238,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           width: '100%',
         }}
       >
-        {cards.map((card, index) => {
-          const accentColor = getAccentColor(index);
+        {cards.map((card) => {
 
           return (
             <motion.div
@@ -389,7 +376,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         width: '100%',
       }}
     >
-      {cards.map((card, index) => {
+      {cards.map((card) => {
         const accentColor = getAccentColor(index);
 
         return (
