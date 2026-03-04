@@ -32,6 +32,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
         env:
           NEXT_PUBLIC_ENVIRONMENT: prod
+          NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
