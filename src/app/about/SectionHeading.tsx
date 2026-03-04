@@ -1,8 +1,9 @@
 'use client';
 
+import { ReactNode } from 'react';
 import { useAppTheme } from '@/theme';
 
-function SectionHeading({ children }: { children: React.ReactNode }) {
+function SectionHeading({ children }: { children: ReactNode }) {
   const { theme } = useAppTheme();
   
   return (
