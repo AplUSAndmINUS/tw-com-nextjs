@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
+import { PercentageBullet } from '@/components/PercentageBullet';
+import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 
 export const metadata: Metadata = {
@@ -140,6 +142,21 @@ export default function AboutPage() {
               View Services
             </Link>
           </div>
+
+          <section className='mt-12 pt-8 border-t border-gray-200 dark:border-gray-800'>
+            <Typography variant='h2' className='text-2xl font-semibold mb-8'>
+              Skills & Expertise
+            </Typography>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 justify-items-center'>
+              {ABOUT_SKILLS.map((skill) => (
+                <PercentageBullet
+                  key={skill.name}
+                  name={skill.name}
+                  percentage={skill.percentage}
+                />
+              ))}
+            </div>
+          </section>
         </div>
       </div>
     </PageLayout>
