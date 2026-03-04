@@ -95,7 +95,7 @@ const CERTIFICATIONS = [
 export default function AboutPage() {
   return (
     <AboutPageClient>
-      <div className='max-width-content pt-0 pb-16 md:py-8'>
+      <div className='max-width-content pt-0 xs:pb-0 md:pb-16 md:py-8'>
 
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
@@ -232,9 +232,9 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
-        <section className='mt-16 p-8 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
+        <section className='mt-16 md:p-8 xs:p-2 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
-          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-start justify-items-center'>
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-start justify-items-baseline'>
             {ABOUT_SKILLS.map((skill) => (
               <PercentageBullet
                 key={skill.name}

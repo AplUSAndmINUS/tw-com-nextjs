@@ -12,6 +12,7 @@ import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
 import { TeamMemberCard, type TeamMember } from '@/components/TeamMemberCard';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 import { getSocialIcons } from '@/components/SocialIcons/constants';
 
@@ -23,21 +24,23 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   children,
 }) => {
   const { layoutPreference } = useAppTheme();
+  const isMobile = useIsMobile();
   const isLeftHanded = layoutPreference === 'left-handed';
 
-  // Team member data for Terence Waters
   const teamMember: TeamMember = {
     id: 'terence-waters',
     name: 'Terence Waters',
     role: 'CEO, Founder & Chief Architect',
-    bio: 'Visionary technologist and systems thinker, architecting transformative digital experiences and coaching frameworks.',
+    bio: isMobile
+      ? ''
+      : 'Visionary technologist and systems thinker, architecting transformative digital experiences and coaching frameworks.',
     photo: AboutPortrait.src,
     socialLinks: getSocialIcons(),
   };
 
   const cardPaneClasses = isLeftHanded
-    ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-    : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
+    ? 'flex items-center justify-center md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
+    : 'flex items-center justify-center md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
 
   const contentPaneClasses = isLeftHanded
     ? 'flex-1 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
@@ -50,7 +53,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
         {/* TeamMemberCard pane - fixed and vertically centered on tablet/desktop */}
         {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
         <aside className={cardPaneClasses}>
-          <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden flex items-center justify-center'>
+          <div className='w-full max-w-xs aspect-square md:max-w-md md:aspect-auto px-4 md:px-0 md:overflow-hidden flex items-center justify-center'>
             <TeamMemberCard member={teamMember} maxWidth='320px' />
           </div>
         </aside>

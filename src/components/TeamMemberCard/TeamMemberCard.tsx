@@ -133,17 +133,19 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             {member.role}
           </Typography>
 
-          <Typography
-            variant='body'
-            style={{
-              color: theme.palette.neutralPrimary,
-              fontSize: '0.875rem',
-              lineHeight: theme.typography.lineHeights.relaxed,
-              marginBottom: theme.spacing.m,
-            }}
-          >
-            {member.bio}
-          </Typography>
+          {member.bio && (
+            <Typography
+              variant='body'
+              style={{
+                color: theme.palette.neutralPrimary,
+                fontSize: '0.875rem',
+                lineHeight: theme.typography.lineHeights.relaxed,
+                marginBottom: theme.spacing.m,
+              }}
+            >
+              {member.bio}
+            </Typography>
+          )}
         </div>
 
         {/* Bottom bar: tagline social icons (left) + expand affordance (right) */}
