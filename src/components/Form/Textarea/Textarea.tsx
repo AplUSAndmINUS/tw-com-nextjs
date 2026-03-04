@@ -71,6 +71,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       value,
       defaultValue,
       rows = 4,
+      onFocus: externalOnFocus,
+      onBlur: externalOnBlur,
+      onChange: externalOnChange,
       ...rest
     },
     ref
@@ -185,9 +188,17 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setCurrentValue(e.target.value);
-      if (rest.onChange) {
-        rest.onChange(e);
-      }
+      externalOnChange?.(e);
+    };
+
+    const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setIsFocused(true);
+      externalOnFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setIsFocused(false);
+      externalOnBlur?.(e);
     };
 
     const currentLength = String(currentValue).length;
@@ -223,8 +234,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           value={value}
           defaultValue={defaultValue}
           style={textareaStyles}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           onChange={handleChange}
           {...rest}
         />

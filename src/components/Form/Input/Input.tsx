@@ -63,6 +63,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       className = '',
       style,
       id,
+      onFocus: externalOnFocus,
+      onBlur: externalOnBlur,
       ...rest
     },
     ref
@@ -70,6 +72,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const { theme } = useAppTheme();
     const [isFocused, setIsFocused] = useState(false);
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      externalOnFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      externalOnBlur?.(e);
+    };
 
     // Size configurations
     const sizeConfig = {
@@ -220,8 +232,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             required={required}
             style={inputStyles}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             {...rest}
           />
 

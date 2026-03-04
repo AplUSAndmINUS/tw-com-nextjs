@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
@@ -46,16 +46,12 @@ export const ContactForm: React.FC = () => {
     email: false,
     message: false,
   });
-  const [errors, setErrors] = useState<ContactFormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Validate form in real-time as user types
-  useEffect(() => {
-    const validationErrors = validateForm(form);
-    setErrors(validationErrors);
-  }, [form]);
+  // Derive errors synchronously from current form state
+  const errors = useMemo(() => validateForm(form), [form]);
 
   // Check if submit button should be enabled
   const isSubmitDisabled = isLoading || !isFormValid(errors);
@@ -84,8 +80,9 @@ export const ContactForm: React.FC = () => {
     // Mark all fields as touched on submit attempt
     setTouched({ name: true, email: true, message: true });
 
-    // Final validation check
-    if (!isFormValid(errors)) {
+    // Re-validate with current form values to guarantee fresh validation
+    const currentErrors = validateForm(form);
+    if (!isFormValid(currentErrors)) {
       return;
     }
 
