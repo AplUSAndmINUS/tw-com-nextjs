@@ -5,6 +5,7 @@ import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
+import { Header } from '@/components/Navigation';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +13,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <FontScaleProvider>
         <ReCaptchaProvider>
           <StoreHydrator />
-          <AccessGate>{children}</AccessGate>
+          <AccessGate>
+            {/* Fixed header stays sticky across all pages */}
+            <Header />
+            {/* Page content (includes main with PageTransition from RootLayout) */}
+            {children}
+          </AccessGate>
         </ReCaptchaProvider>
       </FontScaleProvider>
     </ExtendedThemeProvider>

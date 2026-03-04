@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { PageTransition } from '@/components/PageTransition';
 
@@ -14,9 +13,8 @@ interface RootLayoutProps {
 /**
  * RootLayout
  *
- * The top-level layout wrapper for TW.com.
- * Renders the Navigation (fixed header with breadcrumbs + slide-in menu)
- * and Footer, with a skip-to-content link for accessibility.
+ * Content layout wrapper for TW.com pages.
+ * The Header is provided globally via providers.tsx and stays sticky across all pages.
  * All other layouts should nest inside RootLayout.
  *
  * When isContainedView=true, creates a full-viewport layout (like Fluxline.pro)
@@ -36,7 +34,6 @@ export function RootLayout({
         >
           Skip to main content
         </a>
-        <Navigation />
         {/* Flex-1 makes main content fill remaining height */}
         <main
           id='main-content'
@@ -58,8 +55,7 @@ export function RootLayout({
       >
         Skip to main content
       </a>
-      <Navigation />
-      {/* pt-16 offsets the fixed header (~4rem/64px) */}
+      {/* pt-16 offsets the fixed header (~4rem/64px) provided by Header in providers.tsx */}
       <main id='main-content' className='flex-1 pt-16'>
         <PageTransition duration={300}>{children}</PageTransition>
       </main>
