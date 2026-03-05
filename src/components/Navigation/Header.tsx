@@ -123,6 +123,7 @@ export function Header() {
     if (activeModal === 'settings') {
       setActiveModal(null);
     } else if (activeModal === 'menu') {
+      triggerRef.current = settingsButtonRef.current;
       switchToModal('settings');
     } else {
       triggerRef.current = settingsButtonRef.current;
@@ -134,6 +135,7 @@ export function Header() {
     if (activeModal === 'menu') {
       setActiveModal(null);
     } else if (activeModal === 'settings') {
+      triggerRef.current = menuButtonRef.current;
       switchToModal('menu');
     } else {
       triggerRef.current = menuButtonRef.current;
