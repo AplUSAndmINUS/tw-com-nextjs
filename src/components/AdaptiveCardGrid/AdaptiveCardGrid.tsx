@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
+import { Typography } from '../Typography';
 
 export interface AdaptiveCard {
   id: string;
@@ -256,10 +257,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               <div
                 style={{
                   display: 'flex',
-                  gap: theme.spacing.m,
+                  gap: '0.5rem',
                   cursor: 'pointer',
                   borderRadius: theme.borderRadius.container.medium,
                   overflow: 'hidden',
+                  alignItems: 'center',
                   backgroundColor: isHovered(card.id)
                     ? cardHoverSurfaceColor
                     : cardSurfaceColor,
@@ -268,7 +270,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   borderLeft: `4px solid ${accentColor}`,
-                  padding: theme.spacing.m,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
@@ -281,13 +282,14 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 {card.imageUrl && (
                   <div
                     style={{
-                      width: isMobile ? '80px' : '120px',
-                      height: isMobile ? '80px' : '120px',
+                      width: isMobile ? '100px' : '160px',
+                      height: isMobile ? '80px' : '180px',
                       flexShrink: 0,
                       borderRadius: theme.borderRadius.container.small,
                       overflow: 'hidden',
                       backgroundColor: theme.semanticColors.background.muted,
                       position: 'relative',
+                      objectFit: 'cover'
                     }}
                   >
                     <img
@@ -301,8 +303,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     />
                   </div>
                 )}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3
+                <div className='p-4 align-center justify-center' style={{ flex: 1, minWidth: 0 }}>
+                  <Typography variant='h3'
                     style={{
                       fontSize: isMobile ? '1rem' : '1.125rem',
                       fontWeight: 600,
@@ -313,8 +315,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.title}
-                  </h3>
-                  <p
+                  </Typography>
+                  <Typography variant='body'
                     style={{
                       fontSize: '0.875rem',
                       color: accentColor,
@@ -323,8 +325,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.imageText}
-                  </p>
-                  <p
+                  </Typography>
+                  <Typography variant='body'
                     style={{
                       fontSize: '0.875rem',
                       color: theme.semanticColors.text.muted,
@@ -340,7 +342,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.description}
-                  </p>
+                  </Typography>
                   {card.tags && card.tags.length > 0 && (
                     <div
                       style={{
@@ -351,11 +353,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.tags.slice(0, 3).map((tag) => (
-                        <span
+                        <Typography variant='caption'
                           key={tag}
                           style={{
                             fontSize: '0.7rem',
-                            padding: `2px ${theme.spacing.xs}`,
+                            padding: `4px ${theme.spacing.xs}`,
                             borderRadius: theme.borderRadius.container.small,
                             backgroundColor:
                               theme.semanticColors.background.muted,
@@ -364,7 +366,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                           }}
                         >
                           {tag}
-                        </span>
+                        </Typography>
                       ))}
                     </div>
                   )}
@@ -424,14 +426,14 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 style={{
                   display: 'flex',
                   flexDirection: isMobile ? 'column' : 'row',
-                  gap: isMobile ? 0 : theme.spacing.l,
+                  gap: isMobile ? 0 : theme.spacing.m,
                 }}
               >
                 {card.imageUrl && (
                   <div
                     style={{
-                      width: isMobile ? '100%' : '320px',
-                      height: isMobile ? '200px' : '240px',
+                      width: isMobile ? '100%' : '260px',
+                      height: isMobile ? '200px' : '220px',
                       flexShrink: 0,
                       backgroundColor: theme.semanticColors.background.muted,
                       position: 'relative',
@@ -446,11 +448,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                         objectFit: 'cover',
                       }}
                     />
-                    <div
+                    <Typography
+                      variant='label'
                       style={{
                         position: 'absolute',
-                        bottom: 0,
-                        left: 0,
+                        bottom: '0.5rem',
+                        left: '0.5rem',
                         right: 0,
                         padding: theme.spacing.s1,
                         background: 'rgba(0, 0, 0, 0.7)',
@@ -460,19 +463,20 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.imageText}
-                    </div>
+                    </Typography>
                   </div>
                 )}
                 <div
                   style={{
                     flex: 1,
-                    padding: theme.spacing.l,
+                    padding: theme.spacing.m,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
                   }}
                 >
-                  <h3
+                  <Typography
+                    variant='h3'
                     style={{
                       fontSize: isMobile ? '1.5rem' : '1.75rem',
                       fontWeight: 600,
@@ -483,8 +487,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.title}
-                  </h3>
-                  <p
+                  </Typography>
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: isMobile ? '0.9375rem' : '1rem',
                       color: theme.semanticColors.text.muted,
@@ -494,7 +499,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.description}
-                  </p>
+                  </Typography>
                   {card.tags && card.tags.length > 0 && (
                     <div
                       style={{
@@ -505,7 +510,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.tags.slice(0, 5).map((tag) => (
-                        <span
+                        <Typography
+                          variant='caption'
                           key={tag}
                           style={{
                             fontSize: '0.75rem',
@@ -518,7 +524,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                           }}
                         >
                           {tag}
-                        </span>
+                        </Typography>
                       ))}
                     </div>
                   )}
