@@ -12,7 +12,27 @@ tags:
   - 'purpose'
   - 'transformation'
   - 'personal-growth'
+imageUrl: '/blog/morning-book-identity/images/the-morning-resonance.jpg'
+imageAlt: 'Morning sunrise symbolizing transformation and spiritual awakening'
 featured: false
+seoTitle: 'The Morning My Book Finally Told Me What It Really Is | Identity Transformation'
+seoDescription: 'A deeply personal reflection on identity transformation and spiritual awakening. Discover how my book became my spirituality, philosophy, and purpose in one transformative morning.'
+seoKeywords:
+  - 'identity transformation'
+  - 'spiritual awakening'
+  - 'book writing'
+  - 'personal purpose'
+  - 'spirituality'
+  - 'philosophy'
+  - 'personal growth'
+  - 'self-discovery'
+  - 'resonance core framework'
+  - 'becoming'
+featuredImage: '/blog/morning-book-identity/images/the-morning-resonance.jpg'
+gallery:
+  - url: '/blog/morning-book-identity/images/the-morning-resonance.jpg'
+    alt: 'Morning sunrise representing transformation and awakening'
+    caption: 'The morning my book revealed its true identity - a spiritual philosophy and purpose'
 ---
 
 ## The Morning My Book Finally Told Me What It Really Is
