@@ -496,8 +496,6 @@ export function Header() {
                   : theme.colorNeutralBackground1,
                 boxShadow: theme.shadow64,
                 overflowY: 'auto',
-                opacity: isViewTransitioning ? 0 : 1,
-                transition: 'opacity 0.3s ease-in-out',
               }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >

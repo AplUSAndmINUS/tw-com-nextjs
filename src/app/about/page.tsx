@@ -98,7 +98,7 @@ const CERTIFICATIONS = [
 export default function AboutPage() {
   return (
     <AboutPageClient>
-      <div className='max-width-content pt-0 xs:pb-0 md:pb-16 md:py-8'>
+      <div className='max-width-content pt-0 pb-12 xs:pb-12 md:pb-16 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
           title='About Me'
