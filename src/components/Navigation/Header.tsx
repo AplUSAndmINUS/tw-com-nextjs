@@ -244,12 +244,6 @@ export function Header() {
           WebkitBackdropFilter: 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
           boxShadow: isDark ? 'none' : theme.shadows.s,
-          // Mobile Safari fixed positioning fixes
-          transform: 'translateZ(0)',
-          WebkitTransform: 'translateZ(0)',
-          willChange: 'transform',
-          WebkitBackfaceVisibility: 'hidden',
-          backfaceVisibility: 'hidden',
         }}
       >
         <div
@@ -258,8 +252,9 @@ export function Header() {
             alignItems: 'center',
             justifyContent: 'space-between',
             flexDirection: isLeftHanded ? 'row-reverse' : 'row',
-            padding: isMobileLandscape || isMobile ? '0.5rem 1.5rem' : '1rem 2rem',
-            maxWidth: '1920px', 
+            padding:
+              isMobileLandscape || isMobile ? '0.5rem 1.5rem' : '1rem 2rem',
+            maxWidth: '1920px',
             margin: '0 auto',
           }}
           suppressHydrationWarning
