@@ -487,7 +487,7 @@ export function Header() {
               style={{
                 ...modalPositionStyle,
                 width: '100%',
-                maxWidth: isMobile ? '350px' : '400px',
+                maxWidth: isMobile ? '400px' : '480px',
                 backgroundColor: isDark
                   ? theme.colorNeutralBackground2
                   : theme.colorNeutralBackground1,
