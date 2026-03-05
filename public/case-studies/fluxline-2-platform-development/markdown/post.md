@@ -347,14 +347,6 @@ This platform development methodology is now available to clients:
 - In-house content creation (vs. $50,000+ agency fees)
 - Platform pays for itself in first 3 months
 
-## Related Services
-
-This case study demonstrates Fluxline's integrated capabilities:
-
-- **[Web Development & Digital Architecture](https://fluxline.pro/services/development/)**: Custom applications and scalable platforms
-- **[Brand & Experience Design](https://fluxline.pro/services/design/)**: Visual identity and user experience design
-- **[Business Transformation Consulting](https://fluxline.pro/services/consulting/)**: Strategic planning and implementation
-
 ## Technical Resources
 
 **Technical Deep Dive:**

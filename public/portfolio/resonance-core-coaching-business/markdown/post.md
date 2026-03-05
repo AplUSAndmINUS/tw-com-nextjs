@@ -29,7 +29,6 @@ gallery:
     caption: 'Life Coaching and The Resonance Core Framework'
 publishedDate: '2025-09-08'
 projectDate: '2017-2025'
-liveUrl: 'https://fluxline.pro/services/resonance-core/'
 seoTitle: 'Resonance Core Framework - Transformational Identity Coaching'
 seoDescription: 'Proprietary coaching framework integrating archetypal mapping, emotional emergence, symbolic rituals, and legacy building for deep personal transformation.'
 seoKeywords:
@@ -453,16 +452,6 @@ The Resonance Core Framework™ integrates multiple modalities and practices to 
 - Communication channels (email, text, video)
 - Community platforms (for group cohorts)
 - Content delivery (courses, resources, guides)
-
-## Related Projects
-
-The Resonance Core Framework™ integrates with other Fluxline offerings to create comprehensive transformation pathways.
-
-**Related Portfolio Pieces:**
-
-- **[Personal Training Transformation Journey](https://fluxline.pro/portfolio/personal-training-transformation-journey/)**: The personal journey that birthed this framework
-- **[Resonance Core Coaching](https://fluxline.pro/services/resonance-core/)**: Service page with full offering details
-- **[Personal Training Services](https://fluxline.pro/services/personal-training/)**: Physical training that can be integrated with Resonance Core work
 
 ## Related Resources
 
