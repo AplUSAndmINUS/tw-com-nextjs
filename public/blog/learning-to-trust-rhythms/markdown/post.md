@@ -12,7 +12,27 @@ tags:
   - 'circadian-rhythm'
   - 'self-care'
   - 'recovery'
+imageUrl: '/blog/learning-to-trust-rhythms/images/sleep-cycles-infographic.jpg'
+imageAlt: 'Sleep cycles and circadian rhythm infographic'
 featured: false
+seoTitle: 'When My Rhythms Broke - Learning to Trust My Circadian Rhythm Again'
+seoDescription: 'A personal essay on losing and rebuilding circadian rhythm. When rhythm breaks, everything wobbles. This is my journey back to alignment, one morning at a time.'
+seoKeywords:
+  - 'circadian rhythm'
+  - 'sleep cycles'
+  - 'mental health'
+  - 'wellness journey'
+  - 'self-care'
+  - 'recovery'
+  - 'personal essay'
+  - 'rhythm restoration'
+  - 'sleep health'
+  - 'body rhythm'
+featuredImage: '/blog/learning-to-trust-rhythms/images/sleep-cycles-infographic.jpg'
+gallery:
+  - url: '/blog/learning-to-trust-rhythms/images/sleep-cycles-infographic.jpg'
+    alt: 'Sleep cycles and circadian rhythm visualization'
+    caption: 'Understanding sleep cycles - The foundation of rhythm restoration'
 ---
 
 # **When My Rhythms Broke — And How I'm Learning to Trust Them Again**

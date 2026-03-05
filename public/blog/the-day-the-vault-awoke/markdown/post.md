@@ -2,8 +2,8 @@
 title: 'The Day the Vault Awoke'
 excerpt: 'A mythic threshold in core activation. The core is not a six-pack, it is a muscular cylinder of sovereignty. Today, during hanging knee raises, the vault came online. This is the signal beneath the lift.'
 author: 'Terence Waters'
-publishedDate: '2025-11-05'
-date: '2025-11-05'
+publishedDate: '2026-02-05'
+date: '2026-02-05'
 category: 'Fitness'
 tags:
   - 'fitness'
