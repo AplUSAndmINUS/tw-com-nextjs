@@ -76,6 +76,7 @@ export interface ContentListingPageProps {
   resultsMessage?: string;
   emptyStateTitle?: string;
   emptyStateMessage?: string;
+  defaultCardType?: 'grid' | 'small' | 'large';
 
   // Optional call-to-action section
   ctaSection?: {
@@ -127,6 +128,7 @@ export function ContentListingPage({
   title,
   iconName,
   description,
+  defaultCardType,
   basePath,
   cards,
   totalCount = cards.length,
@@ -172,6 +174,12 @@ export function ContentListingPage({
       router.push(`${basePath}/${id}`);
     }
   };
+
+  React.useEffect(() => {
+    if (defaultCardType) {
+      setViewType(defaultCardType);
+    }
+  }, [defaultCardType, setViewType]);
 
   // Render filter controls
   const renderFilters = () => {

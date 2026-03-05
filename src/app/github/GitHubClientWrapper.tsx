@@ -222,6 +222,7 @@ export function GitHubClientWrapper({
       customSection={contributionsSection}
       backArrow
       backArrowPath='/content-hub'
+      defaultCardType='grid'
     />
   );
 }
