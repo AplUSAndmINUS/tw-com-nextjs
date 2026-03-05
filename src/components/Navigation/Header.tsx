@@ -22,7 +22,6 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
-import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { NavigationMenu } from './NavigationMenu';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
@@ -48,17 +47,6 @@ export function Header() {
   const [isMounted, setIsMounted] = React.useState(false);
 
   const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
-
-  // Refs for header action buttons — used to restore focus when a modal closes
-  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  const settingsButtonRef = React.useRef<HTMLButtonElement>(null);
-  // Tracks which button triggered the currently-open modal
-  const triggerRef = React.useRef<HTMLButtonElement | null>(null);
-
-  // Focus trap for the modal panel (nav menu or settings)
-  const modalPanelRef = useFocusTrap<HTMLDivElement>(
-    isMounted && activeModal !== null
-  );
 
   const { theme, themeMode, setThemeMode, layoutPreference } = useAppTheme();
   const pathname = usePathname();
@@ -123,10 +111,8 @@ export function Header() {
     if (activeModal === 'settings') {
       setActiveModal(null);
     } else if (activeModal === 'menu') {
-      triggerRef.current = settingsButtonRef.current;
       switchToModal('settings');
     } else {
-      triggerRef.current = settingsButtonRef.current;
       setActiveModal('settings');
     }
   };
@@ -135,10 +121,8 @@ export function Header() {
     if (activeModal === 'menu') {
       setActiveModal(null);
     } else if (activeModal === 'settings') {
-      triggerRef.current = menuButtonRef.current;
       switchToModal('menu');
     } else {
-      triggerRef.current = menuButtonRef.current;
       setActiveModal('menu');
     }
   };
@@ -148,14 +132,6 @@ export function Header() {
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  // Restore focus to the trigger button when the modal closes
-  React.useEffect(() => {
-    if (activeModal === null && triggerRef.current) {
-      triggerRef.current.focus();
-      triggerRef.current = null;
-    }
-  }, [activeModal]);
 
   // Clean up modal switch timeout on unmount
   React.useEffect(() => {
@@ -409,13 +385,8 @@ export function Header() {
             {/* Theme toggle — only light/dark, hidden on homepage */}
             {!isHomePage && (themeMode === 'light' || themeMode === 'dark') && (
               <button
-                type='button'
                 onClick={handleThemeClick}
-                className='focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-                style={{
-                  ...buttonStyle,
-                  outlineColor: theme.semanticColors.focus.ring,
-                }}
+                style={buttonStyle}
                 aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
                 title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
               >
@@ -436,14 +407,9 @@ export function Header() {
             {/* Settings toggle */}
             {!(authRequired && !isAuthenticated) && (
               <button
-                ref={settingsButtonRef}
                 type='button'
                 onClick={handleSettingsClick}
-                className='focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-                style={{
-                  ...buttonStyle,
-                  outlineColor: theme.semanticColors.focus.ring,
-                }}
+                style={buttonStyle}
                 aria-label={
                   activeModal === 'settings'
                     ? 'Close settings'
@@ -469,14 +435,9 @@ export function Header() {
             {/* Menu toggle */}
             {!(authRequired && !isAuthenticated) && (
               <button
-                ref={menuButtonRef}
                 type='button'
                 onClick={handleMenuClick}
-                className='focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-                style={{
-                  ...buttonStyle,
-                  outlineColor: theme.semanticColors.focus.ring,
-                }}
+                style={buttonStyle}
                 aria-label={activeModal === 'menu' ? 'Close menu' : 'Open menu'}
                 aria-expanded={activeModal === 'menu'}
                 aria-controls='navigation-menu'
@@ -516,7 +477,6 @@ export function Header() {
             onClick={handleModalClose}
           >
             <motion.div
-              ref={modalPanelRef}
               id={activeModal === 'menu' ? 'navigation-menu' : 'settings-panel'}
               role='dialog'
               aria-modal='true'

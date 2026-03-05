@@ -41,8 +41,6 @@ function NavigationItem({
     <Link
       href={item.path}
       onClick={onClick}
-      onFocus={() => setIsHovered(true)}
-      onBlur={() => setIsHovered(false)}
       style={{ textDecoration: 'none', width: '100%', display: 'block' }}
     >
       <div
@@ -140,7 +138,6 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         {onClose && (
           <button
             onClick={onClose}
-            className='focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
             style={{
               marginLeft: 'auto',
               background: 'none',
@@ -148,7 +145,6 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
               color: theme.colorBrandForeground1,
               cursor: 'pointer',
               fontSize: '1rem',
-              outlineColor: theme.semanticColors.focus.ring,
             }}
             aria-label='Close menu'
           >
