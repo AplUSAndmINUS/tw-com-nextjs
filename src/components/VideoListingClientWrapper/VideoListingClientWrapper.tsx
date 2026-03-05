@@ -316,6 +316,8 @@ export function VideoListingClientWrapper() {
         title='Videos'
         iconName='Video24Regular'
         description='Watch videos from the @aplusinflux YouTube channel — tutorials, live streams, playlists, and more.'
+        backArrow
+        backArrowPath='/content-hub'
       />
 
       {/* Tab Navigation */}

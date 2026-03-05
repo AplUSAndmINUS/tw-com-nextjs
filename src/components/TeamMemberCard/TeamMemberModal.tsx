@@ -101,18 +101,19 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
             {member.name}
           </Typography>
 
-          <Typography
-            variant='body'
-            style={{
-              color: theme.palette.themeSecondary,
-              fontWeight: theme.typography.fontWeights.semiBold,
-              fontSize: '1.125rem',
-              fontStyle: 'italic',
-              marginBottom: theme.spacing.m,
-            }}
-          >
-            {member.role}
-          </Typography>
+          <div style={{ marginBottom: theme.spacing.l }}>
+            <Typography
+              variant='label'
+              style={{
+                color: theme.palette.themeSecondary,
+                fontWeight: theme.typography.fontWeights.semiBold,
+                fontSize: '1.125rem',
+                fontStyle: 'italic',
+              }}
+            >
+              {member.role}
+            </Typography>
+          </div>
 
           {/* Social Links */}
           {socialLinks.length > 0 && (
@@ -135,7 +136,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
                       alignItems: 'center',
                       gap: '0.5rem',
                       padding: `${theme.spacing.s1} ${theme.spacing.m}`,
-                      borderRadius: theme.borderRadius.container.small,
+                      borderRadius: theme.borderRadius.container.tiny,
                       backgroundColor: theme.palette.neutralQuaternaryAlt,
                       color: theme.palette.themePrimary,
                       textDecoration: 'none',
@@ -174,7 +175,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
           backgroundColor: isDark
             ? theme.palette.neutralLighterAlt
             : theme.palette.neutralQuaternaryAlt,
-          padding: `0 ${theme.spacing.xl} ${theme.spacing.xl} ${theme.spacing.xl}`,
+          padding: `${theme.spacing.l} ${theme.spacing.xl}`,
         }}
       >
         <Typography

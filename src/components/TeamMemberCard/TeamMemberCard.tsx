@@ -7,7 +7,10 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowExpand20Regular, ContactCard24Regular } from '@fluentui/react-icons';
+import {
+  ArrowExpand20Regular,
+  ContactCard24Regular,
+} from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -120,18 +123,18 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             {member.name}
           </Typography>
 
-          <Typography
-            variant='body'
-            style={{
-              color: theme.palette.themeSecondary,
-              fontWeight: theme.typography.fontWeights.semiBold,
-              fontSize: '0.875rem',
-              fontStyle: 'italic',
-              marginBottom: theme.spacing.m,
-            }}
-          >
-            {member.role}
-          </Typography>
+          <div style={{ marginBottom: theme.spacing.m }}>
+            <Typography
+              variant='label'
+              style={{
+                color: theme.palette.themeSecondary,
+                fontSize: '1rem',
+                fontStyle: 'italic',
+              }}
+            >
+              {member.role}
+            </Typography>
+          </div>
 
           {member.bio && (
             <Typography
@@ -159,7 +162,14 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           }}
         >
           {/* Social icons — tagline subset only */}
-          <div style={{ display: 'flex', gap: theme.spacing.m, justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: theme.spacing.m,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             {member.socialLinks
               ?.filter((s) => s.isTagline)
               .map((item) => (
@@ -170,21 +180,18 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                   rel='noopener noreferrer'
                   aria-label={item.tooltip}
                   onClick={(e) => e.stopPropagation()}
+                  className='opacity-85 hover:opacity-100 transition-opacity duration-200'
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '18px',
                     height: '18px',
-                    opacity: 0.65,
-                    transition: 'opacity 0.2s ease',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.65'; }}
                 >
                   <FluentIcon
                     iconName={item.iconName}
-                    color={theme.palette.themeSecondary}
+                    color={theme.palette.themePrimary}
                   />
                 </a>
               ))}
@@ -194,8 +201,11 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {!isMobile && (
             <FluentIcon
               iconName={ArrowExpand20Regular}
-              color={theme.palette.themeSecondary}
-              style={{ opacity: isHovered ? 0.9 : 0.5, transition: 'opacity 0.3s ease' }}
+              color={theme.palette.themePrimary}
+              style={{
+                opacity: isHovered ? 0.9 : 0.5,
+                transition: 'opacity 0.3s ease',
+              }}
             />
           )}
         </div>

@@ -220,7 +220,9 @@ export function GitHubClientWrapper({
       }
       onCardClick={handleCardClick}
       customSection={contributionsSection}
-      backArrow={false}
+      backArrow
+      backArrowPath='/content-hub'
+      defaultCardType='grid'
     />
   );
 }

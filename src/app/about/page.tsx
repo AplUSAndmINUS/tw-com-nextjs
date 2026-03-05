@@ -85,7 +85,7 @@ const EDUCATION = [
 ];
 
 const CERTIFICATIONS = [
-  'NASM Certified Personal Trainer (2025)',
+  'NASM Certified Personal Trainer (2025-2026)',
   'Google Project Management Certification (2023)',
   'Azure AI & Fundamentals (2021–2024)',
   'M365 Fundamentals & Developer (2021–2024)',
@@ -124,7 +124,7 @@ export default function AboutPage() {
         </Hero>
 
         {/* ── Professional Summary ─────────────────────────────────────────── */}
-        <section className='mt-10 space-y-4'>
+        <section className='mt-10 space-y-4 p-6 rounded-lg bg-gray-300/90 dark:bg-black/20'>
           <SectionHeading>Professional Summary</SectionHeading>
           <Typography
             variant='body'
@@ -156,106 +156,143 @@ export default function AboutPage() {
         </section>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Core Capabilities &amp; Expertise</SectionHeading>
           <AboutCapabilities />
         </section>
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg bg-gray-300/90 dark:bg-black/20'>
           <SectionHeading>Work Experience</SectionHeading>
           <AboutTimeline />
         </section>
 
         {/* ── Featured Projects ────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Featured Projects</SectionHeading>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {FEATURED_PROJECTS.map((project) => (
               <div
                 key={project.name}
-                className='relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-gray-100/70 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
+                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-gray-100/70 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
               >
                 <div className='w-full h-1 rounded-sm bg-blue-600 dark:bg-blue-400 mb-4' />
                 <div className='space-y-1'>
                   <Typography
                     variant='h4'
-                    className='font-semibold text-gray-900 dark:text-white text-sm leading-snug'
+                    className='font-semibold text-gray-900 dark:text-white leading-snug'
+                    style={{ fontSize: '1.25rem', lineHeight: 1.25 }}
                   >
                     {project.name}
                   </Typography>
                   <Typography
                     variant='h5'
-                    className='text-xs text-blue-600 dark:text-blue-300 font-medium'
+                    className='text-blue-600 dark:text-blue-300 mb-4'
+                    style={{ fontSize: '1rem', lineHeight: 1.2 }}
                   >
                     {project.period}
                   </Typography>
                   <Typography
                     variant='body'
-                    className='text-xs text-gray-200 dark:text-gray-300'
+                    className='text-gray-800 dark:text-gray-300'
+                    style={{ fontSize: '0.875rem', lineHeight: 1.4 }}
                   >
                     {project.roles}
                   </Typography>
                   <Typography
                     variant='label'
-                    className='text-xs text-gray-200 dark:text-gray-400 italic'
+                    className='text-xs text-gray-600 dark:text-gray-400'
                   >
                     {project.skills}
                   </Typography>
                 </div>
               </div>
             ))}
+            <Link
+              href='/portfolio'
+              className='inline-flex items-center justify-center w-full mt-2 px-4 py-2 text-sm font-semibold border-2 border-gray-500 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
+            >
+              View Full Portfolio
+            </Link>
           </div>
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg bg-gray-400/30 dark:bg-black/20'>
           <SectionHeading>Skills</SectionHeading>
           <AboutSkillsTable />
         </section>
 
         {/* ── Education & Certifications ───────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Education &amp; Certifications</SectionHeading>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <div>
-              <h3 className='text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>
+              <Typography
+                variant='h4'
+                className='text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-200 mb-4'
+              >
                 Degrees
-              </h3>
+              </Typography>
               <ul className='space-y-3'>
                 {EDUCATION.map((item) => (
                   <li key={item.credential} className='flex flex-col'>
-                    <span className='font-semibold text-gray-900 dark:text-white text-sm'>
+                    <Typography
+                      variant='body'
+                      className='font-semibold text-gray-900 dark:text-white text-sm'
+                    >
                       {item.credential}
-                    </span>
-                    <span className='text-xs text-gray-500 dark:text-gray-400'>
+                    </Typography>
+                    <Typography
+                      variant='label'
+                      className='text-xs text-gray-500 dark:text-gray-400'
+                    >
                       {item.school} · {item.year}
-                    </span>
+                    </Typography>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h3 className='text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>
+              <Typography
+                variant='h4'
+                className='text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-200 mb-4'
+              >
                 Certifications
-              </h3>
+              </Typography>
               <ul className='space-y-2'>
-                {CERTIFICATIONS.map((cert) => (
-                  <li
-                    key={cert}
-                    className='flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300'
-                  >
-                    <span className='mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 flex-shrink-0' />
-                    {cert}
-                  </li>
-                ))}
+                {CERTIFICATIONS.map((cert) => {
+                  const leftParenIndex = cert.indexOf('(');
+                  if (leftParenIndex > 0) {
+                    const name = cert.substring(0, leftParenIndex).trim();
+                    const year = cert.substring(leftParenIndex);
+                    return (
+                      <li key={cert} className='flex items-start gap-1 text-sm'>
+                        <span className='font-semibold text-gray-900 dark:text-white'>
+                          {name}
+                        </span>
+                        <span className='text-gray-600 dark:text-gray-400'>
+                          {year}
+                        </span>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li
+                      key={cert}
+                      className='text-sm text-gray-600 dark:text-gray-300'
+                    >
+                      {cert}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
         </section>
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
-        <section className='mt-16 md:p-8 p-4 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
+        <section className='mt-16 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-400/30 dark:bg-black/20'>
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
             {ABOUT_SKILLS.map((skill) => (

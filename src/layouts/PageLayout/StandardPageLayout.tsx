@@ -6,10 +6,7 @@ import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import {
-  useIsMobileLandscape,
-  useIsTablet,
-} from '@/hooks/useMediaQuery';
+import { useIsMobileLandscape, useIsTablet } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
 
 interface StandardPageLayoutProps {
@@ -27,15 +24,31 @@ interface StandardPageLayoutProps {
 /**
  * StandardPageLayout — Client component for standard (non-homepage) pages
  *
- * Behavior:
- * - With featureImage: Contained viewport (Fluxline.pro style)
- *   - Mobile: Normal scrolling with standard footer
- *   - Tablet/Desktop: Contained viewport with mirrored image/content panes based on layout preference
- *   - Footer: Overlay with show/hide button (client component) on tablet/desktop only
- * - Without featureImage: Normal scrolling layout
+ * Layout Behavior:
+ * ----------------
+ * WITH featureImage:
+ *   - Mobile: Normal scrolling with image above content, standard footer at bottom
+ *   - Tablet/Desktop: Contained viewport with fixed side-by-side panes
+ *     • Image pane: Fixed position, vertically centered (50% width on tablet, 33% on desktop)
+ *     • Content pane: Independent scrolling (mirrored margins based on layout preference)
+ *     • Footer: Interactive overlay with show/hide button (hidden on mobile)
  *
- * Performance: Keeps the same structure while reading layout preference from
- * client state so the feature-image pane can mirror left/right.
+ * WITHOUT featureImage:
+ *   - All devices: Normal scrolling layout with standard footer at bottom
+ *   - Max-width container for optimal reading experience
+ *
+ * Layout Mirroring:
+ * -----------------
+ * Respects user's layout preference (left-handed vs right-handed) by:
+ *   - Positioning image pane on preferred side
+ *   - Adjusting content pane margins to match
+ *   - This creates a comfortable experience for both left and right-handed users
+ *
+ * Responsive Breakpoints:
+ * -----------------------
+ * - Mobile landscape: 25% image / 75% content (3:9 ratio)
+ * - Tablet portrait: 50% image / 50% content (6:6 ratio)
+ * - Desktop: 33% image / 67% content (4:8 ratio)
  */
 export function StandardPageLayout({
   children,
