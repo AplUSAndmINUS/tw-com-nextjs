@@ -180,21 +180,21 @@ export default function AboutPage() {
                 <div className='space-y-1'>
                   <Typography
                     variant='h4'
-                    className='font-semibold text-gray-900 dark:text-white text-sm leading-snug'
+                    className='font-semibold text-gray-900 dark:text-white leading-snug'
                     style={{ fontSize: '1.25rem', lineHeight: 1.25 }}
                   >
                     {project.name}
                   </Typography>
                   <Typography
                     variant='h5'
-                    className='text-xs text-blue-600 dark:text-blue-300 mb-4'
+                    className='text-blue-600 dark:text-blue-300 mb-4'
                     style={{ fontSize: '1rem', lineHeight: 1.2 }}
                   >
                     {project.period}
                   </Typography>
                   <Typography
                     variant='body'
-                    className='text-xs text-gray-800 dark:text-gray-300'
+                    className='text-gray-800 dark:text-gray-300'
                     style={{ fontSize: '0.875rem', lineHeight: 1.4 }}
                   >
                     {project.roles}
