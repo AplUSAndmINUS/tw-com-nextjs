@@ -10,7 +10,6 @@ import { AboutCapabilities } from './AboutCapabilities';
 import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
-import { Button } from '@/components/Form/Button/Button';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -209,14 +208,11 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
-            <Link href='/portfolio'>
-              <Button
-                variant='outlined'
-                size='medium'
-                className='justify-center w-full mt-2'
-              >
-                View Full Portfolio
-              </Button>
+            <Link
+              href='/portfolio'
+              className='inline-flex items-center justify-center w-full mt-2 px-4 py-2 text-sm font-semibold border-2 border-gray-500 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
+            >
+              View Full Portfolio
             </Link>
           </div>
         </section>
