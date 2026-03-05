@@ -43,7 +43,7 @@ export const navItems: NavItem[] = [
     description: 'Explore open-source projects and repositories',
   },
   {
-    label: 'Contact',
+    label: 'Contact Me',
     path: '/contact',
     description: 'Get in touch with Terence Waters',
   },

@@ -31,7 +31,7 @@ export default function ContentHubPage() {
         title: 'Content Hub',
       }}
     >
-      <div className='max-width-content pt-0 pb-8 md:py-8'>
+      <div className='max-width-content pt-0 pb-8 md:py-8 mb-0 md:mb-8'>
         {/* Header */}
         <Hero
           title='Content Hub'

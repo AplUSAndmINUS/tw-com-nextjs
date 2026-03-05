@@ -21,6 +21,7 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   /* Ensure dark background always, even if theme changes */
   background-color: #0f1419 !important;
+  overflow-x: hidden;
 }
 
 /* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */
@@ -46,6 +47,34 @@ body {
 @media (max-aspect-ratio: 1/1) {
   .homepage-background {
     background-image: url('/images/HomePageCover4kPortrait.jpg');
+  }
+}
+
+/* reCAPTCHA badge - absolute positioning within nearest relative parent */
+/* Positioned at bottom right corner of the parent container */
+.grecaptcha-badge {
+  position: absolute !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 20 !important;
+  opacity: 0.4 !important;
+}
+
+@media (max-width: 640px) {
+  .grecaptcha-badge {
+    bottom: 450px !important;
+    right: -0.5em !important;
+    opacity: 0.75 !important;
+    scale: 0.7 !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 970px) {
+  .grecaptcha-badge {
+    bottom: 1rem !important;
+    right: -0.5em !important;
+    opacity: 0.75 !important;
+    scale: 0.7 !important;
   }
 }
 

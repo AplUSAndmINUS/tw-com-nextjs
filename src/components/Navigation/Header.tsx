@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { NavigationMenu } from './NavigationMenu';
@@ -51,7 +51,9 @@ export function Header() {
   const { theme, themeMode, setThemeMode, layoutPreference } = useAppTheme();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
+  const isMobileLandscapeHook = useIsMobileLandscape();
   const isMobile = isMounted ? isMobileHook : false;
+  const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const { shouldReduceMotion } = useReducedMotion();
   const { authRequired, isAuthenticated } = useAccessControl();
 
@@ -193,8 +195,8 @@ export function Header() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '3rem',
-    height: '3rem',
+    width: isMobileLandscape ? '2.5rem' : '3rem',
+    height: isMobileLandscape ? '2.5rem' : '3rem',
     backgroundColor: isDark
       ? 'transparent'
       : theme.semanticColors.background.elevated,
@@ -256,8 +258,8 @@ export function Header() {
             alignItems: 'center',
             justifyContent: 'space-between',
             flexDirection: isLeftHanded ? 'row-reverse' : 'row',
-            padding: '0.75rem 1.5rem',
-            maxWidth: '1920px',
+            padding: isMobileLandscape || isMobile ? '0.5rem 1.5rem' : '1rem 2rem',
+            maxWidth: '1920px', 
             margin: '0 auto',
           }}
           suppressHydrationWarning

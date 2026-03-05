@@ -4,6 +4,7 @@ import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { ContactForm } from '@/components/ContactForm';
+import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
 import { Button } from '@/components/Form/Button/Button';
 
@@ -30,7 +31,7 @@ export default function ContactPage() {
         title: 'Contact Me',
       }}
     >
-      <div className='max-width-content pt-0 pb-8 md:py-8 flex flex-col gap-8'>
+      <div className='relative max-width-content pt-0 pb-8 md:pb-16 md:py-8 flex flex-col gap-8'>
         {/* Let's Connect section */}
         <Hero
           title="Let's Connect!"
@@ -60,7 +61,9 @@ export default function ContactPage() {
           >
             Contact Me Form
           </Typography>
-          <ContactForm />
+          <ReCaptchaProvider>
+            <ContactForm />
+          </ReCaptchaProvider>
         </div>
       </div>
     </PageLayout>

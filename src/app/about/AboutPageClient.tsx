@@ -39,8 +39,8 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   };
 
   const cardPaneClasses = isLeftHanded
-    ? 'flex items-center justify-center md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-    : 'flex items-center justify-center md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
+    ? 'flex items-center justify-center pt-16 md:pt-0 md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
+    : 'flex items-center justify-center pt-16 md:pt-0 md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
 
   const contentPaneClasses = isLeftHanded
     ? 'flex-1 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
@@ -49,7 +49,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   return (
     <SiteLayout showFooter={false}>
       {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-      <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
+      <div className='flex flex-col md:flex-row min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] md:overflow-hidden'>
         {/* TeamMemberCard pane - fixed and vertically centered on tablet/desktop */}
         {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
         <aside className={cardPaneClasses}>
