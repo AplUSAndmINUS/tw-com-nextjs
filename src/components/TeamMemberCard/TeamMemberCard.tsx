@@ -123,18 +123,18 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             {member.name}
           </Typography>
 
-          <Typography
-            variant='body'
-            style={{
-              color: theme.palette.themeSecondary,
-              fontWeight: theme.typography.fontWeights.semiBold,
-              fontSize: '0.875rem',
-              fontStyle: 'italic',
-              marginBottom: theme.spacing.m,
-            }}
-          >
-            {member.role}
-          </Typography>
+          <div style={{ marginBottom: theme.spacing.m }}>
+            <Typography
+              variant='label'
+              style={{
+                color: theme.palette.themeSecondary,
+                fontSize: '1rem',
+                fontStyle: 'italic',
+              }}
+            >
+              {member.role}
+            </Typography>
+          </div>
 
           {member.bio && (
             <Typography

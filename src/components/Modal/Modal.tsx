@@ -4,7 +4,7 @@ import React, { useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import { Dismiss24Regular } from '@fluentui/react-icons';
+import { Dismiss32Regular } from '@fluentui/react-icons';
 import { createPortal } from 'react-dom';
 
 export interface ModalProps {
@@ -173,8 +173,8 @@ export const Modal: React.FC<ModalProps> = ({
                   aria-label='Close modal'
                   style={{
                     position: 'absolute',
-                    top: theme.spacing.m,
-                    right: theme.spacing.m,
+                    top: theme.spacing.l,
+                    right: theme.spacing.l,
                     zIndex: 10,
                     background: 'transparent',
                     border: 'none',
@@ -184,7 +184,7 @@ export const Modal: React.FC<ModalProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: theme.semanticColors.text.muted,
+                    color: theme.palette.redDark,
                     transition: 'all 0.2s ease',
                   }}
                   onMouseEnter={(e) => {
@@ -195,7 +195,7 @@ export const Modal: React.FC<ModalProps> = ({
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  <FluentIcon iconName={Dismiss24Regular} />
+                  <FluentIcon iconName={Dismiss32Regular} />
                 </button>
               )}
 

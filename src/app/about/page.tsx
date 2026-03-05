@@ -86,7 +86,7 @@ const EDUCATION = [
 ];
 
 const CERTIFICATIONS = [
-  'NASM Certified Personal Trainer (2025)',
+  'NASM Certified Personal Trainer (2025-2026)',
   'Google Project Management Certification (2023)',
   'Azure AI & Fundamentals (2021–2024)',
   'M365 Fundamentals & Developer (2021–2024)',
@@ -232,36 +232,64 @@ export default function AboutPage() {
           <SectionHeading>Education &amp; Certifications</SectionHeading>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <div>
-              <h3 className='text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>
+              <Typography
+                variant='h4'
+                className='text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-200 mb-4'
+              >
                 Degrees
-              </h3>
+              </Typography>
               <ul className='space-y-3'>
                 {EDUCATION.map((item) => (
                   <li key={item.credential} className='flex flex-col'>
-                    <span className='font-semibold text-gray-900 dark:text-white text-sm'>
+                    <Typography
+                      variant='body'
+                      className='font-semibold text-gray-900 dark:text-white text-sm'
+                    >
                       {item.credential}
-                    </span>
-                    <span className='text-xs text-gray-500 dark:text-gray-400'>
+                    </Typography>
+                    <Typography
+                      variant='label'
+                      className='text-xs text-gray-500 dark:text-gray-400'
+                    >
                       {item.school} · {item.year}
-                    </span>
+                    </Typography>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h3 className='text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4'>
+              <Typography
+                variant='h4'
+                className='text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-200 mb-4'
+              >
                 Certifications
-              </h3>
+              </Typography>
               <ul className='space-y-2'>
-                {CERTIFICATIONS.map((cert) => (
-                  <li
-                    key={cert}
-                    className='flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300'
-                  >
-                    <span className='mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 flex-shrink-0' />
-                    {cert}
-                  </li>
-                ))}
+                {CERTIFICATIONS.map((cert) => {
+                  const leftParenIndex = cert.indexOf('(');
+                  if (leftParenIndex > 0) {
+                    const name = cert.substring(0, leftParenIndex).trim();
+                    const year = cert.substring(leftParenIndex);
+                    return (
+                      <li key={cert} className='flex items-start gap-1 text-sm'>
+                        <span className='font-semibold text-gray-900 dark:text-white'>
+                          {name}
+                        </span>
+                        <span className='text-gray-600 dark:text-gray-400'>
+                          {year}
+                        </span>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li
+                      key={cert}
+                      className='text-sm text-gray-600 dark:text-gray-300'
+                    >
+                      {cert}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
