@@ -30,8 +30,6 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
   };
 
   const containerStyle: React.CSSProperties = {
-    maxWidth: !isMobile ? '150px' : '200px',
-    marginLeft: !isMobile ? '16px' : '0',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

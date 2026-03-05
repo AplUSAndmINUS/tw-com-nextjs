@@ -255,7 +255,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
-        <section className='mt-16 md:p-8 xs:p-2 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
+        <section className='mt-16 md:p-8 p-4 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
             {ABOUT_SKILLS.map((skill) => (
