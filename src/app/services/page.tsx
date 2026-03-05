@@ -6,6 +6,7 @@ import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { ServicesClient } from './ServicesClient';
 import ConsultingPortrait from '@/assets/images/ConsultingPortrait.jpg';
+import { ConsultationCTA } from './ConsultationCTA';
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -49,24 +50,7 @@ export default function ServicesPage() {
           <ServicesClient />
         </div>
 
-        <section className='bg-gray-50 dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-700'>
-          <Typography variant='h2' className='text-2xl font-semibold mb-3'>
-            Start With a Consultation
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
-          >
-            If you&apos;re unsure which service path fits your current goals, we
-            can begin with a short consultation and map the right next step.
-          </Typography>
-          <Link
-            href='/contact'
-            className='inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium'
-          >
-            Book a Consultation
-          </Link>
-        </section>
+        <ConsultationCTA />
       </div>
     </PageLayout>
   );

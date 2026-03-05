@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { WhatWeOffer, type OfferItem } from '@/components/WhatWeOffer';
-import ConsultingPortrait from '@/assets/images/ConsultingPortrait.jpg';
+import { ConsultationCTA } from '@/app/services/ConsultationCTA';
+import RCFLogo from '@/assets/images/RCF_logo.jpeg';
 import PortfolioPortrait from '@/assets/images/Portfolio1280x1815.jpg';
 import GitHubPortrait from '@/assets/images/GitHubPortrait.jpg';
 import CoachingPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
@@ -83,7 +83,7 @@ const SERVICES: Record<string, ServiceConfig> = {
       { text: 'Leadership coaching and team dynamics' },
     ],
     image: {
-      src: ConsultingPortrait.src,
+      src: CoachingPortrait.src,
       alt: 'Consulting service',
       title: 'Consulting',
     },
@@ -103,9 +103,9 @@ const SERVICES: Record<string, ServiceConfig> = {
       { text: 'Take aligned action from your chosen identity' },
     ],
     image: {
-      src: CoachingPortrait.src,
+      src: RCFLogo.src,
       alt: 'Resonance Core service',
-      title: 'Resonance Core',
+      title: '',
     },
   },
 };
@@ -185,24 +185,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           <WhatWeOffer items={service.offers} />
         </section>
 
-        <section className='bg-gray-50 dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-700'>
-          <Typography variant='h2' className='text-2xl font-semibold mb-3'>
-            Ready to get started?
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
-          >
-            If this service fits where you are right now, we can start with a
-            focused consultation and define your next best move.
-          </Typography>
-          <Link
-            href='/contact'
-            className='inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium'
-          >
-            Book a consultation
-          </Link>
-        </section>
+        <ConsultationCTA />
       </div>
     </PageLayout>
   );
