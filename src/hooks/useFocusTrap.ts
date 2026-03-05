@@ -38,7 +38,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
     // Move focus to the first focusable element when the trap activates.
     // requestAnimationFrame ensures focus moves after the browser has completed
     // rendering, preventing screen reader announcement interruptions.
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       const firstElement = getFocusableElements()[0];
       if (firstElement) firstElement.focus();
     });
@@ -68,7 +68,10 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isActive]);
 
   return containerRef;
