@@ -7,7 +7,10 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowExpand20Regular, ContactCard24Regular } from '@fluentui/react-icons';
+import {
+  ArrowExpand20Regular,
+  ContactCard24Regular,
+} from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -159,7 +162,14 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           }}
         >
           {/* Social icons — tagline subset only */}
-          <div style={{ display: 'flex', gap: theme.spacing.m, justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: theme.spacing.m,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             {member.socialLinks
               ?.filter((s) => s.isTagline)
               .map((item) => (
@@ -176,15 +186,19 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                     justifyContent: 'center',
                     width: '18px',
                     height: '18px',
-                    opacity: 0.65,
+                    opacity: 0.85,
                     transition: 'opacity 0.2s ease',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.65'; }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '0.85';
+                  }}
                 >
                   <FluentIcon
                     iconName={item.iconName}
-                    color={theme.palette.themeSecondary}
+                    color={theme.palette.themePrimary}
                   />
                 </a>
               ))}
@@ -194,8 +208,11 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {!isMobile && (
             <FluentIcon
               iconName={ArrowExpand20Regular}
-              color={theme.palette.themeSecondary}
-              style={{ opacity: isHovered ? 0.9 : 0.5, transition: 'opacity 0.3s ease' }}
+              color={theme.palette.themePrimary}
+              style={{
+                opacity: isHovered ? 0.9 : 0.5,
+                transition: 'opacity 0.3s ease',
+              }}
             />
           )}
         </div>

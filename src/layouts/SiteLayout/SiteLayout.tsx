@@ -11,8 +11,13 @@ interface SiteLayoutProps {
 }
 
 /**
- * SiteLayout – thin alias of RootLayout for backwards compatibility.
- * Prefer importing RootLayout directly in new code.
+ * SiteLayout – Content wrapper that applies theme-aware background gradients
+ *
+ * Wraps RootLayout and adds appropriate background styling based on theme mode.
+ * - Dark modes: Rich dark gradients with subtle depth
+ * - Light modes: Muted gray radial gradients for reduced brightness
+ *
+ * Background is applied to both contained and scrolling layouts for consistency.
  */
 export function SiteLayout({
   children,
@@ -20,19 +25,21 @@ export function SiteLayout({
   showFooter,
 }: SiteLayoutProps) {
   const { theme, themeMode } = useAppTheme();
+
+  // Determine if current theme is dark family
   const isDarkMode =
     themeMode === 'dark' ||
     themeMode === 'high-contrast' ||
     themeMode === 'grayscale-dark';
 
-  // Non-home pages get a softer gradient wash. Home/contained layouts keep their existing background treatment.
-  const backgroundStyle = !isContainedView
-    ? {
-        background: isDarkMode
-          ? theme.gradients.dark.background
-          : `linear-gradient( 180deg, rgba(245, 245, 245, 0.22) 0%, rgba(235, 235, 235, 0.16) 45%, rgba(225, 225, 225, 0.20) 100% ), ${theme.gradients.light.background}`,
-      }
-    : undefined;
+  // Create muted backgrounds for better readability
+  // Light modes: Soft gray radial gradient (reduces harsh white brightness)
+  // Dark modes: Use theme's rich dark gradient
+  const backgroundStyle = {
+    background: isDarkMode
+      ? theme.gradients.dark.background
+      : 'radial-gradient(ellipse at top center, #F8F9FA 0%, #EEF0F2 40%, #E4E6EA 100%)',
+  };
 
   return (
     <RootLayout isContainedView={isContainedView} showFooter={showFooter}>

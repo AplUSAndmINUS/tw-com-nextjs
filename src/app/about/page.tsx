@@ -124,7 +124,7 @@ export default function AboutPage() {
         </Hero>
 
         {/* ── Professional Summary ─────────────────────────────────────────── */}
-        <section className='mt-10 space-y-4'>
+        <section className='mt-10 space-y-4 p-6 rounded-lg bg-gray-300/90 dark:bg-black/20'>
           <SectionHeading>Professional Summary</SectionHeading>
           <Typography
             variant='body'
@@ -156,19 +156,19 @@ export default function AboutPage() {
         </section>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Core Capabilities &amp; Expertise</SectionHeading>
           <AboutCapabilities />
         </section>
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg bg-gray-300/90 dark:bg-black/20'>
           <SectionHeading>Work Experience</SectionHeading>
           <AboutTimeline />
         </section>
 
         {/* ── Featured Projects ────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Featured Projects</SectionHeading>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {FEATURED_PROJECTS.map((project) => (
@@ -209,13 +209,13 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg bg-gray-400/30 dark:bg-black/20'>
           <SectionHeading>Skills</SectionHeading>
           <AboutSkillsTable />
         </section>
 
         {/* ── Education & Certifications ───────────────────────────────────── */}
-        <section className='mt-12'>
+        <section className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Education &amp; Certifications</SectionHeading>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <div>
@@ -255,7 +255,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
-        <section className='mt-16 md:p-8 p-4 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'>
+        <section className='mt-16 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-400/30 dark:bg-black/20'>
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
             {ABOUT_SKILLS.map((skill) => (

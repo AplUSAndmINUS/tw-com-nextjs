@@ -18,12 +18,46 @@ interface PageLayoutProps {
 /**
  * PageLayout — Server-first layout router
  *
- * Delegates to specialized layout components:
- * - HomePageLayout: Client component with contained viewport and resize listeners
- * - StandardPageLayout: Server component with normal scrolling behavior
+ * Intelligently delegates to specialized layout components based on page type:
  *
- * This separation keeps standard pages server-rendered and avoids unnecessary
- * client-side resize listeners when homepage features aren't needed.
+ * → HomePageLayout (isHomePage = true):
+ *     Client component with:
+ *     - Contained full-viewport layout
+ *     - Window resize listeners for responsive behavior
+ *     - Hero section with dynamic scaling
+ *     - Special animations and interactions
+ *
+ * → StandardPageLayout (isHomePage = false, default):
+ *     Server/Client hybrid with:
+ *     - Normal or contained viewport based on featureImage
+ *     - Standard scrolling behavior
+ *     - Optional feature image with fixed positioning
+ *     - Standard footer placement
+ *
+ * Performance Benefits:
+ * ---------------------
+ * This separation keeps standard pages server-rendered when possible and avoids
+ * unnecessary client-side resize listeners and JavaScript when homepage-specific
+ * features aren't needed.
+ *
+ * Usage:
+ * ------
+ * ```tsx
+ * // Homepage (special layout with contained viewport)
+ * <PageLayout isHomePage featureImage={...}>
+ *   <HeroSection />
+ * </PageLayout>
+ *
+ * // Standard page (normal scrolling)
+ * <PageLayout>
+ *   <Article />
+ * </PageLayout>
+ *
+ * // Standard page with fixed feature image
+ * <PageLayout featureImage={...}>
+ *   <AboutContent />
+ * </PageLayout>
+ * ```
  */
 export function PageLayout({
   children,

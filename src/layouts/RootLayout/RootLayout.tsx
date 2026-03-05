@@ -13,12 +13,30 @@ interface RootLayoutProps {
 /**
  * RootLayout
  *
- * Content layout wrapper for TW.com pages.
+ * Base content layout wrapper for all TW.com pages.
  * The Header is provided globally via providers.tsx and stays sticky across all pages.
- * All other layouts should nest inside RootLayout.
+ * All other layouts (PageLayout, ContentLayout, etc.) should nest inside RootLayout.
  *
- * When isContainedView=true, creates a full-viewport layout (like Fluxline.pro)
- * where content doesn't cause page scrolling on desktop.
+ * Layout Modes:
+ * -------------
+ * isContainedView = false (default):
+ *   - Normal scrolling behavior with min-h-screen
+ *   - Content flows naturally with page scroll
+ *   - Suitable for blog posts, articles, standard content pages
+ *   - Optional footer at bottom of page
+ *
+ * isContainedView = true:
+ *   - Full-viewport contained layout (Fluxline.pro style)
+ *   - Content area is independently scrollable within viewport
+ *   - No page-level scrolling on desktop
+ *   - Suitable for dashboard-style layouts, split-pane views
+ *   - Footer handled by parent layout (not shown by RootLayout)
+ *
+ * Accessibility:
+ * --------------
+ * - Skip-to-content link for keyboard users (visually hidden until focused)
+ * - Proper ARIA landmarks via semantic HTML (main, nav from Header)
+ * - pt-16 offset accounts for fixed header height (~4rem/64px)
  */
 export function RootLayout({
   children,
