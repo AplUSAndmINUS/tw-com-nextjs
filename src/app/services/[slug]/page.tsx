@@ -19,6 +19,7 @@ type ServiceConfig = {
   title: string;
   heroDescription: string;
   blurb: string;
+  seoDescription: string;
   offers: OfferItem[];
   image: {
     src: string;
@@ -32,8 +33,10 @@ const SERVICES: Record<string, ServiceConfig> = {
     title: 'Design Service',
     heroDescription:
       'Design direction for digital products and content systems that need both clarity and impact.',
+    seoDescription:
+      'Visual identity and user experience design for brands that need clarity, impact, and authentic alignment with your story.',
     blurb:
-      "Visual identity and user experience design so your brand feels cohesive and clear. \nI create brand identities and digital experiences that look good and feel aligned with who you are. Every logo, layout, and interface is designed to reflect your story and connect with your audience. \nWhether you're launching, scaling, or building your legacy, I design with care, precision, and strategic thinking.",
+      "I create brand identities and digital experiences that look good and feel aligned with who you are. Every logo, layout, and interface is designed to reflect your story and connect with your audience. \nWhether you're launching, scaling, or building your legacy, I design with care, precision, and strategic thinking.",
     offers: [
       { text: 'Visual identity and brand architecture' },
       { text: 'Digital experience design' },
@@ -52,6 +55,8 @@ const SERVICES: Record<string, ServiceConfig> = {
     title: 'Development Service',
     heroDescription:
       'Modern web development support focused on delivery quality, maintainability, and long-term velocity.',
+    seoDescription:
+      'Custom web development for platforms that are fast, secure, and built to scale with intuitive interfaces and reliable infrastructure.',
     blurb:
       "Design and build your website or web app, from simple sites to full platforms. \nI create custom web applications with intuitive interfaces and reliable infrastructure. Whether you're launching an MVP, scaling a full-stack platform, or building a custom app, our development process combines clear user experience with long-term maintainability. \nI use modern frameworks and best practices to ensure your product is fast, secure, and built to grow with your vision.",
     offers: [
@@ -72,6 +77,8 @@ const SERVICES: Record<string, ServiceConfig> = {
     title: 'Consulting Service',
     heroDescription:
       'Strategic consulting for founders and teams making high-stakes product and technical decisions.',
+    seoDescription:
+      'Strategic consulting for founders and teams navigating product, technical, and operational complexity with actionable guidance.',
     blurb:
       'Together, we will focus on the practical path forward: what to prioritize, what to simplify, and how to align execution with real business outcomes. \nMy consulting services provide actionable insights and strategic guidance to help you navigate complex challenges and make informed decisions that drive growth and success.',
     offers: [
@@ -92,6 +99,8 @@ const SERVICES: Record<string, ServiceConfig> = {
     title: 'Resonance Core Service',
     heroDescription:
       'Identity-centered guidance for creators and leaders building work that reflects who they are becoming.',
+    seoDescription:
+      'Transform your life through the Resonance Core Framework™—identity work, narrative reframing, and embodied alignment for creators and leaders.',
     blurb:
       "A transformational system for decoding your cues, reframing your narratives, and authoring the identity you choose to live from. \nThe Resonance Core Framework™ is a guided, structured process that helps you understand the patterns shaping your life — somatic, emotional, narrative, and identity based. Through archetypal mapping, reflective inquiry, and identity recalibration, you learn to align your inner world with the life, work, and relationships you're trying to build. \nThis isn't generic coaching — this is identity work, narrative work, and embodiment work — woven into a single, coherent system.",
     offers: [
@@ -130,11 +139,11 @@ export async function generateMetadata({
 
   return {
     title: service.title,
-    description: service.blurb,
+    description: service.seoDescription,
     metadataBase: new URL('https://terencewaters.com'),
     openGraph: {
       title: `${service.title} | Terence Waters`,
-      description: service.blurb,
+      description: service.seoDescription,
       url: `https://terencewaters.com/services/${slug}`,
       siteName: 'Terence Waters',
       type: 'website',
@@ -151,6 +160,8 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const paragraphs = service.blurb.split('\n');
+
   return (
     <PageLayout featureImage={service.image}>
       <div className='pt-0 pb-8 md:py-8'>
@@ -163,22 +174,17 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         />
 
         <section className='mt-8 mb-12'>
-          <Typography
-            variant='body'
-            className='text-gray-600 dark:text-gray-400 leading-relaxed'
-          >
-            {service.blurb.split('\n').map((paragraph, index) => (
-              <span key={index}>
+          <div className='space-y-4'>
+            {paragraphs.map((paragraph, index) => (
+              <Typography
+                key={index}
+                variant='body'
+                className='text-gray-600 dark:text-gray-400 leading-relaxed'
+              >
                 {paragraph}
-                {index < service.blurb.split('\n').length - 1 && (
-                  <>
-                    <br />
-                    <br />
-                  </>
-                )}
-              </span>
+              </Typography>
             ))}
-          </Typography>
+          </div>
         </section>
 
         <section className='mt-12 mb-12'>

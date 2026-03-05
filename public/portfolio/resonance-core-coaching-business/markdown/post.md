@@ -25,7 +25,7 @@ imageAlt: 'Life Coaching and The Resonance Core Framework'
 featured: true
 gallery:
   - url: '/portfolio/resonance-core-coaching-business/images/LifeCoachingResonanceCore.jpg'
-    alt: Life Coaching and The Resonance Core Framework'
+    alt: 'Life Coaching and The Resonance Core Framework'
     caption: 'Life Coaching and The Resonance Core Framework'
 publishedDate: '2025-09-08'
 projectDate: '2017-2025'

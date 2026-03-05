@@ -1126,8 +1126,8 @@ The **two-week timeline** wasn't achieved by cutting corners—it was achieved b
 
 ### Measuring Success
 
-**Performance:** ✅ 1.2s First Contentful Paint (target: <1.5s)  
-**Timeline:** ✅ 14 days (target: <14 days)  
+**Performance:** ✅ 1.2s First Contentful Paint (target: &lt;1.5s)  
+**Timeline:** ✅ 14 days (target: &lt;14 days)  
 **Accessibility:** ✅ WCAG 2.1 AA + colorblind modes (target: AA minimum)  
 **Infrastructure:** ✅ DEV/TEST/PROD with zero incidents  
 **Content:** ✅ Blog, portfolio, case studies, videos, GitHub  

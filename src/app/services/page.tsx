@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
-import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
