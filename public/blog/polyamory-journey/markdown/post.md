@@ -13,7 +13,27 @@ tags:
   - 'Personal Growth'
   - 'LGBTQ+'
   - 'Solo Polyamory'
+imageUrl: '/blog/polyamory-journey/images/polyamory-journey.png'
+imageAlt: 'Journey to polyamory - embracing authentic love and relationships'
 featured: false
+seoTitle: 'My Journey to Solo Polyamory | Authentic Love & Self-Discovery'
+seoDescription: 'An honest account of discovering solo polyamory after years of searching for the "right" relationship structure. This is my truth about love, authenticity, and personal sovereignty.'
+seoKeywords:
+  - 'polyamory journey'
+  - 'solo polyamory'
+  - 'LGBTQ relationships'
+  - 'authentic relationships'
+  - 'personal sovereignty'
+  - 'self-discovery'
+  - 'relationship structure'
+  - 'love journey'
+  - 'coming out'
+  - 'personal authenticity'
+featuredImage: '/blog/polyamory-journey/images/polyamory-journey.png'
+gallery:
+  - url: '/blog/polyamory-journey/images/polyamory-journey.png'
+    alt: 'Polyamory journey visualization'
+    caption: 'The whole damn story - Finding freedom in solo polyamory'
 ---
 
 For years, I chased a version of love I thought I was supposed to want. The kind my parents had: Rocky and imperfect, yes, but undeniably devoted. I craved that kind of unconditional connection, hoping it would heal the parts of me that felt denied, abandoned, or misunderstood.

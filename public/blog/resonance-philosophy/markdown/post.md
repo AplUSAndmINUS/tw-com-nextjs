@@ -12,7 +12,17 @@ tags:
   - 'emotional architecture'
   - 'intentionality'
   - 'Ryan Reynolds'
+imageUrl: '/blog/resonance-philosophy/images/resonance-image-port.jpg'
+imageAlt: 'Resonance concept visualization with concentric circles'
 featured: false
+featuredImage: '/blog/resonance-philosophy/images/resonance-image-port.jpg'
+gallery:
+  - url: '/blog/resonance-philosophy/images/resonance-image-port.jpg'
+    alt: 'Resonance visualization with concentric circles'
+    caption: 'The Philosophy of Resonance - Alignment in action'
+  - url: '/blog/resonance-philosophy/images/FluxlineLogoTaglineTransparent.png'
+    alt: 'Fluxline Resonance Group logo'
+    caption: 'Fluxline Resonance Group - Bringing clarity to transformation'
 ---
 
 ## 🧠 Resonance, Part 1: The Philosophy of Resonance

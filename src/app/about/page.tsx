@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getRobotsConfig } from '@/utils/metadata';
 import Link from 'next/link';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
@@ -23,17 +24,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     type: 'profile',
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
 };
 
 const FEATURED_PROJECTS = [
@@ -76,9 +67,21 @@ const FEATURED_PROJECTS = [
 ];
 
 const EDUCATION = [
-  { credential: 'MBA – IT Management', school: 'Western Governors University', year: '2019' },
-  { credential: 'B.S. – Web Design & Development', school: 'Independence University', year: '2017' },
-  { credential: 'Certificate – Web Programming', school: 'Salt Lake Community College', year: '2015' },
+  {
+    credential: 'MBA – IT Management',
+    school: 'Western Governors University',
+    year: '2019',
+  },
+  {
+    credential: 'B.S. – Web Design & Development',
+    school: 'Independence University',
+    year: '2017',
+  },
+  {
+    credential: 'Certificate – Web Programming',
+    school: 'Salt Lake Community College',
+    year: '2015',
+  },
 ];
 
 const CERTIFICATIONS = [
@@ -96,7 +99,6 @@ export default function AboutPage() {
   return (
     <AboutPageClient>
       <div className='max-width-content pt-0 xs:pb-0 md:pb-16 md:py-8'>
-
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
           title='About Me'
@@ -124,13 +126,19 @@ export default function AboutPage() {
         {/* ── Professional Summary ─────────────────────────────────────────── */}
         <section className='mt-10 space-y-4'>
           <SectionHeading>Professional Summary</SectionHeading>
-          <Typography variant='body' style={{ lineHeight: 1.75, fontSize: '1rem' }}>
+          <Typography
+            variant='body'
+            style={{ lineHeight: 1.75, fontSize: '1rem' }}
+          >
             Architect of transformative systems, brand experiences, and
             human-centric technology — I specialize in modular web development,
             IT infrastructure, and scalable design ecosystems with a focus on
             emotional clarity, strategic innovation, and long-term impact.
           </Typography>
-          <Typography variant='body' style={{ lineHeight: 1.75, fontSize: '1rem' }}>
+          <Typography
+            variant='body'
+            style={{ lineHeight: 1.75, fontSize: '1rem' }}
+          >
             Over 15 years as a technologist, educator, and founder have shaped
             someone who bridges enterprise precision with human-centered
             creativity. As founder of{' '}
@@ -244,7 +252,6 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
-
       </div>
     </AboutPageClient>
   );

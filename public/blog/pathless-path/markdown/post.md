@@ -12,7 +12,27 @@ tags:
   - 'mindfulness'
   - 'balance'
   - 'faith'
+imageUrl: '/blog/pathless-path/images/pathless-path.png'
+imageAlt: 'Walking the pathless path with only a torch to light the way'
 featured: false
+seoTitle: 'The Pathless Path Is Mine | Self-Employment & Living Authentically'
+seoDescription: 'Reflections on self-employment, faith, and walking a path that does not exist until you step onto it. The journey of becoming the torchbearer of your own myth.'
+seoKeywords:
+  - 'pathless path'
+  - 'self-employment'
+  - 'entrepreneurship'
+  - 'personal growth'
+  - 'faith journey'
+  - 'living authentically'
+  - 'intentional living'
+  - 'resonance'
+  - 'self-sovereignty'
+  - 'becoming'
+featuredImage: '/blog/pathless-path/images/pathless-path.png'
+gallery:
+  - url: '/blog/pathless-path/images/pathless-path.png'
+    alt: 'The pathless path - torch in hand'
+    caption: 'Walking the path that does not exist until I step onto it'
 ---
 
 So, this post didn't just come out of nowhere, if I'm being frank (no, I'm Terence!). Instead... I lived it on my own.

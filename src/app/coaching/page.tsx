@@ -1,87 +1,26 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
-import { Card } from '@/components/ui/Card';
 import EducationPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
+import { ConsultationCTA } from '@/app/services/ConsultationCTA';
 
 export const metadata: Metadata = {
   title: 'Coaching',
   description:
-    'One-on-one coaching and group offerings for creators, technologists, and leaders.',
+    'Resonance Core coaching for creators, founders, and leaders seeking aligned growth.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Coaching | Terence Waters',
     description:
-      'One-on-one coaching and group offerings for creators, technologists, and leaders.',
+      'Resonance Core coaching for creators, founders, and leaders seeking aligned growth.',
     url: 'https://terencewaters.com/coaching',
     siteName: 'Terence Waters',
     type: 'website',
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
 };
-
-const offerings = [
-  {
-    title: '1:1 Coaching',
-    duration: '60 minutes',
-    description:
-      'A dedicated session to work through your specific challenge — career pivots, creative blocks, technical decisions, or leadership development.',
-    highlights: [
-      'Personalized agenda',
-      'Recorded session (optional)',
-      'Follow-up notes',
-    ],
-    icon: '🎯',
-  },
-  {
-    title: 'Creator Accelerator',
-    duration: '4-week program',
-    description:
-      'A structured program for creators ready to grow their audience, refine their content strategy, and build sustainable creative habits.',
-    highlights: [
-      'Weekly 1:1 sessions',
-      'Content review & feedback',
-      'Growth strategy',
-    ],
-    icon: '🚀',
-  },
-  {
-    title: 'Tech Career Coaching',
-    duration: '8-week program',
-    description:
-      'For software engineers, technical leads, and those transitioning into tech roles. Covers career strategy, communication, and leadership skills.',
-    highlights: [
-      'Resume & portfolio review',
-      'Interview prep',
-      'Career roadmap',
-    ],
-    icon: '💡',
-  },
-  {
-    title: 'Group Workshops',
-    duration: 'Custom format',
-    description:
-      'Interactive workshops for teams and communities on creativity, technology, productivity, and building in public.',
-    highlights: [
-      'Team facilitation',
-      'Custom curriculum',
-      'Actionable takeaways',
-    ],
-    icon: '👥',
-  },
-];
 
 export default function CoachingPage() {
   return (
@@ -94,64 +33,24 @@ export default function CoachingPage() {
     >
       <div className='pt-0 pb-8 md:py-8'>
         <Hero
-          title='Coaching & Offerings'
+          title='Resonance Core Coaching'
           iconName='Person24Regular'
-          description='I help creators, technologists, and leaders navigate transitions, unlock their potential, and build with intention.'
+          description='Identity-centered coaching for creators and leaders who want to align their work with who they are becoming.'
         />
 
-        <div className='mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12'>
-          {offerings.map((offering) => (
-            <Card key={offering.title}>
-              <div className='flex items-center gap-3 mb-3'>
-                <span className='text-3xl'>{offering.icon}</span>
-                <div>
-                  <Typography variant='h3' className='text-xl font-semibold'>
-                    {offering.title}
-                  </Typography>
-                  <span className='text-sm text-blue-600 dark:text-blue-400 font-medium'>
-                    {offering.duration}
-                  </span>
-                </div>
-              </div>
-              <Typography
-                variant='body'
-                className='text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4'
-              >
-                {offering.description}
-              </Typography>
-              <ul className='space-y-1 mb-4'>
-                {offering.highlights.map((item) => (
-                  <li
-                    key={item}
-                    className='text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2'
-                  >
-                    <span className='text-green-500'>✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ))}
-        </div>
-
-        <section className='bg-gray-50 dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-700'>
-          <Typography variant='h2' className='text-2xl font-semibold mb-3'>
-            Ready to Start?
-          </Typography>
+        <section className='mt-8 mb-12'>
           <Typography
             variant='body'
-            className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
+            className='text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed'
           >
-            Whether you&apos;re navigating a career change, launching a creative
-            project, or just need a thought partner — I&apos;m here to help.
+            This coaching path is built for moments of reinvention. Whether
+            you&apos;re shifting direction, clarifying your voice, or rebuilding
+            momentum, Resonance Core sessions help you turn insight into a
+            practical plan you can act on immediately.
           </Typography>
-          <Link
-            href='/contact'
-            className='inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium'
-          >
-            Book a Discovery Call
-          </Link>
         </section>
+
+        <ConsultationCTA />
       </div>
     </PageLayout>
   );

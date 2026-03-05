@@ -49,9 +49,12 @@ body {
   }
 }
 
-/* Hide first h1 or h2 in prose content to prevent duplicate titles */
+/* This is a hack to hide the duplicate heading in blog and portfolio pieces 
+due to Markdown limitation. The first heading in the content is hidden, and the second one (which is the same text) is shown. This allows us to have a custom styled heading in the content while still having the correct SEO heading structure. */
 .prose-content-body > h1:first-child,
 .prose-content-body > h2:first-child,
+.prose-content-body > div:first-child + h1,
+.prose-content-body > div:first-child + h2,
 .border-t > h1:first-child,
 .border-t > h2:first-child {
   display: none;
