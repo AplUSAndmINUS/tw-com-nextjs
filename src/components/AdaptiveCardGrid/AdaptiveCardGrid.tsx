@@ -303,7 +303,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     />
                   </div>
                 )}
-                <div className='p-4 align-center justify-center' style={{ flex: 1, minWidth: 0 }}>
+                <div className='p-4 items-center justify-center' style={{ flex: 1, minWidth: 0 }}>
                   <Typography variant='h3'
                     style={{
                       fontSize: isMobile ? '1rem' : '1.125rem',
