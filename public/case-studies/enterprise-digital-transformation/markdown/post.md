@@ -17,7 +17,7 @@ technologies:
   ]
 publishedDate: '2025-12-11'
 projectDuration: '6 months'
-imageUrl: '/case-studies/posts/enterprise-digital-transformation/images/resonance-philosophy.jpg'
+imageUrl: '/case-studies/enterprise-digital-transformation/images/resonance-philosophy.jpg'
 imageAlt: 'Fluxline Digital Transformation: From Traditional Business to Human-Centered Resonance'
 featured: true
 seoTitle: 'Fluxline Digital Transformation Case Study - Human-Centered Client Engagement'
@@ -527,5 +527,3 @@ Reach out. Let's explore what resonance looks like for you.
 At its core, Fluxline's journey has been about prioritizing meaningful connections, lasting impact, and authentic resonance—choosing substance over scale, and legacy over fleeting trends.
 
 If that resonates with you, **let's build together**.
-
-_This case study documents Fluxline's ongoing journey. We're not done yet—but we're already extraordinary._

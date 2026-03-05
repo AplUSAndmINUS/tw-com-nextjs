@@ -399,8 +399,7 @@ This project embodies Fluxline's constellation of capabilities: Agile leadership
 ## Related Resources
 
 - [MyIntermountain SharePoint Intranet Portfolio](/portfolio/myintermountain-sharepoint-intranet) — the infrastructure we built during this transformation
-- [MyIntermountain Enterprise Intranet Case Study](/case-studies/myintermountain-intranet) — complete Azure infrastructure and technical implementation
-- [The Obstacle Becomes Your Path](/blog/obstacle-becomes-your-path) — this transformation embodies turning barriers into catalysts for growth
+- [The Obstacle Becomes Your Path](https://fluxline.pro/blog/obstacle-becomes-your-path) — this transformation embodies turning barriers into catalysts for growth
 
 ---
 

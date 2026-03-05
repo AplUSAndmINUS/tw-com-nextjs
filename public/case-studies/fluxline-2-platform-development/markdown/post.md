@@ -16,11 +16,11 @@ technologies:
     'Framer Motion',
     'Design Systems',
   ]
-imageUrl: '/case-studies/posts/fluxline-2-platform-development/images/fluxline-20-dsm.jpg'
+imageUrl: '/case-studies/fluxline-2-platform-development/images/fluxline-20-dsm.jpg'
 imageAlt: 'Fluxline Pro 2.0 Design System Theming'
+featured: true
 publishedDate: '2025-12-15'
 projectDuration: '3 months'
-featured: true
 seoTitle: 'Fluxline 2.0 Platform Development Case Study - Brand Identity & Technical Evolution'
 seoDescription: 'How Fluxline transformed from personal site to enterprise platform using Next.js 16, achieving 94/100 Lighthouse scores and creating a scalable brand identity system.'
 seoKeywords:
@@ -47,7 +47,7 @@ metrics:
     value: '3 months'
     description: 'Concept to launch'
 testimonial:
-  quote: 'Fluxline 2.0 represents a significant milestone in our mission to deliver strategic precision for modern business transformation. We built the platform we needed to showcase what we can do for clients—and it became a living demonstration of our capabilities.'
+  quote: 'Fluxline 2.0 represents a significant milestone to deliver strategic precision for modern business transformation. We built the platform we needed to showcase what we can do for clients—and it became a living demonstration of our capabilities.'
   author: 'Terence Waters'
   role: 'CEO & Founder, Fluxline Resonance Group'
 ---
@@ -363,8 +363,7 @@ This case study demonstrates Fluxline's integrated capabilities:
 
 **MIT and Code Contributions:**
 
-- GitHub repository (access granted by sending an email to [support@fluxline.pro](mailto:support@fluxline.pro)): [Fluxline-Pro GitHub Repos](https://github.com/Fluxline-Pro/fluxline-pro-next)
-- [Fluxline 2.0 Portfolio Piece](/portfolio/fluxline-pro-website/)
+- GitHub repository [Fluxline-Pro GitHub Repos](https://github.com/Fluxline-Pro/fluxline-pro-next)
 - Component documentation available in Storybook
 - Design system patterns documented in README
 
@@ -380,4 +379,4 @@ This case study demonstrates Fluxline's integrated capabilities:
 
 _Fluxline 2.0 is more than a platform—it's a constellation where technical mastery meets mythic resonance. Every star in this orbit demonstrates what Fluxline can build for your business._
 
-**Ready to transform your digital presence?** [Get in touch](https://fluxline.pro/contact/) to discuss your platform development needs.
+**Ready to transform your digital presence?** [Get in touch](https://terencewaters.com/contact/) to discuss your platform development needs.
