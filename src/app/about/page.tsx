@@ -98,7 +98,7 @@ const CERTIFICATIONS = [
 export default function AboutPage() {
   return (
     <AboutPageClient>
-      <div className='max-width-content pt-0 pb-12 xs:pb-12 md:pb-16 md:py-8'>
+      <div className='max-width-content pt-0 pb-12 xs:pb-12 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
           title='About Me'
@@ -174,20 +174,35 @@ export default function AboutPage() {
             {FEATURED_PROJECTS.map((project) => (
               <div
                 key={project.name}
-                className='rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-900/50 space-y-1'
+                className='relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-gray-100/70 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
               >
-                <p className='font-semibold text-gray-900 dark:text-white text-sm leading-snug'>
-                  {project.name}
-                </p>
-                <p className='text-xs text-blue-600 dark:text-blue-400 font-medium'>
-                  {project.period}
-                </p>
-                <p className='text-xs text-gray-500 dark:text-gray-400'>
-                  {project.roles}
-                </p>
-                <p className='text-xs text-gray-400 dark:text-gray-500 italic'>
-                  {project.skills}
-                </p>
+                <div className='w-full h-1 rounded-sm bg-blue-600 dark:bg-blue-400 mb-4' />
+                <div className='space-y-1'>
+                  <Typography
+                    variant='h4'
+                    className='font-semibold text-gray-900 dark:text-white text-sm leading-snug'
+                  >
+                    {project.name}
+                  </Typography>
+                  <Typography
+                    variant='h5'
+                    className='text-xs text-blue-600 dark:text-blue-300 font-medium'
+                  >
+                    {project.period}
+                  </Typography>
+                  <Typography
+                    variant='body'
+                    className='text-xs text-gray-200 dark:text-gray-300'
+                  >
+                    {project.roles}
+                  </Typography>
+                  <Typography
+                    variant='label'
+                    className='text-xs text-gray-200 dark:text-gray-400 italic'
+                  >
+                    {project.skills}
+                  </Typography>
+                </div>
               </div>
             ))}
           </div>

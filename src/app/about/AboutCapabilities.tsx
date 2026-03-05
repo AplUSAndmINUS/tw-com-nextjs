@@ -43,7 +43,6 @@ const CAPABILITIES = [
 export const AboutCapabilities: React.FC = () => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
-
   const accentColor = theme.palette.themePrimary;
 
   return (

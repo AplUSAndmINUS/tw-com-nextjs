@@ -151,7 +151,7 @@ export function FooterContent({
           <FooterLinkSection
             title='Social'
             links={[]} // Empty array since SocialLinks component handles rendering
-            isCompact={isCompact}
+            isCompact={true}
           />
         </div>
 

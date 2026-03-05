@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useMultiHoverState } from '@/hooks/useHoverState';
+import { useIsTablet } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
 import { getSocialIcons } from '../SocialIcons/constants';
 
@@ -17,8 +18,13 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
   isFooter = false,
 }) => {
   const { theme, isDark } = useAppTheme();
+  const isTablet = useIsTablet();
   const { isHovered: isSocialHovered, getHoverProps: getSocialHoverProps } =
     useMultiHoverState();
+  const isCompactFooterTablet = isFooter && isTablet;
+  const visibleSocialIcons = isCompactFooterTablet
+    ? getSocialIcons().slice(0, 6)
+    : getSocialIcons();
 
   const styles = {
     footer: {
@@ -26,7 +32,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       flexDirection: 'row' as const,
       alignItems: 'center',
       justifyContent: isAuthorTagline ? 'flex-start' : 'space-between',
-      gap: isFooter ? '0.25rem' : '1rem',
+      gap: isCompactFooterTablet ? '0.125rem' : isFooter ? '0.25rem' : '1rem',
       padding: isFooter
         ? '0'
         : isAuthorTagline
@@ -36,15 +42,15 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       borderTop: isAuthorTagline
         ? `1px solid ${theme.colorBrandForeground2}`
         : 'none',
-      width: isFooter ? '75%' : '100%',
+      width: isCompactFooterTablet ? '100%' : isFooter ? '75%' : '100%',
       flexShrink: 0,
     },
   };
 
   return (
     <div style={styles.footer}>
-      {getSocialIcons().map((item) => {
-        if (!item.isTagline && (isAuthorTagline)) return null;
+      {visibleSocialIcons.map((item) => {
+        if (!item.isTagline && isAuthorTagline) return null;
         return (
           <div style={{ position: 'relative' }} key={item.url}>
             <a
@@ -56,8 +62,16 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: isAuthorTagline ? '20px' : '24px',
-                height: isAuthorTagline ? '20px' : '24px',
+                width: isCompactFooterTablet
+                  ? '20px'
+                  : isAuthorTagline
+                    ? '20px'
+                    : '24px',
+                height: isCompactFooterTablet
+                  ? '20px'
+                  : isAuthorTagline
+                    ? '20px'
+                    : '24px',
               }}
             >
               <FluentIcon

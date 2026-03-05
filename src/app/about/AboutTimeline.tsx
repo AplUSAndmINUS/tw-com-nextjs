@@ -79,7 +79,10 @@ export const AboutTimeline: React.FC = () => {
         const isLast = index === TIMELINE_ENTRIES.length - 1;
 
         return (
-          <div key={`${entry.org}-${index}`} style={{ display: 'flex', gap: theme.spacing.l }}>
+          <div
+            key={`${entry.org}-${index}`}
+            style={{ display: 'flex', gap: theme.spacing.l }}
+          >
             {/* Left column: circle + connecting line */}
             <div
               style={{
@@ -133,7 +136,9 @@ export const AboutTimeline: React.FC = () => {
             </div>
 
             {/* Right column: content */}
-            <div style={{ flex: 1, paddingBottom: isLast ? 0 : theme.spacing.xxl }}>
+            <div
+              style={{ flex: 1, paddingBottom: isLast ? 0 : theme.spacing.xxl }}
+            >
               {/* Period */}
               <Typography
                 variant='caption'
@@ -186,7 +191,9 @@ export const AboutTimeline: React.FC = () => {
                   <li
                     key={bi}
                     style={{
-                      marginBottom: bi < entry.bullets.length - 1 ? '0.3rem' : 0,
+                      listStyleType: 'disc',
+                      marginBottom:
+                        bi < entry.bullets.length - 1 ? '0.3rem' : 0,
                     }}
                   >
                     <Typography

@@ -68,7 +68,8 @@ export const AboutSkillsTable: React.FC = () => {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: isMobile || isTablet ? '1fr' : 'repeat(3, 1fr)',
+        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+        gap: theme.spacing.m,
       }}
     >
       {SKILL_CATEGORIES.map((cat) => {
@@ -100,7 +101,7 @@ export const AboutSkillsTable: React.FC = () => {
                 style={{
                   color: accentColor,
                   margin: 0,
-                  fontSize: '0.9375rem',
+                  fontSize: '0.95rem',
                   fontWeight: 700,
                 }}
               >
@@ -113,7 +114,7 @@ export const AboutSkillsTable: React.FC = () => {
               style={{
                 margin: 0,
                 padding: theme.spacing.m,
-                listStyle: 'none',
+                listStyleType: 'disc',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing.xs,
