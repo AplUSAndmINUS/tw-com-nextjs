@@ -41,6 +41,10 @@ export interface UseAppThemeReturn {
   reducedMotion: boolean;
   /** Set reduced motion user preference */
   setReducedMotion: (enabled: boolean) => void;
+  /** Whether reduced transparency is enabled (user preference) */
+  reduceTransparency: boolean;
+  /** Set reduced transparency user preference */
+  setReduceTransparency: (enabled: boolean) => void;
 }
 
 /**
@@ -65,6 +69,7 @@ export function useAppTheme(): UseAppThemeReturn {
   const fontScale = preferences.fontScale;
   const layoutPreference = preferences.layoutPreference;
   const reducedMotion = preferences.reducedMotion;
+  const reduceTransparency = preferences.reduceTransparency;
 
   const theme = themeMap[themeMode] as IExtendedTheme;
 
@@ -105,6 +110,13 @@ export function useAppTheme(): UseAppThemeReturn {
     [setPreference]
   );
 
+  const setReduceTransparency = useCallback(
+    (enabled: boolean) => {
+      setPreference('reduceTransparency', enabled);
+    },
+    [setPreference]
+  );
+
   // Sync dark mode with Tailwind by adding/removing 'dark' class on <html>
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -128,5 +140,7 @@ export function useAppTheme(): UseAppThemeReturn {
     setLayoutPreference,
     reducedMotion,
     setReducedMotion,
+    reduceTransparency,
+    setReduceTransparency,
   };
 }

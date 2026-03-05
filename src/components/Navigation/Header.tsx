@@ -48,7 +48,13 @@ export function Header() {
 
   const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const { theme, themeMode, setThemeMode, layoutPreference } = useAppTheme();
+  const {
+    theme,
+    themeMode,
+    setThemeMode,
+    layoutPreference,
+    reduceTransparency,
+  } = useAppTheme();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
   const isMobileLandscapeHook = useIsMobileLandscape();
@@ -240,8 +246,8 @@ export function Header() {
           backgroundColor: isDark
             ? theme.gradients.dark.solid
             : theme.gradients.light.solid,
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+          backdropFilter: reduceTransparency ? 'none' : 'blur(12px)',
+          WebkitBackdropFilter: reduceTransparency ? 'none' : 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
           boxShadow: isDark ? 'none' : theme.shadows.s,
         }}
@@ -468,9 +474,11 @@ export function Header() {
               position: 'fixed',
               inset: 0,
               zIndex: 120,
-              backgroundColor: 'rgba(0, 0, 0, 0.75)',
-              backdropFilter: 'blur(4px)',
-              WebkitBackdropFilter: 'blur(4px)',
+              backgroundColor: reduceTransparency
+                ? 'rgba(0, 0, 0, 0.85)'
+                : 'rgba(0, 0, 0, 0.75)',
+              backdropFilter: reduceTransparency ? 'none' : 'blur(4px)',
+              WebkitBackdropFilter: reduceTransparency ? 'none' : 'blur(4px)',
             }}
             onClick={handleModalClose}
           >
