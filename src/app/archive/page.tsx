@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
-import Link from 'next/link';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
-import { Typography } from '@/components/Typography';
+import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
+import { ArchiveClientWrapper } from '@/app/archive/ArchiveClientWrapper';
 import { getAllContent } from '@/lib/content';
+import { format, parseISO } from 'date-fns';
+import EducationTrainingPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
 
 export const metadata: Metadata = {
   title: 'Archive',
@@ -48,74 +50,53 @@ export default async function ArchivePage() {
     return dateA < dateB ? 1 : -1;
   });
 
-  const typeColor: Record<string, string> = {
-    Blog: 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300',
-    Portfolio:
-      'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
-    'Case Study':
-      'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300',
-  };
+  // Transform to AdaptiveCard format
+  const cards: AdaptiveCard[] = allItems.map((item) => {
+    let formattedDate = 'Date unknown';
+    try {
+      if (item.date) {
+        const parsedDate = parseISO(item.date);
+        formattedDate = format(parsedDate, 'MMMM d, yyyy');
+      }
+    } catch (error) {
+      console.warn(`Failed to parse date for item ${item.slug}:`, error);
+    }
+
+    return {
+      id: item.slug,
+      title: item.title,
+      description: item.excerpt,
+      imageUrl: item.imageUrl || item.featuredImage,
+      imageAlt: item.title,
+      imageText: formattedDate,
+      tags: item.type ? [item.type] : [],
+    };
+  });
 
   return (
-    <PageLayout>
-      <div className='max-w-4xl mx-auto pt-0 pb-8 md:py-8'>
+    <PageLayout
+      featureImage={{
+        src: EducationTrainingPortrait.src,
+        alt: 'Archive',
+        title: 'Archive',
+      }}
+    >
+      <div className='pt-0 pb-8 md:py-8'>
         <Hero
           title='Archive'
           iconName='DocumentText24Regular'
           description='A complete archive of articles, projects, and case studies — sorted by most recent.'
         />
 
-        {allItems.length === 0 ? (
-          <Typography
-            variant='body'
-            className='mt-8 text-gray-500 dark:text-gray-400'
-          >
-            No archived content yet. Check back soon.
-          </Typography>
-        ) : (
-          <div className='mt-8 space-y-6'>
-            {allItems.map((item) => (
-              <article
-                key={`${item.type}-${item.slug}`}
-                className='flex gap-4 items-start border-b pb-6'
-              >
-                <div className='flex-1 min-w-0'>
-                  <div className='flex items-center gap-3 mb-1'>
-                    <span
-                      className={`text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full ${typeColor[item.type] ?? ''}`}
-                    >
-                      {item.type}
-                    </span>
-                    {item.date && (
-                      <time
-                        dateTime={item.date}
-                        className='text-sm text-gray-500 dark:text-gray-400'
-                      >
-                        {item.date}
-                      </time>
-                    )}
-                  </div>
-                  <Link href={item.href}>
-                    <Typography
-                      variant='h3'
-                      className='text-xl font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors'
-                    >
-                      {item.title}
-                    </Typography>
-                  </Link>
-                  {item.excerpt && (
-                    <Typography
-                      variant='body'
-                      className='mt-1 text-sm text-gray-600 dark:text-gray-400'
-                    >
-                      {item.excerpt}
-                    </Typography>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+        <section className='mt-12'>
+          {cards.length === 0 ? (
+            <p className='text-gray-500 dark:text-gray-400'>
+              No archived content yet. Check back soon.
+            </p>
+          ) : (
+            <ArchiveClientWrapper cards={cards} />
+          )}
+        </section>
       </div>
     </PageLayout>
   );
