@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
 import type { FluentIcon as FluentIconType } from '@fluentui/react-icons';
@@ -76,6 +76,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const { theme } = useAppTheme();
+    const [isHovered, setIsHovered] = useState(false);
+    const [isActive, setIsActive] = useState(false);
 
     // Size configurations
     const sizeConfig = {
@@ -98,24 +100,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Variant configurations
     const getVariantStyles = () => {
-      const baseStyles = {
-        border: '2px solid transparent',
+      const baseTransition = {
         transition: 'all 0.2s ease',
       };
 
       switch (variant) {
         case 'primary':
           return {
-            ...baseStyles,
-            backgroundColor: theme.semanticColors.link.default,
-            color: theme.semanticColors.background.base,
-            borderColor: theme.semanticColors.link.default,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: theme.semanticColors.link.default,
+              color: theme.semanticColors.background.base,
+              border: `2px solid ${theme.semanticColors.link.default}`,
+            },
+            hover: {
               backgroundColor: theme.semanticColors.link.hover,
               borderColor: theme.semanticColors.link.hover,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
               backgroundColor: theme.semanticColors.link.active,
               borderColor: theme.semanticColors.link.active,
               transform: 'scale(0.98)',
@@ -124,123 +127,167 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         case 'secondary':
           return {
-            ...baseStyles,
-            backgroundColor: theme.palette.neutralLighter,
-            color: theme.palette.neutralDark,
-            borderColor: theme.palette.neutralQuaternary,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: theme.palette.neutralLighter,
+              color: theme.palette.neutralDark,
+              border: `2px solid ${theme.palette.neutralQuaternary}`,
+            },
+            hover: {
               backgroundColor: theme.palette.neutralLight,
               borderColor: theme.palette.neutralTertiary,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
               backgroundColor: theme.palette.neutralQuaternaryAlt,
+              borderColor: theme.palette.neutralTertiary,
               transform: 'scale(0.98)',
             },
           };
 
         case 'outlined':
           return {
-            ...baseStyles,
-            backgroundColor: 'transparent',
-            color: theme.semanticColors.text.primary,
-            borderColor: theme.semanticColors.border.emphasis,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: 'transparent',
+              color: theme.semanticColors.text.primary,
+              border: `2px solid ${theme.semanticColors.border.emphasis}`,
+            },
+            hover: {
               backgroundColor: theme.palette.neutralLighter,
               borderColor: theme.semanticColors.link.hover,
+              color: theme.semanticColors.link.hover,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
               backgroundColor: theme.palette.neutralLight,
+              borderColor: theme.semanticColors.link.active,
+              color: theme.semanticColors.link.active,
               transform: 'scale(0.98)',
             },
           };
 
         case 'ghost':
           return {
-            ...baseStyles,
-            backgroundColor: 'transparent',
-            color: theme.semanticColors.text.primary,
-            borderColor: 'transparent',
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: 'transparent',
+              color: theme.semanticColors.text.primary,
+              border: '2px solid transparent',
+            },
+            hover: {
               backgroundColor: theme.palette.neutralLighter,
             },
-            ':active': !disabled && {
+            active: {
               backgroundColor: theme.palette.neutralLight,
             },
           };
 
         case 'success':
           return {
-            ...baseStyles,
-            backgroundColor: theme.colorPaletteGreenForeground1,
-            color: theme.palette.white,
-            borderColor: theme.colorPaletteGreenForeground1,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: theme.colorPaletteGreenForeground1,
+              color: theme.palette.white,
+              border: `2px solid ${theme.colorPaletteGreenForeground1}`,
+            },
+            hover: {
               backgroundColor: theme.colorPaletteGreenForeground2,
               borderColor: theme.colorPaletteGreenForeground2,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
+              backgroundColor: theme.colorPaletteGreenForeground3,
+              borderColor: theme.colorPaletteGreenForeground3,
               transform: 'scale(0.98)',
             },
           };
 
         case 'warning':
           return {
-            ...baseStyles,
-            backgroundColor: theme.colorPaletteYellowForeground1,
-            color: theme.palette.neutralPrimary,
-            borderColor: theme.colorPaletteYellowForeground1,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: theme.colorPaletteYellowForeground1,
+              color: theme.palette.neutralPrimary,
+              border: `2px solid ${theme.colorPaletteYellowForeground1}`,
+            },
+            hover: {
               backgroundColor: theme.colorPaletteYellowForeground2,
               borderColor: theme.colorPaletteYellowForeground2,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
+              backgroundColor: theme.colorPaletteYellowForeground3,
+              borderColor: theme.colorPaletteYellowForeground3,
               transform: 'scale(0.98)',
             },
           };
 
         case 'error':
           return {
-            ...baseStyles,
-            backgroundColor: theme.colorPaletteRedForeground1,
-            color: theme.palette.white,
-            borderColor: theme.colorPaletteRedForeground1,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: theme.colorPaletteRedForeground1,
+              color: theme.palette.white,
+              border: `2px solid ${theme.colorPaletteRedForeground1}`,
+            },
+            hover: {
               backgroundColor: theme.palette.redDark,
               borderColor: theme.palette.redDark,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
+              backgroundColor: theme.colorPaletteRedForeground3,
+              borderColor: theme.colorPaletteRedForeground3,
               transform: 'scale(0.98)',
             },
           };
 
         case 'info':
           return {
-            ...baseStyles,
-            backgroundColor: theme.palette.themePrimary,
-            color: theme.palette.white,
-            borderColor: theme.palette.themePrimary,
-            ':hover': !disabled && {
+            base: {
+              ...baseTransition,
+              backgroundColor: theme.palette.themePrimary,
+              color: theme.palette.white,
+              border: `2px solid ${theme.palette.themePrimary}`,
+            },
+            hover: {
               backgroundColor: theme.palette.themeDark,
               borderColor: theme.palette.themeDark,
               transform: 'scale(1.02)',
             },
-            ':active': !disabled && {
+            active: {
+              backgroundColor: theme.palette.themeDarker,
+              borderColor: theme.palette.themeDarker,
               transform: 'scale(0.98)',
             },
           };
 
         default:
-          return baseStyles;
+          return {
+            base: baseTransition,
+            hover: {},
+            active: {},
+          };
       }
     };
 
     const variantStyles = getVariantStyles();
     const config = sizeConfig[size];
+
+    // Determine which state styles to apply
+    const getStateStyles = () => {
+      if (disabled || loading) {
+        return {};
+      }
+      if (isActive) {
+        return variantStyles.active;
+      }
+      if (isHovered) {
+        return variantStyles.hover;
+      }
+      return {};
+    };
 
     const buttonStyles: React.CSSProperties = {
       display: 'inline-flex',
@@ -259,7 +306,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         variant !== 'ghost' && variant !== 'outlined'
           ? theme.shadows.button
           : 'none',
-      ...variantStyles,
+      ...variantStyles.base,
+      ...getStateStyles(),
       ...(disabled && {
         pointerEvents: 'none',
       }),
@@ -313,6 +361,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           disabled={disabled || loading}
           className={`tw-button ${className}`}
           style={buttonStyles}
+          onMouseEnter={() => !disabled && !loading && setIsHovered(true)}
+          onMouseLeave={() => {
+            setIsHovered(false);
+            setIsActive(false);
+          }}
+          onMouseDown={() => !disabled && !loading && setIsActive(true)}
+          onMouseUp={() => setIsActive(false)}
           {...rest}
         >
           {renderContent()}

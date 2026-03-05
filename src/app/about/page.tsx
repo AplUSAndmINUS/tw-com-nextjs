@@ -10,6 +10,7 @@ import { AboutCapabilities } from './AboutCapabilities';
 import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
+import { Button } from '@/components/Form/Button/Button';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -174,37 +175,49 @@ export default function AboutPage() {
             {FEATURED_PROJECTS.map((project) => (
               <div
                 key={project.name}
-                className='relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-gray-100/70 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
+                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-gray-100/70 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
               >
                 <div className='w-full h-1 rounded-sm bg-blue-600 dark:bg-blue-400 mb-4' />
                 <div className='space-y-1'>
                   <Typography
                     variant='h4'
                     className='font-semibold text-gray-900 dark:text-white text-sm leading-snug'
+                    style={{ fontSize: '1.25rem', lineHeight: 1.25 }}
                   >
                     {project.name}
                   </Typography>
                   <Typography
                     variant='h5'
-                    className='text-xs text-blue-600 dark:text-blue-300 font-medium'
+                    className='text-xs text-blue-600 dark:text-blue-300 mb-4'
+                    style={{ fontSize: '1rem', lineHeight: 1.2 }}
                   >
                     {project.period}
                   </Typography>
                   <Typography
                     variant='body'
-                    className='text-xs text-gray-200 dark:text-gray-300'
+                    className='text-xs text-gray-800 dark:text-gray-300'
+                    style={{ fontSize: '0.875rem', lineHeight: 1.4 }}
                   >
                     {project.roles}
                   </Typography>
                   <Typography
                     variant='label'
-                    className='text-xs text-gray-200 dark:text-gray-400 italic'
+                    className='text-xs text-gray-600 dark:text-gray-400'
                   >
                     {project.skills}
                   </Typography>
                 </div>
               </div>
             ))}
+            <Link href='/portfolio'>
+              <Button
+                variant='outlined'
+                size='medium'
+                className='justify-center w-full mt-2'
+              >
+                View Full Portfolio
+              </Button>
+            </Link>
           </div>
         </section>
 
