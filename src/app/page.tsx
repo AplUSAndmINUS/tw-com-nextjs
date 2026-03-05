@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getRobotsConfig } from '@/utils/metadata';
 import HomePageClient from './HomePageClient';
 
 export const metadata: Metadata = {
@@ -14,17 +15,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     type: 'website',
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
 };
 
 export default function HomePage() {

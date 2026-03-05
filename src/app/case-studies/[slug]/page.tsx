@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getRobotsConfig } from '@/utils/metadata';
 import { CaseStudyLayout } from '@/layouts/CaseStudyLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -31,17 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'Terence Waters',
       type: 'article',
     },
-    robots: {
-      index: false,
-      follow: false,
-      googleBot: {
-        index: false,
-        follow: false,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
+    robots: getRobotsConfig(),
   };
 }
 

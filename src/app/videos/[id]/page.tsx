@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
@@ -19,10 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Video — ${id}`,
     metadataBase: new URL('https://terencewaters.com'),
-    robots: {
-      index: false,
-      follow: false,
-    },
+    robots: getRobotsConfig(),
   };
 }
 

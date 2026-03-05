@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
 import { BlogListingClientWrapper } from '@/components/BlogListingClientWrapper';
@@ -16,17 +17,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     type: 'website',
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
 };
 
 export default async function BlogPage() {

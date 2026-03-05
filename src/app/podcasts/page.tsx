@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import type { PodcastEpisode } from '@/content/types';
@@ -17,17 +18,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     type: 'website',
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
 };
 
 /**
@@ -54,7 +45,8 @@ export default function PodcastsPage() {
         src: PodcastImage.src,
         alt: 'Podcasts',
         title: 'Podcasts',
-      }}>
+      }}
+    >
       <PodcastListingClientWrapper initialEpisodes={PLACEHOLDER_EPISODES} />
     </PageLayout>
   );

@@ -1,3 +1,4 @@
+import { getRobotsConfig } from '@/utils/metadata';
 import type { Metadata } from 'next';
 import { PageLayout } from '@/layouts/PageLayout';
 import { GitHubClientWrapper } from './GitHubClientWrapper';
@@ -17,17 +18,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     type: 'website',
   },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
   alternates: {
     canonical: '/github',
   },

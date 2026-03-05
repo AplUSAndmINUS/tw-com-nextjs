@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { VideoListingClientWrapper } from '@/components/VideoListingClientWrapper';
 import VideoImage from '@/assets/images/Video1200x2150.jpg';
@@ -24,17 +25,7 @@ export const metadata: Metadata = {
     ],
     type: 'website',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: getRobotsConfig(),
 };
 
 /**
