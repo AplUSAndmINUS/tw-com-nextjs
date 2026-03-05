@@ -79,6 +79,37 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
+    // Extract consumer-provided mouse handlers from rest props
+    const {
+      onMouseEnter: consumerOnMouseEnter,
+      onMouseLeave: consumerOnMouseLeave,
+      onMouseDown: consumerOnMouseDown,
+      onMouseUp: consumerOnMouseUp,
+      ...restProps
+    } = rest;
+
+    // Compose internal and consumer handlers
+    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!disabled && !loading) setIsHovered(true);
+      consumerOnMouseEnter?.(e);
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsHovered(false);
+      setIsActive(false);
+      consumerOnMouseLeave?.(e);
+    };
+
+    const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!disabled && !loading) setIsActive(true);
+      consumerOnMouseDown?.(e);
+    };
+
+    const handleMouseUp = (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsActive(false);
+      consumerOnMouseUp?.(e);
+    };
+
     // Size configurations
     const sizeConfig = {
       small: {
@@ -361,14 +392,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           disabled={disabled || loading}
           className={`tw-button ${className}`}
           style={buttonStyles}
-          onMouseEnter={() => !disabled && !loading && setIsHovered(true)}
-          onMouseLeave={() => {
-            setIsHovered(false);
-            setIsActive(false);
-          }}
-          onMouseDown={() => !disabled && !loading && setIsActive(true)}
-          onMouseUp={() => setIsActive(false)}
-          {...rest}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          {...restProps}
         >
           {renderContent()}
         </button>
