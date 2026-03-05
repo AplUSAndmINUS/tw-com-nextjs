@@ -3,6 +3,7 @@ export { useClickOutside } from './useClickOutside';
 export { useColorVisionFilter } from './useColorVisionFilter';
 export { useDebounce } from './useDebounce';
 export { useFadeInOut } from './useFadeInOut';
+export { useFocusTrap } from './useFocusTrap';
 export { useKeyPress } from './useKeyPress';
 export { useLocalStorage } from './useLocalStorage';
 export {
