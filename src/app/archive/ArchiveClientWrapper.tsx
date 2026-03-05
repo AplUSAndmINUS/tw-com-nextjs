@@ -5,28 +5,23 @@ import { AdaptiveCardGrid, AdaptiveCard } from '@/components/AdaptiveCardGrid';
 
 interface ArchiveClientWrapperProps {
   cards: AdaptiveCard[];
+  /** Map of card id to its full href path */
+  routingMap: Record<string, string>;
 }
 
 /**
  * ArchiveClientWrapper — Client component for handling archive card interactions
  */
-export function ArchiveClientWrapper({ cards }: ArchiveClientWrapperProps) {
+export function ArchiveClientWrapper({
+  cards,
+  routingMap,
+}: ArchiveClientWrapperProps) {
   const router = useRouter();
 
   const handleCardClick = (id: string) => {
-    const card = cards.find((c) => c.id === id);
-    if (card) {
-      // Determine the href based on the card's tags (content type)
-      const type = card.tags?.[0]?.toLowerCase();
-      let basePath = '/blog';
-
-      if (type === 'portfolio') {
-        basePath = '/portfolio';
-      } else if (type === 'case study') {
-        basePath = '/case-studies';
-      }
-
-      router.push(`${basePath}/${id}`);
+    const href = routingMap[id];
+    if (href) {
+      router.push(href);
     }
   };
 

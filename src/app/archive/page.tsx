@@ -67,10 +67,16 @@ export default async function ArchivePage() {
       title: item.title,
       description: item.excerpt,
       imageUrl: item.imageUrl || item.featuredImage,
-      imageAlt: item.title,
+      imageAlt: item.imageAlt || item.title,
       imageText: formattedDate,
       tags: item.type ? [item.type] : [],
     };
+  });
+
+  // Build routing map from slug to href
+  const routingMap: Record<string, string> = {};
+  allItems.forEach((item) => {
+    routingMap[item.slug] = item.href;
   });
 
   return (
@@ -94,7 +100,7 @@ export default async function ArchivePage() {
               No archived content yet. Check back soon.
             </p>
           ) : (
-            <ArchiveClientWrapper cards={cards} />
+            <ArchiveClientWrapper cards={cards} routingMap={routingMap} />
           )}
         </section>
       </div>
