@@ -1,5 +1,6 @@
 export { useAccessControl } from './useAccessControl';
 export { useClickOutside } from './useClickOutside';
+export { useFocusTrap } from './useFocusTrap';
 export { useColorVisionFilter } from './useColorVisionFilter';
 export { useDebounce } from './useDebounce';
 export { useFadeInOut } from './useFadeInOut';

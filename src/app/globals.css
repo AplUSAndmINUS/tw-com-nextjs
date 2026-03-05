@@ -8,6 +8,8 @@
   /* Always use dark background to prevent white from showing through */
   --background: #0f1419;
   --foreground: #e4e4e7;
+  /* Focus ring color — used by the global :focus-visible rule and skip link */
+  --focus-ring-color: #4a9eff;
 }
 
 @theme inline {
@@ -21,6 +23,49 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   /* Ensure dark background always, even if theme changes */
   background-color: #0f1419 !important;
+}
+
+/* ============================================================
+   Keyboard Navigation — Focus Styles
+   Provide a visible focus ring for every interactive element
+   when navigated via keyboard (TAB / SHIFT+TAB).
+   Uses :focus-visible so the ring is suppressed for mouse clicks.
+   ============================================================ */
+
+/* Base focus ring — works on all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip-to-main-content link — visible only when focused */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-to-content:focus-visible {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 9999;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.25rem;
+  background: #ffffff;
+  color: #0f1419;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: 6px;
+  border: 2px solid var(--focus-ring-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  outline: none;
 }
 
 /* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */
