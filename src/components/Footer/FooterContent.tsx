@@ -48,7 +48,7 @@ function FooterLinkSection({
     >
       <Typography
         variant='h5'
-        className='font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400'
+        className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
         style={{
           fontSize: isCompact ? '1rem' : '1.25rem',
           marginBottom: isCompact ? '0' : '0.75rem',
@@ -110,14 +110,14 @@ export function FooterContent({
             >
               <Typography
                 variant='h4'
-                className='text-gray-500 dark:text-gray-400'
+                className='text-gray-700 dark:text-gray-300'
               >
                 Terence Waters
               </Typography>
             </Link>
             <Typography
               variant='blockquote'
-              className={`text-gray-500 dark:text-gray-400 max-w-xs ${
+              className={`text-gray-700 dark:text-gray-300 max-w-xs ${
                 isCompact ? 'mt-1' : 'mt-2'
               }`}
               style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
@@ -163,7 +163,7 @@ export function FooterContent({
         >
           <Typography
             variant='blockquote'
-            className='text-gray-500 dark:text-gray-400'
+            className='text-gray-700 dark:text-gray-300'
             style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
           >
             &copy; 2025-{year} Terence Waters. All rights reserved.

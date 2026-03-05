@@ -800,9 +800,9 @@ export const gradients = {
       'linear-gradient(90deg, #1F1F1F 0%, #242424 50%, #1F1F1F 100%) no-repeat center',
   },
   light: {
-    solid: '#F4F2ED',
+    solid: '#F8F9FA',
     background:
-      '#F4F2ED radial-gradient(circle at 22% 48%, #F8F6F2 0%, #F2EEE6 36%, #EEEAE2 70%, #EAE6DE 100%)',
+      '#F8F9FA radial-gradient(circle at 22% 48%, #FBFCFC 0%, #F3F4F6 36%, #EEF0F2 70%, #E4E6EA 100%)',
     menu: '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',
     radial:
       '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',
@@ -813,16 +813,16 @@ export const gradients = {
   components: {
     card: {
       dark: 'linear-gradient(135deg, #242424 0%, #1F1F1F 100%)',
-      light: 'linear-gradient(135deg, #FFFFFF 0%, #F8F8F8 100%)',
+      light: 'linear-gradient(135deg, #FFFFFF 0%, #F5F6F8 100%)',
     },
     button: {
       dark: 'linear-gradient(90deg, #242424 0%, #1F1F1F 100%)',
-      light: 'linear-gradient(90deg, #FFFFFF 0%, #F8F8F8 100%)',
+      light: 'linear-gradient(90deg, #FFFFFF 0%, #F5F6F8 100%)',
     },
     modal: {
       dark: '#1F1F1F radial-gradient(circle at center, #2A2A2A 0%, #242424 30%, #1F1F1F 100%)',
       light:
-        '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F8F8F8 30%, #F5F5F5 100%)',
+        '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F8F9FA 30%, #F3F4F6 100%)',
     },
   },
 };

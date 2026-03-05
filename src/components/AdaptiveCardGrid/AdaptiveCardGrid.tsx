@@ -102,7 +102,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         }}
       >
         {cards.map((card) => {
-
           return (
             <motion.div
               key={card.id}
@@ -110,113 +109,121 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               initial='hidden'
               animate='visible'
             >
-            <div
-              style={{
-                cursor: 'pointer',
-                borderRadius: theme.borderRadius.container.medium,
-                overflow: 'hidden',
-                backgroundColor: isHovered(card.id) ? cardHoverSurfaceColor : cardSurfaceColor,
-                backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                borderTop: `4px solid ${accentColor}`,
-                transition: 'all 0.3s ease',
-                transform: isHovered(card.id) ? 'translateY(-4px)' : 'translateY(0)',
-                boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
-              }}
-              {...getHoverProps(card.id)}
-              onClick={() => handleCardClick(card.id)}
-            >
-              {card.imageUrl && (
-                <div
-                  style={{
-                    width: '100%',
-                    height: '200px',
-                    position: 'relative',
-                    backgroundColor: theme.semanticColors.background.muted,
-                  }}
-                >
-                  <img
-                    src={card.imageUrl}
-                    alt={card.imageAlt}
+              <div
+                style={{
+                  cursor: 'pointer',
+                  borderRadius: theme.borderRadius.container.medium,
+                  overflow: 'hidden',
+                  backgroundColor: isHovered(card.id)
+                    ? cardHoverSurfaceColor
+                    : cardSurfaceColor,
+                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                  borderLeft: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                  borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                  borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                  borderTop: `4px solid ${accentColor}`,
+                  transition: 'all 0.3s ease',
+                  transform: isHovered(card.id)
+                    ? 'translateY(-4px)'
+                    : 'translateY(0)',
+                  boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
+                }}
+                {...getHoverProps(card.id)}
+                onClick={() => handleCardClick(card.id)}
+              >
+                {card.imageUrl && (
+                  <div
                     style={{
                       width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: theme.spacing.s1,
-                      background: 'rgba(0, 0, 0, 0.6)',
-                      color: 'white',
-                      fontSize: '0.875rem',
+                      height: '200px',
+                      position: 'relative',
+                      backgroundColor: theme.semanticColors.background.muted,
                     }}
                   >
-                    {card.imageText}
-                  </div>
-                </div>
-              )}
-              <div style={{ padding: theme.spacing.m }}>
-                <h3
-                  style={{
-                    fontSize: '1.25rem',
-                    fontWeight: 600,
-                    fontFamily: headingFontFamily,
-                    color: theme.semanticColors.text.heading,
-                    marginBottom: theme.spacing.s1,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: '0.9375rem',
-                    color: theme.semanticColors.text.muted,
-                    lineHeight: 1.5,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    marginBottom:
-                      card.tags && card.tags.length > 0 ? theme.spacing.s1 : 0,
-                  }}
-                >
-                  {card.description}
-                </p>
-                {card.tags && card.tags.length > 0 && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: theme.spacing.xs,
-                      marginTop: theme.spacing.s1,
-                    }}
-                  >
-                    {card.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontSize: '0.75rem',
-                          padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
-                          borderRadius: theme.borderRadius.container.small,
-                          backgroundColor:
-                            theme.semanticColors.background.muted,
-                          color: theme.semanticColors.text.muted,
-                          border: `1px solid ${theme.semanticColors.border.default}`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    <img
+                      src={card.imageUrl}
+                      alt={card.imageAlt}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        padding: theme.spacing.s1,
+                        background: 'rgba(0, 0, 0, 0.6)',
+                        color: 'white',
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      {card.imageText}
+                    </div>
                   </div>
                 )}
+                <div style={{ padding: theme.spacing.m }}>
+                  <h3
+                    style={{
+                      fontSize: '1.25rem',
+                      fontWeight: 600,
+                      fontFamily: headingFontFamily,
+                      color: theme.semanticColors.text.heading,
+                      marginBottom: theme.spacing.s1,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: '0.9375rem',
+                      color: theme.semanticColors.text.muted,
+                      lineHeight: 1.5,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      marginBottom:
+                        card.tags && card.tags.length > 0
+                          ? theme.spacing.s1
+                          : 0,
+                    }}
+                  >
+                    {card.description}
+                  </p>
+                  {card.tags && card.tags.length > 0 && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: theme.spacing.xs,
+                        marginTop: theme.spacing.s1,
+                      }}
+                    >
+                      {card.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          style={{
+                            fontSize: '0.75rem',
+                            padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
+                            borderRadius: theme.borderRadius.container.small,
+                            backgroundColor:
+                              theme.semanticColors.background.muted,
+                            color: theme.semanticColors.text.muted,
+                            border: `1px solid ${theme.semanticColors.border.default}`,
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
             </motion.div>
           );
         })}
@@ -239,7 +246,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         }}
       >
         {cards.map((card) => {
-
           return (
             <motion.div
               key={card.id}
@@ -247,115 +253,123 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               initial='hidden'
               animate='visible'
             >
-            <div
-              style={{
-                display: 'flex',
-                gap: theme.spacing.m,
-                cursor: 'pointer',
-                borderRadius: theme.borderRadius.container.medium,
-                overflow: 'hidden',
-                backgroundColor: isHovered(card.id) ? cardHoverSurfaceColor : cardSurfaceColor,
-                backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                borderLeft: `4px solid ${accentColor}`,
-                padding: theme.spacing.m,
-                transition: 'all 0.3s ease',
-                transform: isHovered(card.id) ? 'translateY(-4px)' : 'translateY(0)',
-                boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
-              }}
-              {...getHoverProps(card.id)}
-              onClick={() => handleCardClick(card.id)}
-            >
-              {card.imageUrl && (
-                <div
-                  style={{
-                    width: isMobile ? '80px' : '120px',
-                    height: isMobile ? '80px' : '120px',
-                    flexShrink: 0,
-                    borderRadius: theme.borderRadius.container.small,
-                    overflow: 'hidden',
-                    backgroundColor: theme.semanticColors.background.muted,
-                    position: 'relative',
-                  }}
-                >
-                  <img
-                    src={card.imageUrl}
-                    alt={card.imageAlt}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                </div>
-              )}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <h3
-                  style={{
-                    fontSize: isMobile ? '1rem' : '1.125rem',
-                    fontWeight: 600,
-                    fontFamily: headingFontFamily,
-                    color: theme.semanticColors.text.heading,
-                    marginBottom: theme.spacing.xs,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: '0.875rem',
-                    color: accentColor,
-                    fontWeight: 600,
-                    marginBottom: theme.spacing.xs,
-                  }}
-                >
-                  {card.imageText}
-                </p>
-                <p
-                  style={{
-                    fontSize: '0.875rem',
-                    color: theme.semanticColors.text.muted,
-                    lineHeight: 1.5,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    marginBottom:
-                      card.tags && card.tags.length > 0 ? theme.spacing.xs : 0,
-                  }}
-                >
-                  {card.description}
-                </p>
-                {card.tags && card.tags.length > 0 && (
+              <div
+                style={{
+                  display: 'flex',
+                  gap: theme.spacing.m,
+                  cursor: 'pointer',
+                  borderRadius: theme.borderRadius.container.medium,
+                  overflow: 'hidden',
+                  backgroundColor: isHovered(card.id)
+                    ? cardHoverSurfaceColor
+                    : cardSurfaceColor,
+                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                  borderTop: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                  borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                  borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                  borderLeft: `4px solid ${accentColor}`,
+                  padding: theme.spacing.m,
+                  transition: 'all 0.3s ease',
+                  transform: isHovered(card.id)
+                    ? 'translateY(-4px)'
+                    : 'translateY(0)',
+                  boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
+                }}
+                {...getHoverProps(card.id)}
+                onClick={() => handleCardClick(card.id)}
+              >
+                {card.imageUrl && (
                   <div
                     style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: theme.spacing.xs,
-                      marginTop: theme.spacing.xs,
+                      width: isMobile ? '80px' : '120px',
+                      height: isMobile ? '80px' : '120px',
+                      flexShrink: 0,
+                      borderRadius: theme.borderRadius.container.small,
+                      overflow: 'hidden',
+                      backgroundColor: theme.semanticColors.background.muted,
+                      position: 'relative',
                     }}
                   >
-                    {card.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontSize: '0.7rem',
-                          padding: `2px ${theme.spacing.xs}`,
-                          borderRadius: theme.borderRadius.container.small,
-                          backgroundColor:
-                            theme.semanticColors.background.muted,
-                          color: theme.semanticColors.text.muted,
-                          border: `1px solid ${theme.semanticColors.border.default}`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    <img
+                      src={card.imageUrl}
+                      alt={card.imageAlt}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
                   </div>
                 )}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h3
+                    style={{
+                      fontSize: isMobile ? '1rem' : '1.125rem',
+                      fontWeight: 600,
+                      fontFamily: headingFontFamily,
+                      color: theme.semanticColors.text.heading,
+                      marginBottom: theme.spacing.xs,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: '0.875rem',
+                      color: accentColor,
+                      fontWeight: 600,
+                      marginBottom: theme.spacing.xs,
+                    }}
+                  >
+                    {card.imageText}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: '0.875rem',
+                      color: theme.semanticColors.text.muted,
+                      lineHeight: 1.5,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      marginBottom:
+                        card.tags && card.tags.length > 0
+                          ? theme.spacing.xs
+                          : 0,
+                    }}
+                  >
+                    {card.description}
+                  </p>
+                  {card.tags && card.tags.length > 0 && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: theme.spacing.xs,
+                        marginTop: theme.spacing.xs,
+                      }}
+                    >
+                      {card.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          style={{
+                            fontSize: '0.7rem',
+                            padding: `2px ${theme.spacing.xs}`,
+                            borderRadius: theme.borderRadius.container.small,
+                            backgroundColor:
+                              theme.semanticColors.background.muted,
+                            color: theme.semanticColors.text.muted,
+                            border: `1px solid ${theme.semanticColors.border.default}`,
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
             </motion.div>
           );
         })}
@@ -377,7 +391,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
       }}
     >
       {cards.map((card) => {
-
         return (
           <motion.div
             key={card.id}
@@ -385,127 +398,133 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
             initial='hidden'
             animate='visible'
           >
-          <div
-            style={{
-              cursor: 'pointer',
-              borderRadius: theme.borderRadius.container.medium,
-              overflow: 'hidden',
-              backgroundColor: isHovered(card.id) ? cardHoverSurfaceColor : cardSurfaceColor,
-              backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-              border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-              borderTop: `4px solid ${accentColor}`,
-              transition: 'all 0.3s ease',
-              transform: isHovered(card.id) ? 'translateY(-4px)' : 'translateY(0)',
-              boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
-            }}
-            {...getHoverProps(card.id)}
-            onClick={() => handleCardClick(card.id)}
-          >
             <div
               style={{
-                display: 'flex',
-                flexDirection: isMobile ? 'column' : 'row',
-                gap: isMobile ? 0 : theme.spacing.l,
+                cursor: 'pointer',
+                borderRadius: theme.borderRadius.container.medium,
+                overflow: 'hidden',
+                backgroundColor: isHovered(card.id)
+                  ? cardHoverSurfaceColor
+                  : cardSurfaceColor,
+                backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                borderTop: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
+                borderLeft: `4px solid ${accentColor}`,
+                transition: 'all 0.3s ease',
+                transform: isHovered(card.id)
+                  ? 'translateY(-4px)'
+                  : 'translateY(0)',
+                boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
               }}
+              {...getHoverProps(card.id)}
+              onClick={() => handleCardClick(card.id)}
             >
-              {card.imageUrl && (
-                <div
-                  style={{
-                    width: isMobile ? '100%' : '320px',
-                    height: isMobile ? '200px' : '240px',
-                    flexShrink: 0,
-                    backgroundColor: theme.semanticColors.background.muted,
-                    position: 'relative',
-                  }}
-                >
-                  <img
-                    src={card.imageUrl}
-                    alt={card.imageAlt}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: theme.spacing.s1,
-                      background: 'rgba(0, 0, 0, 0.7)',
-                      color: 'white',
-                      fontSize: '0.875rem',
-                      fontWeight: 500,
-                    }}
-                  >
-                    {card.imageText}
-                  </div>
-                </div>
-              )}
               <div
                 style={{
-                  flex: 1,
-                  padding: theme.spacing.l,
                   display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  gap: isMobile ? 0 : theme.spacing.l,
                 }}
               >
-                <h3
-                  style={{
-                    fontSize: isMobile ? '1.5rem' : '1.75rem',
-                    fontWeight: 600,
-                    fontFamily: headingFontFamily,
-                    color: theme.semanticColors.text.heading,
-                    marginBottom: theme.spacing.m,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: isMobile ? '0.9375rem' : '1rem',
-                    color: theme.semanticColors.text.muted,
-                    lineHeight: 1.6,
-                    marginBottom:
-                      card.tags && card.tags.length > 0 ? theme.spacing.m : 0,
-                  }}
-                >
-                  {card.description}
-                </p>
-                {card.tags && card.tags.length > 0 && (
+                {card.imageUrl && (
                   <div
                     style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: theme.spacing.s1,
-                      marginTop: theme.spacing.s1,
+                      width: isMobile ? '100%' : '320px',
+                      height: isMobile ? '200px' : '240px',
+                      flexShrink: 0,
+                      backgroundColor: theme.semanticColors.background.muted,
+                      position: 'relative',
                     }}
                   >
-                    {card.tags.slice(0, 5).map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontSize: '0.75rem',
-                          padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
-                          borderRadius: theme.borderRadius.container.small,
-                          backgroundColor:
-                            theme.semanticColors.background.muted,
-                          color: theme.semanticColors.text.muted,
-                          border: `1px solid ${theme.semanticColors.border.default}`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    <img
+                      src={card.imageUrl}
+                      alt={card.imageAlt}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        padding: theme.spacing.s1,
+                        background: 'rgba(0, 0, 0, 0.7)',
+                        color: 'white',
+                        fontSize: '0.875rem',
+                        fontWeight: 500,
+                      }}
+                    >
+                      {card.imageText}
+                    </div>
                   </div>
                 )}
+                <div
+                  style={{
+                    flex: 1,
+                    padding: theme.spacing.l,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: isMobile ? '1.5rem' : '1.75rem',
+                      fontWeight: 600,
+                      fontFamily: headingFontFamily,
+                      color: theme.semanticColors.text.heading,
+                      marginBottom: theme.spacing.m,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: isMobile ? '0.9375rem' : '1rem',
+                      color: theme.semanticColors.text.muted,
+                      lineHeight: 1.6,
+                      marginBottom:
+                        card.tags && card.tags.length > 0 ? theme.spacing.m : 0,
+                    }}
+                  >
+                    {card.description}
+                  </p>
+                  {card.tags && card.tags.length > 0 && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: theme.spacing.s1,
+                        marginTop: theme.spacing.s1,
+                      }}
+                    >
+                      {card.tags.slice(0, 5).map((tag) => (
+                        <span
+                          key={tag}
+                          style={{
+                            fontSize: '0.75rem',
+                            padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
+                            borderRadius: theme.borderRadius.container.small,
+                            backgroundColor:
+                              theme.semanticColors.background.muted,
+                            color: theme.semanticColors.text.muted,
+                            border: `1px solid ${theme.semanticColors.border.default}`,
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
           </motion.div>
         );
       })}

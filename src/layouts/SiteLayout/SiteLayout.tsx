@@ -32,13 +32,13 @@ export function SiteLayout({
     themeMode === 'high-contrast' ||
     themeMode === 'grayscale-dark';
 
-  // Create muted backgrounds for better readability
-  // Light modes: Soft gray radial gradient (reduces harsh white brightness)
-  // Dark modes: Use theme's rich dark gradient
+  // Use theme-aware backgrounds for all modes
+  // This ensures proper adaptation across all theme variants including
+  // accessibility modes (high-contrast, colorblind, grayscale)
   const backgroundStyle = {
     background: isDarkMode
       ? theme.gradients.dark.background
-      : 'radial-gradient(ellipse at top center, #F8F9FA 0%, #EEF0F2 40%, #E4E6EA 100%)',
+      : theme.gradients.light.background,
   };
 
   return (
