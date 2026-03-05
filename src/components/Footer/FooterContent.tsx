@@ -9,15 +9,15 @@ import { useIsTablet } from '@/hooks/useMediaQuery';
 const footerLinks = {
   content: [
     { href: '/blog', label: 'Blog' },
+    { href: '/github', label: 'GitHub' },
     { href: '/videos', label: 'Videos' },
-    { href: '/podcasts', label: 'Podcasts' },
     { href: '/content-hub', label: 'Content Hub' },
   ],
   work: [
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/case-studies', label: 'Case Studies' },
     { href: '/services', label: 'Services' },
-    { href: '/coaching', label: 'Coaching' },
+    { href: '/services/resonance-core', label: 'Resonance Core Framework' },
   ],
   connect: [
     { href: '/about', label: 'About' },
