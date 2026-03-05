@@ -25,25 +25,24 @@ technologies:
     'Emotional Archetype Mapping',
     'Decision Scoring',
   ]
-featuredImage:
-  url: '/portfolio/posts/enterprise-dashboard/images/dii-dashboard.png'
-  alt: 'Decision Integrity Index Dashboard'
+imageUrl: '/portfolio/enterprise-dashboard/images/dii-dashboard.png'
+imageAlt: 'Decision Integrity Index (DII) Dashboard showing 4.72 average composite score'
+featured: true
 gallery:
-  - url: '/portfolio/posts/enterprise-dashboard/images/dii-dashboard.png'
+  - url: '/portfolio/enterprise-dashboard/images/dii-dashboard.png'
     alt: 'Decision Integrity Index (DII) Dashboard showing 4.72 average composite score'
     caption: 'Decision Integrity Index Dashboard - Real-time emotional resonance analytics with 4.72 average DII score across all strategic decisions'
-  - url: '/portfolio/posts/enterprise-dashboard/images/decision-table.png'
+  - url: '/portfolio/enterprise-dashboard/images/decision-table.png'
     alt: 'Notion decision logging table with emotional resonance scoring'
     caption: 'Decision Logging System - Comprehensive Notion table mapping decisions to emotional archetypes, strategic indexes, and threshold frameworks'
-  - url: '/portfolio/posts/enterprise-dashboard/images/decision-ledger.png'
+  - url: '/portfolio/enterprise-dashboard/images/decision-ledger.png'
     alt: 'Fluxline Decisions Ledger organized by threshold categories'
     caption: 'Fluxline Decisions Ledger - Strategic decisions organized by Meta-System, Creative, Professional, Financial, Statistical/KPI, Somatic, and Emotional/Relational thresholds'
-  - url: '/portfolio/posts/enterprise-dashboard/images/microsoft-planner-swimlanes.png'
+  - url: '/portfolio/enterprise-dashboard/images/microsoft-planner-swimlanes.png'
     alt: 'Microsoft Planner swimlanes received from Decision Table for Teams & M365 integration'
     caption: 'Microsoft Planner swimlanes received from Decision Table for Teams & M365 integration'
 publishedDate: '2025-12-11'
 projectDate: '2025'
-featured: true
 seoTitle: 'Decision Integrity Index Dashboard - Notion & M365 Business Intelligence'
 seoDescription: 'Strategic decision management system with emotional resonance analytics, Notion API integration, and automated Microsoft 365 workflows'
 seoKeywords:

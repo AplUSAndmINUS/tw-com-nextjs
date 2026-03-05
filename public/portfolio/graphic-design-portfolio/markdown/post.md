@@ -20,12 +20,15 @@ technologies:
   - Visual Communication
   - Print Design
   - Digital Design
-featuredImage:
-  url: '/portfolio/posts/graphic-design-portfolio/images/behance-portfolio-featured.jpg'
-  alt: 'Graphic design portfolio showcase- Behance.net'
+imageUrl: '/portfolio/graphic-design-portfolio/images/behance-portfolio-featured.jpg'
+imageAlt: 'Graphic design portfolio showcase- Behance.net'
+featured: false
+gallery:
+  - url: '/portfolio/graphic-design-portfolio/images/behance-portfolio-featured.jpg'
+    alt: 'Graphic design portfolio showcase- Behance.net'
+    caption: 'Graphic design portfolio showcase- Behance.net'
 publishedDate: '2025-07-15'
 projectDate: '2010-2020'
-featured: false
 liveUrl: 'https://www.behance.net/aplusandminus'
 seoTitle: 'Graphic Design Portfolio - Visual Identity & Branding Work'
 seoDescription: 'Professional graphic design portfolio showcasing expertise in Adobe Illustrator and Photoshop, including brand identity, logo design, typography, and visual communication.'

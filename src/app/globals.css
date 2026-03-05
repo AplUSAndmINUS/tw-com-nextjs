@@ -52,6 +52,8 @@ body {
 /* Hide first h1 or h2 in prose content to prevent duplicate titles */
 .prose-content-body > h1:first-child,
 .prose-content-body > h2:first-child,
+.prose-content-body > div + h1,
+.prose-content-body > div + h2,
 .border-t > h1:first-child,
 .border-t > h2:first-child {
   display: none;

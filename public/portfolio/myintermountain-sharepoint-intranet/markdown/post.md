@@ -23,22 +23,21 @@ technologies:
   - Microsoft Search
   - OneDrive Integration
   - PING SSO
-featuredImage:
-  url: '/portfolio/posts/myintermountain-sharepoint-intranet/images/myintermountain-intranet-architecture-infographic.jpg'
-  alt: 'Azure and SharePoint architecture diagram'
+imageUrl: '/portfolio/myintermountain-sharepoint-intranet/images/myintermountain-intranet-architecture-infographic.jpg'
+imageAlt: 'Azure and SharePoint architecture diagram'
+featured: true
 gallery:
-  - url: '/portfolio/posts/myintermountain-sharepoint-intranet/images/myintermountain-intranet-architecture-infographic.jpg'
+  - url: '/portfolio/myintermountain-sharepoint-intranet/images/myintermountain-intranet-architecture-infographic.jpg'
     alt: 'Azure and SharePoint architecture diagram: Showcases the workflow for MyIntermountain based on Microsoft 365 and Azure'
     caption: 'Microsoft 365 and Azure backend with SharePoint Online integration to showcase MyIntermountain intranet'
-  - url: '/portfolio/posts/myintermountain-sharepoint-intranet/images/power-automate-azure-webjob-site-provisioning.jpg'
+  - url: '/portfolio/myintermountain-sharepoint-intranet/images/power-automate-azure-webjob-site-provisioning.jpg'
     alt: 'Automated provisioning workflow'
     caption: 'Power Automate and Spark provisioning tools workflow: How to safely create SharePoint sites without user-driven admin privileges'
-  - url: '/portfolio/posts/myintermountain-sharepoint-intranet/images/employee-productivity-m365-infographic.jpg'
+  - url: '/portfolio/myintermountain-sharepoint-intranet/images/employee-productivity-m365-infographic.jpg'
     alt: 'Microsoft 365 integration architecture'
     caption: 'Unified employee experience with M365 services'
 publishedDate: '2025-12-08'
 projectDate: '2023-2024'
-featured: true
 seoTitle: 'MyIntermountain SharePoint Intranet - Azure Infrastructure Portfolio'
 seoDescription: 'Enterprise SharePoint Online intranet infrastructure for Intermountain Health with Azure backend, Power Automate, and automated provisioning delivered in 9 months.'
 seoKeywords:

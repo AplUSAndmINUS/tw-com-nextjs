@@ -20,12 +20,15 @@ technologies:
   - Breakthrough Documentation
   - Legacy Building Systems
   - Mission Alignment Tools
-featuredImage:
-  url: '/portfolio/posts/resonance-core-coaching-business/images/LifeCoachingResonanceCore.jpg'
-  alt: 'Life Coaching and The Resonance Core Framework'
+imageUrl: '/portfolio/resonance-core-coaching-business/images/LifeCoachingResonanceCore.jpg'
+imageAlt: 'Life Coaching and The Resonance Core Framework'
+featured: true
+gallery:
+  - url: '/portfolio/resonance-core-coaching-business/images/LifeCoachingResonanceCore.jpg'
+    alt: Life Coaching and The Resonance Core Framework'
+    caption: 'Life Coaching and The Resonance Core Framework'
 publishedDate: '2025-09-08'
 projectDate: '2017-2025'
-featured: true
 liveUrl: 'https://fluxline.pro/services/resonance-core/'
 seoTitle: 'Resonance Core Framework - Transformational Identity Coaching'
 seoDescription: 'Proprietary coaching framework integrating archetypal mapping, emotional emergence, symbolic rituals, and legacy building for deep personal transformation.'

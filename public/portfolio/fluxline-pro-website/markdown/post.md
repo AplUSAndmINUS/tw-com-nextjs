@@ -17,25 +17,24 @@ technologies:
     'Framer Motion',
     'Azure',
   ]
-featuredImage:
-  url: '/case-studies/posts/fluxline-2-platform-development/images/fluxline-20-dsm.jpg'
-  alt: 'Fluxline Pro 2.0 Design System Theming'
+imageUrl: '/portfolio/fluxline-pro-website/images/fluxline-about.png'
+imageAlt: 'Fluxline Pro About page redesign'
+featured: true
 gallery:
-  - url: '/case-studies/posts/fluxline-2-platform-development/images/fluxline-20-dsm.jpg'
-    alt: 'Fluxline Pro 2.0 Design System Theming'
-    caption: 'Fluxline Pro 2.0 Design System Theming'
-  - url: '/case-studies/posts/fluxline-2-platform-development/images/fluxline-about-old.png'
-    alt: 'Fluxline.pro older About page'
-    caption: 'Fluxline.pro older About page- Issues with readability, consistency, and performance'
-  - url: '/case-studies/posts/fluxline-2-platform-development/images/fluxline-about.png'
+  - url: '/portfolio/fluxline-pro-website/images/fluxline-about.png'
     alt: 'Fluxline 2.0 About page redesign, showing a modular, clearer, more refined look'
     caption: 'Fluxline 2.0 About page redesign, showing a modular, clearer, more refined look'
-  - url: '/case-studies/posts/fluxline-2-platform-development/images/fluxline-theming.png'
+  - url: '/portfolio/fluxline-pro-website/images/fluxline-20-dsm.jpg'
+    alt: 'Fluxline Pro 2.0 Design System Theming'
+    caption: 'Fluxline Pro 2.0 Design System Theming'
+  - url: '/portfolio/fluxline-pro-website/images/fluxline-about-old.png'
+    alt: 'Fluxline.pro older About page'
+    caption: 'Fluxline.pro older About page- Issues with readability, consistency, and performance'
+  - url: '/portfolio/fluxline-pro-website/images/fluxline-theming.png'
     alt: 'Fluxline 2.0 Theming code in Fluent UI'
     caption: 'Fluxline 2.0 Theming code in Fluent UI'
 publishedDate: '2025-12-15'
 projectDate: '2024-2025'
-featured: true
 liveUrl: 'https://fluxline.pro'
 seoTitle: 'Fluxline Pro - Modern Next.js Business Platform'
 seoDescription: 'Enterprise-grade web platform built with Next.js 16, featuring advanced theming, content management, and responsive design'

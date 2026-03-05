@@ -20,25 +20,24 @@ technologies:
   - Agile/Scrum
   - Cross-Platform Development
   - Healthcare IT
-featuredImage:
-  url: '/portfolio/posts/myhealth-2-0-patient-portal/images/myhealthPlus-infographic-architecture.jpg'
-  alt: 'MyHealth 2.0 Enterprise integration architecture infographic'
+imageUrl: '/portfolio/myhealth-2-0-patient-portal/images/myhealthPlus-infographic-architecture.jpg'
+imageAlt: 'MyHealth 2.0 Enterprise integration architecture infographic'
+featured: true
 gallery:
-  - url: '/portfolio/posts/myhealth-2-0-patient-portal/images/myhealthPlus-infographic-architecture.jpg'
+  - url: '/portfolio/myhealth-2-0-patient-portal/images/myhealthPlus-infographic-architecture.jpg'
     alt: 'MyHealth 2.0 Enterprise integration architecture infographic'
     caption: 'MyHealth 2.0 Enterprise integration architecture infographic'
-  - url: '/portfolio/posts/myhealth-2-0-patient-portal/images/myHealthWebsite.png'
+  - url: '/portfolio/myhealth-2-0-patient-portal/images/myHealthWebsite.png'
     alt: 'MyHealth 2.0 responsive website homepage'
     caption: 'MyHealth 2.0 responsive website - Homepage'
-  - url: '/portfolio/posts/myhealth-2-0-patient-portal/images/myHealthMobileView.png'
+  - url: '/portfolio/myhealth-2-0-patient-portal/images/myHealthMobileView.png'
     alt: 'MyHealth 2.0 responsive app - Test Results Page'
     caption: 'MyHealth 2.0 responsive app - Test Results Page'
-  - url: '/portfolio/posts/myhealth-2-0-patient-portal/images/myHealthLogo.png'
+  - url: '/portfolio/myhealth-2-0-patient-portal/images/myHealthLogo.png'
     alt: 'MyHealth 2.0 Patient Portal logo'
     caption: 'MyHealth 2.0 Patient Portal logo'
 publishedDate: '2025-12-08'
 projectDate: '2019-2020'
-featured: true
 seoTitle: 'MyHealth 2.0 Healthcare Portal - React.js/React Native Unified Enterprise Project'
 seoDescription: 'Led enterprise healthcare portal rebuild from Angular to React.js/React Native in 24 months for Intermountain Health, integrating HL7 systems and delivering cross-platform patient experience.'
 seoKeywords:
