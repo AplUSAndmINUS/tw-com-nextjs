@@ -184,7 +184,7 @@ export const Modal: React.FC<ModalProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: theme.palette.redDark,
+                    color: theme.semanticColors.text.muted,
                     transition: 'all 0.2s ease',
                   }}
                   onMouseEnter={(e) => {

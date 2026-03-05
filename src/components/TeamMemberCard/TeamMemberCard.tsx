@@ -180,20 +180,13 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                   rel='noopener noreferrer'
                   aria-label={item.tooltip}
                   onClick={(e) => e.stopPropagation()}
+                  className='opacity-85 hover:opacity-100 transition-opacity duration-200'
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '18px',
                     height: '18px',
-                    opacity: 0.85,
-                    transition: 'opacity 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.opacity = '1';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '0.85';
                   }}
                 >
                   <FluentIcon
