@@ -16,8 +16,8 @@ const footerLinks = {
   work: [
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/case-studies', label: 'Case Studies' },
-    { href: '/coaching', label: 'Coaching' },
     { href: '/services', label: 'Services' },
+    { href: '/coaching', label: 'Coaching' },
   ],
   connect: [
     { href: '/about', label: 'About' },

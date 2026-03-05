@@ -17,6 +17,12 @@ export const navItems: NavItem[] = [
     description: 'Learn more about Terence Waters',
   },
   {
+    label: 'Services',
+    path: '/services',
+    description:
+      'Explore design, development, consulting, and coaching services',
+  },
+  {
     label: 'Content Hub',
     path: '/content-hub',
     description: 'All content in one place',
