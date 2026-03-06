@@ -42,9 +42,9 @@ export interface UseAppThemeReturn {
   /** Set reduced motion user preference */
   setReducedMotion: (enabled: boolean) => void;
   /** Whether reduced transparency is enabled (user preference) */
-  reduceTransparency: boolean;
+  reducedTransparency: boolean;
   /** Set reduced transparency user preference */
-  setReduceTransparency: (enabled: boolean) => void;
+  setreducedTransparency: (enabled: boolean) => void;
 }
 
 /**
@@ -69,7 +69,7 @@ export function useAppTheme(): UseAppThemeReturn {
   const fontScale = preferences.fontScale;
   const layoutPreference = preferences.layoutPreference;
   const reducedMotion = preferences.reducedMotion;
-  const reduceTransparency = preferences.reduceTransparency;
+  const reducedTransparency = preferences.reducedTransparency;
 
   const theme = themeMap[themeMode] as IExtendedTheme;
 
@@ -110,9 +110,9 @@ export function useAppTheme(): UseAppThemeReturn {
     [setPreference]
   );
 
-  const setReduceTransparency = useCallback(
+  const setreducedTransparency = useCallback(
     (enabled: boolean) => {
-      setPreference('reduceTransparency', enabled);
+      setPreference('reducedTransparency', enabled);
     },
     [setPreference]
   );
@@ -140,7 +140,7 @@ export function useAppTheme(): UseAppThemeReturn {
     setLayoutPreference,
     reducedMotion,
     setReducedMotion,
-    reduceTransparency,
-    setReduceTransparency,
+    reducedTransparency,
+    setreducedTransparency,
   };
 }

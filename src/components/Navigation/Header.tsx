@@ -53,7 +53,7 @@ export function Header() {
     themeMode,
     setThemeMode,
     layoutPreference,
-    reduceTransparency,
+    reducedTransparency,
   } = useAppTheme();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
@@ -246,8 +246,8 @@ export function Header() {
           backgroundColor: isDark
             ? theme.gradients.dark.solid
             : theme.gradients.light.solid,
-          backdropFilter: reduceTransparency ? 'none' : 'blur(12px)',
-          WebkitBackdropFilter: reduceTransparency ? 'none' : 'blur(12px)',
+          backdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
+          WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
           boxShadow: isDark ? 'none' : theme.shadows.s,
         }}
@@ -474,11 +474,11 @@ export function Header() {
               position: 'fixed',
               inset: 0,
               zIndex: 120,
-              backgroundColor: reduceTransparency
+              backgroundColor: reducedTransparency
                 ? 'rgba(0, 0, 0, 0.85)'
                 : 'rgba(0, 0, 0, 0.75)',
-              backdropFilter: reduceTransparency ? 'none' : 'blur(4px)',
-              WebkitBackdropFilter: reduceTransparency ? 'none' : 'blur(4px)',
+              backdropFilter: reducedTransparency ? 'none' : 'blur(4px)',
+              WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(4px)',
             }}
             onClick={handleModalClose}
           >

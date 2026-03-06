@@ -12,11 +12,11 @@ interface StandardFooterProps {
  * StandardFooter — Simple always-visible footer for non-homepage pages
  */
 export function StandardFooter({ isCompact = false }: StandardFooterProps) {
-  const { reduceTransparency } = useAppTheme();
+  const { reducedTransparency } = useAppTheme();
 
   return (
     <footer
-      className={`border-t ${reduceTransparency ? '' : 'backdrop-blur-md'} bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0`}
+      className={`border-t ${reducedTransparency ? '' : 'backdrop-blur-md'} bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0`}
       role='contentinfo'
     >
       <FooterContent isCompact={isCompact} />

@@ -64,8 +64,8 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     setLayoutPreference,
     reducedMotion,
     setReducedMotion,
-    reduceTransparency,
-    setReduceTransparency,
+    reducedTransparency,
+    setreducedTransparency,
   } = useAppTheme();
   const { preferences, resetPreferences } = useUserPreferencesStore();
 
@@ -325,21 +325,21 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             <button
               type='button'
               role='switch'
-              aria-checked={reduceTransparency}
+              aria-checked={reducedTransparency}
               className='relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
               style={{
-                background: reduceTransparency
+                background: reducedTransparency
                   ? theme.semanticColors.link.default
                   : isDark
                     ? theme.semanticColors.background.muted
                     : theme.semanticColors.border.default,
                 outlineColor: theme.semanticColors.focus.ring,
               }}
-              onClick={() => setReduceTransparency(!reduceTransparency)}
+              onClick={() => setreducedTransparency(!reducedTransparency)}
               aria-label='Toggle reduced transparency'
             >
               <span
-                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${reduceTransparency ? 'translate-x-5' : ''}`}
+                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${reducedTransparency ? 'translate-x-5' : ''}`}
               />
             </button>
           </SettingRow>

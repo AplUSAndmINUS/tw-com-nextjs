@@ -16,7 +16,7 @@ import { FooterContent } from './FooterContent';
  * - Mobile Landscape: Hidden (no toggle button) to preserve vertical space
  */
 export function HomePageFooter() {
-  const { theme, reduceTransparency } = useAppTheme();
+  const { theme, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const isMobileLandscape = useIsMobileLandscape();
 
@@ -70,7 +70,7 @@ export function HomePageFooter() {
 
       {/* Desktop footer (always visible, no animation) */}
       <footer
-        className={`hidden lg:block border-t ${reduceTransparency ? '' : 'backdrop-blur-md'} bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0`}
+        className={`hidden lg:block border-t ${reducedTransparency ? '' : 'backdrop-blur-md'} bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 mt-auto mb-0`}
         role='contentinfo'
         style={{
           borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
@@ -85,7 +85,7 @@ export function HomePageFooter() {
           <motion.footer
             {...animationProps}
             id='footer-content'
-            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t ${reduceTransparency ? '' : 'backdrop-blur-md'} bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 shadow-2xl`}
+            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t ${reducedTransparency ? '' : 'backdrop-blur-md'} bg-slate-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-gray-700 shadow-2xl`}
             role='contentinfo'
           >
             <FooterContent isCompact={false} headerContent={mobileHideButton} />
