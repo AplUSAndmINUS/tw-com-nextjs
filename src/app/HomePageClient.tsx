@@ -87,7 +87,9 @@ export default function HomePageClient() {
                     : 'w-full max-w-2xl space-y-8 p-10'
           }`}
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: reducedTransparency
+              ? 'rgba(0, 0, 0, 0.85)'
+              : 'rgba(0, 0, 0, 0.5)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
           }}
         >
