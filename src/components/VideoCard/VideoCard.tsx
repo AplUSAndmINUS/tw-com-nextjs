@@ -1,20 +1,19 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { VideoItem } from '@/content/types';
 import { ViewType } from '@/store';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface VideoCardProps {
   video: VideoItem;
   viewType?: ViewType;
-  reducedTransparency?: boolean;
 }
 
-export function VideoCard({
-  video,
-  viewType = 'grid',
-  reducedTransparency = false,
-}: VideoCardProps) {
+export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
+  const { reducedTransparency } = useAppTheme();
   const href = video.youtubeId
     ? `/videos/${video.youtubeId}`
     : `/videos/${video.id}`;
