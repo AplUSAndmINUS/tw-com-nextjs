@@ -160,19 +160,19 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
-        <section className='mt-12 p-6 rounded-lg'>
+        <section className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Core Capabilities &amp; Expertise</SectionHeading>
           <AboutCapabilities />
         </section>
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='default' className='mt-12 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Work Experience</SectionHeading>
           <AboutTimeline />
         </AboutSectionWrapper>
 
         {/* ── Featured Projects ────────────────────────────────────────────── */}
-        <section className='mt-12 p-6 rounded-lg'>
+        <section className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Featured Projects</SectionHeading>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {FEATURED_PROJECTS.map((project) => (
@@ -222,13 +222,13 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='subtle' className='mt-12 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Skills</SectionHeading>
           <AboutSkillsTable />
         </AboutSectionWrapper>
 
         {/* ── Education & Certifications ───────────────────────────────────── */}
-        <section className='mt-12 p-6 rounded-lg'>
+        <section className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Education &amp; Certifications</SectionHeading>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <div>
@@ -298,7 +298,7 @@ export default function AboutPage() {
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
         <AboutSectionWrapper
           variant='subtle'
-          className='mt-16 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'
+          className='mt-10 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'
         >
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>

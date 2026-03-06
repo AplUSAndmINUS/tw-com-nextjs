@@ -13,6 +13,8 @@ import type { ThemeMode } from '@/store/userPreferencesStore';
 import { Typography } from '../Typography';
 import { Select } from '../Form/Select/Select';
 import { Input } from '../Form/Input/Input';
+import { Dismiss32Regular } from '@fluentui/react-icons';
+import { FluentIcon } from '../FluentIcon';
 
 interface SettingsPanelProps {
   onClose?: () => void;
@@ -135,13 +137,10 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 outlineColor: theme.semanticColors.focus.ring,
               }}
             >
-              <Typography
-                as='span'
-                variant='h3'
-                style={{ color: theme.colorPaletteRedForeground1 }}
-              >
-                X
-              </Typography>
+              <FluentIcon
+                iconName={Dismiss32Regular}
+                color={theme.palette.neutralTertiary}
+              />
             </button>
           )}
         </div>

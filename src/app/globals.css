@@ -21,7 +21,26 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   /* Ensure dark background always, even if theme changes */
   background-color: #0f1419 !important;
-  overflow-x: hidden;
+}
+
+/* Fixed header compositing layer — must be CSS (not inline styles) so it applies
+   on first paint before React hydration. Inline styles arrive too late and leave
+   a window where iOS/desktop Safari drops the compositing layer on early scroll. */
+nav[role="banner"] {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  backdrop-filter: blur(6px) saturate(120%);
+  /* Smooth glass transition on scroll — values driven by React inline styles
+     after hydration; CSS rule provides the pre-hydration default. */
+  transition:
+    background-color 0.35s ease,
+    backdrop-filter 0.35s ease,
+    -webkit-backdrop-filter 0.35s ease,
+    box-shadow 0.35s ease,
+    border-bottom-color 0.35s ease;
 }
 
 /* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */

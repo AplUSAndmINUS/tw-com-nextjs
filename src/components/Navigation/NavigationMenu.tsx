@@ -16,6 +16,8 @@ import { Typography } from '@/components/Typography';
 import type { NavItem, NavigationMenuProps } from './navigation.types';
 import { SocialLinks } from '../SocialLinks/SocialLinks';
 import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
+import { FluentIcon } from '@/components/FluentIcon';
+import { Dismiss32Regular } from '@fluentui/react-icons';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -148,13 +150,10 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
             }}
             aria-label='Close menu'
           >
-            <Typography
-              as='span'
-              variant='h3'
-              style={{ color: theme.colorPaletteRedForeground1 }}
-            >
-              X
-            </Typography>
+            <FluentIcon
+              iconName={Dismiss32Regular}
+              color={theme.palette.neutralTertiary}
+            />
           </button>
         )}
       </div>

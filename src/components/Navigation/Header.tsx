@@ -19,7 +19,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
+import {
+  useIsMobile,
+  useIsMobileLandscape,
+  useIsDesktop,
+} from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { NavigationMenu } from './NavigationMenu';
@@ -45,6 +49,7 @@ export function Header() {
   >(null);
   const [isViewTransitioning, setIsViewTransitioning] = React.useState(false);
   const [isMounted, setIsMounted] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false);
 
   const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -58,8 +63,10 @@ export function Header() {
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
   const isMobileLandscapeHook = useIsMobileLandscape();
+  const isDesktopHook = useIsDesktop();
   const isMobile = isMounted ? isMobileHook : false;
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
+  const isDesktop = isMounted ? isDesktopHook : false;
   const { shouldReduceMotion } = useReducedMotion();
   const { authRequired, isAuthenticated } = useAccessControl();
 
@@ -141,6 +148,28 @@ export function Header() {
     setIsMounted(true);
   }, []);
 
+  React.useEffect(() => {
+    if (!isMounted) return;
+
+    // On desktop, always use the "scrolled" state for consistent blur effect
+    if (isDesktop) {
+      setIsScrolled(true);
+      return;
+    }
+
+    // On mobile, detect actual scroll position
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 8);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // sync initial position
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [isMounted, isDesktop]);
+
   // Clean up modal switch timeout on unmount
   React.useEffect(() => {
     return () => {
@@ -203,32 +232,13 @@ export function Header() {
     justifyContent: 'center',
     width: isMobileLandscape ? '2.5rem' : '3rem',
     height: isMobileLandscape ? '2.5rem' : '3rem',
-    // Frosted glass aesthetic: more opaque when reducedTransparency=true, translucent when false
-    backgroundColor: reducedTransparency
-      ? isDark
-        ? 'rgba(255, 255, 255, 0.18)' // Opaque/solid appearance (no glass effect)
-        : theme.semanticColors.background.elevated
-      : isDark
-        ? 'rgba(255, 255, 255, 0.10)' // Translucent frosted glass effect
-        : 'rgba(255, 255, 255, 0.8)', // Light mode with slight translucency
-    backdropFilter: reducedTransparency ? 'none' : 'blur(8px)',
-    WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(8px)',
-    border: isDark
-      ? reducedTransparency
-        ? `1px solid rgba(255, 255, 255, 0.3)` // More visible border when opaque
-        : `1px solid rgba(255, 255, 255, 0.2)` // Subtle border with frosted glass
-      : `1px solid ${theme.semanticColors.border.default}`,
+    backgroundColor: theme.semanticColors.background.elevated,
+    border: `1px solid ${theme.semanticColors.border.default}`,
     borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
     color: theme.colorNeutralForeground1,
-    transition: 'background-color 0.2s ease, backdrop-filter 0.2s ease',
+    transition: 'background-color 0.2s ease',
     padding: 0,
-    // Aggressive iOS Safari rendering fixes
-    transform: 'translate3d(0, 0, 0)',
-    WebkitTransform: 'translate3d(0, 0, 0)',
-    backfaceVisibility: 'hidden',
-    WebkitBackfaceVisibility: 'hidden',
-    isolation: 'isolate',
   };
 
   // Modal position: right side by default, left side in left-handed mode
@@ -257,34 +267,48 @@ export function Header() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 9999,
-          // iOS Safari fix: Use high opacity (0.95) instead of 0.5 to prevent rendering issues
-          // with backdrop-filter on fixed-position elements
-          backgroundColor: reducedTransparency
-            ? isDark
-              ? theme.gradients.dark.solid
-              : theme.gradients.light.solid
-            : isDark
-              ? 'rgba(30, 30, 30, 0.95)'
-              : 'rgba(248, 249, 250, 0.95)',
-          backdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
-          WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
-          borderBottom: `1px solid ${theme.semanticColors.border.default}`,
-          boxShadow: isDark ? 'none' : theme.shadows.s,
-          // iOS Safari safe-area support for notch/home indicator
+          zIndex: 100,
+          // transform, backface-visibility, and backdrop-filter base values are
+          // set via the CSS rule in globals.css so they apply before hydration.
+          // After hydration, these inline values take over and animate on scroll.
+          backdropFilter: reducedTransparency
+            ? 'none'
+            : isScrolled || isDesktop
+              ? 'blur(20px) saturate(300%)'
+              : 'blur(6px) saturate(120%)',
+          WebkitBackdropFilter: reducedTransparency
+            ? 'none'
+            : isScrolled || isDesktop
+              ? 'blur(20px) saturate(300%)'
+              : 'blur(6px) saturate(120%)',
+          backgroundColor: isDark
+            ? reducedTransparency
+              ? 'rgba(26,26,26,0.95)'
+              : isDesktop
+                ? 'rgba(26,26,26,0.4)'
+                : isScrolled
+                  ? 'rgba(26, 26, 26, 0.75)'
+                  : 'rgba(26, 26, 26, 0.4)'
+            : reducedTransparency
+              ? 'rgba(255,255,255,0.95)'
+              : isDesktop
+                ? 'rgba(255,255,255,0.5)'
+                : isScrolled
+                  ? 'rgba(255, 255, 255, 0.82)'
+                  : 'rgba(255, 255, 255, 0.35)',
+          borderBottom:
+            isScrolled || isDesktop
+              ? `1px solid ${theme.semanticColors.border.default}`
+              : '1px solid transparent',
+          boxShadow:
+            isScrolled || isDesktop
+              ? isDark
+                ? '0 1px 24px rgba(0, 0, 0, 0.45)'
+                : theme.shadows.s
+              : 'none',
           paddingTop: 'env(safe-area-inset-top)',
           paddingLeft: 'env(safe-area-inset-left)',
           paddingRight: 'env(safe-area-inset-right)',
-          // Aggressive iOS Safari rendering fixes
-          transform: 'translate3d(0, 0, 0)',
-          WebkitTransform: 'translate3d(0, 0, 0)',
-          willChange: 'transform',
-          isolation: 'isolate',
-          WebkitFontSmoothing: 'antialiased',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          perspective: 1000,
-          WebkitPerspective: 1000,
         }}
       >
         <div
@@ -393,7 +417,8 @@ export function Header() {
                                 fontWeight: isFirst ? 600 : 400,
                                 fontFamily: theme.typography.fontFamilies.h3,
                                 textDecoration: 'none',
-                                transition: 'color 0.2s ease',
+                                transition:
+                                  'color 0.2s ease, backdrop-filter 0.2s ease',
                               }}
                             >
                               {item.label}
@@ -509,11 +534,7 @@ export function Header() {
               position: 'fixed',
               inset: 0,
               zIndex: 120,
-              backgroundColor: reducedTransparency
-                ? 'rgba(0, 0, 0, 0.85)'
-                : 'rgba(0, 0, 0, 0.75)',
-              backdropFilter: reducedTransparency ? 'none' : 'blur(4px)',
-              WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(4px)',
+              backgroundColor: 'rgba(0, 0, 0, 0.85)',
             }}
             onClick={handleModalClose}
           >
