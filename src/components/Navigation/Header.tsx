@@ -25,6 +25,8 @@ import {
   useIsDesktop,
 } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { FOCUSABLE_SELECTORS } from '@/utils/accessibility';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { NavigationMenu } from './NavigationMenu';
 import { SettingsPanel } from '@/components/SettingsPanel';
@@ -52,6 +54,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+  const settingsButtonRef = React.useRef<HTMLButtonElement>(null);
+  const modalPanelRef = React.useRef<HTMLDivElement>(null);
 
   const {
     theme,
@@ -69,6 +74,9 @@ export function Header() {
   const isDesktop = isMounted ? isDesktopHook : false;
   const { shouldReduceMotion } = useReducedMotion();
   const { authRequired, isAuthenticated } = useAccessControl();
+
+  // Trap focus inside the modal panel while it is open
+  useFocusTrap(modalPanelRef, !!activeModal);
 
   const isLeftHanded = layoutPreference === 'left-handed';
 
@@ -142,7 +150,17 @@ export function Header() {
     }
   };
 
-  const handleModalClose = () => setActiveModal(null);
+  const handleModalClose = () => {
+    const wasOpen = activeModal;
+    setActiveModal(null);
+    // Delay focus return slightly so the modal exit animation can begin first,
+    // preventing the focus ring from jumping to the trigger while the overlay
+    // is still visible.
+    setTimeout(() => {
+      if (wasOpen === 'menu') menuButtonRef.current?.focus();
+      else if (wasOpen === 'settings') settingsButtonRef.current?.focus();
+    }, 50);
+  };
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -190,6 +208,15 @@ export function Header() {
 
   // For left-handed mode, the modal slides from the left; otherwise from the right
   const modalSlideFrom = isLeftHanded ? '-100%' : '100%';
+
+  // Set initial focus on the first focusable element in the panel after it animates in
+  const handleModalPanelAnimationComplete = (definition: string) => {
+    if (definition !== 'visible') return;
+    const panel = modalPanelRef.current;
+    if (!panel) return;
+    const focusable = panel.querySelector<HTMLElement>(FOCUSABLE_SELECTORS);
+    focusable?.focus();
+  };
 
   const modalVariants: Variants = {
     hidden: {
@@ -470,6 +497,7 @@ export function Header() {
             {/* Settings toggle */}
             {!(authRequired && !isAuthenticated) && (
               <button
+                ref={settingsButtonRef}
                 type='button'
                 onClick={handleSettingsClick}
                 style={buttonStyle}
@@ -498,6 +526,7 @@ export function Header() {
             {/* Menu toggle */}
             {!(authRequired && !isAuthenticated) && (
               <button
+                ref={menuButtonRef}
                 type='button'
                 onClick={handleMenuClick}
                 style={buttonStyle}
@@ -539,6 +568,7 @@ export function Header() {
             onClick={handleModalClose}
           >
             <motion.div
+              ref={modalPanelRef}
               id={activeModal === 'menu' ? 'navigation-menu' : 'settings-panel'}
               role='dialog'
               aria-modal='true'
@@ -549,6 +579,7 @@ export function Header() {
               initial='hidden'
               animate='visible'
               exit='exit'
+              onAnimationComplete={handleModalPanelAnimationComplete}
               style={{
                 ...modalPositionStyle,
                 width: '100%',
