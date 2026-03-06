@@ -23,6 +23,17 @@ body {
   background-color: #0f1419 !important;
 }
 
+/* Global keyboard focus ring — shown only when navigating with keyboard (not mouse/touch) */
+:focus-visible {
+  outline: 2px solid #4a9eff;
+  outline-offset: 2px;
+}
+
+/* Suppress the default browser outline for mouse/touch interactions */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Fixed header compositing layer — must be CSS (not inline styles) so it applies
    on first paint before React hydration. Inline styles arrive too late and leave
    a window where iOS/desktop Safari drops the compositing layer on early scroll. */
