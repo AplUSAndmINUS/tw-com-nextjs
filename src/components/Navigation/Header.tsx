@@ -203,17 +203,32 @@ export function Header() {
     justifyContent: 'center',
     width: isMobileLandscape ? '2.5rem' : '3rem',
     height: isMobileLandscape ? '2.5rem' : '3rem',
-    backgroundColor: isDark
-      ? 'rgba(255, 255, 255, 0.05)'
-      : theme.semanticColors.background.elevated,
+    // Frosted glass aesthetic: more opaque when reducedTransparency=true, translucent when false
+    backgroundColor: reducedTransparency
+      ? isDark
+        ? 'rgba(255, 255, 255, 0.18)' // Opaque/solid appearance (no glass effect)
+        : theme.semanticColors.background.elevated
+      : isDark
+        ? 'rgba(255, 255, 255, 0.10)' // Translucent frosted glass effect
+        : 'rgba(255, 255, 255, 0.8)', // Light mode with slight translucency
+    backdropFilter: reducedTransparency ? 'none' : 'blur(8px)',
+    WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(8px)',
     border: isDark
-      ? `1px solid ${theme.semanticColors.border.muted}`
+      ? reducedTransparency
+        ? `1px solid rgba(255, 255, 255, 0.3)` // More visible border when opaque
+        : `1px solid rgba(255, 255, 255, 0.2)` // Subtle border with frosted glass
       : `1px solid ${theme.semanticColors.border.default}`,
     borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
     color: theme.colorNeutralForeground1,
-    transition: 'background-color 0.2s ease',
+    transition: 'background-color 0.2s ease, backdrop-filter 0.2s ease',
     padding: 0,
+    // Aggressive iOS Safari rendering fixes
+    transform: 'translate3d(0, 0, 0)',
+    WebkitTransform: 'translate3d(0, 0, 0)',
+    backfaceVisibility: 'hidden',
+    WebkitBackfaceVisibility: 'hidden',
+    isolation: 'isolate',
   };
 
   // Modal position: right side by default, left side in left-handed mode
@@ -242,7 +257,7 @@ export function Header() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 50,
+          zIndex: 9999,
           // iOS Safari fix: Use high opacity (0.95) instead of 0.5 to prevent rendering issues
           // with backdrop-filter on fixed-position elements
           backgroundColor: reducedTransparency
@@ -260,10 +275,16 @@ export function Header() {
           paddingTop: 'env(safe-area-inset-top)',
           paddingLeft: 'env(safe-area-inset-left)',
           paddingRight: 'env(safe-area-inset-right)',
-          // Force hardware acceleration on iOS Safari to prevent collapsing/disappearing
-          transform: 'translateZ(0)',
-          WebkitTransform: 'translateZ(0)',
+          // Aggressive iOS Safari rendering fixes
+          transform: 'translate3d(0, 0, 0)',
+          WebkitTransform: 'translate3d(0, 0, 0)',
           willChange: 'transform',
+          isolation: 'isolate',
+          WebkitFontSmoothing: 'antialiased',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          perspective: 1000,
+          WebkitPerspective: 1000,
         }}
       >
         <div
