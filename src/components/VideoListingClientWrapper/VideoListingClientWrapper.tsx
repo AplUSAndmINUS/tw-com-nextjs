@@ -35,7 +35,7 @@ function VideoCard({
   video: YouTubeVideo;
   onClick: () => void;
 }) {
-  const { theme } = useAppTheme();
+  const { theme, reducedTransparency } = useAppTheme();
   const [hovered, setHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
   const duration = formatDuration(video.duration);
@@ -98,7 +98,14 @@ function VideoCard({
 
         {/* Play overlay */}
         {hovered && (
-          <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40'>
+          <div
+            className='absolute top-0 left-0 w-full h-full flex items-center justify-center'
+            style={{
+              backgroundColor: reducedTransparency
+                ? 'rgba(0, 0, 0, 0.75)'
+                : 'rgba(0, 0, 0, 0.4)',
+            }}
+          >
             <FluentIcon
               iconName={Play24Filled}
               style={{
@@ -113,7 +120,11 @@ function VideoCard({
         {duration && (
           <div
             className='absolute bottom-2 right-2 text-white text-xs font-semibold px-2 py-1 rounded'
-            style={{ backgroundColor: 'rgba(0,0,0,0.85)' }}
+            style={{
+              backgroundColor: reducedTransparency
+                ? 'rgba(0, 0, 0, 0.95)'
+                : 'rgba(0, 0, 0, 0.85)',
+            }}
           >
             {duration}
           </div>

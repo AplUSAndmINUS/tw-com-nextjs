@@ -7,9 +7,14 @@ import { ViewType } from '@/store';
 interface VideoCardProps {
   video: VideoItem;
   viewType?: ViewType;
+  reduceTransparency?: boolean;
 }
 
-export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
+export function VideoCard({
+  video,
+  viewType = 'grid',
+  reduceTransparency = false,
+}: VideoCardProps) {
   const href = video.youtubeId
     ? `/videos/${video.youtubeId}`
     : `/videos/${video.id}`;
@@ -70,13 +75,27 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
                 <span className='text-5xl'>▶</span>
               </div>
             )}
-            <div className='absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
+            <div
+              className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'
+              style={{
+                backgroundColor: reduceTransparency
+                  ? 'rgba(0, 0, 0, 0.75)'
+                  : 'rgba(0, 0, 0, 0.2)',
+              }}
+            >
               <span className='w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-white text-3xl shadow-lg'>
                 ▶
               </span>
             </div>
             {video.duration && (
-              <span className='absolute bottom-2 right-2 text-xs text-white bg-black/70 rounded px-1.5 py-0.5'>
+              <span
+                className='absolute bottom-2 right-2 text-xs text-white rounded px-1.5 py-0.5'
+                style={{
+                  backgroundColor: reduceTransparency
+                    ? 'rgba(0, 0, 0, 0.95)'
+                    : 'rgba(0, 0, 0, 0.7)',
+                }}
+              >
                 {video.duration}
               </span>
             )}
@@ -127,13 +146,27 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
             </div>
           )}
           {/* Play overlay */}
-          <div className='absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
+          <div
+            className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'
+            style={{
+              backgroundColor: reduceTransparency
+                ? 'rgba(0, 0, 0, 0.75)'
+                : 'rgba(0, 0, 0, 0.2)',
+            }}
+          >
             <span className='w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-white text-2xl shadow-lg'>
               ▶
             </span>
           </div>
           {video.duration && (
-            <span className='absolute bottom-2 right-2 text-xs text-white bg-black/70 rounded px-1.5 py-0.5'>
+            <span
+              className='absolute bottom-2 right-2 text-xs text-white rounded px-1.5 py-0.5'
+              style={{
+                backgroundColor: reduceTransparency
+                  ? 'rgba(0, 0, 0, 0.95)'
+                  : 'rgba(0, 0, 0, 0.7)',
+              }}
+            >
               {video.duration}
             </span>
           )}

@@ -1,0 +1,1 @@
+export { AboutSectionWrapper } from './AboutSectionWrapper';

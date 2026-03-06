@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { GalleryItem } from '@/content/types';
 
 interface ImageCarouselProps {
@@ -17,6 +18,7 @@ export function ImageCarousel({
   basePath = '',
   className = '',
 }: ImageCarouselProps) {
+  const { reduceTransparency } = useAppTheme();
   const [active, setActive] = useState(0);
 
   if (!images || images.length === 0) return null;
@@ -61,14 +63,14 @@ export function ImageCarousel({
             <button
               onClick={prev}
               aria-label='Previous image'
-              className='absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl'
+              className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 ${reduceTransparency ? 'bg-black/90 hover:bg-black' : 'bg-black/50 hover:bg-black/70'} text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl`}
             >
               ‹
             </button>
             <button
               onClick={next}
               aria-label='Next image'
-              className='absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl'
+              className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 ${reduceTransparency ? 'bg-black/90 hover:bg-black' : 'bg-black/50 hover:bg-black/70'} text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl`}
             >
               ›
             </button>
@@ -77,7 +79,9 @@ export function ImageCarousel({
 
         {/* Counter */}
         {images.length > 1 && (
-          <span className='absolute bottom-2 right-3 text-xs text-white bg-black/50 rounded px-2 py-0.5'>
+          <span
+            className={`absolute bottom-2 right-3 text-xs text-white ${reduceTransparency ? 'bg-black/90' : 'bg-black/50'} rounded px-2 py-0.5`}
+          >
             {active + 1} / {images.length}
           </span>
         )}

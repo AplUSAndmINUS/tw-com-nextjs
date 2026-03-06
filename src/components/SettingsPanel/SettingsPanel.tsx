@@ -65,7 +65,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     reducedMotion,
     setReducedMotion,
     reducedTransparency,
-    setreducedTransparency,
+    setReducedTransparency,
   } = useAppTheme();
   const { preferences, resetPreferences } = useUserPreferencesStore();
 
@@ -335,7 +335,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                     : theme.semanticColors.border.default,
                 outlineColor: theme.semanticColors.focus.ring,
               }}
-              onClick={() => setreducedTransparency(!reducedTransparency)}
+              onClick={() => setReducedTransparency(!reducedTransparency)}
               aria-label='Toggle reduced transparency'
             >
               <span

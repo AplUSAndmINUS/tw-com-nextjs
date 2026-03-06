@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { PercentageBullet } from '@/components/PercentageBullet';
+import { AboutSectionWrapper } from '@/components/AboutSectionWrapper';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import { AboutPageClient } from './AboutPageClient';
 import { AboutCapabilities } from './AboutCapabilities';
@@ -124,7 +125,10 @@ export default function AboutPage() {
         </Hero>
 
         {/* ── Professional Summary ─────────────────────────────────────────── */}
-        <section className='mt-10 space-y-4 p-6 rounded-lg bg-gray-300/90 dark:bg-black/20'>
+        <AboutSectionWrapper
+          variant='default'
+          className='mt-10 space-y-4 p-6 rounded-lg'
+        >
           <SectionHeading>Professional Summary</SectionHeading>
           <Typography
             variant='body'
@@ -153,7 +157,7 @@ export default function AboutPage() {
             , I help clients build not just solutions — but philosophies,
             brands, and living identities that evolve with them.
           </Typography>
-        </section>
+        </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
         <section className='mt-12 p-6 rounded-lg'>
@@ -162,10 +166,10 @@ export default function AboutPage() {
         </section>
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
-        <section className='mt-12 p-6 rounded-lg bg-gray-300/90 dark:bg-black/20'>
+        <AboutSectionWrapper variant='default' className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Work Experience</SectionHeading>
           <AboutTimeline />
-        </section>
+        </AboutSectionWrapper>
 
         {/* ── Featured Projects ────────────────────────────────────────────── */}
         <section className='mt-12 p-6 rounded-lg'>
@@ -218,10 +222,10 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
-        <section className='mt-12 p-6 rounded-lg bg-gray-400/30 dark:bg-black/20'>
+        <AboutSectionWrapper variant='subtle' className='mt-12 p-6 rounded-lg'>
           <SectionHeading>Skills</SectionHeading>
           <AboutSkillsTable />
-        </section>
+        </AboutSectionWrapper>
 
         {/* ── Education & Certifications ───────────────────────────────────── */}
         <section className='mt-12 p-6 rounded-lg'>
@@ -292,7 +296,10 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
-        <section className='mt-16 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-400/30 dark:bg-black/20'>
+        <AboutSectionWrapper
+          variant='subtle'
+          className='mt-16 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'
+        >
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
             {ABOUT_SKILLS.map((skill) => (
@@ -303,7 +310,7 @@ export default function AboutPage() {
               />
             ))}
           </div>
-        </section>
+        </AboutSectionWrapper>
       </div>
     </AboutPageClient>
   );

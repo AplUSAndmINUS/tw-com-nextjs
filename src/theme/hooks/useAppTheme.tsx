@@ -44,7 +44,7 @@ export interface UseAppThemeReturn {
   /** Whether reduced transparency is enabled (user preference) */
   reducedTransparency: boolean;
   /** Set reduced transparency user preference */
-  setreducedTransparency: (enabled: boolean) => void;
+  setReducedTransparency: (enabled: boolean) => void;
 }
 
 /**
@@ -110,7 +110,7 @@ export function useAppTheme(): UseAppThemeReturn {
     [setPreference]
   );
 
-  const setreducedTransparency = useCallback(
+  const setReducedTransparency = useCallback(
     (enabled: boolean) => {
       setPreference('reducedTransparency', enabled);
     },
@@ -141,6 +141,6 @@ export function useAppTheme(): UseAppThemeReturn {
     reducedMotion,
     setReducedMotion,
     reducedTransparency,
-    setreducedTransparency,
+    setReducedTransparency,
   };
 }
