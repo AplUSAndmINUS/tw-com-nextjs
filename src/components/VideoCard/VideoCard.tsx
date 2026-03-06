@@ -7,13 +7,13 @@ import { ViewType } from '@/store';
 interface VideoCardProps {
   video: VideoItem;
   viewType?: ViewType;
-  reduceTransparency?: boolean;
+  reducedTransparency?: boolean;
 }
 
 export function VideoCard({
   video,
   viewType = 'grid',
-  reduceTransparency = false,
+  reducedTransparency = false,
 }: VideoCardProps) {
   const href = video.youtubeId
     ? `/videos/${video.youtubeId}`
@@ -78,7 +78,7 @@ export function VideoCard({
             <div
               className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'
               style={{
-                backgroundColor: reduceTransparency
+                backgroundColor: reducedTransparency
                   ? 'rgba(0, 0, 0, 0.75)'
                   : 'rgba(0, 0, 0, 0.2)',
               }}
@@ -91,7 +91,7 @@ export function VideoCard({
               <span
                 className='absolute bottom-2 right-2 text-xs text-white rounded px-1.5 py-0.5'
                 style={{
-                  backgroundColor: reduceTransparency
+                  backgroundColor: reducedTransparency
                     ? 'rgba(0, 0, 0, 0.95)'
                     : 'rgba(0, 0, 0, 0.7)',
                 }}
@@ -149,7 +149,7 @@ export function VideoCard({
           <div
             className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'
             style={{
-              backgroundColor: reduceTransparency
+              backgroundColor: reducedTransparency
                 ? 'rgba(0, 0, 0, 0.75)'
                 : 'rgba(0, 0, 0, 0.2)',
             }}
@@ -162,7 +162,7 @@ export function VideoCard({
             <span
               className='absolute bottom-2 right-2 text-xs text-white rounded px-1.5 py-0.5'
               style={{
-                backgroundColor: reduceTransparency
+                backgroundColor: reducedTransparency
                   ? 'rgba(0, 0, 0, 0.95)'
                   : 'rgba(0, 0, 0, 0.7)',
               }}

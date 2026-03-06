@@ -10,7 +10,7 @@ interface AboutSectionWrapperProps {
 
 /**
  * AboutSectionWrapper - Client wrapper for About page sections
- * Applies theme-aware semi-transparent backgrounds that respect reduceTransparency setting
+ * Applies theme-aware semi-transparent backgrounds that respect reducedTransparency setting
  */
 export function AboutSectionWrapper({
   children,
