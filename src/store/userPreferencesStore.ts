@@ -9,6 +9,7 @@ export interface UserPreferences {
   minFontScale: number;
   maxFontScale: number;
   reducedMotion: boolean;
+  reducedTransparency: boolean;
   themeMode: ThemeMode;
   layoutPreference: 'left-handed' | 'right-handed';
 }
@@ -27,6 +28,7 @@ const defaultPreferences: UserPreferences = {
   minFontScale: 0.8,
   maxFontScale: 1.5,
   reducedMotion: false,
+  reducedTransparency: false,
   themeMode: 'dark',
   layoutPreference: 'right-handed',
 };

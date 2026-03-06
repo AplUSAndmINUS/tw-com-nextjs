@@ -56,7 +56,7 @@ export const Modal: React.FC<ModalProps> = ({
   style,
   className = '',
 }) => {
-  const { theme } = useAppTheme();
+  const { theme, reducedTransparency } = useAppTheme();
 
   // Handle escape key
   useEffect(() => {
@@ -135,7 +135,9 @@ export const Modal: React.FC<ModalProps> = ({
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backgroundColor: reducedTransparency
+                ? 'rgba(0, 0, 0, 0.85)'
+                : 'rgba(0, 0, 0, 0.6)',
               zIndex: 1000,
               display: 'flex',
               alignItems: 'center',

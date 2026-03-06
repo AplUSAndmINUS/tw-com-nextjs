@@ -15,7 +15,7 @@ import {
 import type { ThemeMode } from '@/theme/fluentTheme';
 
 export default function HomePageClient() {
-  const { theme, themeMode, setThemeMode } = useAppTheme();
+  const { theme, themeMode, setThemeMode, reducedTransparency } = useAppTheme();
   const [animationStage, setAnimationStage] = useState(0);
 
   // Capture the original theme on component initialization to restore on unmount
@@ -75,7 +75,7 @@ export default function HomePageClient() {
       <section className='flex flex-col items-start justify-end lg:justify-center h-full sm:px-4 md:px-6 lg:px-12'>
         {/* Translucent card container around text */}
         <div
-          className={`text-left lg:text-left rounded-2xl backdrop-blur-sm ${
+          className={`text-left lg:text-left rounded-2xl ${reducedTransparency ? '' : 'backdrop-blur-sm'} ${
             isMobile
               ? 'w-full space-y-1 p-4'
               : isMobileLandscape
@@ -87,7 +87,9 @@ export default function HomePageClient() {
                     : 'w-full max-w-2xl space-y-8 p-10'
           }`}
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: reducedTransparency
+              ? 'rgba(0, 0, 0, 0.85)'
+              : 'rgba(0, 0, 0, 0.5)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
           }}
         >

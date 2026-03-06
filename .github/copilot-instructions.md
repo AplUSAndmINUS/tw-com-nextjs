@@ -258,6 +258,66 @@ Copilot should:
 - Use `PageTransition` directly only when wrapping content outside of `RootLayout`
 - Always respect `useReducedMotion` when building custom animations
 
+### 7.5 — Accessibility Preferences
+
+TW.com supports user-controlled accessibility preferences stored in `userPreferencesStore` and exposed via `useAppTheme()` hook.
+
+#### Reduced Transparency
+
+The `reducedTransparency` preference allows users to disable semi-transparent backgrounds and backdrop blur effects throughout the UI. This improves readability and helps users with visual sensitivities.
+
+**How it works:**
+
+- Preference stored in `src/store/userPreferencesStore.ts` as `reducedTransparency: boolean`
+- Persisted to `localStorage` via Zustand middleware
+- Accessed via `useAppTheme()` hook: `const { reducedTransparency, setReducedTransparency } = useAppTheme()`
+- User toggle available in Settings panel under Accessibility section
+
+**Implementation pattern:**
+
+```tsx
+'use client';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+
+function MyComponent() {
+  const { reducedTransparency } = useAppTheme();
+
+  return (
+    <div
+      className={
+        reducedTransparency
+          ? 'bg-slate-100 dark:bg-slate-800' // Opaque
+          : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80' // Transparent with blur
+      }
+    >
+      {/* Content */}
+    </div>
+  );
+}
+```
+
+**Affected components:**
+
+- Navigation Header (`Header.tsx`) - Fixed background, button styles, modal backdrops
+- Footers (`HomePageFooter.tsx`, `StandardFooter.tsx`, `FooterOverlay.tsx`) - Background transparency
+- Modals (`Modal.tsx`) - Backdrop opacity
+- Hero Cards (`HomePageClient.tsx`) - Card background opacity
+- Image Carousel (`ImageCarousel.tsx`) - Navigation buttons and counter badge
+- Video Components (`VideoCard.tsx`, `VideoListingClientWrapper.tsx`) - Hover overlays and duration badges
+- About Page Sections (`AboutSectionWrapper.tsx`) - Section backgrounds
+
+**Copilot rules:**
+
+- **Always** check `reducedTransparency` when adding semi-transparent backgrounds (e.g., `bg-white/80`, `rgba()` with alpha < 1)
+- **Always** make `backdrop-blur` effects conditional on `reducedTransparency` being false
+- Provide opaque alternatives with appropriate opacity increase (e.g., 50% → 85%, 60% → 90%)
+- Use `useAppTheme()` hook, **not** FluentUI's `useTheme()`, to access the preference
+- Apply this preference comprehensively for UI consistency — all transparency effects should respect it
+
+**iOS Safari compatibility note:**
+
+Fixed-position elements with `backdrop-filter` and semi-transparent backgrounds can cause rendering issues on iOS Safari. Always provide opaque fallbacks or use the `reducedTransparency` pattern to ensure the Header and other fixed elements remain visible.
+
 ---
 
 ## 8. Performance & Accessibility
@@ -269,6 +329,11 @@ Copilot must:
 - Avoid unnecessary client components
 - Use `next/image` (`<Image />`) for all images
 - Use lazy loading where appropriate
+- Respect user accessibility preferences:
+  - `prefers-reduced-motion` for animations (via `useReducedMotion` hook)
+  - `reducedTransparency` for semi-transparent backgrounds and blur effects (via `useAppTheme` hook)
+- Ensure all interactive elements have sufficient color contrast in all theme modes
+- Test fixed-position elements on iOS Safari (backdrop filters can cause rendering issues)
 
 ---
 
@@ -355,15 +420,15 @@ PROD is publicly accessible.
 
 ### Key files
 
-| File | Role |
-|------|------|
-| `src/lib/environment.ts` | Build-time environment detection (`getEnvironment`, `requiresAuthentication`) |
-| `src/hooks/useAccessControl.ts` | Token state management and API validation |
-| `src/components/AccessGate/AccessGate.tsx` | Full-screen token gate UI |
-| `api/auth/validate-token/index.js` | Server-side token validation Azure Function |
-| `.github/workflows/azure-static-web-apps-lively-mud-07cef801e.yml` | DEV deployment (sets `NEXT_PUBLIC_ENVIRONMENT: dev`) |
-| `.github/workflows/azure-static-web-apps-test.yml` | TEST deployment (sets `NEXT_PUBLIC_ENVIRONMENT: test`) |
-| `.github/workflows/azure-static-web-apps-prod.yml` | PROD deployment (sets `NEXT_PUBLIC_ENVIRONMENT: prod`) |
+| File                                                               | Role                                                                          |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| `src/lib/environment.ts`                                           | Build-time environment detection (`getEnvironment`, `requiresAuthentication`) |
+| `src/hooks/useAccessControl.ts`                                    | Token state management and API validation                                     |
+| `src/components/AccessGate/AccessGate.tsx`                         | Full-screen token gate UI                                                     |
+| `api/auth/validate-token/index.js`                                 | Server-side token validation Azure Function                                   |
+| `.github/workflows/azure-static-web-apps-lively-mud-07cef801e.yml` | DEV deployment (sets `NEXT_PUBLIC_ENVIRONMENT: dev`)                          |
+| `.github/workflows/azure-static-web-apps-test.yml`                 | TEST deployment (sets `NEXT_PUBLIC_ENVIRONMENT: test`)                        |
+| `.github/workflows/azure-static-web-apps-prod.yml`                 | PROD deployment (sets `NEXT_PUBLIC_ENVIRONMENT: prod`)                        |
 
 ### Copilot rules
 

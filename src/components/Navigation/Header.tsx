@@ -48,7 +48,13 @@ export function Header() {
 
   const modalSwitchTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const { theme, themeMode, setThemeMode, layoutPreference } = useAppTheme();
+  const {
+    theme,
+    themeMode,
+    setThemeMode,
+    layoutPreference,
+    reducedTransparency,
+  } = useAppTheme();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
   const isMobileLandscapeHook = useIsMobileLandscape();
@@ -198,10 +204,10 @@ export function Header() {
     width: isMobileLandscape ? '2.5rem' : '3rem',
     height: isMobileLandscape ? '2.5rem' : '3rem',
     backgroundColor: isDark
-      ? 'transparent'
+      ? 'rgba(255, 255, 255, 0.05)'
       : theme.semanticColors.background.elevated,
     border: isDark
-      ? '1px solid transparent'
+      ? `1px solid ${theme.semanticColors.border.muted}`
       : `1px solid ${theme.semanticColors.border.default}`,
     borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
@@ -237,11 +243,15 @@ export function Header() {
           left: 0,
           right: 0,
           zIndex: 50,
-          backgroundColor: isDark
-            ? 'rgba(15, 15, 15, 0.8)'
-            : theme.gradients.light.solid,
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+          backgroundColor: reducedTransparency
+            ? isDark
+              ? theme.gradients.dark.solid
+              : theme.gradients.light.solid
+            : isDark
+              ? 'rgba(30, 30, 30, 0.5)'
+              : 'rgba(248, 249, 250, 0.5)',
+          backdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
+          WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
           boxShadow: isDark ? 'none' : theme.shadows.s,
         }}
@@ -468,8 +478,11 @@ export function Header() {
               position: 'fixed',
               inset: 0,
               zIndex: 120,
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              backdropFilter: 'blur(4px)',
+              backgroundColor: reducedTransparency
+                ? 'rgba(0, 0, 0, 0.85)'
+                : 'rgba(0, 0, 0, 0.75)',
+              backdropFilter: reducedTransparency ? 'none' : 'blur(4px)',
+              WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(4px)',
             }}
             onClick={handleModalClose}
           >
