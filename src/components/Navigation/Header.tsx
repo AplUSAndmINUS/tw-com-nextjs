@@ -243,9 +243,13 @@ export function Header() {
           left: 0,
           right: 0,
           zIndex: 50,
-          backgroundColor: isDark
-            ? theme.gradients.dark.solid
-            : theme.gradients.light.solid,
+          backgroundColor: reducedTransparency
+            ? isDark
+              ? theme.gradients.dark.solid
+              : theme.gradients.light.solid
+            : isDark
+              ? 'rgba(30, 30, 30, 0.5)'
+              : 'rgba(248, 249, 250, 0.5)',
           backdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
           WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
