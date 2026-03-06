@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import './globals.css';
 import { Providers } from './providers';
@@ -21,6 +21,15 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+};
+
+// iOS Safari safe-area support for notch/home indicator
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover', // Enables safe-area-inset CSS variables
 };
 
 export default function RootLayout({

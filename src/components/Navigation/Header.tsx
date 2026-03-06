@@ -243,17 +243,27 @@ export function Header() {
           left: 0,
           right: 0,
           zIndex: 50,
+          // iOS Safari fix: Use high opacity (0.95) instead of 0.5 to prevent rendering issues
+          // with backdrop-filter on fixed-position elements
           backgroundColor: reducedTransparency
             ? isDark
               ? theme.gradients.dark.solid
               : theme.gradients.light.solid
             : isDark
-              ? 'rgba(30, 30, 30, 0.5)'
-              : 'rgba(248, 249, 250, 0.5)',
+              ? 'rgba(30, 30, 30, 0.95)'
+              : 'rgba(248, 249, 250, 0.95)',
           backdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
           WebkitBackdropFilter: reducedTransparency ? 'none' : 'blur(12px)',
           borderBottom: `1px solid ${theme.semanticColors.border.default}`,
           boxShadow: isDark ? 'none' : theme.shadows.s,
+          // iOS Safari safe-area support for notch/home indicator
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingLeft: 'env(safe-area-inset-left)',
+          paddingRight: 'env(safe-area-inset-right)',
+          // Force hardware acceleration on iOS Safari to prevent collapsing/disappearing
+          transform: 'translateZ(0)',
+          WebkitTransform: 'translateZ(0)',
+          willChange: 'transform',
         }}
       >
         <div
