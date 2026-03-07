@@ -114,13 +114,13 @@ And I didn’t understand it—because corporate life ✨***fucking held me back
 
 And sadly, too many people today are in that same situation—never knowing their pathway to their own identity because of being the gear in the broken system. (Not their fault either—nuance gives us this lesson.)
 
-\_I should also clarify: It gave me the knowledge I needed to get to where I am today. The experience I absolutely needed, and I wouldn't trade that knowledge for anything.
+_I should also clarify:_ It gave me the knowledge I needed to get to where I am today. The experience I absolutely needed, and I wouldn't trade that knowledge for anything.
 
-But this process changed me because everything that I have done—my business, my book-writing, my applications for being a doctorate student, my SBA review, my teacher instincts—they've all pointed to my multifacteed archetypes of _who I am_.
+But this process changed me because everything that I have done—my business, my book-writing, my applications for being a doctorate student, my SBA review, my teacher instincts—they've all pointed to my multifaceted archetypes of _who I am_.
 
 ---
 
-#### My Multi-faceted Archetypes
+#### My Multifaceted Archetypes
 
 - ✨I’m a lifelong student.
 - ✨A scholar.
@@ -141,7 +141,7 @@ And I now know why:
 - 🥺Corporate life doesn’t have places for people like me.
 - 🥺I wasn’t ever being paid my worth—and never will be in that BS.
 
-All this came about because I saw myself for what I was—a multi-faceted being who is capable of so much more and is being asked by the Universe to BECOME more—-_**even if the going is tougher than for others**_.
+All this came about because I saw myself for what I was—a multifaceted being who is capable of so much more and is being asked by the Universe to BECOME more—-_**even if the going is tougher than for others**_.
 
 And it shows:
 
@@ -155,7 +155,7 @@ And it shows:
 
 And the kicker in it all—_**money will naturally flow from this**_.
 
-I just didn't understand that my truth is I'm multi-faceted because _everything I have done up to this point_ has been to support who I truly am. I guess I just didn't realize it because it all seemed disjointed and disparate.
+I just didn't understand that my truth is I'm multifaceted because _everything I have done up to this point_ has been to support who I truly am. I guess I just didn't realize it because it all seemed disjointed and disparate.
 
 And last night—_for the first time ever!_—the pathway became clear. And everything lit up because I now know it's ALL part of who I am. Because it all supports itself.
 
