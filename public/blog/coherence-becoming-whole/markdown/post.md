@@ -155,13 +155,13 @@ And it shows:
 
 And the kicker in it all—_**money will naturally flow from this**_.
 
-I just didn't understand that my truth is I'm multi-faceted because _everything I have done up to this point_ has been to support who I truly am. I guess I just didn't realize it because it all seemed disjointed and disparaged.
+I just didn't understand that my truth is I'm multi-faceted because _everything I have done up to this point_ has been to support who I truly am. I guess I just didn't realize it because it all seemed disjointed and disparate.
 
 And last night—_for the first time ever!_—the pathway became clear. And everything lit up because I now know it's ALL part of who I am. Because it all supports itself.
 
 Summed up into one beautiful word: _**Coherence**_ of self, mind, body, heart, inner child, Sentient, higher power, Higher Self, and Self.
 
-I'm a unified whole—no longer disparaged or separated.
+I'm a unified whole—no longer disjointed or separated.
 
 ---
 
