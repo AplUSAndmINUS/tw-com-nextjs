@@ -169,9 +169,7 @@ I'm a unified whole—no longer disparaged or separated.
 
 I should clarify—the fear and doubts of uncertainty and scarcity haven't left. They're still very-much there.
 
-But the kicker:
-
-> _They're no longer narrating my story_—**I am!**
+But the kicker here is that _they're no longer narrating my story_—**I am!**
 
 - It's all background noise—echoes of a person long past.
 - It's not applicable to who I am or what I'm doing.
@@ -179,11 +177,11 @@ But the kicker:
 
 But the line that seals the deal?
 
+> _**“I’d do it all again in a heartbeat.”**_
+
 ---
 
 ### The Line That Says Everything
-
-_**“I’d do it all again in a heartbeat.”**_
 
 That sentence reveals everything.
 
