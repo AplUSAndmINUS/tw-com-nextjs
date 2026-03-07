@@ -13,7 +13,7 @@ tags:
   - 'self-discovery'
   - 'integration'
   - 'identity'
-imageUrl: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.png'
+imageUrl: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.jpg'
 imageAlt: 'A person standing in quiet alignment, representing coherence and becoming whole'
 featured: false
 seoTitle: 'Coherence: Becoming a Unified Whole — A Personal Essay on Transformation'
@@ -29,11 +29,11 @@ seoKeywords:
   - 'self-discovery'
   - 'alignment'
   - 'inner peace'
-featuredImage: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.png'
+featuredImage: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.jpg'
 gallery:
-  - url: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.png'
+  - url: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.jpg'
     alt: 'Coherence and becoming a unified whole'
-    caption: 'Coherence — the quiet moment when everything begins operating on the same channel'
+    caption: 'Coherence — the quiet moment when everything begins operating on the same frequency'
 ---
 
 ## Coherence- Becoming a Unified Whole
@@ -78,6 +78,10 @@ And through it, I realized a common, sudden truth: **_everything that I've been 
 
 Literally—**_all of it_**.
 
+And it all told me what I _finally_ needed to hear:
+
+> You know the frequency now. Hold onto it.
+
 ---
 
 ### The Nine‑Month Gestation
@@ -102,7 +106,7 @@ And everything that I've been doing up to this point has been _because_ they all
 
 The Universe—God, HaShem (“The Name”), fate, destiny, spirit guides, yourself—-_whatever you want to call your Higher Power_—had a plan for me without me ever understanding it.
 
-And I didn’t understand it—because corporate life ✨_**fucking held me back**_✨.
+And I didn’t understand it—because corporate life ✨***fucking held me back***✨.
 
 - ✨I was too comfortable.
 - ✨My growth was stunted.
@@ -110,7 +114,7 @@ And I didn’t understand it—because corporate life ✨_**fucking held me back
 
 And sadly, too many people today are in that same situation—never knowing their pathway to their own identity because of being the gear in the broken system. (Not their fault either—nuance gives us this lesson.)
 
-_I should also clarify:_ It gave me the knowledge I needed to get to where I am today. The experience I absolutely needed, and I wouldn't trade that knowledge for anything.
+\_I should also clarify: It gave me the knowledge I needed to get to where I am today. The experience I absolutely needed, and I wouldn't trade that knowledge for anything.
 
 But this process changed me because everything that I have done—my business, my book-writing, my applications for being a doctorate student, my SBA review, my teacher instincts—they've all pointed to my multifacteed archetypes of _who I am_.
 
@@ -165,7 +169,9 @@ I'm a unified whole—no longer disparaged or separated.
 
 I should clarify—the fear and doubts of uncertainty and scarcity haven't left. They're still very-much there.
 
-But the kicker is that _they're no longer narrating my story_—**I am!**
+But the kicker:
+
+> _They're no longer narrating my story_—**I am!**
 
 - It's all background noise—echoes of a person long past.
 - It's not applicable to who I am or what I'm doing.
