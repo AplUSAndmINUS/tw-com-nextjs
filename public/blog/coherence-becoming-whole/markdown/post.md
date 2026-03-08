@@ -34,6 +34,7 @@ gallery:
   - url: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.jpg'
     alt: 'Coherence and becoming a unified whole'
     caption: 'Coherence — the quiet moment when everything begins operating on the same frequency'
+generatedWithAI: true
 ---
 
 ## Coherence- Becoming a Unified Whole

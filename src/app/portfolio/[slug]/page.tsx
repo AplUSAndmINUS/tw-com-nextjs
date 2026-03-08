@@ -7,6 +7,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
+import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -68,6 +69,7 @@ export default async function PortfolioEntryPage({ params }: Props) {
       {entry.gallery && entry.gallery.length > 0 && (
         <ContentGalleryClient gallery={entry.gallery} />
       )}
+      {entry.generatedWithAI && <GeneratedWithAiBadge className='mb-6' />}
       <MDXRemote source={entry.content} components={mdxComponents} />
     </PortfolioLayout>
   );

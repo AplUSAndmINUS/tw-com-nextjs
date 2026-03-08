@@ -22,6 +22,9 @@ export interface ContentItem {
   featured?: boolean;
   featuredImage?: string;
   gallery?: GalleryItem[];
+  // AI disclosure
+  /** When true, the content was generated or assisted by AI */
+  generatedWithAI?: boolean;
   // SEO
   seoTitle?: string;
   seoDescription?: string;
