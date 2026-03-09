@@ -72,9 +72,9 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         style={{
           background: isHighContrastOrColorblind
             ? theme.palette.neutralLighterAlt
-            : `linear-gradient(${theme.palette.neutralLighterAlt}, ${theme.palette.neutralLighterAlt}) padding-box, ${gradients.ai.linear} border-box`,
+            : `linear-gradient(${theme.palette.neutralLighterAlt}, ${theme.palette.neutralLighterAlt}) padding-box, ${gradientBorder} border-box`,
           border: isHighContrastOrColorblind
-            ? `2px solid ${theme.semanticColors.border.emphasis}`
+            ? `2px solid ${gradientBorder}`
             : '2px solid transparent',
           fontSize: theme.typography.fontSizes.md,
           fontWeight: theme.typography.fontWeights.semiBold,
