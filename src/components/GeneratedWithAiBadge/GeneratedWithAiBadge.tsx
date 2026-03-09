@@ -56,8 +56,20 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
     ? theme.semanticColors.border.emphasis
     : theme.gradients.ai.linear;
 
+  const handleToggleTooltip = () => {
+    setShowTooltip((prev) => !prev);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') setShowTooltip(false);
+    if (e.key === 'Escape') {
+      setShowTooltip(false);
+      return;
+    }
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleToggleTooltip();
+    }
   };
 
   return (
@@ -84,11 +96,13 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         onMouseLeave={() => setShowTooltip(false)}
         onFocus={() => setShowTooltip(true)}
         onBlur={() => setShowTooltip(false)}
+        onClick={handleToggleTooltip}
         onKeyDown={handleKeyDown}
         tabIndex={0}
-        role='note'
+        role='button'
         aria-label={`Generated with AI. ${tooltipText}`}
         aria-describedby={tooltipId}
+        aria-controls={tooltipId}
       >
         <AiGeneratedIcon size={24} />
         <span>Generated with AI</span>
