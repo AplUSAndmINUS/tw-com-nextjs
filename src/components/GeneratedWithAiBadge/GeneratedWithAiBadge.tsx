@@ -3,7 +3,6 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { AiGeneratedIcon } from '@/assets/svgs/AiGeneratedIcon';
-import { gradients } from '@/theme/fluentTheme';
 
 export interface GeneratedWithAiBadgeProps {
   /**
@@ -55,7 +54,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
   // More stark gradient for better visibility
   const gradientBorder = isHighContrastOrColorblind
     ? theme.semanticColors.border.emphasis
-    : gradients.ai.linear;
+    : theme.gradients.ai.linear;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') setShowTooltip(false);
