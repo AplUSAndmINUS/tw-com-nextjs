@@ -36,7 +36,7 @@ export interface GeneratedWithAiBadgeProps {
  * ```
  */
 export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
-  tooltipText = 'This content was generated or assisted by artificial intelligence.',
+  tooltipText = 'This content was drafted with AI assistance and carefully verified by our team for accuracy. We take full responsibility for what we publish and advocate transparent, responsible AI use.',
   className,
   style,
 }) => {
