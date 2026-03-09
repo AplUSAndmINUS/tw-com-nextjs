@@ -40,9 +40,22 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
   className,
   style,
 }) => {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
   const [showTooltip, setShowTooltip] = React.useState(false);
   const tooltipId = React.useId();
+
+  // Use solid color for high-contrast and colorblind themes
+  const isHighContrastOrColorblind = [
+    'high-contrast',
+    'protanopia',
+    'deuteranopia',
+    'tritanopia',
+  ].includes(themeMode);
+
+  // More stark gradient for better visibility
+  const gradientBorder = isHighContrastOrColorblind
+    ? theme.semanticColors.border.emphasis
+    : gradients.ai.linear;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') setShowTooltip(false);
@@ -51,14 +64,18 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
   return (
     <div
       className={`relative inline-flex${className ? ` ${className}` : ''}`}
-      style={style}
+      style={{ ...style, overflow: 'visible' }}
     >
       {/* Badge pill */}
       <div
-        className='inline-flex cursor-default select-none items-center gap-1.5 rounded-full px-3 py-1'
+        className='inline-flex cursor-default select-none items-center gap-2 rounded-full px-3 py-1.5'
         style={{
-          background: `linear-gradient(${theme.palette.neutralLighterAlt}, ${theme.palette.neutralLighterAlt}) padding-box, ${gradients.ai.linear} border-box`,
-          border: '1px solid transparent',
+          background: isHighContrastOrColorblind
+            ? theme.palette.neutralLighterAlt
+            : `linear-gradient(${theme.palette.neutralLighterAlt}, ${theme.palette.neutralLighterAlt}) padding-box, ${gradients.ai.linear} border-box`,
+          border: isHighContrastOrColorblind
+            ? `2px solid ${theme.semanticColors.border.emphasis}`
+            : '2px solid transparent',
           fontSize: theme.typography.fontSizes.md,
           fontWeight: theme.typography.fontWeights.semiBold,
           color: theme.palette.neutralPrimary,
@@ -74,36 +91,38 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         aria-label={`Generated with AI. ${tooltipText}`}
         aria-describedby={tooltipId}
       >
-        <AiGeneratedIcon size={16} />
+        <AiGeneratedIcon size={24} />
         <span>Generated with AI</span>
       </div>
 
-      {/* Tooltip */}
+      {/* Tooltip - positioned to the right */}
       <div
         id={tooltipId}
         role='tooltip'
-        className='pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-max max-w-xs -translate-x-1/2 rounded-lg px-3 py-2'
+        className='pointer-events-none absolute left-full top-1/2 z-50 ml-3 w-max max-w-xs -translate-y-1/2 rounded-lg px-4 py-2.5'
         style={{
-          backgroundColor: theme.colorNeutralForeground1,
-          color: theme.colorNeutralBackground1,
+          backgroundColor: theme.semanticColors.background.elevated,
+          color: theme.semanticColors.text.primary,
           fontSize: theme.typography.fontSizes.md,
-          boxShadow: theme.shadows.tooltip,
+          lineHeight: theme.typography.lineHeights.normal,
+          border: `1px solid ${theme.semanticColors.border.default}`,
+          boxShadow: theme.shadows.card,
           opacity: showTooltip ? 1 : 0,
           visibility: showTooltip ? 'visible' : 'hidden',
-          transition: 'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
+          transition: `opacity ${theme.animations.duration.fast} ${theme.animations.easing.easeInOut}, visibility ${theme.animations.duration.fast} ${theme.animations.easing.easeInOut}`,
         }}
       >
         {tooltipText}
-        {/* Tooltip arrow */}
+        {/* Tooltip arrow pointing left */}
         <span
-          className='absolute left-1/2 top-full -translate-x-1/2'
+          className='absolute right-full top-1/2 -translate-y-1/2'
           aria-hidden='true'
           style={{
             width: 0,
             height: 0,
-            borderLeft: '5px solid transparent',
-            borderRight: '5px solid transparent',
-            borderTop: `5px solid ${theme.colorNeutralForeground1}`,
+            borderTop: '6px solid transparent',
+            borderBottom: '6px solid transparent',
+            borderRight: `6px solid ${theme.semanticColors.background.elevated}`,
           }}
         />
       </div>

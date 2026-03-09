@@ -95,10 +95,13 @@ export const AiGeneratedIcon: React.FC<AiGeneratedIconProps> = ({
         strokeLinecap='round'
       />
 
-      {/* 4-pointed sparkle star at upper-right, overlapping frame corner */}
+      {/* 4-pointed sparkle star at upper-right, overlapping frame corner - larger and more visible */}
       <path
-        d='M19.5 1.5 L20.7 3.3 L22.5 4.5 L20.7 5.7 L19.5 7.5 L18.3 5.7 L16.5 4.5 L18.3 3.3Z'
+        d='M19.5 0 L21 3 L23.5 4.5 L21 6 L19.5 9 L18 6 L15.5 4.5 L18 3Z'
         fill={`url(#${gradientId})`}
+        stroke={`url(#${gradientId})`}
+        strokeWidth='0.5'
+        strokeLinejoin='round'
       />
     </svg>
   );
