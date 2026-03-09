@@ -6,6 +6,7 @@ import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
+import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -73,6 +74,7 @@ export default async function BlogPostPage({ params }: Props) {
       }
     >
       {/* Gallery removed - feature image now opens in modal via ArticleLayout */}
+      {post.generatedWithAI && <GeneratedWithAiBadge className='mb-6' />}
       <MDXRemote source={post.content} components={mdxComponents} />
     </ArticleLayout>
   );

@@ -825,6 +825,14 @@ export const gradients = {
         '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F8F9FA 30%, #F3F4F6 100%)',
     },
   },
+  ai: {
+    /** Purple stop of the AI brand gradient */
+    from: '#A855F7',
+    /** Blue stop of the AI brand gradient */
+    to: '#3B82F6',
+    /** Ready-to-use CSS linear-gradient string for AI-themed elements */
+    linear: 'linear-gradient(135deg, #A855F7, #3B82F6)',
+  },
 };
 
 // ============================================================================

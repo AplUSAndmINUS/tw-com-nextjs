@@ -97,6 +97,10 @@ function mapFrontmatter(
     featured: typeof data.featured === 'boolean' ? data.featured : undefined,
     featuredImage: (data.featuredImage as string) ?? undefined,
     gallery: validateGalleryItems(data.gallery),
+    generatedWithAI:
+      typeof data.generatedWithAI === 'boolean'
+        ? data.generatedWithAI
+        : undefined,
     seoTitle: (data.seoTitle as string) ?? undefined,
     seoDescription: (data.seoDescription as string) ?? undefined,
     seoKeywords: validateStringArray(data.seoKeywords),
