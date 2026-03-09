@@ -66,10 +66,10 @@ export default async function PortfolioEntryPage({ params }: Props) {
         />
       }
     >
+      {entry.generatedWithAI && <GeneratedWithAiBadge className='mb-6' />}
       {entry.gallery && entry.gallery.length > 0 && (
         <ContentGalleryClient gallery={entry.gallery} />
       )}
-      {entry.generatedWithAI && <GeneratedWithAiBadge className='mb-6' />}
       <MDXRemote source={entry.content} components={mdxComponents} />
     </PortfolioLayout>
   );
