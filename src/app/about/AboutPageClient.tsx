@@ -80,7 +80,6 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
         {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
         <div className={contentPaneClasses}>
           <div
-            id='content-scroll-pane'
             className={
               useStackedLayout
                 ? 'flex-1 px-4 sm:px-6 pt-8 pb-8 mt-8'

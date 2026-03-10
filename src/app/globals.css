@@ -37,7 +37,7 @@ body {
 /* Fixed header compositing layer — must be CSS (not inline styles) so it applies
    on first paint before React hydration. Inline styles arrive too late and leave
    a window where iOS/desktop Safari drops the compositing layer on early scroll. */
-nav[role="banner"] {
+nav[role='banner'] {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
@@ -63,6 +63,17 @@ nav[role="banner"] {
 
 .max-width-content-footer {
   max-width: 1920px;
+}
+
+/* Hide scrollbars while preserving scroll behavior across Chromium, Safari, Firefox, and legacy Edge. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 /* Homepage background images - automatically switches based on viewport aspect ratio */
