@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
 import { ContentItem } from '@/content/types';
+import { Typography } from '../Typography';
 
 interface LargeViewProps {
   items: ContentItem[];
@@ -67,15 +68,15 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                 )}
 
                 {/* Title - Larger */}
-                <h2 className='text-2xl lg:text-3xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+                <Typography variant='h3' className='text-2xl lg:text-3xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
                   {item.title}
-                </h2>
+                </Typography>
 
                 {/* Excerpt - More visible */}
                 {item.excerpt && (
-                  <p className='text-base lg:text-lg text-gray-700 dark:text-gray-300 mb-6 line-clamp-4'>
+                  <Typography variant='body' className='text-base lg:text-lg text-gray-700 dark:text-gray-300 mb-6 line-clamp-4'>
                     {item.excerpt}
-                  </p>
+                  </Typography>
                 )}
 
                 {/* Meta Information */}
@@ -96,7 +97,9 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                   {item.author && (
                     <>
                       <span>•</span>
-                      <span className='font-medium'>{item.author}</span>
+                      <Typography variant='label' className='font-medium'>
+                        {item.author}
+                      </Typography>
                     </>
                   )}
                 </div>
@@ -105,12 +108,13 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                 {item.tags && item.tags.length > 0 && (
                   <div className='flex flex-wrap gap-2'>
                     {item.tags.map((tag) => (
-                      <span
+                      <Typography
+                        variant='label'
                         key={tag}
                         className='inline-block px-3 py-1 text-sm rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium'
                       >
                         {tag}
-                      </span>
+                      </Typography>
                     ))}
                   </div>
                 )}
@@ -132,10 +136,10 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                           d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
                         />
                       </svg>
-                      <span>
+                      <Typography variant='label' className='font-medium'>
                         {item.gallery.length} image
                         {item.gallery.length !== 1 ? 's' : ''} in gallery
-                      </span>
+                      </Typography>
                     </div>
                   </div>
                 )}

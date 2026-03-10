@@ -17,6 +17,7 @@ type HtmlTag =
   | 'code'
   | 'label'
   | 'span'
+  | 'time'
   | 'div';
 
 interface TypographyProps {

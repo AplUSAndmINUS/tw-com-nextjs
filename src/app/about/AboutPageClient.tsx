@@ -49,8 +49,8 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   const contentPaneClasses = useStackedLayout
     ? 'flex-1 flex flex-col'
     : isLeftHanded
-      ? 'flex-1 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
+      ? 'flex-1 min-w-0 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto md:overflow-x-hidden flex flex-col'
+      : 'flex-1 min-w-0 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto md:overflow-x-hidden flex flex-col';
 
   return (
     <SiteLayout showFooter={false}>

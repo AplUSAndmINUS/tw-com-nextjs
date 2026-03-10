@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { ContentItem } from '@/content/types';
 import { ViewType } from '@/store';
 import { ContentCard } from '@/components/ContentCard';
 import { ViewSwitcher } from '@/components/ViewSwitcher';
 import { TagFilter } from '@/components/TagFilter';
+import { Typography } from '../Typography';
 
 export interface UnifiedContentEntry extends ContentItem {
   contentType: string;
@@ -49,11 +50,13 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
   return (
     <div className='max-w-7xl mx-auto px-4 py-12'>
       <div className='mb-8'>
-        <h1 className='text-4xl font-bold mb-2'>Content Hub</h1>
-        <p className='text-gray-600 dark:text-gray-400'>
+        <Typography variant='h3' className='text-4xl font-bold mb-2'>
+          Content Hub
+        </Typography>
+        <Typography variant='body' className='text-gray-600 dark:text-gray-400'>
           Explore all content — blog posts, portfolio work, and case studies in
           one place.
-        </p>
+        </Typography>
       </div>
 
       {/* Toolbar */}
@@ -102,7 +105,9 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
       {/* Featured section */}
       {featuredEntries.length > 0 && !activeTag && !activeType && (
         <section className='mb-12'>
-          <h2 className='text-xl font-semibold mb-4'>Featured</h2>
+          <Typography variant='h3' className='text-xl font-semibold mb-4'>
+            Featured
+          </Typography>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
             {featuredEntries.map((entry) => (
               <ContentCard
@@ -120,9 +125,12 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
 
       {/* All content */}
       {filtered.length === 0 ? (
-        <p className='text-gray-500 dark:text-gray-400 py-12 text-center'>
+        <Typography
+          variant='body'
+          className='text-gray-500 dark:text-gray-400 py-12 text-center'
+        >
           No content matches the selected filters.
-        </p>
+        </Typography>
       ) : viewType === 'grid' ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
           {filtered.map((entry) => (

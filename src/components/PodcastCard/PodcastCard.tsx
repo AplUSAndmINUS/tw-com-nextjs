@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PodcastEpisode } from '@/content/types';
 import { ViewType } from '@/store';
+import { Typography, Typography } from '../Typography';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -43,13 +44,13 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
                 </span>
               )}
             </div>
-            <h2 className='font-semibold text-base group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2 flex-1'>
+            <Typography variant='h3' className='font-semibold text-base group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2 flex-1'>
               {episode.title}
-            </h2>
+            </Typography>
             {episode.description && (
-              <p className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
+              <Typography variant='body' className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
                 {episode.description}
-              </p>
+              </Typography>
             )}
             <div className='mt-2 flex items-center gap-2 text-xs text-gray-400'>
               {episode.publishedDate && (
@@ -85,17 +86,21 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
             )}
           </div>
           <div className='flex-1 min-w-0'>
-            <h3 className='text-sm font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2'>
+            <Typography variant='h3' className='text-sm font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2'>
               {episode.title}
-            </h3>
+            </Typography>
             <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
-              {episode.category && <span>{episode.category}</span>}
-              {episode.publishedDate && (
-                <time dateTime={episode.publishedDate}>
-                  {episode.publishedDate}
-                </time>
+              {episode.category && (
+                <Typography variant='label' className='text-purple-600 dark:text-purple-400 font-medium'>
+                  {episode.category}
+                </Typography>
               )}
-              {episode.duration && <span>{episode.duration}</span>}
+              {episode.publishedDate && (
+                <Typography variant='label' className='text-gray-400 dark:text-gray-500'>
+                  {episode.publishedDate}
+                </Typography>
+              )}
+              {episode.duration && <Typography variant='label' className='text-gray-400 dark:text-gray-500'>{episode.duration}</Typography>}
             </div>
           </div>
         </article>
@@ -128,14 +133,14 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
         <div className='flex-1 min-w-0'>
           <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
             {episode.season !== undefined && episode.episode !== undefined && (
-              <span>
+              <Typography variant='label' className='text-gray-400 dark:text-gray-500'>
                 S{episode.season}E{episode.episode}
-              </span>
+              </Typography>
             )}
             {episode.category && (
-              <span className='text-purple-600 dark:text-purple-400 font-medium'>
+              <Typography variant='label' className='text-purple-600 dark:text-purple-400 font-medium'>
                 {episode.category}
-              </span>
+              </Typography>
             )}
             {episode.publishedDate && (
               <time dateTime={episode.publishedDate}>
@@ -144,9 +149,9 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
             )}
             {episode.duration && <span>{episode.duration}</span>}
           </div>
-          <h2 className='font-semibold text-base group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2'>
+          <Typography variant='h3' className='font-semibold text-base group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2'>
             {episode.title}
-          </h2>
+          </Typography>
           {episode.description && (
             <p className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
               {episode.description}
