@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
 import { ContentItem } from '@/content/types';
+import { Typography } from '../Typography';
 
 interface GridViewProps {
   items: ContentItem[];
@@ -56,15 +57,15 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
                 )}
 
                 {/* Title */}
-                <h3 className='text-xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+                <Typography variant='h3' className='text-xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
                   {item.title}
-                </h3>
+                </Typography>
 
                 {/* Excerpt */}
                 {item.excerpt && (
-                  <p className='text-gray-600 dark:text-gray-400 mb-4 line-clamp-3'>
+                  <Typography variant='body' className='text-gray-600 dark:text-gray-400 mb-4 line-clamp-3'>
                     {item.excerpt}
-                  </p>
+                  </Typography>
                 )}
 
                 {/* Meta Information */}
@@ -102,9 +103,9 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
                       </span>
                     ))}
                     {item.tags.length > 3 && (
-                      <span className='inline-block px-2 py-1 text-xs text-gray-500'>
+                      <Typography variant='label' className='inline-block px-2 py-1 text-xs text-gray-500'>
                         +{item.tags.length - 3} more
-                      </span>
+                      </Typography>
                     )}
                   </div>
                 )}

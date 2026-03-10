@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { VideoItem } from '@/content/types';
 import { ViewType } from '@/store';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { Typography } from '../Typography';
 
 interface VideoCardProps {
   video: VideoItem;
@@ -39,9 +40,9 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
             )}
           </div>
           <div className='flex-1 min-w-0'>
-            <h3 className='text-sm font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2'>
+            <Typography variant='h3' className='text-sm font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2'>
               {video.title}
-            </h3>
+            </Typography>
             <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
               {video.category && <span>{video.category}</span>}
               {video.publishedAt && (
@@ -105,13 +106,13 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
                 {video.category}
               </span>
             )}
-            <h2 className='mt-1 text-2xl font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors'>
+            <Typography variant='h3' className='mt-1 text-2xl font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors'>
               {video.title}
-            </h2>
+            </Typography>
             {video.description && (
-              <p className='mt-2 text-gray-600 dark:text-gray-400 line-clamp-3'>
+              <Typography variant='body' className='mt-2 text-gray-600 dark:text-gray-400 line-clamp-3'>
                 {video.description}
-              </p>
+              </Typography>
             )}
             <time
               className='block mt-3 text-xs text-gray-400'
@@ -158,7 +159,8 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
             </span>
           </div>
           {video.duration && (
-            <span
+            <Typography
+              variant='label'
               className='absolute bottom-2 right-2 text-xs text-white rounded px-1.5 py-0.5'
               style={{
                 backgroundColor: reducedTransparency
@@ -167,22 +169,22 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
               }}
             >
               {video.duration}
-            </span>
+            </Typography>
           )}
         </div>
         <div className='p-4'>
           {video.category && (
-            <span className='text-xs font-semibold text-red-600 dark:text-red-400 uppercase tracking-wide'>
+            <Typography variant='label' className='text-xs font-semibold text-red-600 dark:text-red-400 uppercase tracking-wide'>
               {video.category}
-            </span>
+            </Typography>
           )}
-          <h2 className='mt-1 text-base font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2'>
+          <Typography variant='h3' className='mt-1 text-base font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2'>
             {video.title}
-          </h2>
+          </Typography>
           {video.description && (
-            <p className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
+            <Typography variant='body' className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
               {video.description}
-            </p>
+            </Typography>
           )}
           <time
             className='block mt-2 text-xs text-gray-400'
