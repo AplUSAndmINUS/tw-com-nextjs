@@ -167,19 +167,20 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   </div>
                 )}
                 <div style={{ padding: theme.spacing.m }}>
-                  <h3
+                  <Typography variant='h3'
                     style={{
                       fontSize: '1.25rem',
                       fontWeight: 600,
                       fontFamily: headingFontFamily,
                       color: theme.semanticColors.text.heading,
-                      marginBottom: theme.spacing.s1,
+                      marginBottom: theme.spacing.m,
                       lineHeight: 1.3,
                     }}
                   >
                     {card.title}
-                  </h3>
-                  <p
+                  </Typography>
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '0.9375rem',
                       color: theme.semanticColors.text.muted,
@@ -195,7 +196,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.description}
-                  </p>
+                  </Typography>
                   {card.tags && card.tags.length > 0 && (
                     <div
                       style={{
