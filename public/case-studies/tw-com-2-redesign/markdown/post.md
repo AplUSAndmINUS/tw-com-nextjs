@@ -70,6 +70,7 @@ gallery:
   - url: '/case-studies/tw-com-2-redesign/images/TW-com-HiFiSettingsMobileDark.jpeg'
     alt: 'Settings panel hi-fi mockup'
     caption: 'Theme switcher with 8 accessible theme variants'
+generatedWithAI: true
 ---
 
 # From React to Next.js: Building a Modern Personal Platform with AI-Assisted Development
