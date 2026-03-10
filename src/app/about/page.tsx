@@ -11,6 +11,7 @@ import { AboutCapabilities } from './AboutCapabilities';
 import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
+import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -107,20 +108,20 @@ export default function AboutPage() {
           description='Dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
         >
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <Link
+            <ThemedLink
               href='/contact'
               className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors'
             >
               Book a Consultation
-            </Link>
-            <Link
+            </ThemedLink>
+            <ThemedLink
               href='https://fluxline.pro'
               target='_blank'
               rel='noopener noreferrer'
               className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
             >
               Visit Fluxline.pro
-            </Link>
+            </ThemedLink>
           </div>
         </Hero>
 
@@ -271,13 +272,13 @@ export default function AboutPage() {
                     const name = cert.substring(0, leftParenIndex).trim();
                     const year = cert.substring(leftParenIndex);
                     return (
-                      <li key={cert} className='flex items-start gap-1 text-sm'>
-                        <span className='font-semibold text-gray-900 dark:text-white'>
+                      <li key={cert} className='flex items-center gap-1 text-sm'>
+                        <Typography variant='cardSubtitle' className='font-bold text-gray-900 dark:text-white'>
                           {name}
-                        </span>
-                        <span className='text-gray-600 dark:text-gray-400'>
+                        </Typography>
+                        <Typography variant='label' className='text-gray-600 dark:text-gray-400'>
                           {year}
-                        </span>
+                        </Typography>
                       </li>
                     );
                   }
