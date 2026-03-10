@@ -50,6 +50,16 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     }
   };
 
+  const handleCardKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    id: string
+  ) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleCardClick(id);
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -131,6 +141,10 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 }}
                 {...getHoverProps(card.id)}
                 onClick={() => handleCardClick(card.id)}
+                onKeyDown={(event) => handleCardKeyDown(event, card.id)}
+                tabIndex={0}
+                role='button'
+                aria-label={`Open ${card.title}`}
               >
                 {card.imageUrl && (
                   <div
@@ -167,19 +181,21 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   </div>
                 )}
                 <div style={{ padding: theme.spacing.m }}>
-                  <h3
+                  <Typography
+                    variant='h3'
                     style={{
                       fontSize: '1.25rem',
                       fontWeight: 600,
                       fontFamily: headingFontFamily,
                       color: theme.semanticColors.text.heading,
-                      marginBottom: theme.spacing.s1,
+                      marginBottom: theme.spacing.m,
                       lineHeight: 1.3,
                     }}
                   >
                     {card.title}
-                  </h3>
-                  <p
+                  </Typography>
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '0.9375rem',
                       color: theme.semanticColors.text.muted,
@@ -195,7 +211,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     }}
                   >
                     {card.description}
-                  </p>
+                  </Typography>
                   {card.tags && card.tags.length > 0 && (
                     <div
                       style={{
@@ -278,6 +294,10 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 }}
                 {...getHoverProps(card.id)}
                 onClick={() => handleCardClick(card.id)}
+                onKeyDown={(event) => handleCardKeyDown(event, card.id)}
+                tabIndex={0}
+                role='button'
+                aria-label={`Open ${card.title}`}
               >
                 {card.imageUrl && (
                   <div
@@ -289,7 +309,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       overflow: 'hidden',
                       backgroundColor: theme.semanticColors.background.muted,
                       position: 'relative',
-                      objectFit: 'cover'
+                      objectFit: 'cover',
                     }}
                   >
                     <img
@@ -303,8 +323,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     />
                   </div>
                 )}
-                <div className='p-4 items-center justify-center' style={{ flex: 1, minWidth: 0 }}>
-                  <Typography variant='h3'
+                <div
+                  className='p-4 items-center justify-center'
+                  style={{ flex: 1, minWidth: 0 }}
+                >
+                  <Typography
+                    variant='h3'
                     style={{
                       fontSize: isMobile ? '1rem' : '1.125rem',
                       fontWeight: 600,
@@ -316,7 +340,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   >
                     {card.title}
                   </Typography>
-                  <Typography variant='body'
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '0.875rem',
                       color: accentColor,
@@ -326,7 +351,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   >
                     {card.imageText}
                   </Typography>
-                  <Typography variant='body'
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '0.875rem',
                       color: theme.semanticColors.text.muted,
@@ -353,7 +379,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.tags.slice(0, 3).map((tag) => (
-                        <Typography variant='caption'
+                        <Typography
+                          variant='caption'
                           key={tag}
                           style={{
                             fontSize: '0.7rem',
@@ -421,6 +448,10 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               }}
               {...getHoverProps(card.id)}
               onClick={() => handleCardClick(card.id)}
+              onKeyDown={(event) => handleCardKeyDown(event, card.id)}
+              tabIndex={0}
+              role='button'
+              aria-label={`Open ${card.title}`}
             >
               <div
                 style={{

@@ -99,7 +99,10 @@ export function StandardPageLayout({
 
           {/* Content pane - scrollable independently with responsive mirrored margins */}
           {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
-          <div id='content-scroll-pane' className={contentPaneClasses}>
+          <div
+            className={`${contentPaneClasses} no-scrollbar`}
+            style={{ scrollbarWidth: 'none' }}
+          >
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col'>
               <div className='md:w-full md:my-auto'>{children}</div>
             </div>

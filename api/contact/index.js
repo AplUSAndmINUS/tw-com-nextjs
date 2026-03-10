@@ -329,6 +329,15 @@ module.exports = async function (context, req) {
   // Strip newlines from single-line fields to prevent email body injection
   const sanitizedName = name.replace(/[\r\n]/g, '');
   const sanitizedEmail = email.replace(/[\r\n]/g, '');
+  const submittedAt = new Date().toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+    timeZoneName: 'short',
+  });
 
   // Build email payload for SMTP2Go
   const emailPayload = {
@@ -339,16 +348,62 @@ module.exports = async function (context, req) {
     text_body: [
       `Name: ${sanitizedName}`,
       `Email: ${sanitizedEmail}`,
+      `Submitted: ${submittedAt}`,
       '',
       'Message:',
       message,
     ].join('\n'),
     html_body: `
-      <h2>Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${htmlEncode(name)}</p>
-      <p><strong>Email:</strong> ${htmlEncode(email)}</p>
-      <h3>Message:</h3>
-      <p style="white-space: pre-wrap;">${htmlEncode(message)}</p>
+      <div style="margin:0;padding:24px;background-color:#0f1419;font-family:Arial,Helvetica,sans-serif;color:#111827;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:700px;margin:0 auto;background:#f8fafc;border:1px solid #dbe6f3;border-radius:16px;overflow:hidden;">
+          <tr>
+            <td style="padding:0;">
+              <div style="background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 100%);padding:20px 24px;border-bottom:1px solid #1e3a8a;">
+                <p style="margin:0;color:#bfdbfe;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;">TW.com Contact Intake</p>
+                <h2 style="margin:8px 0 0;color:#ffffff;font-size:24px;line-height:1.2;">New Contact Form Submission</h2>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px 24px 8px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:separate;border-spacing:0 10px;">
+                <tr>
+                  <td style="width:120px;color:#475569;font-size:13px;font-weight:700;vertical-align:top;">From</td>
+                  <td style="color:#0f172a;font-size:14px;">${htmlEncode(name)}</td>
+                </tr>
+                <tr>
+                  <td style="width:120px;color:#475569;font-size:13px;font-weight:700;vertical-align:top;">Email</td>
+                  <td style="color:#0f172a;font-size:14px;">
+                    <a href="mailto:${encodeURIComponent(sanitizedEmail)}" style="color:#1d4ed8;text-decoration:none;">${htmlEncode(email)}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:120px;color:#475569;font-size:13px;font-weight:700;vertical-align:top;">Submitted</td>
+                  <td style="color:#0f172a;font-size:14px;">${htmlEncode(submittedAt)}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 24px 24px;">
+              <div style="background:#ffffff;border:1px solid #dbe6f3;border-left:4px solid #2563eb;border-radius:12px;padding:16px;">
+                <h3 style="margin:0 0 10px;color:#0f172a;font-size:16px;">Message</h3>
+                <p style="margin:0;color:#1e293b;font-size:14px;line-height:1.6;white-space:pre-wrap;">${htmlEncode(message)}</p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 24px 24px;">
+              <a href="mailto:${encodeURIComponent(sanitizedEmail)}?subject=${encodeURIComponent('Re: Your message to TW.com')}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-size:13px;font-weight:700;padding:10px 14px;border-radius:10px;">Reply to Sender</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:14px 24px;background:#f1f5f9;border-top:1px solid #dbe6f3;color:#64748b;font-size:12px;">
+              Automated message from the TW.com contact endpoint.
+            </td>
+          </tr>
+        </table>
+      </div>
     `,
   };
 

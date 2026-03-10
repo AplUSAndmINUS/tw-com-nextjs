@@ -49,8 +49,8 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   const contentPaneClasses = useStackedLayout
     ? 'flex-1 flex flex-col'
     : isLeftHanded
-      ? 'flex-1 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
+      ? 'flex-1 min-w-0 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto md:overflow-x-hidden flex flex-col'
+      : 'flex-1 min-w-0 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto md:overflow-x-hidden flex flex-col';
 
   return (
     <SiteLayout showFooter={false}>
@@ -80,7 +80,6 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
         {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
         <div className={contentPaneClasses}>
           <div
-            id='content-scroll-pane'
             className={
               useStackedLayout
                 ? 'flex-1 px-4 sm:px-6 pt-8 pb-8 mt-8'

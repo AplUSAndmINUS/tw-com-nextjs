@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 
 const serviceCategories = [
   {
@@ -44,6 +45,8 @@ const serviceCategories = [
 export function ServicesClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   const accentColor = theme.palette.themePrimary;
 
@@ -84,7 +87,7 @@ export function ServicesClient() {
       animate='visible'
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gridTemplateColumns: isMobile || isTablet ? '1fr 1fr' : 'repeat(3, 1fr)',
         gap: theme.spacing.l,
         width: '100%',
       }}
@@ -189,7 +192,7 @@ export function ServicesClient() {
                   {category.description}
                 </Typography>
 
-                <span
+                <Typography variant='label'
                   className='hover:underline'
                   style={{
                     fontSize: '0.875rem',
@@ -198,7 +201,7 @@ export function ServicesClient() {
                   }}
                 >
                   {category.cta} →
-                </span>
+                </Typography>
               </motion.div>
             </Link>
           </motion.div>

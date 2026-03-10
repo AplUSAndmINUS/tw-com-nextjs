@@ -40,7 +40,7 @@ export interface ModalProps {
  *   onDismiss={() => setIsOpen(false)}
  *   ariaLabel="Confirmation dialog"
  * >
- *   <h2>Are you sure?</h2>
+ *   <Typography variant='h2'>Are you sure?</Typography>
  *   <button onClick={() => setIsOpen(false)}>Cancel</button>
  * </Modal>
  * ```

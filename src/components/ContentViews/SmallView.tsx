@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ContentItem } from '@/content/types';
+import { Typography } from '../Typography';
 
 interface SmallViewProps {
   items: ContentItem[];
@@ -58,15 +59,15 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
                 </div>
 
                 {/* Title */}
-                <h3 className='text-lg font-semibold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate'>
+                <Typography variant='h3' className='text-lg font-semibold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate'>
                   {item.title}
-                </h3>
+                </Typography>
 
                 {/* Excerpt */}
                 {item.excerpt && (
-                  <p className='text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2'>
+                  <Typography variant='body' className='text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2'>
                     {item.excerpt}
-                  </p>
+                  </Typography>
                 )}
 
                 {/* Meta and Tags */}
@@ -126,13 +127,13 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
                             key={tag}
                             className='inline-block px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
                           >
-                            {tag}
+                            <Typography variant='label'>{tag}</Typography>
                           </span>
                         ))}
                         {item.tags.length > 2 && (
-                          <span className='text-gray-400'>
+                          <Typography variant='label' className='text-gray-400'>
                             +{item.tags.length - 2}
-                          </span>
+                          </Typography>
                         )}
                       </div>
                     </>

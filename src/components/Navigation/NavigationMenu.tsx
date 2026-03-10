@@ -139,6 +139,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
         </Typography>
         {onClose && (
           <button
+            type='button'
             onClick={onClose}
             style={{
               marginLeft: 'auto',

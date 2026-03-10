@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 
 export const ConsultationCTA: React.FC = () => {
   const { theme } = useAppTheme();
@@ -37,17 +38,20 @@ export const ConsultationCTA: React.FC = () => {
       <Typography
         variant='body'
         className='text-gray-600 dark:text-gray-400 mb-6 max-w-xl'
+        style={{
+          color: theme.semanticColors.text.muted,
+        }}
       >
         If this service fits where you are right now, we can start with a
         focused consultation and define your next best move.
       </Typography>
-      <Link
+      <ThemedLink
         href='/contact'
         style={{
           display: 'inline-block',
           padding: `${theme.spacing.m}`,
           backgroundColor: accentColor,
-          color: 'white',
+          color: theme.semanticColors.background.base,
           borderRadius: theme.borderRadius.container.small,
           fontWeight: 500,
           transition: 'opacity 0.2s ease',
@@ -61,7 +65,7 @@ export const ConsultationCTA: React.FC = () => {
         }}
       >
         Book a consultation
-      </Link>
+      </ThemedLink>
     </section>
   );
 };

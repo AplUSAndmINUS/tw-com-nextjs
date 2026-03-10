@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ContentItem } from '@/content/types';
 import { ViewType } from '@/store';
+import { Typography } from '../Typography';
 
 interface ContentCardProps {
   item: ContentItem;
@@ -57,13 +58,19 @@ function GridCard({
               {item.category ?? contentType}
             </span>
           )}
-          <h2 className='text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2'>
+          <Typography
+            variant='h3'
+            className='text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2'
+          >
             {item.title}
-          </h2>
+          </Typography>
           {item.excerpt && (
-            <p className='mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-3 flex-1'>
+            <Typography
+              variant='body'
+              className='mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-3 flex-1'
+            >
               {item.excerpt}
-            </p>
+            </Typography>
           )}
           <div className='mt-3 flex items-center justify-between text-xs text-gray-400'>
             {item.author && <span>{item.author}</span>}
@@ -72,12 +79,13 @@ function GridCard({
           {item.tags && item.tags.length > 0 && (
             <div className='mt-2 flex flex-wrap gap-1'>
               {item.tags.slice(0, 3).map((tag) => (
-                <span
+                <Typography
+                  variant='label'
                   key={tag}
                   className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
                 >
                   {tag}
-                </span>
+                </Typography>
               ))}
             </div>
           )}
@@ -114,31 +122,43 @@ function LargeCard({
         )}
         <div className='flex flex-col justify-center flex-1'>
           {(item.category || contentType) && (
-            <span className='text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1'>
+            <Typography
+              variant='label'
+              className='text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1'
+            >
               {item.category ?? contentType}
-            </span>
+            </Typography>
           )}
-          <h2 className='text-2xl font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+          <Typography
+            variant='h3'
+            className='text-2xl font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'
+          >
             {item.title}
-          </h2>
+          </Typography>
           {item.excerpt && (
-            <p className='mt-2 text-gray-600 dark:text-gray-400 line-clamp-4'>
+            <Typography
+              variant='body'
+              className='mt-2 text-gray-600 dark:text-gray-400 line-clamp-4'
+            >
               {item.excerpt}
-            </p>
+            </Typography>
           )}
           <div className='mt-3 flex items-center gap-4 text-sm text-gray-400'>
-            {item.author && <span>{item.author}</span>}
+            {item.author && (
+              <Typography variant='label'>{item.author}</Typography>
+            )}
             {item.date && <time dateTime={item.date}>{item.date}</time>}
           </div>
           {item.tags && item.tags.length > 0 && (
             <div className='mt-2 flex flex-wrap gap-1'>
               {item.tags.slice(0, 5).map((tag) => (
-                <span
+                <Typography
+                  variant='label'
                   key={tag}
                   className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
                 >
                   {tag}
-                </span>
+                </Typography>
               ))}
             </div>
           )}
@@ -166,9 +186,9 @@ function SmallCard({ item, href }: { item: ContentItem; href: string }) {
           </div>
         )}
         <div className='flex-1 min-w-0'>
-          <h3 className='text-sm font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2'>
+          <Typography variant='h3' className='text-sm font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2'>
             {item.title}
-          </h3>
+          </Typography>
           <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
             {item.category && <span>{item.category}</span>}
             {item.date && <time dateTime={item.date}>{item.date}</time>}

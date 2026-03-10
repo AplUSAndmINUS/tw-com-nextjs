@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 import type { ContentItem } from '@/content/types';
+import { Typography } from '@/components/Typography/Typography';
 
 interface BlogIndexClientProps {
   posts: ContentItem[];
@@ -73,9 +74,9 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
                 </div>
               )}
               <Link href={`/blog/${post.slug}`}>
-                <h2 className='text-2xl font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors'>
+                <Typography variant='h3' className='text-2xl font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors'>
                   {post.title}
-                </h2>
+                </Typography>
               </Link>
               {post.date && (
                 <time
@@ -86,9 +87,9 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
                 </time>
               )}
               {post.excerpt && (
-                <p className='mt-3 text-gray-600 dark:text-gray-400'>
+                <Typography variant='body' className='mt-3 text-gray-600 dark:text-gray-400'>
                   {post.excerpt}
-                </p>
+                </Typography>
               )}
               <Link
                 href={`/blog/${post.slug}`}
