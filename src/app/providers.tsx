@@ -5,6 +5,7 @@ import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { Header } from '@/components/Navigation';
+import { KoFiWidget } from '@/components/KoFiWidget';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,6 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         ensures it stays viewport-fixed in all theme modes.
       */}
       <Header />
+      <KoFiWidget />
       <FontScaleProvider>
         <AccessGate>
           {/* Page content (includes main with PageTransition from RootLayout) */}
