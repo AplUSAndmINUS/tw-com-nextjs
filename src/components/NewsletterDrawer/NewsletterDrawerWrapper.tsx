@@ -35,11 +35,7 @@ export const NewsletterDrawerWrapper: React.FC = () => {
     }
 
     // Random chance to show on this page navigation
-    if (Math.random() < SHOW_PROBABILITY) {
-      setShouldRender(true);
-    } else {
-      setShouldRender(false);
-    }
+    setShouldRender(Math.random() < SHOW_PROBABILITY);
   }, [pathname, newsletterDismissed, newsletterSubscribed]);
 
   if (!shouldRender) return null;

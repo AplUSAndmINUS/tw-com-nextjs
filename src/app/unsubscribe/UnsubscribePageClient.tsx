@@ -91,7 +91,7 @@ export function UnsubscribePageClient() {
           style={{
             backgroundColor: reducedTransparency
               ? theme.semanticColors.background.base
-              : theme.semanticColors.background.elevated,
+              : `${theme.semanticColors.background.elevated}cc`,
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
             border: `1px solid ${theme.semanticColors.border.default}`,
             padding: theme.spacing.xl,

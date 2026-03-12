@@ -31,7 +31,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   description = 'Subscribe to my free, biweekly newsletter — where I share insights on Fluxline, The Resonance Core, and practical ways to improve your life using this powerful framework.',
   className = '',
 }) => {
-  const { theme, reducedTransparency } = useAppTheme();
+  const { theme } = useAppTheme();
   const { newsletterSubscribed, setNewsletterSubscribed } = useNewsletterStore();
 
   const [email, setEmail] = useState('');
@@ -116,9 +116,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
     <div
       className={`rounded-xl p-6 ${className}`}
       style={{
-        backgroundColor: reducedTransparency
-          ? theme.semanticColors.background.elevated
-          : theme.semanticColors.background.elevated,
+        backgroundColor: theme.semanticColors.background.elevated,
         border: `1px solid ${theme.semanticColors.border.default}`,
       }}
     >
