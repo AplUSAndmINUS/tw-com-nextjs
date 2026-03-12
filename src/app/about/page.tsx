@@ -11,6 +11,7 @@ import { AboutCapabilities } from './AboutCapabilities';
 import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
+import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -311,6 +312,11 @@ export default function AboutPage() {
             ))}
           </div>
         </AboutSectionWrapper>
+
+        {/* ── Newsletter CTA ───────────────────────────────────────────────── */}
+        <div className='mt-10 mb-10'>
+          <NewsletterSignupCTA />
+        </div>
       </div>
     </AboutPageClient>
   );

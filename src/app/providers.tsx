@@ -5,6 +5,7 @@ import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { Header } from '@/components/Navigation';
+import { NewsletterDrawerWrapper } from '@/components/NewsletterDrawer';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -23,7 +24,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {/* Page content (includes main with PageTransition from RootLayout) */}
           {children}
         </AccessGate>
+        {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
+        <NewsletterDrawerWrapper />
       </FontScaleProvider>
     </ExtendedThemeProvider>
   );
 }
+

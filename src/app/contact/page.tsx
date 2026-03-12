@@ -7,6 +7,7 @@ import { ContactForm } from '@/components/ContactForm';
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
 import { Button } from '@/components/Form/Button/Button';
+import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -65,6 +66,9 @@ export default function ContactPage() {
             <ContactForm />
           </ReCaptchaProvider>
         </div>
+
+        {/* Newsletter CTA */}
+        <NewsletterSignupCTA className='mt-4' />
       </div>
     </PageLayout>
   );
