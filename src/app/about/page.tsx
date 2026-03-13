@@ -117,9 +117,6 @@ export default function AboutPage() {
             </ThemedLink>
             <ThemedLink
               href='https://fluxline.pro'
-              target='_blank'
-              rel='noopener noreferrer'
-              type='outline'
               className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
             >
               Visit Fluxline.pro
