@@ -141,7 +141,8 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
  * @returns {Promise<string|null>} item ID or null if not found
  */
 async function findEmailInSharePoint(accessToken, siteId, listId, email) {
-  const encodedFilter = encodeURIComponent(`fields/Email eq '${email}'`);
+  const emailField = process.env.SHAREPOINT_EMAIL_FIELD || 'Title';
+  const encodedFilter = encodeURIComponent(`fields/${emailField} eq '${email}'`);
   const path = `/v1.0/sites/${siteId}/lists/${listId}/items?$filter=${encodedFilter}&$select=id,fields`;
 
   const options = {
