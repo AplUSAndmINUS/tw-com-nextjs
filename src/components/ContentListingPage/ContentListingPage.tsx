@@ -11,6 +11,7 @@ import { useContentFilterStore, ViewType } from '@/store';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { Button, Select, SelectOption, DateInput } from '@/components/Form';
 import { Hero } from '@/components/Hero';
+import { NewsletterSignupCTA } from '../NewsletterSignupCTA';
 
 /**
  * Filter configuration for single-select dropdown
@@ -96,6 +97,7 @@ export interface ContentListingPageProps {
 
   // Custom section
   customSection?: React.ReactNode;
+  emailNewsletterSignup?: boolean;
 }
 
 /**
@@ -146,6 +148,7 @@ export function ContentListingPage({
   ctaSection,
   onCardClick,
   backArrow = false,
+  emailNewsletterSignup = false,
   backArrowPath = '/content-hub',
   customSection,
 }: ContentListingPageProps) {
@@ -401,6 +404,11 @@ export function ContentListingPage({
                 ))}
               </div>
             </Callout>
+          </div>
+        )}
+        {emailNewsletterSignup && (
+          <div style={{ marginTop: theme.spacing.xxxl }}>
+            <NewsletterSignupCTA />
           </div>
         )}
       </div>

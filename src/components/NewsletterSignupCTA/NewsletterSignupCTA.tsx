@@ -197,6 +197,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
             style={{
               color: theme.semanticColors.text.muted,
               fontSize: '0.75rem',
+              marginTop: theme.spacing.m,
             }}
           >
             Biweekly newsletter. Unsubscribe at any time from the{' '}
