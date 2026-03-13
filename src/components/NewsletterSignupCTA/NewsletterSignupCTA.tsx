@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
 import { Button } from '@/components/Form/Button/Button';
@@ -201,12 +202,12 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
             }}
           >
             Biweekly newsletter. Unsubscribe at any time from the{' '}
-            <a
+            <Link
               href='/unsubscribe'
               style={{ color: theme.colorBrandForeground1, textDecoration: 'underline' }}
             >
               unsubscribe page
-            </a>
+            </Link>
             .
           </Typography>
         </div>
