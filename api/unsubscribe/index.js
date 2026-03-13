@@ -142,8 +142,12 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
  */
 async function findEmailInSharePoint(accessToken, siteId, listId, email) {
   const emailField = process.env.SHAREPOINT_EMAIL_FIELD || 'Title';
-  const encodedFilter = encodeURIComponent(`fields/${emailField} eq '${email}'`);
-  const path = `/v1.0/sites/${siteId}/lists/${listId}/items?$filter=${encodedFilter}&$select=id,fields`;
+  const encodedFilter = encodeURIComponent(
+    `fields/${emailField} eq '${email}'`
+  );
+  // $expand=fields is required for the fields/ filter prefix to resolve.
+  // Prefer header allows filtering on non-indexed columns.
+  const path = `/v1.0/sites/${siteId}/lists/${listId}/items?$filter=${encodedFilter}&$expand=fields`;
 
   const options = {
     hostname: 'graph.microsoft.com',
@@ -152,13 +156,17 @@ async function findEmailInSharePoint(accessToken, siteId, listId, email) {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
+      Prefer: 'HonorNonIndexedQueriesWarningMayFailRandomly',
     },
   };
 
   const result = await httpsRequest(options, null);
 
   if (result.statusCode !== 200) {
-    throw new Error(`Failed to query SharePoint: HTTP ${result.statusCode}`);
+    const detail = result.body?.error?.message || JSON.stringify(result.body);
+    throw new Error(
+      `Failed to query SharePoint: HTTP ${result.statusCode} — ${detail}`
+    );
   }
 
   const items = result.body.value || [];
