@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { useFadeInOut } from '@/hooks/useFadeInOut';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useSlideInOut } from '@/hooks/useSlideInOut';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
 import { Dismiss24Regular } from '@fluentui/react-icons';
@@ -140,226 +141,243 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
-  const fadeDuration = prefersReducedMotion ? 0 : 250;
-  const { style: fadeStyle, displayedValue } = useFadeInOut(
-    isOpen,
-    fadeDuration
-  );
+  const animDuration = prefersReducedMotion ? 0 : 0.3;
+  const { animationProps } = useSlideInOut({
+    direction: 'up',
+    duration: animDuration,
+    distance: 600,
+  });
 
   if (!isMounted) return null;
 
-  const drawerContent = displayedValue ? (
+  const drawerContent = (
     <>
-      {/* Backdrop */}
-      <div
-        onClick={handleDismiss}
-        aria-hidden='true'
-        style={{
-          ...fadeStyle,
-          position: 'fixed',
-          inset: 0,
-          backgroundColor: reducedTransparency
-            ? 'rgba(0, 0, 0, 0.85)'
-            : 'rgba(0, 0, 0, 0.6)',
-          zIndex: 1200,
-        }}
-      />
+      {/* Backdrop — fades in/out */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key='drawer-backdrop'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: animDuration }}
+            onClick={handleDismiss}
+            aria-hidden='true'
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: reducedTransparency
+                ? 'rgba(0, 0, 0, 0.85)'
+                : 'rgba(0, 0, 0, 0.6)',
+              zIndex: 1200,
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-      {/* Drawer */}
-      <div
-        role='dialog'
-        aria-modal='true'
-        aria-label='Subscribe to newsletter'
-        style={{
-          ...fadeStyle,
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1201,
-          backgroundColor: theme.semanticColors.background.base,
-          borderTop: `1px solid ${theme.semanticColors.border.default}`,
-          borderRadius: `${theme.borderRadius.container.large} ${theme.borderRadius.container.large} 0 0`,
-          boxShadow: theme.shadows.modal,
-          padding: `${theme.spacing.l} ${theme.spacing.m}`,
-          maxHeight: '90vh',
-          overflowY: 'auto',
-        }}
-      >
-        {/* Close button */}
-        <button
-          type='button'
-          onClick={handleDismiss}
-          aria-label='Dismiss newsletter signup'
-          style={{
-            position: 'absolute',
-            top: theme.spacing.m,
-            right: theme.spacing.m,
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            padding: theme.spacing.s1,
-            borderRadius: theme.borderRadius.container.small,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: theme.semanticColors.text.muted,
-            zIndex: 10,
-          }}
-        >
-          <FluentIcon iconName={Dismiss24Regular} />
-        </button>
-
-        {/* Content */}
-        <div
-          style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            paddingBottom: theme.spacing.s1,
-          }}
-        >
-          {isSuccess ? (
-            <div
-              style={{ textAlign: 'center', padding: `${theme.spacing.m} 0` }}
+      {/* Drawer panel — slides up from below */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key='drawer-panel'
+            {...animationProps}
+            role='dialog'
+            aria-modal='true'
+            aria-label='Subscribe to newsletter'
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1201,
+              backgroundColor: theme.semanticColors.background.base,
+              borderTop: `1px solid ${theme.semanticColors.border.default}`,
+              borderRadius: `${theme.borderRadius.container.large} ${theme.borderRadius.container.large} 0 0`,
+              boxShadow: theme.shadows.modal,
+              padding: `${theme.spacing.l} ${theme.spacing.m}`,
+              maxHeight: '90vh',
+              overflowY: 'auto',
+            }}
+          >
+            {/* Close button */}
+            <button
+              type='button'
+              onClick={handleDismiss}
+              aria-label='Dismiss newsletter signup'
+              style={{
+                position: 'absolute',
+                top: theme.spacing.m,
+                right: theme.spacing.m,
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: theme.spacing.s1,
+                borderRadius: theme.borderRadius.container.small,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: theme.semanticColors.text.muted,
+                zIndex: 10,
+              }}
             >
-              <Typography
-                variant='h3'
-                style={{
-                  color: theme.colorBrandForeground1,
-                  marginBottom: theme.spacing.s1,
-                }}
-              >
-                You&apos;re subscribed! 🎉
-              </Typography>
-              <Typography
-                variant='body'
-                style={{ color: theme.semanticColors.text.muted }}
-              >
-                Welcome to the Mythmaker Drop. Check your inbox for your first
-                issue!
-              </Typography>
-            </div>
-          ) : (
-            <>
-              <div
-                style={{
-                  marginBottom: theme.spacing.m,
-                  paddingRight: theme.spacing.xl,
-                }}
-              >
-                <Typography
-                  variant='h3'
-                  style={{
-                    marginBottom: theme.spacing.s1,
-                    color: theme.semanticColors.text.primary,
-                  }}
-                >
-                  Sign up for my A+ in FLUX email newsletter
-                </Typography>
-                <Typography
-                  variant='body'
-                  style={{
-                    color: theme.semanticColors.text.muted,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Subscribe to my free, biweekly newsletter, The Mythmaker Drop
-                  — where I share insights on Fluxline, The Resonance Core, and
-                  practical ways to improve your life using this powerful
-                  framework.
-                </Typography>
-              </div>
+              <FluentIcon iconName={Dismiss24Regular} />
+            </button>
 
-              <form onSubmit={handleSubmit} noValidate>
+            {/* Content */}
+            <div
+              style={{
+                maxWidth: '600px',
+                margin: '0 auto',
+                paddingBottom: theme.spacing.s1,
+              }}
+            >
+              {isSuccess ? (
                 <div
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: theme.spacing.s1,
+                    textAlign: 'center',
+                    padding: `${theme.spacing.m} 0`,
                   }}
                 >
-                  <div
+                  <Typography
+                    variant='h3'
                     style={{
-                      display: 'flex',
-                      gap: theme.spacing.s1,
-                      flexWrap: 'wrap',
-                      alignItems: 'flex-start',
+                      color: theme.colorBrandForeground1,
+                      marginBottom: theme.spacing.s1,
                     }}
                   >
-                    <div style={{ flex: 1, minWidth: '200px' }}>
-                      <Input
-                        label='Email address'
-                        name='drawer-newsletter-email'
-                        type='email'
-                        placeholder='Enter your email'
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          if (emailError) {
-                            setEmailError(validateEmail(e.target.value));
-                          }
-                        }}
-                        onBlur={() => setEmailError(validateEmail(email))}
-                        error={emailError}
-                        fullWidth
-                        maxLength={254}
-                        aria-label='Your email address for newsletter subscription'
-                        aria-invalid={!!emailError}
-                      />
-                    </div>
-                    <div style={{ paddingTop: '1.5rem' }}>
-                      <Button
-                        type='submit'
-                        variant='primary'
-                        loading={isLoading}
-                        disabled={isLoading || !canSubmit}
-                        aria-label='Subscribe to newsletter'
-                      >
-                        Subscribe
-                      </Button>
-                    </div>
-                  </div>
-
-                  {submitError && (
+                    You&apos;re subscribed! 🎉
+                  </Typography>
+                  <Typography
+                    variant='body'
+                    style={{ color: theme.semanticColors.text.muted }}
+                  >
+                    Welcome to the Mythmaker Drop. Check your inbox for your
+                    first issue!
+                  </Typography>
+                </div>
+              ) : (
+                <>
+                  <div
+                    style={{
+                      marginBottom: theme.spacing.m,
+                      paddingRight: theme.spacing.xl,
+                    }}
+                  >
+                    <Typography
+                      variant='h3'
+                      style={{
+                        marginBottom: theme.spacing.s1,
+                        color: theme.semanticColors.text.primary,
+                      }}
+                    >
+                      Sign up for my A+ in FLUX email newsletter
+                    </Typography>
                     <Typography
                       variant='body'
                       style={{
-                        color: theme.colorPaletteRedForeground1,
-                        fontSize: '0.875rem',
+                        color: theme.semanticColors.text.muted,
+                        lineHeight: 1.6,
                       }}
                     >
-                      {submitError}
+                      Subscribe to my free, biweekly newsletter, The Mythmaker
+                      Drop — where I share insights on Fluxline, The Resonance
+                      Core, and practical ways to improve your life using this
+                      powerful framework.
                     </Typography>
-                  )}
+                  </div>
 
-                  <Typography
-                    variant='label'
-                    style={{
-                      color: theme.semanticColors.text.muted,
-                      fontSize: '0.75rem',
-                    }}
-                  >
-                    Biweekly newsletter. Unsubscribe at any time from the{' '}
-                    <a
-                      href='/unsubscribe'
-                      onClick={() => setIsOpen(false)}
+                  <form onSubmit={handleSubmit} noValidate>
+                    <div
                       style={{
-                        color: theme.colorBrandForeground1,
-                        textDecoration: 'underline',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: theme.spacing.s1,
                       }}
                     >
-                      unsubscribe page
-                    </a>
-                    .
-                  </Typography>
-                </div>
-              </form>
-            </>
-          )}
-        </div>
-      </div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: theme.spacing.s1,
+                          flexWrap: 'wrap',
+                          alignItems: 'flex-start',
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: '200px' }}>
+                          <Input
+                            label='Email address'
+                            name='drawer-newsletter-email'
+                            type='email'
+                            placeholder='Enter your email'
+                            value={email}
+                            onChange={(e) => {
+                              setEmail(e.target.value);
+                              if (emailError) {
+                                setEmailError(validateEmail(e.target.value));
+                              }
+                            }}
+                            onBlur={() => setEmailError(validateEmail(email))}
+                            error={emailError}
+                            fullWidth
+                            maxLength={254}
+                            aria-label='Your email address for newsletter subscription'
+                            aria-invalid={!!emailError}
+                          />
+                        </div>
+                        <div style={{ paddingTop: '1.5rem' }}>
+                          <Button
+                            type='submit'
+                            variant='primary'
+                            loading={isLoading}
+                            disabled={isLoading || !canSubmit}
+                            aria-label='Subscribe to newsletter'
+                          >
+                            Subscribe
+                          </Button>
+                        </div>
+                      </div>
+
+                      {submitError && (
+                        <Typography
+                          variant='body'
+                          style={{
+                            color: theme.colorPaletteRedForeground1,
+                            fontSize: '0.875rem',
+                          }}
+                        >
+                          {submitError}
+                        </Typography>
+                      )}
+
+                      <Typography
+                        variant='label'
+                        style={{
+                          color: theme.semanticColors.text.muted,
+                          fontSize: '0.75rem',
+                        }}
+                      >
+                        Biweekly newsletter. Unsubscribe at any time from the{' '}
+                        <a
+                          href='/unsubscribe'
+                          onClick={() => setIsOpen(false)}
+                          style={{
+                            color: theme.colorBrandForeground1,
+                            textDecoration: 'underline',
+                          }}
+                        >
+                          unsubscribe page
+                        </a>
+                        .
+                      </Typography>
+                    </div>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
-  ) : null;
+  );
 
   return createPortal(drawerContent, document.body);
 };
