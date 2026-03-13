@@ -322,6 +322,13 @@ export function ContentListingPage({
           }
         />
 
+        {/* Email Newsletter Signup CTA for Desktop Only */}
+        {emailNewsletterSignup && !isMobile && !isTablet && (
+          <div style={{ marginTop: theme.spacing.l }}>
+            <NewsletterSignupCTA />
+          </div>
+        )}
+
         {/* Results Message */}
         {resultsMessage && (
           <div
@@ -406,8 +413,9 @@ export function ContentListingPage({
             </Callout>
           </div>
         )}
-        {emailNewsletterSignup && (
-          <div style={{ marginTop: theme.spacing.xxxl }}>
+        {/* Email Newsletter Signup CTA for Mobile and Tablet to save space */}
+        {emailNewsletterSignup && (isMobile || isTablet) && (
+          <div style={{ marginTop: theme.spacing.l }}>
             <NewsletterSignupCTA />
           </div>
         )}
