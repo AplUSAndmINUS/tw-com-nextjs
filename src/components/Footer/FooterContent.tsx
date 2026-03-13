@@ -171,6 +171,7 @@ function FooterNewsletterMini() {
             }}
             maxLength={254}
             aria-label='Newsletter email address'
+            className='outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-700 dark:focus-visible:ring-blue-400'
             style={{
               width: '100%',
               padding: '0.3rem 0.5rem',
@@ -183,7 +184,6 @@ function FooterNewsletterMini() {
               }`,
               backgroundColor: theme.semanticColors.background.base,
               color: theme.semanticColors.text.primary,
-              outline: 'none',
             }}
           />
           {error && (
