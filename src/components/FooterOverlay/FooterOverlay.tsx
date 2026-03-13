@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FooterContent } from '@/components/Footer/FooterContent';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -20,6 +20,13 @@ interface FooterOverlayProps {
 export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
   const { theme, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   const { animationProps } = useSlideInOut({
     direction: 'up',
