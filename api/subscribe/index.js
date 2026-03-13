@@ -124,14 +124,19 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
  * @returns {Promise<object>} created item
  */
 async function addEmailToSharePoint(accessToken, siteId, listId, email) {
+  const emailField = process.env.SHAREPOINT_EMAIL_FIELD || 'Email';
+  const platformField =
+    process.env.SHAREPOINT_PLATFORM_FIELD || 'Lead_x0020_Platform';
+  const timestampField = process.env.SHAREPOINT_TIMESTAMP_FIELD || 'Timestamp';
   const timestamp = new Date().toISOString();
-  const payload = JSON.stringify({
-    fields: {
-      Email: email,
-      Lead_x0020_Platform: LEAD_PLATFORM,
-      Timestamp: timestamp,
-    },
-  });
+
+  const fields = {
+    [emailField]: email,
+  };
+  if (platformField) fields[platformField] = LEAD_PLATFORM;
+  if (timestampField) fields[timestampField] = timestamp;
+
+  const payload = JSON.stringify({ fields });
 
   const options = {
     hostname: 'graph.microsoft.com',
@@ -147,8 +152,9 @@ async function addEmailToSharePoint(accessToken, siteId, listId, email) {
   const result = await httpsRequest(options, payload);
 
   if (result.statusCode !== 201) {
+    const detail = result.body?.error?.message || JSON.stringify(result.body);
     throw new Error(
-      `Failed to add email to SharePoint: HTTP ${result.statusCode}`
+      `Failed to add email to SharePoint: HTTP ${result.statusCode} — ${detail}`
     );
   }
 
@@ -200,7 +206,9 @@ module.exports = async function (context, req) {
   const listId = process.env.SHAREPOINT_LIST_ID;
 
   if (!tenantId || !clientId || !clientSecret || !siteId || !listId) {
-    context.log.error('Missing required environment variables for SharePoint integration');
+    context.log.error(
+      'Missing required environment variables for SharePoint integration'
+    );
     return {
       status: 500,
       headers: CORS_HEADERS,
