@@ -1,10 +1,14 @@
 'use client';
 
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 import { useIsTablet } from '@/hooks/useMediaQuery';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useNewsletterStore } from '@/store/newsletterStore';
+import { getApiBaseUrl } from '@/lib/environment';
 
 const footerLinks = {
   content: [
@@ -31,6 +35,7 @@ interface FooterLinkSectionProps {
   links: Array<{ href: string; label: string }>;
   isCompact: boolean;
   className?: string;
+  children?: React.ReactNode;
 }
 
 /**
@@ -41,6 +46,7 @@ function FooterLinkSection({
   links,
   isCompact,
   className = '',
+  children,
 }: FooterLinkSectionProps) {
   return (
     <div
@@ -69,6 +75,149 @@ function FooterLinkSection({
           ))}
         </ul>
       )}
+      {children}
+    </div>
+  );
+}
+
+/**
+ * FooterNewsletterMini — Compact newsletter signup for tablet/desktop footer
+ * Hidden on mobile via `hidden md:block`.
+ */
+function FooterNewsletterMini() {
+  const { theme } = useAppTheme();
+  const { newsletterSubscribed, setNewsletterSubscribed } =
+    useNewsletterStore();
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      const trimmed = email.trim();
+      if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+        setError('A valid email is required');
+        return;
+      }
+      setError(null);
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${getApiBaseUrl()}/api/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: trimmed.toLowerCase() }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          setError(data.error || 'Failed to subscribe');
+          return;
+        }
+        setIsSuccess(true);
+        setNewsletterSubscribed(true);
+      } catch {
+        setError('Something went wrong. Try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [email, setNewsletterSubscribed]
+  );
+
+  if (isSuccess || newsletterSubscribed) {
+    return (
+      <div
+        className='hidden md:block mt-3 pt-3'
+        style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
+      >
+        <Typography
+          variant='caption'
+          style={{
+            color: theme.colorBrandForeground1,
+            fontSize: '0.75rem',
+            fontWeight: 600,
+          }}
+        >
+          ✓ You&apos;re subscribed!
+        </Typography>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className='hidden md:block mt-3 pt-3'
+      style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
+    >
+      <Typography
+        variant='h5'
+        className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
+        style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}
+      >
+        Newsletter
+      </Typography>
+      <form onSubmit={handleSubmit} noValidate>
+        <div
+          style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}
+        >
+          <input
+            type='email'
+            placeholder='your@email.com'
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError(null);
+            }}
+            maxLength={254}
+            aria-label='Newsletter email address'
+            style={{
+              width: '100%',
+              padding: '0.3rem 0.5rem',
+              fontSize: '0.75rem',
+              borderRadius: theme.borderRadius.container.small,
+              border: `1px solid ${
+                error
+                  ? theme.colorPaletteRedForeground1
+                  : theme.semanticColors.border.default
+              }`,
+              backgroundColor: theme.semanticColors.background.base,
+              color: theme.semanticColors.text.primary,
+              outline: 'none',
+            }}
+          />
+          {error && (
+            <Typography
+              variant='caption'
+              style={{
+                color: theme.colorPaletteRedForeground1,
+                fontSize: '0.7rem',
+              }}
+            >
+              {error}
+            </Typography>
+          )}
+          <button
+            type='submit'
+            disabled={isLoading}
+            style={{
+              padding: '0.3rem 0.625rem',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              borderRadius: theme.borderRadius.container.small,
+              backgroundColor: theme.colorBrandBackground,
+              color: theme.colorNeutralForegroundOnBrand,
+              border: 'none',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.7 : 1,
+              transition: 'opacity 0.2s',
+              fontFamily: theme.typography.fonts.body.fontFamily,
+            }}
+          >
+            {isLoading ? 'Subscribing…' : 'Subscribe'}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
@@ -152,7 +301,9 @@ export function FooterContent({
             title='Social'
             links={[]} // Empty array since SocialLinks component handles rendering
             isCompact={true}
-          />
+          >
+            <FooterNewsletterMini />
+          </FooterLinkSection>
         </div>
 
         {/* Bottom bar */}
