@@ -164,6 +164,7 @@ export function BlogListingClientWrapper({
       emptyStateMessage='Try adjusting your filters to see more posts.'
       backArrow={true}
       backArrowPath='/content-hub'
+      emailNewsletterSignup={true}
     />
   );
 }

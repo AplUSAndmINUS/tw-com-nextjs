@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useSlideInOut } from '@/hooks';
@@ -18,7 +18,12 @@ import { FooterContent } from './FooterContent';
 export function HomePageFooter() {
   const { theme, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const isMobileLandscape = useIsMobileLandscape();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const { animationProps } = useSlideInOut({
     direction: 'up',
@@ -74,6 +79,8 @@ export function HomePageFooter() {
         role='contentinfo'
         style={{
           borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
+          opacity: isMounted ? 1 : 0,
+          transition: 'opacity 0.2s ease-in',
         }}
       >
         <FooterContent isCompact={false} />

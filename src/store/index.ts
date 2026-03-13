@@ -6,3 +6,4 @@ export type {
   UserPreferencesState,
 } from './userPreferencesStore';
 export { useAccessControlStore } from './accessControlStore';
+export { useNewsletterStore } from './newsletterStore';

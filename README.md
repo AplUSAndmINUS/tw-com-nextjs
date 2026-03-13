@@ -50,6 +50,15 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    - `SMTP2GO_API_KEY` — Email service API key
    - `CONTACT_FROM_EMAIL` / `CONTACT_TO_EMAIL` — Contact form emails
    - `YOUTUBE_API_KEY` — YouTube API key (if needed)
+   - `ENTRAID_TENANT_ID` — Entra ID tenant ID (for newsletter SharePoint integration)
+   - `ENTRAID_SP_APP_REGISTRATION_CLIENT_ID` — Entra ID App Registration client ID
+   - `ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET` — Entra ID App Registration client secret
+   - `SHAREPOINT_SITE_ID` — SharePoint site ID for the newsletter list
+   - `SHAREPOINT_LIST_ID` — SharePoint list ID for the Email Distribution List
+   - `SHAREPOINT_EMAIL_FIELD` — Internal field name for the email column (default: `Title` - Change in local.settings.json if different)
+   - `SHAREPOINT_PLATFORM_FIELD` — Internal field name for the lead platform column (leave empty to skip)
+   - `SHAREPOINT_TIMESTAMP_FIELD` — Internal field name for the timestamp column (leave empty to skip)
+   - `ALLOWED_ORIGIN_EXTRA` — One additional CORS-allowed origin, e.g. `http://localhost:3000` for local dev or an Azure SWA preview URL
 
 3. Start Azure Functions:
    ```bash
@@ -86,6 +95,34 @@ yarn build
 ```
 
 Generates a fully static export in `out/`.
+
+## Newsletter Subscribe / Unsubscribe
+
+The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter signup and removal for the "A+ in FLUX- Mythmaker Drop" mailing list.
+
+### How it works
+
+1. Both functions authenticate against Microsoft Entra ID using client credentials to obtain a Graph API access token.
+2. Subscribers are written to / deleted from a SharePoint Online list via the Microsoft Graph API.
+3. The SharePoint **Email** column is a display-renamed `Title` built-in — set `SHAREPOINT_EMAIL_FIELD=Title` in application settings.
+4. Platform and timestamp columns are optional; leave `SHAREPOINT_PLATFORM_FIELD` or `SHAREPOINT_TIMESTAMP_FIELD` empty to skip those fields.
+5. **CORS** is restricted to `terencewaters.com` and its subdomains. Set `ALLOWED_ORIGIN_EXTRA` to permit one additional origin (e.g. `http://localhost:3000` locally or an Azure SWA preview URL).
+6. **Front-end rate limiting** is enforced via the `useNewsletterRateLimit` hook: max 3 submissions per rolling 1-hour window, tracked in `localStorage` under key `tw_newsletter_submissions`. This limit is shared across subscribe and unsubscribe forms.
+
+### Key files
+
+| File                                                         | Role                                                          |
+| ------------------------------------------------------------ | ------------------------------------------------------------- |
+| `api/subscribe/index.js`                                     | Azure Function — adds email to SharePoint list                |
+| `api/unsubscribe/index.js`                                   | Azure Function — finds and deletes email from SharePoint list |
+| `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting hook (3 attempts / 1 hour)            |
+| `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer (Framer Motion) with subscribe form           |
+| `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA (used on /about and /contact)            |
+| `src/components/Footer/FooterContent.tsx`                    | Compact footer subscribe form (`FooterNewsletterMini`)        |
+| `src/app/unsubscribe/UnsubscribePageClient.tsx`              | Unsubscribe page form                                         |
+| `src/store/newsletterStore.ts`                               | Zustand store — persists dismissed/subscribed state           |
+
+---
 
 ## Token-Based Access Control
 
