@@ -25,12 +25,30 @@
 
 const https = require('https');
 
-const CORS_HEADERS = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+// Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
+const ALLOWED_ORIGIN_RE =
+  /^https:\/\/((?:[a-zA-Z0-9-]+\.)?terencewaters\.com)$/;
+
+/**
+ * Returns CORS headers scoped to an allowed origin.
+ * Echoes the request origin back instead of '*', blocking disallowed third parties.
+ * Set ALLOWED_ORIGIN_EXTRA to permit one additional origin (e.g. Azure SWA preview URLs).
+ * @param {string|undefined} origin
+ * @returns {object}
+ */
+function getCorsHeaders(origin) {
+  const extra = process.env.ALLOWED_ORIGIN_EXTRA || '';
+  const isAllowed =
+    (origin && ALLOWED_ORIGIN_RE.test(origin)) || (extra && origin === extra);
+
+  return {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': isAllowed ? origin : 'null',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+  };
+}
 
 const LEAD_PLATFORM = 'TW.com';
 const GRAPH_BASE_URL = 'https://graph.microsoft.com/v1.0';
@@ -162,11 +180,14 @@ async function addEmailToSharePoint(accessToken, siteId, listId, email) {
 }
 
 module.exports = async function (context, req) {
+  const origin = req.headers['origin'];
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return {
       status: 204,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: '',
     };
   }
@@ -174,7 +195,7 @@ module.exports = async function (context, req) {
   if (req.method !== 'POST') {
     return {
       status: 405,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   }
@@ -184,7 +205,7 @@ module.exports = async function (context, req) {
   if (!email || typeof email !== 'string') {
     return {
       status: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Email is required' }),
     };
   }
@@ -194,7 +215,7 @@ module.exports = async function (context, req) {
   if (!isValidEmail(trimmedEmail)) {
     return {
       status: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Invalid email address' }),
     };
   }
@@ -211,7 +232,7 @@ module.exports = async function (context, req) {
     );
     return {
       status: 500,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Server configuration error' }),
     };
   }
@@ -224,14 +245,14 @@ module.exports = async function (context, req) {
 
     return {
       status: 200,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ message: 'Subscribed successfully' }),
     };
   } catch (err) {
     context.log.error('Newsletter subscribe error:', err.message);
     return {
       status: 500,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Failed to subscribe. Please try again.' }),
     };
   }

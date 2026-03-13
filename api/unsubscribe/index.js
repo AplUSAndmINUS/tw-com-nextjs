@@ -18,7 +18,7 @@
  * Response:
  *   200 { "message": "Unsubscribed successfully" }
  *   400 { "error": "..." }
- *   404 { "message": "Email not found" }  (no user-visible error — see 4d)
+ *   404 { "message": "Email not found" }  Returned whether or not the email existed in the list (no user-visible "not found" error — see 4d).
  *   500 { "error": "..." }
  */
 
@@ -26,12 +26,30 @@
 
 const https = require('https');
 
-const CORS_HEADERS = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+// Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
+const ALLOWED_ORIGIN_RE =
+  /^https:\/\/((?:[a-zA-Z0-9-]+\.)?terencewaters\.com)$/;
+
+/**
+ * Returns CORS headers scoped to an allowed origin.
+ * Echoes the request origin back instead of '*', blocking disallowed third parties.
+ * Set ALLOWED_ORIGIN_EXTRA to permit one additional origin (e.g. Azure SWA preview URLs).
+ * @param {string|undefined} origin
+ * @returns {object}
+ */
+function getCorsHeaders(origin) {
+  const extra = process.env.ALLOWED_ORIGIN_EXTRA || '';
+  const isAllowed =
+    (origin && ALLOWED_ORIGIN_RE.test(origin)) || (extra && origin === extra);
+
+  return {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': isAllowed ? origin : 'null',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+  };
+}
 
 const GRAPH_BASE_URL = 'https://graph.microsoft.com/v1.0';
 
@@ -178,11 +196,14 @@ async function deleteEmailFromSharePoint(accessToken, siteId, listId, itemId) {
 }
 
 module.exports = async function (context, req) {
+  const origin = req.headers['origin'];
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return {
       status: 204,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: '',
     };
   }
@@ -190,7 +211,7 @@ module.exports = async function (context, req) {
   if (req.method !== 'POST') {
     return {
       status: 405,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Method not allowed' }),
     };
   }
@@ -200,7 +221,7 @@ module.exports = async function (context, req) {
   if (!email || typeof email !== 'string') {
     return {
       status: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Email is required' }),
     };
   }
@@ -210,7 +231,7 @@ module.exports = async function (context, req) {
   if (!isValidEmail(trimmedEmail)) {
     return {
       status: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Invalid email address' }),
     };
   }
@@ -222,10 +243,12 @@ module.exports = async function (context, req) {
   const listId = process.env.SHAREPOINT_LIST_ID;
 
   if (!tenantId || !clientId || !clientSecret || !siteId || !listId) {
-    context.log.error('Missing required environment variables for SharePoint integration');
+    context.log.error(
+      'Missing required environment variables for SharePoint integration'
+    );
     return {
       status: 500,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ error: 'Server configuration error' }),
     };
   }
@@ -244,7 +267,7 @@ module.exports = async function (context, req) {
       console.warn(`No email found in distribution list: ${trimmedEmail}`);
       return {
         status: 200,
-        headers: CORS_HEADERS,
+        headers: corsHeaders,
         body: JSON.stringify({ message: 'Unsubscribed successfully' }),
       };
     }
@@ -254,14 +277,14 @@ module.exports = async function (context, req) {
 
     return {
       status: 200,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ message: 'Unsubscribed successfully' }),
     };
   } catch (err) {
     context.log.error('Newsletter unsubscribe error:', err.message);
     return {
       status: 500,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({
         error: 'Failed to unsubscribe. Please try again.',
       }),

@@ -18,7 +18,8 @@
     "SHAREPOINT_LIST_ID": "sharepoint-list-id-placeholder",
     "SHAREPOINT_EMAIL_FIELD": "Title",
     "SHAREPOINT_PLATFORM_FIELD": "field_1",
-    "SHAREPOINT_TIMESTAMP_FIELD": "Timestamp"
+    "SHAREPOINT_TIMESTAMP_FIELD": "Timestamp",
+    "ALLOWED_ORIGIN_EXTRA": "http://localhost:3000"
   },
   "Host": {
     "CORS": "*",
