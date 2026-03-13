@@ -12,6 +12,7 @@ import { Typography } from '@/components/Typography';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { getApiBaseUrl } from '@/lib/environment';
+import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 
 /** Delay in ms before the drawer auto-shows on a non-home page */
 const SHOW_DELAY_MS = 5000;
@@ -51,6 +52,8 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
 
   // Ensure we're mounted before rendering portal
   useEffect(() => {
@@ -97,6 +100,14 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
         return;
       }
 
+      if (!canSubmit) {
+        setSubmitError(
+          `You've reached the submission limit. Try again in ${timeUntilReset}.`
+        );
+        return;
+      }
+
+      recordSubmit();
       setIsLoading(true);
       try {
         const apiUrl = `${getApiBaseUrl()}/api/subscribe`;
@@ -126,7 +137,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed]
+    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
   const fadeDuration = prefersReducedMotion ? 0 : 250;
@@ -301,7 +312,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                         type='submit'
                         variant='primary'
                         loading={isLoading}
-                        disabled={isLoading}
+                        disabled={isLoading || !canSubmit}
                         aria-label='Subscribe to newsletter'
                       >
                         Subscribe

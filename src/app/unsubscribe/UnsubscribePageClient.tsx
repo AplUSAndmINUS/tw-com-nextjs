@@ -9,6 +9,7 @@ import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
+import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 
 /**
  * UnsubscribePageClient
@@ -25,6 +26,8 @@ export function UnsubscribePageClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
 
   const validateEmail = (value: string) => {
     if (!value.trim()) return 'Email is required';
@@ -45,6 +48,14 @@ export function UnsubscribePageClient() {
         return;
       }
 
+      if (!canSubmit) {
+        setSubmitError(
+          `You've reached the submission limit. Try again in ${timeUntilReset}.`
+        );
+        return;
+      }
+
+      recordSubmit();
       setIsLoading(true);
       try {
         const apiUrl = `${getApiBaseUrl()}/api/unsubscribe`;
@@ -71,7 +82,7 @@ export function UnsubscribePageClient() {
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed]
+    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
   return (

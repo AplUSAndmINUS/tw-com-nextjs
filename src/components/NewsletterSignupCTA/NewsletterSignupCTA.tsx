@@ -8,6 +8,7 @@ import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
+import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 
 export interface NewsletterSignupCTAProps {
   /** Optional heading override */
@@ -33,13 +34,16 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   className = '',
 }) => {
   const { theme } = useAppTheme();
-  const { newsletterSubscribed, setNewsletterSubscribed } = useNewsletterStore();
+  const { newsletterSubscribed, setNewsletterSubscribed } =
+    useNewsletterStore();
 
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
 
   const validateEmail = (value: string) => {
     if (!value.trim()) return 'Email is required';
@@ -60,6 +64,14 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         return;
       }
 
+      if (!canSubmit) {
+        setSubmitError(
+          `You've reached the submission limit. Try again in ${timeUntilReset}.`
+        );
+        return;
+      }
+
+      recordSubmit();
       setIsLoading(true);
       try {
         const apiUrl = `${getApiBaseUrl()}/api/subscribe`;
@@ -72,7 +84,9 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         const data = await response.json();
 
         if (!response.ok) {
-          setSubmitError(data.error || 'Failed to subscribe. Please try again.');
+          setSubmitError(
+            data.error || 'Failed to subscribe. Please try again.'
+          );
           return;
         }
 
@@ -84,7 +98,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed]
+    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
   // If already subscribed this session or globally, show confirmation
@@ -106,7 +120,10 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         >
           You&apos;re subscribed! 🎉
         </Typography>
-        <Typography variant='body' style={{ color: theme.semanticColors.text.muted }}>
+        <Typography
+          variant='body'
+          style={{ color: theme.semanticColors.text.muted }}
+        >
           Welcome to the Mythmaker Drop. Check your inbox for your first issue!
         </Typography>
       </div>
@@ -148,7 +165,9 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
             gap: theme.spacing.s1,
           }}
         >
-          <div style={{ display: 'flex', gap: theme.spacing.s1, flexWrap: 'wrap' }}>
+          <div
+            style={{ display: 'flex', gap: theme.spacing.s1, flexWrap: 'wrap' }}
+          >
             <div style={{ flex: 1, minWidth: '200px' }}>
               <Input
                 label='Email address'
@@ -168,12 +187,18 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
                 aria-invalid={!!emailError}
               />
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', paddingTop: '1.5rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                paddingTop: '1.5rem',
+              }}
+            >
               <Button
                 type='submit'
                 variant='primary'
                 loading={isLoading}
-                disabled={isLoading}
+                disabled={isLoading || !canSubmit}
                 aria-label='Subscribe to newsletter'
               >
                 Subscribe
@@ -204,7 +229,10 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
             Biweekly newsletter. Unsubscribe at any time from the{' '}
             <Link
               href='/unsubscribe'
-              style={{ color: theme.colorBrandForeground1, textDecoration: 'underline' }}
+              style={{
+                color: theme.colorBrandForeground1,
+                textDecoration: 'underline',
+              }}
             >
               unsubscribe page
             </Link>

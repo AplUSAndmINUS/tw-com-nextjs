@@ -9,6 +9,7 @@ import { useIsTablet } from '@/hooks/useMediaQuery';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
+import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 
 const footerLinks = {
   content: [
@@ -93,6 +94,8 @@ function FooterNewsletterMini() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -101,7 +104,12 @@ function FooterNewsletterMini() {
         setError('A valid email is required');
         return;
       }
+      if (!canSubmit) {
+        setError(`Submission limit reached. Try again in ${timeUntilReset}.`);
+        return;
+      }
       setError(null);
+      recordSubmit();
       setIsLoading(true);
       try {
         const response = await fetch(`${getApiBaseUrl()}/api/subscribe`, {
@@ -122,7 +130,7 @@ function FooterNewsletterMini() {
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed]
+    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
   if (isSuccess || newsletterSubscribed) {
@@ -199,7 +207,7 @@ function FooterNewsletterMini() {
           )}
           <button
             type='submit'
-            disabled={isLoading}
+            disabled={isLoading || !canSubmit}
             style={{
               padding: '0.3rem 0.625rem',
               fontSize: '0.75rem',
@@ -208,8 +216,8 @@ function FooterNewsletterMini() {
               backgroundColor: theme.colorBrandBackground,
               color: theme.colorNeutralForegroundOnBrand,
               border: 'none',
-              cursor: isLoading ? 'not-allowed' : 'pointer',
-              opacity: isLoading ? 0.7 : 1,
+              cursor: isLoading || !canSubmit ? 'not-allowed' : 'pointer',
+              opacity: isLoading || !canSubmit ? 0.7 : 1,
               transition: 'opacity 0.2s',
               fontFamily: theme.typography.fonts.body.fontFamily,
             }}
