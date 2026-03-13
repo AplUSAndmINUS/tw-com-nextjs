@@ -22,17 +22,17 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
-
   const { animationProps } = useSlideInOut({
     direction: 'up',
     duration: 0.3,
     distance: 100,
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <>
