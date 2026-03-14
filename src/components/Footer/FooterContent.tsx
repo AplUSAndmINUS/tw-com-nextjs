@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
@@ -87,7 +87,7 @@ function FooterLinkSection({
  */
 function FooterNewsletterMini() {
   const { theme } = useAppTheme();
-  const { newsletterSubscribed, setNewsletterSubscribed } =
+  const { setNewsletterSubscribed } =
     useNewsletterStore();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -95,6 +95,13 @@ function FooterNewsletterMini() {
   const [error, setError] = useState<string | null>(null);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+
+  // Auto-reset the success confirmation after 5 seconds so the form returns to input state
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => setIsSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -133,7 +140,7 @@ function FooterNewsletterMini() {
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
-  if (isSuccess || newsletterSubscribed) {
+  if (isSuccess) {
     return (
       <div
         className='hidden md:block mt-3 pt-3'
@@ -148,6 +155,25 @@ function FooterNewsletterMini() {
           }}
         >
           ✓ You&apos;re subscribed!
+        </Typography>
+        <Typography
+          variant='caption'
+          style={{
+            color: theme.semanticColors.text.muted,
+            fontSize: '0.7rem',
+            marginTop: '0.25rem',
+            display: 'block',
+          }}
+        >
+          <Link
+            href='/unsubscribe'
+            style={{
+              color: theme.colorBrandForeground1,
+              textDecoration: 'underline',
+            }}
+          >
+            Unsubscribe
+          </Link>
         </Typography>
       </div>
     );
@@ -224,6 +250,24 @@ function FooterNewsletterMini() {
           >
             {isLoading ? 'Subscribing…' : 'Subscribe'}
           </button>
+          <Typography
+            variant='caption'
+            style={{
+              color: theme.semanticColors.text.muted,
+              fontSize: '0.7rem',
+              marginTop: '0.125rem',
+            }}
+          >
+            <Link
+              href='/unsubscribe'
+              style={{
+                color: theme.semanticColors.text.muted,
+                textDecoration: 'underline',
+              }}
+            >
+              Unsubscribe
+            </Link>
+          </Typography>
         </div>
       </form>
     </div>

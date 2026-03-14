@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
@@ -34,7 +34,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   className = '',
 }) => {
   const { theme } = useAppTheme();
-  const { newsletterSubscribed, setNewsletterSubscribed } =
+  const { setNewsletterSubscribed } =
     useNewsletterStore();
 
   const [email, setEmail] = useState('');
@@ -44,6 +44,13 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   const [isSuccess, setIsSuccess] = useState(false);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+
+  // Auto-reset the success confirmation after 5 seconds so the form returns to input state
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => setIsSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
 
   const validateEmail = (value: string) => {
     if (!value.trim()) return 'Email is required';
@@ -101,8 +108,8 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
-  // If already subscribed this session or globally, show confirmation
-  if (isSuccess || newsletterSubscribed) {
+  // Show temporary confirmation after subscribing; returns to the form after the timer
+  if (isSuccess) {
     return (
       <div
         className={`rounded-xl p-6 ${className}`}
@@ -125,6 +132,26 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
           style={{ color: theme.semanticColors.text.muted }}
         >
           Welcome to the Mythmaker Drop. Check your inbox for your first issue!
+        </Typography>
+        <Typography
+          variant='label'
+          style={{
+            color: theme.semanticColors.text.muted,
+            fontSize: '0.75rem',
+            marginTop: theme.spacing.m,
+            display: 'block',
+          }}
+        >
+          Changed your mind?{' '}
+          <Link
+            href='/unsubscribe'
+            style={{
+              color: theme.colorBrandForeground1,
+              textDecoration: 'underline',
+            }}
+          >
+            Unsubscribe
+          </Link>
         </Typography>
       </div>
     );
