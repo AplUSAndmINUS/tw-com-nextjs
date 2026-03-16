@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
-import Link from 'next/link';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { PercentageBullet } from '@/components/PercentageBullet';
@@ -13,7 +12,8 @@ import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
 import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
-import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
+import { AboutFluxlineLink } from './AboutFluxlineLink';
+import { AboutFeaturedProjects } from './AboutFeaturedProjects';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -30,45 +30,6 @@ export const metadata: Metadata = {
   },
   robots: getRobotsConfig(),
 };
-
-const FEATURED_PROJECTS = [
-  {
-    name: 'Fluxline Resonance Group 2.0',
-    period: 'Q3 2025–Q1 2026',
-    roles: 'CEO · Technical Lead · Main Architect',
-    skills: 'Azure, Next.js, C#, CI/CD, Brand Identity',
-  },
-  {
-    name: 'MyIntermountain Unified Intranet',
-    period: 'Q1–Q4 2024',
-    roles: 'Technical Lead · Sr Developer · Scrum Lead',
-    skills: 'IT Architecture, Agile, Cross-team Strategy',
-  },
-  {
-    name: 'Affiliates iLogin Implementation',
-    period: 'Q2 2022–Q1 2025',
-    roles: 'Project Manager · Technical Lead',
-    skills: 'Project Management, Stakeholder Facilitation',
-  },
-  {
-    name: 'Employee Portal .NET SharePoint',
-    period: 'Q3 2021–Q4 2022',
-    roles: 'Design Lead · Front-end Dev · IT Architecture',
-    skills: 'UX Research, Prototyping, Design Systems',
-  },
-  {
-    name: 'Provider Digital Experience',
-    period: 'Q3 2020–Q2 2021',
-    roles: 'Lead Designer · Front-end Development',
-    skills: 'UI/UX, Design Thinking, User Testing',
-  },
-  {
-    name: 'MyHealth+ App & Website',
-    period: 'Q2 2019–Q2 2020',
-    roles: 'Front-end Dev · Solutions Analyst',
-    skills: 'Full-stack, Agile, User Training & Support',
-  },
-];
 
 const EDUCATION = [
   {
@@ -133,17 +94,9 @@ export default function AboutPage() {
           >
             Over 15 years as a technologist, educator, and founder have shaped
             someone who bridges enterprise precision with human-centered
-            creativity. As founder of{' '}
-            <a
-              href='https://fluxline.pro'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-blue-600 dark:text-blue-400 hover:underline'
-            >
-              Fluxline Resonance Group
-            </a>
-            , I help clients build not just solutions — but philosophies,
-            brands, and living identities that evolve with them.
+            creativity. As founder of <AboutFluxlineLink />, I help clients
+            build not just solutions — but philosophies, brands, and living
+            identities that evolve with them.
           </Typography>
         </AboutSectionWrapper>
 
@@ -162,52 +115,7 @@ export default function AboutPage() {
         {/* ── Featured Projects ────────────────────────────────────────────── */}
         <section className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Featured Projects</SectionHeading>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {FEATURED_PROJECTS.map((project) => (
-              <div
-                key={project.name}
-                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-white dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(254, 254, 254, 0.52),transparent_42%)] shadow-sm'
-              >
-                <div className='w-full h-1 rounded-sm bg-blue-600 dark:bg-blue-400 mb-4' />
-                <div className='space-y-1'>
-                  <Typography
-                    variant='h4'
-                    className='font-semibold text-gray-900 dark:text-white leading-snug'
-                    style={{ fontSize: '1.25rem', lineHeight: 1.25 }}
-                  >
-                    {project.name}
-                  </Typography>
-                  <Typography
-                    variant='h5'
-                    className='text-blue-600 dark:text-blue-300 mb-4'
-                    style={{ fontSize: '1rem', lineHeight: 1.2 }}
-                  >
-                    {project.period}
-                  </Typography>
-                  <Typography
-                    variant='body'
-                    className='text-gray-800 dark:text-gray-300'
-                    style={{ fontSize: '0.875rem', lineHeight: 1.4 }}
-                  >
-                    {project.roles}
-                  </Typography>
-                  <Typography
-                    variant='label'
-                    className='text-xs text-gray-600 dark:text-gray-400'
-                  >
-                    {project.skills}
-                  </Typography>
-                </div>
-              </div>
-            ))}
-            <ThemedLink
-              href='/portfolio'
-              variant='body'
-              className='inline-flex items-center justify-center w-full mt-2 px-4 py-2 border-2 border-gray-500 dark:border-white-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
-            >
-              View Full Portfolio
-            </ThemedLink>
-          </div>
+          <AboutFeaturedProjects />
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
