@@ -4,7 +4,7 @@ import ContentPortrait from '@/assets/images/Content1280x1815.jpg';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
-import { ContentHubClient } from './ContentHubClient';
+import { ContentHubClient } from '@/components/ContentHubClient';
 
 export const metadata: Metadata = {
   title: 'Content Hub',

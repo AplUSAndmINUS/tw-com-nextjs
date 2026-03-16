@@ -148,7 +148,7 @@ export function PortfolioListingClientWrapper({
   return (
     <ContentListingPage
       title='Portfolio'
-      iconName='Briefcase24Regular'
+      iconName='DesignIdeasFilled'
       description="Selected creative and technical work — projects I've built, led, or contributed to."
       basePath='/portfolio'
       cards={cards}
