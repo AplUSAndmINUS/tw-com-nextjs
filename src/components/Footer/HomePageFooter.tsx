@@ -16,7 +16,7 @@ import { FooterContent } from './FooterContent';
  * - Mobile Landscape: Hidden (no toggle button) to preserve vertical space
  */
 export function HomePageFooter() {
-  const { theme, reducedTransparency } = useAppTheme();
+  const { theme, themeMode, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const isMobileLandscape = useIsMobileLandscape();
@@ -24,6 +24,35 @@ export function HomePageFooter() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const accentColor = theme.palette.themePrimary;
+  const isLightFamily =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const footerBorderTop = isLightFamily
+    ? `1px solid ${theme.semanticColors.border.default}`
+    : `4px solid ${accentColor}`;
+
+  const footerBg = isLightFamily
+    ? reducedTransparency
+      ? theme.semanticColors.background.muted
+      : 'rgba(248, 248, 248, 0.78)'
+    : reducedTransparency
+      ? theme.semanticColors.background.elevated
+      : 'rgba(18, 18, 18, 0.85)';
+
+  const footerBackdropFilter = reducedTransparency
+    ? 'none'
+    : 'blur(20px) saturate(200%)';
+
+  const footerGradient =
+    isLightFamily && !reducedTransparency
+      ? `linear-gradient(160deg, ${accentColor}18 0%, transparent 48%)`
+      : 'none';
 
   const { animationProps } = useSlideInOut({
     direction: 'up',
@@ -75,10 +104,14 @@ export function HomePageFooter() {
 
       {/* Desktop footer (always visible, no animation) */}
       <footer
-        className={`hidden lg:block border-t ${reducedTransparency ? 'bg-slate-100 dark:bg-slate-800' : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80'} border-gray-200 dark:border-gray-700 mt-auto mb-0`}
+        className='hidden lg:block mt-auto mb-0'
         role='contentinfo'
         style={{
-          borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
+          borderTop: footerBorderTop,
+          backgroundColor: footerBg,
+          backgroundImage: footerGradient,
+          backdropFilter: footerBackdropFilter,
+          WebkitBackdropFilter: footerBackdropFilter,
           opacity: isMounted ? 1 : 0,
           transition: 'opacity 0.2s ease-in',
         }}
@@ -92,8 +125,15 @@ export function HomePageFooter() {
           <motion.footer
             {...animationProps}
             id='footer-content'
-            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t ${reducedTransparency ? 'bg-slate-100 dark:bg-slate-800' : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80'} border-gray-200 dark:border-gray-700 shadow-2xl`}
+            className='lg:hidden fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
             role='contentinfo'
+            style={{
+              borderTop: footerBorderTop,
+              backgroundColor: footerBg,
+              backgroundImage: footerGradient,
+              backdropFilter: footerBackdropFilter,
+              WebkitBackdropFilter: footerBackdropFilter,
+            }}
           >
             <FooterContent isCompact={false} headerContent={mobileHideButton} />
           </motion.footer>

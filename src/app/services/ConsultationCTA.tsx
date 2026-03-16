@@ -1,11 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 export const ConsultationCTA: React.FC = () => {
-  const { theme } = useAppTheme();
+  const { theme, isDark } = useAppTheme();
 
   const isLightFamilyMode =
     theme.themeMode === 'light' ||
@@ -19,6 +20,7 @@ export const ConsultationCTA: React.FC = () => {
     : theme.semanticColors.background.elevated;
 
   const accentColor = theme.palette.themePrimary;
+  const [buttonHovered, setButtonHovered] = useState(false);
 
   return (
     <section
@@ -43,20 +45,25 @@ export const ConsultationCTA: React.FC = () => {
       </Typography>
       <Link
         href='/contact'
+        className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
         style={{
-          display: 'inline-block',
-          padding: `${theme.spacing.m}`,
-          backgroundColor: accentColor,
-          color: 'white',
-          borderRadius: theme.borderRadius.container.small,
-          fontWeight: 500,
-          transition: 'opacity 0.2s ease',
+          backgroundColor: buttonHovered
+            ? theme.colorBrandBackgroundHover
+            : theme.colorBrandBackground,
+          color: isDark
+            ? theme.colorNeutralBackground2
+            : theme.colorNeutralForegroundOnBrand,
           textDecoration: 'none',
+          transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
+          fontFamily: theme.typography.fonts.body.fontFamily,
+          boxShadow: theme.shadows.button,  
         }}
         onMouseEnter={(e) => {
+          setButtonHovered(true);
           (e.currentTarget as HTMLElement).style.opacity = '0.9';
         }}
         onMouseLeave={(e) => {
+          setButtonHovered(false);
           (e.currentTarget as HTMLElement).style.opacity = '1';
         }}
       >
