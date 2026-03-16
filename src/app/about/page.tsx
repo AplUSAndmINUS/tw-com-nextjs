@@ -13,6 +13,7 @@ import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
 import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
+import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -147,10 +148,10 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
-        <section className='mt-10 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Core Capabilities &amp; Expertise</SectionHeading>
           <AboutCapabilities />
-        </section>
+        </AboutSectionWrapper>
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
@@ -165,7 +166,7 @@ export default function AboutPage() {
             {FEATURED_PROJECTS.map((project) => (
               <div
                 key={project.name}
-                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-gray-200/90 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
+                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-white dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(254, 254, 254, 0.52),transparent_42%)] shadow-sm'
               >
                 <div className='w-full h-1 rounded-sm bg-blue-600 dark:bg-blue-400 mb-4' />
                 <div className='space-y-1'>
@@ -199,12 +200,13 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
-            <Link
+            <ThemedLink
               href='/portfolio'
-              className='inline-flex items-center justify-center w-full mt-2 px-4 py-2 text-sm font-semibold border-2 border-gray-500 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
+              variant='body'
+              className='inline-flex items-center justify-center w-full mt-2 px-4 py-2 border-2 border-gray-500 dark:border-white-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
             >
               View Full Portfolio
-            </Link>
+            </ThemedLink>
           </div>
         </section>
 
@@ -215,7 +217,7 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── Education & Certifications ───────────────────────────────────── */}
-        <section className='mt-10 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Education &amp; Certifications</SectionHeading>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <div>
@@ -286,12 +288,12 @@ export default function AboutPage() {
               </ul>
             </div>
           </div>
-        </section>
+        </AboutSectionWrapper>
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
         <AboutSectionWrapper
           variant='skills'
-          className='mt-10 md:p-8 p-6 mb-10 border border-blue-200 dark:border-blue-800 rounded-lg'
+          className='mt-10 md:p-8 p-6 mb-10 rounded-lg'
         >
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>

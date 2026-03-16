@@ -47,7 +47,7 @@ export function AboutSectionWrapper({
         : reducedTransparency
           ? theme.semanticColors.background.muted
           : 'rgba(0, 0, 0, 0.1)',
-      borderLeft: `2px solid ${accent}60`,
+      borderLeft: `4px solid ${theme.semanticColors.border.emphasis}`,
     },
     strong: {
       backgroundColor: isLightFamilyMode
@@ -56,8 +56,15 @@ export function AboutSectionWrapper({
       boxShadow: theme.shadows.card,
     },
     skills: {
-      backgroundColor: isLightFamilyMode ? `${accent}14` : `${accent}22`,
-      borderLeft: `4px solid ${accent}`,
+      backgroundColor: isLightFamilyMode
+        ? theme.semanticColors.background.muted
+        : reducedTransparency
+          ? theme.semanticColors.background.muted
+          : 'rgba(0, 0, 0, 0.2)',
+      borderTop: `1px solid ${theme.semanticColors.border.default}`,
+      borderRight: `1px solid ${theme.semanticColors.border.default}`,
+      borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+      borderLeft: `4px solid ${theme.semanticColors.border.emphasis}`,
     },
   };
 

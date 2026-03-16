@@ -789,26 +789,45 @@ export const shadows = {
  */
 export const gradients = {
   dark: {
-    solid: '#1E1E1E',
+    solid: '#121212',
     background:
-      '#1E1E1E radial-gradient(circle at 22% 48%, #292929 0%, #262626 34%, #202020 68%, #1B1B1B 100%)',
-    menu: '#1F1F1F radial-gradient(circle at 80% 50%, #252525 0%, #2A2A2A 30%, #242424 70%, #1A1A1A 100%)',
+      '#282828 radial-gradient(circle at 22% 48%, #4D535A 0%, #313132 34%, #3E4145 68%, #2F2F30 100%)',
+    menu: '#282828 radial-gradient(circle at 80% 50%, #4D535A 0%, #3E4145 30%, #313132 70%, #2F2F30 100%)',
     radial:
-      '#1F1F1F radial-gradient(circle at center, #2A2A2A 0%, #242424 30%, #1F1F1F 70%, #1A1A1A 100%)',
-    vignette: 'radial-gradient(circle at center, transparent 0%, #1A1A1A 100%)',
+      '#282828 radial-gradient(circle at center, #4D535A 0%, #3E4145 30%, #313132 70%, #2F2F30 100%)',
+    vignette: 'radial-gradient(circle at center, transparent 0%, #2F2F30 100%)',
     linear:
-      'linear-gradient(90deg, #1F1F1F 0%, #242424 50%, #1F1F1F 100%) no-repeat center',
+      'linear-gradient(90deg, #282828 0%, #4D535A 50%, #282828 100%) no-repeat center',
+  },
+  grayscaleDark: {
+    solid: '#121212',
+    background:
+      '#282828 radial-gradient(circle at 22% 48%, #616161 0%, #313132 34%, #3E4145 68%, #2F2F30 100%)',
+    menu: '#282828 radial-gradient(circle at 80% 50%, #616161 0%, #3E4145 30%, #313132 70%, #2F2F30 100%)',
+    radial:
+      '#282828 radial-gradient(circle at center, #616161 0%, #3E4145 30%, #313132 70%, #2F2F30 100%)',
+    vignette: 'radial-gradient(circle at center, transparent 0%, #2F2F30 100%)',
+    linear:
+      'linear-gradient(90deg, #282828 0%, #616161 50%, #282828 100%) no-repeat center',
+  },
+  highContrast: {
+    solid: '#000000',
+    background: '#000000',
+    menu: '#000000',
+    radial: '#000000',
+    vignette: 'radial-gradient(circle at center, transparent 0%, #000000 100%)',
+    linear:
+      'linear-gradient(90deg, #000000 0%, #121212 50%, #000000 100%) no-repeat center',
   },
   light: {
-    solid: '#C8CED8',
-    background:
-      '#C8CED8 radial-gradient(ellipse at 25% 40%, #D6DCE6 0%, #CAD0DA 36%, #BFC6D0 68%, #B5BCC7 100%)',
-    menu: '#D0D6E0 radial-gradient(circle at center, #DCE2EC 0%, #D2D8E2 30%, #C8CED8 70%, #BFCAD4 100%)',
+    solid: '#DADADA',
+    background: '#D7D1D1 radial-gradient(at right bottom, #EFEFEF, #D7D5D5)',
+    menu: '#DADADA radial-gradient(at right bottom, #EFEFEF, #D7D5D5)',
     radial:
-      '#D0D6E0 radial-gradient(circle at center, #DCE2EC 0%, #D2D8E2 30%, #C8CED8 70%, #BFCAD4 100%)',
-    vignette: 'radial-gradient(circle at center, transparent 0%, #B5BCC7 100%)',
+      '#DADADA radial-gradient(circle at center, #EFEFEF 0%, #E5E3E3 30%, #D7D5D5 70%, #D0CECD 100%)',
+    vignette: 'radial-gradient(circle at center, transparent 0%, #D7D5D5 100%)',
     linear:
-      'linear-gradient(90deg, #C8CED8 0%, #D6DCE6 50%, #C8CED8 100%) no-repeat center',
+      'linear-gradient(90deg, #D7D5D5 0%, #EFEFEF 50%, #D7D5D5 100%) no-repeat center',
   },
   components: {
     card: {

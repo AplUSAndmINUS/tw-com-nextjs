@@ -176,10 +176,15 @@ export function ServicesClient() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: theme.semanticColors.selection.text,
+                      color: theme.palette.themePrimary,
                     }}
                   >
-                    {IconComponent && <FluentIcon iconName={IconComponent} />}
+                    {IconComponent && (
+                      <FluentIcon
+                        iconName={IconComponent}
+                        style={{ color: theme.palette.themePrimary }}
+                      />
+                    )}
                   </div>
                   <Typography
                     variant='h3'

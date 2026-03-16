@@ -37,7 +37,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
       { text: 'User-centered design methodologies and thinking' },
       { text: 'Cross-platform consistency and responsiveness' },
     ],
-    icon: 'BookRegularBookRegular',
+    icon: 'DesignIdeasFilled',
     image: {
       src: PortfolioPortrait.src,
       alt: 'Design service',
@@ -113,7 +113,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
     image: {
       src: RCFLogo.src,
       alt: 'The Resonance Core Framework™',
-      title: 'The Resonance Core Framework™',
+      title: '',
     },
     fluxlineUrl: 'https://fluxline.pro/services/resonance-core',
   },

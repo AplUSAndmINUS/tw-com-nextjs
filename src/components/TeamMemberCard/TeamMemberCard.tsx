@@ -62,16 +62,14 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           border: `1px solid ${
             isHovered
               ? theme.palette.themePrimary
-              : theme.palette.neutralTertiaryAlt
+              : theme.palette.neutralQuaternary
           }`,
           backgroundColor: isHovered
-            ? isDark
-              ? theme.palette.neutralLighter
-              : theme.palette.neutralLighterAlt
-            : 'transparent',
+            ? theme.palette.neutralLighter
+            : theme.palette.neutralLighterAlt,
           transition: 'all 0.3s ease',
           transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-          boxShadow: isHovered ? theme.shadows.m : 'none',
+          boxShadow: isHovered ? theme.shadows.card : theme.shadows.m,
           cursor: isMobile ? 'default' : 'pointer',
           maxWidth,
           width: '100%',

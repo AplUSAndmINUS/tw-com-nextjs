@@ -75,10 +75,11 @@ export const AboutCapabilities: React.FC = () => {
                 variant='h5'
                 style={{
                   color: theme.semanticColors.text.heading,
-                  margin: 0,
-                  marginBottom: theme.spacing.xs,
-                  fontSize: '1rem',
-                  fontStyle: 'italic',
+                  margin: `0 0 ${theme.spacing.s2} 0`,
+                  fontWeight: 600,
+                  // marginBottom: theme.spacing.xs,
+                  // fontSize: '1rem',
+                  // fontStyle: 'italic',
                 }}
               >
                 {cap.title}
