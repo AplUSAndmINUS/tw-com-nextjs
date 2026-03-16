@@ -33,9 +33,8 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   description = 'Subscribe to my free, biweekly newsletter — where I share insights on Fluxline, The Resonance Core, and practical ways to improve your life using this powerful framework.',
   className = '',
 }) => {
-  const { theme } = useAppTheme();
-  const { setNewsletterSubscribed } =
-    useNewsletterStore();
+  const { theme, themeMode } = useAppTheme();
+  const { setNewsletterSubscribed } = useNewsletterStore();
 
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -108,14 +107,29 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
+  // Hero-matching surface + gradient — mirrors the accentColor logic in Hero.tsx
+  const accentColor = theme.palette.themePrimary;
+  const isLightFamily =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+  const surfaceColor = isLightFamily
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+  const heroGradient = `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`;
+
   // Show temporary confirmation after subscribing; returns to the form after the timer
   if (isSuccess) {
     return (
       <div
         className={`rounded-xl p-6 ${className}`}
         style={{
-          backgroundColor: theme.semanticColors.background.elevated,
+          backgroundColor: surfaceColor,
+          backgroundImage: heroGradient,
           border: `1px solid ${theme.semanticColors.border.default}`,
+          borderTop: `4px solid ${accentColor}`,
         }}
       >
         <Typography
@@ -161,8 +175,10 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
     <div
       className={`rounded-xl p-6 ${className}`}
       style={{
-        backgroundColor: theme.semanticColors.background.elevated,
+        backgroundColor: surfaceColor,
+        backgroundImage: heroGradient,
         border: `1px solid ${theme.semanticColors.border.default}`,
+        borderTop: `4px solid ${accentColor}`,
       }}
     >
       <Typography

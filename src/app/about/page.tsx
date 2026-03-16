@@ -90,9 +90,9 @@ const EDUCATION = [
 const CERTIFICATIONS = [
   'NASM Certified Personal Trainer (2025-2026)',
   'Google Project Management Certification (2023)',
-  'Azure AI & Fundamentals (2021–2024)',
+  'Professional Scrum Master I — PSM I (2023)',
+  'Azure Fundamentals, AI, & Developer (2021–2024)',
   'M365 Fundamentals & Developer (2021–2024)',
-  'Professional Scrum Master I — PSM I (2021)',
   'ITIL Foundations v3 — AXELOS (2016)',
   'Adobe Creative Cloud Certified (2017–2022)',
   'A+ Certification — CompTIA (2002)',
@@ -165,7 +165,7 @@ export default function AboutPage() {
             {FEATURED_PROJECTS.map((project) => (
               <div
                 key={project.name}
-                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-gray-100/70 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
+                className='relative overflow-hidden rounded-xl border border-gray-500 dark:border-gray-700 p-4 bg-gray-200/90 dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(59,130,246,0.08)_0%,transparent_42%)] shadow-sm'
               >
                 <div className='w-full h-1 rounded-sm bg-blue-600 dark:bg-blue-400 mb-4' />
                 <div className='space-y-1'>
@@ -259,12 +259,18 @@ export default function AboutPage() {
                     const year = cert.substring(leftParenIndex);
                     return (
                       <li key={cert} className='flex items-start gap-1 text-sm'>
-                        <span className='font-semibold text-gray-900 dark:text-white'>
-                          {name}
-                        </span>
-                        <span className='text-gray-600 dark:text-gray-400'>
+                        <Typography
+                          variant='label'
+                          className='font-semibold text-gray-900 dark:text-white'
+                        >
+                          <strong>{name}</strong>
+                        </Typography>
+                        <Typography
+                          variant='label'
+                          className='text-gray-600 dark:text-gray-400'
+                        >
                           {year}
-                        </span>
+                        </Typography>
                       </li>
                     );
                   }
@@ -284,8 +290,8 @@ export default function AboutPage() {
 
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
         <AboutSectionWrapper
-          variant='subtle'
-          className='mt-10 md:p-8 p-6 mb-10 border border-gray-200 dark:border-gray-800 rounded-lg'
+          variant='skills'
+          className='mt-10 md:p-8 p-6 mb-10 border border-blue-200 dark:border-blue-800 rounded-lg'
         >
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>

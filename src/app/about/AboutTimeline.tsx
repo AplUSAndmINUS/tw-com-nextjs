@@ -58,7 +58,7 @@ const TIMELINE_ENTRIES: TimelineEntry[] = [
 ];
 
 export const AboutTimeline: React.FC = () => {
-  const { theme } = useAppTheme();
+  const { theme, isDark } = useAppTheme();
   const isMobile = useIsMobile();
 
   const accentPalette = [
@@ -110,7 +110,7 @@ export const AboutTimeline: React.FC = () => {
               >
                 <span
                   style={{
-                    color: '#fff',
+                    color: isDark ? theme.colorNeutralBackground2 : theme.colorNeutralForegroundOnBrand,
                     fontSize: isMobile ? '0.625rem' : '0.6875rem',
                     fontWeight: 700,
                     lineHeight: 1,

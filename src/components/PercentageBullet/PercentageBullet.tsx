@@ -133,9 +133,13 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
         </div>
         <Typography
           variant='label'
-          style={{ textAlign: 'center', lineHeight: '1.3', marginTop: '0.35rem' }}
+          style={{
+            textAlign: 'center',
+            lineHeight: '1.3',
+            marginTop: '0.35rem',
+          }}
         >
-          {name}
+          <strong>{name}</strong>
         </Typography>
       </div>
     </div>

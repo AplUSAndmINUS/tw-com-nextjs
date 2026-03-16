@@ -4,7 +4,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface AboutSectionWrapperProps {
   children: React.ReactNode;
-  variant?: 'default' | 'subtle' | 'strong';
+  variant?: 'default' | 'subtle' | 'strong' | 'skills';
   className?: string;
 }
 
@@ -23,7 +23,7 @@ export function AboutSectionWrapper({
   const backgrounds = {
     default: {
       opaque: 'bg-gray-300 dark:bg-black/90',
-      transparent: 'bg-gray-300/90 dark:bg-black/20',
+      transparent: 'bg-gray-300/60 dark:bg-black/20',
     },
     subtle: {
       opaque: 'bg-gray-400 dark:bg-black/90',
@@ -33,6 +33,10 @@ export function AboutSectionWrapper({
       opaque: 'bg-gray-100 dark:bg-gray-900',
       transparent: 'bg-gray-100/70 dark:bg-gray-900/60',
     },
+    skills: {
+      opaque: 'bg-blue-200 dark:bg-blue-900',
+      transparent: 'bg-blue-200/50 dark:bg-blue-900/30',
+    }
   };
 
   const bgClasses = reducedTransparency
