@@ -34,10 +34,8 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   // Get typography defaults - now type-safe!
   const typographyStyle = theme.typography.fonts[variant];
 
-  // Handle grayscale - always underline
-  const shouldUnderline = ['grayscale', 'grayscale-dark'].includes(
-    theme.themeMode
-  );
+  // Underline only in high-contrast mode for accessibility; grayscale relies on color alone
+  const shouldUnderline = theme.themeMode === 'high-contrast';
 
   // Merge styles
   const mergedStyles: React.CSSProperties = {

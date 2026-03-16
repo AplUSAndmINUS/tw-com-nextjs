@@ -467,8 +467,8 @@ export function Header() {
               </button>
             )}
 
-            {/* Settings toggle */}
-            {!(authRequired && !isAuthenticated) && (
+            {/* Settings toggle — hidden on homepage (dark mode is forced there) */}
+            {!isHomePage && !(authRequired && !isAuthenticated) && (
               <button
                 type='button'
                 onClick={handleSettingsClick}
