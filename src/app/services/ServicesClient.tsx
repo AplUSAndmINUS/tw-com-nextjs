@@ -39,6 +39,14 @@ const serviceCategories = [
     href: '/services/resonance-core',
     cta: 'View Resonance Core Service',
   },
+  {
+    title: 'Personal Training',
+    description:
+      "Personalized fitness coaching with emotional intelligence—build strength, reduce pain, and align your physical practice with who you're becoming.",
+    icon: '💪',
+    href: '/services/personal-training',
+    cta: 'View Personal Training Service',
+  },
 ];
 
 export function ServicesClient() {
