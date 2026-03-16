@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile, useIsTablet} from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 
 export interface OfferItem {
   text: string;
@@ -34,6 +34,8 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
   const cardHoverSurfaceColor = isLightFamilyMode
     ? theme.semanticColors.background.elevated
     : theme.semanticColors.background.muted;
+
+  const accentColor = theme.palette.themePrimary;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -66,9 +68,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
         animate='visible'
         style={{
           display: 'grid',
-          gridTemplateColumns: isMobile || isTablet
-            ? '1fr 1fr'
-            : '1fr 1fr 1fr',
+          gridTemplateColumns: isMobile || isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
           gap: theme.spacing.m,
           width: '100%',
         }}
@@ -82,17 +82,34 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
             style={{
               padding: theme.spacing.l,
               borderRadius: theme.borderRadius.container.medium,
-              border: `1px solid ${theme.semanticColors.border.default}`,
+              border: isLightFamilyMode
+                ? `1px solid ${theme.semanticColors.border.emphasis}`
+                : `1px solid ${theme.semanticColors.border.default}`,
+              borderTop: `4px solid ${accentColor}`,
+              backgroundImage:
+                hoveredIndex === index
+                  ? isLightFamilyMode
+                    ? `linear-gradient(160deg, ${accentColor}48 0%, transparent 55%)`
+                    : `linear-gradient(160deg, ${accentColor}28 0%, transparent 55%)`
+                  : isLightFamilyMode
+                    ? `linear-gradient(160deg, ${accentColor}28 0%, transparent 42%)`
+                    : `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
               transition: 'all 0.2s ease',
               cursor: 'default',
               transform:
                 hoveredIndex === index ? 'translateY(-4px)' : 'translateY(0)',
               boxShadow:
                 hoveredIndex === index
-                  ? theme.shadows.card
-                  : theme.shadows.button,
+                  ? isLightFamilyMode
+                    ? theme.shadows.hero
+                    : theme.shadows.card
+                  : isLightFamilyMode
+                    ? theme.shadows.card
+                    : theme.shadows.button,
               backgroundColor:
-                hoveredIndex === index ? cardHoverSurfaceColor : cardSurfaceColor,
+                hoveredIndex === index
+                  ? cardHoverSurfaceColor
+                  : cardSurfaceColor,
             }}
           >
             <div
