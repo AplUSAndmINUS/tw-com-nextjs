@@ -60,7 +60,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
       <div className='pt-0 pb-8 md:py-8'>
         <Hero
           title={service.title}
-          iconName='Settings24Regular'
+          iconName={service.icon}
           backArrow
           backArrowPath='/services'
           description={service.heroDescription}
@@ -84,7 +84,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 href={service.fluxlineUrl}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-600 border border-gray-200 dark:border-gray-700 rounded px-3 py-1.5 hover:text-gray-500 dark:hover:text-gray-500 hover:border-gray-300 dark:hover:border-gray-600 transition-colors'
+                className='inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 border border-gray-400 dark:border-gray-600 rounded px-3 py-1.5 hover:text-gray-500 dark:hover:text-gray-500 hover:border-gray-300 dark:hover:border-gray-600 transition-colors'
               >
                 Also available on Fluxline.pro ↗
               </a>

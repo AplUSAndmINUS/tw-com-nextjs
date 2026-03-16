@@ -11,6 +11,7 @@ export type ServiceConfig = {
   blurb: string;
   seoDescription: string;
   offers: OfferItem[];
+  icon: string;
   image: {
     src: string;
     alt: string;
@@ -21,7 +22,7 @@ export type ServiceConfig = {
 
 export const SERVICES: Record<string, ServiceConfig> = {
   design: {
-    title: 'Design Service',
+    title: 'Design',
     heroDescription:
       'Design direction for digital products and content systems that need both clarity and impact.',
     seoDescription:
@@ -36,6 +37,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
       { text: 'User-centered design methodologies and thinking' },
       { text: 'Cross-platform consistency and responsiveness' },
     ],
+    icon: 'BookRegularBookRegular',
     image: {
       src: PortfolioPortrait.src,
       alt: 'Design service',
@@ -44,7 +46,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
     fluxlineUrl: 'https://fluxline.pro/services/design',
   },
   development: {
-    title: 'Development Service',
+    title: 'Web & App Development',
     heroDescription:
       'Modern web development support focused on delivery quality, maintainability, and long-term velocity.',
     seoDescription:
@@ -59,6 +61,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
       { text: 'API design and third-party integrations' },
       { text: 'Performance optimization and scalability solutions' },
     ],
+    icon: 'CodeFilled',
     image: {
       src: GitHubPortrait.src,
       alt: 'Development service',
@@ -67,7 +70,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
     fluxlineUrl: 'https://fluxline.pro/services/development',
   },
   consulting: {
-    title: 'Consulting Service',
+    title: 'IT & Business Consulting',
     heroDescription:
       'Strategic consulting for founders and teams making high-stakes product and technical decisions.',
     seoDescription:
@@ -82,6 +85,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
       { text: 'Change management and transformation facilitation' },
       { text: 'Leadership coaching and team dynamics' },
     ],
+    icon: 'PeopleCommunityRegular',
     image: {
       src: CoachingPortrait.src,
       alt: 'Consulting service',
@@ -90,7 +94,7 @@ export const SERVICES: Record<string, ServiceConfig> = {
     fluxlineUrl: 'https://fluxline.pro/services/consulting',
   },
   'resonance-core': {
-    title: 'Resonance Core Service',
+    title: 'The Resonance Core Framework™',
     heroDescription:
       'Identity-centered guidance for creators and leaders building work that reflects who they are becoming.',
     seoDescription:
@@ -105,10 +109,11 @@ export const SERVICES: Record<string, ServiceConfig> = {
       { text: "Choose the identity that supports who you're becoming" },
       { text: 'Take aligned action from your chosen identity' },
     ],
+    icon: 'HeartFilled',
     image: {
       src: RCFLogo.src,
-      alt: 'Resonance Core service',
-      title: '',
+      alt: 'The Resonance Core Framework™',
+      title: 'The Resonance Core Framework™',
     },
     fluxlineUrl: 'https://fluxline.pro/services/resonance-core',
   },
@@ -127,10 +132,11 @@ export const SERVICES: Record<string, ServiceConfig> = {
       { text: 'Mindset support and behavioral change strategies' },
       { text: 'Flexible scheduling and remote coaching options' },
     ],
+    icon: 'AccessibilityRegular',
     image: {
       src: PersonalTrainingPortrait.src,
-      alt: 'Personal training and wellness service',
-      title: 'Personal Training',
+      alt: 'Personal Training & Wellness',
+      title: 'Personal Training & Wellness',
     },
     fluxlineUrl: 'https://fluxline.pro/services/personal-training',
   },

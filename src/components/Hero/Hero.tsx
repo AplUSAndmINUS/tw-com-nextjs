@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
-import { FluentIcon } from '@/components/FluentIcon';
 import { resolveIconName } from '@/utils/iconResolver';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 

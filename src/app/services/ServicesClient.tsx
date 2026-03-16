@@ -5,13 +5,21 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { FluentIcon } from '@/components/FluentIcon';
+import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
 
-const serviceCategories = [
+const serviceCategories: {
+  title: string;
+  description: string;
+  icon: FluentIconName;
+  href: string;
+  cta: string;
+}[] = [
   {
     title: 'Design',
     description:
       'Interface and experience design for products, content systems, and digital platforms that need clarity and momentum.',
-    icon: '🎨',
+    icon: 'DesignIdeasFilled',
     href: '/services/design',
     cta: 'View Design Service',
   },
@@ -19,7 +27,7 @@ const serviceCategories = [
     title: 'Development',
     description:
       'Modern web development and implementation support focused on performance, maintainability, and long-term product growth.',
-    icon: '🧩',
+    icon: 'CodeFilled',
     href: '/services/development',
     cta: 'View Development Service',
   },
@@ -27,7 +35,7 @@ const serviceCategories = [
     title: 'Consulting',
     description:
       'Strategic advisory for founders and teams navigating architecture decisions, product direction, and execution planning.',
-    icon: '🧭',
+    icon: 'PeopleCommunityRegular',
     href: '/services/consulting',
     cta: 'View Consulting Service',
   },
@@ -35,7 +43,7 @@ const serviceCategories = [
     title: 'Resonance Core',
     description:
       'Identity-centered coaching and guidance for creators and leaders building aligned work, voice, and long-term direction.',
-    icon: '✨',
+    icon: 'HeartFilled',
     href: '/services/resonance-core',
     cta: 'View Resonance Core Service',
   },
@@ -43,7 +51,7 @@ const serviceCategories = [
     title: 'Personal Training',
     description:
       "Personalized fitness coaching with emotional intelligence—build strength, reduce pain, and align your physical practice with who you're becoming.",
-    icon: '💪',
+    icon: 'AccessibilityRegular',
     href: '/services/personal-training',
     cta: 'View Personal Training Service',
   },
@@ -99,6 +107,7 @@ export function ServicesClient() {
     >
       {serviceCategories.map((category) => {
         const isFocused = focusedCard === category.title;
+        const IconComponent = resolveIconName(category.icon);
 
         return (
           <motion.div
@@ -158,21 +167,17 @@ export function ServicesClient() {
                 >
                   <div
                     style={{
-                      fontSize: '2rem',
+                      fontSize: '3rem',
                       flexShrink: 0,
                       width: '3rem',
                       height: '3rem',
-                      borderRadius: theme.borderRadius.container.small,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor:
-                        theme.semanticColors.selection.background,
                       color: theme.semanticColors.selection.text,
-                      border: `1px solid ${theme.semanticColors.border.default}`,
                     }}
                   >
-                    {category.icon}
+                    {IconComponent && <FluentIcon iconName={IconComponent} />}
                   </div>
                   <Typography
                     variant='h3'
