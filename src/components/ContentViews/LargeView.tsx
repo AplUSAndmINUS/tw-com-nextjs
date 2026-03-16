@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
 import { ContentItem } from '@/content/types';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface LargeViewProps {
   items: ContentItem[];
@@ -11,6 +13,8 @@ interface LargeViewProps {
 }
 
 export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
+  const { theme } = useAppTheme();
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   if (items.length === 0) {
     return (
       <div className='text-center py-12'>
@@ -31,6 +35,8 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
             key={item.slug}
             href={itemUrl}
             className='group block transition-all duration-300 hover:scale-[1.01]'
+            onMouseEnter={() => setHoveredSlug(item.slug)}
+            onMouseLeave={() => setHoveredSlug(null)}
           >
             <Card className='h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300'>
               {/* Large Featured Image */}
@@ -48,7 +54,13 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                   {/* Featured Badge (if applicable) */}
                   {item.featured && (
                     <div className='absolute top-4 right-4'>
-                      <span className='inline-block px-3 py-1 text-xs font-semibold rounded-full bg-yellow-400 text-yellow-900 shadow-lg'>
+                      <span
+                        className='inline-block px-3 py-1 text-xs font-semibold rounded-full shadow-lg'
+                        style={{
+                          backgroundColor: theme.semanticColors.link.default,
+                          color: theme.semanticColors.background.base,
+                        }}
+                      >
                         Featured
                       </span>
                     </div>
@@ -60,14 +72,28 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                 {/* Category/Type Badge */}
                 {(item.category || item.type) && (
                   <div className='mb-3'>
-                    <span className='inline-block px-4 py-1.5 text-sm font-medium rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'>
+                    <span
+                      className='inline-block px-4 py-1.5 text-sm font-medium rounded-full'
+                      style={{
+                        backgroundColor: theme.semanticColors.background.muted,
+                        color: theme.semanticColors.link.default,
+                      }}
+                    >
                       {item.category || item.type}
                     </span>
                   </div>
                 )}
 
                 {/* Title - Larger */}
-                <h2 className='text-2xl lg:text-3xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+                <h2
+                  className='text-2xl lg:text-3xl font-bold mb-3 transition-colors'
+                  style={{
+                    color:
+                      hoveredSlug === item.slug
+                        ? theme.semanticColors.link.default
+                        : undefined,
+                  }}
+                >
                   {item.title}
                 </h2>
 

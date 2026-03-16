@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 import type { ContentItem } from '@/content/types';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface BlogIndexClientProps {
   posts: ContentItem[];
@@ -10,7 +11,17 @@ interface BlogIndexClientProps {
 }
 
 export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
+  const { theme } = useAppTheme();
   const [activeTag, setActiveTag] = React.useState<string | null>(null);
+  const [hoveredPostSlug, setHoveredPostSlug] = React.useState<string | null>(
+    null
+  );
+
+  const activeFilterStyle = {
+    backgroundColor: theme.semanticColors.link.default,
+    color: theme.semanticColors.background.base,
+    borderColor: theme.semanticColors.link.default,
+  };
 
   const filtered = activeTag
     ? posts.filter((p) => p.tags.includes(activeTag))
@@ -20,14 +31,15 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
     <>
       {/* Category / Tag Filters */}
       {allTags.length > 0 && (
-        <div className='flex flex-wrap gap-2 mb-8' role='group' aria-label='Filter by category'>
+        <div
+          className='flex flex-wrap gap-2 mb-8'
+          role='group'
+          aria-label='Filter by category'
+        >
           <button
             onClick={() => setActiveTag(null)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors border ${
-              activeTag === null
-                ? 'bg-blue-600 text-white border-blue-600'
-                : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-blue-400'
-            }`}
+            className='px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-400'
+            style={activeTag === null ? activeFilterStyle : undefined}
             aria-pressed={activeTag === null}
           >
             All
@@ -36,11 +48,8 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
             <button
               key={tag}
               onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors border ${
-                activeTag === tag
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-blue-400'
-              }`}
+              className='px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-400'
+              style={activeTag === tag ? activeFilterStyle : undefined}
               aria-pressed={activeTag === tag}
             >
               {tag}
@@ -57,14 +66,22 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
       ) : (
         <div className='space-y-8'>
           {filtered.map((post) => (
-            <article key={post.slug} className='border-b pb-8'>
+            <article
+              key={post.slug}
+              className='border-b pb-8'
+              onMouseEnter={() => setHoveredPostSlug(post.slug)}
+              onMouseLeave={() => setHoveredPostSlug(null)}
+            >
               {post.tags.length > 0 && (
                 <div className='flex gap-2 mb-2 flex-wrap'>
                   {post.tags.map((tag) => (
                     <button
                       key={tag}
-                      onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                      className='text-xs uppercase tracking-wide font-semibold text-blue-600 dark:text-blue-400 hover:underline'
+                      onClick={() =>
+                        setActiveTag(activeTag === tag ? null : tag)
+                      }
+                      className='text-xs uppercase tracking-wide font-semibold hover:underline'
+                      style={{ color: theme.semanticColors.link.default }}
                       aria-label={`Filter by ${tag}`}
                     >
                       {tag}
@@ -73,7 +90,15 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
                 </div>
               )}
               <Link href={`/blog/${post.slug}`}>
-                <h2 className='text-2xl font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors'>
+                <h2
+                  className='text-2xl font-semibold transition-colors'
+                  style={{
+                    color:
+                      hoveredPostSlug === post.slug
+                        ? theme.semanticColors.link.hover
+                        : undefined,
+                  }}
+                >
                   {post.title}
                 </h2>
               </Link>
@@ -92,7 +117,8 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
               )}
               <Link
                 href={`/blog/${post.slug}`}
-                className='inline-block mt-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline'
+                className='inline-block mt-3 text-sm font-medium hover:underline'
+                style={{ color: theme.semanticColors.link.default }}
               >
                 Read more →
               </Link>

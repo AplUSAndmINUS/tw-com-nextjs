@@ -55,8 +55,8 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
   return (
     <div>
       <Typography
-        variant='h2'
-        className='text-2xl font-bold mb-6'
+        variant='h3'
+        className='mb-6'
         style={{ color: theme.semanticColors.text.heading }}
       >
         What I Offer
@@ -135,10 +135,11 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
                 ✓
               </div>
               <Typography
-                variant='body'
+                variant='label'
                 style={{
                   color: theme.semanticColors.text.muted,
                   fontSize: '0.9375rem',
+                  fontWeight: 600,
                   lineHeight: 1.5,
                 }}
               >

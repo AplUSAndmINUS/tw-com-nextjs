@@ -86,7 +86,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 rel='noopener noreferrer'
                 className='inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 border border-gray-400 dark:border-gray-600 rounded px-3 py-1.5 hover:text-gray-500 dark:hover:text-gray-500 hover:border-gray-300 dark:hover:border-gray-600 transition-colors'
               >
-                Also available on Fluxline.pro ↗
+                More info available on Fluxline.pro ↗
               </a>
             </div>
           )}

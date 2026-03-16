@@ -108,7 +108,7 @@ Components should include:
 
 - A named function component
 - Strongly typed props
-- Tailwind for layout
+- Tailwind for layout - do not use Tailwind for colors or typography
 - Fluent UI theme tokens for color/typography
 - Optional SCSS modules for complex styling
 - Accessibility attributes

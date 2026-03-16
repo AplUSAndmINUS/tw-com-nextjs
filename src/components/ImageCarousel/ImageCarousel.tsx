@@ -18,7 +18,7 @@ export function ImageCarousel({
   basePath = '',
   className = '',
 }: ImageCarouselProps) {
-  const { reducedTransparency } = useAppTheme();
+  const { reducedTransparency, theme } = useAppTheme();
   const [active, setActive] = useState(0);
 
   if (!images || images.length === 0) return null;
@@ -103,10 +103,13 @@ export function ImageCarousel({
               onClick={() => setActive(i)}
               aria-label={`View image ${i + 1}: ${img.alt}`}
               className={`relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md overflow-hidden border-2 transition-colors ${
-                i === active
-                  ? 'border-blue-500'
-                  : 'border-transparent hover:border-gray-400'
+                i === active ? '' : 'border-transparent hover:border-gray-400'
               }`}
+              style={
+                i === active
+                  ? { borderColor: theme.semanticColors.link.default }
+                  : undefined
+              }
             >
               <Image
                 src={resolveUrl(img.url)}

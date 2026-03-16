@@ -22,7 +22,7 @@ export type ServiceConfig = {
 
 export const SERVICES: Record<string, ServiceConfig> = {
   design: {
-    title: 'Design',
+    title: 'Brand Identity & Design',
     heroDescription:
       'Design direction for digital products and content systems that need both clarity and impact.',
     seoDescription:
@@ -40,8 +40,8 @@ export const SERVICES: Record<string, ServiceConfig> = {
     icon: 'DesignIdeasFilled',
     image: {
       src: PortfolioPortrait.src,
-      alt: 'Design service',
-      title: 'Design',
+      alt: 'Brand Identity & Design',
+      title: 'Brand Identity & Design',
     },
     fluxlineUrl: 'https://fluxline.pro/services/design',
   },
@@ -64,8 +64,8 @@ export const SERVICES: Record<string, ServiceConfig> = {
     icon: 'CodeFilled',
     image: {
       src: GitHubPortrait.src,
-      alt: 'Development service',
-      title: 'Development',
+      alt: 'Web & App Development',
+      title: 'Web & App Development',
     },
     fluxlineUrl: 'https://fluxline.pro/services/development',
   },

@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { ThemedLink } from '@/components/ThemedLink';
 import { resolveIconName } from '@/utils/iconResolver';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface ContentDetailNavProps {
   /** URL of the previous entry (undefined if this is the first) */
@@ -28,6 +30,10 @@ export function ContentDetailNav({
   listingPath,
   listingLabel,
 }: ContentDetailNavProps) {
+  const { theme } = useAppTheme();
+  const [prevHovered, setPrevHovered] = useState(false);
+  const [nextHovered, setNextHovered] = useState(false);
+  const [backHovered, setBackHovered] = useState(false);
   const ChevronLeftIcon = resolveIconName('ChevronLeft20Regular');
   const ChevronRightIcon = resolveIconName('ChevronRight20Regular');
   const ArrowLeftIcon = resolveIconName('ArrowLeft20Regular');
@@ -41,8 +47,19 @@ export function ContentDetailNav({
         {prevHref ? (
           <ThemedLink
             href={prevHref}
-            className='group inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all'
-            style={{ fontSize: '0.9rem', fontWeight: 500 }}
+            className='group inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all'
+            style={{
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              ...(prevHovered
+                ? {
+                    borderColor: theme.semanticColors.link.default,
+                    backgroundColor: theme.semanticColors.background.muted,
+                  }
+                : {}),
+            }}
+            onMouseEnter={() => setPrevHovered(true)}
+            onMouseLeave={() => setPrevHovered(false)}
             aria-label={prevTitle ? `Previous: ${prevTitle}` : 'Previous entry'}
           >
             {ChevronLeftIcon && <ChevronLeftIcon style={{ flexShrink: 0 }} />}
@@ -63,14 +80,23 @@ export function ContentDetailNav({
       {listingPath && listingLabel && (
         <ThemedLink
           href={listingPath}
-          className='flex-shrink-0 px-4 py-2 rounded-lg border-2 border-blue-500 dark:border-blue-400 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-400 dark:hover:text-gray-900 transition-all'
+          className='flex-shrink-0 px-4 py-2 rounded-lg border-2 transition-all'
           style={{
             fontSize: '0.875rem',
             fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
+            borderColor: theme.semanticColors.link.default,
+            ...(backHovered
+              ? {
+                  backgroundColor: theme.semanticColors.link.default,
+                  color: theme.semanticColors.background.base,
+                }
+              : {}),
           }}
+          onMouseEnter={() => setBackHovered(true)}
+          onMouseLeave={() => setBackHovered(false)}
           aria-label={`Back to ${listingLabel}`}
         >
           {ArrowLeftIcon && <ArrowLeftIcon style={{ flexShrink: 0 }} />}
@@ -84,8 +110,19 @@ export function ContentDetailNav({
         {nextHref ? (
           <ThemedLink
             href={nextHref}
-            className='group inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all'
-            style={{ fontSize: '0.9rem', fontWeight: 500 }}
+            className='group inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all'
+            style={{
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              ...(nextHovered
+                ? {
+                    borderColor: theme.semanticColors.link.default,
+                    backgroundColor: theme.semanticColors.background.muted,
+                  }
+                : {}),
+            }}
+            onMouseEnter={() => setNextHovered(true)}
+            onMouseLeave={() => setNextHovered(false)}
             aria-label={nextTitle ? `Next: ${nextTitle}` : 'Next entry'}
           >
             <span className='hidden sm:inline'>Next</span>

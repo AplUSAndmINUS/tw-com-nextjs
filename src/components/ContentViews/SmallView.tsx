@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ContentItem } from '@/content/types';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface SmallViewProps {
   items: ContentItem[];
@@ -10,6 +12,8 @@ interface SmallViewProps {
 }
 
 export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
+  const { theme } = useAppTheme();
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   if (items.length === 0) {
     return (
       <div className='text-center py-12'>
@@ -26,8 +30,21 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
           : `/${item.type}/${item.slug}`;
 
         return (
-          <Link key={item.slug} href={itemUrl} className='group block'>
-            <div className='flex gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200 bg-white dark:bg-gray-900'>
+          <Link
+            key={item.slug}
+            href={itemUrl}
+            className='group block'
+            onMouseEnter={() => setHoveredSlug(item.slug)}
+            onMouseLeave={() => setHoveredSlug(null)}
+          >
+            <div
+              className='flex gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-all duration-200 bg-white dark:bg-gray-900'
+              style={
+                hoveredSlug === item.slug
+                  ? { borderColor: theme.semanticColors.link.default }
+                  : undefined
+              }
+            >
               {/* Thumbnail */}
               {item.imageUrl && (
                 <div className='relative w-24 h-24 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden'>
@@ -45,20 +62,40 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
                 {/* Header: Category and Featured */}
                 <div className='flex items-center gap-2 mb-1'>
                   {(item.category || item.type) && (
-                    <span className='inline-block px-2 py-0.5 text-xs font-medium rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'>
+                    <span
+                      className='inline-block px-2 py-0.5 text-xs font-medium rounded'
+                      style={{
+                        backgroundColor: theme.semanticColors.background.muted,
+                        color: theme.semanticColors.link.default,
+                      }}
+                    >
                       {item.category || item.type}
                     </span>
                   )}
 
                   {item.featured && (
-                    <span className='inline-block px-2 py-0.5 text-xs font-semibold rounded bg-yellow-100 text-yellow-800'>
+                    <span
+                      className='inline-block px-2 py-0.5 text-xs font-semibold rounded'
+                      style={{
+                        backgroundColor: theme.semanticColors.link.default,
+                        color: theme.semanticColors.background.base,
+                      }}
+                    >
                       Featured
                     </span>
                   )}
                 </div>
 
                 {/* Title */}
-                <h3 className='text-lg font-semibold mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate'>
+                <h3
+                  className='text-lg font-semibold mb-1 transition-colors truncate'
+                  style={{
+                    color:
+                      hoveredSlug === item.slug
+                        ? theme.semanticColors.link.default
+                        : undefined,
+                  }}
+                >
                   {item.title}
                 </h3>
 

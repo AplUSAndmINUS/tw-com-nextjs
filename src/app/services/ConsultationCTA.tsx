@@ -33,7 +33,7 @@ export const ConsultationCTA: React.FC = () => {
         padding: theme.spacing.l,
       }}
     >
-      <Typography variant='h2' className='text-2xl font-semibold mb-3'>
+      <Typography variant='h3' className='text-2xl font-semibold mb-3'>
         Ready to get started?
       </Typography>
       <Typography

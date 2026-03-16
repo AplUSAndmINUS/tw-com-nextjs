@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface TagFilterProps {
   tags: string[];
@@ -9,7 +10,19 @@ interface TagFilterProps {
   label?: string;
 }
 
-export function TagFilter({ tags, activeTag, onTagChange, label = 'Filter' }: TagFilterProps) {
+export function TagFilter({
+  tags,
+  activeTag,
+  onTagChange,
+  label = 'Filter',
+}: TagFilterProps) {
+  const { theme } = useAppTheme();
+  const activeStyle = {
+    backgroundColor: theme.semanticColors.link.default,
+    color: theme.semanticColors.background.base,
+    borderColor: theme.semanticColors.link.default,
+  };
+
   if (tags.length === 0) return null;
 
   return (
@@ -21,11 +34,8 @@ export function TagFilter({ tags, activeTag, onTagChange, label = 'Filter' }: Ta
       )}
       <button
         onClick={() => onTagChange(null)}
-        className={`px-3 py-1 rounded-full text-sm transition-colors ${
-          activeTag === null
-            ? 'bg-blue-600 text-white'
-            : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-        }`}
+        className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+        style={activeTag === null ? activeStyle : undefined}
       >
         All
       </button>
@@ -33,11 +43,8 @@ export function TagFilter({ tags, activeTag, onTagChange, label = 'Filter' }: Ta
         <button
           key={tag}
           onClick={() => onTagChange(tag === activeTag ? null : tag)}
-          className={`px-3 py-1 rounded-full text-sm transition-colors ${
-            activeTag === tag
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-          }`}
+          className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+          style={activeTag === tag ? activeStyle : undefined}
         >
           {tag}
         </button>

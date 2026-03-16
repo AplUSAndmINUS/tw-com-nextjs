@@ -4,6 +4,7 @@ import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
+import { ThemedLink } from '@/components/ThemedLink';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -41,14 +42,14 @@ export default async function VideoPlayerPage({ params }: Props) {
         />
         <VideoPlayer youtubeId={id} title={`Video ${id}`} />
         <div className='mt-6'>
-          <a
+          <ThemedLink
             href={`https://www.youtube.com/watch?v=${id}`}
             target='_blank'
             rel='noopener noreferrer'
-            className='text-sm text-blue-600 dark:text-blue-400 hover:underline'
+            className='text-sm hover:underline'
           >
             Watch on YouTube ↗
-          </a>
+          </ThemedLink>
         </div>
       </div>
     </PageLayout>
