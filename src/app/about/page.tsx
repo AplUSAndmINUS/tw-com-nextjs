@@ -12,7 +12,7 @@ import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
 import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
-import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
+import { AboutHeroCTAs } from './AboutHeroCTAs';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -108,20 +108,7 @@ export default function AboutPage() {
           iconName='Person24Regular'
           description='Dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
         >
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <ThemedLink
-              href='/contact'
-              className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors'
-            >
-              Book a Consultation
-            </ThemedLink>
-            <ThemedLink
-              href='https://fluxline.pro'
-              className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
-            >
-              Visit Fluxline.pro
-            </ThemedLink>
-          </div>
+          <AboutHeroCTAs />
         </Hero>
 
         {/* ── Professional Summary ─────────────────────────────────────────── */}
