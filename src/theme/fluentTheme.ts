@@ -800,15 +800,15 @@ export const gradients = {
       'linear-gradient(90deg, #1F1F1F 0%, #242424 50%, #1F1F1F 100%) no-repeat center',
   },
   light: {
-    solid: '#F8F9FA',
+    solid: '#C8CED8',
     background:
-      '#F8F9FA radial-gradient(circle at 22% 48%, #FBFCFC 0%, #F3F4F6 36%, #EEF0F2 70%, #E4E6EA 100%)',
-    menu: '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',
+      '#C8CED8 radial-gradient(ellipse at 25% 40%, #D6DCE6 0%, #CAD0DA 36%, #BFC6D0 68%, #B5BCC7 100%)',
+    menu: '#D0D6E0 radial-gradient(circle at center, #DCE2EC 0%, #D2D8E2 30%, #C8CED8 70%, #BFCAD4 100%)',
     radial:
-      '#FFFFFF radial-gradient(circle at center, #FFFFFF 0%, #F0F0F0 30%, #E8E8E8 70%, #E0E0E0 100%)',
-    vignette: 'radial-gradient(circle at center, transparent 0%, #F0F0F0 100%)',
+      '#D0D6E0 radial-gradient(circle at center, #DCE2EC 0%, #D2D8E2 30%, #C8CED8 70%, #BFCAD4 100%)',
+    vignette: 'radial-gradient(circle at center, transparent 0%, #B5BCC7 100%)',
     linear:
-      'linear-gradient(90deg, #F8F8F8 0%, #FFFFFF 50%, #F8F8F8 100%) no-repeat center',
+      'linear-gradient(90deg, #C8CED8 0%, #D6DCE6 50%, #C8CED8 100%) no-repeat center',
   },
   components: {
     card: {

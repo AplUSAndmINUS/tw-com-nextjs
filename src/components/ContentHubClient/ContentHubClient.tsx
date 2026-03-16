@@ -131,7 +131,9 @@ export function ContentHubClient() {
               borderRadius: theme.borderRadius.container.medium,
               border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
               backgroundColor: cardSurfaceColor,
-              backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+              backgroundImage: isLightFamilyMode
+                ? `linear-gradient(160deg, ${accentColor}30 0%, transparent 52%)`
+                : `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
               padding: theme.spacing.m,
               height: '100%',
               display: 'flex',
@@ -191,7 +193,7 @@ export function ContentHubClient() {
             <div
               style={{
                 display: 'flex',
-                gap: theme.spacing.m,
+                gap: theme.spacing.s,
                 marginBottom: theme.spacing.m,
                 alignItems: 'center',
               }}
@@ -201,20 +203,24 @@ export function ContentHubClient() {
                   flexShrink: 0,
                   width: '3rem',
                   height: '3rem',
-                  borderRadius: theme.borderRadius.container.small,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: theme.semanticColors.selection.background,
                   color: theme.semanticColors.selection.text,
-                  border: `1px solid ${theme.semanticColors.border.default}`,
                 }}
               >
                 {IconComponent && (
                   <FluentIcon
                     iconName={IconComponent}
                     variant='primary'
-                    style={{ width: '1.5rem', height: '1.5rem' }}
+                    style={{
+                      fontSize: '2.5rem',
+                      color: accentColor,
+                      flexShrink: 0,
+                      paddingRight: '0.25rem',
+                      width: '48px',
+                      height: '48px',
+                    }}
                   />
                 )}
               </div>

@@ -10,38 +10,60 @@ interface AboutSectionWrapperProps {
 
 /**
  * AboutSectionWrapper - Client wrapper for About page sections
- * Applies theme-aware semi-transparent backgrounds that respect reducedTransparency setting
+ * Applies theme-aware backgrounds using brand palette tokens.
+ * Respects reducedTransparency preference for semi-transparent dark surfaces.
  */
 export function AboutSectionWrapper({
   children,
   variant = 'default',
   className = '',
 }: AboutSectionWrapperProps) {
-  const { reducedTransparency } = useAppTheme();
+  const { theme, themeMode, reducedTransparency } = useAppTheme();
 
-  // Map variants to opaque and semi-transparent backgrounds
-  const backgrounds = {
+  const isLightFamilyMode =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const accent = theme.palette.themePrimary;
+
+  const styles: Record<
+    'default' | 'subtle' | 'strong' | 'skills',
+    React.CSSProperties
+  > = {
     default: {
-      opaque: 'bg-gray-300 dark:bg-black/90',
-      transparent: 'bg-gray-300/60 dark:bg-black/20',
+      backgroundColor: isLightFamilyMode
+        ? theme.semanticColors.background.elevated
+        : reducedTransparency
+          ? theme.semanticColors.background.elevated
+          : 'rgba(0, 0, 0, 0.2)',
+      borderLeft: `4px solid ${accent}`,
     },
     subtle: {
-      opaque: 'bg-gray-400 dark:bg-black/90',
-      transparent: 'bg-gray-400/30 dark:bg-black/20',
+      backgroundColor: isLightFamilyMode
+        ? theme.semanticColors.background.muted
+        : reducedTransparency
+          ? theme.semanticColors.background.muted
+          : 'rgba(0, 0, 0, 0.1)',
+      borderLeft: `2px solid ${accent}60`,
     },
     strong: {
-      opaque: 'bg-gray-100 dark:bg-gray-900',
-      transparent: 'bg-gray-100/70 dark:bg-gray-900/60',
+      backgroundColor: isLightFamilyMode
+        ? theme.semanticColors.background.base
+        : theme.semanticColors.background.elevated,
+      boxShadow: theme.shadows.card,
     },
     skills: {
-      opaque: 'bg-blue-200 dark:bg-blue-900',
-      transparent: 'bg-blue-200/50 dark:bg-blue-900/30',
-    }
+      backgroundColor: isLightFamilyMode ? `${accent}14` : `${accent}22`,
+      borderLeft: `4px solid ${accent}`,
+    },
   };
 
-  const bgClasses = reducedTransparency
-    ? backgrounds[variant].opaque
-    : backgrounds[variant].transparent;
-
-  return <section className={`${bgClasses} ${className}`}>{children}</section>;
+  return (
+    <section className={className} style={styles[variant]}>
+      {children}
+    </section>
+  );
 }

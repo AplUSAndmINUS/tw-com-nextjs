@@ -129,7 +129,9 @@ export function ServicesClient() {
                   borderRadius: theme.borderRadius.container.medium,
                   border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
                   backgroundColor: cardSurfaceColor,
-                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                  backgroundImage: isLightFamilyMode
+                    ? `linear-gradient(160deg, ${accentColor}30 0%, transparent 52%)`
+                    : `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
                   padding: theme.spacing.m,
                   height: '100%',
                   display: 'flex',

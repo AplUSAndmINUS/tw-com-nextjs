@@ -209,7 +209,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Skills</SectionHeading>
           <AboutSkillsTable />
         </AboutSectionWrapper>

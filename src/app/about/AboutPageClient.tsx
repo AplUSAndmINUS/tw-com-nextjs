@@ -69,7 +69,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
             className={
               useStackedLayout
                 ? 'w-full max-w-xs aspect-square px-4 flex items-center justify-center'
-                : 'w-full max-w-xs aspect-square md:max-w-md md:aspect-auto px-4 md:px-0 md:overflow-hidden flex items-center justify-center'
+                : 'w-full max-w-xs aspect-square md:max-w-md md:aspect-auto px-4 md:px-0 md:overflow-hidden flex items-center justify-center pt-1'
             }
           >
             <TeamMemberCard member={teamMember} maxWidth='320px' />
