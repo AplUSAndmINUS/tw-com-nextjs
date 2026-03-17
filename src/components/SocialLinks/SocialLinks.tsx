@@ -32,7 +32,13 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       flexDirection: 'row' as const,
       alignItems: 'center',
       justifyContent: isAuthorTagline ? 'flex-start' : 'space-between',
-      gap: isCompactFooterTablet ? '0.125rem' : isFooter ? '0.5rem' : '1rem',
+      gap: isCompactFooterTablet
+        ? '0.125rem'
+        : isFooter
+          ? isAuthorTagline
+            ? '1rem'
+            : '0.5rem'
+          : '1rem',
       padding: isFooter
         ? '0'
         : isAuthorTagline
@@ -76,7 +82,11 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
             >
               <FluentIcon
                 iconName={item.iconName}
-                color={isFooter ? theme.palette.neutralPrimary : theme.colorBrandForeground1}
+                color={
+                  isFooter
+                    ? theme.palette.neutralPrimary
+                    : theme.colorBrandForeground1
+                }
                 style={{
                   transform: `scale(${isSocialHovered(item.url) ? 1.15 : 1})`,
                   transition: 'transform 0.3s ease-in-out',
@@ -96,7 +106,9 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                   fontSize: theme.typography.fontSizes.md,
                   letterSpacing: theme.typography.letterSpacing.tight,
                   fontWeight: theme.typography.fontWeights.semiBold,
-                  color: isFooter ? theme.palette.neutralPrimary : theme.colorBrandForeground1,
+                  color: isFooter
+                    ? theme.palette.neutralPrimary
+                    : theme.colorBrandForeground1,
                   marginTop: '0.25rem',
                   backgroundColor:
                     theme.themeMode === 'high-contrast'
