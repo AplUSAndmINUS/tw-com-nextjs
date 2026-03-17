@@ -43,7 +43,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
     color: isHovered
       ? theme.semanticColors.link.hover
       : isFooter
-        ? theme.semanticColors.link.footer
+        ? theme.colorNeutralForeground2
         : theme.semanticColors.link.default,
     textDecoration: shouldUnderline ? 'underline' : 'none',
     transition: `color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,

@@ -67,7 +67,7 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
             {...animationProps}
             onMouseLeave={() => setIsFooterVisible(false)}
             id='footer-content'
-            className={`fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t ${reducedTransparency ? 'bg-slate-100 dark:bg-slate-800' : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80'} border-gray-200 dark:border-gray-700 shadow-2xl`}
+            className={`fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t shadow-2xl`}
             role='contentinfo'
           >
             <FooterContent isCompact={false} />

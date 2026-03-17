@@ -40,19 +40,16 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
   const footerBg = isLightFamily
     ? reducedTransparency
       ? theme.semanticColors.background.muted
-      : 'rgba(248, 248, 248, 0.78)'
+      : 'rgba(255, 255, 255, 0.35)'
     : reducedTransparency
       ? theme.semanticColors.background.elevated
-      : 'rgba(18, 18, 18, 0.85)';
+      : 'rgba(10, 10, 10, 0.45)';
 
   const footerBackdropFilter = reducedTransparency
     ? 'none'
-    : 'blur(20px) saturate(200%)';
+    : 'blur(24px) saturate(180%)';
 
-  const footerGradient =
-    isLightFamily && !reducedTransparency
-      ? `linear-gradient(160deg, ${accentColor}18 0%, transparent 48%)`
-      : 'none';
+  const footerGradient = 'none';
 
   const { animationProps } = useSlideInOut({
     direction: 'up',
