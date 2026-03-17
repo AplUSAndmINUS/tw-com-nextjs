@@ -40,16 +40,16 @@ const KOFI_WIDGET_OPTIONS: Record<string, string> = {
 /** Pages on which the Ko-Fi widget should not be shown */
 const EXCLUDED_PATHS = [
   '/',
-  '/blog/',
-  '/case-studies/',
-  '/contact/',
-  '/portfolio/',
-  '/services/',
+  '/blog',
+  '/case-studies',
+  '/contact',
+  '/portfolio',
+  '/services',
   '/services/consulting',
-  '/services/design/',
-  '/services/development/',
-  '/services/resonance-core/',
-  '/services/personal-training/',
+  '/services/design',
+  '/services/development',
+  '/services/resonance-core',
+  '/services/personal-training',
 ];
 
 /**
