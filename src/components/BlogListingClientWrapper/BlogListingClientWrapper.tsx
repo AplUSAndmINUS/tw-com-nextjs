@@ -144,7 +144,7 @@ export function BlogListingClientWrapper({
   return (
     <ContentListingPage
       title='Blog'
-      iconName='DocumentText24Regular'
+      iconName='PenRegular'
       description='Insights, best practices, and thoughts on technology, design, and human experience. Explore articles on software development, creativity, wellness, and personal growth.'
       basePath='/blog'
       cards={cards}
@@ -164,6 +164,7 @@ export function BlogListingClientWrapper({
       emptyStateMessage='Try adjusting your filters to see more posts.'
       backArrow={true}
       backArrowPath='/content-hub'
+      emailNewsletterSignup={true}
     />
   );
 }

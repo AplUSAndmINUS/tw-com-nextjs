@@ -10,12 +10,12 @@ import { ConsultationCTA } from './ConsultationCTA';
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Explore service offerings across design, development, consulting, and Resonance Core coaching.',
+    'Explore service offerings across design, development, consulting, personal training, and Resonance Core coaching.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Services | Terence Waters',
     description:
-      'Explore service offerings across design, development, consulting, and Resonance Core coaching.',
+      'Explore service offerings across design, development, consulting, personal training, and Resonance Core coaching.',
     url: 'https://terencewaters.com/services',
     siteName: 'Terence Waters',
     type: 'website',
@@ -36,7 +36,7 @@ export default function ServicesPage() {
         <Hero
           title='Services'
           iconName='Settings24Regular'
-          description='Explore four focused service tracks designed to help you build better products, stronger systems, and clearer direction.'
+          description='Explore five focused service tracks designed to help you build better products, stronger systems, and clearer direction.'
         />
 
         <div className='mt-8'>

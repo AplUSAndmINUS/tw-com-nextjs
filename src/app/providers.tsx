@@ -6,8 +6,11 @@ import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
+import { NewsletterDrawerWrapper } from '@/components/NewsletterDrawer';
+import { useAccessControl } from '@/hooks';
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const { authRequired, isAuthenticated } = useAccessControl();
   return (
     <ExtendedThemeProvider>
       <StoreHydrator />
@@ -25,6 +28,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {/* Page content (includes main with PageTransition from RootLayout) */}
           {children}
         </AccessGate>
+        {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
+        {(!authRequired || !isAuthenticated) && <NewsletterDrawerWrapper />}
       </FontScaleProvider>
     </ExtendedThemeProvider>
   );

@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 import { useAccessControlStore } from '@/store/accessControlStore';
+import { useNewsletterStore } from '@/store/newsletterStore';
 
 /**
  * StoreHydrator
@@ -15,6 +16,7 @@ export function StoreHydrator() {
     // Rehydrate persisted stores once on app mount
     useUserPreferencesStore.persist.rehydrate();
     useAccessControlStore.persist.rehydrate();
+    useNewsletterStore.persist.rehydrate();
   }, []);
 
   // This component renders nothing—it only manages side effects

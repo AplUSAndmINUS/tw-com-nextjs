@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface HomePageLayoutProps {
   children: ReactNode;
@@ -29,6 +30,9 @@ export function HomePageLayout({
   children,
   featureImage,
 }: HomePageLayoutProps) {
+  const { layoutPreference } = useAppTheme();
+  const isLeftHanded = layoutPreference === 'left-handed';
+
   return (
     <SiteLayout isContainedView>
       {/* Mobile: normal scrolling | Desktop: contained viewport */}
@@ -66,9 +70,16 @@ export function HomePageLayout({
         ) : (
           /* No feature image - single column with footer */
           /* Background image automatically switches portrait/landscape via CSS media query */
-          <div className='flex-1 w-full flex flex-col lg:overflow-y-auto homepage-background'>
+          <div className='relative flex-1 w-full flex flex-col lg:overflow-y-auto'>
+            {/* Background layer — mirrored horizontally in left-handed mode */}
             <div
-              className='flex-1 w-full px-4 sm:px-6 lg:px-8 md:py-8'
+              className='absolute inset-0 homepage-background'
+              style={isLeftHanded ? { transform: 'scaleX(-1)' } : undefined}
+              aria-hidden='true'
+            />
+            {/* Content layer */}
+            <div
+              className='relative flex-1 w-full px-4 sm:px-6 lg:px-8 md:py-8'
               style={{ maxWidth: '1920px', margin: '0 auto' }}
             >
               {children}

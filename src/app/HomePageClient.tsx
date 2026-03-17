@@ -11,11 +11,19 @@ import {
   useIsMobileLandscape,
   useIsTablet,
   useIsTabletLandscape,
+  useDeviceOrientation,
 } from '@/hooks/useMediaQuery';
 import type { ThemeMode } from '@/theme/fluentTheme';
 
 export default function HomePageClient() {
-  const { theme, themeMode, setThemeMode, reducedTransparency } = useAppTheme();
+  const {
+    theme,
+    themeMode,
+    setThemeMode,
+    reducedTransparency,
+    layoutPreference,
+  } = useAppTheme();
+  const isLeftHanded = layoutPreference === 'left-handed';
   const [animationStage, setAnimationStage] = useState(0);
 
   // Capture the original theme on component initialization to restore on unmount
@@ -25,6 +33,8 @@ export default function HomePageClient() {
   const isMobileLandscape = useIsMobileLandscape();
   const isTablet = useIsTablet();
   const isTabletLandscape = useIsTabletLandscape();
+  const orientation = useDeviceOrientation();
+  const isLargePortrait = orientation === 'large-portrait';
 
   // Force dark mode on homepage
   useEffect(() => {
@@ -72,10 +82,12 @@ export default function HomePageClient() {
 
   return (
     <PageLayout isHomePage>
-      <section className='flex flex-col items-start justify-end lg:justify-center h-full sm:px-4 md:px-6 lg:px-12'>
+      <section
+        className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} ${isLargePortrait ? 'justify-end' : 'justify-end lg:justify-center'} h-full sm:px-4 md:px-6 lg:px-12`}
+      >
         {/* Translucent card container around text */}
         <div
-          className={`text-left lg:text-left rounded-2xl ${reducedTransparency ? '' : 'backdrop-blur-sm'} ${
+          className={`text-left rounded-2xl ${reducedTransparency ? '' : 'backdrop-blur-sm'} ${
             isMobile
               ? 'w-full space-y-1 p-4'
               : isMobileLandscape
@@ -83,8 +95,12 @@ export default function HomePageClient() {
                 : isTabletLandscape
                   ? 'w-3/4 space-y-4 p-6'
                   : isTablet
-                    ? 'w-3/4 space-y-6 p-8'
-                    : 'w-full max-w-2xl space-y-8 p-10'
+                    ? isLeftHanded
+                      ? 'w-1/2 space-y-6 p-8'
+                      : 'w-3/4 space-y-6 p-8'
+                    : isLeftHanded
+                      ? 'w-1/2 space-y-8 p-10'
+                      : 'w-full max-w-2xl space-y-8 p-10'
           }`}
           style={{
             backgroundColor: reducedTransparency

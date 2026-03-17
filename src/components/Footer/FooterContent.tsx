@@ -1,10 +1,15 @@
 'use client';
 
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
-import { useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsTablet, useDeviceOrientation } from '@/hooks/useMediaQuery';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useNewsletterStore } from '@/store/newsletterStore';
+import { getApiBaseUrl } from '@/lib/environment';
+import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 
 const footerLinks = {
   content: [
@@ -30,7 +35,9 @@ interface FooterLinkSectionProps {
   title: string;
   links: Array<{ href: string; label: string }>;
   isCompact: boolean;
+  isAuthorTagline?: boolean;
   className?: string;
+  children?: React.ReactNode;
 }
 
 /**
@@ -40,7 +47,9 @@ function FooterLinkSection({
   title,
   links,
   isCompact,
+  isAuthorTagline = false,
   className = '',
+  children,
 }: FooterLinkSectionProps) {
   return (
     <div
@@ -57,7 +66,7 @@ function FooterLinkSection({
         {title}
       </Typography>
       {title === 'Social' ? (
-        <SocialLinks isFooter />
+        <SocialLinks isFooter isAuthorTagline={isAuthorTagline} />
       ) : (
         <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
           {links.map(({ href, label }) => (
@@ -69,6 +78,201 @@ function FooterLinkSection({
           ))}
         </ul>
       )}
+      {children}
+    </div>
+  );
+}
+
+/**
+ * FooterNewsletterMini — Compact newsletter signup for tablet/desktop footer
+ * Hidden on mobile via `hidden md:block`.
+ */
+function FooterNewsletterMini() {
+  const { theme } = useAppTheme();
+  const { newsletterSubscribed, setNewsletterSubscribed } =
+    useNewsletterStore();
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+
+  // Auto-reset the success confirmation after 5 seconds so the form returns to input state
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => setIsSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      const trimmed = email.trim();
+      if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+        setError('A valid email is required');
+        return;
+      }
+      if (!canSubmit) {
+        setError(`Submission limit reached. Try again in ${timeUntilReset}.`);
+        return;
+      }
+      setError(null);
+      recordSubmit();
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${getApiBaseUrl()}/api/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: trimmed.toLowerCase() }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          setError(data.error || 'Failed to subscribe');
+          return;
+        }
+        setIsSuccess(true);
+        setNewsletterSubscribed(true);
+      } catch {
+        setError('Something went wrong. Try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
+  );
+
+  // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
+  if (isSuccess || newsletterSubscribed) {
+    return (
+      <div
+        className='hidden md:block mt-3 pt-3'
+        style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
+      >
+        <Typography
+          variant='caption'
+          style={{
+            color: theme.colorBrandForeground1,
+            fontSize: '0.75rem',
+            fontWeight: 600,
+          }}
+        >
+          ✓ You&apos;re subscribed!
+        </Typography>
+        <Typography
+          variant='caption'
+          style={{
+            color: theme.semanticColors.text.muted,
+            fontSize: '0.7rem',
+            marginTop: '0.25rem',
+            display: 'block',
+          }}
+        >
+          <Link
+            href='/unsubscribe'
+            style={{
+              color: theme.colorBrandForeground1,
+              textDecoration: 'underline',
+            }}
+          >
+            Unsubscribe
+          </Link>
+        </Typography>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className='hidden md:block mt-3 pt-3'
+      style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
+    >
+      <Typography
+        variant='h5'
+        className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
+        style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}
+      >
+        Newsletter
+      </Typography>
+      <form onSubmit={handleSubmit} noValidate>
+        <div
+          style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}
+        >
+          <input
+            type='email'
+            placeholder='your@email.com'
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError(null);
+            }}
+            maxLength={254}
+            aria-label='Newsletter email address'
+            className='outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-700 dark:focus-visible:ring-blue-400'
+            style={{
+              width: '100%',
+              padding: '0.3rem 0.5rem',
+              fontSize: '0.75rem',
+              borderRadius: theme.borderRadius.container.small,
+              border: `1px solid ${
+                error
+                  ? theme.colorPaletteRedForeground1
+                  : theme.semanticColors.border.default
+              }`,
+              backgroundColor: theme.semanticColors.background.base,
+              color: theme.semanticColors.text.primary,
+            }}
+          />
+          {error && (
+            <Typography
+              variant='caption'
+              style={{
+                color: theme.colorPaletteRedForeground1,
+                fontSize: '0.7rem',
+              }}
+            >
+              {error}
+            </Typography>
+          )}
+          <button
+            type='submit'
+            disabled={isLoading || !canSubmit}
+            style={{
+              padding: '0.3rem 0.625rem',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              borderRadius: theme.borderRadius.container.small,
+              backgroundColor: theme.colorBrandBackground,
+              color: theme.colorNeutralForegroundOnBrand,
+              border: 'none',
+              cursor: isLoading || !canSubmit ? 'not-allowed' : 'pointer',
+              opacity: isLoading || !canSubmit ? 0.7 : 1,
+              transition: 'opacity 0.2s',
+              fontFamily: theme.typography.fonts.body.fontFamily,
+            }}
+          >
+            {isLoading ? 'Subscribing…' : 'Subscribe'}
+          </button>
+          <Typography
+            variant='caption'
+            style={{
+              color: theme.semanticColors.text.muted,
+              fontSize: '0.7rem',
+              marginTop: '0.125rem',
+            }}
+          >
+            <Link
+              href='/unsubscribe'
+              style={{
+                color: theme.semanticColors.text.muted,
+                textDecoration: 'underline',
+              }}
+            >
+              Unsubscribe
+            </Link>
+          </Typography>
+        </div>
+      </form>
     </div>
   );
 }
@@ -89,6 +293,8 @@ export function FooterContent({
 }: FooterContentProps) {
   const year = new Date().getFullYear();
   const isTablet = useIsTablet();
+  const orientation = useDeviceOrientation();
+  const isLargePortrait = orientation === 'large-portrait';
 
   return (
     <>
@@ -100,7 +306,7 @@ export function FooterContent({
         style={{ margin: '0 auto' }}
       >
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
+          className={`grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
         >
           {/* Brand */}
           <div>
@@ -129,12 +335,14 @@ export function FooterContent({
           </div>
 
           {/* Link sections */}
-          <FooterLinkSection
-            title='Content'
-            links={footerLinks.content}
-            isCompact={isCompact}
-            className='hidden md:flex'
-          />
+          {!isLargePortrait && (
+            <FooterLinkSection
+              title='Content'
+              links={footerLinks.content}
+              isCompact={isCompact}
+              className='hidden md:flex'
+            />
+          )}
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}
@@ -152,7 +360,10 @@ export function FooterContent({
             title='Social'
             links={[]} // Empty array since SocialLinks component handles rendering
             isCompact={true}
-          />
+            isAuthorTagline={isLargePortrait}
+          >
+            <FooterNewsletterMini />
+          </FooterLinkSection>
         </div>
 
         {/* Bottom bar */}

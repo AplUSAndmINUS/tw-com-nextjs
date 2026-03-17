@@ -325,7 +325,7 @@ export function VideoListingClientWrapper() {
       {/* Page Header */}
       <Hero
         title='Videos'
-        iconName='Video24Regular'
+        iconName='VideoClipRegular'
         description='Watch videos from the @aplusinflux YouTube channel — tutorials, live streams, playlists, and more.'
         backArrow
         backArrowPath='/content-hub'

@@ -1,307 +1,129 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { ContentItem } from '@/content/types';
-import { ViewType } from '@/store';
-import { GridView, LargeView, SmallView } from '@/components/ContentViews';
-import { Select, SelectOption } from '@/components/Form';
+import { motion } from 'framer-motion';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { type FluentIconName } from '@/utils/iconResolver';
+import { BaseCard } from '../BaseCard';
 
-interface ContentHubClientProps {
-  allContent: ContentItem[];
-}
+const contentCategories: {
+  title: string;
+  description: string;
+  icon: FluentIconName;
+  href: string;
+  cta: string;
+  disabled: boolean;
+}[] = [
+  {
+    title: 'Blog',
+    description:
+      'Long-form articles on technology, creativity, and the human experience.',
+    icon: 'PenRegular',
+    href: '/blog',
+    cta: 'Read Articles',
+    disabled: false,
+  },
+  {
+    title: 'Portfolio',
+    description: 'Selected creative work and technical projects.',
+    icon: 'DesignIdeasFilled',
+    href: '/portfolio',
+    cta: 'View Work',
+    disabled: false,
+  },
+  {
+    title: 'Case Studies',
+    description:
+      "Deep dives into specific projects — what worked, what didn't, and what I learned.",
+    icon: 'BookRegular',
+    href: '/case-studies',
+    cta: 'Read Case Studies',
+    disabled: false,
+  },
+  {
+    title: 'GitHub',
+    description:
+      'Open source projects, code samples, and technical experiments.',
+    icon: 'CodeFilled',
+    href: '/github/',
+    cta: 'Explore Code',
+    disabled: false,
+  },
+  {
+    title: 'Videos',
+    description:
+      "In-depth videos, tutorials, and behind-the-scenes looks at what I'm building.",
+    icon: 'VideoClipRegular',
+    href: '/videos',
+    cta: 'Watch Videos',
+    disabled: false,
+  },
+  {
+    title: 'Podcasts',
+    description:
+      'Audio conversations with creators, technologists, and thinkers.',
+    icon: 'MicRegular',
+    href: '/podcasts',
+    cta: 'Listen Now',
+    disabled: true,
+  },
+];
 
-type SortOption = 'date-desc' | 'date-asc' | 'title';
+export function ContentHubClient() {
+  const { theme } = useAppTheme();
 
-export function ContentHubClient({ allContent }: ContentHubClientProps) {
-  // View type state (persisted in localStorage)
-  const [viewType, setViewType] = useState<ViewType>('grid');
-
-  // Filter states
-  const [selectedType, setSelectedType] = useState<string>('all');
-  const [selectedTag, setSelectedTag] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
-  const [dateFrom, setDateFrom] = useState<string>('');
-  const [dateTo, setDateTo] = useState<string>('');
-
-  // Load view preference from localStorage on mount
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    try {
-      const savedView = localStorage.getItem(
-        'contentHubView'
-      ) as ViewType | null;
-      if (savedView && ['grid', 'large', 'small'].includes(savedView)) {
-        setViewType(savedView);
-      }
-    } catch (error) {
-      // Silently fail if localStorage is not available, use default 'grid' view
-    }
-  }, []);
-
-  // Save view preference to localStorage
-  const handleViewChange = (view: ViewType) => {
-    setViewType(view);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('contentHubView', view);
-      } catch (error) {
-        // Silently fail if localStorage is not available
-      }
-    }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
   };
 
-  // Get unique content types
-  const contentTypes = useMemo(() => {
-    const types = new Set(
-      allContent
-        .map((item) => item.type)
-        .filter((type) => type !== undefined) as string[]
-    );
-    return ['all', ...Array.from(types).sort()];
-  }, [allContent]);
-
-  // Get unique tags
-  const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    allContent.forEach((item) => {
-      item.tags?.forEach((tag) => tags.add(tag));
-    });
-    return ['all', ...Array.from(tags).sort()];
-  }, [allContent]);
-
-  // Filter and sort content
-  const filteredContent = useMemo(() => {
-    let result = [...allContent];
-
-    // Filter by type
-    if (selectedType !== 'all') {
-      result = result.filter((item) => item.type === selectedType);
-    }
-
-    // Filter by tag
-    if (selectedTag !== 'all') {
-      result = result.filter((item) => item.tags?.includes(selectedTag));
-    }
-
-    // Filter by date range
-    if (dateFrom) {
-      result = result.filter((item) => item.date >= dateFrom);
-    }
-    if (dateTo) {
-      result = result.filter((item) => item.date <= dateTo);
-    }
-
-    // Sort
-    result.sort((a, b) => {
-      switch (sortBy) {
-        case 'date-desc':
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        case 'date-asc':
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
-        case 'title':
-          return a.title.localeCompare(b.title);
-        default:
-          return 0;
-      }
-    });
-
-    return result;
-  }, [allContent, selectedType, selectedTag, sortBy, dateFrom, dateTo]);
-
-  const hasDateFilter = dateFrom || dateTo;
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
-    <div className='space-y-6'>
-      {/* Controls Bar */}
-      <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4'>
-        <div className='flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between'>
-          {/* Left side: Filters */}
-          <div className='flex flex-wrap gap-3 items-center'>
-            {/* Content Type Filter */}
-            <div style={{ minWidth: '200px' }}>
-              <Select
-                label='Type'
-                size='small'
-                options={contentTypes.map(
-                  (type): SelectOption => ({
-                    value: type,
-                    label:
-                      type === 'all'
-                        ? 'All Types'
-                        : (type?.charAt(0).toUpperCase() ?? '') +
-                          (type?.slice(1) ?? ''),
-                  })
-                )}
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-              />
-            </div>
+    <motion.div
+      variants={containerVariants}
+      initial='hidden'
+      animate='visible'
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gap: theme.spacing.l,
+        width: '100%',
+      }}
+    >
+      {contentCategories.map((category) => {
+        const isDisabled = category.disabled;
 
-            {/* Tag Filter */}
-            <div style={{ minWidth: '200px' }}>
-              <Select
-                label='Tag'
-                size='small'
-                options={allTags.slice(0, 20).map(
-                  (tag): SelectOption => ({
-                    value: tag,
-                    label: tag === 'all' ? 'All Tags' : tag,
-                  })
-                )}
-                value={selectedTag}
-                onChange={(e) => setSelectedTag(e.target.value)}
-              />
-            </div>
-
-            {/* Sort */}
-            <div style={{ minWidth: '180px' }}>
-              <Select
-                label='Sort'
-                size='small'
-                options={[
-                  { value: 'date-desc', label: 'Newest First' },
-                  { value: 'date-asc', label: 'Oldest First' },
-                  { value: 'title', label: 'Title A-Z' },
-                ]}
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-              />
-            </div>
-          </div>
-
-          {/* Right side: View Toggle */}
-          <div className='flex items-center gap-2'>
-            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
-              View:
-            </span>
-            <div className='inline-flex rounded-lg border border-gray-300 dark:border-gray-700 p-1 bg-gray-50 dark:bg-gray-800'>
-              <button
-                onClick={() => handleViewChange('grid')}
-                className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-                  viewType === 'grid'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-                aria-label='Grid view'
-                title='Grid view'
-              >
-                <svg
-                  className='w-4 h-4'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path d='M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' />
-                </svg>
-              </button>
-              <button
-                onClick={() => handleViewChange('large')}
-                className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-                  viewType === 'large'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-                aria-label='Large tile view'
-                title='Large tile view'
-              >
-                <svg
-                  className='w-4 h-4'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path d='M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z' />
-                </svg>
-              </button>
-              <button
-                onClick={() => handleViewChange('small')}
-                className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-                  viewType === 'small'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-                aria-label='Small tile view'
-                title='Small tile view'
-              >
-                <svg
-                  className='w-4 h-4'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Date Range Filter */}
-        <div className='mt-3 pt-3 border-t border-gray-200 dark:border-gray-800 flex flex-wrap gap-3 items-center'>
-          <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
-            Date range:
-          </span>
-          <div className='flex items-center gap-2'>
-            <label
-              htmlFor='date-from'
-              className='text-xs text-gray-500 dark:text-gray-400'
-            >
-              From
-            </label>
-            <input
-              id='date-from'
-              type='date'
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className='px-2 py-1 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+        return (
+          <motion.div
+            key={category.title}
+            variants={itemVariants}
+            initial='hidden'
+            animate='visible'
+          >
+            <BaseCard
+              title={category.title}
+              href={category.href}
+              subheading=''
+              body={category.description}
+              label={category.cta}
+              icon={category.icon}
+              hoverable={!isDisabled}
+              disabled={isDisabled}
+              className='relative overflow-hidden rounded-xl border p-4'
+              badge={isDisabled ? 'Coming Soon' : undefined}
+              ariaLabel={`${category.title} - ${category.description} - ${isDisabled ? 'Coming Soon' : category.cta}`}
             />
-          </div>
-          <div className='flex items-center gap-2'>
-            <label
-              htmlFor='date-to'
-              className='text-xs text-gray-500 dark:text-gray-400'
-            >
-              To
-            </label>
-            <input
-              id='date-to'
-              type='date'
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className='px-2 py-1 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none'
-            />
-          </div>
-          {hasDateFilter && (
-            <button
-              onClick={() => {
-                setDateFrom('');
-                setDateTo('');
-              }}
-              className='text-xs text-blue-600 dark:text-blue-400 hover:underline'
-            >
-              Clear dates
-            </button>
-          )}
-        </div>
-
-        {/* Results count */}
-        <div className='mt-3 pt-3 border-t border-gray-200 dark:border-gray-800'>
-          <p className='text-sm text-gray-600 dark:text-gray-400'>
-            Showing{' '}
-            <span className='font-semibold'>{filteredContent.length}</span> of{' '}
-            <span className='font-semibold'>{allContent.length}</span> items
-          </p>
-        </div>
-      </div>
-
-      {/* Content Display */}
-      <div>
-        {viewType === 'grid' && <GridView items={filteredContent} />}
-        {viewType === 'large' && <LargeView items={filteredContent} />}
-        {viewType === 'small' && <SmallView items={filteredContent} />}
-      </div>
-    </div>
+          </motion.div>
+        );
+      })}
+    </motion.div>
   );
 }

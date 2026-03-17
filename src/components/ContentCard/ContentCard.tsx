@@ -1,8 +1,11 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ContentItem } from '@/content/types';
 import { ViewType } from '@/store';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface ContentCardProps {
   item: ContentItem;
@@ -37,8 +40,15 @@ function GridCard({
   href: string;
   contentType?: string;
 }) {
+  const { theme } = useAppTheme();
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <Link href={href} className='group block'>
+    <Link
+      href={href}
+      className='group block'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
         {item.imageUrl && (
           <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
@@ -53,11 +63,19 @@ function GridCard({
         )}
         <div className='p-5 flex flex-col flex-1'>
           {(item.category || contentType) && (
-            <span className='text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1'>
+            <span
+              className='text-xs font-semibold uppercase tracking-wide mb-1'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               {item.category ?? contentType}
             </span>
           )}
-          <h2 className='text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2'>
+          <h2
+            className='text-lg font-semibold transition-colors line-clamp-2'
+            style={{
+              color: isHovered ? theme.semanticColors.link.default : undefined,
+            }}
+          >
             {item.title}
           </h2>
           {item.excerpt && (
@@ -98,8 +116,15 @@ function LargeCard({
   href: string;
   contentType?: string;
 }) {
+  const { theme } = useAppTheme();
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <Link href={href} className='group block'>
+    <Link
+      href={href}
+      className='group block'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <article className='flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700 py-8'>
         {item.imageUrl && (
           <div className='relative flex-shrink-0 w-full md:w-64 aspect-video md:aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800'>
@@ -114,11 +139,19 @@ function LargeCard({
         )}
         <div className='flex flex-col justify-center flex-1'>
           {(item.category || contentType) && (
-            <span className='text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1'>
+            <span
+              className='text-xs font-semibold uppercase tracking-wide mb-1'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               {item.category ?? contentType}
             </span>
           )}
-          <h2 className='text-2xl font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+          <h2
+            className='text-2xl font-bold transition-colors'
+            style={{
+              color: isHovered ? theme.semanticColors.link.default : undefined,
+            }}
+          >
             {item.title}
           </h2>
           {item.excerpt && (
@@ -151,8 +184,15 @@ function LargeCard({
 // ─── Small Card ───────────────────────────────────────────────────────────────
 
 function SmallCard({ item, href }: { item: ContentItem; href: string }) {
+  const { theme } = useAppTheme();
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <Link href={href} className='group block'>
+    <Link
+      href={href}
+      className='group block'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
         {item.imageUrl && (
           <div className='relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800'>
@@ -166,7 +206,12 @@ function SmallCard({ item, href }: { item: ContentItem; href: string }) {
           </div>
         )}
         <div className='flex-1 min-w-0'>
-          <h3 className='text-sm font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2'>
+          <h3
+            className='text-sm font-semibold transition-colors line-clamp-2'
+            style={{
+              color: isHovered ? theme.semanticColors.link.default : undefined,
+            }}
+          >
             {item.title}
           </h3>
           <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>

@@ -3,19 +3,19 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography/Typography';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface PercentageBulletProps {
-  isMobile?: boolean;
   name: string;
   percentage: number;
 }
 
 export const PercentageBullet: React.FC<PercentageBulletProps> = ({
-  isMobile = false,
   name,
   percentage,
 }) => {
   const { theme } = useAppTheme();
+  const isMobile = useIsMobile();
   const circumference = 2 * Math.PI * 92; // Must match SVG r='92'
   const [animatedPercentage, setAnimatedPercentage] = React.useState(0);
   const animationRef = React.useRef<number | null>(null);
@@ -24,9 +24,12 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
 
   const getCircleColor = () => {
     if (percentage >= 98) return theme.palette.themePrimary;
-    if (percentage < 70) return theme.palette.redDark;
-    if (percentage >= 70 && percentage <= 90) return theme.palette.themeDarkAlt;
-    return theme.palette.themePrimary;
+    if (percentage >= 93 && percentage < 98)
+      return theme.semanticColors.accent.teal;
+    if (percentage < 70) return theme.semanticColors.accent.yellowSubtle;
+    if (percentage >= 70 && percentage <= 92)
+      return theme.semanticColors.accent.yellow;
+    return theme.semanticColors.accent.teal;
   };
 
   const containerStyle: React.CSSProperties = {
@@ -117,7 +120,7 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
             />
           </svg>
           <Typography
-            variant='h3'
+            variant={isMobile ? 'h2' : 'h3'}
             style={{
               position: 'absolute',
               top: '50%',
@@ -133,9 +136,13 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
         </div>
         <Typography
           variant='label'
-          style={{ textAlign: 'center', lineHeight: '1.3', marginTop: '0.35rem' }}
+          style={{
+            textAlign: 'center',
+            lineHeight: '1.3',
+            marginTop: '0.35rem',
+          }}
         >
-          {name}
+          <strong>{name}</strong>
         </Typography>
       </div>
     </div>

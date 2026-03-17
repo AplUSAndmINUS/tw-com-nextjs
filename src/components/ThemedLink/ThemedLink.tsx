@@ -9,6 +9,8 @@ import type { LinkProps } from 'next/link';
 
 interface ThemedLinkProps extends Omit<LinkProps, 'href'> {
   href: string;
+  target?: string;
+  rel?: string;
   children: React.ReactNode;
   className?: string;
   isFooter?: boolean; // New prop to indicate if this is a footer link
@@ -21,6 +23,8 @@ interface ThemedLinkProps extends Omit<LinkProps, 'href'> {
 
 export const ThemedLink: React.FC<ThemedLinkProps> = ({
   href,
+  target,
+  rel,
   children,
   className,
   isFooter = false,
@@ -34,10 +38,8 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   // Get typography defaults - now type-safe!
   const typographyStyle = theme.typography.fonts[variant];
 
-  // Handle grayscale - always underline
-  const shouldUnderline = ['grayscale', 'grayscale-dark'].includes(
-    theme.themeMode
-  );
+  // Underline only in high-contrast mode for accessibility; grayscale relies on color alone
+  const shouldUnderline = theme.themeMode === 'high-contrast';
 
   // Merge styles
   const mergedStyles: React.CSSProperties = {
@@ -45,7 +47,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
     color: isHovered
       ? theme.semanticColors.link.hover
       : isFooter
-        ? theme.semanticColors.link.footer
+        ? theme.colorNeutralForeground2
         : theme.semanticColors.link.default,
     textDecoration: shouldUnderline ? 'underline' : 'none',
     transition: `color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
@@ -55,6 +57,8 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   return (
     <Link
       href={href}
+      target={target}
+      rel={rel}
       className={className}
       style={mergedStyles}
       onMouseEnter={() => setIsHovered(true)}

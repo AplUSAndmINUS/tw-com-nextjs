@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useSlideInOut } from '@/hooks';
@@ -8,17 +8,46 @@ import { useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import { FooterContent } from './FooterContent';
 
 /**
- * HomePageFooter — Complex footer for homepage with mobile toggle and desktop always-visible
+ * HomePageFooter — Footer with glassmorphism styling, mobile toggle, and desktop always-visible
  *
  * Behavior:
  * - Desktop (lg+): Always visible, no animation
  * - Mobile: Shows "Show Footer" button when hidden, animated slide-in overlay when visible
  * - Mobile Landscape: Hidden (no toggle button) to preserve vertical space
  */
-export function HomePageFooter() {
-  const { theme, reducedTransparency } = useAppTheme();
+export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
+  const { theme, themeMode, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const isMobileLandscape = useIsMobileLandscape();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const accentColor = theme.palette.themePrimary;
+  const isLightFamily =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const footerBorderTop = isLightFamily
+    ? `1px solid ${theme.semanticColors.border.default}`
+    : `4px solid ${accentColor}`;
+
+  const footerBg = isLightFamily
+    ? reducedTransparency
+      ? theme.semanticColors.background.muted
+      : 'rgba(255, 255, 255, 0.35)'
+    : reducedTransparency
+      ? theme.semanticColors.background.elevated
+      : 'rgba(10, 10, 10, 0.45)';
+
+  const footerBackdropFilter = reducedTransparency
+    ? 'none'
+    : 'blur(24px) saturate(180%)';
 
   const { animationProps } = useSlideInOut({
     direction: 'up',
@@ -28,7 +57,12 @@ export function HomePageFooter() {
 
   // Mobile hide button (rendered inside footer overlay)
   const mobileHideButton = (
-    <div className='lg:hidden flex justify-center py-4 border-b border-gray-300 dark:border-gray-600'>
+    <div
+      className='lg:hidden flex justify-center py-4'
+      style={{
+        borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+      }}
+    >
       <button
         onClick={() => setIsFooterVisible(false)}
         className='px-6 py-2 rounded-lg transition-all font-medium'
@@ -70,13 +104,18 @@ export function HomePageFooter() {
 
       {/* Desktop footer (always visible, no animation) */}
       <footer
-        className={`hidden lg:block border-t ${reducedTransparency ? 'bg-slate-100 dark:bg-slate-800' : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80'} border-gray-200 dark:border-gray-700 mt-auto mb-0`}
+        className='hidden lg:block mt-auto mb-0'
         role='contentinfo'
         style={{
-          borderTop: `3px solid ${theme.semanticColors.border.emphasis}`,
+          borderTop: footerBorderTop,
+          backgroundColor: footerBg,
+          backdropFilter: footerBackdropFilter,
+          WebkitBackdropFilter: footerBackdropFilter,
+          opacity: isMounted ? 1 : 0,
+          transition: 'opacity 0.2s ease-in',
         }}
       >
-        <FooterContent isCompact={false} />
+        <FooterContent isCompact={isCompact} />
       </footer>
 
       {/* Mobile footer (animated slide in/out) */}
@@ -85,10 +124,19 @@ export function HomePageFooter() {
           <motion.footer
             {...animationProps}
             id='footer-content'
-            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t ${reducedTransparency ? 'bg-slate-100 dark:bg-slate-800' : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80'} border-gray-200 dark:border-gray-700 shadow-2xl`}
+            className='lg:hidden fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
             role='contentinfo'
+            style={{
+              borderTop: footerBorderTop,
+              backgroundColor: footerBg,
+              backdropFilter: footerBackdropFilter,
+              WebkitBackdropFilter: footerBackdropFilter,
+            }}
           >
-            <FooterContent isCompact={false} headerContent={mobileHideButton} />
+            <FooterContent
+              isCompact={isCompact}
+              headerContent={mobileHideButton}
+            />
           </motion.footer>
         )}
       </AnimatePresence>

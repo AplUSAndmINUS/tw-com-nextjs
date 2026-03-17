@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
 import { ContentItem } from '@/content/types';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface GridViewProps {
   items: ContentItem[];
@@ -11,6 +13,8 @@ interface GridViewProps {
 }
 
 export function GridView({ items, baseUrl = '' }: GridViewProps) {
+  const { theme } = useAppTheme();
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   if (items.length === 0) {
     return (
       <div className='text-center py-12'>
@@ -31,6 +35,8 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
             key={item.slug}
             href={itemUrl}
             className='group block transition-transform duration-200 hover:scale-[1.02]'
+            onMouseEnter={() => setHoveredSlug(item.slug)}
+            onMouseLeave={() => setHoveredSlug(null)}
           >
             <Card className='h-full flex flex-col overflow-hidden'>
               {item.imageUrl && (
@@ -49,14 +55,28 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
                 {/* Category/Type Badge */}
                 {(item.category || item.type) && (
                   <div className='mb-2'>
-                    <span className='inline-block px-3 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'>
+                    <span
+                      className='inline-block px-3 py-1 text-xs font-medium rounded-full'
+                      style={{
+                        backgroundColor: theme.semanticColors.background.muted,
+                        color: theme.semanticColors.link.default,
+                      }}
+                    >
                       {item.category || item.type}
                     </span>
                   </div>
                 )}
 
                 {/* Title */}
-                <h3 className='text-xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors'>
+                <h3
+                  className='text-xl font-semibold mb-2 transition-colors'
+                  style={{
+                    color:
+                      hoveredSlug === item.slug
+                        ? theme.semanticColors.link.default
+                        : undefined,
+                  }}
+                >
                   {item.title}
                 </h3>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FooterContent } from '@/components/Footer/FooterContent';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -18,14 +18,45 @@ interface FooterOverlayProps {
  * Separated from StandardPageLayout to keep the layout server-rendered.
  */
 export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
-  const { theme, reducedTransparency } = useAppTheme();
+  const { theme, themeMode, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { animationProps } = useSlideInOut({
     direction: 'up',
     duration: 0.3,
     distance: 100,
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const accentColor = theme.palette.themePrimary;
+  const isLightFamily =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const footerBorderTop = isLightFamily
+    ? `1px solid ${theme.semanticColors.border.default}`
+    : `4px solid ${accentColor}`;
+
+  const footerBg = isLightFamily
+    ? reducedTransparency
+      ? theme.semanticColors.background.muted
+      : 'rgba(255, 255, 255, 0.35)'
+    : reducedTransparency
+      ? theme.semanticColors.background.elevated
+      : 'rgba(10, 10, 10, 0.45)';
+
+  const footerBackdropFilter = reducedTransparency
+    ? 'none'
+    : 'blur(24px) saturate(180%)';
+
+  if (!isMounted) return null;
 
   return (
     <>
@@ -60,8 +91,14 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
             {...animationProps}
             onMouseLeave={() => setIsFooterVisible(false)}
             id='footer-content'
-            className={`fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto border-t ${reducedTransparency ? 'bg-slate-100 dark:bg-slate-800' : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80'} border-gray-200 dark:border-gray-700 shadow-2xl`}
+            className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
             role='contentinfo'
+            style={{
+              borderTop: footerBorderTop,
+              backgroundColor: footerBg,
+              backdropFilter: footerBackdropFilter,
+              WebkitBackdropFilter: footerBackdropFilter,
+            }}
           >
             <FooterContent isCompact={false} />
           </motion.footer>

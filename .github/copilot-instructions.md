@@ -108,7 +108,7 @@ Components should include:
 
 - A named function component
 - Strongly typed props
-- Tailwind for layout
+- Tailwind for layout - do not use Tailwind for colors or typography
 - Fluent UI theme tokens for color/typography
 - Optional SCSS modules for complex styling
 - Accessibility attributes
@@ -405,7 +405,70 @@ Copilot should proceed when:
 
 ---
 
-## 15. Token-Based Access Control (DEV / TEST)
+## 15. Newsletter Subscribe / Unsubscribe
+
+The newsletter system connects front-end forms to a SharePoint Online list via Microsoft Graph API Azure Functions.
+
+### Architecture
+
+- `api/subscribe/index.js` — adds an email entry to the SharePoint list
+- `api/unsubscribe/index.js` — finds and deletes the matching entry from the SharePoint list
+- Both functions authenticate via Entra ID client credentials (never expose credentials to the browser)
+- SharePoint field names are configurable via environment variables to handle renamed built-in columns
+
+### SharePoint field name mapping
+
+SharePoint's built-in `Title` column is display-renamed to "Email" in the list UI, but its **internal API name remains `Title`**. Always set:
+
+```
+SHAREPOINT_EMAIL_FIELD=Title
+```
+
+If the platform or timestamp columns don't exist, leave the corresponding env var empty — the functions skip empty-string field names:
+
+```
+SHAREPOINT_PLATFORM_FIELD=   # leave empty to skip
+SHAREPOINT_TIMESTAMP_FIELD=  # leave empty to skip
+```
+
+### CORS
+
+Both functions use a `getCorsHeaders(origin)` function that validates the request `Origin` header against `/^https:\/\/((?:[a-zA-Z0-9-]+\.)?terencewaters\.com)$/`. Disallowed origins receive `Access-Control-Allow-Origin: null`.
+
+Set `ALLOWED_ORIGIN_EXTRA` to permit one additional origin (e.g. `http://localhost:3000` for local dev, or an Azure SWA preview URL for staging).
+
+### Front-end rate limiting
+
+All newsletter forms (subscribe and unsubscribe) use the `useNewsletterRateLimit` hook at `src/hooks/useNewsletterRateLimit.ts`. It enforces a maximum of 3 submissions per rolling 1-hour window, tracked in `localStorage` under key `tw_newsletter_submissions`.
+
+**Copilot rules:**
+
+- Never bypass or remove the rate limit check in newsletter form `handleSubmit` handlers
+- Always call `recordSubmit()` immediately before the API fetch, not after
+- The submit button must be `disabled` when `!canSubmit`
+- Display `timeUntilReset` in the error message so users know when they can try again
+- The limit is intentionally shared across subscribe and unsubscribe (same `localStorage` key)
+
+### NewsletterDrawer animation
+
+The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (direction: `'up'`) for a slide-up-from-bottom entrance and slide-down exit. The backdrop fades independently. Both respect `useReducedMotion` (duration collapses to `0`).
+
+### Key files
+
+| File                                                         | Role                                       |
+| ------------------------------------------------------------ | ------------------------------------------ |
+| `api/subscribe/index.js`                                     | Azure Function — subscribe                 |
+| `api/unsubscribe/index.js`                                   | Azure Function — unsubscribe               |
+| `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting (3/hour, shared)   |
+| `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer with subscribe form        |
+| `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA                       |
+| `src/components/Footer/FooterContent.tsx`                    | `FooterNewsletterMini` compact form        |
+| `src/app/unsubscribe/UnsubscribePageClient.tsx`              | Unsubscribe page form                      |
+| `src/store/newsletterStore.ts`                               | Zustand store — dismissed/subscribed state |
+
+---
+
+## 16. Token-Based Access Control (DEV / TEST)
 
 DEV and TEST deployments are protected by a token gate.
 PROD is publicly accessible.
@@ -439,7 +502,7 @@ PROD is publicly accessible.
 
 ---
 
-## 16. Prompt Logging
+## 17. Prompt Logging
 
 All AI-assisted development prompts should be logged in the `/prompts` folder for visibility. This project is primarily AI-driven with @Aplusandminus directing architecture and front-end build.
 
@@ -447,6 +510,6 @@ Create a new file per session or feature: `prompts/YYYY-MM-DD-topic.md`
 
 ---
 
-## 16. Final Rule
+## 18. Final Rule
 
 Copilot should prioritize clarity, consistency, and the authorial voice of TW.com.

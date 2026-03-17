@@ -151,7 +151,7 @@ export function CaseStudyListingClientWrapper({
   return (
     <ContentListingPage
       title='Case Studies'
-      iconName='DocumentBulletList24Regular'
+      iconName='BookRegular'
       description='Deep dives into specific projects — what I built, the challenges I faced, and what I learned.'
       basePath='/case-studies'
       cards={cards}
