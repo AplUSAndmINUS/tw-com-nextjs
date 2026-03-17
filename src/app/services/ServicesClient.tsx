@@ -1,13 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { FluentIcon } from '@/components/FluentIcon';
 import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { BaseCard } from '@/components/BaseCard';
 
 const serviceCategories: {
   title: string;
@@ -60,28 +57,11 @@ const serviceCategories: {
 
 export function ServicesClient() {
   const { theme, themeMode } = useAppTheme();
-  const [focusedCard, setFocusedCard] = useState<string | null>(null);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
 
-  const accentColor = theme.semanticColors.accent.teal;
-  const restStateColor = theme.palette.themePrimary;
 
-  const isLightFamilyMode =
-    themeMode === 'light' ||
-    themeMode === 'protanopia' ||
-    themeMode === 'deuteranopia' ||
-    themeMode === 'tritanopia' ||
-    themeMode === 'grayscale';
-
-  const cardSurfaceColor = isLightFamilyMode
-    ? theme.semanticColors.background.muted
-    : theme.semanticColors.background.elevated;
-
-  const cardHoverSurfaceColor = isLightFamilyMode
-    ? theme.semanticColors.background.elevated
-    : theme.semanticColors.background.muted;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -93,10 +73,6 @@ export function ServicesClient() {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
 
   return (
     <motion.div
@@ -115,124 +91,17 @@ export function ServicesClient() {
       }}
     >
       {serviceCategories.map((category) => {
-        const isFocused = focusedCard === category.title;
-        const isHovered = hoveredCard === category.title;
         const IconComponent = resolveIconName(category.icon);
 
         return (
-          <motion.div
-            key={category.title}
-            variants={itemVariants}
-            initial='hidden'
-            animate='visible'
-          >
-            <Link
-              href={category.href}
-              className='block h-full rounded-xl focus-visible:outline-none'
-              onFocus={() => setFocusedCard(category.title)}
-              onBlur={() => setFocusedCard(null)}
-              onMouseEnter={() => setHoveredCard(category.title)}
-              onMouseLeave={() => setHoveredCard(null)}
-              aria-label={`${category.title}: ${category.description}`}
-            >
-              <motion.div
-                style={{
-                  position: 'relative',
-                  borderRadius: theme.borderRadius.container.medium,
-                  border: `1px solid ${isFocused || isHovered ? accentColor : theme.semanticColors.border.default}`,
-                  backgroundColor: cardSurfaceColor,
-                  backgroundImage: isLightFamilyMode
-                    ? `linear-gradient(160deg, ${restStateColor}30 0%, transparent 52%)`
-                    : `linear-gradient(160deg, ${restStateColor}14 0%, transparent 42%)`,
-                  padding: theme.spacing.m,
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all 0.2s ease',
-                  cursor: 'pointer',
-                  boxShadow: isFocused
-                    ? `0 0 0 3px ${theme.semanticColors.focus.ring}`
-                    : 'none',
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  backgroundColor: cardHoverSurfaceColor,
-                  borderColor: accentColor,
-                  boxShadow: theme.shadows.card,
-                }}
-              >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '4px',
-                    borderRadius: theme.borderRadius.container.small,
-                    backgroundColor:
-                      isHovered || isFocused ? accentColor : restStateColor,
-                    marginBottom: theme.spacing.m,
-                  }}
-                />
 
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: theme.spacing.m,
-                    marginBottom: theme.spacing.m,
-                    alignItems: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: '3rem',
-                      flexShrink: 0,
-                      width: '3rem',
-                      height: '3rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color:
-                        isHovered || isFocused ? accentColor : restStateColor,
-                    }}
-                  >
-                    {IconComponent && <FluentIcon iconName={IconComponent} />}
-                  </div>
-                  <Typography
-                    variant='h3'
-                    className='font-semibold'
-                    style={{
-                      color: theme.semanticColors.text.primary,
-                      fontSize: '1.75rem',
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {category.title}
-                  </Typography>
-                </div>
-
-                <Typography
-                  variant='cardBody'
-                  className='text-sm mb-4 flex-grow'
-                  style={{
-                    color: theme.semanticColors.text.muted,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {category.description}
-                </Typography>
-
-                <span
-                  className='hover:underline'
-                  style={{
-                    fontSize: '0.875rem',
-                    fontWeight: 600,
-                    color:
-                      isFocused || isHovered ? accentColor : restStateColor,
-                  }}
-                >
-                  {category.cta} →
-                </span>
-              </motion.div>
-            </Link>
-          </motion.div>
+          <BaseCard
+            title={category.title}
+            subheading={category.description}
+            icon={category.icon}
+            href={category.href}
+            cta={category.cta}
+          />
         );
       })}
     </motion.div>

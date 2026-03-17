@@ -1,12 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { FluentIcon } from '@/components/FluentIcon';
-import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
+import { type FluentIconName } from '@/utils/iconResolver';
 import { BaseCard } from '../BaseCard';
 
 const contentCategories: {
@@ -73,26 +69,7 @@ const contentCategories: {
 ];
 
 export function ContentHubClient() {
-  const { theme, themeMode } = useAppTheme();
-  const [focusedCard, setFocusedCard] = useState<string | null>(null);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-
-  const accentColor = theme.semanticColors.accent.teal;
-
-  const isLightFamilyMode =
-    themeMode === 'light' ||
-    themeMode === 'protanopia' ||
-    themeMode === 'deuteranopia' ||
-    themeMode === 'tritanopia' ||
-    themeMode === 'grayscale';
-
-  const cardSurfaceColor = isLightFamilyMode
-    ? theme.semanticColors.background.muted
-    : theme.semanticColors.background.elevated;
-
-  const cardHoverSurfaceColor = isLightFamilyMode
-    ? theme.semanticColors.background.elevated
-    : theme.semanticColors.background.muted;
+  const { theme } = useAppTheme();
 
   const containerVariants = {
     hidden: { opacity: 0 },

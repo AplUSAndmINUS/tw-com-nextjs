@@ -115,7 +115,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
     border: `1px solid ${borderColor}`,
     backgroundColor,
     backgroundImage,
-    padding: href ? theme.spacing.base : theme.spacing.l,
+    padding: href ? `calc(${theme.spacing.base} + 0.125rem)` : theme.spacing.l,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
@@ -186,8 +186,8 @@ export const BaseCard: React.FC<BaseCardProps> = ({
           <div
             style={{
               flexShrink: 0,
-              width: '2rem',
-              height: '2rem',
+              width: '48px',
+              height: '48px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -195,7 +195,16 @@ export const BaseCard: React.FC<BaseCardProps> = ({
               transition: 'color 0.2s ease',
             }}
           >
-            <FluentIcon iconName={IconComponent} />
+            <FluentIcon
+              iconName={IconComponent}
+              style={{
+                fontSize: '2.5rem',
+                width: '48px',
+                height: '48px',
+                color: currentColor,
+                flexShrink: 0,
+              }}
+            />
           </div>
         )}
         <Typography
