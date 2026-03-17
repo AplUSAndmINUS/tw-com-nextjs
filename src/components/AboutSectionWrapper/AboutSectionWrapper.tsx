@@ -80,8 +80,10 @@ export function AboutSectionWrapper({
   };
 
   return (
-    <section className={className} style={styles[variant]}>
-      {children}
-    </section>
+    <div style={{ borderRadius: '1rem', overflow: 'clip' }}>
+      <section className={className} style={styles[variant]}>
+        {children}
+      </section>
+    </div>
   );
 }

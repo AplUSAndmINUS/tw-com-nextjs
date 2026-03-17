@@ -168,6 +168,8 @@ export interface IExtendedSpacing {
   xxxxl: string;
   menuButton: string;
   // FluentUI compatibility
+  base: string;
+  s3: string;
   s2: string;
   s1: string;
   l1: string;
@@ -742,6 +744,7 @@ export const spacing: IExtendedSpacing = {
   // FluentUI required properties
   s2: '0.125rem',
   s1: '0.25rem',
+  s3: '0.5rem',
   m: '1rem', // Base rhythm unit
   l1: '1.25rem',
   l2: '2rem',
@@ -751,6 +754,7 @@ export const spacing: IExtendedSpacing = {
   xxs: '0.25rem',
   xs: '0.5rem',
   s: '0.75rem',
+  base: '1rem',
   l: '1.5rem',
   xl: '2rem',
   xxl: '2.5rem',

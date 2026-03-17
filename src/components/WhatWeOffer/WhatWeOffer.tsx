@@ -88,9 +88,8 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
               padding: theme.spacing.l,
               borderRadius: theme.borderRadius.container.medium,
               border: isLightFamilyMode
-                ? `1px solid ${theme.semanticColors.border.emphasis}`
-                : `1px solid ${theme.semanticColors.border.default}`,
-              borderTop: `4px solid ${hoveredIndex === index ? accentColor : restStateColor}`,
+                ? `1px solid ${hoveredIndex === index ? accentColor : theme.semanticColors.border.emphasis}`
+                : `1px solid ${hoveredIndex === index ? accentColor : theme.semanticColors.border.default}`,
               backgroundImage:
                 hoveredIndex === index
                   ? isLightFamilyMode
@@ -99,10 +98,10 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
                   : isLightFamilyMode
                     ? `linear-gradient(160deg, ${accentColor}28 0%, transparent 42%)`
                     : `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-              transition: 'all 0.2s ease',
+              transition:
+                'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
               cursor: 'default',
-              transform:
-                hoveredIndex === index ? 'translateY(-4px)' : 'translateY(0)',
+              transform: hoveredIndex === index ? 'scale(1.05)' : 'scale(1)',
               boxShadow:
                 hoveredIndex === index
                   ? theme.shadows.cardElevated
@@ -113,6 +112,13 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
                   : cardSurfaceColor,
             }}
           >
+            <div
+              className='w-full h-1 rounded-sm mb-4'
+              style={{
+                backgroundColor:
+                  hoveredIndex === index ? accentColor : restStateColor,
+              }}
+            />
             <div
               style={{
                 display: 'flex',

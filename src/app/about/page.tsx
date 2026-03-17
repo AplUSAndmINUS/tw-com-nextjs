@@ -76,7 +76,7 @@ export default function AboutPage() {
         {/* ── Professional Summary ─────────────────────────────────────────── */}
         <AboutSectionWrapper
           variant='default'
-          className='mt-10 space-y-4 p-6 rounded-lg'
+          className='mt-10 space-y-4 p-6'
         >
           <SectionHeading>Professional Summary</SectionHeading>
           <Typography
