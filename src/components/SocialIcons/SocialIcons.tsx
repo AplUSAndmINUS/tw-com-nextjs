@@ -38,10 +38,7 @@ export const SocialIcons: React.FC<SocialIconsProps> = ({
   const { theme } = useAppTheme();
   const [hoveredIcon, setHoveredIcon] = React.useState<string | null>(null);
   const {
-    isHovered,
-    backgroundColor,
     accentColor,
-    restStateColor,
     interactionProps,
   } = useCardState({ hoverable: true, clickable: true });
 
