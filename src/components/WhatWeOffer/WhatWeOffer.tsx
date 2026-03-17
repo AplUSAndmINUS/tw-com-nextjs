@@ -68,7 +68,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
         animate='visible'
         style={{
           display: 'grid',
-          gridTemplateColumns: isMobile || isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
+          gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
           gap: theme.spacing.m,
           width: '100%',
         }}

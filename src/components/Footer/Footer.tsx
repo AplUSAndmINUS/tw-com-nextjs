@@ -1,25 +1,19 @@
 import { HomePageFooter } from './HomePageFooter';
-import { StandardFooter } from './StandardFooter';
 
 interface FooterProps {
-  /** If true, renders a more compact footer with reduced padding and smaller text (used for standard pages) */
+  /** If true, renders a more compact footer with reduced padding and smaller text */
   isCompact?: boolean;
-  /** If true, enables collapsible footer on mobile (homepage only) */
+  /** @deprecated No longer needed — all footers now use the same styling */
   isHomePage?: boolean;
 }
 
 /**
- * Footer — Main footer router component
+ * Footer — Unified footer component
  *
- * Delegates to specialized footer components based on page type:
- * - HomePageFooter: Complex mobile toggle + desktop static footer
- * - StandardFooter: Simple always-visible footer
+ * All pages now use HomePageFooter styling:
+ * glassmorphism background, accent top border, diagonal gradient,
+ * mobile slide-in toggle, desktop always-visible.
  */
-export function Footer({ isCompact = false, isHomePage = false }: FooterProps) {
-  // Route to appropriate footer component
-  if (isHomePage) {
-    return <HomePageFooter />;
-  }
-
-  return <StandardFooter isCompact={isCompact} />;
+export function Footer({ isCompact = false }: FooterProps) {
+  return <HomePageFooter isCompact={isCompact} />;
 }

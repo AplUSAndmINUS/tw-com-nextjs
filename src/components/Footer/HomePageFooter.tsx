@@ -8,14 +8,14 @@ import { useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import { FooterContent } from './FooterContent';
 
 /**
- * HomePageFooter — Complex footer for homepage with mobile toggle and desktop always-visible
+ * HomePageFooter — Footer with glassmorphism styling, mobile toggle, and desktop always-visible
  *
  * Behavior:
  * - Desktop (lg+): Always visible, no animation
  * - Mobile: Shows "Show Footer" button when hidden, animated slide-in overlay when visible
  * - Mobile Landscape: Hidden (no toggle button) to preserve vertical space
  */
-export function HomePageFooter() {
+export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
   const { theme, themeMode, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -116,7 +116,7 @@ export function HomePageFooter() {
           transition: 'opacity 0.2s ease-in',
         }}
       >
-        <FooterContent isCompact={false} />
+        <FooterContent isCompact={isCompact} />
       </footer>
 
       {/* Mobile footer (animated slide in/out) */}
@@ -135,7 +135,10 @@ export function HomePageFooter() {
               WebkitBackdropFilter: footerBackdropFilter,
             }}
           >
-            <FooterContent isCompact={false} headerContent={mobileHideButton} />
+            <FooterContent
+              isCompact={isCompact}
+              headerContent={mobileHideButton}
+            />
           </motion.footer>
         )}
       </AnimatePresence>
