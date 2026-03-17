@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
@@ -44,55 +45,89 @@ const FEATURED_PROJECTS = [
 ];
 
 export function AboutFeaturedProjects() {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+
+  const isLightFamilyMode =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+
+  const accentColor = theme.semanticColors.accent.teal;
+  const restStateColor = theme.palette.themePrimary;
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-      {FEATURED_PROJECTS.map((project) => (
-        <div
-          key={project.name}
-          className='relative overflow-hidden rounded-xl border p-4 bg-white dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(254,254,254,0.52),transparent_42%)] shadow-sm'
-          style={{ borderColor: theme.semanticColors.border.default }}
-        >
+      {FEATURED_PROJECTS.map((project) => {
+        const isHovered = hoveredCard === project.name;
+
+        return (
           <div
-            className='w-full h-1 rounded-sm mb-4'
-            style={{ backgroundColor: theme.palette.themePrimary }}
-          />
-          <div className='space-y-1'>
-            <Typography
-              variant='h4'
-              className='font-semibold text-gray-900 dark:text-white leading-snug'
-              style={{ fontSize: '1.25rem', lineHeight: 1.25 }}
-            >
-              {project.name}
-            </Typography>
-            <Typography
-              variant='h5'
-              className='mb-4'
+            key={project.name}
+            className='relative overflow-hidden rounded-xl border p-4 bg-white dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(254,254,254,0.52),transparent_42%)]'
+            style={{
+              borderColor: isHovered
+                ? accentColor
+                : theme.semanticColors.border.default,
+              boxShadow: isHovered
+                ? theme.shadows.cardElevated
+                : theme.shadows.card,
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+              transition:
+                'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+              backgroundColor: isHovered
+                ? isLightFamilyMode
+                  ? theme.semanticColors.background.elevated
+                  : theme.semanticColors.background.muted
+                : undefined,
+            }}
+            onMouseEnter={() => setHoveredCard(project.name)}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div
+              className='w-full h-1 rounded-sm mb-4'
               style={{
-                fontSize: '1rem',
-                lineHeight: 1.2,
-                color: theme.semanticColors.link.default,
+                backgroundColor: isHovered ? accentColor : restStateColor,
               }}
-            >
-              {project.period}
-            </Typography>
-            <Typography
-              variant='body'
-              className='text-gray-800 dark:text-gray-300'
-              style={{ fontSize: '0.875rem', lineHeight: 1.4 }}
-            >
-              {project.roles}
-            </Typography>
-            <Typography
-              variant='label'
-              className='text-xs text-gray-600 dark:text-gray-400'
-            >
-              {project.skills}
-            </Typography>
+            />
+            <div className='space-y-1'>
+              <Typography
+                variant='h4'
+                className='font-semibold text-gray-900 dark:text-white leading-snug'
+                style={{ fontSize: '1.25rem', lineHeight: 1.25 }}
+              >
+                {project.name}
+              </Typography>
+              <Typography
+                variant='h5'
+                className='mb-4'
+                style={{
+                  fontSize: '1rem',
+                  lineHeight: 1.2,
+                  color: isHovered ? accentColor : restStateColor,
+                }}
+              >
+                {project.period}
+              </Typography>
+              <Typography
+                variant='body'
+                className='text-gray-800 dark:text-gray-300'
+                style={{ fontSize: '0.875rem', lineHeight: 1.4 }}
+              >
+                {project.roles}
+              </Typography>
+              <Typography
+                variant='label'
+                className='text-xs text-gray-600 dark:text-gray-400'
+              >
+                {project.skills}
+              </Typography>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       <ThemedLink
         href='/portfolio'
         variant='body'
