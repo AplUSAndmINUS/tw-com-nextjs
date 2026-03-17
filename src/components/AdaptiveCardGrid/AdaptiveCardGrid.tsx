@@ -120,10 +120,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     ? cardHoverSurfaceColor
                     : cardSurfaceColor,
                   backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                  borderLeft: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderTop: `6px solid ${isHovered(card.id) ? accentColor : restStateColor}`,
+                  border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
@@ -274,10 +271,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     ? cardHoverSurfaceColor
                     : cardSurfaceColor,
                   backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                  borderTop: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderLeft: `4px solid ${isHovered(card.id) ? accentColor : restStateColor}`,
+                  border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
@@ -292,14 +286,13 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 {card.imageUrl && (
                   <div
                     style={{
-                      width: isMobile ? '100px' : '180px',
-                      height: isMobile ? '80px' : '200px',
+                      width: isMobile ? '100%' : '225px',
+                      height: 'auto',
+                      aspectRatio: '4 / 3',
                       flexShrink: 0,
-                      borderRadius: theme.borderRadius.container.small,
+                      position: 'relative',
                       overflow: 'hidden',
                       backgroundColor: theme.semanticColors.background.muted,
-                      position: 'relative',
-                      objectFit: 'cover',
                     }}
                   >
                     <img
@@ -424,10 +417,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   ? cardHoverSurfaceColor
                   : cardSurfaceColor,
                 backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-                borderTop: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                borderLeft: `5px solid ${isHovered(card.id) ? accentColor : restStateColor}`,
+                border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                 transition: 'all 0.3s ease',
                 transform: isHovered(card.id)
                   ? 'translateY(-4px)'
@@ -450,11 +440,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   <div
                     style={{
                       width: isMobile ? '100%' : '225px',
-                      height: isMobile ? '200px' : 'auto',
-                      maxHeight: isMobile ? 'none' : '225px',
+                      height: 'auto',
+                      aspectRatio: '4 / 3',
                       flexShrink: 0,
-                      backgroundColor: theme.semanticColors.background.muted,
                       position: 'relative',
+                      overflow: 'hidden',
+                      backgroundColor: theme.semanticColors.background.muted,
                     }}
                   >
                     <img
