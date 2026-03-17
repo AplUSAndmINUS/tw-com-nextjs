@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { VideoItem } from '@/content/types';
@@ -13,14 +13,20 @@ interface VideoCardProps {
 }
 
 export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
-  const { reducedTransparency } = useAppTheme();
+  const { reducedTransparency, theme } = useAppTheme();
+  const [isHovered, setIsHovered] = useState(false);
   const href = video.youtubeId
     ? `/videos/${video.youtubeId}`
     : `/videos/${video.id}`;
 
   if (viewType === 'small') {
     return (
-      <Link href={href} className='group block'>
+      <Link
+        href={href}
+        className='group block'
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
           <div className='relative flex-shrink-0 w-16 h-10 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800'>
             {video.thumbnailUrl ? (
@@ -39,7 +45,14 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
             )}
           </div>
           <div className='flex-1 min-w-0'>
-            <h3 className='text-sm font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2'>
+            <h3
+              className='text-sm font-semibold transition-colors line-clamp-2'
+              style={{
+                color: isHovered
+                  ? theme.semanticColors.link.default
+                  : undefined,
+              }}
+            >
               {video.title}
             </h3>
             <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
@@ -57,7 +70,12 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
 
   if (viewType === 'large') {
     return (
-      <Link href={href} className='group block'>
+      <Link
+        href={href}
+        className='group block'
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-shadow'>
           <div className='relative w-full aspect-[16/10] bg-gray-100 dark:bg-gray-800'>
             {video.thumbnailUrl ? (
@@ -82,7 +100,10 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
                   : 'rgba(0, 0, 0, 0.2)',
               }}
             >
-              <span className='w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-white text-3xl shadow-lg'>
+              <span
+                className='w-16 h-16 rounded-full flex items-center justify-center text-white text-3xl shadow-lg'
+                style={{ backgroundColor: theme.palette.themePrimary }}
+              >
                 ▶
               </span>
             </div>
@@ -101,11 +122,21 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
           </div>
           <div className='p-6'>
             {video.category && (
-              <span className='text-xs font-semibold text-red-600 dark:text-red-400 uppercase tracking-wide'>
+              <span
+                className='text-xs font-semibold uppercase tracking-wide'
+                style={{ color: theme.semanticColors.link.default }}
+              >
                 {video.category}
               </span>
             )}
-            <h2 className='mt-1 text-2xl font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors'>
+            <h2
+              className='mt-1 text-2xl font-bold transition-colors'
+              style={{
+                color: isHovered
+                  ? theme.semanticColors.link.default
+                  : undefined,
+              }}
+            >
               {video.title}
             </h2>
             {video.description && (
@@ -127,7 +158,12 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
 
   // Default: grid view
   return (
-    <Link href={href} className='group block'>
+    <Link
+      href={href}
+      className='group block'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow'>
         <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
           {video.thumbnailUrl ? (
@@ -153,7 +189,10 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
                 : 'rgba(0, 0, 0, 0.2)',
             }}
           >
-            <span className='w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-white text-2xl shadow-lg'>
+            <span
+              className='w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl shadow-lg'
+              style={{ backgroundColor: theme.palette.themePrimary }}
+            >
               ▶
             </span>
           </div>
@@ -172,11 +211,19 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
         </div>
         <div className='p-4'>
           {video.category && (
-            <span className='text-xs font-semibold text-red-600 dark:text-red-400 uppercase tracking-wide'>
+            <span
+              className='text-xs font-semibold uppercase tracking-wide'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               {video.category}
             </span>
           )}
-          <h2 className='mt-1 text-base font-semibold group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2'>
+          <h2
+            className='mt-1 text-base font-semibold transition-colors line-clamp-2'
+            style={{
+              color: isHovered ? theme.semanticColors.link.default : undefined,
+            }}
+          >
             {video.title}
           </h2>
           {video.description && (

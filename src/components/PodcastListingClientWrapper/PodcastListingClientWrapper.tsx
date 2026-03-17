@@ -162,7 +162,7 @@ export function PodcastListingClientWrapper({
   return (
     <ContentListingPage
       title='Podcasts'
-      iconName='MicPulseOff24Regular'
+      iconName='MicRegular'
       description='Audio conversations on technology, creativity, and building meaningful things.'
       basePath='/podcasts'
       cards={cards}

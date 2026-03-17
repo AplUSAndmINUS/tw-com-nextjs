@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile, useIsTablet} from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { BaseCard } from '../BaseCard';
 
 export interface OfferItem {
   text: string;
@@ -35,6 +36,9 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
     ? theme.semanticColors.background.elevated
     : theme.semanticColors.background.muted;
 
+  const accentColor = theme.semanticColors.accent.teal;
+  const restStateColor = theme.palette.themePrimary;
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -53,8 +57,8 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
   return (
     <div>
       <Typography
-        variant='h2'
-        className='text-2xl font-bold mb-6'
+        variant='h3'
+        className='mb-6'
         style={{ color: theme.semanticColors.text.heading }}
       >
         What I Offer
@@ -66,69 +70,23 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
         animate='visible'
         style={{
           display: 'grid',
-          gridTemplateColumns: isMobile || isTablet
-            ? '1fr 1fr'
-            : '1fr 1fr 1fr',
+          gridTemplateColumns: isMobile
+            ? '1fr'
+            : isTablet
+              ? '1fr 1fr'
+              : '1fr 1fr 1fr',
           gap: theme.spacing.m,
           width: '100%',
         }}
       >
         {items.map((item, index) => (
-          <motion.div
+          <BaseCard
             key={index}
-            variants={itemVariants}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            style={{
-              padding: theme.spacing.l,
-              borderRadius: theme.borderRadius.container.medium,
-              border: `1px solid ${theme.semanticColors.border.default}`,
-              transition: 'all 0.2s ease',
-              cursor: 'default',
-              transform:
-                hoveredIndex === index ? 'translateY(-4px)' : 'translateY(0)',
-              boxShadow:
-                hoveredIndex === index
-                  ? theme.shadows.card
-                  : theme.shadows.button,
-              backgroundColor:
-                hoveredIndex === index ? cardHoverSurfaceColor : cardSurfaceColor,
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                gap: theme.spacing.m,
-                alignItems: 'flex-start',
-              }}
-            >
-              <div
-                style={{
-                  flexShrink: 0,
-                  width: '24px',
-                  height: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: theme.palette.themePrimary,
-                  fontSize: '1.25rem',
-                  marginTop: '2px',
-                }}
-              >
-                ✓
-              </div>
-              <Typography
-                variant='body'
-                style={{
-                  color: theme.semanticColors.text.muted,
-                  fontSize: '0.9375rem',
-                  lineHeight: 1.5,
-                }}
-              >
-                {item.text}
-              </Typography>
-            </div>
-          </motion.div>
+            title=''
+            subheading={`✓ ${item.text}`}
+            hoverable={true}
+            className='flex items-start gap-3 rounded-lg border p-4'
+          />
         ))}
       </motion.div>
     </div>

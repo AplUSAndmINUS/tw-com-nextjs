@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Input } from '@/components/Form/Input/Input';
@@ -33,7 +33,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   description = 'Subscribe to my free, biweekly newsletter — where I share insights on Fluxline, The Resonance Core, and practical ways to improve your life using this powerful framework.',
   className = '',
 }) => {
-  const { theme } = useAppTheme();
+  const { theme, themeMode } = useAppTheme();
   const { newsletterSubscribed, setNewsletterSubscribed } =
     useNewsletterStore();
 
@@ -44,6 +44,13 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   const [isSuccess, setIsSuccess] = useState(false);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+
+  // Auto-reset the success confirmation after 5 seconds so the form returns to input state
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => setIsSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
 
   const validateEmail = (value: string) => {
     if (!value.trim()) return 'Email is required';
@@ -101,145 +108,198 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
-  // If already subscribed this session or globally, show confirmation
+  // Hero-matching surface + gradient — mirrors the accentColor logic in Hero.tsx
+  const accentColor = theme.semanticColors.accent.yellow;
+  const isLightFamily =
+    themeMode === 'light' ||
+    themeMode === 'protanopia' ||
+    themeMode === 'deuteranopia' ||
+    themeMode === 'tritanopia' ||
+    themeMode === 'grayscale';
+  const surfaceColor = isLightFamily
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+  const heroGradient = `linear-gradient(160deg, ${accentColor}14 0%, transparent 87%)`;
+
+  // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
   if (isSuccess || newsletterSubscribed) {
     return (
       <div
-        className={`rounded-xl p-6 ${className}`}
-        style={{
-          backgroundColor: theme.semanticColors.background.elevated,
-          border: `1px solid ${theme.semanticColors.border.default}`,
-        }}
+        className={className}
+        style={{ borderRadius: '1rem', overflow: 'clip' }}
       >
-        <Typography
-          variant='h3'
-          style={{
-            color: theme.colorBrandForeground1,
-            marginBottom: theme.spacing.s1,
-          }}
-        >
-          You&apos;re subscribed! 🎉
-        </Typography>
-        <Typography
-          variant='body'
-          style={{ color: theme.semanticColors.text.muted }}
-        >
-          Welcome to the Mythmaker Drop. Check your inbox for your first issue!
-        </Typography>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className={`rounded-xl p-6 ${className}`}
-      style={{
-        backgroundColor: theme.semanticColors.background.elevated,
-        border: `1px solid ${theme.semanticColors.border.default}`,
-      }}
-    >
-      <Typography
-        variant='h3'
-        style={{
-          marginBottom: theme.spacing.s1,
-          color: theme.colorBrandForeground1,
-        }}
-      >
-        {heading}
-      </Typography>
-      <Typography
-        variant='body'
-        style={{
-          marginBottom: theme.spacing.m,
-          color: theme.semanticColors.text.muted,
-        }}
-      >
-        {description}
-      </Typography>
-
-      <form onSubmit={handleSubmit} noValidate>
         <div
+          className='p-6'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: theme.spacing.s1,
+            backgroundColor: surfaceColor,
+            backgroundImage: heroGradient,
+            border: `1px solid ${theme.semanticColors.border.default}`,
+            borderTop: `4px solid ${accentColor}`,
           }}
         >
-          <div
-            style={{ display: 'flex', gap: theme.spacing.s1, flexWrap: 'wrap' }}
+          <Typography
+            variant='h3'
+            style={{
+              color: accentColor,
+              marginBottom: theme.spacing.s1,
+            }}
           >
-            <div style={{ flex: 1, minWidth: '200px' }}>
-              <Input
-                label='Email address'
-                name='newsletter-email'
-                type='email'
-                placeholder='Enter your email'
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (emailError) setEmailError(validateEmail(e.target.value));
-                }}
-                onBlur={() => setEmailError(validateEmail(email))}
-                error={emailError}
-                fullWidth
-                maxLength={254}
-                aria-label='Your email address for newsletter subscription'
-                aria-invalid={!!emailError}
-              />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                paddingTop: '1.5rem',
-              }}
-            >
-              <Button
-                type='submit'
-                variant='primary'
-                loading={isLoading}
-                disabled={isLoading || !canSubmit}
-                aria-label='Subscribe to newsletter'
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
-
-          {submitError && (
-            <Typography
-              variant='body'
-              style={{
-                color: theme.colorPaletteRedForeground1,
-                fontSize: '0.875rem',
-              }}
-            >
-              {submitError}
-            </Typography>
-          )}
-
+            You&apos;re subscribed! 🎉
+          </Typography>
+          <Typography
+            variant='body'
+            style={{ color: theme.semanticColors.text.muted }}
+          >
+            Welcome to the Mythmaker Drop. Watch your inbox for the first
+            newsletter arriving soon!
+          </Typography>
           <Typography
             variant='label'
             style={{
               color: theme.semanticColors.text.muted,
               fontSize: '0.75rem',
               marginTop: theme.spacing.m,
+              display: 'block',
             }}
           >
-            Biweekly newsletter. Unsubscribe at any time from the{' '}
+            Changed your mind?{' '}
             <Link
               href='/unsubscribe'
               style={{
-                color: theme.colorBrandForeground1,
+                color: theme.palette.neutralPrimary,
                 textDecoration: 'underline',
               }}
             >
-              unsubscribe page
+              Unsubscribe
             </Link>
-            .
           </Typography>
         </div>
-      </form>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={className}
+      style={{ borderRadius: '1rem', overflow: 'clip' }}
+    >
+      <div
+        className='p-6'
+        style={{
+          backgroundColor: surfaceColor,
+          backgroundImage: heroGradient,
+          border: `1px solid ${theme.semanticColors.border.default}`,
+          borderTop: `4px solid ${accentColor}`,
+        }}
+      >
+        <Typography
+          variant='h3'
+          style={{
+            marginBottom: theme.spacing.s1,
+            color: accentColor,
+          }}
+        >
+          {heading}
+        </Typography>
+        <Typography
+          variant='body'
+          style={{
+            marginBottom: theme.spacing.m,
+            color: theme.semanticColors.text.muted,
+          }}
+        >
+          {description}
+        </Typography>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: theme.spacing.s1,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                gap: theme.spacing.s1,
+                flexWrap: 'wrap',
+              }}
+            >
+              <div style={{ flex: 1, minWidth: '200px' }}>
+                <Input
+                  label='Email address'
+                  name='newsletter-email'
+                  type='email'
+                  placeholder='Enter your email'
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError)
+                      setEmailError(validateEmail(e.target.value));
+                  }}
+                  onBlur={() => setEmailError(validateEmail(email))}
+                  error={emailError}
+                  fullWidth
+                  maxLength={254}
+                  aria-label='Your email address for newsletter subscription'
+                  aria-invalid={!!emailError}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  paddingTop: '1.5rem',
+                }}
+              >
+                <Button
+                  type='submit'
+                  variant='primary'
+                  loading={isLoading}
+                  disabled={isLoading || !canSubmit}
+                  aria-label='Subscribe to newsletter'
+                >
+                  Subscribe
+                </Button>
+              </div>
+            </div>
+
+            {submitError && (
+              <Typography
+                variant='body'
+                style={{
+                  color: theme.colorPaletteRedForeground1,
+                  fontSize: '0.875rem',
+                }}
+              >
+                {submitError}
+              </Typography>
+            )}
+
+            <Typography
+              variant='label'
+              style={{
+                color: theme.semanticColors.text.muted,
+                fontSize: '0.75rem',
+                marginTop: theme.spacing.m,
+              }}
+            >
+              Biweekly newsletter. Unsubscribe at any time from the{' '}
+              <Link
+                href='/unsubscribe'
+                style={{
+                  color: theme.colorBrandForeground1,
+                  textDecoration: 'underline',
+                }}
+              >
+                unsubscribe page
+              </Link>
+              .
+            </Typography>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

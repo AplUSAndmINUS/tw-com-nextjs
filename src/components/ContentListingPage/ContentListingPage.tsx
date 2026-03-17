@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { UnifiedPageWrapper } from '@/components/UnifiedPageWrapper';
 import { Typography } from '@/components/Typography';
@@ -12,6 +13,7 @@ import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { Button, Select, SelectOption, DateInput } from '@/components/Form';
 import { Hero } from '@/components/Hero';
 import { NewsletterSignupCTA } from '../NewsletterSignupCTA';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * Filter configuration for single-select dropdown
@@ -157,6 +159,7 @@ export function ContentListingPage({
   const { viewType, setViewType } = useContentFilterStore();
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
+  const { shouldReduceMotion } = useReducedMotion();
 
   // View type options for dropdown
   const viewOptions: SelectOption[] = [
@@ -322,13 +325,6 @@ export function ContentListingPage({
           }
         />
 
-        {/* Email Newsletter Signup CTA for Desktop Only */}
-        {emailNewsletterSignup && !isMobile && !isTablet && (
-          <div style={{ marginTop: theme.spacing.l }}>
-            <NewsletterSignupCTA />
-          </div>
-        )}
-
         {/* Results Message */}
         {resultsMessage && (
           <div
@@ -351,14 +347,20 @@ export function ContentListingPage({
 
         {/* Custom Section (e.g., GitHub contributions) */}
         {customSection && (
-          <div
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.4,
+              ease: 'easeIn',
+            }}
             style={{
               marginTop: theme.spacing.l,
               marginBottom: theme.spacing.l,
             }}
           >
             {customSection}
-          </div>
+          </motion.div>
         )}
 
         {/* Content Grid */}
@@ -414,7 +416,7 @@ export function ContentListingPage({
           </div>
         )}
         {/* Email Newsletter Signup CTA for Mobile and Tablet to save space */}
-        {emailNewsletterSignup && (isMobile || isTablet) && (
+        {emailNewsletterSignup && (
           <div style={{ marginTop: theme.spacing.l }}>
             <NewsletterSignupCTA />
           </div>

@@ -206,7 +206,7 @@ export function GitHubClientWrapper({
   return (
     <ContentListingPage
       title='GitHub'
-      iconName='Code24Regular'
+      iconName='CodeFilled'
       description='Explore open-source projects, code samples, and technical resources from Terence Waters and Fluxline. Click any repository to view it on GitHub.'
       basePath='/github'
       cards={cards}

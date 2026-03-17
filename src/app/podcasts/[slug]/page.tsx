@@ -4,6 +4,7 @@ import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
+import { PodcastEpisodeLabel } from './PodcastEpisodeLabel';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -38,9 +39,7 @@ export default async function PodcastEpisodePage({ params }: Props) {
           listingPath='/podcasts'
           listingLabel='Podcasts'
         />
-        <span className='text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wide'>
-          Podcast Episode
-        </span>
+        <PodcastEpisodeLabel />
         <h1 className='text-3xl font-bold mt-2 mb-6'>Episode: {slug}</h1>
         <AudioPlayer audioUrl='' title={`Episode: ${slug}`} />
         <p className='mt-8 text-gray-500 dark:text-gray-400'>

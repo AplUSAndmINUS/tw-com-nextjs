@@ -6,6 +6,7 @@ import { ViewType } from '@/store';
 import { ContentCard } from '@/components/ContentCard';
 import { ViewSwitcher } from '@/components/ViewSwitcher';
 import { TagFilter } from '@/components/TagFilter';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 export interface UnifiedContentEntry extends ContentItem {
   contentType: string;
@@ -17,6 +18,7 @@ interface UnifiedContentClientProps {
 }
 
 export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
+  const { theme } = useAppTheme();
   const [viewType, setViewType] = useState<ViewType>('grid');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeType, setActiveType] = useState<string | null>(null);
@@ -62,11 +64,15 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
         <div className='flex flex-wrap gap-2'>
           <button
             onClick={() => setActiveType(null)}
-            className={`px-3 py-1 rounded-full text-sm transition-colors ${
+            className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+            style={
               activeType === null
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-            }`}
+                ? {
+                    backgroundColor: theme.semanticColors.link.default,
+                    color: theme.semanticColors.background.base,
+                  }
+                : undefined
+            }
           >
             All
           </button>
@@ -74,11 +80,15 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
             <button
               key={type}
               onClick={() => setActiveType(type === activeType ? null : type)}
-              className={`px-3 py-1 rounded-full text-sm transition-colors ${
+              className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+              style={
                 activeType === type
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
+                  ? {
+                      backgroundColor: theme.semanticColors.link.default,
+                      color: theme.semanticColors.background.base,
+                    }
+                  : undefined
+              }
             >
               {type}
             </button>

@@ -18,6 +18,12 @@ export {
   useIsTabletLandscape,
   useDeviceOrientation,
 } from './useMediaQuery';
+export { useCardState } from './useCardState';
+export type {
+  UseCardStateOptions,
+  CardStateReturn,
+  InteractionHandlers,
+} from './useCardState';
 export { useHoverState, useMultiHoverState } from './useHoverState';
 export { useReducedMotion } from './useReducedMotion';
 export { useScrollPosition } from './useScrollPosition';

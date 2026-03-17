@@ -8,7 +8,7 @@
 import React from 'react';
 import Image from 'next/image';
 import {
-  ArrowExpand20Regular,
+  ArrowExpand28Regular,
   ContactCard24Regular,
 } from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
@@ -17,8 +17,8 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMemberModal } from './TeamMemberModal';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import { type SocialIcon } from '@/components/SocialIcons/constants';
-import { useMouseHoverState } from '@/hooks/useHoverState';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { useCardState } from '@/hooks/useCardState';
 
 export interface TeamMember {
   id: string;
@@ -40,38 +40,34 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
-  const [isHovered, hoverProps] = useMouseHoverState();
+  const isTablet = useIsTablet();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { filter } = useColorVisionFilter();
-
-  const isDark =
-    theme.themeMode === 'dark' ||
-    theme.themeMode === 'high-contrast' ||
-    theme.themeMode === 'grayscale-dark';
+  const {
+    isHovered,
+    backgroundColor,
+    accentColor,
+    restStateColor,
+    interactionProps,
+  } = useCardState({ hoverable: true, clickable: true });
 
   return (
     <>
       <div
-        {...(!isMobile ? hoverProps : {})}
-        onClick={!isMobile ? () => setIsModalOpen(true) : undefined}
+        {...interactionProps}
+        onClick={!isMobile || !isTablet ? () => setIsModalOpen(true) : undefined}
         style={{
           display: 'flex',
           flexDirection: 'column',
           padding: theme.spacing.l,
           borderRadius: theme.borderRadius.container.medium,
-          border: `1px solid ${
-            isHovered
-              ? theme.palette.themePrimary
-              : theme.palette.neutralTertiaryAlt
-          }`,
-          backgroundColor: isHovered
-            ? isDark
-              ? theme.palette.neutralLighter
-              : theme.palette.neutralLighterAlt
-            : 'transparent',
+          border: `1px solid ${isHovered ? accentColor : restStateColor}`,
+          backgroundColor: backgroundColor,
           transition: 'all 0.3s ease',
           transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-          boxShadow: isHovered ? theme.shadows.m : 'none',
+          boxShadow: isHovered
+            ? theme.shadows.cardElevated
+            : theme.shadows.card,
           cursor: isMobile ? 'default' : 'pointer',
           maxWidth,
           width: '100%',
@@ -116,7 +112,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           <Typography
             variant='h3'
             style={{
-              color: theme.palette.themePrimary,
+              color: theme.palette.neutralPrimary,
               marginBottom: theme.spacing.s1,
             }}
           >
@@ -127,9 +123,10 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             <Typography
               variant='label'
               style={{
-                color: theme.palette.themeSecondary,
+                color: isHovered ? accentColor : restStateColor,
                 fontSize: '1rem',
                 fontStyle: 'italic',
+                transition: 'color 0.2s ease',
               }}
             >
               {member.role}
@@ -140,10 +137,13 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             <Typography
               variant='body'
               style={{
-                color: theme.palette.neutralPrimary,
+                color: isHovered
+                  ? theme.semanticColors.text.primary
+                  : theme.semanticColors.text.muted,
                 fontSize: '0.875rem',
                 lineHeight: theme.typography.lineHeights.relaxed,
                 marginBottom: theme.spacing.m,
+                transition: 'color 0.2s ease',
               }}
             >
               {member.bio}
@@ -185,13 +185,17 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '18px',
-                    height: '18px',
+                    width: '24px',
+                    height: '24px',
+                    marginRight: theme.spacing.s1,
                   }}
                 >
                   <FluentIcon
                     iconName={item.iconName}
-                    color={theme.palette.themePrimary}
+                    color={isHovered ? accentColor : restStateColor}
+                    style={{
+                      transition: 'color 0.2s ease',
+                    }}
                   />
                 </a>
               ))}
@@ -200,10 +204,10 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {/* Expand icon — signals the card is clickable (desktop only) */}
           {!isMobile && (
             <FluentIcon
-              iconName={ArrowExpand20Regular}
+              iconName={ArrowExpand28Regular}
               color={theme.palette.themePrimary}
               style={{
-                opacity: isHovered ? 0.9 : 0.5,
+                opacity: isHovered ? 0.9 : 1,
                 transition: 'opacity 0.3s ease',
               }}
             />

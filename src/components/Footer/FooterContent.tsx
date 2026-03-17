@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
-import { useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsTablet, useDeviceOrientation } from '@/hooks/useMediaQuery';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
@@ -35,6 +35,7 @@ interface FooterLinkSectionProps {
   title: string;
   links: Array<{ href: string; label: string }>;
   isCompact: boolean;
+  isAuthorTagline?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -46,6 +47,7 @@ function FooterLinkSection({
   title,
   links,
   isCompact,
+  isAuthorTagline = false,
   className = '',
   children,
 }: FooterLinkSectionProps) {
@@ -64,7 +66,7 @@ function FooterLinkSection({
         {title}
       </Typography>
       {title === 'Social' ? (
-        <SocialLinks isFooter />
+        <SocialLinks isFooter isAuthorTagline={isAuthorTagline} />
       ) : (
         <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
           {links.map(({ href, label }) => (
@@ -95,6 +97,13 @@ function FooterNewsletterMini() {
   const [error, setError] = useState<string | null>(null);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+
+  // Auto-reset the success confirmation after 5 seconds so the form returns to input state
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => setIsSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -133,6 +142,7 @@ function FooterNewsletterMini() {
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
+  // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
   if (isSuccess || newsletterSubscribed) {
     return (
       <div
@@ -148,6 +158,25 @@ function FooterNewsletterMini() {
           }}
         >
           ✓ You&apos;re subscribed!
+        </Typography>
+        <Typography
+          variant='caption'
+          style={{
+            color: theme.semanticColors.text.muted,
+            fontSize: '0.7rem',
+            marginTop: '0.25rem',
+            display: 'block',
+          }}
+        >
+          <Link
+            href='/unsubscribe'
+            style={{
+              color: theme.colorBrandForeground1,
+              textDecoration: 'underline',
+            }}
+          >
+            Unsubscribe
+          </Link>
         </Typography>
       </div>
     );
@@ -224,6 +253,24 @@ function FooterNewsletterMini() {
           >
             {isLoading ? 'Subscribing…' : 'Subscribe'}
           </button>
+          <Typography
+            variant='caption'
+            style={{
+              color: theme.semanticColors.text.muted,
+              fontSize: '0.7rem',
+              marginTop: '0.125rem',
+            }}
+          >
+            <Link
+              href='/unsubscribe'
+              style={{
+                color: theme.semanticColors.text.muted,
+                textDecoration: 'underline',
+              }}
+            >
+              Unsubscribe
+            </Link>
+          </Typography>
         </div>
       </form>
     </div>
@@ -246,6 +293,8 @@ export function FooterContent({
 }: FooterContentProps) {
   const year = new Date().getFullYear();
   const isTablet = useIsTablet();
+  const orientation = useDeviceOrientation();
+  const isLargePortrait = orientation === 'large-portrait';
 
   return (
     <>
@@ -257,7 +306,7 @@ export function FooterContent({
         style={{ margin: '0 auto' }}
       >
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
+          className={`grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
         >
           {/* Brand */}
           <div>
@@ -286,12 +335,14 @@ export function FooterContent({
           </div>
 
           {/* Link sections */}
-          <FooterLinkSection
-            title='Content'
-            links={footerLinks.content}
-            isCompact={isCompact}
-            className='hidden md:flex'
-          />
+          {!isLargePortrait && (
+            <FooterLinkSection
+              title='Content'
+              links={footerLinks.content}
+              isCompact={isCompact}
+              className='hidden md:flex'
+            />
+          )}
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}
@@ -309,6 +360,7 @@ export function FooterContent({
             title='Social'
             links={[]} // Empty array since SocialLinks component handles rendering
             isCompact={true}
+            isAuthorTagline={isLargePortrait}
           >
             <FooterNewsletterMini />
           </FooterLinkSection>

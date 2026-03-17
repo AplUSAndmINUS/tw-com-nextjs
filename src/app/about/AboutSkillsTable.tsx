@@ -7,9 +7,10 @@ import {
   Heart24Regular,
 } from '@fluentui/react-icons';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useCardState } from '@/hooks/useCardState';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
-import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 const SKILL_CATEGORIES = [
   {
@@ -60,9 +61,6 @@ const SKILL_CATEGORIES = [
 export const AboutSkillsTable: React.FC = () => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
-
-  const accentColor = theme.palette.themePrimary;
 
   return (
     <div
@@ -72,92 +70,132 @@ export const AboutSkillsTable: React.FC = () => {
         gap: theme.spacing.m,
       }}
     >
-      {SKILL_CATEGORIES.map((cat) => {
-        return (
-          <div
-            key={cat.category}
-            style={{
-              border: `1px solid ${theme.semanticColors.border.default}`,
-              borderTop: `4px solid ${accentColor}`,
-              borderRadius: theme.borderRadius.container.medium,
-              overflow: 'hidden',
-              backgroundColor: theme.semanticColors.background.elevated,
-              backgroundImage: `linear-gradient(160deg, ${accentColor}0d 0%, transparent 50%)`,
-            }}
-          >
-            {/* Header */}
-            <div
-              style={{
-                padding: `${theme.spacing.m} ${theme.spacing.m} ${theme.spacing.s1}`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: theme.spacing.s1,
-                borderBottom: `1px solid ${theme.semanticColors.border.default}`,
-              }}
-            >
-              <FluentIcon iconName={cat.icon} color={accentColor} />
-              <Typography
-                variant='h5'
-                style={{
-                  color: accentColor,
-                  margin: 0,
-                  fontSize: '0.95rem',
-                  fontWeight: 700,
-                }}
-              >
-                {cat.category}
-              </Typography>
-            </div>
-
-            {/* Skill chips */}
-            <ul
-              style={{
-                margin: 0,
-                padding: theme.spacing.m,
-                listStyleType: 'disc',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: theme.spacing.xs,
-              }}
-            >
-              {cat.skills.map((skill) => (
-                <li
-                  key={skill}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: theme.spacing.s1,
-                    paddingBottom: theme.spacing.xs,
-                    borderBottom: `1px solid ${theme.semanticColors.border.default}28`,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '5px',
-                      height: '5px',
-                      borderRadius: '50%',
-                      backgroundColor: accentColor,
-                      flexShrink: 0,
-                      opacity: 0.75,
-                    }}
-                  />
-                  <Typography
-                    variant='body'
-                    style={{
-                      color: theme.semanticColors.text.muted,
-                      fontSize: '0.875rem',
-                      lineHeight: 1.4,
-                      margin: 0,
-                    }}
-                  >
-                    {skill}
-                  </Typography>
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
+      {SKILL_CATEGORIES.map((cat) => (
+        <SkillCard key={cat.category} cat={cat} />
+      ))}
     </div>
   );
 };
+
+interface SkillCat {
+  category: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  skills: string[];
+}
+
+function SkillCard({ cat }: { cat: SkillCat }) {
+  const { theme } = useAppTheme();
+  const {
+    isHovered,
+    currentColor,
+    topBarColor,
+    borderColor,
+    backgroundImage,
+    backgroundColor,
+    boxShadow,
+    interactionProps,
+  } = useCardState({ hoverable: true });
+
+  return (
+    <div
+      style={{
+        borderRadius: theme.borderRadius.container.medium,
+        overflow: 'hidden',
+        border: `1px solid ${borderColor}`,
+        backgroundColor,
+        backgroundImage,
+        boxShadow,
+        transform: isHovered ? 'scale(1.02)' : 'scale(1)',
+        transition:
+          'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
+      }}
+      {...interactionProps}
+    >
+      {/* Accent bar */}
+      <div
+        style={{
+          width: '100%',
+          height: '4px',
+          backgroundColor: topBarColor,
+          transition: 'background-color 0.2s ease',
+        }}
+      />
+
+      {/* Header */}
+      <div
+        style={{
+          padding: `${theme.spacing.m} ${theme.spacing.m} ${theme.spacing.s1}`,
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing.s1,
+          borderBottom: `1px solid ${borderColor}`,
+          transition: 'border-color 0.2s ease',
+        }}
+      >
+        <FluentIcon iconName={cat.icon} color={currentColor} />
+        <Typography
+          variant='h5'
+          style={{
+            color: currentColor,
+            margin: 0,
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            transition: 'color 0.2s ease',
+          }}
+        >
+          {cat.category}
+        </Typography>
+      </div>
+
+      {/* Skill list */}
+      <ul
+        style={{
+          margin: 0,
+          padding: theme.spacing.m,
+          listStyleType: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: theme.spacing.xs,
+        }}
+      >
+        {cat.skills.map((skill) => (
+          <li
+            key={skill}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: theme.spacing.s1,
+              paddingBottom: theme.spacing.xs,
+              borderBottom: `1px solid ${theme.semanticColors.border.default}28`,
+            }}
+          >
+            <div
+              style={{
+                width: '5px',
+                height: '5px',
+                borderRadius: '50%',
+                backgroundColor: currentColor,
+                flexShrink: 0,
+                opacity: isHovered ? 1 : 0.75,
+                transition: 'background-color 0.2s ease, opacity 0.2s ease',
+              }}
+            />
+            <Typography
+              variant='body'
+              style={{
+                color: isHovered
+                  ? theme.palette.neutralPrimary
+                  : theme.palette.neutralSecondary,
+                fontSize: '0.875rem',
+                lineHeight: 1.4,
+                margin: 0,
+              }}
+            >
+              {skill}
+            </Typography>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}

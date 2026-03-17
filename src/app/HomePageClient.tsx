@@ -11,6 +11,7 @@ import {
   useIsMobileLandscape,
   useIsTablet,
   useIsTabletLandscape,
+  useDeviceOrientation,
 } from '@/hooks/useMediaQuery';
 import type { ThemeMode } from '@/theme/fluentTheme';
 
@@ -32,6 +33,8 @@ export default function HomePageClient() {
   const isMobileLandscape = useIsMobileLandscape();
   const isTablet = useIsTablet();
   const isTabletLandscape = useIsTabletLandscape();
+  const orientation = useDeviceOrientation();
+  const isLargePortrait = orientation === 'large-portrait';
 
   // Force dark mode on homepage
   useEffect(() => {
@@ -80,7 +83,7 @@ export default function HomePageClient() {
   return (
     <PageLayout isHomePage>
       <section
-        className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} justify-end lg:justify-center h-full sm:px-4 md:px-6 lg:px-12`}
+        className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} ${isLargePortrait ? 'justify-end' : 'justify-end lg:justify-center'} h-full sm:px-4 md:px-6 lg:px-12`}
       >
         {/* Translucent card container around text */}
         <div

@@ -26,19 +26,16 @@ export function SiteLayout({
 }: SiteLayoutProps) {
   const { theme, themeMode } = useAppTheme();
 
-  // Determine if current theme is dark family
-  const isDarkMode =
-    themeMode === 'dark' ||
-    themeMode === 'high-contrast' ||
-    themeMode === 'grayscale-dark';
-
-  // Use theme-aware backgrounds for all modes
-  // This ensures proper adaptation across all theme variants including
-  // accessibility modes (high-contrast, colorblind, grayscale)
+  // Select gradient per mode for precise per-variant control
   const backgroundStyle = {
-    background: isDarkMode
-      ? theme.gradients.dark.background
-      : theme.gradients.light.background,
+    background:
+      themeMode === 'high-contrast'
+        ? theme.gradients.highContrast.background
+        : themeMode === 'grayscale-dark'
+          ? theme.gradients.grayscaleDark.background
+          : themeMode === 'dark'
+            ? theme.gradients.dark.background
+            : theme.gradients.light.background,
   };
 
   return (
