@@ -33,7 +33,11 @@ export const ConsultationCTA: React.FC = () => {
         padding: theme.spacing.l,
       }}
     >
-      <Typography variant='h3' className='text-2xl font-semibold mb-3'>
+      <Typography
+        variant='h3'
+        className='text-2xl font-semibold mb-3'
+        style={{ color: theme.semanticColors.accent.yellow }}
+      >
         Ready to get started?
       </Typography>
       <Typography
@@ -56,7 +60,7 @@ export const ConsultationCTA: React.FC = () => {
           textDecoration: 'none',
           transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
           fontFamily: theme.typography.fonts.body.fontFamily,
-          boxShadow: theme.shadows.button,  
+          boxShadow: theme.shadows.button,
         }}
         onMouseEnter={(e) => {
           setButtonHovered(true);

@@ -128,7 +128,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
                     : 'translateY(0)',
-                  boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
+                  boxShadow: isHovered(card.id)
+                    ? theme.shadows.cardElevated
+                    : theme.shadows.card,
                 }}
                 {...getHoverProps(card.id)}
                 onClick={() => handleCardClick(card.id)}
@@ -249,7 +251,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           flexDirection: 'column',
           gap: theme.spacing.m,
           width: '100%',
-          margin: '0 auto'
+          margin: '0 auto',
         }}
       >
         {cards.map((card) => {
@@ -280,7 +282,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
                     : 'translateY(0)',
-                  boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
+                  boxShadow: isHovered(card.id)
+                    ? theme.shadows.cardElevated
+                    : theme.shadows.card,
                 }}
                 {...getHoverProps(card.id)}
                 onClick={() => handleCardClick(card.id)}
@@ -289,7 +293,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   <div
                     style={{
                       width: isMobile ? '100px' : '180px',
-                      height: isMobile ? '80px' : '180px',
+                      height: isMobile ? '80px' : '200px',
                       flexShrink: 0,
                       borderRadius: theme.borderRadius.container.small,
                       overflow: 'hidden',
@@ -364,7 +368,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     >
                       {card.tags.slice(0, 3).map((tag) => (
                         <Typography
-                          variant='caption'
+                          variant='label'
                           key={tag}
                           style={{
                             fontSize: '0.7rem',
@@ -428,7 +432,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 transform: isHovered(card.id)
                   ? 'translateY(-4px)'
                   : 'translateY(0)',
-                boxShadow: isHovered(card.id) ? theme.shadows.card : 'none',
+                boxShadow: isHovered(card.id)
+                  ? theme.shadows.cardElevated
+                  : theme.shadows.card,
               }}
               {...getHoverProps(card.id)}
               onClick={() => handleCardClick(card.id)}
@@ -443,8 +449,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 {card.imageUrl && (
                   <div
                     style={{
-                      width: isMobile ? '100%' : '260px',
-                      height: isMobile ? '200px' : '220px',
+                      width: isMobile ? '100%' : '225px',
+                      height: isMobile ? '200px' : 'auto',
+                      maxHeight: isMobile ? 'none' : '225px',
                       flexShrink: 0,
                       backgroundColor: theme.semanticColors.background.muted,
                       position: 'relative',
@@ -522,7 +529,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     >
                       {card.tags.slice(0, 5).map((tag) => (
                         <Typography
-                          variant='caption'
+                          variant='label'
                           key={tag}
                           style={{
                             fontSize: '0.75rem',

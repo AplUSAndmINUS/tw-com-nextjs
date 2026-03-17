@@ -36,6 +36,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
     : theme.semanticColors.background.muted;
 
   const accentColor = theme.semanticColors.accent.teal;
+  const restStateColor = theme.palette.themePrimary;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -89,7 +90,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
               border: isLightFamilyMode
                 ? `1px solid ${theme.semanticColors.border.emphasis}`
                 : `1px solid ${theme.semanticColors.border.default}`,
-              borderTop: `4px solid ${accentColor}`,
+              borderTop: `4px solid ${hoveredIndex === index ? accentColor : restStateColor}`,
               backgroundImage:
                 hoveredIndex === index
                   ? isLightFamilyMode
@@ -104,12 +105,8 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
                 hoveredIndex === index ? 'translateY(-4px)' : 'translateY(0)',
               boxShadow:
                 hoveredIndex === index
-                  ? isLightFamilyMode
-                    ? theme.shadows.hero
-                    : theme.shadows.card
-                  : isLightFamilyMode
-                    ? theme.shadows.card
-                    : theme.shadows.button,
+                  ? theme.shadows.cardElevated
+                  : theme.shadows.card,
               backgroundColor:
                 hoveredIndex === index
                   ? cardHoverSurfaceColor
@@ -131,7 +128,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: theme.semanticColors.accent.teal,
+                  color: hoveredIndex === index ? accentColor : restStateColor,
                   fontSize: '1.25rem',
                   marginTop: '2px',
                 }}
@@ -141,7 +138,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
               <Typography
                 variant='label'
                 style={{
-                  color: theme.semanticColors.text.primary,
+                  color: hoveredIndex === index ? accentColor : restStateColor,
                   fontSize: '0.9375rem',
                   fontWeight: 600,
                   lineHeight: 1.5,

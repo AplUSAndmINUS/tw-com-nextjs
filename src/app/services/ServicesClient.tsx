@@ -142,8 +142,8 @@ export function ServicesClient() {
                   border: `1px solid ${isFocused || isHovered ? accentColor : theme.semanticColors.border.default}`,
                   backgroundColor: cardSurfaceColor,
                   backgroundImage: isLightFamilyMode
-                    ? `linear-gradient(160deg, ${accentColor}30 0%, transparent 52%)`
-                    : `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                    ? `linear-gradient(160deg, ${restStateColor}30 0%, transparent 52%)`
+                    : `linear-gradient(160deg, ${restStateColor}14 0%, transparent 42%)`,
                   padding: theme.spacing.m,
                   height: '100%',
                   display: 'flex',
@@ -157,7 +157,7 @@ export function ServicesClient() {
                 whileHover={{
                   scale: 1.02,
                   backgroundColor: cardHoverSurfaceColor,
-                  borderColor: restStateColor,
+                  borderColor: accentColor,
                   boxShadow: theme.shadows.card,
                 }}
               >
@@ -167,9 +167,7 @@ export function ServicesClient() {
                     height: '4px',
                     borderRadius: theme.borderRadius.container.small,
                     backgroundColor:
-                      isHovered || isFocused
-                        ? accentColor
-                        : restStateColor,
+                      isHovered || isFocused ? accentColor : restStateColor,
                     marginBottom: theme.spacing.m,
                   }}
                 />
@@ -191,21 +189,17 @@ export function ServicesClient() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: isHovered || isFocused ? accentColor : restStateColor,
+                      color:
+                        isHovered || isFocused ? accentColor : restStateColor,
                     }}
                   >
-                    {IconComponent && (
-                      <FluentIcon
-                        iconName={IconComponent}
-                        style={{ color: isHovered || isFocused ? accentColor : restStateColor }}
-                      />
-                    )}
+                    {IconComponent && <FluentIcon iconName={IconComponent} />}
                   </div>
                   <Typography
                     variant='h3'
                     className='font-semibold'
                     style={{
-                      color: theme.semanticColors.text.heading,
+                      color: theme.semanticColors.text.primary,
                       fontSize: '1.75rem',
                       lineHeight: 1.3,
                     }}
@@ -230,7 +224,8 @@ export function ServicesClient() {
                   style={{
                     fontSize: '0.875rem',
                     fontWeight: 600,
-                    color: isFocused || isHovered ? accentColor : restStateColor,
+                    color:
+                      isFocused || isHovered ? accentColor : restStateColor,
                   }}
                 >
                   {category.cta} →

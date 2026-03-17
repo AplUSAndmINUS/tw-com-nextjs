@@ -153,8 +153,8 @@ export function ContentHubClient() {
                 : {
                     scale: 1.02,
                     backgroundColor: cardHoverSurfaceColor,
-                    borderColor: theme.palette.themePrimary,
-                    boxShadow: theme.shadows.card,
+                    borderColor: accentColor,
+                    boxShadow: theme.shadows.cardElevated,
                   }
             }
           >

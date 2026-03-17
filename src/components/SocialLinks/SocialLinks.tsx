@@ -32,7 +32,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       flexDirection: 'row' as const,
       alignItems: 'center',
       justifyContent: isAuthorTagline ? 'flex-start' : 'space-between',
-      gap: isCompactFooterTablet ? '0.125rem' : isFooter ? '0.25rem' : '1rem',
+      gap: isCompactFooterTablet ? '0.125rem' : isFooter ? '0.5rem' : '1rem',
       padding: isFooter
         ? '0'
         : isAuthorTagline

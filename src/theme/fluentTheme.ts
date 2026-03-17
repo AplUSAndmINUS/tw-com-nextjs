@@ -831,6 +831,7 @@ export const shadows = {
   toast: '0 16px 48px rgba(0, 0, 0, 0.32)',
   menu: '0 0 20px rgba(0, 0, 0, 0.15)',
   cardImage: '4px 4px 8px rgba(0, 0, 0, 0.7)',
+  cardElevated: '0 8px 16px rgba(0, 0, 0, 0.2)',
 };
 
 // ============================================================================
