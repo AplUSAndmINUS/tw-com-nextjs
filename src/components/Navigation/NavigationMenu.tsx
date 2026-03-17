@@ -205,7 +205,16 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
             ))}
           </AnimatePresence>
         </ul>
-        <div className='flex items-end justify-end mt-8 transition-transform hover:scale-105'>
+        <motion.div
+          className='flex items-end justify-end mt-8 transition-transform hover:scale-105'
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: shouldReduceMotion ? 0 : navItems.length * 0.06 + 0.1,
+            duration: shouldReduceMotion ? 0 : 0.25,
+            ease: 'easeOut',
+          }}
+        >
           <a
             href='https://linktr.ee/aplusinflux'
             target='_blank'
@@ -213,7 +222,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           >
             <LinktreeLogo />
           </a>
-        </div>
+        </motion.div>
       </nav>
 
       {/* Footer */}
