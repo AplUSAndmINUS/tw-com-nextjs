@@ -75,7 +75,7 @@ export function ContentHubClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
 
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.teal;
 
   const isLightFamilyMode =
     themeMode === 'light' ||
@@ -163,7 +163,7 @@ export function ContentHubClient() {
                   position: 'absolute',
                   top: theme.spacing.s,
                   right: theme.spacing.s,
-                  backgroundColor: theme.palette.themePrimary,
+                  backgroundColor: theme.colorPaletteRoyalBlueForeground2,
                   color: theme.palette.white,
                   padding: `${theme.spacing.xs} ${theme.spacing.s}`,
                   borderRadius: theme.borderRadius.container.small,
@@ -173,6 +173,7 @@ export function ContentHubClient() {
                   letterSpacing: '0.5px',
                   boxShadow: theme.shadows.button,
                   zIndex: 1,
+                  opacity: 1,
                 }}
               >
                 Coming Soon!
@@ -212,7 +213,6 @@ export function ContentHubClient() {
                 {IconComponent && (
                   <FluentIcon
                     iconName={IconComponent}
-                    variant='primary'
                     style={{
                       fontSize: '2.5rem',
                       color: accentColor,

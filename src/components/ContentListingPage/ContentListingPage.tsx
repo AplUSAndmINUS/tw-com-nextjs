@@ -322,20 +322,14 @@ export function ContentListingPage({
           }
         />
 
-        {/* Email Newsletter Signup CTA for Desktop Only */}
-        {emailNewsletterSignup && !isMobile && !isTablet && (
-          <div style={{ marginTop: theme.spacing.l }}>
-            <NewsletterSignupCTA />
-          </div>
-        )}
 
         {/* Results Message */}
         {resultsMessage && (
           <div
-            style={{
-              marginTop: theme.spacing.l,
-              marginBottom: theme.spacing.m,
-            }}
+          style={{
+            marginTop: theme.spacing.l,
+            marginBottom: theme.spacing.m,
+          }}
           >
             <Typography
               variant='body'
@@ -343,7 +337,7 @@ export function ContentListingPage({
                 color: theme.palette.neutralSecondary,
                 fontSize: '0.9375rem',
               }}
-            >
+              >
               {resultsMessage}
             </Typography>
           </div>
@@ -352,10 +346,10 @@ export function ContentListingPage({
         {/* Custom Section (e.g., GitHub contributions) */}
         {customSection && (
           <div
-            style={{
-              marginTop: theme.spacing.l,
-              marginBottom: theme.spacing.l,
-            }}
+          style={{
+            marginTop: theme.spacing.l,
+            marginBottom: theme.spacing.l,
+          }}
           >
             {customSection}
           </div>
@@ -365,16 +359,16 @@ export function ContentListingPage({
         <div style={{ marginTop: theme.spacing.l }}>
           {safeCards.length === 0 ? (
             <Callout
-              variant='neutral'
-              title={emptyStateTitle}
-              subtitle={emptyStateMessage}
+            variant='neutral'
+            title={emptyStateTitle}
+            subtitle={emptyStateMessage}
             />
           ) : (
             <AdaptiveCardGrid
-              cards={safeCards}
-              basePath={basePath}
-              viewType={viewType}
-              onCardClick={handleCardClick}
+            cards={safeCards}
+            basePath={basePath}
+            viewType={viewType}
+            onCardClick={handleCardClick}
             />
           )}
         </div>
@@ -390,7 +384,7 @@ export function ContentListingPage({
                   fontSize: '1rem',
                   lineHeight: 1.6,
                 }}
-              >
+                >
                 {ctaSection.description}
               </Typography>
               <div
@@ -399,12 +393,12 @@ export function ContentListingPage({
                   gap: theme.spacing.m,
                   flexWrap: 'wrap',
                 }}
-              >
+                >
                 {ctaSection.buttons.map((button, index) => (
                   <Button
-                    key={index}
-                    variant={button.variant}
-                    onClick={() => router.push(button.path)}
+                  key={index}
+                  variant={button.variant}
+                  onClick={() => router.push(button.path)}
                   >
                     {button.label}
                   </Button>
@@ -414,7 +408,7 @@ export function ContentListingPage({
           </div>
         )}
         {/* Email Newsletter Signup CTA for Mobile and Tablet to save space */}
-        {emailNewsletterSignup && (isMobile || isTablet) && (
+        {emailNewsletterSignup && (
           <div style={{ marginTop: theme.spacing.l }}>
             <NewsletterSignupCTA />
           </div>
