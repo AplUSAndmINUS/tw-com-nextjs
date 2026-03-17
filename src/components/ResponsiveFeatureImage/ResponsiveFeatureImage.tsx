@@ -20,7 +20,10 @@ export function ResponsiveFeatureImage({
   alt,
   title,
 }: ResponsiveFeatureImageProps) {
-  const [aspectRatio, setAspectRatio] = useState<string>('3/4');
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
   const isTablet = useIsTablet();
   const isDesktop = useIsDesktop();
 
@@ -28,36 +31,30 @@ export function ResponsiveFeatureImage({
   const shouldApplyDynamicRatio = isTablet || isDesktop;
 
   /**
-   * Detect image dimensions and calculate aspect ratio
+   * Detect image dimensions on load.
+   * Always stores the dimensions so re-renders (e.g. when media-query hooks
+   * update from false → true after hydration) can pick up the correct ratio.
    */
   const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    if (!shouldApplyDynamicRatio) return;
-
     const img = event.currentTarget;
     const width = img.naturalWidth;
     const height = img.naturalHeight;
 
     if (width && height) {
-      const ratio = width / height;
-
-      // Apply different aspect ratio classes based on image dimensions
-      if (ratio > 1.5) {
-        // Wide landscape
-        setAspectRatio('16/9');
-      } else if (ratio > 1.2) {
-        // Landscape
-        setAspectRatio('4/3');
-      } else if (ratio > 0.9) {
-        // Square-ish
-        setAspectRatio('1/1');
-      } else if (ratio > 0.7) {
-        // Portrait
-        setAspectRatio('3/4');
-      } else {
-        // Tall portrait
-        setAspectRatio('2/3');
-      }
+      setImageDimensions({ width, height });
     }
+  };
+
+  // Derive the aspect-ratio string from the stored natural dimensions
+  const getAspectRatioKey = (): string => {
+    if (!imageDimensions) return '3/4';
+    const ratio = imageDimensions.width / imageDimensions.height;
+
+    if (ratio > 1.5) return '16/9'; // Wide landscape
+    if (ratio > 1.2) return '4/3'; // Landscape
+    if (ratio > 0.9) return '1/1'; // Square-ish
+    if (ratio > 0.7) return '3/4'; // Portrait
+    return '2/3'; // Tall portrait
   };
 
   // Map aspect ratio to predefined Tailwind classes
@@ -65,7 +62,7 @@ export function ResponsiveFeatureImage({
     // On mobile: use square aspect ratio to keep image compact and fit within 1/3 viewport
     if (!shouldApplyDynamicRatio) return 'aspect-square';
 
-    switch (aspectRatio) {
+    switch (getAspectRatioKey()) {
       case '16/9':
         return 'aspect-video';
       case '4/3':
