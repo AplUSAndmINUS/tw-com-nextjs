@@ -19,7 +19,7 @@ export const ConsultationCTA: React.FC = () => {
     ? theme.semanticColors.background.muted
     : theme.semanticColors.background.elevated;
 
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.yellow;
   const [buttonHovered, setButtonHovered] = useState(false);
 
   return (

@@ -7,6 +7,7 @@ import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
 import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 
 const serviceCategories: {
   title: string;
@@ -60,8 +61,10 @@ const serviceCategories: {
 export function ServicesClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
-  const accentColor = theme.colorBrandBackground || theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.teal;
 
   const isLightFamilyMode =
     themeMode === 'light' ||
@@ -100,7 +103,11 @@ export function ServicesClient() {
       animate='visible'
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gridTemplateColumns: isMobile
+          ? '1fr'
+          : isTablet
+            ? '1fr 1fr'
+            : '1fr 1fr 1fr',
         gap: theme.spacing.l,
         width: '100%',
       }}

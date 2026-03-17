@@ -35,7 +35,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
     ? theme.semanticColors.background.elevated
     : theme.semanticColors.background.muted;
 
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.teal;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -131,7 +131,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: theme.palette.themePrimary,
+                  color: theme.semanticColors.accent.teal,
                   fontSize: '1.25rem',
                   marginTop: '2px',
                 }}
@@ -141,7 +141,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
               <Typography
                 variant='label'
                 style={{
-                  color: theme.palette.neutralPrimaryw,
+                  color: theme.semanticColors.text.primary,
                   fontSize: '0.9375rem',
                   fontWeight: 600,
                   lineHeight: 1.5,
