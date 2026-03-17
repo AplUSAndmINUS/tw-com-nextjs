@@ -67,12 +67,8 @@ const TIMELINE_ENTRIES: TimelineEntry[] = [
 function TimelineCard({ entry, index, isLast }: TimelineCardProps) {
   const { theme, isDark } = useAppTheme();
   const isMobile = useIsMobile();
-  const {
-    accentColor,
-    isHovered,
-    interactionProps,
-    restStateColor,
-  } = useCardState({ hoverable: true });
+  const { accentColor, isHovered, interactionProps, restStateColor } =
+    useCardState({ hoverable: true });
 
   const circleSize = isMobile ? '1.75rem' : '2rem';
 
@@ -219,17 +215,6 @@ function TimelineCard({ entry, index, isLast }: TimelineCardProps) {
 }
 
 export const AboutTimeline: React.FC = () => {
-  const { theme } = useAppTheme();
-
-  const accentPalette = [
-    theme.palette.themePrimary,
-    theme.semanticColors.link.default,
-    theme.semanticColors.link.hover,
-    theme.semanticColors.border.emphasis,
-    theme.palette.themeSecondary,
-    theme.semanticColors.link.visited,
-  ];
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {TIMELINE_ENTRIES.map((entry, index) => {
@@ -238,8 +223,6 @@ export const AboutTimeline: React.FC = () => {
             key={`${entry.org}-${index}`}
             entry={entry}
             index={index}
-            accentColor={accentPalette[index % accentPalette.length]}
-            nextAccentColor={accentPalette[(index + 1) % accentPalette.length]}
             isLast={index === TIMELINE_ENTRIES.length - 1}
           />
         );
