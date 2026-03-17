@@ -3,19 +3,19 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography/Typography';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface PercentageBulletProps {
-  isMobile?: boolean;
   name: string;
   percentage: number;
 }
 
 export const PercentageBullet: React.FC<PercentageBulletProps> = ({
-  isMobile = false,
   name,
   percentage,
 }) => {
   const { theme } = useAppTheme();
+  const isMobile = useIsMobile();
   const circumference = 2 * Math.PI * 92; // Must match SVG r='92'
   const [animatedPercentage, setAnimatedPercentage] = React.useState(0);
   const animationRef = React.useRef<number | null>(null);
@@ -120,7 +120,7 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
             />
           </svg>
           <Typography
-            variant='h3'
+            variant={isMobile ? 'h2' : 'h3'}
             style={{
               position: 'absolute',
               top: '50%',

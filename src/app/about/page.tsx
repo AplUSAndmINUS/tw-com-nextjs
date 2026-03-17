@@ -18,12 +18,12 @@ import { AboutFeaturedProjects } from './AboutFeaturedProjects';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
+    'Terence Waters is a founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'About | Terence Waters',
     description:
-      'Founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
+      'Terence Waters is a founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
     url: 'https://terencewaters.com/about',
     siteName: 'Terence Waters',
     type: 'profile',
@@ -63,34 +63,39 @@ const CERTIFICATIONS = [
 export default function AboutPage() {
   return (
     <AboutPageClient>
-      <div className='max-width-content pt-0 pb-12 xs:pb-12 md:py-8'>
+      <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
           title='About Me'
           iconName='Person24Regular'
-          description='Dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
+          description='Hi there! I am Terence Waters, a dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
         >
           <AboutHeroCTAs />
         </Hero>
 
         {/* ── Professional Summary ─────────────────────────────────────────── */}
-        <AboutSectionWrapper
-          variant='default'
-          className='mt-10 space-y-4 p-6'
-        >
+        <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
           <SectionHeading>Professional Summary</SectionHeading>
           <Typography
+            className={'text-gray-700 dark:text-gray-300'}
             variant='body'
-            style={{ lineHeight: 1.75, fontSize: '1rem' }}
+            style={{
+              lineHeight: 1.75,
+              fontSize: '1rem',
+            }}
           >
-            Architect of transformative systems, brand experiences, and
-            human-centric technology — I specialize in modular web development,
+            I am a creator of transformative systems, brand experiences, and
+            human-centric technology, specializing in modular web development,
             IT infrastructure, and scalable design ecosystems with a focus on
-            emotional clarity, strategic innovation, and long-term impact.
+            emotional intelligence, strategic innovation, and long-term impact.
           </Typography>
           <Typography
             variant='body'
-            style={{ lineHeight: 1.75, fontSize: '1rem' }}
+            className='text-gray-700 dark:text-gray-300'
+            style={{
+              lineHeight: 1.75,
+              fontSize: '1rem',
+            }}
           >
             Over 15 years as a technologist, educator, and founder have shaped
             someone who bridges enterprise precision with human-centered
@@ -115,7 +120,7 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── Featured Projects ────────────────────────────────────────────── */}
-        <section className='mt-10 p-6 rounded-lg'>
+        <section className='mt-10 md:p-6 rounded-lg'>
           <SectionHeading>Featured Projects</SectionHeading>
           <AboutFeaturedProjects />
         </section>

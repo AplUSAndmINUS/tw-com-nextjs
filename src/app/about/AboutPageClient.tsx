@@ -83,7 +83,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
             id='content-scroll-pane'
             className={
               useStackedLayout
-                ? 'flex-1 px-4 sm:px-6 xs:pt-8 md:pt-0 pb-8 mt-8'
+                ? 'flex-1 px-4 sm:px-6 xs:pt-0 lg:pb-8 mt-8'
                 : 'flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col'
             }
           >
