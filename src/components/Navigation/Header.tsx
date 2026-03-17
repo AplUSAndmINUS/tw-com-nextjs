@@ -488,11 +488,8 @@ export function Header() {
                     fontWeight: theme.typography.fontWeights.semiBold,
                     color: theme.palette.neutralPrimary,
                     marginTop: '-0.25rem',
-                    backgroundColor:
-                      themeMode === 'high-contrast'
-                        ? theme.colorNeutralBackground1
-                        : 'transparent',
-                    padding: themeMode === 'high-contrast' ? '4px 8px' : '0',
+                    backgroundColor: 'transparent',
+                    padding: '0',
                     whiteSpace: 'nowrap',
                     pointerEvents: 'none',
                     zIndex: 200,

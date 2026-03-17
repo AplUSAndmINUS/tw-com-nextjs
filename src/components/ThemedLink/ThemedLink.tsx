@@ -9,6 +9,8 @@ import type { LinkProps } from 'next/link';
 
 interface ThemedLinkProps extends Omit<LinkProps, 'href'> {
   href: string;
+  target?: string;
+  rel?: string;
   children: React.ReactNode;
   className?: string;
   isFooter?: boolean; // New prop to indicate if this is a footer link
@@ -21,6 +23,8 @@ interface ThemedLinkProps extends Omit<LinkProps, 'href'> {
 
 export const ThemedLink: React.FC<ThemedLinkProps> = ({
   href,
+  target,
+  rel,
   children,
   className,
   isFooter = false,
@@ -53,6 +57,8 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   return (
     <Link
       href={href}
+      target={target}
+      rel={rel}
       className={className}
       style={mergedStyles}
       onMouseEnter={() => setIsHovered(true)}

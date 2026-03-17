@@ -43,7 +43,11 @@ export function ContentDetailNav({
       className='flex flex-wrap items-center justify-between gap-4 py-6 mb-8 border-b border-gray-200 dark:border-gray-700'
     >
       {/* Previous Entry */}
-      <div className='flex-1 min-w-0'>
+      <div
+        className='flex-1 min-w-0'
+        onMouseEnter={() => setPrevHovered(true)}
+        onMouseLeave={() => setPrevHovered(false)}
+      >
         {prevHref ? (
           <ThemedLink
             href={prevHref}
@@ -58,8 +62,6 @@ export function ContentDetailNav({
                   }
                 : {}),
             }}
-            onMouseEnter={() => setPrevHovered(true)}
-            onMouseLeave={() => setPrevHovered(false)}
             aria-label={prevTitle ? `Previous: ${prevTitle}` : 'Previous entry'}
           >
             {ChevronLeftIcon && <ChevronLeftIcon style={{ flexShrink: 0 }} />}
@@ -78,35 +80,43 @@ export function ContentDetailNav({
 
       {/* Back to Listing */}
       {listingPath && listingLabel && (
-        <ThemedLink
-          href={listingPath}
-          className='flex-shrink-0 px-4 py-2 rounded-lg border-2 transition-all'
-          style={{
-            fontSize: '0.875rem',
-            fontWeight: 600,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            borderColor: theme.semanticColors.link.default,
-            ...(backHovered
-              ? {
-                  backgroundColor: theme.semanticColors.link.default,
-                  color: theme.semanticColors.background.base,
-                }
-              : {}),
-          }}
+        <span
           onMouseEnter={() => setBackHovered(true)}
           onMouseLeave={() => setBackHovered(false)}
-          aria-label={`Back to ${listingLabel}`}
+          className='flex-shrink-0'
         >
-          {ArrowLeftIcon && <ArrowLeftIcon style={{ flexShrink: 0 }} />}
-          <span className='hidden sm:inline'>Back to {listingLabel}</span>
-          <span className='sm:hidden'>{listingLabel}</span>
-        </ThemedLink>
+          <ThemedLink
+            href={listingPath}
+            className='px-4 py-2 rounded-lg border-2 transition-all'
+            style={{
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              borderColor: theme.semanticColors.link.default,
+              ...(backHovered
+                ? {
+                    backgroundColor: theme.semanticColors.link.default,
+                    color: theme.semanticColors.background.base,
+                  }
+                : {}),
+            }}
+            aria-label={`Back to ${listingLabel}`}
+          >
+            {ArrowLeftIcon && <ArrowLeftIcon style={{ flexShrink: 0 }} />}
+            <span className='hidden sm:inline'>Back to {listingLabel}</span>
+            <span className='sm:hidden'>{listingLabel}</span>
+          </ThemedLink>
+        </span>
       )}
 
       {/* Next Entry */}
-      <div className='flex-1 min-w-0 text-right'>
+      <div
+        className='flex-1 min-w-0 text-right'
+        onMouseEnter={() => setNextHovered(true)}
+        onMouseLeave={() => setNextHovered(false)}
+      >
         {nextHref ? (
           <ThemedLink
             href={nextHref}
@@ -121,8 +131,6 @@ export function ContentDetailNav({
                   }
                 : {}),
             }}
-            onMouseEnter={() => setNextHovered(true)}
-            onMouseLeave={() => setNextHovered(false)}
             aria-label={nextTitle ? `Next: ${nextTitle}` : 'Next entry'}
           >
             <span className='hidden sm:inline'>Next</span>
