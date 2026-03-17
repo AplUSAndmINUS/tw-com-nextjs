@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { UnifiedPageWrapper } from '@/components/UnifiedPageWrapper';
 import { Typography } from '@/components/Typography';
@@ -12,6 +13,7 @@ import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { Button, Select, SelectOption, DateInput } from '@/components/Form';
 import { Hero } from '@/components/Hero';
 import { NewsletterSignupCTA } from '../NewsletterSignupCTA';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * Filter configuration for single-select dropdown
@@ -157,6 +159,7 @@ export function ContentListingPage({
   const { viewType, setViewType } = useContentFilterStore();
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
+  const { shouldReduceMotion } = useReducedMotion();
 
   // View type options for dropdown
   const viewOptions: SelectOption[] = [
@@ -322,14 +325,13 @@ export function ContentListingPage({
           }
         />
 
-
         {/* Results Message */}
         {resultsMessage && (
           <div
-          style={{
-            marginTop: theme.spacing.l,
-            marginBottom: theme.spacing.m,
-          }}
+            style={{
+              marginTop: theme.spacing.l,
+              marginBottom: theme.spacing.m,
+            }}
           >
             <Typography
               variant='body'
@@ -337,7 +339,7 @@ export function ContentListingPage({
                 color: theme.palette.neutralSecondary,
                 fontSize: '0.9375rem',
               }}
-              >
+            >
               {resultsMessage}
             </Typography>
           </div>
@@ -345,30 +347,36 @@ export function ContentListingPage({
 
         {/* Custom Section (e.g., GitHub contributions) */}
         {customSection && (
-          <div
-          style={{
-            marginTop: theme.spacing.l,
-            marginBottom: theme.spacing.l,
-          }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.4,
+              ease: 'easeIn',
+            }}
+            style={{
+              marginTop: theme.spacing.l,
+              marginBottom: theme.spacing.l,
+            }}
           >
             {customSection}
-          </div>
+          </motion.div>
         )}
 
         {/* Content Grid */}
         <div style={{ marginTop: theme.spacing.l }}>
           {safeCards.length === 0 ? (
             <Callout
-            variant='neutral'
-            title={emptyStateTitle}
-            subtitle={emptyStateMessage}
+              variant='neutral'
+              title={emptyStateTitle}
+              subtitle={emptyStateMessage}
             />
           ) : (
             <AdaptiveCardGrid
-            cards={safeCards}
-            basePath={basePath}
-            viewType={viewType}
-            onCardClick={handleCardClick}
+              cards={safeCards}
+              basePath={basePath}
+              viewType={viewType}
+              onCardClick={handleCardClick}
             />
           )}
         </div>
@@ -384,7 +392,7 @@ export function ContentListingPage({
                   fontSize: '1rem',
                   lineHeight: 1.6,
                 }}
-                >
+              >
                 {ctaSection.description}
               </Typography>
               <div
@@ -393,12 +401,12 @@ export function ContentListingPage({
                   gap: theme.spacing.m,
                   flexWrap: 'wrap',
                 }}
-                >
+              >
                 {ctaSection.buttons.map((button, index) => (
                   <Button
-                  key={index}
-                  variant={button.variant}
-                  onClick={() => router.push(button.path)}
+                    key={index}
+                    variant={button.variant}
+                    onClick={() => router.push(button.path)}
                   >
                     {button.label}
                   </Button>

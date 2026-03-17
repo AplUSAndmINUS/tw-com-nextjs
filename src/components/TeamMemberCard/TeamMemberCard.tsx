@@ -69,7 +69,9 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             : theme.palette.neutralLighterAlt,
           transition: 'all 0.3s ease',
           transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-          boxShadow: isHovered ? theme.shadows.card : theme.shadows.m,
+          boxShadow: isHovered
+            ? theme.shadows.cardElevated
+            : theme.shadows.card,
           cursor: isMobile ? 'default' : 'pointer',
           maxWidth,
           width: '100%',

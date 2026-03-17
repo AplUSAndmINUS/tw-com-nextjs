@@ -18,6 +18,7 @@ import { SocialLinks } from '../SocialLinks/SocialLinks';
 import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
 import { Dismiss32Regular } from '@fluentui/react-icons';
+import LinktreeLogo from '@/assets/svgs/LinktreeLogo';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -204,6 +205,15 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
             ))}
           </AnimatePresence>
         </ul>
+        <div className='flex items-end justify-end mt-8 transition-transform hover:scale-105'>
+          <a
+            href='https://linktr.ee/aplusinflux'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <LinktreeLogo />
+          </a>
+        </div>
       </nav>
 
       {/* Footer */}
