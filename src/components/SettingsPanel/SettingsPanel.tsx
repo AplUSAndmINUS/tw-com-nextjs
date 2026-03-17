@@ -95,8 +95,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
   const { isForceDarkActive } = useForceDarkDetection();
 
   // When Chrome's force-dark is active and the user is on an incompatible theme,
-  // silently switch to high-contrast (a dark theme that renders without flash).
-  React.useEffect(() => {
+  // silently switch to high-contrast before the browser paints so the Select
+  // controlled value is never out of sync with the restricted options list.
+  React.useLayoutEffect(() => {
     if (
       isForceDarkActive &&
       FORCE_DARK_INCOMPATIBLE_THEMES.includes(themeMode)
