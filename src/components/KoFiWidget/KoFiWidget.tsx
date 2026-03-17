@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 declare global {
@@ -53,11 +53,24 @@ const EXCLUDED_PATHS = [
 ];
 
 /**
+ * Cached reference to the Ko-Fi overlay element. Populated on first successful
+ * lookup after the external script injects the element into the DOM.
+ */
+let widgetCache: HTMLElement | null = null;
+
+/** Pending requestAnimationFrame handle, used to coalesce rapid scroll/resize events. */
+let rafId: number | null = null;
+
+/**
  * Returns the Ko-Fi overlay container element injected by the external script.
- * The overlay widget always renders inside `#kofi-widget-overlay`.
+ * Result is cached after the first successful lookup since the element is
+ * injected once and never recreated.
  */
 function getKofiWidget(): HTMLElement | null {
-  return document.querySelector('#kofi-widget-overlay');
+  if (!widgetCache) {
+    widgetCache = document.querySelector('#kofi-widget-overlay');
+  }
+  return widgetCache;
 }
 
 /**
@@ -78,6 +91,18 @@ function updateWidgetVisibility(): void {
 }
 
 /**
+ * Schedules a visibility update on the next animation frame.
+ * Coalesces multiple rapid scroll/resize events into a single update per frame.
+ */
+function scheduleVisibilityUpdate(): void {
+  if (rafId !== null) return;
+  rafId = requestAnimationFrame(() => {
+    rafId = null;
+    updateWidgetVisibility();
+  });
+}
+
+/**
  * KoFiWidget
  *
  * Renders the Ko-Fi floating "Tip Me!" chat widget in the bottom-right corner
@@ -93,6 +118,11 @@ function updateWidgetVisibility(): void {
 export function KoFiWidget() {
   const pathname = usePathname();
 
+  // Always holds the latest pathname so the onLoad closure is never stale.
+  // (The script loads once; the component may re-render before it fires.)
+  const pathnameRef = useRef(pathname);
+  pathnameRef.current = pathname;
+
   useEffect(() => {
     const isExcluded = EXCLUDED_PATHS.includes(pathname);
 
@@ -102,19 +132,29 @@ export function KoFiWidget() {
       return;
     }
 
+    // If the script loaded while on an excluded page, draw() was skipped.
+    // Initialize the widget now on the first visit to a non-excluded route.
+    if (window.kofiWidgetOverlay && !getKofiWidget()) {
+      window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
+    }
+
     // Sync visibility immediately on navigation to a non-excluded page
     updateWidgetVisibility();
 
-    window.addEventListener('scroll', updateWidgetVisibility, {
+    window.addEventListener('scroll', scheduleVisibilityUpdate, {
       passive: true,
     });
-    window.addEventListener('resize', updateWidgetVisibility, {
+    window.addEventListener('resize', scheduleVisibilityUpdate, {
       passive: true,
     });
 
     return () => {
-      window.removeEventListener('scroll', updateWidgetVisibility);
-      window.removeEventListener('resize', updateWidgetVisibility);
+      window.removeEventListener('scroll', scheduleVisibilityUpdate);
+      window.removeEventListener('resize', scheduleVisibilityUpdate);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
     };
   }, [pathname]);
 
@@ -123,7 +163,9 @@ export function KoFiWidget() {
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
-        window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
+        if (!EXCLUDED_PATHS.includes(pathnameRef.current)) {
+          window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
+        }
       }}
     />
   );
