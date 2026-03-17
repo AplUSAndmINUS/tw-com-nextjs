@@ -15,6 +15,7 @@ import { Select } from '../Form/Select/Select';
 import { Input } from '../Form/Input/Input';
 import { Dismiss32Regular } from '@fluentui/react-icons';
 import { FluentIcon } from '../FluentIcon';
+import { useForceDarkDetection } from '@/hooks/useForceDarkDetection';
 
 interface SettingsPanelProps {
   onClose?: () => void;
@@ -55,6 +56,27 @@ function SettingRow({
   );
 }
 
+// Themes that conflict with Chrome's Auto Dark Mode: they render light colors
+// which Chrome then forcibly inverts, producing a visible "flash".
+const FORCE_DARK_INCOMPATIBLE_THEMES: ThemeMode[] = [
+  'light',
+  'grayscale',
+  'protanopia',
+  'deuteranopia',
+  'tritanopia',
+];
+
+const ALL_THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
+  { value: 'dark', label: 'Dark Mode' },
+  { value: 'light', label: 'Light Mode' },
+  { value: 'high-contrast', label: 'High Contrast' },
+  { value: 'grayscale', label: 'Grayscale Light' },
+  { value: 'grayscale-dark', label: 'Grayscale Dark' },
+  { value: 'protanopia', label: 'Protanopia (Red-blind)' },
+  { value: 'deuteranopia', label: 'Deuteranopia (Green-blind)' },
+  { value: 'tritanopia', label: 'Tritanopia (Blue-blind)' },
+];
+
 export function SettingsPanel({ onClose }: SettingsPanelProps) {
   const {
     theme,
@@ -70,6 +92,19 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     setReducedTransparency,
   } = useAppTheme();
   const { preferences, resetPreferences } = useUserPreferencesStore();
+  const { isForceDarkActive } = useForceDarkDetection();
+
+  // When Chrome's force-dark is active and the user is on an incompatible theme,
+  // silently switch to high-contrast before the browser paints so the Select
+  // controlled value is never out of sync with the restricted options list.
+  React.useLayoutEffect(() => {
+    if (
+      isForceDarkActive &&
+      FORCE_DARK_INCOMPATIBLE_THEMES.includes(themeMode)
+    ) {
+      setThemeMode('high-contrast');
+    }
+  }, [isForceDarkActive, themeMode, setThemeMode]);
 
   const handleResetSettings = () => {
     if (
@@ -79,16 +114,11 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     }
   };
 
-  const themeOptions: { value: ThemeMode; label: string }[] = [
-    { value: 'dark', label: 'Dark Mode' },
-    { value: 'light', label: 'Light Mode' },
-    { value: 'high-contrast', label: 'High Contrast' },
-    { value: 'grayscale', label: 'Grayscale Light' },
-    { value: 'grayscale-dark', label: 'Grayscale Dark' },
-    { value: 'protanopia', label: 'Protanopia (Red-blind)' },
-    { value: 'deuteranopia', label: 'Deuteranopia (Green-blind)' },
-    { value: 'tritanopia', label: 'Tritanopia (Blue-blind)' },
-  ];
+  // When Chrome's Auto Dark Mode is active, restrict to High Contrast only to
+  // prevent the visual flash that occurs when light/colorblind themes are applied.
+  const themeOptions = isForceDarkActive
+    ? ALL_THEME_OPTIONS.filter((opt) => opt.value === 'high-contrast')
+    : ALL_THEME_OPTIONS;
 
   const isDark =
     themeMode === 'dark' ||
@@ -187,6 +217,31 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Select theme'
             />
           </SettingRow>
+
+          {isForceDarkActive && (
+            <div
+              className='mt-2 rounded-md px-3 py-2 text-[0.8125rem] leading-[1.5]'
+              style={{
+                background: isDark
+                  ? theme.semanticColors.background.muted
+                  : theme.semanticColors.background.elevated,
+                border: `1px solid ${theme.semanticColors.border.default}`,
+                color: labelColor,
+              }}
+              role='note'
+              aria-label='Chrome Auto Dark Mode notice'
+            >
+              <span
+                className='font-semibold'
+                style={{ color: theme.semanticColors.text.primary }}
+              >
+                Chrome Auto Dark Mode detected.
+              </span>{' '}
+              Your browser is forcing dark colors on all web content
+              (chrome://flags/#enable-force-dark). Theme options are restricted
+              to High Contrast to prevent visual flicker.
+            </div>
+          )}
 
           <SettingRow
             label='Font Size'
