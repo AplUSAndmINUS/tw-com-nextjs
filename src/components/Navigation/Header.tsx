@@ -439,7 +439,7 @@ export function Header() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.5rem',
+              gap: isDesktop ? '0.75rem' : '0.5rem',
               marginLeft: isLeftHanded ? '0' : '1rem',
               marginRight: isLeftHanded ? '1rem' : '0',
               flexDirection: isLeftHanded ? 'row-reverse' : 'row',

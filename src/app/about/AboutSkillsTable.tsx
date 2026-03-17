@@ -81,7 +81,7 @@ export const AboutSkillsTable: React.FC = () => {
               borderTop: `4px solid ${accentColor}`,
               borderRadius: theme.borderRadius.container.medium,
               overflow: 'hidden',
-              backgroundColor: theme.semanticColors.background.elevated,
+              backgroundColor: theme.semanticColors.background.muted,
               backgroundImage: `linear-gradient(160deg, ${accentColor}0d 0%, transparent 50%)`,
             }}
           >

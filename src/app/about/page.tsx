@@ -120,7 +120,7 @@ export default function AboutPage() {
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
-          <SectionHeading>Skills</SectionHeading>
+          <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <AboutSkillsTable />
         </AboutSectionWrapper>
 
@@ -203,7 +203,7 @@ export default function AboutPage() {
           variant='skills'
           className='mt-10 md:p-8 p-6 mb-10 rounded-lg'
         >
-          <SectionHeading>Skills &amp; Expertise</SectionHeading>
+          <SectionHeading>Proficiency Levels</SectionHeading>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
             {ABOUT_SKILLS.map((skill) => (
               <PercentageBullet
