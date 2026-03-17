@@ -61,10 +61,12 @@ const serviceCategories: {
 export function ServicesClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
 
   const accentColor = theme.semanticColors.accent.teal;
+  const restStateColor = theme.palette.themePrimary;
 
   const isLightFamilyMode =
     themeMode === 'light' ||
@@ -114,6 +116,7 @@ export function ServicesClient() {
     >
       {serviceCategories.map((category) => {
         const isFocused = focusedCard === category.title;
+        const isHovered = hoveredCard === category.title;
         const IconComponent = resolveIconName(category.icon);
 
         return (
@@ -128,13 +131,15 @@ export function ServicesClient() {
               className='block h-full rounded-xl focus-visible:outline-none'
               onFocus={() => setFocusedCard(category.title)}
               onBlur={() => setFocusedCard(null)}
+              onMouseEnter={() => setHoveredCard(category.title)}
+              onMouseLeave={() => setHoveredCard(null)}
               aria-label={`${category.title}: ${category.description}`}
             >
               <motion.div
                 style={{
                   position: 'relative',
                   borderRadius: theme.borderRadius.container.medium,
-                  border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
+                  border: `1px solid ${isFocused || isHovered ? accentColor : theme.semanticColors.border.default}`,
                   backgroundColor: cardSurfaceColor,
                   backgroundImage: isLightFamilyMode
                     ? `linear-gradient(160deg, ${accentColor}30 0%, transparent 52%)`
@@ -152,7 +157,7 @@ export function ServicesClient() {
                 whileHover={{
                   scale: 1.02,
                   backgroundColor: cardHoverSurfaceColor,
-                  borderColor: accentColor,
+                  borderColor: restStateColor,
                   boxShadow: theme.shadows.card,
                 }}
               >
@@ -161,7 +166,10 @@ export function ServicesClient() {
                     width: '100%',
                     height: '4px',
                     borderRadius: theme.borderRadius.container.small,
-                    backgroundColor: accentColor,
+                    backgroundColor:
+                      isHovered || isFocused
+                        ? accentColor
+                        : restStateColor,
                     marginBottom: theme.spacing.m,
                   }}
                 />
@@ -183,13 +191,13 @@ export function ServicesClient() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: accentColor,
+                      color: isHovered || isFocused ? accentColor : restStateColor,
                     }}
                   >
                     {IconComponent && (
                       <FluentIcon
                         iconName={IconComponent}
-                        style={{ color: accentColor }}
+                        style={{ color: isHovered || isFocused ? accentColor : restStateColor }}
                       />
                     )}
                   </div>
@@ -222,7 +230,7 @@ export function ServicesClient() {
                   style={{
                     fontSize: '0.875rem',
                     fontWeight: 600,
-                    color: accentColor,
+                    color: isFocused || isHovered ? accentColor : restStateColor,
                   }}
                 >
                   {category.cta} →

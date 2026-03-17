@@ -65,7 +65,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     visible: { opacity: 1, y: 0 },
   };
 
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.teal;
+  const restStateColor = theme.palette.themePrimary;
 
   const isLightFamilyMode =
     theme.themeMode === 'light' ||
@@ -122,7 +123,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   borderLeft: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderTop: `4px solid ${accentColor}`,
+                  borderTop: `6px solid ${isHovered(card.id) ? accentColor : restStateColor}`,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
@@ -138,7 +139,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       width: '100%',
                       height: '200px',
                       position: 'relative',
-                      backgroundColor: theme.semanticColors.background.muted,
+                      backgroundColor: isHovered(card.id)
+                        ? theme.semanticColors.background.elevated
+                        : theme.semanticColors.background.muted,
                     }}
                   >
                     <img
@@ -167,7 +170,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   </div>
                 )}
                 <div style={{ padding: theme.spacing.m }}>
-                  <Typography variant='h3'
+                  <Typography
+                    variant='h3'
                     style={{
                       fontSize: '1.5rem',
                       color: theme.semanticColors.text.heading,
@@ -177,7 +181,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   >
                     {card.title}
                   </Typography>
-                  <Typography variant='body'
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '1rem',
                       color: theme.semanticColors.text.muted,
@@ -204,14 +209,16 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.tags.slice(0, 3).map((tag) => (
-                        <Typography variant='label'
+                        <Typography
+                          variant='label'
                           key={tag}
                           style={{
                             fontSize: '0.75rem',
                             padding: `${theme.spacing.xs} ${theme.spacing.s1}`,
                             borderRadius: theme.borderRadius.container.small,
-                            backgroundColor:
-                              theme.semanticColors.background.muted,
+                            backgroundColor: isHovered(card.id)
+                              ? theme.semanticColors.background.elevated
+                              : theme.semanticColors.background.muted,
                             color: theme.semanticColors.text.muted,
                             border: `1px solid ${theme.semanticColors.border.default}`,
                           }}
@@ -242,6 +249,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           flexDirection: 'column',
           gap: theme.spacing.m,
           width: '100%',
+          margin: '0 auto'
         }}
       >
         {cards.map((card) => {
@@ -267,7 +275,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   borderTop: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                  borderLeft: `4px solid ${accentColor}`,
+                  borderLeft: `4px solid ${isHovered(card.id) ? accentColor : restStateColor}`,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
                     ? 'translateY(-4px)'
@@ -287,7 +295,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       overflow: 'hidden',
                       backgroundColor: theme.semanticColors.background.muted,
                       position: 'relative',
-                      objectFit: 'cover'
+                      objectFit: 'cover',
                     }}
                   >
                     <img
@@ -301,8 +309,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     />
                   </div>
                 )}
-                <div className='p-4 items-center justify-center' style={{ flex: 1, minWidth: 0 }}>
-                  <Typography variant='h3'
+                <div
+                  className='p-4 items-center justify-center'
+                  style={{ flex: 1, minWidth: 0 }}
+                >
+                  <Typography
+                    variant='h3'
                     style={{
                       fontSize: '1.5rem',
                       color: theme.semanticColors.text.heading,
@@ -312,17 +324,19 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   >
                     {card.title}
                   </Typography>
-                  <Typography variant='body'
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '0.875rem',
-                      color: accentColor,
+                      color: isHovered(card.id) ? accentColor : restStateColor,
                       fontWeight: 600,
                       marginBottom: theme.spacing.xs,
                     }}
                   >
                     {card.imageText}
                   </Typography>
-                  <Typography variant='body'
+                  <Typography
+                    variant='body'
                     style={{
                       fontSize: '0.875rem',
                       color: theme.semanticColors.text.muted,
@@ -349,7 +363,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.tags.slice(0, 3).map((tag) => (
-                        <Typography variant='caption'
+                        <Typography
+                          variant='caption'
                           key={tag}
                           style={{
                             fontSize: '0.7rem',
@@ -384,7 +399,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing.xl,
+        gap: theme.spacing.l,
         width: '100%',
       }}
     >
@@ -408,7 +423,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 borderTop: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                 borderRight: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                 borderBottom: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
-                borderLeft: `4px solid ${accentColor}`,
+                borderLeft: `5px solid ${isHovered(card.id) ? accentColor : restStateColor}`,
                 transition: 'all 0.3s ease',
                 transform: isHovered(card.id)
                   ? 'translateY(-4px)'

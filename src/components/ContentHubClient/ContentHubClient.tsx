@@ -74,6 +74,7 @@ const contentCategories: {
 export function ContentHubClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const accentColor = theme.semanticColors.accent.teal;
 
@@ -121,6 +122,7 @@ export function ContentHubClient() {
     >
       {contentCategories.map((category) => {
         const isFocused = focusedCard === category.title;
+        const isHovered = hoveredCard === category.title;
         const isDisabled = category.disabled;
         const IconComponent = resolveIconName(category.icon);
 
@@ -129,7 +131,7 @@ export function ContentHubClient() {
             style={{
               position: 'relative',
               borderRadius: theme.borderRadius.container.medium,
-              border: `1px solid ${isFocused ? accentColor : theme.semanticColors.border.default}`,
+              border: `1px solid ${isFocused || isHovered ? theme.palette.themePrimary : theme.semanticColors.border.default}`,
               backgroundColor: cardSurfaceColor,
               backgroundImage: isLightFamilyMode
                 ? `linear-gradient(160deg, ${accentColor}30 0%, transparent 52%)`
@@ -151,7 +153,7 @@ export function ContentHubClient() {
                 : {
                     scale: 1.02,
                     backgroundColor: cardHoverSurfaceColor,
-                    borderColor: accentColor,
+                    borderColor: theme.palette.themePrimary,
                     boxShadow: theme.shadows.card,
                   }
             }
@@ -185,7 +187,10 @@ export function ContentHubClient() {
                 width: '100%',
                 height: '4px',
                 borderRadius: theme.borderRadius.container.small,
-                backgroundColor: accentColor,
+                backgroundColor:
+                  isHovered || isFocused
+                    ? accentColor
+                    : theme.palette.themePrimary,
                 marginBottom: theme.spacing.m,
               }}
             />
@@ -255,7 +260,9 @@ export function ContentHubClient() {
                 fontWeight: 600,
                 color: isDisabled
                   ? theme.semanticColors.text.muted
-                  : accentColor,
+                  : isHovered || isFocused
+                    ? accentColor
+                    : theme.palette.themePrimary,
               }}
               className={isDisabled ? '' : 'hover:underline'}
             >
@@ -284,6 +291,8 @@ export function ContentHubClient() {
                 className='block h-full rounded-xl focus-visible:outline-none'
                 onFocus={() => setFocusedCard(category.title)}
                 onBlur={() => setFocusedCard(null)}
+                onMouseEnter={() => setHoveredCard(category.title)}
+                onMouseLeave={() => setHoveredCard(null)}
                 aria-label={`${category.title}: ${category.description}`}
               >
                 {cardContent}
