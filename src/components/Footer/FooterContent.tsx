@@ -87,7 +87,7 @@ function FooterLinkSection({
  */
 function FooterNewsletterMini() {
   const { theme } = useAppTheme();
-  const { setNewsletterSubscribed } =
+  const { newsletterSubscribed, setNewsletterSubscribed } =
     useNewsletterStore();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -140,7 +140,8 @@ function FooterNewsletterMini() {
     [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
   );
 
-  if (isSuccess) {
+  // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
+  if (isSuccess || newsletterSubscribed) {
     return (
       <div
         className='hidden md:block mt-3 pt-3'
