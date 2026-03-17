@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 declare global {
@@ -118,11 +118,6 @@ function scheduleVisibilityUpdate(): void {
 export function KoFiWidget() {
   const pathname = usePathname();
 
-  // Always holds the latest pathname so the onLoad closure is never stale.
-  // (The script loads once; the component may re-render before it fires.)
-  const pathnameRef = useRef(pathname);
-  pathnameRef.current = pathname;
-
   useEffect(() => {
     const isExcluded = EXCLUDED_PATHS.includes(pathname);
 
@@ -132,8 +127,10 @@ export function KoFiWidget() {
       return;
     }
 
-    // If the script loaded while on an excluded page, draw() was skipped.
-    // Initialize the widget now on the first visit to a non-excluded route.
+    // The script is not rendered on excluded paths, so onLoad (and draw()) only
+    // ever fires on non-excluded pages. This lazy-init handles the case where
+    // onLoad fired before this effect ran (e.g. script finished loading between
+    // React commit and effect execution).
     if (window.kofiWidgetOverlay && !getKofiWidget()) {
       window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
     }
@@ -158,14 +155,17 @@ export function KoFiWidget() {
     };
   }, [pathname]);
 
+  // Do not render the Script on excluded paths — this prevents the Ko-Fi
+  // overlay from ever being injected into the DOM on those routes.
+  if (EXCLUDED_PATHS.includes(pathname)) return null;
+
   return (
     <Script
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
-        if (!EXCLUDED_PATHS.includes(pathnameRef.current)) {
-          window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
-        }
+        // Script is only rendered on non-excluded paths, so draw() is always safe here.
+        window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
       }}
     />
   );
