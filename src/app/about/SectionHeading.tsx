@@ -3,7 +3,13 @@
 import { ReactNode } from 'react';
 import { useAppTheme } from '@/theme';
 
-function SectionHeading({ children }: { children: ReactNode }) {
+function SectionHeading({
+  children,
+  isAccent,
+}: {
+  children: ReactNode;
+  isAccent?: boolean;
+}) {
   const { theme } = useAppTheme();
 
   return (
@@ -13,7 +19,11 @@ function SectionHeading({ children }: { children: ReactNode }) {
       </h2>
       <div
         className='mt-2 w-20 h-1.5 rounded-full'
-        style={{ backgroundColor: theme.palette.themePrimary }}
+        style={{
+          backgroundColor: isAccent
+            ? theme.semanticColors.accent.teal
+            : theme.palette.themePrimary,
+        }}
       />
     </div>
   );

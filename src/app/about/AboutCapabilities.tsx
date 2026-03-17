@@ -43,7 +43,7 @@ const CAPABILITIES = [
 export const AboutCapabilities: React.FC = () => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.teal; // Mirrors the accent color used in the Hero section for visual cohesion
 
   return (
     <div
@@ -57,7 +57,11 @@ export const AboutCapabilities: React.FC = () => {
         return (
           <div
             key={cap.title}
-            style={{ display: 'flex', gap: theme.spacing.m, alignItems: 'flex-start' }}
+            style={{
+              display: 'flex',
+              gap: theme.spacing.m,
+              alignItems: 'flex-start',
+            }}
           >
             <div
               style={{

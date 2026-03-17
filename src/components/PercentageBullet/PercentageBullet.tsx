@@ -24,9 +24,12 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
 
   const getCircleColor = () => {
     if (percentage >= 98) return theme.palette.themePrimary;
-    if (percentage < 70) return theme.palette.redDark;
-    if (percentage >= 70 && percentage <= 90) return theme.palette.themeDarkAlt;
-    return theme.palette.themePrimary;
+    if (percentage >= 93 && percentage < 98)
+      return theme.semanticColors.accent.teal;
+    if (percentage < 70) return theme.semanticColors.accent.yellowSubtle;
+    if (percentage >= 70 && percentage <= 92)
+      return theme.semanticColors.accent.yellow;
+    return theme.semanticColors.accent.teal;
   };
 
   const containerStyle: React.CSSProperties = {

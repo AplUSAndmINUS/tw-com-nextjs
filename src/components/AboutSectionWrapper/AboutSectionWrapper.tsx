@@ -4,7 +4,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface AboutSectionWrapperProps {
   children: React.ReactNode;
-  variant?: 'default' | 'subtle' | 'strong' | 'skills';
+  variant?: 'default' | 'subtle' | 'strong' | 'skills' | 'accent';
   className?: string;
 }
 
@@ -30,7 +30,7 @@ export function AboutSectionWrapper({
   const accent = theme.palette.themePrimary;
 
   const styles: Record<
-    'default' | 'subtle' | 'strong' | 'skills',
+    'default' | 'subtle' | 'strong' | 'skills' | 'accent',
     React.CSSProperties
   > = {
     default: {
@@ -65,6 +65,17 @@ export function AboutSectionWrapper({
       borderRight: `1px solid ${theme.semanticColors.border.default}`,
       borderBottom: `1px solid ${theme.semanticColors.border.default}`,
       borderLeft: `4px solid ${theme.semanticColors.border.emphasis}`,
+    },
+    accent: {
+      backgroundColor: isLightFamilyMode
+        ? theme.semanticColors.background.muted
+        : reducedTransparency
+          ? theme.semanticColors.background.muted
+          : 'rgba(28, 28, 28, 0.2)',
+      borderTop: `1px solid ${theme.semanticColors.border.default}`,
+      borderRight: `1px solid ${theme.semanticColors.border.default}`,
+      borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+      borderLeft: `4px solid ${theme.semanticColors.accent.teal}`,
     },
   };
 

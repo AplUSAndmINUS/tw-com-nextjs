@@ -108,7 +108,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   );
 
   // Hero-matching surface + gradient — mirrors the accentColor logic in Hero.tsx
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.semanticColors.accent.yellow;
   const isLightFamily =
     themeMode === 'light' ||
     themeMode === 'protanopia' ||
@@ -118,7 +118,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   const surfaceColor = isLightFamily
     ? theme.semanticColors.background.muted
     : theme.semanticColors.background.elevated;
-  const heroGradient = `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`;
+  const heroGradient = `linear-gradient(160deg, ${accentColor}14 0%, transparent 87%)`;
 
   // Show temporary confirmation after subscribing; returns to the form after the timer
   if (isSuccess) {
@@ -135,7 +135,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         <Typography
           variant='h3'
           style={{
-            color: theme.colorBrandForeground1,
+            color: accentColor,
             marginBottom: theme.spacing.s1,
           }}
         >
@@ -145,7 +145,8 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
           variant='body'
           style={{ color: theme.semanticColors.text.muted }}
         >
-          Welcome to the Mythmaker Drop. Check your inbox for your first issue!
+          Welcome to the Mythmaker Drop. Watch your inbox for the first
+          newsletter arriving soon!
         </Typography>
         <Typography
           variant='label'
@@ -160,7 +161,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
           <Link
             href='/unsubscribe'
             style={{
-              color: theme.colorBrandForeground1,
+              color: theme.palette.neutralPrimary,
               textDecoration: 'underline',
             }}
           >
@@ -185,7 +186,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         variant='h3'
         style={{
           marginBottom: theme.spacing.s1,
-          color: theme.colorBrandForeground1,
+          color: accentColor,
         }}
       >
         {heading}

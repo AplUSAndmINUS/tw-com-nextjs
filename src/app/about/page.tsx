@@ -101,8 +101,10 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
-          <SectionHeading>Core Capabilities &amp; Expertise</SectionHeading>
+        <AboutSectionWrapper variant='accent' className='mt-10 p-6 rounded-lg'>
+          <SectionHeading isAccent>
+            Core Capabilities &amp; Expertise
+          </SectionHeading>
           <AboutCapabilities />
         </AboutSectionWrapper>
 
