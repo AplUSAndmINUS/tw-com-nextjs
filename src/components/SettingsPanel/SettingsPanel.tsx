@@ -66,6 +66,17 @@ const FORCE_DARK_INCOMPATIBLE_THEMES: ThemeMode[] = [
   'tritanopia',
 ];
 
+const ALL_THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
+  { value: 'dark', label: 'Dark Mode' },
+  { value: 'light', label: 'Light Mode' },
+  { value: 'high-contrast', label: 'High Contrast' },
+  { value: 'grayscale', label: 'Grayscale Light' },
+  { value: 'grayscale-dark', label: 'Grayscale Dark' },
+  { value: 'protanopia', label: 'Protanopia (Red-blind)' },
+  { value: 'deuteranopia', label: 'Deuteranopia (Green-blind)' },
+  { value: 'tritanopia', label: 'Tritanopia (Blue-blind)' },
+];
+
 export function SettingsPanel({ onClose }: SettingsPanelProps) {
   const {
     theme,
@@ -102,22 +113,11 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
     }
   };
 
-  const allThemeOptions: { value: ThemeMode; label: string }[] = [
-    { value: 'dark', label: 'Dark Mode' },
-    { value: 'light', label: 'Light Mode' },
-    { value: 'high-contrast', label: 'High Contrast' },
-    { value: 'grayscale', label: 'Grayscale Light' },
-    { value: 'grayscale-dark', label: 'Grayscale Dark' },
-    { value: 'protanopia', label: 'Protanopia (Red-blind)' },
-    { value: 'deuteranopia', label: 'Deuteranopia (Green-blind)' },
-    { value: 'tritanopia', label: 'Tritanopia (Blue-blind)' },
-  ];
-
   // When Chrome's Auto Dark Mode is active, restrict to High Contrast only to
   // prevent the visual flash that occurs when light/colorblind themes are applied.
   const themeOptions = isForceDarkActive
-    ? allThemeOptions.filter((opt) => opt.value === 'high-contrast')
-    : allThemeOptions;
+    ? ALL_THEME_OPTIONS.filter((opt) => opt.value === 'high-contrast')
+    : ALL_THEME_OPTIONS;
 
   const isDark =
     themeMode === 'dark' ||
