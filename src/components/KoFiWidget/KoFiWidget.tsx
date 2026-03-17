@@ -38,7 +38,19 @@ const KOFI_WIDGET_OPTIONS: Record<string, string> = {
 };
 
 /** Pages on which the Ko-Fi widget should not be shown */
-const EXCLUDED_PATHS = ['/contact/', '/portfolio/', '/services/', '/'];
+const EXCLUDED_PATHS = [
+  '/',
+  '/blog/',
+  '/case-studies/',
+  '/contact/',
+  '/portfolio/',
+  '/services/',
+  '/services/consulting',
+  '/services/design/',
+  '/services/development/',
+  '/services/resonance-core/',
+  '/services/personal-training/',
+];
 
 /**
  * Returns the Ko-Fi overlay container element injected by the external script.
@@ -82,6 +94,17 @@ export function KoFiWidget() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const isExcluded = EXCLUDED_PATHS.includes(pathname);
+
+    if (isExcluded) {
+      const widget = getKofiWidget();
+      if (widget) widget.style.visibility = 'hidden';
+      return;
+    }
+
+    // Sync visibility immediately on navigation to a non-excluded page
+    updateWidgetVisibility();
+
     window.addEventListener('scroll', updateWidgetVisibility, {
       passive: true,
     });
@@ -93,11 +116,7 @@ export function KoFiWidget() {
       window.removeEventListener('scroll', updateWidgetVisibility);
       window.removeEventListener('resize', updateWidgetVisibility);
     };
-  }, []);
-
-  if (EXCLUDED_PATHS.includes(pathname)) {
-    return null;
-  }
+  }, [pathname]);
 
   return (
     <Script
