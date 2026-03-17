@@ -19,6 +19,7 @@ import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import { type SocialIcon } from '@/components/SocialIcons/constants';
 import { useMouseHoverState } from '@/hooks/useHoverState';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useCardState } from '@/hooks/useCardState';
 
 export interface TeamMember {
   id: string;
@@ -40,9 +41,15 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
-  const [isHovered, hoverProps] = useMouseHoverState();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { filter } = useColorVisionFilter();
+  const {
+    isHovered,
+    backgroundColor,
+    accentColor,
+    restStateColor,
+    interactionProps,
+  } = useCardState({ hoverable: true, clickable: true });
 
   const isDark =
     theme.themeMode === 'dark' ||
@@ -52,18 +59,14 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   return (
     <>
       <div
-        {...(!isMobile ? hoverProps : {})}
+        {...interactionProps}
         onClick={!isMobile ? () => setIsModalOpen(true) : undefined}
         style={{
           display: 'flex',
           flexDirection: 'column',
           padding: theme.spacing.l,
           borderRadius: theme.borderRadius.container.medium,
-          border: `1px solid ${
-            isHovered
-              ? theme.palette.themePrimary
-              : theme.palette.neutralQuaternary
-          }`,
+          border: `1px solid ${isHovered ? accentColor : restStateColor}`,
           backgroundColor: isHovered
             ? theme.palette.neutralLighter
             : theme.palette.neutralLighterAlt,
@@ -127,9 +130,10 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             <Typography
               variant='label'
               style={{
-                color: theme.palette.themeSecondary,
+                color: isHovered ? accentColor : restStateColor,
                 fontSize: '1rem',
                 fontStyle: 'italic',
+                transition: 'color 0.2s ease',
               }}
             >
               {member.role}
@@ -140,10 +144,13 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             <Typography
               variant='body'
               style={{
-                color: theme.palette.neutralPrimary,
+                color: isHovered
+                  ? theme.semanticColors.text.primary
+                  : theme.semanticColors.text.muted,
                 fontSize: '0.875rem',
                 lineHeight: theme.typography.lineHeights.relaxed,
                 marginBottom: theme.spacing.m,
+                transition: 'color 0.2s ease',
               }}
             >
               {member.bio}
@@ -192,7 +199,10 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                 >
                   <FluentIcon
                     iconName={item.iconName}
-                    color={theme.palette.themePrimary}
+                    color={isHovered ? accentColor : restStateColor}
+                    style={{
+                      transition: 'color 0.2s ease',
+                    }}
                   />
                 </a>
               ))}

@@ -229,7 +229,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
       <div
         style={{
           padding: isMobileLandscape ? '0.25rem' : '0.5rem',
-          borderTop: `1px solid ${theme.colorNeutralStroke2}`,
+          borderTop: `1px solid ${theme.palette.black}`,
           textAlign: 'center',
         }}
       >

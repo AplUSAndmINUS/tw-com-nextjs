@@ -108,7 +108,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                   fontWeight: theme.typography.fontWeights.semiBold,
                   color: isFooter
                     ? theme.palette.neutralPrimary
-                    : theme.colorBrandForeground1,
+                    : theme.semanticColors.accent.teal,
                   marginTop: '0.25rem',
                   backgroundColor:
                     theme.themeMode === 'high-contrast'

@@ -3,6 +3,7 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
+import { useCardState } from '@/hooks';
 
 export interface SocialIcon {
   iconName: React.ComponentType<any> | string;
@@ -36,6 +37,13 @@ export const SocialIcons: React.FC<SocialIconsProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const [hoveredIcon, setHoveredIcon] = React.useState<string | null>(null);
+  const {
+    isHovered,
+    backgroundColor,
+    accentColor,
+    restStateColor,
+    interactionProps,
+  } = useCardState({ hoverable: true, clickable: true });
 
   const styles = {
     container: {
@@ -53,7 +61,7 @@ export const SocialIcons: React.FC<SocialIconsProps> = ({
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} {...interactionProps}>
       {icons.map((item) => {
         if (!item.isTagline && isAuthorTagline) return null;
         return (
@@ -95,7 +103,7 @@ export const SocialIcons: React.FC<SocialIconsProps> = ({
                       'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
                     fontSize: theme.typography.fontSizes.xs,
                     fontWeight: theme.typography.fontWeights.semiBold,
-                    color: theme.colorBrandForeground1,
+                    color: accentColor,
                     textTransform: 'lowercase',
                     whiteSpace: 'nowrap',
                     pointerEvents: 'none',

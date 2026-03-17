@@ -69,7 +69,6 @@ function TimelineCard({ entry, index, isLast }: TimelineCardProps) {
   const isMobile = useIsMobile();
   const {
     accentColor,
-    borderColor,
     isHovered,
     interactionProps,
     restStateColor,

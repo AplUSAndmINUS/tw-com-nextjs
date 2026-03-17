@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAppTheme } from '../../theme/hooks/useAppTheme';
+import { useCardState } from '@/hooks/useCardState';
 
 interface MicrosoftLogoProps {
   isDarkMode?: boolean;
@@ -12,14 +12,15 @@ export const MicrosoftLogo: React.FC<MicrosoftLogoProps> = ({
   className,
   style,
 }) => {
-  const { theme } = useAppTheme();
   const rootClass: React.CSSProperties = {
     width: '32px',
     height: '32px',
   };
+  const { isHovered, accentColor, restStateColor, interactionProps } = useCardState({ hoverable: true });
 
   return (
     <svg
+      {...interactionProps}
       className={className}
       style={{ ...rootClass, ...style }}
       xmlns='http://www.w3.org/2000/svg'
@@ -28,7 +29,7 @@ export const MicrosoftLogo: React.FC<MicrosoftLogoProps> = ({
     >
       <path
         d='M2 2h9.5v9.5H2V2zm10.5 0H22v9.5h-9.5V2zM2 12.5h9.5V22H2v-9.5zm10.5 0H22V22h-9.5v-9.5z'
-        fill={theme.colorBrandForeground1}
+        fill={isHovered ? accentColor : restStateColor}
       />
     </svg>
   );
