@@ -24,11 +24,11 @@ const CAPABILITIES = [
   },
   {
     title: 'Detail-Crafted Excellence',
-    body: 'Every element is designed with clarity and care, from backend logic to frontend flow to the emotional cadence of copy.',
+    body: 'Every element I create is designed and crafted with clarity and care, from backend logic to frontend flow to the emotional cadence of copy.',
   },
   {
     title: 'Problem Alchemist',
-    body: 'I synthesize complexity into elegance—translating tangled systems into streamlined, actionable solutions.',
+    body: 'I synthesize complexity from lost-aspect tangled systems into streamlined, actionable solutions.',
   },
   {
     title: 'Proactive Strategist',
@@ -36,7 +36,7 @@ const CAPABILITIES = [
   },
   {
     title: 'Results + Resonance',
-    body: "I deliver outcomes clients can measure—and frameworks they can feel. Impact isn't just numeric, it's experiential.",
+    body: "I deliver outcomes clients can measure and frameworks they can feel. Impact isn't just numeric—it's experiential.",
   },
 ];
 
@@ -81,9 +81,6 @@ export const AboutCapabilities: React.FC = () => {
                   color: theme.semanticColors.text.heading,
                   margin: `0 0 ${theme.spacing.s2} 0`,
                   fontWeight: 600,
-                  // marginBottom: theme.spacing.xs,
-                  // fontSize: '1rem',
-                  // fontStyle: 'italic',
                 }}
               >
                 {cap.title}
