@@ -167,7 +167,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
           height: '4px',
           borderRadius: theme.borderRadius.container.small,
           backgroundColor: topBarColor,
-          marginBottom: theme.spacing.m,
+          marginBottom: title === '' ? theme.spacing.s1 : theme.spacing.m,
           flexShrink: 0,
           transition: 'background-color 0.2s ease',
         }}
