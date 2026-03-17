@@ -17,8 +17,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMemberModal } from './TeamMemberModal';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import { type SocialIcon } from '@/components/SocialIcons/constants';
-import { useMouseHoverState } from '@/hooks/useHoverState';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { useCardState } from '@/hooks/useCardState';
 
 export interface TeamMember {
@@ -41,6 +40,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { filter } = useColorVisionFilter();
   const {
@@ -51,25 +51,18 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
     interactionProps,
   } = useCardState({ hoverable: true, clickable: true });
 
-  const isDark =
-    theme.themeMode === 'dark' ||
-    theme.themeMode === 'high-contrast' ||
-    theme.themeMode === 'grayscale-dark';
-
   return (
     <>
       <div
         {...interactionProps}
-        onClick={!isMobile ? () => setIsModalOpen(true) : undefined}
+        onClick={!isMobile || !isTablet ? () => setIsModalOpen(true) : undefined}
         style={{
           display: 'flex',
           flexDirection: 'column',
           padding: theme.spacing.l,
           borderRadius: theme.borderRadius.container.medium,
           border: `1px solid ${isHovered ? accentColor : restStateColor}`,
-          backgroundColor: isHovered
-            ? theme.palette.neutralLighter
-            : theme.palette.neutralLighterAlt,
+          backgroundColor: backgroundColor,
           transition: 'all 0.3s ease',
           transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
           boxShadow: isHovered
