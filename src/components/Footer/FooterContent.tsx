@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
-import { useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsTablet, useDeviceOrientation } from '@/hooks/useMediaQuery';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
@@ -35,6 +35,7 @@ interface FooterLinkSectionProps {
   title: string;
   links: Array<{ href: string; label: string }>;
   isCompact: boolean;
+  isAuthorTagline?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -46,6 +47,7 @@ function FooterLinkSection({
   title,
   links,
   isCompact,
+  isAuthorTagline = false,
   className = '',
   children,
 }: FooterLinkSectionProps) {
@@ -64,7 +66,7 @@ function FooterLinkSection({
         {title}
       </Typography>
       {title === 'Social' ? (
-        <SocialLinks isFooter />
+        <SocialLinks isFooter isAuthorTagline={isAuthorTagline} />
       ) : (
         <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
           {links.map(({ href, label }) => (
@@ -291,6 +293,8 @@ export function FooterContent({
 }: FooterContentProps) {
   const year = new Date().getFullYear();
   const isTablet = useIsTablet();
+  const orientation = useDeviceOrientation();
+  const isLargePortrait = orientation === 'large-portrait';
 
   return (
     <>
@@ -302,7 +306,7 @@ export function FooterContent({
         style={{ margin: '0 auto' }}
       >
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
+          className={`grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
         >
           {/* Brand */}
           <div>
@@ -331,12 +335,14 @@ export function FooterContent({
           </div>
 
           {/* Link sections */}
-          <FooterLinkSection
-            title='Content'
-            links={footerLinks.content}
-            isCompact={isCompact}
-            className='hidden md:flex'
-          />
+          {!isLargePortrait && (
+            <FooterLinkSection
+              title='Content'
+              links={footerLinks.content}
+              isCompact={isCompact}
+              className='hidden md:flex'
+            />
+          )}
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}
@@ -354,6 +360,7 @@ export function FooterContent({
             title='Social'
             links={[]} // Empty array since SocialLinks component handles rendering
             isCompact={true}
+            isAuthorTagline={isLargePortrait}
           >
             <FooterNewsletterMini />
           </FooterLinkSection>
