@@ -146,7 +146,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
                     }}
                     onMouseEnter={(e) => {
                       const el = e.currentTarget;
-                      el.style.backgroundColor = theme.palette.themeLighter;
+                      el.style.backgroundColor = `${theme.palette.neutralQuaternary}90`; // Add some transparency on hover
                       el.style.transform = 'translateY(-2px)';
                     }}
                     onMouseLeave={(e) => {
@@ -175,7 +175,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
           backgroundColor: isDark
             ? theme.palette.neutralLighterAlt
             : theme.palette.neutralQuaternaryAlt,
-          padding: `${theme.spacing.l} ${theme.spacing.xl}`,
+          padding: `0 ${theme.spacing.xl} ${theme.spacing.l} ${theme.spacing.xl}`,
         }}
       >
         <Typography

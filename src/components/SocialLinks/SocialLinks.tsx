@@ -65,12 +65,12 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                 width: isCompactFooterTablet
                   ? '20px'
                   : isAuthorTagline
-                    ? '20px'
+                    ? '24px'
                     : '32px',
                 height: isCompactFooterTablet
                   ? '20px'
                   : isAuthorTagline
-                    ? '20px'
+                    ? '24px'
                     : '32px',
               }}
             >

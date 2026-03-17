@@ -8,7 +8,7 @@
 import React from 'react';
 import Image from 'next/image';
 import {
-  ArrowExpand20Regular,
+  ArrowExpand28Regular,
   ContactCard24Regular,
 } from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
@@ -114,7 +114,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           <Typography
             variant='h3'
             style={{
-              color: theme.palette.themePrimary,
+              color: theme.palette.neutralPrimary,
               marginBottom: theme.spacing.s1,
             }}
           >
@@ -183,8 +183,9 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '18px',
-                    height: '18px',
+                    width: '24px',
+                    height: '24px',
+                    marginRight: theme.spacing.s1,
                   }}
                 >
                   <FluentIcon
@@ -198,10 +199,10 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {/* Expand icon — signals the card is clickable (desktop only) */}
           {!isMobile && (
             <FluentIcon
-              iconName={ArrowExpand20Regular}
+              iconName={ArrowExpand28Regular}
               color={theme.palette.themePrimary}
               style={{
-                opacity: isHovered ? 0.9 : 0.5,
+                opacity: isHovered ? 0.9 : 1,
                 transition: 'opacity 0.3s ease',
               }}
             />
