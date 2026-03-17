@@ -14,9 +14,11 @@
  *
  * COLOR PHILOSOPHY:
  * -----------------
- * • Primary: Deep navy blues (#1a3667 to #2654a0) for structure and trust
+ * • Primary: Vivid royal blue (#1854b4 light / #5b94ec dark) for energy and trust
+ * • Accent Teal: Bright cyan-teal (#0aada0) for highlights and decorative elements
+ * • Accent Yellow: Warm golden amber (#a07800) for secondary accents
  * • Light Mode: Clean whites and subtle grays for clarity
- * • Dark Mode: Rich darks with subtle gradients for focus
+ * • Dark Mode: Rich darks with saturated blues for focus
  * • High contrast ratios for accessibility
  *
  * @version 1.0.0 - TerenceWaters.com Design System
@@ -145,6 +147,12 @@ export interface ISemanticColors {
     ring: string;
     outline: string;
   };
+  accent: {
+    teal: string; // Bright teal for decorative accents, highlights, badges
+    tealSubtle: string; // Soft teal-tinted background
+    yellow: string; // Muted golden yellow for secondary accents
+    yellowSubtle: string; // Soft amber-tinted background
+  };
 }
 
 export interface IExtendedSpacing {
@@ -180,44 +188,44 @@ export type ThemeMode =
 // BRAND COLORS
 // ============================================================================
 
-// TerenceWaters.com brand palette - deep navy blue primary (Light Mode)
+// TerenceWaters.com brand palette - vivid blue primary (Light Mode)
 const twBrand: BrandVariants = {
-  10: '#020408',
-  20: '#0d1a2e',
-  30: '#122341',
-  40: '#162d54',
-  50: '#1a3667',
-  60: '#1e407a',
-  70: '#224a8d',
-  80: '#2654a0',
-  90: '#2a5eb3',
-  100: '#3269c0',
-  110: '#4478c8',
-  120: '#5688d0',
-  130: '#6898d8',
-  140: '#7aa8df',
-  150: '#8eb9e7',
-  160: '#a3caef',
+  10: '#010812',
+  20: '#091526',
+  30: '#0e2040',
+  40: '#142c58',
+  50: '#1a3a72',
+  60: '#1e4a8e',
+  70: '#2256a8', // more saturated blue
+  80: '#2568c4', // primary: richer, more vivid blue
+  90: '#2e7ad8',
+  100: '#3d8ae4',
+  110: '#5098ec',
+  120: '#64a8f2',
+  130: '#7ab8f6',
+  140: '#92c8f9',
+  150: '#acd6fb',
+  160: '#c8e6fd',
 };
 
-// Dark theme brand palette
+// Dark theme brand palette - vibrant blues that pop on dark backgrounds
 const twBrandDark: BrandVariants = {
-  10: '#1a2a3f',
-  20: '#2d4562',
-  30: '#3F5FA1',
-  40: '#445F7E',
-  50: '#637a99',
-  60: '#8295b0',
-  70: '#A5C0E1',
-  80: '#B8CCEB',
-  90: '#CAD9F2',
-  100: '#d4e0f5',
-  110: '#dee7f7',
-  120: '#E2EAF6',
-  130: '#e8eef9',
-  140: '#EDF2F9',
-  150: '#f2f6fb',
-  160: '#F5F8FC',
+  10: '#0c1b30',
+  20: '#162840',
+  30: '#243870',
+  40: '#2e4888',
+  50: '#3a5a9e',
+  60: '#486db4',
+  70: '#5680ca', // vivid mid-tone blue
+  80: '#6493de', // brand background - vibrant
+  90: '#74a4e8',
+  100: '#84b4f0', // colorBrandForeground1 / palette.themePrimary
+  110: '#96c4f5',
+  120: '#a8d0f8',
+  130: '#bcddf9',
+  140: '#cce7fb',
+  150: '#daeefb',
+  160: '#edf5fc',
 };
 
 // High contrast brand palette
@@ -358,10 +366,10 @@ export const semanticColorsLight = {
     disabled: '#999999', // Disabled text
   },
   link: {
-    default: '#1a3667', // Deep navy (brand primary)
-    hover: '#2654a0', // Lighter navy on hover
-    visited: '#224a8d', // Slightly different for visited
-    active: '#122341', // Darker on click
+    default: '#1854b4', // Vivid blue (brand primary — was near-black navy)
+    hover: '#2363cc', // Brighter blue on hover
+    visited: '#1748a0', // Slightly different for visited
+    active: '#123e94', // Darker on click
     footer: '#4a5568', // Muted gray-blue for footer
   },
   background: {
@@ -372,15 +380,21 @@ export const semanticColorsLight = {
   border: {
     default: '#e0e0e0', // Default borders
     muted: '#f0f0f0', // Subtle borders
-    emphasis: '#1a3667', // Emphasized borders
+    emphasis: '#1854b4', // Emphasized borders
   },
   selection: {
     background: '#a3caef', // Text selection background
     text: '#0d0d0d', // Text selection color
   },
   focus: {
-    ring: '#2654a0', // Focus ring color
-    outline: '#1a3667', // Focus outline
+    ring: '#2363cc', // Focus ring color
+    outline: '#1854b4', // Focus outline
+  },
+  accent: {
+    teal: '#0aada0', // Bright teal accent
+    tealSubtle: '#eafaf8', // Soft teal background
+    yellow: '#a07800', // Golden amber accent (darkened for contrast on white)
+    yellowSubtle: '#fdf8e8', // Soft amber background
   },
 };
 
@@ -393,11 +407,11 @@ export const semanticColorsDark = {
     disabled: '#666666', // Disabled text
   },
   link: {
-    default: '#8eb9e7', // Light navy (accessible on dark)
-    hover: '#a3caef', // Lighter on hover
-    visited: '#7aa8df', // Slightly different for visited
-    active: '#b8cceb', // Brighter on click
-    footer: '#bec4ce', // Muted gray-blue for footer (lighter on dark)
+    default: '#5b94ec', // Vivid blue on dark (was washed-out #8eb9e7)
+    hover: '#74acf2', // Lighter vivid blue on hover
+    visited: '#4e86e0', // Slightly different for visited
+    active: '#82baf4', // Brighter on click
+    footer: '#8ea4c4', // Muted blue for footer
   },
   background: {
     base: '#1a1a1a', // Page background
@@ -407,15 +421,21 @@ export const semanticColorsDark = {
   border: {
     default: '#404040', // Default borders
     muted: '#333333', // Subtle borders
-    emphasis: '#8eb9e7', // Emphasized borders
+    emphasis: '#5b94ec', // Emphasized borders
   },
   selection: {
     background: '#3F5FA1', // Text selection background
     text: '#ffffff', // Text selection color
   },
   focus: {
-    ring: '#8eb9e7', // Focus ring color
-    outline: '#a3caef', // Focus outline
+    ring: '#5b94ec', // Focus ring color
+    outline: '#74acf2', // Focus outline
+  },
+  accent: {
+    teal: '#00ccbc', // Bright teal on dark backgrounds
+    tealSubtle: '#0a2422', // Dark teal background
+    yellow: '#d4ac1c', // Warm gold on dark
+    yellowSubtle: '#251e06', // Dark amber background
   },
 };
 
@@ -452,6 +472,12 @@ export const semanticColorsHighContrast = {
     ring: '#66b3ff', // Bright focus ring
     outline: '#3399FF', // Bright outline
   },
+  accent: {
+    teal: '#00ffee', // Maximum contrast teal
+    tealSubtle: '#001e1c', // Dark teal background
+    yellow: '#ffdd00', // Maximum contrast yellow
+    yellowSubtle: '#1e1900', // Dark amber background
+  },
 };
 
 // Protanopia (Red-Blind) Mode
@@ -486,6 +512,12 @@ export const semanticColorsProtanopia = {
   focus: {
     ring: '#0078D4',
     outline: '#005299',
+  },
+  accent: {
+    teal: '#009eb5', // Cyan-blue teal (safe for red-blind)
+    tealSubtle: '#e5f7fa',
+    yellow: '#927200', // Golden amber (safe, no red component)
+    yellowSubtle: '#fdf4d9',
   },
 };
 
@@ -522,6 +554,12 @@ export const semanticColorsDeuteranopia = {
     ring: '#0070c5',
     outline: '#004578',
   },
+  accent: {
+    teal: '#0090bb', // Cyan-blue teal (safe for green-blind)
+    tealSubtle: '#e3f5f9',
+    yellow: '#927200', // Golden amber (safe)
+    yellowSubtle: '#fdf4d9',
+  },
 };
 
 // Tritanopia (Blue-Blind) Mode
@@ -556,6 +594,12 @@ export const semanticColorsTritanopia = {
   focus: {
     ring: '#D13438',
     outline: '#8f1c28',
+  },
+  accent: {
+    teal: '#00a870', // Greener teal (blue-blind safe — more distinct from gray)
+    tealSubtle: '#e8f8f3',
+    yellow: '#ab7600', // Warm amber
+    yellowSubtle: '#fdf5de',
   },
 };
 
@@ -592,6 +636,12 @@ export const semanticColorsGrayscale = {
     ring: '#4d4d4d',
     outline: '#333333',
   },
+  accent: {
+    teal: '#4a4a4a', // Dark gray (grayscale — no color)
+    tealSubtle: '#f2f2f2',
+    yellow: '#666666',
+    yellowSubtle: '#f5f5f5',
+  },
 };
 
 // Grayscale Dark Mode
@@ -626,6 +676,12 @@ export const semanticColorsGrayscaleDark = {
   focus: {
     ring: '#bfbfbf',
     outline: '#d9d9d9',
+  },
+  accent: {
+    teal: '#a0a0a0', // Medium gray (grayscale dark — no color)
+    tealSubtle: '#252525',
+    yellow: '#787878',
+    yellowSubtle: '#1e1e1e',
   },
 };
 

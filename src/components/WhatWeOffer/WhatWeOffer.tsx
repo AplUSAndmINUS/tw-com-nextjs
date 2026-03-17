@@ -137,7 +137,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
               <Typography
                 variant='label'
                 style={{
-                  color: theme.semanticColors.text.muted,
+                  color: theme.palette.neutralPrimaryw,
                   fontSize: '0.9375rem',
                   fontWeight: 600,
                   lineHeight: 1.5,

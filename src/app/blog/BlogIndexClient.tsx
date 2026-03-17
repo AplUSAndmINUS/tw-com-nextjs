@@ -40,7 +40,7 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
             onClick={() => setActiveTag(null)}
             className='px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-400'
             style={activeTag === null ? activeFilterStyle : undefined}
-            aria-pressed={activeTag === null}
+            aria-pressed={activeTag === null ? true : false}
           >
             All
           </button>
@@ -50,7 +50,7 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
               onClick={() => setActiveTag(activeTag === tag ? null : tag)}
               className='px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-400'
               style={activeTag === tag ? activeFilterStyle : undefined}
-              aria-pressed={activeTag === tag}
+              aria-pressed={activeTag === tag ? true : false}
             >
               {tag}
             </button>

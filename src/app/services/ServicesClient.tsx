@@ -61,7 +61,7 @@ export function ServicesClient() {
   const { theme, themeMode } = useAppTheme();
   const [focusedCard, setFocusedCard] = useState<string | null>(null);
 
-  const accentColor = theme.palette.themePrimary;
+  const accentColor = theme.colorBrandBackground || theme.palette.themePrimary;
 
   const isLightFamilyMode =
     themeMode === 'light' ||
@@ -176,21 +176,22 @@ export function ServicesClient() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: theme.palette.themePrimary,
+                      color: accentColor,
                     }}
                   >
                     {IconComponent && (
                       <FluentIcon
                         iconName={IconComponent}
-                        style={{ color: theme.palette.themePrimary }}
+                        style={{ color: accentColor }}
                       />
                     )}
                   </div>
                   <Typography
                     variant='h3'
-                    className='text-xl font-semibold'
+                    className='font-semibold'
                     style={{
                       color: theme.semanticColors.text.heading,
+                      fontSize: '1.75rem',
                       lineHeight: 1.3,
                     }}
                   >
@@ -199,7 +200,7 @@ export function ServicesClient() {
                 </div>
 
                 <Typography
-                  variant='body'
+                  variant='cardBody'
                   className='text-sm mb-4 flex-grow'
                   style={{
                     color: theme.semanticColors.text.muted,
