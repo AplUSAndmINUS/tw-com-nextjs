@@ -49,8 +49,6 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
     ? 'none'
     : 'blur(24px) saturate(180%)';
 
-  const footerGradient = 'none';
-
   const { animationProps } = useSlideInOut({
     direction: 'up',
     duration: 0.3,
@@ -59,7 +57,12 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
 
   // Mobile hide button (rendered inside footer overlay)
   const mobileHideButton = (
-    <div className='lg:hidden flex justify-center py-4 border-b border-gray-300 dark:border-gray-600'>
+    <div
+      className='lg:hidden flex justify-center py-4'
+      style={{
+        borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+      }}
+    >
       <button
         onClick={() => setIsFooterVisible(false)}
         className='px-6 py-2 rounded-lg transition-all font-medium'
@@ -106,7 +109,6 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
         style={{
           borderTop: footerBorderTop,
           backgroundColor: footerBg,
-          backgroundImage: footerGradient,
           backdropFilter: footerBackdropFilter,
           WebkitBackdropFilter: footerBackdropFilter,
           opacity: isMounted ? 1 : 0,
@@ -127,7 +129,6 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
             style={{
               borderTop: footerBorderTop,
               backgroundColor: footerBg,
-              backgroundImage: footerGradient,
               backdropFilter: footerBackdropFilter,
               WebkitBackdropFilter: footerBackdropFilter,
             }}

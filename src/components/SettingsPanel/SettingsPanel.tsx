@@ -24,7 +24,7 @@ interface SettingsPanelProps {
 function SettingRow({
   label,
   description,
-  children,
+  children
 }: {
   label: string;
   description?: string;

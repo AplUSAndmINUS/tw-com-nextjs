@@ -13,8 +13,8 @@ export const ThreadsIcon: React.FC<ThreadsIconProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const rootClass: React.CSSProperties = {
-    width: '24px',
-    height: '24px',
+    width: '32px',
+    height: '32px',
   };
 
   return (

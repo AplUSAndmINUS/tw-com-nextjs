@@ -14,8 +14,8 @@ export const YouTubeLogo: React.FC<YouTubeLogoProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const rootClass: React.CSSProperties = {
-    width: '24px',
-    height: '24px',
+    width: '32px',
+    height: '32px',
   };
 
   return (

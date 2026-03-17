@@ -66,12 +66,12 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
                   ? '20px'
                   : isAuthorTagline
                     ? '20px'
-                    : '24px',
+                    : '32px',
                 height: isCompactFooterTablet
                   ? '20px'
                   : isAuthorTagline
                     ? '20px'
-                    : '24px',
+                    : '32px',
               }}
             >
               <FluentIcon

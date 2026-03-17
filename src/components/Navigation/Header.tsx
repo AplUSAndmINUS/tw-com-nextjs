@@ -236,7 +236,7 @@ export function Header() {
     border: `1px solid ${theme.semanticColors.border.default}`,
     borderRadius: theme.borderRadius.container.small,
     cursor: 'pointer',
-    color: theme.colorNeutralForeground1,
+    color: theme.palette.neutralPrimary,
     transition: 'background-color 0.2s ease',
     padding: 0,
   };
@@ -337,6 +337,7 @@ export function Header() {
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                   display: 'block',
+                  padding: '0.125rem', // space for hanging letters
                 }}
               >
                 {isHomePage ? 'Terence Waters' : currentPageTitle}
@@ -456,18 +457,17 @@ export function Header() {
                 {isDark ? (
                   <FluentIcon
                     iconName={WeatherMoon32Regular}
-                    color={theme.colorBrandForeground1}
+                    color={theme.palette.neutralPrimary}
                   />
                 ) : (
                   <FluentIcon
                     iconName={WeatherSunny32Regular}
-                    color={theme.colorBrandForeground1}
+                    color={theme.palette.neutralPrimary}
                   />
                 )}
               </button>
             )}
 
-            {/* Settings toggle — hidden on homepage (dark mode is forced there) */}
             {!isHomePage && !(authRequired && !isAuthenticated) && (
               <button
                 type='button'
@@ -484,12 +484,12 @@ export function Header() {
                 {activeModal === 'settings' ? (
                   <FluentIcon
                     iconName={DismissSquare32Regular}
-                    color={theme.colorBrandForeground1}
+                    color={theme.palette.neutralPrimary}
                   />
                 ) : (
                   <FluentIcon
                     iconName={Settings32Regular}
-                    color={theme.colorBrandForeground1}
+                    color={theme.palette.neutralPrimary}
                   />
                 )}
               </button>
@@ -508,12 +508,12 @@ export function Header() {
                 {activeModal === 'menu' ? (
                   <FluentIcon
                     iconName={DismissSquare32Regular}
-                    color={theme.colorBrandForeground1}
+                    color={theme.palette.neutralPrimary}
                   />
                 ) : (
                   <FluentIcon
                     iconName={Navigation32Regular}
-                    color={theme.colorBrandForeground1}
+                    color={theme.palette.neutralPrimary}
                   />
                 )}
               </button>

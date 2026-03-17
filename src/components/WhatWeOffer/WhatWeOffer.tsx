@@ -68,7 +68,11 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
         animate='visible'
         style={{
           display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
+          gridTemplateColumns: isMobile
+            ? '1fr'
+            : isTablet
+              ? '1fr 1fr'
+              : '1fr 1fr 1fr',
           gap: theme.spacing.m,
           width: '100%',
         }}
@@ -122,8 +126,8 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
               <div
                 style={{
                   flexShrink: 0,
-                  width: '24px',
-                  height: '24px',
+                  width: '32px',
+                  height: '32px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
