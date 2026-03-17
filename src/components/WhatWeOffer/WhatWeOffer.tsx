@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { BaseCard } from '../BaseCard';
 
 export interface OfferItem {
   text: string;
@@ -79,81 +80,13 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
         }}
       >
         {items.map((item, index) => (
-          <motion.div
+          <BaseCard
             key={index}
-            variants={itemVariants}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            style={{
-              padding: theme.spacing.l,
-              borderRadius: theme.borderRadius.container.medium,
-              border: isLightFamilyMode
-                ? `1px solid ${hoveredIndex === index ? accentColor : theme.semanticColors.border.emphasis}`
-                : `1px solid ${hoveredIndex === index ? accentColor : theme.semanticColors.border.default}`,
-              backgroundImage:
-                hoveredIndex === index
-                  ? isLightFamilyMode
-                    ? `linear-gradient(160deg, ${accentColor}48 0%, transparent 55%)`
-                    : `linear-gradient(160deg, ${accentColor}28 0%, transparent 55%)`
-                  : isLightFamilyMode
-                    ? `linear-gradient(160deg, ${accentColor}28 0%, transparent 42%)`
-                    : `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-              transition:
-                'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
-              cursor: 'default',
-              transform: hoveredIndex === index ? 'scale(1.05)' : 'scale(1)',
-              boxShadow:
-                hoveredIndex === index
-                  ? theme.shadows.cardElevated
-                  : theme.shadows.card,
-              backgroundColor:
-                hoveredIndex === index
-                  ? cardHoverSurfaceColor
-                  : cardSurfaceColor,
-            }}
-          >
-            <div
-              className='w-full h-1 rounded-sm mb-4'
-              style={{
-                backgroundColor:
-                  hoveredIndex === index ? accentColor : restStateColor,
-              }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                gap: theme.spacing.m,
-                alignItems: 'flex-start',
-              }}
-            >
-              <div
-                style={{
-                  flexShrink: 0,
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: hoveredIndex === index ? accentColor : restStateColor,
-                  fontSize: '1.25rem',
-                  marginTop: '2px',
-                }}
-              >
-                ✓
-              </div>
-              <Typography
-                variant='label'
-                style={{
-                  color: hoveredIndex === index ? accentColor : restStateColor,
-                  fontSize: '0.9375rem',
-                  fontWeight: 600,
-                  lineHeight: 1.5,
-                }}
-              >
-                {item.text}
-              </Typography>
-            </div>
-          </motion.div>
+            title=''
+            subheading={`✓ ${item.text}`}
+            hoverable={true}
+            className='flex items-start gap-3 rounded-lg border p-4'
+          />
         ))}
       </motion.div>
     </div>

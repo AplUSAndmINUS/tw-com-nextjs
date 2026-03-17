@@ -176,7 +176,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
       {/* Title row — optional icon sits to the left */}
       <div
         style={{
-          display: 'flex',
+          display: title === '' ? 'none' : 'flex',
           gap: theme.spacing.s,
           marginBottom: subheading ? theme.spacing.xs : theme.spacing.m,
           alignItems: 'center',

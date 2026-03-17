@@ -97,7 +97,7 @@ export function ServicesClient() {
 
           <BaseCard
             title={category.title}
-            subheading={category.description}
+            body={category.description}
             icon={category.icon}
             href={category.href}
             cta={category.cta}
