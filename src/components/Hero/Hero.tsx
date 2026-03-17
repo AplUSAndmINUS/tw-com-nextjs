@@ -105,174 +105,163 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <div
       className={`${className}`}
-      style={{
-        border: showBorder
-          ? `1px solid ${theme.semanticColors.border.default}`
-          : 'none',
-        borderTop: `4px solid ${accentColor}`,
-        backgroundColor: heroSurfaceColor,
-        backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
-        padding: isMobile
-          ? `${theme.spacing.l}`
-          : isTablet
-            ? `${theme.spacing.xl} ${theme.spacing.xxl}`
-            : `${theme.spacing.xxl} ${theme.spacing.xxxl}`,
-        borderRadius: theme.borderRadius.container.medium,
-        boxShadow: showShadow ? theme.shadows.hero : theme.shadows.card,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: isMobile ? theme.spacing.m : theme.spacing.xs,
-        ...style,
-      }}
+      style={{ borderRadius: '1rem', overflow: 'clip' }}
     >
       <div
         style={{
+          border: showBorder
+            ? `1px solid ${theme.semanticColors.border.default}`
+            : 'none',
+          borderTop: `4px solid ${accentColor}`,
+          backgroundColor: heroSurfaceColor,
+          backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+          padding: isMobile
+            ? `${theme.spacing.l}`
+            : isTablet
+              ? `${theme.spacing.xl} ${theme.spacing.xxl}`
+              : `${theme.spacing.xxl} ${theme.spacing.xxxl}`,
+          boxShadow: showShadow ? theme.shadows.hero : theme.shadows.card,
           display: 'flex',
-          alignItems: isMobile ? 'flex-start' : 'center',
-          gap: backArrow ? theme.spacing.m : theme.spacing.s1,
+          flexDirection: 'column',
+          gap: isMobile ? theme.spacing.m : theme.spacing.xs,
+          ...style,
         }}
       >
-        {backArrow && BackArrowIcon && (
-          <Link href={backArrowPath} style={{ textDecoration: 'none' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: isMobile ? '2rem' : '2.5rem',
-                height: isMobile ? '2rem' : '2.5rem',
-                borderRadius: theme.borderRadius.container.small,
-                backgroundColor: controlSurfaceColor,
-                border: `1px solid ${theme.semanticColors.border.default}`,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  theme.semanticColors.background.base;
-                e.currentTarget.style.borderColor = accentColor;
-                e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = controlSurfaceColor;
-                e.currentTarget.style.borderColor =
-                  theme.semanticColors.border.default;
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <BackArrowIcon
+        <div
+          style={{
+            display: 'flex',
+            alignItems: isMobile ? 'flex-start' : 'center',
+            gap: backArrow ? theme.spacing.m : theme.spacing.s1,
+          }}
+        >
+          {backArrow && BackArrowIcon && (
+            <Link href={backArrowPath} style={{ textDecoration: 'none' }}>
+              <div
                 style={{
-                  fontSize: isMobile ? '1.25rem' : '1.5rem',
-                  color: accentColor,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: isMobile ? '2rem' : '2.5rem',
+                  height: isMobile ? '2rem' : '2.5rem',
+                  borderRadius: theme.borderRadius.container.small,
+                  backgroundColor: controlSurfaceColor,
+                  border: `1px solid ${theme.semanticColors.border.default}`,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
                 }}
-              />
-            </div>
-          </Link>
-        )}
-        {IconComponent && (
-          <IconComponent
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    theme.semanticColors.background.base;
+                  e.currentTarget.style.borderColor = accentColor;
+                  e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = controlSurfaceColor;
+                  e.currentTarget.style.borderColor =
+                    theme.semanticColors.border.default;
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <BackArrowIcon
+                  style={{
+                    fontSize: isMobile ? '1.25rem' : '1.5rem',
+                    color: accentColor,
+                  }}
+                />
+              </div>
+            </Link>
+          )}
+          {IconComponent && (
+            <IconComponent
+              style={{
+                fontSize: isMobile ? '2rem' : '2.5rem',
+                color: accentColor,
+                flexShrink: 0,
+                paddingRight: '0.25rem',
+                width: isMobile ? '36px' : '48px',
+                height: isMobile ? '36px' : '48px',
+              }}
+            />
+          )}
+          <Typography
+            variant='h1'
             style={{
-              fontSize: isMobile ? '2rem' : '2.5rem',
-              color: accentColor,
-              flexShrink: 0,
-              paddingRight: '0.25rem',
-              width: isMobile ? '36px' : '48px',
-              height: isMobile ? '36px' : '48px',
+              color: theme.semanticColors.text.heading,
+              margin: 0,
+              fontSize: isMobile ? '1.75rem' : '2.5rem',
+              lineHeight: 1.2,
+              flex: 1,
             }}
-          />
-        )}
-        <Typography
-          variant='h1'
-          style={{
-            color: theme.semanticColors.text.heading,
-            margin: 0,
-            fontSize: isMobile ? '1.75rem' : '2.5rem',
-            lineHeight: 1.2,
-            flex: 1,
-          }}
-        >
-          {title}
-        </Typography>
-      </div>
-
-      <div
-        style={{
-          width: isMobile ? '5rem' : '7rem',
-          height: '0.25rem',
-          borderRadius: theme.borderRadius.container.small,
-          background: `linear-gradient(90deg, ${accentColor} 0%, ${theme.semanticColors.link.hover} 100%)`,
-          marginTop: isMobile ? theme.spacing.xs : theme.spacing.s1,
-          marginBottom: theme.spacing.s1,
-        }}
-      />
-
-      {(effectiveDate || lastUpdated) && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
-            marginTop: '0.5rem',
-          }}
-        >
-          {effectiveDate && (
-            <Typography
-              variant='body'
-              style={{
-                fontSize: '0.875rem',
-                color: theme.semanticColors.text.muted,
-                margin: 0,
-              }}
-            >
-              <strong>Effective Date:</strong> {effectiveDate}
-            </Typography>
-          )}
-          {lastUpdated && (
-            <Typography
-              variant='body'
-              style={{
-                fontSize: '0.875rem',
-                color: theme.semanticColors.text.muted,
-                margin: 0,
-              }}
-            >
-              <strong>Last Updated:</strong> {lastUpdated}
-            </Typography>
-          )}
+          >
+            {title}
+          </Typography>
         </div>
-      )}
 
-      {(author || date) && (
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            marginTop: '0.5rem',
+            width: isMobile ? '5rem' : '7rem',
+            height: '0.25rem',
+            borderRadius: theme.borderRadius.container.small,
+            background: `linear-gradient(90deg, ${accentColor} 0%, ${theme.semanticColors.link.hover} 100%)`,
+            marginTop: isMobile ? theme.spacing.xs : theme.spacing.s1,
+            marginBottom: theme.spacing.s1,
           }}
-        >
+        />
+
+        {(effectiveDate || lastUpdated) && (
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              flexWrap: 'wrap',
+              flexDirection: 'column',
+              gap: '0.25rem',
+              marginTop: '0.5rem',
             }}
           >
-            {author && (
+            {effectiveDate && (
               <Typography
-                variant='caption'
+                variant='body'
                 style={{
                   fontSize: '0.875rem',
                   color: theme.semanticColors.text.muted,
                   margin: 0,
                 }}
               >
-                By {author}
+                <strong>Effective Date:</strong> {effectiveDate}
               </Typography>
             )}
-            {date && (
-              <time dateTime={date}>
+            {lastUpdated && (
+              <Typography
+                variant='body'
+                style={{
+                  fontSize: '0.875rem',
+                  color: theme.semanticColors.text.muted,
+                  margin: 0,
+                }}
+              >
+                <strong>Last Updated:</strong> {lastUpdated}
+              </Typography>
+            )}
+          </div>
+        )}
+
+        {(author || date) && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
+              marginTop: '0.5rem',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                flexWrap: 'wrap',
+              }}
+            >
+              {author && (
                 <Typography
                   variant='caption'
                   style={{
@@ -281,96 +270,110 @@ export const Hero: React.FC<HeroProps> = ({
                     margin: 0,
                   }}
                 >
-                  {date}
+                  By {author}
                 </Typography>
-              </time>
+              )}
+              {date && (
+                <time dateTime={date}>
+                  <Typography
+                    variant='caption'
+                    style={{
+                      fontSize: '0.875rem',
+                      color: theme.semanticColors.text.muted,
+                      margin: 0,
+                    }}
+                  >
+                    {date}
+                  </Typography>
+                </time>
+              )}
+            </div>
+            {author && (
+              <div style={{ marginTop: '0.25rem' }}>
+                <SocialLinks isAuthorTagline={true} />
+              </div>
             )}
           </div>
-          {author && (
-            <div style={{ marginTop: '0.25rem' }}>
-              <SocialLinks isAuthorTagline={true} />
-            </div>
-          )}
-        </div>
-      )}
+        )}
 
-      {description && (
-        <div style={{ marginBottom: '1rem' }}>
-          <Typography
-            variant='body'
+        {description && (
+          <div style={{ marginBottom: '1rem' }}>
+            <Typography
+              variant='body'
+              style={{
+                color: theme.semanticColors.text.muted,
+                fontSize: isMobile ? '0.9375rem' : '1.0625rem',
+                lineHeight: 1.6,
+                margin: 0,
+                // Use CSS line-clamp for mobile when not expanded
+                ...(isMobile && !isExpanded && shouldTruncate
+                  ? {
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }
+                  : {}),
+              }}
+            >
+              {description}
+            </Typography>
+            {isMobile && shouldTruncate && (
+              <button
+                type='button'
+                onClick={() => setIsExpanded(!isExpanded)}
+                className='rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+                style={{
+                  marginTop: '0.75rem',
+                  padding: '0.5rem 0.75rem',
+                  border: `2px solid ${theme.semanticColors.border.emphasis}`,
+                  color: accentColor,
+                  backgroundColor: theme.semanticColors.background.base,
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: theme.typography.fonts.body.fontFamily,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                aria-expanded={isExpanded ? 'true' : 'false'}
+                aria-label={
+                  isExpanded ? 'Show less description' : 'Show more description'
+                }
+              >
+                {isExpanded ? 'Show less' : 'Read more'}
+              </button>
+            )}
+          </div>
+        )}
+
+        {filters && (
+          <div
             style={{
-              color: theme.semanticColors.text.muted,
-              fontSize: isMobile ? '0.9375rem' : '1.0625rem',
-              lineHeight: 1.6,
-              margin: 0,
-              // Use CSS line-clamp for mobile when not expanded
-              ...(isMobile && !isExpanded && shouldTruncate
-                ? {
-                    display: '-webkit-box',
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }
-                : {}),
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: theme.spacing.m,
+              marginTop: theme.spacing.s1,
+              alignItems: 'flex-end',
             }}
           >
-            {description}
-          </Typography>
-          {isMobile && shouldTruncate && (
-            <button
-              type='button'
-              onClick={() => setIsExpanded(!isExpanded)}
-              className='rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
-              style={{
-                marginTop: '0.75rem',
-                padding: '0.5rem 0.75rem',
-                border: `2px solid ${theme.semanticColors.border.emphasis}`,
-                color: accentColor,
-                backgroundColor: theme.semanticColors.background.base,
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontFamily: theme.typography.fonts.body.fontFamily,
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              aria-expanded={isExpanded ? 'true' : 'false'}
-              aria-label={
-                isExpanded ? 'Show less description' : 'Show more description'
-              }
-            >
-              {isExpanded ? 'Show less' : 'Read more'}
-            </button>
-          )}
-        </div>
-      )}
+            {filters}
+          </div>
+        )}
 
-      {filters && (
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: theme.spacing.m,
-            marginTop: theme.spacing.s1,
-            alignItems: 'flex-end',
-          }}
-        >
-          {filters}
-        </div>
-      )}
-
-      {children && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: isMobile ? theme.spacing.s1 : theme.spacing.m,
-          }}
-        >
-          {children}
-        </div>
-      )}
+        {children && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: isMobile ? theme.spacing.s1 : theme.spacing.m,
+            }}
+          >
+            {children}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
