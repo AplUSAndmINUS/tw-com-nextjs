@@ -41,7 +41,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   };
 
   const cardPaneClasses = useStackedLayout
-    ? 'flex items-center justify-center xs:pt-16 md:pt-8'
+    ? 'flex items-center justify-center pt-4 md:pt-8'
     : isLeftHanded
       ? 'flex items-center justify-center pt-16 md:pt-0 md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
       : 'flex items-center justify-center pt-16 md:pt-0 md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
@@ -68,7 +68,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
           <div
             className={
               useStackedLayout
-                ? 'w-full max-w-xs aspect-square xs:px-4 md:px-0 flex items-center justify-center'
+                ? 'w-full max-w-xs px-4 md:px-0 flex items-center justify-center'
                 : 'w-full max-w-xs aspect-square md:max-w-md md:aspect-auto px-4 md:px-0 md:overflow-hidden flex items-center justify-center pt-1 pb-1'
             }
           >

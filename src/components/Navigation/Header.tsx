@@ -47,7 +47,6 @@ export function Header() {
   const [activeModal, setActiveModal] = React.useState<
     'menu' | 'settings' | null
   >(null);
-  const [isViewTransitioning, setIsViewTransitioning] = React.useState(false);
   const [isMounted, setIsMounted] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [hoveredButton, setHoveredButton] = React.useState<
@@ -104,6 +103,7 @@ export function Header() {
   const isHomePage = pathname === '/';
 
   const handleThemeClick = () => {
+    setHoveredButton(null);
     if (themeMode !== 'light' && themeMode !== 'dark') return;
     setThemeMode(isDark ? 'light' : 'dark');
   };
@@ -117,15 +117,14 @@ export function Header() {
       clearTimeout(modalSwitchTimeoutRef.current);
     }
 
-    setIsViewTransitioning(true);
     modalSwitchTimeoutRef.current = setTimeout(() => {
       setActiveModal(target);
-      setIsViewTransitioning(false);
       modalSwitchTimeoutRef.current = null;
     }, MODAL_SWITCH_DELAY);
   };
 
   const handleSettingsClick = () => {
+    setHoveredButton(null);
     if (activeModal === 'settings') {
       setActiveModal(null);
     } else if (activeModal === 'menu') {
@@ -136,6 +135,7 @@ export function Header() {
   };
 
   const handleMenuClick = () => {
+    setHoveredButton(null);
     if (activeModal === 'menu') {
       setActiveModal(null);
     } else if (activeModal === 'settings') {
@@ -181,6 +181,11 @@ export function Header() {
       }
     };
   }, []);
+
+  // Clear tooltip on route change (handles navigation without re-tap)
+  React.useEffect(() => {
+    setHoveredButton(null);
+  }, [pathname]);
 
   // Close on Escape
   React.useEffect(() => {
@@ -237,8 +242,13 @@ export function Header() {
     height: isMobileLandscape ? '2.5rem' : '3rem',
     cursor: 'pointer',
     color: theme.palette.neutralPrimary,
-    transition: 'background-color 0.2s ease',
+    transition: 'background-color 0.2s ease, transform 0.2s ease',
     padding: 0,
+  };
+
+  const getButtonTransform = (name: 'theme' | 'settings' | 'menu') => {
+    if (hoveredButton !== name) return 'scale(1)';
+    return name === 'settings' ? 'rotate(90deg)' : 'scale(1.1)';
   };
 
   // Modal position: right side by default, left side in left-handed mode
@@ -453,7 +463,11 @@ export function Header() {
                   onClick={handleThemeClick}
                   onMouseEnter={() => setHoveredButton('theme')}
                   onMouseLeave={() => setHoveredButton(null)}
-                  style={buttonStyle}
+                  onBlur={() => setHoveredButton(null)}
+                  style={{
+                    ...buttonStyle,
+                    transform: getButtonTransform('theme'),
+                  }}
                   aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
                   title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
                 >
@@ -504,7 +518,11 @@ export function Header() {
                   onClick={handleSettingsClick}
                   onMouseEnter={() => setHoveredButton('settings')}
                   onMouseLeave={() => setHoveredButton(null)}
-                  style={buttonStyle}
+                  onBlur={() => setHoveredButton(null)}
+                  style={{
+                    ...buttonStyle,
+                    transform: getButtonTransform('settings'),
+                  }}
                   aria-label={
                     activeModal === 'settings'
                       ? 'Close settings'
@@ -564,7 +582,11 @@ export function Header() {
                   onClick={handleMenuClick}
                   onMouseEnter={() => setHoveredButton('menu')}
                   onMouseLeave={() => setHoveredButton(null)}
-                  style={buttonStyle}
+                  onBlur={() => setHoveredButton(null)}
+                  style={{
+                    ...buttonStyle,
+                    transform: getButtonTransform('menu'),
+                  }}
                   aria-label={
                     activeModal === 'menu' ? 'Close menu' : 'Open menu'
                   }
