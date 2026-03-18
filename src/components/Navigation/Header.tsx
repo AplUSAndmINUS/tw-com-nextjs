@@ -104,6 +104,7 @@ export function Header() {
   const isHomePage = pathname === '/';
 
   const handleThemeClick = () => {
+    setHoveredButton(null);
     if (themeMode !== 'light' && themeMode !== 'dark') return;
     setThemeMode(isDark ? 'light' : 'dark');
   };
@@ -126,6 +127,7 @@ export function Header() {
   };
 
   const handleSettingsClick = () => {
+    setHoveredButton(null);
     if (activeModal === 'settings') {
       setActiveModal(null);
     } else if (activeModal === 'menu') {
@@ -136,6 +138,7 @@ export function Header() {
   };
 
   const handleMenuClick = () => {
+    setHoveredButton(null);
     if (activeModal === 'menu') {
       setActiveModal(null);
     } else if (activeModal === 'settings') {
@@ -181,6 +184,11 @@ export function Header() {
       }
     };
   }, []);
+
+  // Clear tooltip on route change (handles navigation without re-tap)
+  React.useEffect(() => {
+    setHoveredButton(null);
+  }, [pathname]);
 
   // Close on Escape
   React.useEffect(() => {
@@ -453,6 +461,7 @@ export function Header() {
                   onClick={handleThemeClick}
                   onMouseEnter={() => setHoveredButton('theme')}
                   onMouseLeave={() => setHoveredButton(null)}
+                  onBlur={() => setHoveredButton(null)}
                   style={buttonStyle}
                   aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
                   title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
@@ -504,6 +513,7 @@ export function Header() {
                   onClick={handleSettingsClick}
                   onMouseEnter={() => setHoveredButton('settings')}
                   onMouseLeave={() => setHoveredButton(null)}
+                  onBlur={() => setHoveredButton(null)}
                   style={buttonStyle}
                   aria-label={
                     activeModal === 'settings'
@@ -564,6 +574,7 @@ export function Header() {
                   onClick={handleMenuClick}
                   onMouseEnter={() => setHoveredButton('menu')}
                   onMouseLeave={() => setHoveredButton(null)}
+                  onBlur={() => setHoveredButton(null)}
                   style={buttonStyle}
                   aria-label={
                     activeModal === 'menu' ? 'Close menu' : 'Open menu'
