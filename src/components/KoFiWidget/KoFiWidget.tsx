@@ -37,19 +37,13 @@ const KOFI_WIDGET_OPTIONS: Record<string, string> = {
   'floating-chat.donateButton.text-color': '#fff',
 };
 
-/** Pages on which the Ko-Fi widget should not be shown */
-const EXCLUDED_PATHS = [
-  '/',
-  '/blog',
-  '/case-studies',
+/** Pages on which the Ko-Fi widget should be shown */
+const ALLOWED_PATHS = [
   '/contact',
-  '/portfolio',
-  '/services',
-  '/services/consulting',
-  '/services/design',
-  '/services/development',
-  '/services/resonance-core',
-  '/services/personal-training',
+  '/about',
+  '/github',
+  '/videos',
+  '/content-hub',
 ];
 
 /**
@@ -105,8 +99,9 @@ function scheduleVisibilityUpdate(): void {
 /**
  * KoFiWidget
  *
- * Renders the Ko-Fi floating "Tip Me!" chat widget in the bottom-right corner
- * of every page except those listed in EXCLUDED_PATHS.
+ * Renders the Ko-Fi floating "Tip Me!" chat widget in the bottom-left corner
+ * only on pages listed in ALLOWED_PATHS (/contact, /about, /github, /videos,
+ * /content-hub). On all other routes the widget is hidden.
  *
  * The external Ko-Fi overlay script is loaded lazily (afterInteractive) so it
  * does not block the initial render. Once loaded, `kofiWidgetOverlay.draw()`
@@ -119,23 +114,23 @@ export function KoFiWidget() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const isExcluded = EXCLUDED_PATHS.includes(pathname);
+    const isAllowed = ALLOWED_PATHS.includes(pathname);
 
-    if (isExcluded) {
+    if (!isAllowed) {
       const widget = getKofiWidget();
       if (widget) widget.style.visibility = 'hidden';
       return;
     }
 
-    // The script is not rendered on excluded paths, so onLoad (and draw()) only
-    // ever fires on non-excluded pages. This lazy-init handles the case where
+    // The script is only rendered on allowed paths, so onLoad (and draw()) only
+    // ever fires on allowed pages. This lazy-init handles the case where
     // onLoad fired before this effect ran (e.g. script finished loading between
     // React commit and effect execution).
     if (window.kofiWidgetOverlay && !getKofiWidget()) {
       window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
     }
 
-    // Sync visibility immediately on navigation to a non-excluded page
+    // Sync visibility immediately on navigation to an allowed page
     updateWidgetVisibility();
 
     window.addEventListener('scroll', scheduleVisibilityUpdate, {
@@ -155,16 +150,16 @@ export function KoFiWidget() {
     };
   }, [pathname]);
 
-  // Do not render the Script on excluded paths — this prevents the Ko-Fi
+  // Do not render the Script on non-allowed paths — this prevents the Ko-Fi
   // overlay from ever being injected into the DOM on those routes.
-  if (EXCLUDED_PATHS.includes(pathname)) return null;
+  if (!ALLOWED_PATHS.includes(pathname)) return null;
 
   return (
     <Script
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
-        // Script is only rendered on non-excluded paths, so draw() is always safe here.
+        // Script is only rendered on allowed paths, so draw() is always safe here.
         window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
       }}
     />
