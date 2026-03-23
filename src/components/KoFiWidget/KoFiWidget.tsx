@@ -2,7 +2,6 @@
 
 import Script from 'next/script';
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 
 declare global {
   interface Window {
@@ -50,14 +49,29 @@ const ALLOWED_PATHS = [
   '/content-hub/',
 ];
 
+/** DOM id of the injected style element used to hide the widget on non-allowed pages. */
+const HIDE_STYLE_ID = 'kofi-widget-hide';
+
 /** Pending requestAnimationFrame handle, used to coalesce rapid scroll/resize events. */
 let rafId: number | null = null;
 
 /**
- * Returns the Ko-Fi overlay container element injected by the external script.
- * Always queries the DOM fresh to avoid stale references if Ko-Fi recreates
- * the element (e.g. when draw() is called more than once).
+ * Injects or removes a CSS rule that hides the Ko-Fi overlay with !important,
+ * ensuring the element is hidden regardless of when Ko-Fi injects it.
  */
+function setWidgetHidden(hide: boolean): void {
+  if (hide) {
+    if (!document.getElementById(HIDE_STYLE_ID)) {
+      const style = document.createElement('style');
+      style.id = HIDE_STYLE_ID;
+      style.textContent = '#kofi-widget-overlay { display: none !important; }';
+      document.head.appendChild(style);
+    }
+  } else {
+    document.getElementById(HIDE_STYLE_ID)?.remove();
+  }
+}
+
 function getKofiWidget(): HTMLElement | null {
   return document.querySelector<HTMLElement>('#kofi-widget-overlay');
 }
@@ -105,25 +119,19 @@ function scheduleVisibilityUpdate(): void {
  * On mobile viewports, the widget is hidden when the user scrolls near the
  * bottom of the page to avoid overlapping the footer.
  */
-export function KoFiWidget() {
-  const pathname = usePathname();
-
+export function KoFiWidget({ pathname }: { pathname: string }) {
   useEffect(() => {
     const isAllowed = ALLOWED_PATHS.includes(pathname);
 
-    if (!isAllowed) {
-      const widget = getKofiWidget();
-      if (widget) widget.style.display = 'none';
-      return;
-    }
+    // Inject/remove a CSS rule so the widget is hidden the moment Ko-Fi
+    // injects it, regardless of async timing inside the Ko-Fi script.
+    setWidgetHidden(!isAllowed);
 
-    // On an allowed page: restore display if the widget was hidden while on a
-    // non-allowed page, then sync mobile-scroll visibility. If the widget
-    // hasn't been created yet (e.g. onLoad hasn't fired), draw it now.
-    const widget = getKofiWidget();
-    if (widget) {
-      widget.style.display = '';
-    } else if (window.kofiWidgetOverlay) {
+    if (!isAllowed) return;
+
+    // On an allowed page: draw if the widget hasn't been created yet, then
+    // sync mobile-scroll visibility.
+    if (!getKofiWidget() && window.kofiWidgetOverlay) {
       window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
     }
 
@@ -148,19 +156,13 @@ export function KoFiWidget() {
   }, [pathname]);
 
   // The Script is always rendered so it is only ever loaded once and onLoad
-  // never fires on re-mount. Visibility is controlled entirely via the effect.
+  // never fires on re-mount. The CSS injection in the effect controls visibility.
   return (
     <Script
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
         window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
-        // If the script finished loading while the user is on a non-allowed
-        // path, hide the widget immediately.
-        if (!ALLOWED_PATHS.includes(window.location.pathname)) {
-          const widget = getKofiWidget();
-          if (widget) widget.style.display = 'none';
-        }
       }}
     />
   );
