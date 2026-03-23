@@ -23,7 +23,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
     useMultiHoverState();
   const isCompactFooterTablet = isFooter && isTablet;
   const visibleSocialIcons = isCompactFooterTablet
-    ? getSocialIcons().slice(0, 6)
+    ? getSocialIcons().slice(0, 4)
     : getSocialIcons();
 
   const styles = {
@@ -33,12 +33,13 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       alignItems: 'center',
       justifyContent: isAuthorTagline ? 'flex-start' : 'space-between',
       gap: isCompactFooterTablet
-        ? '0.75rem'
+        ? '1.25rem'
         : isFooter
           ? isAuthorTagline
             ? '1rem'
             : '0.5rem'
           : '1rem',
+      marginTop: isCompactFooterTablet ? '0.75rem' : undefined,
       padding: isFooter
         ? '0'
         : isAuthorTagline

@@ -84,7 +84,7 @@ export default function HomePageClient() {
     <PageLayout isHomePage>
       <section
         className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} ${isLargePortrait ? 'justify-end' : 'justify-end lg:justify-center'} h-full sm:px-4 md:px-6 lg:px-12`}
-        style={{ paddingBottom: isMobile ? '80px' : undefined }}
+        style={{ paddingBottom: isMobile || isTablet || isLargePortrait ? '80px' : undefined }}
       >
         {/* Translucent card container around text */}
         <div

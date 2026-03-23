@@ -3,9 +3,8 @@
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
-import { Footer } from '@/components/Footer';
+import { FooterOverlay } from '@/components/FooterOverlay';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 
 interface HomePageLayoutProps {
   children: ReactNode;
@@ -33,7 +32,6 @@ export function HomePageLayout({
 }: HomePageLayoutProps) {
   const { layoutPreference } = useAppTheme();
   const isLeftHanded = layoutPreference === 'left-handed';
-  const isMobile = useIsMobile();
 
   return (
     <SiteLayout isContainedView>
@@ -66,7 +64,6 @@ export function HomePageLayout({
             {/* Right content pane - contains both content and footer on desktop */}
             <div className='lg:col-span-9 lg:h-full lg:overflow-y-auto flex flex-col'>
               <div className='flex-1 px-4 sm:px-6 lg:px-8 py-8'>{children}</div>
-              {!isMobile && <Footer isHomePage />}
             </div>
           </div>
         ) : (
@@ -86,7 +83,7 @@ export function HomePageLayout({
             >
               {children}
             </div>
-            {!isMobile && <Footer isHomePage />}
+            <FooterOverlay />
           </div>
         )}
       </div>
