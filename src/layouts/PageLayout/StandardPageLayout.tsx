@@ -34,8 +34,9 @@ interface StandardPageLayoutProps {
  *     • Footer: Interactive overlay with show/hide button (hidden on mobile)
  *
  * WITHOUT featureImage:
- *   - All devices: Normal scrolling layout with standard footer at bottom
- *   - Max-width container for optimal reading experience
+ *   - All devices: Normal scrolling layout with max-width container for optimal reading experience
+ *   - Mobile: Standard inline footer always visible at bottom
+ *   - Tablet/Desktop: Interactive FooterOverlay with show/hide button (inline footer hidden)
  *
  * Layout Mirroring:
  * -----------------

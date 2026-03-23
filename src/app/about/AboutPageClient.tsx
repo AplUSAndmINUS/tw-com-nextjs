@@ -63,7 +63,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
         }
       >
         {/* TeamMemberCard pane - fixed and vertically centered on tablet/desktop */}
-        {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
+        {/* Tablet portrait (md): 40%/60% width (4x8) | Tablet landscape+ (lg): 33% width (4x8) */}
         <aside className={cardPaneClasses}>
           <div
             className={
@@ -77,7 +77,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
         </aside>
 
         {/* Content pane - scrollable independently with responsive mirrored margins */}
-        {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
+        {/* Tablet portrait (md): 60% reserve | Tablet landscape+ (lg): 67% reserve */}
         <div className={contentPaneClasses}>
           <div
             id='content-scroll-pane'
