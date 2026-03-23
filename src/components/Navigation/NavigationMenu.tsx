@@ -206,7 +206,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           </AnimatePresence>
         </ul>
         <motion.div
-          className='flex items-end justify-end mt-8 transition-transform hover:scale-105'
+          className={`flex items-end ${isLeftHanded ? 'justify-start' : 'justify-end'} mt-8 transition-transform hover:scale-105`}
           initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
