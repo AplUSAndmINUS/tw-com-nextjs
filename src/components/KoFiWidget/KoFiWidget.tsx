@@ -50,25 +50,16 @@ const ALLOWED_PATHS = [
   '/content-hub/',
 ];
 
-/**
- * Cached reference to the Ko-Fi overlay element. Populated on first successful
- * lookup after the external script injects the element into the DOM.
- */
-let widgetCache: HTMLElement | null = null;
-
 /** Pending requestAnimationFrame handle, used to coalesce rapid scroll/resize events. */
 let rafId: number | null = null;
 
 /**
  * Returns the Ko-Fi overlay container element injected by the external script.
- * Result is cached after the first successful lookup since the element is
- * injected once and never recreated.
+ * Always queries the DOM fresh to avoid stale references if Ko-Fi recreates
+ * the element (e.g. when draw() is called more than once).
  */
 function getKofiWidget(): HTMLElement | null {
-  if (!widgetCache) {
-    widgetCache = document.querySelector('#kofi-widget-overlay');
-  }
-  return widgetCache;
+  return document.querySelector<HTMLElement>('#kofi-widget-overlay');
 }
 
 /**
@@ -122,15 +113,17 @@ export function KoFiWidget() {
 
     if (!isAllowed) {
       const widget = getKofiWidget();
-      if (widget) widget.style.visibility = 'hidden';
+      if (widget) widget.style.display = 'none';
       return;
     }
 
-    // The script is only rendered on allowed paths, so onLoad (and draw()) only
-    // ever fires on allowed pages. This lazy-init handles the case where
-    // onLoad fired before this effect ran (e.g. script finished loading between
-    // React commit and effect execution).
-    if (window.kofiWidgetOverlay && !getKofiWidget()) {
+    // On an allowed page: restore display if the widget was hidden while on a
+    // non-allowed page, then sync mobile-scroll visibility. If the widget
+    // hasn't been created yet (e.g. onLoad hasn't fired), draw it now.
+    const widget = getKofiWidget();
+    if (widget) {
+      widget.style.display = '';
+    } else if (window.kofiWidgetOverlay) {
       window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
     }
 
@@ -154,17 +147,20 @@ export function KoFiWidget() {
     };
   }, [pathname]);
 
-  // Do not render the Script on non-allowed paths — this prevents the Ko-Fi
-  // overlay from ever being injected into the DOM on those routes.
-  if (!ALLOWED_PATHS.includes(pathname)) return null;
-
+  // The Script is always rendered so it is only ever loaded once and onLoad
+  // never fires on re-mount. Visibility is controlled entirely via the effect.
   return (
     <Script
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
-        // Script is only rendered on allowed paths, so draw() is always safe here.
         window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
+        // If the script finished loading while the user is on a non-allowed
+        // path, hide the widget immediately.
+        if (!ALLOWED_PATHS.includes(window.location.pathname)) {
+          const widget = getKofiWidget();
+          if (widget) widget.style.display = 'none';
+        }
       }}
     />
   );

@@ -100,12 +100,12 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         onKeyDown={handleKeyDown}
         tabIndex={0}
         role='button'
-        aria-label={`Generated with AI. ${tooltipText}`}
+        aria-label={`Content was drafted with AI. ${tooltipText}`}
         aria-describedby={tooltipId}
         aria-controls={tooltipId}
       >
         <AiGeneratedIcon size={24} />
-        <span>Generated with AI</span>
+        <span>AI Transparency</span>
       </div>
 
       {/* Tooltip - positioned to the right */}
