@@ -69,6 +69,7 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             onMouseEnter={() => setIsFooterVisible(true)}
+            onClick={() => setIsFooterVisible(true)}
             className='hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-2 rounded-lg transition-all font-medium items-center justify-center'
             style={{
               border: `2px solid ${theme.semanticColors.border.emphasis}`,
@@ -87,21 +88,30 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
       {/* Animated footer overlay */}
       <AnimatePresence>
         {isFooterVisible && (
-          <motion.footer
-            {...animationProps}
-            onMouseLeave={() => setIsFooterVisible(false)}
-            id='footer-content'
-            className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
-            role='contentinfo'
-            style={{
-              borderTop: footerBorderTop,
-              backgroundColor: footerBg,
-              backdropFilter: footerBackdropFilter,
-              WebkitBackdropFilter: footerBackdropFilter,
-            }}
-          >
-            <FooterContent isCompact={false} />
-          </motion.footer>
+          <>
+            {/* Transparent backdrop — dismisses footer on click or touch outside */}
+            <div
+              className='fixed inset-0 z-[49]'
+              aria-hidden='true'
+              onClick={() => setIsFooterVisible(false)}
+              onTouchStart={() => setIsFooterVisible(false)}
+            />
+            <motion.footer
+              {...animationProps}
+              onMouseLeave={() => setIsFooterVisible(false)}
+              id='footer-content'
+              className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
+              role='contentinfo'
+              style={{
+                borderTop: footerBorderTop,
+                backgroundColor: footerBg,
+                backdropFilter: footerBackdropFilter,
+                WebkitBackdropFilter: footerBackdropFilter,
+              }}
+            >
+              <FooterContent isCompact={false} />
+            </motion.footer>
+          </>
         )}
       </AnimatePresence>
     </>
