@@ -9,6 +9,7 @@
     "CONTACT_TO_EMAIL": "youremail@example.com",
     "NEXT_PUBLIC_ENVIRONMENT": "dev",
     "ENVIRONMENT": "dev",
+    "ACCESS_TOKEN": "access-token-placeholder",
     "RECAPTCHA_SECRET_KEY": "recaptcha-secret-key-placeholder",
     "ENTRAID_SP_APP_REGISTRATION_CLIENT_ID": "entra-id-app-registration-client-id-placeholder",
     "ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET": "entra-id-app-registration-client-secret-placeholder",

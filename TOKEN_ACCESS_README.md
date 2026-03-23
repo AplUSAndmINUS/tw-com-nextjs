@@ -165,22 +165,38 @@ The bypass is implemented in `requiresAuthentication()` via the `isLocalhost()` 
 
 ### Testing the token gate locally
 
-If you specifically need to test the token gate UI or the API validation flow, you must use
-a non-localhost hostname (e.g. map a custom hostname to `127.0.0.1` in `/etc/hosts`).
+The token gate is bypassed when `window.location.hostname === 'localhost'` (or `127.0.0.1`).
+To test the gate UI and API validation flow you must use a non-localhost hostname **and** tell
+the frontend where the local Functions runtime is listening.
 
-1. Create `.env.local` (gitignored):
+1. Add a custom hostname to `/etc/hosts`:
+
+```
+127.0.0.1  dev.local.terencewaters.com
+```
+
+2. Create `.env.local` (gitignored):
 
 ```bash
 NEXT_PUBLIC_ENVIRONMENT=dev
+# Point ALL api calls to the local Functions runtime regardless of hostname.
+# getApiBaseUrl() honours this env var whenever it is set.
+NEXT_PUBLIC_API_URL=http://localhost:7071
 ```
 
-2. Start the dev server:
+3. Start the dev server, binding to the custom hostname:
 
 ```bash
-yarn dev
+yarn dev --hostname dev.local.terencewaters.com
 ```
 
-On `localhost` the `AccessGate` will be transparent and render children directly.
+4. Visit `http://dev.local.terencewaters.com:3000`. The `AccessGate` will now show the
+   token prompt, and validation requests will be correctly routed to
+   `http://localhost:7071/api/auth/validate-token` via `NEXT_PUBLIC_API_URL`.
+
+> **Note:** Without `NEXT_PUBLIC_API_URL` set, validation calls would go to
+> `/api/auth/validate-token` on the Next.js dev server (which does not host Azure
+> Functions) and return a 404.
 
 ### Testing API validation locally
 
@@ -193,7 +209,6 @@ On `localhost` the `AccessGate` will be transparent and render children directly
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "ACCESS_TOKEN": "test-token-12345",
     "ENVIRONMENT": "dev"
   }
 }
