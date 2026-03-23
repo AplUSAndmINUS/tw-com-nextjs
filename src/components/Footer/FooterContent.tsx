@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
-import { useIsTablet, useDeviceOrientation } from '@/hooks/useMediaQuery';
+import { useWindowSize, useDeviceOrientation } from '@/hooks/useMediaQuery';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
@@ -38,6 +38,7 @@ interface FooterLinkSectionProps {
   isAuthorTagline?: boolean;
   className?: string;
   children?: React.ReactNode;
+  windowWidth?: number;
 }
 
 /**
@@ -50,6 +51,7 @@ function FooterLinkSection({
   isAuthorTagline = false,
   className = '',
   children,
+  windowWidth,
 }: FooterLinkSectionProps) {
   return (
     <div
@@ -66,7 +68,7 @@ function FooterLinkSection({
         {title}
       </Typography>
       {title === 'Social' ? (
-        <SocialLinks isFooter isAuthorTagline={isAuthorTagline} />
+        <SocialLinks isFooter isAuthorTagline={isAuthorTagline || (windowWidth !== undefined && windowWidth <= 1366)} />
       ) : (
         <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
           {links.map(({ href, label }) => (
@@ -292,7 +294,7 @@ export function FooterContent({
   headerContent,
 }: FooterContentProps) {
   const year = new Date().getFullYear();
-  const isTablet = useIsTablet();
+  const { windowWidth } = useWindowSize();
   const orientation = useDeviceOrientation();
   const isLargePortrait = orientation === 'large-portrait';
 
@@ -348,7 +350,7 @@ export function FooterContent({
             links={footerLinks.work}
             isCompact={isCompact}
           />
-          {!isTablet && (
+          {windowWidth >= 1366 && (
             <FooterLinkSection
               title='Connect'
               links={footerLinks.connect}
@@ -361,6 +363,7 @@ export function FooterContent({
             links={[]} // Empty array since SocialLinks component handles rendering
             isCompact={true}
             isAuthorTagline={isLargePortrait}
+            windowWidth={windowWidth}
           >
             <FooterNewsletterMini />
           </FooterLinkSection>

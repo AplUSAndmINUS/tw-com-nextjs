@@ -45,7 +45,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
           ? 'clamp(0.5rem, 1vh, 1rem)'
           : 'clamp(1rem, 2vh, 1.5rem)',
       backgroundColor: theme.gradients[isDark ? 'dark' : 'light'].menu,
-      borderTop: isAuthorTagline
+      borderTop: isAuthorTagline && !isFooter
         ? `1px solid ${theme.colorBrandForeground2}`
         : 'none',
       width: isCompactFooterTablet ? '100%' : isFooter ? '75%' : '100%',
