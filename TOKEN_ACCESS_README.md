@@ -154,7 +154,19 @@ openssl rand -hex 32
 
 ## Local Development
 
+### Localhost bypass
+
+When running on `localhost` (or `127.0.0.1`), the token gate is **automatically skipped**
+regardless of the `NEXT_PUBLIC_ENVIRONMENT` value. This means you can run `yarn dev` with
+`NEXT_PUBLIC_ENVIRONMENT=dev` and access the site without entering a token.
+
+The bypass is implemented in `requiresAuthentication()` via the `isLocalhost()` helper in
+`src/lib/environment.ts`.
+
 ### Testing the token gate locally
+
+If you specifically need to test the token gate UI or the API validation flow, you must use
+a non-localhost hostname (e.g. map a custom hostname to `127.0.0.1` in `/etc/hosts`).
 
 1. Create `.env.local` (gitignored):
 
@@ -168,8 +180,7 @@ NEXT_PUBLIC_ENVIRONMENT=dev
 yarn dev
 ```
 
-The `AccessGate` component will appear, but API calls to `/api/auth/validate-token`
-won't work without the Azure Functions runtime.
+On `localhost` the `AccessGate` will be transparent and render children directly.
 
 ### Testing API validation locally
 

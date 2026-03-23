@@ -26,12 +26,28 @@ export function getEnvironment(): Environment {
 }
 
 /**
+ * Returns true when running on localhost (browser only).
+ * Used to bypass token authentication during local development.
+ */
+export function isLocalhost(): boolean {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+  const { hostname } = window.location;
+  return hostname === 'localhost' || hostname === '127.0.0.1';
+}
+
+/**
  * Returns true when the current environment requires token authentication
- * (i.e. DEV or TEST).
+ * (i.e. DEV or TEST), but not when running on localhost.
  */
 export function requiresAuthentication(): boolean {
   const env = getEnvironment();
-  return env === 'dev' || env === 'test';
+  if (env !== 'dev' && env !== 'test') {
+    return false;
+  }
+  // Skip token gate on localhost — no Azure Function API available locally
+  return !isLocalhost();
 }
 
 /**
