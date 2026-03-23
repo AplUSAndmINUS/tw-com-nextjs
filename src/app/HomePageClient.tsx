@@ -93,7 +93,7 @@ export default function HomePageClient() {
               : isMobileLandscape
                 ? 'w-1/2 space-y-2 p-3'
                 : isTabletLandscape
-                  ? 'w-3/4 space-y-4 p-6'
+                  ? 'w-1/2 space-y-4 p-6'
                   : isTablet
                     ? isLeftHanded
                       ? 'w-1/2 space-y-6 p-8'
