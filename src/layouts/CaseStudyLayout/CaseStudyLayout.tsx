@@ -6,6 +6,7 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
+import { Footer } from '@/components/Footer';
 import { ImageCarouselModal } from '@/components/ImageCarouselModal';
 import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
 import { GalleryItem } from '@/content/types';
@@ -88,7 +89,7 @@ export function CaseStudyLayout({
   );
 
   return (
-    <SiteLayout>
+    <SiteLayout showFooter={false}>
       <div
         className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'
         style={{
@@ -147,10 +148,6 @@ export function CaseStudyLayout({
                 </div>
               </div>
             </article>
-            {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
-            <div className='hidden md:block'>
-              <FooterOverlay hideButton={true} />
-            </div>
           </div>
         ) : (
           <article className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12 md:pb-16'>
@@ -159,6 +156,14 @@ export function CaseStudyLayout({
             <div className='prose-content-body'>{children}</div>
           </article>
         )}
+      </div>
+      {/* Mobile: Standard footer always visible */}
+      <div className='md:hidden'>
+        <Footer isCompact />
+      </div>
+      {/* Tablet/Desktop: Interactive footer overlay */}
+      <div className='hidden md:block'>
+        <FooterOverlay />
       </div>
     </SiteLayout>
   );

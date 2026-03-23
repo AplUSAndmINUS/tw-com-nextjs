@@ -34,8 +34,9 @@ interface StandardPageLayoutProps {
  *     • Footer: Interactive overlay with show/hide button (hidden on mobile)
  *
  * WITHOUT featureImage:
- *   - All devices: Normal scrolling layout with standard footer at bottom
- *   - Max-width container for optimal reading experience
+ *   - All devices: Normal scrolling layout with max-width container for optimal reading experience
+ *   - Mobile: Standard inline footer always visible at bottom
+ *   - Tablet/Desktop: Interactive FooterOverlay with show/hide button (inline footer hidden)
  *
  * Layout Mirroring:
  * -----------------
@@ -68,16 +69,16 @@ export function StandardPageLayout({
       ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/4 xl:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
       : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/4 xl:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
     : isLeftHanded
-      ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/2 lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
+      ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
+      : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
 
   const contentPaneClasses = isMobileLandscape
     ? isLeftHanded
       ? 'flex-1 md:mr-[25%] xl:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
       : 'flex-1 md:ml-[25%] xl:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
     : isLeftHanded
-      ? 'flex-1 md:mr-[50%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[50%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
+      ? 'flex-1 md:mr-[40%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
+      : 'flex-1 md:ml-[40%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
 
   // Contained viewport layout with feature image
   if (featureImage) {
@@ -121,12 +122,20 @@ export function StandardPageLayout({
 
   // Standard scrolling layout without feature image
   return (
-    <SiteLayout showFooter={true}>
+    <SiteLayout showFooter={false}>
       {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
       <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 max-width-content'>
         <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
           {children}
         </div>
+      </div>
+      {/* Mobile: Standard footer always visible */}
+      <div className='md:hidden'>
+        <Footer isCompact />
+      </div>
+      {/* Tablet/Desktop: Interactive footer overlay */}
+      <div className='hidden md:block'>
+        <FooterOverlay />
       </div>
     </SiteLayout>
   );
