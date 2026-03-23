@@ -68,7 +68,13 @@ function FooterLinkSection({
         {title}
       </Typography>
       {title === 'Social' ? (
-        <SocialLinks isFooter isAuthorTagline={isAuthorTagline || (windowWidth !== undefined && windowWidth <= 1366)} />
+        <SocialLinks
+          isFooter
+          isAuthorTagline={
+            isAuthorTagline ||
+            (windowWidth !== undefined && windowWidth <= 1366)
+          }
+        />
       ) : (
         <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
           {links.map(({ href, label }) => (
@@ -337,14 +343,12 @@ export function FooterContent({
           </div>
 
           {/* Link sections */}
-          {!isLargePortrait && (
-            <FooterLinkSection
-              title='Content'
-              links={footerLinks.content}
-              isCompact={isCompact}
-              className='hidden md:flex'
-            />
-          )}
+          <FooterLinkSection
+            title='Content'
+            links={footerLinks.content}
+            isCompact={isCompact}
+            className='hidden md:flex'
+          />
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}

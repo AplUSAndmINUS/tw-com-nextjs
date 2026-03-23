@@ -33,7 +33,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
       alignItems: 'center',
       justifyContent: isAuthorTagline ? 'flex-start' : 'space-between',
       gap: isCompactFooterTablet
-        ? '0.125rem'
+        ? '0.75rem'
         : isFooter
           ? isAuthorTagline
             ? '1rem'
