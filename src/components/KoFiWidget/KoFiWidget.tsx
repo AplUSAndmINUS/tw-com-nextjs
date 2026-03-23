@@ -37,13 +37,17 @@ const KOFI_WIDGET_OPTIONS: Record<string, string> = {
   'floating-chat.donateButton.text-color': '#fff',
 };
 
-/** Pages on which the Ko-Fi widget should be shown */
+/**
+ * Pages on which the Ko-Fi widget should be shown.
+ * Paths include trailing slashes to match what usePathname() returns when
+ * next.config.ts has trailingSlash: true.
+ */
 const ALLOWED_PATHS = [
-  '/contact',
-  '/about',
-  '/github',
-  '/videos',
-  '/content-hub',
+  '/contact/',
+  '/about/',
+  '/github/',
+  '/videos/',
+  '/content-hub/',
 ];
 
 /**
