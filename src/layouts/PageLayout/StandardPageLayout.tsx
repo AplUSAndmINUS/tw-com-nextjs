@@ -121,12 +121,20 @@ export function StandardPageLayout({
 
   // Standard scrolling layout without feature image
   return (
-    <SiteLayout showFooter={true}>
+    <SiteLayout showFooter={false}>
       {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
       <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 max-width-content'>
         <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
           {children}
         </div>
+      </div>
+      {/* Mobile: Standard footer always visible */}
+      <div className='md:hidden'>
+        <Footer isCompact />
+      </div>
+      {/* Tablet/Desktop: Interactive footer overlay */}
+      <div className='hidden md:block'>
+        <FooterOverlay />
       </div>
     </SiteLayout>
   );

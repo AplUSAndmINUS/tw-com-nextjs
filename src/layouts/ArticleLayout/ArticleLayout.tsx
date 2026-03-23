@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
+import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 import { ImageCarouselModal } from '@/components/ImageCarouselModal';
 import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
@@ -63,7 +64,7 @@ export function ArticleLayout({
         : [];
 
   return (
-    <SiteLayout>
+    <SiteLayout showFooter={false}>
       {featureImage ? (
         <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
           {/* Feature image pane - fixed and vertically centered on md+ */}
@@ -140,10 +141,6 @@ export function ArticleLayout({
               </div>
             </div>
           </article>
-          {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
-          <div className='hidden md:block'>
-            <FooterOverlay hideButton={true} />
-          </div>
         </div>
       ) : (
         <article className='max-width-content mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12 md:pb-16'>
@@ -179,6 +176,14 @@ export function ArticleLayout({
           <div className='border-t'>{children}</div>
         </article>
       )}
+      {/* Mobile: Standard footer always visible */}
+      <div className='md:hidden'>
+        <Footer isCompact />
+      </div>
+      {/* Tablet/Desktop: Interactive footer overlay */}
+      <div className='hidden md:block'>
+        <FooterOverlay />
+      </div>
     </SiteLayout>
   );
 }
