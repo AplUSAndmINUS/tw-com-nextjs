@@ -122,7 +122,7 @@ export function StandardPageLayout({
             suppressHydrationWarning
           >
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col max-width-content'>
-              <div className='md:w-full md:my-auto'>{children}</div>
+            <div className='md:w-full md:my-auto lg:pb-12'>{children}</div>
             </div>
 
             {/* Mobile: Standard footer always visible (shown only on mobile) */}

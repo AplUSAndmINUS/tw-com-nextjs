@@ -93,7 +93,7 @@ export function ContentHubClient() {
       animate='visible'
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
         gap: theme.spacing.l,
         width: '100%',
       }}

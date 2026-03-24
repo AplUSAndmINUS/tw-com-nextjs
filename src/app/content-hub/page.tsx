@@ -40,7 +40,7 @@ export default function ContentHubPage() {
         />
 
         {/* Browse by Category */}
-        <section className='mt-8'>
+        <section className='mt-8 lg:mt-16'>
           <Typography variant='h2' className='text-2xl font-bold mb-4'>
             Browse by Category
           </Typography>

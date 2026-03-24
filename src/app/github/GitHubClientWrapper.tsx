@@ -223,6 +223,7 @@ export function GitHubClientWrapper({
       backArrow
       backArrowPath='/content-hub'
       defaultCardType='grid'
+      showViewSelector={false}
     />
   );
 }

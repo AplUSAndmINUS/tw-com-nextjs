@@ -79,6 +79,7 @@ export interface ContentListingPageProps {
   emptyStateTitle?: string;
   emptyStateMessage?: string;
   defaultCardType?: 'grid' | 'small' | 'large';
+  showViewSelector?: boolean;
 
   // Optional call-to-action section
   ctaSection?: {
@@ -152,6 +153,7 @@ export function ContentListingPage({
   emailNewsletterSignup = false,
   backArrowPath = '/content-hub',
   customSection,
+  showViewSelector = true,
 }: ContentListingPageProps) {
   const router = useRouter();
   const { theme } = useAppTheme();
@@ -175,6 +177,9 @@ export function ContentListingPage({
     { value: 'small', label: 'Small Tile' },
     { value: 'large', label: 'Large Tile' },
   ];
+  const resolvedViewType = showViewSelector
+    ? viewType
+    : defaultCardType || 'grid';
 
   // Ensure filters array is always defined
   const safeFilters = filters || [];
@@ -190,10 +195,15 @@ export function ContentListingPage({
   };
 
   React.useEffect(() => {
+    if (!showViewSelector) {
+      setViewType(defaultCardType || 'grid');
+      return;
+    }
+
     if (defaultCardType) {
       setViewType(defaultCardType);
     }
-  }, [defaultCardType, setViewType]);
+  }, [defaultCardType, setViewType, showViewSelector]);
 
   const filterSelectSize = isMobile ? 'small' : 'medium';
 
@@ -269,17 +279,19 @@ export function ContentListingPage({
         )}
 
         {/* View Type Selector */}
-        <div style={{ minWidth: '0' }}>
-          <Select
-            label='View'
-            options={viewOptions}
-            size={filterSelectSize}
-            value={viewType}
-            onChange={(e) =>
-              setViewType((e.target.value as ViewType) || 'grid')
-            }
-          />
-        </div>
+        {showViewSelector && (
+          <div style={{ minWidth: '0' }}>
+            <Select
+              label='View'
+              options={viewOptions}
+              size={filterSelectSize}
+              value={viewType}
+              onChange={(e) =>
+                setViewType((e.target.value as ViewType) || 'grid')
+              }
+            />
+          </div>
+        )}
 
         {/* Clear Dates Button - Hidden on Mobile, Shows when dates are set */}
         {hasDateFilter && onClearDates && !isMobile && (
@@ -388,7 +400,7 @@ export function ContentListingPage({
           <AdaptiveCardGrid
             cards={safeCards}
             basePath={basePath}
-            viewType={viewType}
+            viewType={resolvedViewType}
             onCardClick={handleCardClick}
           />
         )}
