@@ -529,12 +529,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
       initial='hidden'
       animate='visible'
       style={{
-        display: isLargeScreen ? 'grid' : 'flex',
-        flexDirection: isLargeScreen ? undefined : 'column',
-        gridTemplateColumns: isLargeScreen
-          ? 'repeat(2, minmax(0, 1fr))'
-          : undefined,
-        gridAutoRows: isLargeScreen ? '1fr' : undefined,
+        display: isLargeScreen || is4KScreen ? 'grid' : 'flex',
+        flexDirection: isLargeScreen || is4KScreen ? undefined : 'column',
+        gridTemplateColumns:
+          isLargeScreen || is4KScreen ? 'repeat(2, minmax(0, 1fr))' : undefined,
+        gridAutoRows: isLargeScreen || is4KScreen ? '1fr' : undefined,
         gap: theme.spacing.l,
         width: '100%',
       }}
@@ -704,7 +703,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                           0,
                           isCompactViewport || isLargeTablet
                             ? 3
-                            : card.tags.length
+                            : isLargeScreen
+                              ? 4
+                              : card.tags.length
                         )
                         .map((tag) => (
                           <Typography
