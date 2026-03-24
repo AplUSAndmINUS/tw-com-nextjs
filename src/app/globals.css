@@ -26,7 +26,7 @@ body {
 /* Fixed header compositing layer — must be CSS (not inline styles) so it applies
    on first paint before React hydration. Inline styles arrive too late and leave
    a window where iOS/desktop Safari drops the compositing layer on early scroll. */
-nav[role="banner"] {
+nav[role='banner'] {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
@@ -106,4 +106,16 @@ due to Markdown limitation. The first heading in the content is hidden, and the 
 .border-t > h1:first-child,
 .border-t > h2:first-child {
   display: none;
+}
+
+/* Ko-Fi widget: hidden by default, shown only on allowed pages via a body class.
+   The body class is toggled by KoFiWidget.tsx so the hide rule is present from
+   the very first paint — no flash of the widget on non-allowed pages.
+   Ko-Fi creates elements with id="kofi-widget-overlay-{GUID}" so we use
+   attribute selector [id^="..."] to match ids that start with the prefix. */
+[id^='kofi-widget-overlay'] {
+  display: none !important;
+}
+body.kofi-visible [id^='kofi-widget-overlay'] {
+  display: block !important;
 }

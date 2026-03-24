@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
-import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet, useWindowSize } from '@/hooks/useMediaQuery';
 import { BaseCard } from '@/components/BaseCard';
 
 const serviceCategories: {
@@ -57,7 +57,7 @@ const serviceCategories: {
 ];
 
 export function ServicesClient() {
-  const { theme, themeMode } = useAppTheme();
+  const { theme } = useAppTheme();
   const [isMounted, setIsMounted] = useState(false);
   const isMobileHook = useIsMobile();
   const isTabletHook = useIsTablet();
@@ -90,7 +90,7 @@ export function ServicesClient() {
         display: 'grid',
         gridTemplateColumns: isMobile
           ? '1fr'
-          : isTablet
+          : isTablet || useWindowSize().windowWidth <= 1024
             ? '1fr 1fr'
             : '1fr 1fr 1fr',
         gap: theme.spacing.l,
@@ -103,6 +103,7 @@ export function ServicesClient() {
         return (
 
           <BaseCard
+            key={category.title}
             title={category.title}
             body={category.description}
             icon={category.icon}

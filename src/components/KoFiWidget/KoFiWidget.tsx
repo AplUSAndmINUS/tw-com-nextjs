@@ -2,7 +2,6 @@
 
 import Script from 'next/script';
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 
 declare global {
   interface Window {
@@ -37,40 +36,32 @@ const KOFI_WIDGET_OPTIONS: Record<string, string> = {
   'floating-chat.donateButton.text-color': '#fff',
 };
 
-/** Pages on which the Ko-Fi widget should not be shown */
-const EXCLUDED_PATHS = [
-  '/',
-  '/blog',
-  '/case-studies',
-  '/contact',
-  '/portfolio',
-  '/services',
-  '/services/consulting',
-  '/services/design',
-  '/services/development',
-  '/services/resonance-core',
-  '/services/personal-training',
-];
-
 /**
- * Cached reference to the Ko-Fi overlay element. Populated on first successful
- * lookup after the external script injects the element into the DOM.
+ * Pages on which the Ko-Fi widget should be shown.
+ * Paths include trailing slashes to match what usePathname() returns when
+ * next.config.ts has trailingSlash: true.
  */
-let widgetCache: HTMLElement | null = null;
+const ALLOWED_PATHS = [
+  '/contact/',
+  '/about/',
+  '/github/',
+  '/videos/',
+  '/content-hub/',
+];
 
 /** Pending requestAnimationFrame handle, used to coalesce rapid scroll/resize events. */
 let rafId: number | null = null;
 
+/** MutationObserver watching for Ko-Fi overlay injection */
+let overlayObserver: MutationObserver | null = null;
+
 /**
- * Returns the Ko-Fi overlay container element injected by the external script.
- * Result is cached after the first successful lookup since the element is
- * injected once and never recreated.
+ * Query the DOM for the Ko-fi overlay element.
+ * Ko-Fi creates elements with id="kofi-widget-overlay-{GUID}"
+ * so we need to match any id that starts with "kofi-widget-overlay"
  */
 function getKofiWidget(): HTMLElement | null {
-  if (!widgetCache) {
-    widgetCache = document.querySelector('#kofi-widget-overlay');
-  }
-  return widgetCache;
+  return document.querySelector<HTMLElement>('[id^="kofi-widget-overlay"]');
 }
 
 /**
@@ -103,39 +94,83 @@ function scheduleVisibilityUpdate(): void {
 }
 
 /**
- * KoFiWidget
- *
- * Renders the Ko-Fi floating "Tip Me!" chat widget in the bottom-right corner
- * of every page except those listed in EXCLUDED_PATHS.
- *
- * The external Ko-Fi overlay script is loaded lazily (afterInteractive) so it
- * does not block the initial render. Once loaded, `kofiWidgetOverlay.draw()`
- * is called to initialise the widget.
- *
- * On mobile viewports, the widget is hidden when the user scrolls near the
- * bottom of the page to avoid overlapping the footer.
+ * Enforces display state on the Ko-Fi overlay based on whether the body has
+ * the `kofi-visible` class. Called whenever the overlay is created or modified.
  */
-export function KoFiWidget() {
-  const pathname = usePathname();
+function enforceOverlayDisplayState(): void {
+  const overlay = getKofiWidget();
+  if (!overlay) return;
+
+  const hasVisibleClass = document.body.classList.contains('kofi-visible');
+  const shouldDisplay = hasVisibleClass;
+
+  // Use !important to override any inline styles Ko-Fi may have injected
+  overlay.style.setProperty(
+    'display',
+    shouldDisplay ? 'block' : 'none',
+    'important'
+  );
+}
+
+/**
+ * Starts observing for the Ko-Fi overlay element being injected or modified.
+ */
+function startOverlayObserver(): void {
+  if (overlayObserver) return;
+
+  overlayObserver = new MutationObserver(() => {
+    const overlay = getKofiWidget();
+    if (overlay) {
+      enforceOverlayDisplayState();
+    }
+  });
+
+  overlayObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class'],
+  });
+}
+
+function stopOverlayObserver(): void {
+  if (overlayObserver) {
+    overlayObserver.disconnect();
+    overlayObserver = null;
+  }
+}
+
+export function KoFiWidget({ pathname }: { pathname: string }) {
+  const isAllowed = ALLOWED_PATHS.includes(pathname);
 
   useEffect(() => {
-    const isExcluded = EXCLUDED_PATHS.includes(pathname);
-
-    if (isExcluded) {
-      const widget = getKofiWidget();
-      if (widget) widget.style.visibility = 'hidden';
-      return;
+    if (isAllowed) {
+      document.body.classList.add('kofi-visible');
+    } else {
+      document.body.classList.remove('kofi-visible');
     }
 
-    // The script is not rendered on excluded paths, so onLoad (and draw()) only
-    // ever fires on non-excluded pages. This lazy-init handles the case where
-    // onLoad fired before this effect ran (e.g. script finished loading between
-    // React commit and effect execution).
-    if (window.kofiWidgetOverlay && !getKofiWidget()) {
+    // Start observing for overlay injection if not already observing
+    startOverlayObserver();
+
+    // If overlay already exists, enforce its display state immediately
+    enforceOverlayDisplayState();
+
+    if (!isAllowed) {
+      // Return cleanup for disallowed pages to prevent observer leaks
+      return () => {
+        document.body.classList.remove('kofi-visible');
+        stopOverlayObserver();
+      };
+    }
+
+    // On an allowed page: draw if the widget hasn't been created yet, then
+    // sync mobile-scroll visibility.
+    if (!getKofiWidget() && window.kofiWidgetOverlay) {
       window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
     }
 
-    // Sync visibility immediately on navigation to a non-excluded page
+    // Sync visibility immediately on navigation to an allowed page
     updateWidgetVisibility();
 
     window.addEventListener('scroll', scheduleVisibilityUpdate, {
@@ -146,6 +181,8 @@ export function KoFiWidget() {
     });
 
     return () => {
+      document.body.classList.remove('kofi-visible');
+      stopOverlayObserver();
       window.removeEventListener('scroll', scheduleVisibilityUpdate);
       window.removeEventListener('resize', scheduleVisibilityUpdate);
       if (rafId !== null) {
@@ -153,19 +190,17 @@ export function KoFiWidget() {
         rafId = null;
       }
     };
-  }, [pathname]);
-
-  // Do not render the Script on excluded paths — this prevents the Ko-Fi
-  // overlay from ever being injected into the DOM on those routes.
-  if (EXCLUDED_PATHS.includes(pathname)) return null;
+  }, [isAllowed, pathname]);
 
   return (
     <Script
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
-        // Script is only rendered on non-excluded paths, so draw() is always safe here.
         window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
+        // Observer will catch the overlay when Ko-Fi injects it
+        startOverlayObserver();
+        enforceOverlayDisplayState();
       }}
     />
   );

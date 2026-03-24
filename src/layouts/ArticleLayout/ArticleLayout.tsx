@@ -64,7 +64,7 @@ export function ArticleLayout({
         : [];
 
   return (
-    <SiteLayout showFooter={false}>
+    <SiteLayout showFooter={false} isContainedView={!!featureImage}>
       {featureImage ? (
         <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
           {/* Feature image pane - fixed and vertically centered on md+ */}
