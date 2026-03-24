@@ -74,9 +74,18 @@ export const Hero: React.FC<HeroProps> = ({
   filters,
 }) => {
   const { theme, themeMode } = useAppTheme();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const [isMounted, setIsMounted] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Resolve icon names to components
   const BackArrowIcon = resolveIconName('ArrowLeft24Regular');

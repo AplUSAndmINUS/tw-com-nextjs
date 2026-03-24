@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Typography } from '@/components/Typography/Typography';
 import { useIsTablet, useIsDesktop } from '@/hooks';
@@ -24,8 +24,17 @@ export function ResponsiveFeatureImage({
     width: number;
     height: number;
   } | null>(null);
-  const isTablet = useIsTablet();
-  const isDesktop = useIsDesktop();
+  const isTabletHook = useIsTablet();
+  const isDesktopHook = useIsDesktop();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isTablet = isMounted ? isTabletHook : false;
+  const isDesktop = isMounted ? isDesktopHook : false;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Only apply dynamic aspect ratio on tablet and desktop; on mobile, use a fixed aspect ratio to avoid layout shifts
   const shouldApplyDynamicRatio = isTablet || isDesktop;

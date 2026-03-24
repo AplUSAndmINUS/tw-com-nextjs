@@ -39,8 +39,14 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
 }) => {
   const router = useRouter();
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
   const { isHovered, getHoverProps } = useMouseMultiHoverState();
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleCardClick = (id: string) => {
     if (onCardClick) {

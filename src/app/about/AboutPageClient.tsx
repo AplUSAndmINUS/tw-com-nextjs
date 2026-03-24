@@ -24,8 +24,17 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   children,
 }) => {
   const { layoutPreference } = useAppTheme();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const useStackedLayout = isMobile || isTablet;
   const isLeftHanded = layoutPreference === 'left-handed';
 

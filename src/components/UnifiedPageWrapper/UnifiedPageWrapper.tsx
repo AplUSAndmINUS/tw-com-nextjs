@@ -34,7 +34,13 @@ export const UnifiedPageWrapper: React.FC<UnifiedPageWrapperProps> = ({
   style,
 }) => {
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const getMaxWidth = () => {
     switch (layoutType) {

@@ -15,12 +15,18 @@ export const PercentageBullet: React.FC<PercentageBulletProps> = ({
   percentage,
 }) => {
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
   const circumference = 2 * Math.PI * 92; // Must match SVG r='92'
   const [animatedPercentage, setAnimatedPercentage] = React.useState(0);
   const animationRef = React.useRef<number | null>(null);
   const startTimeRef = React.useRef<number | null>(null);
   const animationDuration = 1500; // Increased from 1000 to 1500 ms to make it slower
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const getCircleColor = () => {
     if (percentage >= 98) return theme.palette.themePrimary;

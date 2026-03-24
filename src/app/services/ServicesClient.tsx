@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
@@ -57,11 +58,17 @@ const serviceCategories: {
 
 export function ServicesClient() {
   const { theme, themeMode } = useAppTheme();
+  const [isMounted, setIsMounted] = useState(false);
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
 
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
 
-
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },

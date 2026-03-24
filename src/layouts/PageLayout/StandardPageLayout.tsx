@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
@@ -55,12 +55,21 @@ export function StandardPageLayout({
   children,
   featureImage,
 }: StandardPageLayoutProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   const { layoutPreference } = useAppTheme();
   const isLeftHanded = layoutPreference === 'left-handed';
-  const isMobileLandscape = useIsMobileLandscape();
-  const isTablet = useIsTablet();
+  const isMobileLandscapeHook = useIsMobileLandscape();
+  const isTabletHook = useIsTablet();
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Mobile landscape: 3 cols for image, 9 cols for content (mirrored for left-handed)
   // Otherwise: tablet/desktop proportions (50%/33% for image, 50%/67% for content)

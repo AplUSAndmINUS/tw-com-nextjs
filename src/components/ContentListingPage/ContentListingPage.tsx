@@ -157,9 +157,18 @@ export function ContentListingPage({
   const router = useRouter();
   const { theme } = useAppTheme();
   const { viewType, setViewType } = useContentFilterStore();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
   const { shouldReduceMotion } = useReducedMotion();
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // View type options for dropdown
   const viewOptions: SelectOption[] = [

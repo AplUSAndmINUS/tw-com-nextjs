@@ -60,7 +60,13 @@ const SKILL_CATEGORIES = [
 
 export const AboutSkillsTable: React.FC = () => {
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div
