@@ -375,7 +375,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: isMobile ? 'row' : 'column',
               gap: isMobile ? theme.spacing.s1 : theme.spacing.m,
             }}
           >

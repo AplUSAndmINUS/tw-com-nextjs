@@ -142,7 +142,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             </Typography>
           </div>
 
-          {member.bio && (
+          {member.bio && !isMobile && !isTablet && (
             <Typography
               variant='body'
               style={{

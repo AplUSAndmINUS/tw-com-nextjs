@@ -3,7 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { UnifiedPageWrapper } from '@/components/UnifiedPageWrapper';
 import { Typography } from '@/components/Typography';
 import { AdaptiveCardGrid, AdaptiveCard } from '@/components/AdaptiveCardGrid';
 import { Callout } from '@/components/Callout';
@@ -304,133 +303,132 @@ export function ContentListingPage({
   };
 
   return (
-    <UnifiedPageWrapper layoutType='responsive-grid'>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
-        {/* Hero Section with Filters */}
-        <Hero
-          title={title}
-          iconName={iconName}
-          description={description}
-          backArrow={backArrow}
-          backArrowPath={backArrowPath}
-          filters={
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns:
-                  isMobile || isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-                gap: theme.spacing.m,
-                width: '100%',
-              }}
-            >
-              {renderFilters()}
-            </div>
-          }
-        />
-
-        {/* Results Message */}
-        {resultsMessage && (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+      }}
+    >
+      {/* Hero Section with Filters */}
+      <Hero
+        title={title}
+        iconName={iconName}
+        description={description}
+        backArrow={backArrow}
+        backArrowPath={backArrowPath}
+        filters={
           <div
             style={{
-              marginTop: theme.spacing.l,
-              marginBottom: theme.spacing.m,
+              display: 'grid',
+              gridTemplateColumns:
+                isMobile || isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+              gap: theme.spacing.m,
+              width: '100%',
             }}
           >
+            {renderFilters()}
+          </div>
+        }
+      />
+
+      {/* Results Message */}
+      {resultsMessage && (
+        <div
+          style={{
+            marginTop: theme.spacing.l,
+            marginBottom: theme.spacing.m,
+          }}
+        >
+          <Typography
+            variant='body'
+            style={{
+              color: theme.palette.neutralSecondary,
+              fontSize: '0.9375rem',
+            }}
+          >
+            {resultsMessage}
+          </Typography>
+        </div>
+      )}
+
+      {/* Custom Section (e.g., GitHub contributions) */}
+      {customSection && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.4,
+            ease: 'easeIn',
+          }}
+          style={{
+            marginTop: theme.spacing.l,
+            marginBottom: theme.spacing.l,
+          }}
+        >
+          {customSection}
+        </motion.div>
+      )}
+
+      {/* Content Grid */}
+      <div style={{ marginTop: theme.spacing.l }}>
+        {safeCards.length === 0 ? (
+          <Callout
+            variant='neutral'
+            title={emptyStateTitle}
+            subtitle={emptyStateMessage}
+          />
+        ) : (
+          <AdaptiveCardGrid
+            cards={safeCards}
+            basePath={basePath}
+            viewType={viewType}
+            onCardClick={handleCardClick}
+          />
+        )}
+      </div>
+
+      {/* CTA Section */}
+      {ctaSection && (
+        <div style={{ marginTop: theme.spacing.xxxl }}>
+          <Callout variant='subtle' title={ctaSection.title}>
             <Typography
               variant='body'
               style={{
-                color: theme.palette.neutralSecondary,
-                fontSize: '0.9375rem',
+                marginBottom: theme.spacing.l,
+                fontSize: '1rem',
+                lineHeight: 1.6,
               }}
             >
-              {resultsMessage}
+              {ctaSection.description}
             </Typography>
-          </div>
-        )}
-
-        {/* Custom Section (e.g., GitHub contributions) */}
-        {customSection && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: shouldReduceMotion ? 0 : 0.4,
-              ease: 'easeIn',
-            }}
-            style={{
-              marginTop: theme.spacing.l,
-              marginBottom: theme.spacing.l,
-            }}
-          >
-            {customSection}
-          </motion.div>
-        )}
-
-        {/* Content Grid */}
-        <div style={{ marginTop: theme.spacing.l }}>
-          {safeCards.length === 0 ? (
-            <Callout
-              variant='neutral'
-              title={emptyStateTitle}
-              subtitle={emptyStateMessage}
-            />
-          ) : (
-            <AdaptiveCardGrid
-              cards={safeCards}
-              basePath={basePath}
-              viewType={viewType}
-              onCardClick={handleCardClick}
-            />
-          )}
+            <div
+              style={{
+                display: 'flex',
+                gap: theme.spacing.m,
+                flexWrap: 'wrap',
+              }}
+            >
+              {ctaSection.buttons.map((button, index) => (
+                <Button
+                  key={index}
+                  variant={button.variant}
+                  onClick={() => router.push(button.path)}
+                >
+                  {button.label}
+                </Button>
+              ))}
+            </div>
+          </Callout>
         </div>
+      )}
 
-        {/* CTA Section */}
-        {ctaSection && (
-          <div style={{ marginTop: theme.spacing.xxxl }}>
-            <Callout variant='subtle' title={ctaSection.title}>
-              <Typography
-                variant='body'
-                style={{
-                  marginBottom: theme.spacing.l,
-                  fontSize: '1rem',
-                  lineHeight: 1.6,
-                }}
-              >
-                {ctaSection.description}
-              </Typography>
-              <div
-                style={{
-                  display: 'flex',
-                  gap: theme.spacing.m,
-                  flexWrap: 'wrap',
-                }}
-              >
-                {ctaSection.buttons.map((button, index) => (
-                  <Button
-                    key={index}
-                    variant={button.variant}
-                    onClick={() => router.push(button.path)}
-                  >
-                    {button.label}
-                  </Button>
-                ))}
-              </div>
-            </Callout>
-          </div>
-        )}
-        {/* Email Newsletter Signup CTA for Mobile and Tablet to save space */}
-        {emailNewsletterSignup && (
-          <div style={{ marginTop: theme.spacing.l }}>
-            <NewsletterSignupCTA />
-          </div>
-        )}
-      </div>
-    </UnifiedPageWrapper>
+      {/* Email Newsletter Signup CTA for Mobile and Tablet to save space */}
+      {emailNewsletterSignup && (
+        <div style={{ marginTop: theme.spacing.l }}>
+          <NewsletterSignupCTA />
+        </div>
+      )}
+    </div>
   );
 }
