@@ -47,7 +47,8 @@ export function CaseStudyLayout({
   nav,
 }: CaseStudyLayoutProps) {
   const footerHeight = useFooterHeight();
-  const { imagePaneClasses, contentPaneClasses } = useFeatureImageLayout();
+  const { containerClasses, imagePaneClasses, contentPaneClasses } =
+    useFeatureImageLayout();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Build gallery images for modal: use full gallery if available, otherwise just feature image
@@ -99,7 +100,7 @@ export function CaseStudyLayout({
         }}
       >
         {featureImage ? (
-          <div className='min-h-[calc(100vh-var(--site-header-height))] flex flex-col md:flex-row md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden'>
+          <div className={containerClasses}>
             {/* Feature image pane - fixed and vertically centered on md+ */}
             <aside
               className={imagePaneClasses}

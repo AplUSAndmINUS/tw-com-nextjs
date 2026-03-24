@@ -59,29 +59,35 @@ export function StandardPageLayout({
   const pathname = usePathname();
   const isMobileLandscapeHook = useIsMobileLandscape();
   const isTabletHook = useIsTablet();
-  const { contentPaneClasses, imagePaneClasses, isLeftHanded } = useFeatureImageLayout();
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
 
+  const { containerClasses, contentPaneClasses, imagePaneClasses } =
+    useFeatureImageLayout({
+      fixedPaneSizeClasses: isMobileLandscape
+        ? 'md:w-1/4 xl:w-1/3'
+        : 'md:w-[40%] lg:w-1/3',
+      fixedContentRightOffsetClasses: isMobileLandscape
+        ? 'md:mr-[25%] xl:mr-[33.333333%]'
+        : 'md:mr-[40%] lg:mr-[33.333333%]',
+      fixedContentLeftOffsetClasses: isMobileLandscape
+        ? 'md:ml-[25%] xl:ml-[33.333333%]'
+        : 'md:ml-[40%] lg:ml-[33.333333%]',
+    });
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  // Mobile landscape: 3 cols for image, 9 cols for content (mirrored for left-handed)
-  // Otherwise: tablet/desktop proportions (50%/33% for image, 50%/67% for content)
 
   // Contained viewport layout with feature image
   if (featureImage) {
     return (
       <SiteLayout showFooter={false} isContainedView={true}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-        <div
-          className='flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden'
-          suppressHydrationWarning
-        >
+        <div className={containerClasses} suppressHydrationWarning>
           {/* Feature image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
           <aside className={imagePaneClasses} suppressHydrationWarning>

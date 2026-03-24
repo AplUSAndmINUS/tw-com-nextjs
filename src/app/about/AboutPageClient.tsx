@@ -11,8 +11,7 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
 import { TeamMemberCard, type TeamMember } from '@/components/TeamMemberCard';
-import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 import { getSocialIcons } from '@/components/SocialIcons/constants';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
@@ -24,23 +23,27 @@ interface AboutPageClientProps {
 export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   children,
 }) => {
-  const { layoutPreference } = useAppTheme();
-  const isMobileHook = useIsMobile();
-  const isTabletHook = useIsTablet();
   const [isMounted, setIsMounted] = React.useState(false);
+  const isBelowMdHook = useMediaQuery('md', 'less-than');
 
   // Only use actual hook values after mounting to avoid hydration mismatch
-  const isMobile = isMounted ? isMobileHook : false;
-  const isTablet = isMounted ? isTabletHook : false;
+  const useStackedLayout = isMounted ? isBelowMdHook : false;
 
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const { imagePaneClasses, contentPaneClasses, isLeftHanded } = useFeatureImageLayout();
-
-  // Determine if we should use stacked layout (image above content) based on viewport size
-  const useStackedLayout = isMobile || (isTablet && window.innerWidth < 768);
+  const { containerClasses, imagePaneClasses, contentPaneClasses } =
+    useFeatureImageLayout({
+      isStacked: useStackedLayout,
+      stackedImagePaneClasses: 'flex items-center justify-center pt-4 md:pt-8',
+      stackedContentPaneClasses: 'flex-1 flex flex-col',
+      fixedPaneLeadingClasses:
+        'flex items-center justify-center pt-[var(--site-header-height)] md:pt-0',
+      fixedPaneSizeClasses: 'md:w-[40%] lg:w-1/3',
+      fixedContentRightOffsetClasses: 'md:mr-[40%] lg:mr-[33.333333%]',
+      fixedContentLeftOffsetClasses: 'md:ml-[40%] lg:ml-[33.333333%]',
+    });
 
   const teamMember: TeamMember = {
     id: 'terence-waters',
@@ -53,25 +56,13 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
     socialLinks: getSocialIcons(),
   };
 
-  const cardPaneClasses = useStackedLayout
-    ? 'flex items-center justify-center pt-4 md:pt-8'
-    : isLeftHanded
-      ? 'flex items-center justify-center pt-[var(--site-header-height)] md:pt-0 md:fixed md:right-0 md:top-[var(--site-header-height)] md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'flex items-center justify-center pt-[var(--site-header-height)] md:pt-0 md:fixed md:left-0 md:top-[var(--site-header-height)] md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
-
   return (
     <SiteLayout showFooter={false}>
       {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-      <div
-        className={
-          useStackedLayout
-            ? 'flex flex-col min-h-[calc(100vh-var(--site-header-height))]'
-            : 'flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden'
-        }
-      >
+      <div className={containerClasses}>
         {/* TeamMemberCard pane - fixed and vertically centered on tablet/desktop */}
         {/* Tablet portrait (md): 40%/60% width (4x8) | Tablet landscape+ (lg): 33% width (4x8) */}
-        <aside className={cardPaneClasses}>
+        <aside className={imagePaneClasses}>
           <div
             className={
               useStackedLayout
