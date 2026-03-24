@@ -74,9 +74,18 @@ export const Hero: React.FC<HeroProps> = ({
   filters,
 }) => {
   const { theme, themeMode } = useAppTheme();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const [isMounted, setIsMounted] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Resolve icon names to components
   const BackArrowIcon = resolveIconName('ArrowLeft24Regular');
@@ -309,7 +318,7 @@ export const Hero: React.FC<HeroProps> = ({
                 ...(isMobile && !isExpanded && shouldTruncate
                   ? {
                       display: '-webkit-box',
-                      WebkitLineClamp: 3,
+                      WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                     }
@@ -366,7 +375,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: isMobile ? 'row' : 'column',
               gap: isMobile ? theme.spacing.s1 : theme.spacing.m,
             }}
           >

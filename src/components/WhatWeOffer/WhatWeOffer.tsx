@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -18,8 +18,17 @@ interface WhatWeOfferProps {
 export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
   const { theme, themeMode } = useAppTheme();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const [isMounted, setIsMounted] = useState(false);
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isLightFamilyMode =
     themeMode === 'light' ||

@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
+import { type FluentIconName } from '@/utils/iconResolver';
 import { useIsMobile, useIsTablet, useWindowSize } from '@/hooks/useMediaQuery';
 import { BaseCard } from '@/components/BaseCard';
 
@@ -57,11 +58,19 @@ const serviceCategories: {
 
 export function ServicesClient() {
   const { theme } = useAppTheme();
+  const [isMounted, setIsMounted] = useState(false);
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const { windowWidth } = useWindowSize();
 
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
+  const viewportWidth = isMounted ? windowWidth : 0;
 
-
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,7 +82,6 @@ export function ServicesClient() {
     },
   };
 
-
   return (
     <motion.div
       variants={containerVariants}
@@ -83,7 +91,7 @@ export function ServicesClient() {
         display: 'grid',
         gridTemplateColumns: isMobile
           ? '1fr'
-          : isTablet || useWindowSize().windowWidth <= 1024
+          : isTablet || viewportWidth <= 1024
             ? '1fr 1fr'
             : '1fr 1fr 1fr',
         gap: theme.spacing.l,
@@ -91,10 +99,7 @@ export function ServicesClient() {
       }}
     >
       {serviceCategories.map((category) => {
-        const IconComponent = resolveIconName(category.icon);
-
         return (
-
           <BaseCard
             key={category.title}
             title={category.title}

@@ -5,9 +5,12 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
-import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobileLandscape, useIsTablet } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
+import {
+  useFeatureImageLayout,
+  type FeatureImageLayoutOptions,
+} from '@/hooks/useFeatureImageLayout';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -17,6 +20,10 @@ interface StandardPageLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional custom media pane rendered in place of the default feature image. */
+  mediaPane?: ReactNode;
+  /** Optional layout overrides for the contained split-pane view. */
+  layoutOptions?: FeatureImageLayoutOptions;
   /** If true, renders a more compact layout */
   isCompact?: boolean;
 }
@@ -54,11 +61,11 @@ interface StandardPageLayoutProps {
 export function StandardPageLayout({
   children,
   featureImage,
+  mediaPane,
+  layoutOptions,
 }: StandardPageLayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
-  const { layoutPreference } = useAppTheme();
-  const isLeftHanded = layoutPreference === 'left-handed';
   const isMobileLandscapeHook = useIsMobileLandscape();
   const isTabletHook = useIsTablet();
 
@@ -66,48 +73,45 @@ export function StandardPageLayout({
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
+  const hasMediaPane = Boolean(featureImage || mediaPane);
+
+  const { containerClasses, contentPaneClasses, imagePaneClasses } =
+    useFeatureImageLayout({
+      paneSizeClasses: isMobileLandscape
+        ? 'md:w-1/4 xl:w-1/3'
+        : 'md:w-[40%] lg:w-1/3',
+      contentRightOffsetClasses: isMobileLandscape
+        ? 'md:mr-[25%] xl:mr-[33.333333%]'
+        : 'md:mr-[40%] lg:mr-[33.333333%]',
+      contentLeftOffsetClasses: isMobileLandscape
+        ? 'md:ml-[25%] xl:ml-[33.333333%]'
+        : 'md:ml-[40%] lg:ml-[33.333333%]',
+      ...layoutOptions,
+    });
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Mobile landscape: 3 cols for image, 9 cols for content (mirrored for left-handed)
-  // Otherwise: tablet/desktop proportions (50%/33% for image, 50%/67% for content)
-  const imagePaneClasses = isMobileLandscape
-    ? isLeftHanded
-      ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/4 xl:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/4 xl:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-    : isLeftHanded
-      ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
-
-  const contentPaneClasses = isMobileLandscape
-    ? isLeftHanded
-      ? 'flex-1 md:mr-[25%] xl:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[25%] xl:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-    : isLeftHanded
-      ? 'flex-1 md:mr-[40%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[40%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
-
   // Contained viewport layout with feature image
-  if (featureImage) {
+  if (hasMediaPane) {
     return (
       <SiteLayout showFooter={false} isContainedView={true}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-        <div
-          className='flex flex-col md:flex-row min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] md:overflow-hidden'
-          suppressHydrationWarning
-        >
+        <div className={containerClasses} suppressHydrationWarning>
           {/* Feature image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
           <aside className={imagePaneClasses} suppressHydrationWarning>
-            <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
-              <ResponsiveFeatureImage
-                src={featureImage.src}
-                alt={featureImage.alt}
-                title={featureImage.title}
-              />
-            </div>
+            {mediaPane ??
+              (featureImage ? (
+                <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
+                  <ResponsiveFeatureImage
+                    src={featureImage.src}
+                    alt={featureImage.alt}
+                    title={featureImage.title}
+                  />
+                </div>
+              ) : null)}
           </aside>
 
           {/* Content pane - scrollable independently with responsive mirrored margins */}

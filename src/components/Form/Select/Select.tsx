@@ -2,8 +2,12 @@
 
 import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
-import { ChevronDown24Regular } from '@fluentui/react-icons';
+import {
+  ChevronDown20Regular,
+  ChevronDown24Regular,
+} from '@fluentui/react-icons';
 
 export type SelectSize = 'small' | 'medium' | 'large';
 export type SelectVariant = 'default' | 'outlined' | 'filled';
@@ -78,24 +82,49 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref
   ) => {
     const { theme } = useAppTheme();
+    const isMobileHook = useIsMobile();
+    const isTabletHook = useIsTablet();
     const [isFocused, setIsFocused] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
+    const isMobile = isMounted ? isMobileHook : false;
+    const isTablet = isMounted ? isTabletHook : false;
+    const isCompactViewport = isMobile || isTablet;
+    const chevronIcon = isCompactViewport
+      ? ChevronDown20Regular
+      : ChevronDown24Regular;
+
+    React.useEffect(() => {
+      setIsMounted(true);
+    }, []);
 
     const sizeConfig = {
       small: {
-        height: '2rem',
-        fontSize: '0.875rem',
-        padding: '0.375rem 2rem 0.375rem 0.75rem',
+        height: isMobile ? '1.875rem' : '2rem',
+        fontSize: isMobile
+          ? 'clamp(0.72rem, 0.68rem + 0.2vw, 0.8rem)'
+          : 'clamp(0.6rem, 0.8rem + 0.2vw, 0.875rem)',
+        padding: isMobile
+          ? '0.3125rem 1.875rem 0.3125rem 0.625rem'
+          : '0.375rem 2rem 0.375rem 0.75rem',
       },
       medium: {
-        height: '2.5rem',
-        fontSize: '1rem',
-        padding: '0.5rem 2.5rem 0.5rem 1rem',
+        height: isMobile ? '2.25rem' : '2.5rem',
+        fontSize: isMobile
+          ? 'clamp(0.78rem, 0.74rem + 0.24vw, 0.875rem)'
+          : 'clamp(0.875rem, 0.85rem + 0.3vw, 1rem)',
+        padding: isMobile
+          ? '0.4375rem 2.25rem 0.4375rem 0.75rem'
+          : '0.5rem 2.5rem 0.5rem 1rem',
       },
       large: {
-        height: '3rem',
-        fontSize: '1.125rem',
-        padding: '0.75rem 3rem 0.75rem 1.25rem',
+        height: isMobile ? '2.75rem' : '3rem',
+        fontSize: isMobile
+          ? 'clamp(0.9rem, 0.84rem + 0.28vw, 1rem)'
+          : 'clamp(1rem, 0.9rem + 0.4vw, 1.125rem)',
+        padding: isMobile
+          ? '0.625rem 2.75rem 0.625rem 1rem'
+          : '0.75rem 3rem 0.75rem 1.25rem',
       },
     };
 
@@ -160,7 +189,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     };
 
     const labelStyles: React.CSSProperties = {
-      fontSize: '0.875rem',
+      fontSize: isMobile
+        ? 'clamp(0.72rem, 0.68rem + 0.18vw, 0.8rem)'
+        : '0.875rem',
       fontWeight: 600,
       color: theme.semanticColors.text.primary,
       fontFamily: theme.typography.fonts.body.fontFamily,
@@ -227,13 +258,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           <div
             style={{
               position: 'absolute',
-              right: '0.75rem',
-              top: '50%',
+              right: isCompactViewport ? '0.625rem' : '0.75rem',
+              top: isCompactViewport ? '60%' : '50%',
               transform: 'translateY(-50%)',
               pointerEvents: 'none',
             }}
           >
-            <FluentIcon iconName={ChevronDown24Regular} />
+            <FluentIcon iconName={chevronIcon} />
           </div>
         </div>
 

@@ -33,7 +33,7 @@ export function PortfolioLayout({
       <div
         className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 pb-8 md:py-8'
         style={{
-          minHeight: `calc(100vh - 4rem - ${footerHeight})`,
+          minHeight: `calc(100vh - var(--site-header-height) - ${footerHeight})`,
         }}
       >
         <div className='max-w-5xl mx-auto h-full flex flex-col justify-center'>

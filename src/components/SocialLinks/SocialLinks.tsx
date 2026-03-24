@@ -18,9 +18,15 @@ export const SocialLinks: React.FC<SocialLinksProps> = ({
   isFooter = false,
 }) => {
   const { theme, isDark } = useAppTheme();
-  const isTablet = useIsTablet();
+  const isTabletHook = useIsTablet();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isTablet = isMounted ? isTabletHook : false;
   const { isHovered: isSocialHovered, getHoverProps: getSocialHoverProps } =
     useMultiHoverState();
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const isCompactFooterTablet = isFooter && isTablet;
   const visibleSocialIcons = isCompactFooterTablet
     ? getSocialIcons().slice(0, 4)

@@ -66,9 +66,15 @@ const TIMELINE_ENTRIES: TimelineEntry[] = [
 
 function TimelineCard({ entry, index, isLast }: TimelineCardProps) {
   const { theme, isDark } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
   const { accentColor, isHovered, interactionProps, restStateColor } =
     useCardState({ hoverable: true });
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const circleSize = isMobile ? '1.75rem' : '2rem';
 

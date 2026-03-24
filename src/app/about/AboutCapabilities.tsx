@@ -42,7 +42,13 @@ const CAPABILITIES = [
 
 export const AboutCapabilities: React.FC = () => {
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const accentColor = theme.semanticColors.accent.teal; // Mirrors the accent color used in the Hero section for visual cohesion
 
   return (

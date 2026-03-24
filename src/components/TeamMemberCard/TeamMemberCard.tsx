@@ -39,9 +39,14 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   maxWidth = '350px',
 }) => {
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const [isMounted, setIsMounted] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
   const { filter } = useColorVisionFilter();
   const {
     isHovered,
@@ -50,6 +55,10 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
     restStateColor,
     interactionProps,
   } = useCardState({ hoverable: true, clickable: true });
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <>
@@ -133,7 +142,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
             </Typography>
           </div>
 
-          {member.bio && (
+          {member.bio && !isMobile && !isTablet && (
             <Typography
               variant='body'
               style={{

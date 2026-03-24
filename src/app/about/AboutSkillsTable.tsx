@@ -10,7 +10,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useCardState } from '@/hooks/useCardState';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet, useWindowSize } from '@/hooks/useMediaQuery';
 
 const SKILL_CATEGORIES = [
   {
@@ -60,13 +60,25 @@ const SKILL_CATEGORIES = [
 
 export const AboutSkillsTable: React.FC = () => {
   const { theme } = useAppTheme();
-  const isMobile = useIsMobile();
+  const isMobileHook = useIsMobile();
+  const isWindowHook = useWindowSize();
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isWindowHook.windowWidth <= 1024 : false;
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+        gridTemplateColumns: isMobile
+          ? '1fr'
+          : isTablet
+            ? '1fr 1fr'
+            : 'repeat(3, 1fr)',
         gap: theme.spacing.m,
       }}
     >

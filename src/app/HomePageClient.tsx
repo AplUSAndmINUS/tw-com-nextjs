@@ -29,14 +29,24 @@ export default function HomePageClient() {
   // Capture the original theme on component initialization to restore on unmount
   const originalThemeRef = useRef<ThemeMode>(themeMode);
 
-  const isMobile = useIsMobile();
-  const isMobileLandscape = useIsMobileLandscape();
-  const isTablet = useIsTablet();
-  const isTabletLandscape = useIsTabletLandscape();
-  const orientation = useDeviceOrientation();
-  const isLargePortrait = orientation === 'large-portrait';
+  const isMobileHook = useIsMobile();
+  const isMobileLandscapeHook = useIsMobileLandscape();
+  const isTabletHook = useIsTablet();
+  const isTabletLandscapeHook = useIsTabletLandscape();
+  const orientationHook = useDeviceOrientation();
 
-  // Force dark mode on homepage
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const [isMounted, setIsMounted] = useState(false);
+  const isMobile = isMounted ? isMobileHook : false;
+  const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
+  const isTabletLandscape = isMounted ? isTabletLandscapeHook : false;
+  const orientation = isMounted ? orientationHook : ('landscape' as const); // 'landscape' matches useDeviceOrientation's own useState default
+  const isLargePortrait = orientation === 'large-portrait';
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
     // Force dark mode if not already in dark mode
     if (themeMode !== 'dark') {

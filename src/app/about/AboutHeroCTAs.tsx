@@ -14,7 +14,7 @@ export function AboutHeroCTAs() {
   const [secondaryHovered, setSecondaryHovered] = useState(false);
 
   return (
-    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: '0.75rem' }}>
       <Link
         href='/contact'
         className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'

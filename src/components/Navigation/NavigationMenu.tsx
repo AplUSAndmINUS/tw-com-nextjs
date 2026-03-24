@@ -103,9 +103,18 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
   const { theme, layoutPreference } = useAppTheme();
   const { shouldReduceMotion } = useReducedMotion();
   const pathname = usePathname();
-  const isMobile = useIsMobile();
-  const isMobileLandscape = useIsMobileLandscape();
+  const isMobileHook = useIsMobile();
+  const isMobileLandscapeHook = useIsMobileLandscape();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobile = isMounted ? isMobileHook : false;
+  const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const currentYear = new Date().getFullYear();
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isLeftHanded = layoutPreference === 'left-handed';
   const textAlignment = isLeftHanded ? 'left' : 'right';
@@ -231,6 +240,11 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           padding: isMobileLandscape ? '0.25rem' : '0.5rem',
           borderTop: `1px solid ${theme.palette.black}`,
           textAlign: 'center',
+          paddingLeft: isMobile
+            ? '0'
+            : isMobileLandscape
+              ? '0.25rem'
+              : '0.5rem',
         }}
       >
         <SocialLinks />
