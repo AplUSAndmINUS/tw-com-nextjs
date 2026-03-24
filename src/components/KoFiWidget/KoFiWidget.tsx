@@ -156,7 +156,13 @@ export function KoFiWidget({ pathname }: { pathname: string }) {
     // If overlay already exists, enforce its display state immediately
     enforceOverlayDisplayState();
 
-    if (!isAllowed) return;
+    if (!isAllowed) {
+      // Return cleanup for disallowed pages to prevent observer leaks
+      return () => {
+        document.body.classList.remove('kofi-visible');
+        stopOverlayObserver();
+      };
+    }
 
     // On an allowed page: draw if the widget hasn't been created yet, then
     // sync mobile-scroll visibility.

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
-import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet, useWindowSize } from '@/hooks/useMediaQuery';
 import { BaseCard } from '@/components/BaseCard';
 
 const serviceCategories: {
@@ -56,7 +56,7 @@ const serviceCategories: {
 ];
 
 export function ServicesClient() {
-  const { theme, themeMode } = useAppTheme();
+  const { theme } = useAppTheme();
 
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
@@ -83,7 +83,7 @@ export function ServicesClient() {
         display: 'grid',
         gridTemplateColumns: isMobile
           ? '1fr'
-          : isTablet
+          : isTablet || useWindowSize().windowWidth <= 1024
             ? '1fr 1fr'
             : '1fr 1fr 1fr',
         gap: theme.spacing.l,
