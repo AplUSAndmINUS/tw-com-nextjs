@@ -41,7 +41,7 @@ export default function HomePageClient() {
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const isTabletLandscape = isMounted ? isTabletLandscapeHook : false;
-  const orientation = isMounted ? orientationHook : ('landscape' as const);
+  const orientation = isMounted ? orientationHook : ('landscape' as const); // 'landscape' matches useDeviceOrientation's own useState default
   const isLargePortrait = orientation === 'large-portrait';
   useEffect(() => {
     setIsMounted(true);
