@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { HomePageLayout } from './HomePageLayout';
 import { StandardPageLayout } from './StandardPageLayout';
@@ -71,14 +73,9 @@ export function PageLayout({
   layoutOptions,
   isHomePage = false,
 }: PageLayoutProps) {
-  // Route to appropriate layout component
-  if (isHomePage) {
-    return (
-      <HomePageLayout featureImage={featureImage}>{children}</HomePageLayout>
-    );
-  }
-
-  return (
+  return isHomePage ? (
+    <HomePageLayout featureImage={featureImage}>{children}</HomePageLayout>
+  ) : (
     <StandardPageLayout
       featureImage={featureImage}
       mediaPane={mediaPane}

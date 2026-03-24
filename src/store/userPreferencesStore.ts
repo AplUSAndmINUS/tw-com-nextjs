@@ -23,7 +23,7 @@ export interface UserPreferencesState {
   resetPreferences: () => void;
 }
 
-const defaultPreferences: UserPreferences = {
+export const defaultUserPreferences: UserPreferences = {
   fontScale: 1.0,
   minFontScale: 0.8,
   maxFontScale: 1.5,
@@ -36,14 +36,14 @@ const defaultPreferences: UserPreferences = {
 export const useUserPreferencesStore = create<UserPreferencesState>()(
   persist(
     (set) => ({
-      preferences: defaultPreferences,
+      preferences: defaultUserPreferences,
       setPreference: (key, value) =>
         set((state) => ({
           preferences: { ...state.preferences, [key]: value },
         })),
       resetPreferences: () =>
         set({
-          preferences: { ...defaultPreferences },
+          preferences: { ...defaultUserPreferences },
         }),
     }),
     {

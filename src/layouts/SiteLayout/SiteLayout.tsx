@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { RootLayout } from '@/layouts/RootLayout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
@@ -26,8 +26,7 @@ export function SiteLayout({
 }: SiteLayoutProps) {
   const { theme, themeMode } = useAppTheme();
 
-  // Select gradient per mode for precise per-variant control
-  const backgroundStyle = {
+  const backgroundStyle: CSSProperties = {
     background:
       themeMode === 'high-contrast'
         ? theme.gradients.highContrast.background
@@ -37,17 +36,14 @@ export function SiteLayout({
             ? theme.gradients.dark.background
             : theme.gradients.light.background,
     backgroundAttachment: 'fixed',
-  } as React.CSSProperties; // Type assertion for CSS properties
-
-  // Note: Footer is handled at the RootLayout level, but we pass showFooter
-  // down to control whether it renders or not based on the page layout needs.
+  };
+  const backgroundClassName = isContainedView
+    ? 'w-full h-full'
+    : 'w-full min-h-full';
 
   return (
     <RootLayout isContainedView={isContainedView} showFooter={showFooter}>
-      <div
-        className={isContainedView ? 'w-full h-full' : 'w-full min-h-full'}
-        style={backgroundStyle}
-      >
+      <div className={backgroundClassName} style={backgroundStyle}>
         {children}
       </div>
     </RootLayout>

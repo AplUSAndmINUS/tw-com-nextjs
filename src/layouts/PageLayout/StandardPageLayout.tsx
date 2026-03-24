@@ -24,8 +24,6 @@ interface StandardPageLayoutProps {
   mediaPane?: ReactNode;
   /** Optional layout overrides for the contained split-pane view. */
   layoutOptions?: FeatureImageLayoutOptions;
-  /** If true, renders a more compact layout */
-  isCompact?: boolean;
 }
 
 /**
@@ -74,18 +72,21 @@ export function StandardPageLayout({
   const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const hasMediaPane = Boolean(featureImage || mediaPane);
+  const paneSizeClasses = isMobileLandscape
+    ? 'md:w-1/4 xl:w-1/3'
+    : 'md:w-[40%] lg:w-1/3';
+  const contentRightOffsetClasses = isMobileLandscape
+    ? 'md:mr-[25%] xl:mr-[33.333333%]'
+    : 'md:mr-[40%] lg:mr-[33.333333%]';
+  const contentLeftOffsetClasses = isMobileLandscape
+    ? 'md:ml-[25%] xl:ml-[33.333333%]'
+    : 'md:ml-[40%] lg:ml-[33.333333%]';
 
   const { containerClasses, contentPaneClasses, imagePaneClasses } =
     useFeatureImageLayout({
-      paneSizeClasses: isMobileLandscape
-        ? 'md:w-1/4 xl:w-1/3'
-        : 'md:w-[40%] lg:w-1/3',
-      contentRightOffsetClasses: isMobileLandscape
-        ? 'md:mr-[25%] xl:mr-[33.333333%]'
-        : 'md:mr-[40%] lg:mr-[33.333333%]',
-      contentLeftOffsetClasses: isMobileLandscape
-        ? 'md:ml-[25%] xl:ml-[33.333333%]'
-        : 'md:ml-[40%] lg:ml-[33.333333%]',
+      paneSizeClasses,
+      contentRightOffsetClasses,
+      contentLeftOffsetClasses,
       ...layoutOptions,
     });
 
@@ -96,12 +97,9 @@ export function StandardPageLayout({
   // Contained viewport layout with feature image
   if (hasMediaPane) {
     return (
-      <SiteLayout showFooter={false} isContainedView={true}>
-        {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-        <div className={containerClasses} suppressHydrationWarning>
-          {/* Feature image pane - fixed and vertically centered on tablet/desktop */}
-          {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
-          <aside className={imagePaneClasses} suppressHydrationWarning>
+      <SiteLayout showFooter={false} isContainedView>
+        <div className={containerClasses}>
+          <aside className={imagePaneClasses}>
             {mediaPane ??
               (featureImage ? (
                 <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
@@ -114,25 +112,17 @@ export function StandardPageLayout({
               ) : null)}
           </aside>
 
-          {/* Content pane - scrollable independently with responsive mirrored margins */}
-          {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
-          <div
-            id='content-scroll-pane'
-            className={contentPaneClasses}
-            suppressHydrationWarning
-          >
+          <div id='content-scroll-pane' className={contentPaneClasses}>
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col max-width-content'>
-            <div className='md:w-full md:my-auto lg:pb-12'>{children}</div>
+              <div className='md:w-full md:my-auto lg:pb-12'>{children}</div>
             </div>
 
-            {/* Mobile: Standard footer always visible (shown only on mobile) */}
             <div className='md:hidden'>
               <Footer isCompact />
             </div>
           </div>
         </div>
 
-        {/* Tablet/Desktop: Interactive footer overlay (client component, hidden on mobile) */}
         <div className='hidden md:block'>
           <FooterOverlay hideButton={hideFooterToggleButton} />
         </div>
@@ -140,20 +130,16 @@ export function StandardPageLayout({
     );
   }
 
-  // Standard scrolling layout without feature image
   return (
     <SiteLayout showFooter={false}>
-      {/* manually set the maxwidth here because it needs to stretch the same size as the Navigation content (which is outside of this PageLayout) */}
       <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 max-width-content'>
         <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
           {children}
         </div>
       </div>
-      {/* Mobile: Standard footer always visible */}
       <div className='md:hidden'>
         <Footer isCompact />
       </div>
-      {/* Tablet/Desktop: Interactive footer overlay */}
       <div className='hidden md:block'>
         <FooterOverlay />
       </div>
