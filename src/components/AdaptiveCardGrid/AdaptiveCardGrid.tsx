@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { breakpoints } from '@/theme/fluentTheme';
 import {
   useIsMobile,
   useIsTablet,
@@ -49,7 +50,10 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const isMobileHook = useIsMobile();
   const isTabletHook = useIsTablet();
   const isTabletLandscapeHook = useIsTabletLandscape();
-  const isLargeTabletHook = useWindowSize().windowWidth >= 1024;
+  const { windowWidth } = useWindowSize();
+  const isLargeTabletHook =
+    windowWidth >= breakpoints.lg && windowWidth < breakpoints.xl;
+  const isLargeScreenHook = windowWidth >= breakpoints.xxl;
   const [isMounted, setIsMounted] = React.useState(false);
   const [imageOrientations, setImageOrientations] = React.useState<
     Record<string, ImageOrientation>
@@ -57,6 +61,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const isMobile = isMounted ? isMobileHook : false;
   const isTablet = isMounted ? isTabletHook || isTabletLandscapeHook : false;
   const isLargeTablet = isMounted ? isLargeTabletHook : false;
+  const isLargeScreen = isMounted ? isLargeScreenHook : false;
   const isCompactViewport = isMobile || isTablet;
   const { isHovered, getHoverProps } = useMouseMultiHoverState();
 
@@ -149,11 +154,17 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const gridImageHeight = isTablet ? '144px' : '200px';
   const smallTileImageSize = isCompactViewport ? '140px' : '180px';
   const smallTileCardHeight = isCompactViewport ? '140px' : '180px';
-  const largeTileHeight = isCompactViewport ? '220px' : '260px';
+  const largeTileHeight = isCompactViewport
+    ? '220px'
+    : isLargeScreen
+      ? '300px'
+      : '260px';
   const largeTileImageWidth = isCompactViewport
     ? 'clamp(132px, 32%, 180px)'
-    : 'clamp(190px, 28%, 240px)';
-  const isSmallTileGrid = !isCompactViewport;
+    : isLargeScreen
+      ? 'clamp(180px, 30%, 240px)'
+      : 'clamp(190px, 28%, 240px)';
+  const isSmallTileGrid = !isCompactViewport && !isLargeTablet;
 
   // Grid View (3 columns on desktop, 2 on tablet, 1 on mobile)
   if (viewType === 'grid') {
@@ -168,7 +179,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
             ? '1fr'
             : isTablet || isLargeTablet
               ? 'repeat(2, minmax(0, 1fr))'
-              : 'repeat(auto-fill, minmax(300px, 1fr))',
+              : 'repeat(auto-fill, minmax(350px, 1fr))',
           gridAutoRows: '1fr',
           gap: theme.spacing.l,
           width: '100%',
@@ -515,8 +526,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
       initial='hidden'
       animate='visible'
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: isLargeScreen ? 'grid' : 'flex',
+        flexDirection: isLargeScreen ? undefined : 'column',
+        gridTemplateColumns: isLargeScreen
+          ? 'repeat(2, minmax(0, 1fr))'
+          : undefined,
+        gridAutoRows: isLargeScreen ? '1fr' : undefined,
         gap: theme.spacing.l,
         width: '100%',
       }}
@@ -528,9 +543,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
             variants={itemVariants}
             initial='hidden'
             animate='visible'
+            style={{ height: isLargeScreen ? '100%' : undefined }}
           >
             <div
               style={{
+                height: isLargeScreen ? '100%' : undefined,
                 cursor: 'pointer',
                 borderRadius: theme.borderRadius.container.medium,
                 overflow: 'hidden',
