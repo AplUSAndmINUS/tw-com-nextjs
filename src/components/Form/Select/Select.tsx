@@ -2,9 +2,12 @@
 
 import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
-import { ChevronDown24Regular } from '@fluentui/react-icons';
+import {
+  ChevronDown20Regular,
+  ChevronDown24Regular,
+} from '@fluentui/react-icons';
 
 export type SelectSize = 'small' | 'medium' | 'large';
 export type SelectVariant = 'default' | 'outlined' | 'filled';
@@ -80,10 +83,16 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ) => {
     const { theme } = useAppTheme();
     const isMobileHook = useIsMobile();
+    const isTabletHook = useIsTablet();
     const [isFocused, setIsFocused] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
     const isMobile = isMounted ? isMobileHook : false;
+    const isTablet = isMounted ? isTabletHook : false;
+    const isCompactViewport = isMobile || isTablet;
+    const chevronIcon = isCompactViewport
+      ? ChevronDown20Regular
+      : ChevronDown24Regular;
 
     React.useEffect(() => {
       setIsMounted(true);
@@ -249,13 +258,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           <div
             style={{
               position: 'absolute',
-              right: '0.75rem',
-              top: '50%',
+              right: isCompactViewport ? '0.625rem' : '0.75rem',
+              top: isCompactViewport ? '60%' : '50%',
               transform: 'translateY(-50%)',
               pointerEvents: 'none',
             }}
           >
-            <FluentIcon iconName={ChevronDown24Regular} />
+            <FluentIcon iconName={chevronIcon} />
           </div>
         </div>
 
