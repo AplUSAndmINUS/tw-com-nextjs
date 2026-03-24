@@ -147,12 +147,13 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
   const showTags = !isCompactViewport;
   const gridImageHeight = isTablet ? '144px' : '200px';
-  const smallTileImageSize = isCompactViewport ? '140px' : '200px';
-  const smallTileCardHeight = isCompactViewport ? '140px' : '200px';
+  const smallTileImageSize = isCompactViewport ? '140px' : '180px';
+  const smallTileCardHeight = isCompactViewport ? '140px' : '180px';
   const largeTileHeight = isCompactViewport ? '220px' : '260px';
   const largeTileImageWidth = isCompactViewport
     ? 'clamp(132px, 32%, 180px)'
     : 'clamp(190px, 28%, 240px)';
+  const isSmallTileGrid = !isCompactViewport;
 
   // Grid View (3 columns on desktop, 2 on tablet, 1 on mobile)
   if (viewType === 'grid') {
@@ -336,9 +337,13 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         initial='hidden'
         animate='visible'
         style={{
-          display: 'flex',
-          flexDirection: 'column',
+          display: isSmallTileGrid ? 'grid' : 'flex',
+          flexDirection: isSmallTileGrid ? undefined : 'column',
           gap: theme.spacing.m,
+          gridTemplateColumns: isSmallTileGrid
+            ? 'repeat(2, minmax(0, 1fr))'
+            : undefined,
+          gridAutoRows: isSmallTileGrid ? '1fr' : undefined,
           width: '100%',
           margin: '0 auto',
         }}
@@ -350,6 +355,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               variants={itemVariants}
               initial='hidden'
               animate='visible'
+              style={{ height: isSmallTileGrid ? '100%' : undefined }}
             >
               <div
                 style={{
