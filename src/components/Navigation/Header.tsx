@@ -322,6 +322,7 @@ export function Header() {
         }}
       >
         <div
+          className='max-width-content-header mx-auto'
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -329,8 +330,6 @@ export function Header() {
             flexDirection: isLeftHanded ? 'row-reverse' : 'row',
             padding:
               isMobileLandscape || isMobile ? '0.5rem 1.5rem' : '1rem 2rem',
-            maxWidth: '1920px',
-            margin: '0 auto',
           }}
           suppressHydrationWarning
         >

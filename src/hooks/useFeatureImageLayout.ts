@@ -17,7 +17,7 @@ export interface FeatureImageLayoutOptions {
 }
 
 export function useFeatureImageLayout({
-  containerClasses = 'flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden',
+  containerClasses = 'flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden md:relative md:mx-auto md:w-full max-width-content',
   paneLeadingClasses = '',
   paneSizeClasses = 'md:w-1/2 lg:w-1/3',
   contentRightOffsetClasses = 'md:mr-[50%] lg:mr-[33.333333%]',
@@ -33,7 +33,7 @@ export function useFeatureImageLayout({
 
   const imagePaneClasses = [
     paneLeadingClasses,
-    'md:fixed md:top-[var(--site-header-height)] md:bottom-0',
+    'md:absolute md:top-0 md:bottom-0',
     fixedPaneSideClasses,
     paneSizeClasses,
     'md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden',
@@ -42,7 +42,7 @@ export function useFeatureImageLayout({
     .join(' ');
 
   const contentPaneClasses = [
-    'hide-scrollbar flex-1 md:h-full md:overflow-y-auto flex flex-col',
+    'hide-scrollbar flex-1 md:h-full md:w-full md:overflow-y-auto flex flex-col',
     fixedContentOffsetClasses,
   ].join(' ');
 
