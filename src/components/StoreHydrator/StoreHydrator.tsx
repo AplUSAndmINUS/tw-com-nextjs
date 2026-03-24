@@ -14,9 +14,9 @@ import { useNewsletterStore } from '@/store/newsletterStore';
 export function StoreHydrator() {
   useEffect(() => {
     // Rehydrate persisted stores once on app mount
-    useUserPreferencesStore.persist.rehydrate();
-    useAccessControlStore.persist.rehydrate();
-    useNewsletterStore.persist.rehydrate();
+    useUserPreferencesStore.persist?.rehydrate?.();
+    useAccessControlStore.persist?.rehydrate?.();
+    useNewsletterStore.persist?.rehydrate?.();
   }, []);
 
   // This component renders nothing—it only manages side effects

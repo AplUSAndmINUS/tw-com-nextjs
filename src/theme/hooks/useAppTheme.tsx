@@ -69,26 +69,31 @@ export interface UseAppThemeReturn {
  */
 export function useAppTheme(): UseAppThemeReturn {
   const { preferences, setPreference } = useUserPreferencesStore();
+  const persistApi = useUserPreferencesStore.persist;
   const [isHydrated, setIsHydrated] = useState(
-    useUserPreferencesStore.persist.hasHydrated()
+    persistApi?.hasHydrated?.() ?? true
   );
 
   useEffect(() => {
-    const unsubscribeHydrate = useUserPreferencesStore.persist.onHydrate(() => {
+    if (!persistApi) {
+      setIsHydrated(true);
+      return;
+    }
+
+    const unsubscribeHydrate = persistApi.onHydrate(() => {
       setIsHydrated(false);
     });
-    const unsubscribeFinishHydration =
-      useUserPreferencesStore.persist.onFinishHydration(() => {
-        setIsHydrated(true);
-      });
+    const unsubscribeFinishHydration = persistApi.onFinishHydration(() => {
+      setIsHydrated(true);
+    });
 
-    setIsHydrated(useUserPreferencesStore.persist.hasHydrated());
+    setIsHydrated(persistApi.hasHydrated());
 
     return () => {
       unsubscribeHydrate();
       unsubscribeFinishHydration();
     };
-  }, []);
+  }, [persistApi]);
 
   const resolvedPreferences = isHydrated ? preferences : defaultUserPreferences;
 
