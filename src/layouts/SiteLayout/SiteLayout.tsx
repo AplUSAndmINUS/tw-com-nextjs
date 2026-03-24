@@ -36,7 +36,11 @@ export function SiteLayout({
           : themeMode === 'dark'
             ? theme.gradients.dark.background
             : theme.gradients.light.background,
-  };
+    backgroundAttachment: 'fixed',
+  } as React.CSSProperties; // Type assertion for CSS properties
+
+  // Note: Footer is handled at the RootLayout level, but we pass showFooter
+  // down to control whether it renders or not based on the page layout needs.
 
   return (
     <RootLayout isContainedView={isContainedView} showFooter={showFooter}>

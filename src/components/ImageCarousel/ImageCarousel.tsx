@@ -11,12 +11,15 @@ interface ImageCarouselProps {
   /** Prefix prepended to relative image URLs, e.g. '/blog/posts/my-post/images/' */
   basePath?: string;
   className?: string;
+  /** Optional click handler for when the main image is clicked */
+  onImageClick?: () => void;
 }
 
 export function ImageCarousel({
   images,
   basePath = '',
   className = '',
+  onImageClick,
 }: ImageCarouselProps) {
   const { reducedTransparency, theme } = useAppTheme();
   const [active, setActive] = useState(0);
@@ -46,14 +49,28 @@ export function ImageCarousel({
             transition={{ duration: 0.25 }}
             className='absolute inset-0'
           >
-            <Image
-              src={resolveUrl(current.url)}
-              alt={current.alt}
-              fill
-              sizes='(max-width: 768px) 100vw, 75vw'
-              className='object-contain'
-              priority={active === 0}
-            />
+            <button
+              onClick={onImageClick}
+              onKeyDown={(e) => {
+                if (onImageClick && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault();
+                  onImageClick();
+                }
+              }}
+              disabled={!onImageClick}
+              className={`w-full h-full ${onImageClick ? 'cursor-pointer hover:opacity-90' : 'cursor-default'} transition-opacity`}
+              aria-label={onImageClick ? 'View image fullscreen' : undefined}
+              tabIndex={onImageClick ? 0 : -1}
+            >
+              <Image
+                src={resolveUrl(current.url)}
+                alt={current.alt}
+                fill
+                sizes='(max-width: 768px) 100vw, 75vw'
+                className='object-contain pointer-events-none'
+                priority={active === 0}
+              />
+            </button>
           </motion.div>
         </AnimatePresence>
 
