@@ -61,13 +61,7 @@ let overlayObserver: MutationObserver | null = null;
  * so we need to match any id that starts with "kofi-widget-overlay"
  */
 function getKofiWidget(): HTMLElement | null {
-  const widget = document.querySelector<HTMLElement>(
-    '[id^="kofi-widget-overlay"]'
-  );
-  if (widget) {
-    console.log('[KoFi] Found widget element:', widget.id);
-  }
-  return widget;
+  return document.querySelector<HTMLElement>('[id^="kofi-widget-overlay"]');
 }
 
 /**
@@ -110,13 +104,6 @@ function enforceOverlayDisplayState(): void {
   const hasVisibleClass = document.body.classList.contains('kofi-visible');
   const shouldDisplay = hasVisibleClass;
 
-  console.log(
-    '[KoFi] enforceOverlayDisplayState — hasVisibleClass:',
-    hasVisibleClass,
-    '| setting display:',
-    shouldDisplay ? 'block' : 'none'
-  );
-
   // Use !important to override any inline styles Ko-Fi may have injected
   overlay.style.setProperty(
     'display',
@@ -129,48 +116,11 @@ function enforceOverlayDisplayState(): void {
  * Starts observing for the Ko-Fi overlay element being injected or modified.
  */
 function startOverlayObserver(): void {
-  if (overlayObserver) {
-    console.log('[KoFi] startOverlayObserver — already observing');
-    return;
-  }
+  if (overlayObserver) return;
 
-  console.log('[KoFi] startOverlayObserver — creating new observer');
-
-  overlayObserver = new MutationObserver((mutations) => {
-    console.log(
-      '[KoFi] observer callback fired — mutations:',
-      mutations.length
-    );
-
-    // Log any added nodes with 'kofi' in class/id to see what Ko-Fi creates
-    mutations.forEach((mutation) => {
-      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-        mutation.addedNodes.forEach((node) => {
-          if (node instanceof HTMLElement) {
-            const id = node.id || '';
-            const classes = node.className || '';
-            if (
-              id.toLowerCase().includes('kofi') ||
-              classes.toLowerCase().includes('kofi')
-            ) {
-              console.log(
-                '[KoFi] Ko-Fi element added — id:',
-                id,
-                '| classes:',
-                classes,
-                '| tag:',
-                node.tagName
-              );
-            }
-          }
-        });
-      }
-    });
-
+  overlayObserver = new MutationObserver(() => {
     const overlay = getKofiWidget();
-    console.log('[KoFi] overlay exists in callback:', !!overlay);
     if (overlay) {
-      console.log('[KoFi] observer detected overlay injection/modification');
       enforceOverlayDisplayState();
     }
   });
@@ -181,12 +131,10 @@ function startOverlayObserver(): void {
     attributes: true,
     attributeFilter: ['style', 'class'],
   });
-  console.log('[KoFi] observer now watching document.body');
 }
 
 function stopOverlayObserver(): void {
   if (overlayObserver) {
-    console.log('[KoFi] stopOverlayObserver — disconnecting');
     overlayObserver.disconnect();
     overlayObserver = null;
   }
@@ -195,22 +143,11 @@ function stopOverlayObserver(): void {
 export function KoFiWidget({ pathname }: { pathname: string }) {
   const isAllowed = ALLOWED_PATHS.includes(pathname);
 
-  console.log('[KoFi] render — pathname:', pathname, '| isAllowed:', isAllowed);
-
   useEffect(() => {
-    console.log(
-      '[KoFi] effect — pathname:',
-      pathname,
-      '| isAllowed:',
-      isAllowed
-    );
-
     if (isAllowed) {
       document.body.classList.add('kofi-visible');
-      console.log('[KoFi] added kofi-visible class to body');
     } else {
       document.body.classList.remove('kofi-visible');
-      console.log('[KoFi] removed kofi-visible class from body');
     }
 
     // Start observing for overlay injection if not already observing
@@ -219,25 +156,11 @@ export function KoFiWidget({ pathname }: { pathname: string }) {
     // If overlay already exists, enforce its display state immediately
     enforceOverlayDisplayState();
 
-    const overlayEl = document.querySelector('#kofi-widget-overlay');
-    console.log('[KoFi] #kofi-widget-overlay exists:', !!overlayEl);
-    if (overlayEl) {
-      const computed = window.getComputedStyle(overlayEl);
-      console.log(
-        '[KoFi] overlay computed display:',
-        computed.display,
-        '| inline display:',
-        (overlayEl as HTMLElement).style.display
-      );
-    }
-    console.log('[KoFi] body classes:', document.body.className);
-
     if (!isAllowed) return;
 
     // On an allowed page: draw if the widget hasn't been created yet, then
     // sync mobile-scroll visibility.
     if (!getKofiWidget() && window.kofiWidgetOverlay) {
-      console.log('[KoFi] drawing widget (lazy init)');
       window.kofiWidgetOverlay.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
     }
 
@@ -252,7 +175,6 @@ export function KoFiWidget({ pathname }: { pathname: string }) {
     });
 
     return () => {
-      console.log('[KoFi] cleanup — removing kofi-visible class');
       document.body.classList.remove('kofi-visible');
       stopOverlayObserver();
       window.removeEventListener('scroll', scheduleVisibilityUpdate);
@@ -269,16 +191,7 @@ export function KoFiWidget({ pathname }: { pathname: string }) {
       src={KOFI_SCRIPT_SRC}
       strategy='afterInteractive'
       onLoad={() => {
-        console.log(
-          '[KoFi] onLoad fired — pathname at load:',
-          window.location.pathname
-        );
-        console.log(
-          '[KoFi] kofiWidgetOverlay exists:',
-          !!window.kofiWidgetOverlay
-        );
         window.kofiWidgetOverlay?.draw(KOFI_USERNAME, KOFI_WIDGET_OPTIONS);
-        console.log('[KoFi] draw() called.');
         // Observer will catch the overlay when Ko-Fi injects it
         startOverlayObserver();
         enforceOverlayDisplayState();

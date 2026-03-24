@@ -96,6 +96,7 @@ export function ServicesClient() {
         return (
 
           <BaseCard
+            key={category.title}
             title={category.title}
             body={category.description}
             icon={category.icon}
