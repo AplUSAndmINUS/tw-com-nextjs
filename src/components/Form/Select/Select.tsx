@@ -84,17 +84,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const sizeConfig = {
       small: {
         height: '2rem',
-        fontSize: '0.875rem',
+        fontSize: 'clamp(0.6rem, 0.8rem + 0.2vw, 0.875rem)',
         padding: '0.375rem 2rem 0.375rem 0.75rem',
       },
       medium: {
         height: '2.5rem',
-        fontSize: '1rem',
+        fontSize: 'clamp(0.875rem, 0.85rem + 0.3vw, 1rem)',
         padding: '0.5rem 2.5rem 0.5rem 1rem',
       },
       large: {
         height: '3rem',
-        fontSize: '1.125rem',
+        fontSize: 'clamp(1rem, 0.9rem + 0.4vw, 1.125rem)',
         padding: '0.75rem 3rem 0.75rem 1.25rem',
       },
     };

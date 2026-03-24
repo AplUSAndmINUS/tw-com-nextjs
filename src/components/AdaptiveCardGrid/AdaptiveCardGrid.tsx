@@ -257,7 +257,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       variant='h3'
                       style={{
                         fontSize: isCompactViewport
-                          ? 'clamp(1rem, 0.85rem + 1vw, 1.125rem)'
+                          ? 'clamp(1rem, 0.85rem + 1vw, 1.25rem)'
                           : '1.5rem',
                         color: theme.semanticColors.text.heading,
                         marginBottom: theme.spacing.s1,
