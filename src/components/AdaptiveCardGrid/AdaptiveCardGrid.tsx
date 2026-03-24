@@ -8,10 +8,10 @@ import {
   useIsMobile,
   useIsTablet,
   useIsTabletLandscape,
+  useWindowSize,
 } from '@/hooks/useMediaQuery';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 import { Typography } from '../Typography';
-import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
 
 type ImageOrientation = 'portrait' | 'landscape' | 'square';
 
@@ -49,12 +49,14 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const isMobileHook = useIsMobile();
   const isTabletHook = useIsTablet();
   const isTabletLandscapeHook = useIsTabletLandscape();
+  const isLargeTabletHook = useWindowSize().windowWidth >= 1024;
   const [isMounted, setIsMounted] = React.useState(false);
   const [imageOrientations, setImageOrientations] = React.useState<
     Record<string, ImageOrientation>
   >({});
   const isMobile = isMounted ? isMobileHook : false;
   const isTablet = isMounted ? isTabletHook || isTabletLandscapeHook : false;
+  const isLargeTablet = isMounted ? isLargeTabletHook : false;
   const isCompactViewport = isMobile || isTablet;
   const { isHovered, getHoverProps } = useMouseMultiHoverState();
 
@@ -145,9 +147,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
   const showTags = !isCompactViewport;
   const gridImageHeight = isTablet ? '144px' : '200px';
-  const inlineImageWidth = isCompactViewport
-    ? 'clamp(120px, 30%, 180px)'
-    : 'clamp(180px, 26%, 225px)';
   const smallTileImageSize = isCompactViewport ? '140px' : '200px';
   const smallTileCardHeight = isCompactViewport ? '140px' : '200px';
   const largeTileHeight = isCompactViewport ? '220px' : '260px';
@@ -166,7 +165,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           display: 'grid',
           gridTemplateColumns: isMobile
             ? '1fr'
-            : isTablet
+            : isTablet || isLargeTablet
               ? 'repeat(2, minmax(0, 1fr))'
               : 'repeat(auto-fill, minmax(300px, 1fr))',
           gridAutoRows: '1fr',
@@ -445,7 +444,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     >
                       {card.imageText}
                     </Typography>
-                    {!isCompactViewport && (
+                    {!isCompactViewport && !isLargeTablet && (
                       <Typography
                         variant='body'
                         style={{
@@ -675,7 +674,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       }}
                     >
                       {card.tags
-                        .slice(0, isCompactViewport ? 3 : card.tags.length)
+                        .slice(
+                          0,
+                          isCompactViewport || isLargeTablet
+                            ? 3
+                            : card.tags.length
+                        )
                         .map((tag) => (
                           <Typography
                             variant='label'

@@ -195,6 +195,8 @@ export function ContentListingPage({
     }
   }, [defaultCardType, setViewType]);
 
+  const filterSelectSize = isMobile ? 'small' : 'medium';
+
   // Render filter controls
   const renderFilters = () => {
     const sortOptions: SelectOption[] = [
@@ -215,6 +217,7 @@ export function ContentListingPage({
                 <Select
                   label={filter.label}
                   options={filter.options}
+                  size={filterSelectSize}
                   value={filter.value}
                   onChange={(e) => filter.onChange(e.target.value || undefined)}
                   placeholder={filter.placeholder || `Select ${filter.label}`}
@@ -232,6 +235,7 @@ export function ContentListingPage({
             <Select
               label='Sort'
               options={sortOptions}
+              size={filterSelectSize}
               value={sortBy}
               onChange={(e) =>
                 onSortChange((e.target.value as SortOption) || 'date-desc')
@@ -269,6 +273,7 @@ export function ContentListingPage({
           <Select
             label='View'
             options={viewOptions}
+            size={filterSelectSize}
             value={viewType}
             onChange={(e) =>
               setViewType((e.target.value as ViewType) || 'grid')
@@ -323,8 +328,9 @@ export function ContentListingPage({
               display: 'grid',
               gridTemplateColumns:
                 isMobile || isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-              gap: theme.spacing.m,
+              gap: isMobile ? theme.spacing.s1 : theme.spacing.m,
               width: '100%',
+              alignItems: 'end',
             }}
           >
             {renderFilters()}
