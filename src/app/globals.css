@@ -88,11 +88,10 @@ nav[role='banner'] {
 
 /* Updated the max-width class to be more specific and avoid conflicts with Tailwind's max-width utilities */
 /* Used to constrain the content width (9col) on larger screens while allowing it to be full width on smaller screens */
-.max-width-content {
-  max-width: 1920px;
-}
 
-.max-width-content-footer, .max-width-content-header {
+.max-width-content,
+.max-width-content-footer,
+.max-width-content-header {
   max-width: 2160px;
 }
 
