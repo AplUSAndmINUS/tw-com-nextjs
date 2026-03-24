@@ -4,9 +4,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import {
+  useIsMobile,
+  useIsTablet,
+  useIsTabletLandscape,
+} from '@/hooks/useMediaQuery';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 import { Typography } from '../Typography';
+import { is } from 'date-fns/locale';
 
 export interface AdaptiveCard {
   id: string;
@@ -40,8 +45,12 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const router = useRouter();
   const { theme } = useAppTheme();
   const isMobileHook = useIsMobile();
+  const isTabletHook = useIsTablet();
+  const isTabletLandscapeHook = useIsTabletLandscape();
   const [isMounted, setIsMounted] = React.useState(false);
   const isMobile = isMounted ? isMobileHook : false;
+  const isTablet = isMounted ? isTabletHook || isTabletLandscapeHook : false;
+  const isCompactViewport = isMobile || isTablet;
   const { isHovered, getHoverProps } = useMouseMultiHoverState();
 
   React.useEffect(() => {
@@ -92,6 +101,13 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const headingFontFamily =
     theme.typography?.fontFamilies?.heading ??
     'montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  const showTags = !isCompactViewport;
+  const gridImageHeight = isTablet ? '144px' : '200px';
+  const inlineImageWidth = isCompactViewport
+    ? 'clamp(120px, 30%, 180px)'
+    : 'clamp(180px, 26%, 225px)';
+  const smallTileMinHeight = isCompactViewport ? '132px' : '168px';
+  const largeTileHeight = isCompactViewport ? '220px' : '260px';
 
   // Grid View (3 columns on desktop, 2 on tablet, 1 on mobile)
   if (viewType === 'grid') {
@@ -104,7 +120,10 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           display: 'grid',
           gridTemplateColumns: isMobile
             ? '1fr'
-            : 'repeat(auto-fill, minmax(300px, 1fr))',
+            : isTablet
+              ? 'repeat(2, minmax(0, 1fr))'
+              : 'repeat(auto-fill, minmax(300px, 1fr))',
+          gridAutoRows: '1fr',
           gap: theme.spacing.l,
           width: '100%',
         }}
@@ -116,9 +135,13 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               variants={itemVariants}
               initial='hidden'
               animate='visible'
+              style={{ height: '100%' }}
             >
               <div
                 style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                   cursor: 'pointer',
                   borderRadius: theme.borderRadius.container.medium,
                   overflow: 'hidden',
@@ -142,7 +165,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   <div
                     style={{
                       width: '100%',
-                      height: '200px',
+                      height: gridImageHeight,
                       position: 'relative',
                       backgroundColor: isHovered(card.id)
                         ? theme.semanticColors.background.elevated
@@ -174,37 +197,55 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                     </div>
                   </div>
                 )}
-                <div style={{ padding: theme.spacing.m }}>
-                  <Typography
-                    variant='h3'
-                    style={{
-                      fontSize: '1.5rem',
-                      color: theme.semanticColors.text.heading,
-                      marginBottom: theme.spacing.s1,
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {card.title}
-                  </Typography>
-                  <Typography
-                    variant='body'
-                    style={{
-                      fontSize: '1rem',
-                      color: theme.semanticColors.text.muted,
-                      lineHeight: 1.5,
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      marginBottom:
-                        card.tags && card.tags.length > 0
-                          ? theme.spacing.s1
-                          : 0,
-                    }}
-                  >
-                    {card.description}
-                  </Typography>
-                  {card.tags && card.tags.length > 0 && (
+                <div
+                  style={{
+                    padding: theme.spacing.m,
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <Typography
+                      variant='h3'
+                      style={{
+                        fontSize: isCompactViewport
+                          ? 'clamp(1rem, 0.85rem + 1vw, 1.125rem)'
+                          : '1.5rem',
+                        color: theme.semanticColors.text.heading,
+                        marginBottom: theme.spacing.s1,
+                        lineHeight: 1.3,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {card.title}
+                    </Typography>
+                    {!isCompactViewport && (
+                      <Typography
+                        variant='body'
+                        style={{
+                          fontSize: '1rem',
+                          color: theme.semanticColors.text.muted,
+                          lineHeight: 1.5,
+                          display: '-webkit-box',
+                          WebkitLineClamp: isCompactViewport ? 2 : 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          marginBottom:
+                            showTags && card.tags && card.tags.length > 0
+                              ? theme.spacing.s1
+                              : 0,
+                        }}
+                      >
+                        {card.description}
+                      </Typography>
+                    )}
+                  </div>
+                  {showTags && card.tags && card.tags.length > 0 && (
                     <div
                       style={{
                         display: 'flex',
@@ -272,7 +313,8 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   cursor: 'pointer',
                   borderRadius: theme.borderRadius.container.medium,
                   overflow: 'hidden',
-                  alignItems: 'center',
+                  alignItems: 'stretch',
+                  minHeight: smallTileMinHeight,
                   backgroundColor: isHovered(card.id)
                     ? cardHoverSurfaceColor
                     : cardSurfaceColor,
@@ -292,12 +334,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 {card.imageUrl && (
                   <div
                     style={{
-                      width: isMobile ? '100%' : '225px',
-                      height: 'auto',
-                      aspectRatio: '4 / 3',
+                      width: inlineImageWidth,
                       flexShrink: 0,
                       position: 'relative',
                       overflow: 'hidden',
+                      alignSelf: 'stretch',
                       backgroundColor: theme.semanticColors.background.muted,
                     }}
                   >
@@ -319,10 +360,14 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   <Typography
                     variant='h3'
                     style={{
-                      fontSize: '1.5rem',
+                      fontSize: isCompactViewport ? '1.25rem' : '1.5rem',
                       color: theme.semanticColors.text.heading,
                       marginBottom: theme.spacing.xs,
                       lineHeight: 1.3,
+                      display: '-webkit-box',
+                      WebkitLineClamp: isCompactViewport ? 3 : 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
                     }}
                   >
                     {card.title}
@@ -338,25 +383,27 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   >
                     {card.imageText}
                   </Typography>
-                  <Typography
-                    variant='body'
-                    style={{
-                      fontSize: '0.875rem',
-                      color: theme.semanticColors.text.muted,
-                      lineHeight: 1.5,
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      marginBottom:
-                        card.tags && card.tags.length > 0
-                          ? theme.spacing.xs
-                          : 0,
-                    }}
-                  >
-                    {card.description}
-                  </Typography>
-                  {card.tags && card.tags.length > 0 && (
+                  {!isCompactViewport && (
+                    <Typography
+                      variant='body'
+                      style={{
+                        fontSize: '0.875rem',
+                        color: theme.semanticColors.text.muted,
+                        lineHeight: 1.5,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        marginBottom:
+                          showTags && card.tags && card.tags.length > 0
+                            ? theme.spacing.xs
+                            : 0,
+                      }}
+                    >
+                      {card.description}
+                    </Typography>
+                  )}
+                  {showTags && card.tags && card.tags.length > 0 && (
                     <div
                       style={{
                         display: 'flex',
@@ -438,19 +485,19 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: isMobile ? 'column' : 'row',
-                  gap: isMobile ? 0 : theme.spacing.m,
+                  flexDirection: 'row',
+                  gap: isCompactViewport ? theme.spacing.s1 : theme.spacing.m,
+                  height: largeTileHeight,
                 }}
               >
                 {card.imageUrl && (
                   <div
                     style={{
-                      width: isMobile ? '100%' : '225px',
-                      height: 'auto',
-                      aspectRatio: '4 / 3',
+                      width: inlineImageWidth,
                       flexShrink: 0,
                       position: 'relative',
                       overflow: 'hidden',
+                      alignSelf: 'stretch',
                       backgroundColor: theme.semanticColors.background.muted,
                     }}
                   >
@@ -484,21 +531,36 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 <div
                   style={{
                     flex: 1,
-                    padding: theme.spacing.m,
+                    padding: isCompactViewport
+                      ? theme.spacing.s1
+                      : theme.spacing.m,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
+                    minWidth: 0,
                   }}
                 >
                   <Typography
                     variant='h3'
                     style={{
-                      fontSize: isMobile ? '1.5rem' : '1.75rem',
+                      fontSize: isCompactViewport
+                        ? isMobile
+                          ? '1.25rem'
+                          : '1.375rem'
+                        : '1.75rem',
                       fontWeight: 600,
                       fontFamily: headingFontFamily,
                       color: theme.semanticColors.text.heading,
-                      marginBottom: theme.spacing.m,
+                      marginBottom: isCompactViewport
+                        ? theme.spacing.xs
+                        : theme.spacing.m,
                       lineHeight: 1.3,
+                      display: '-webkit-box',
+                      WebkitLineClamp: isCompactViewport ? 2 : undefined,
+                      WebkitBoxOrient: isCompactViewport
+                        ? 'vertical'
+                        : undefined,
+                      overflow: isCompactViewport ? 'hidden' : undefined,
                     }}
                   >
                     {card.title}
@@ -506,16 +568,23 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   <Typography
                     variant='body'
                     style={{
-                      fontSize: isMobile ? '0.9375rem' : '1rem',
+                      fontSize: isCompactViewport ? '0.875rem' : '1rem',
                       color: theme.semanticColors.text.muted,
                       lineHeight: 1.6,
+                      display: '-webkit-box',
+                      WebkitLineClamp: isCompactViewport ? 2 : 4,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      maxHeight: isCompactViewport ? '3.2em' : '6.4em',
                       marginBottom:
-                        card.tags && card.tags.length > 0 ? theme.spacing.m : 0,
+                        showTags && card.tags && card.tags.length > 0
+                          ? theme.spacing.m
+                          : 0,
                     }}
                   >
                     {card.description}
                   </Typography>
-                  {card.tags && card.tags.length > 0 && (
+                  {showTags && card.tags && card.tags.length > 0 && (
                     <div
                       style={{
                         display: 'flex',
