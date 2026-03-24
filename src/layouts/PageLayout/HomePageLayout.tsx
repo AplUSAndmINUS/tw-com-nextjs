@@ -3,7 +3,6 @@
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
-import { FooterOverlay } from '@/components/FooterOverlay';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface HomePageLayoutProps {
@@ -23,7 +22,7 @@ interface HomePageLayoutProps {
  * - Full-height contained layout (Fluxline.pro style)
  * - Mobile: normal scrolling
  * - Desktop: contained viewport with no page scroll
- * - Integrated Footer handling
+ * - Shared homepage footer visible on md+ only
  * - Background image automatically switches portrait/landscape via CSS media query
  */
 export function HomePageLayout({
@@ -34,7 +33,7 @@ export function HomePageLayout({
   const isLeftHanded = layoutPreference === 'left-handed';
 
   return (
-    <SiteLayout isContainedView>
+    <SiteLayout isContainedView hideFooterOnMobile>
       {/* Mobile: normal scrolling | Desktop: contained viewport */}
       <div className='h-full w-full overflow-y-auto lg:overflow-hidden flex flex-col'>
         {featureImage ? (
@@ -83,7 +82,6 @@ export function HomePageLayout({
             >
               {children}
             </div>
-            <FooterOverlay />
           </div>
         )}
       </div>

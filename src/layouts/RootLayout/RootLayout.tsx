@@ -8,6 +8,8 @@ interface RootLayoutProps {
   isContainedView?: boolean;
   /** If false, suppresses the default footer (for layouts that handle their own footer) */
   showFooter?: boolean;
+  /** If true, hides the shared footer on mobile while keeping it visible on md+ */
+  hideFooterOnMobile?: boolean;
 }
 
 /**
@@ -42,6 +44,7 @@ export function RootLayout({
   children,
   isContainedView = false,
   showFooter = true,
+  hideFooterOnMobile = false,
 }: RootLayoutProps) {
   const containerClassName = isContainedView
     ? 'flex flex-col h-screen overflow-hidden'
@@ -53,6 +56,7 @@ export function RootLayout({
     .filter(Boolean)
     .join(' ');
   const transitionClassName = isContainedView ? 'flex-1 flex flex-col' : '';
+  const footerWrapperClassName = hideFooterOnMobile ? 'hidden md:block' : '';
 
   return (
     <div className={containerClassName}>
@@ -67,7 +71,11 @@ export function RootLayout({
           {children}
         </PageTransition>
       </main>
-      {showFooter && <Footer isCompact />}
+      {showFooter && (
+        <div className={footerWrapperClassName}>
+          <Footer isCompact />
+        </div>
+      )}
     </div>
   );
 }

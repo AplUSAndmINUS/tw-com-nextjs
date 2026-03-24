@@ -8,6 +8,7 @@ interface SiteLayoutProps {
   children: ReactNode;
   isContainedView?: boolean;
   showFooter?: boolean;
+  hideFooterOnMobile?: boolean;
 }
 
 /**
@@ -23,6 +24,7 @@ export function SiteLayout({
   children,
   isContainedView,
   showFooter,
+  hideFooterOnMobile,
 }: SiteLayoutProps) {
   const { theme, themeMode } = useAppTheme();
 
@@ -42,7 +44,11 @@ export function SiteLayout({
     : 'w-full min-h-full';
 
   return (
-    <RootLayout isContainedView={isContainedView} showFooter={showFooter}>
+    <RootLayout
+      isContainedView={isContainedView}
+      showFooter={showFooter}
+      hideFooterOnMobile={hideFooterOnMobile}
+    >
       <div className={backgroundClassName} style={backgroundStyle}>
         {children}
       </div>
