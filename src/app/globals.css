@@ -30,11 +30,39 @@ body {
   background-color: #0f1419 !important;
 }
 
+/* Global scrollbar suppression.
+   This must live in CSS so it applies before hydration and prevents transient
+   scrollbars from appearing on page-level and nested scroll containers. */
+html,
+body,
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .hide-scrollbar {
+  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+#content-scroll-pane {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#content-scroll-pane::-webkit-scrollbar {
   display: none;
 }
 
