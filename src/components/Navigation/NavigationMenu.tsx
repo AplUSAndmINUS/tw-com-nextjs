@@ -240,6 +240,11 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           padding: isMobileLandscape ? '0.25rem' : '0.5rem',
           borderTop: `1px solid ${theme.palette.black}`,
           textAlign: 'center',
+          paddingLeft: isMobile
+            ? '0'
+            : isMobileLandscape
+              ? '0.25rem'
+              : '0.5rem',
         }}
       >
         <SocialLinks />

@@ -7,7 +7,10 @@ import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
 import { useIsMobileLandscape, useIsTablet } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
-import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
+import {
+  useFeatureImageLayout,
+  type FeatureImageLayoutOptions,
+} from '@/hooks/useFeatureImageLayout';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -17,6 +20,10 @@ interface StandardPageLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional custom media pane rendered in place of the default feature image. */
+  mediaPane?: ReactNode;
+  /** Optional layout overrides for the contained split-pane view. */
+  layoutOptions?: FeatureImageLayoutOptions;
   /** If true, renders a more compact layout */
   isCompact?: boolean;
 }
@@ -54,6 +61,8 @@ interface StandardPageLayoutProps {
 export function StandardPageLayout({
   children,
   featureImage,
+  mediaPane,
+  layoutOptions,
 }: StandardPageLayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
@@ -64,18 +73,20 @@ export function StandardPageLayout({
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
+  const hasMediaPane = Boolean(featureImage || mediaPane);
 
   const { containerClasses, contentPaneClasses, imagePaneClasses } =
     useFeatureImageLayout({
-      fixedPaneSizeClasses: isMobileLandscape
+      paneSizeClasses: isMobileLandscape
         ? 'md:w-1/4 xl:w-1/3'
         : 'md:w-[40%] lg:w-1/3',
-      fixedContentRightOffsetClasses: isMobileLandscape
+      contentRightOffsetClasses: isMobileLandscape
         ? 'md:mr-[25%] xl:mr-[33.333333%]'
         : 'md:mr-[40%] lg:mr-[33.333333%]',
-      fixedContentLeftOffsetClasses: isMobileLandscape
+      contentLeftOffsetClasses: isMobileLandscape
         ? 'md:ml-[25%] xl:ml-[33.333333%]'
         : 'md:ml-[40%] lg:ml-[33.333333%]',
+      ...layoutOptions,
     });
 
   useEffect(() => {
@@ -83,7 +94,7 @@ export function StandardPageLayout({
   }, []);
 
   // Contained viewport layout with feature image
-  if (featureImage) {
+  if (hasMediaPane) {
     return (
       <SiteLayout showFooter={false} isContainedView={true}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
@@ -91,13 +102,16 @@ export function StandardPageLayout({
           {/* Feature image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
           <aside className={imagePaneClasses} suppressHydrationWarning>
-            <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
-              <ResponsiveFeatureImage
-                src={featureImage.src}
-                alt={featureImage.alt}
-                title={featureImage.title}
-              />
-            </div>
+            {mediaPane ??
+              (featureImage ? (
+                <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
+                  <ResponsiveFeatureImage
+                    src={featureImage.src}
+                    alt={featureImage.alt}
+                    title={featureImage.title}
+                  />
+                </div>
+              ) : null)}
           </aside>
 
           {/* Content pane - scrollable independently with responsive mirrored margins */}

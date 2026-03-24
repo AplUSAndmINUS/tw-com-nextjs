@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { HomePageLayout } from './HomePageLayout';
 import { StandardPageLayout } from './StandardPageLayout';
+import { type FeatureImageLayoutOptions } from '@/hooks/useFeatureImageLayout';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -10,6 +11,10 @@ interface PageLayoutProps {
     alt: string;
     title?: string;
   };
+  /** Optional custom media pane rendered in place of the default feature image. */
+  mediaPane?: ReactNode;
+  /** Optional layout overrides for the contained split-pane view. */
+  layoutOptions?: FeatureImageLayoutOptions;
 
   // If true, applies special layout/styling for the homepage (full-height contained view)
   isHomePage?: boolean;
@@ -62,6 +67,8 @@ interface PageLayoutProps {
 export function PageLayout({
   children,
   featureImage,
+  mediaPane,
+  layoutOptions,
   isHomePage = false,
 }: PageLayoutProps) {
   // Route to appropriate layout component
@@ -72,7 +79,11 @@ export function PageLayout({
   }
 
   return (
-    <StandardPageLayout featureImage={featureImage}>
+    <StandardPageLayout
+      featureImage={featureImage}
+      mediaPane={mediaPane}
+      layoutOptions={layoutOptions}
+    >
       {children}
     </StandardPageLayout>
   );
