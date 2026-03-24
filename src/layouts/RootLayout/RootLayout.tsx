@@ -48,14 +48,14 @@ export function RootLayout({
       <div className='flex flex-col h-screen overflow-hidden'>
         <a
           href='#main-content'
-          className='sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
+          className='hide-scrollbar sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
         >
           Skip to main content
         </a>
         {/* Flex-1 makes main content fill remaining height */}
         <main
           id='main-content'
-          className='flex-1 overflow-y-auto overflow-x-hidden flex flex-col pt-[var(--site-header-height)]'
+          className='hide-scrollbar flex-1 overflow-y-auto overflow-x-hidden flex flex-col pt-[var(--site-header-height)]'
         >
           <PageTransition duration={300} className='flex-1 flex flex-col'>
             {children}
@@ -69,12 +69,15 @@ export function RootLayout({
     <div className='flex flex-col min-h-screen'>
       <a
         href='#main-content'
-        className='sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
+        className='hide-scrollbar sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
       >
         Skip to main content
       </a>
       {/* Shared header offset keeps content aligned with the responsive fixed header height. */}
-      <main id='main-content' className='flex-1 pt-[var(--site-header-height)]'>
+      <main
+        id='main-content'
+        className='hide-scrollbar flex-1 pt-[var(--site-header-height)]'
+      >
         <PageTransition duration={300}>{children}</PageTransition>
       </main>
       {showFooter && <Footer isCompact />}

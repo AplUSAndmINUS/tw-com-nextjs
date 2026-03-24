@@ -62,6 +62,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
   const isTablet = isMounted ? isTabletHook || isTabletLandscapeHook : false;
   const isLargeTablet = isMounted ? isLargeTabletHook : false;
   const isLargeScreen = isMounted ? isLargeScreenHook : false;
+  const is4KScreen = isMounted ? windowWidth >= 2500 : false;
   const isCompactViewport = isMobile || isTablet;
   const { isHovered, getHoverProps } = useMouseMultiHoverState();
 
@@ -179,7 +180,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
             ? '1fr'
             : isTablet || isLargeTablet
               ? 'repeat(2, minmax(0, 1fr))'
-              : isLargeScreen
+              : is4KScreen
                 ? 'repeat(4, minmax(0, 1fr))'
                 : 'repeat(auto-fill, minmax(350px, 1fr))',
           gridAutoRows: '1fr',
