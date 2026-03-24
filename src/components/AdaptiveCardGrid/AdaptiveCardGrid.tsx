@@ -179,7 +179,9 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
             ? '1fr'
             : isTablet || isLargeTablet
               ? 'repeat(2, minmax(0, 1fr))'
-              : 'repeat(auto-fill, minmax(350px, 1fr))',
+              : isLargeScreen
+                ? 'repeat(4, minmax(0, 1fr))'
+                : 'repeat(auto-fill, minmax(350px, 1fr))',
           gridAutoRows: '1fr',
           gap: theme.spacing.l,
           width: '100%',
