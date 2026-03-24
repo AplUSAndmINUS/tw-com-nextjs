@@ -5,9 +5,9 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
-import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobileLandscape, useIsTablet } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
+import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -57,10 +57,9 @@ export function StandardPageLayout({
 }: StandardPageLayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
-  const { layoutPreference } = useAppTheme();
-  const isLeftHanded = layoutPreference === 'left-handed';
   const isMobileLandscapeHook = useIsMobileLandscape();
   const isTabletHook = useIsTablet();
+  const { contentPaneClasses, imagePaneClasses, isLeftHanded } = useFeatureImageLayout();
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
@@ -73,21 +72,6 @@ export function StandardPageLayout({
 
   // Mobile landscape: 3 cols for image, 9 cols for content (mirrored for left-handed)
   // Otherwise: tablet/desktop proportions (50%/33% for image, 50%/67% for content)
-  const imagePaneClasses = isMobileLandscape
-    ? isLeftHanded
-      ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-1/4 xl:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-1/4 xl:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-    : isLeftHanded
-      ? 'md:fixed md:right-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'md:fixed md:left-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
-
-  const contentPaneClasses = isMobileLandscape
-    ? isLeftHanded
-      ? 'flex-1 md:mr-[25%] xl:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[25%] xl:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-    : isLeftHanded
-      ? 'flex-1 md:mr-[40%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[40%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
 
   // Contained viewport layout with feature image
   if (featureImage) {
@@ -95,7 +79,7 @@ export function StandardPageLayout({
       <SiteLayout showFooter={false} isContainedView={true}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
         <div
-          className='flex flex-col md:flex-row min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] md:overflow-hidden'
+          className='flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden'
           suppressHydrationWarning
         >
           {/* Feature image pane - fixed and vertically centered on tablet/desktop */}

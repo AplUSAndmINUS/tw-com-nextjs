@@ -89,7 +89,7 @@ export function UnsubscribePageClient() {
     <PageLayout>
       <div
         style={{
-          minHeight: 'calc(100vh - 4rem)',
+          minHeight: 'calc(100vh - var(--site-header-height))',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

@@ -15,6 +15,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 import { getSocialIcons } from '@/components/SocialIcons/constants';
+import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 
 interface AboutPageClientProps {
   children: React.ReactNode;
@@ -35,8 +36,11 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
-  const useStackedLayout = isMobile || isTablet;
-  const isLeftHanded = layoutPreference === 'left-handed';
+
+  const { imagePaneClasses, contentPaneClasses, isLeftHanded } = useFeatureImageLayout();
+
+  // Determine if we should use stacked layout (image above content) based on viewport size
+  const useStackedLayout = isMobile || (isTablet && window.innerWidth < 768);
 
   const teamMember: TeamMember = {
     id: 'terence-waters',
@@ -52,14 +56,8 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   const cardPaneClasses = useStackedLayout
     ? 'flex items-center justify-center pt-4 md:pt-8'
     : isLeftHanded
-      ? 'flex items-center justify-center pt-16 md:pt-0 md:fixed md:right-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
-      : 'flex items-center justify-center pt-16 md:pt-0 md:fixed md:left-0 md:top-16 md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
-
-  const contentPaneClasses = useStackedLayout
-    ? 'flex-1 flex flex-col'
-    : isLeftHanded
-      ? 'flex-1 md:mr-[40%] lg:mr-[33.333333%] md:h-full md:overflow-y-auto flex flex-col'
-      : 'flex-1 md:ml-[40%] lg:ml-[33.333333%] md:h-full md:overflow-y-auto flex flex-col';
+      ? 'flex items-center justify-center pt-[var(--site-header-height)] md:pt-0 md:fixed md:right-0 md:top-[var(--site-header-height)] md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden'
+      : 'flex items-center justify-center pt-[var(--site-header-height)] md:pt-0 md:fixed md:left-0 md:top-[var(--site-header-height)] md:bottom-0 md:w-[40%] lg:w-1/3 md:flex md:items-center md:justify-center md:p-4 md:overflow-hidden';
 
   return (
     <SiteLayout showFooter={false}>
@@ -67,8 +65,8 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
       <div
         className={
           useStackedLayout
-            ? 'flex flex-col min-h-[calc(100vh-4rem)]'
-            : 'flex flex-col md:flex-row min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] md:overflow-hidden'
+            ? 'flex flex-col min-h-[calc(100vh-var(--site-header-height))]'
+            : 'flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden'
         }
       >
         {/* TeamMemberCard pane - fixed and vertically centered on tablet/desktop */}

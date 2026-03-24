@@ -36,7 +36,7 @@ interface RootLayoutProps {
  * --------------
  * - Skip-to-content link for keyboard users (visually hidden until focused)
  * - Proper ARIA landmarks via semantic HTML (main, nav from Header)
- * - pt-16 offset accounts for fixed header height (~4rem/64px)
+ * - Main content offset follows the shared responsive --site-header-height CSS variable
  */
 export function RootLayout({
   children,
@@ -55,7 +55,7 @@ export function RootLayout({
         {/* Flex-1 makes main content fill remaining height */}
         <main
           id='main-content'
-          className='flex-1 pt-16 overflow-y-auto overflow-x-hidden flex flex-col'
+          className='flex-1 overflow-y-auto overflow-x-hidden flex flex-col pt-[var(--site-header-height)]'
         >
           <PageTransition duration={300} className='flex-1 flex flex-col'>
             {children}
@@ -73,8 +73,8 @@ export function RootLayout({
       >
         Skip to main content
       </a>
-      {/* pt-16 offsets the fixed header (~4rem/64px) provided by Header in providers.tsx */}
-      <main id='main-content' className='flex-1 pt-16'>
+      {/* Shared header offset keeps content aligned with the responsive fixed header height. */}
+      <main id='main-content' className='flex-1 pt-[var(--site-header-height)]'>
         <PageTransition duration={300}>{children}</PageTransition>
       </main>
       {showFooter && <Footer isCompact />}

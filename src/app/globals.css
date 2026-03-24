@@ -8,6 +8,13 @@
   /* Always use dark background to prevent white from showing through */
   --background: #0f1419;
   --foreground: #e4e4e7;
+  --site-header-height: calc(4rem + env(safe-area-inset-top));
+}
+
+@media (min-width: 576px) {
+  :root {
+    --site-header-height: calc(5rem + env(safe-area-inset-top));
+  }
 }
 
 @theme inline {
@@ -21,6 +28,14 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   /* Ensure dark background always, even if theme changes */
   background-color: #0f1419 !important;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Fixed header compositing layer — must be CSS (not inline styles) so it applies
