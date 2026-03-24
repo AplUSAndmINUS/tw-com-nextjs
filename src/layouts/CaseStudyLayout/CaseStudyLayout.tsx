@@ -7,9 +7,11 @@ import { Typography } from '@/components/Typography';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';
 import { FooterOverlay } from '@/components/FooterOverlay/FooterOverlay';
 import { Footer } from '@/components/Footer';
+import { ImageCarousel } from '@/components/ImageCarousel';
 import { ImageCarouselModal } from '@/components/ImageCarouselModal';
 import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
 import { GalleryItem } from '@/content/types';
+import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage/ResponsiveFeatureImage';
 
 interface CaseStudyLayoutProps {
   children: ReactNode;
@@ -89,15 +91,15 @@ export function CaseStudyLayout({
   );
 
   return (
-    <SiteLayout showFooter={false}>
+    <SiteLayout showFooter={false} isContainedView={!!featureImage}>
       <div
-        className='max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'
+        className='mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8'
         style={{
           minHeight: `calc(100vh - 4rem - ${footerHeight})`,
         }}
       >
         {featureImage ? (
-          <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row'>
+          <div className='min-h-[calc(100vh-4rem)] flex flex-col md:flex-row md:h-[calc(100vh-4rem)] md:overflow-hidden'>
             {/* Feature image pane - fixed and vertically centered on md+ */}
             <aside
               className={imagePaneClasses}
@@ -105,27 +107,28 @@ export function CaseStudyLayout({
                 bottom: `calc(${footerHeight} + 1rem)`,
               }}
             >
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity'
-                aria-label='View image fullscreen'
-              >
-                <Image
-                  src={featureImage.src}
-                  alt={featureImage.alt}
-                  fill
-                  sizes='(max-width: 768px) 100vw, 25vw'
-                  className='object-cover'
-                  priority
-                />
-                {featureImage.title && (
-                  <div className='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-                    <Typography variant='h5' color='#ffffff'>
-                      {featureImage.title}
-                    </Typography>
-                  </div>
-                )}
-              </button>
+              {modalImages.length > 1 ? (
+                // Multiple images: show carousel
+                <div className='w-full max-w-xl px-4 py-6 md:py-0'>
+                  <ImageCarousel
+                    images={modalImages}
+                    onImageClick={() => setIsModalOpen(true)}
+                  />
+                </div>
+              ) : (
+                // Single image: show responsive feature image
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className='relative w-full rounded-xl overflow-hidden aspect-[3/4] cursor-pointer hover:opacity-90 transition-opacity'
+                  aria-label='View image fullscreen'
+                >
+                  <ResponsiveFeatureImage
+                    src={featureImage.src}
+                    alt={featureImage.alt}
+                    title={featureImage.title}
+                  />
+                </button>
+              )}
             </aside>
 
             {/* Image modal */}

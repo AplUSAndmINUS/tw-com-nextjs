@@ -457,125 +457,129 @@ export function Header() {
             suppressHydrationWarning
           >
             {/* Theme toggle — only light/dark, hidden on homepage */}
-            {!isHomePage && (themeMode === 'light' || themeMode === 'dark') && (
-              <div style={{ position: 'relative' }}>
-                <button
-                  onClick={handleThemeClick}
-                  onMouseEnter={() => setHoveredButton('theme')}
-                  onMouseLeave={() => setHoveredButton(null)}
-                  onBlur={() => setHoveredButton(null)}
-                  style={{
-                    ...buttonStyle,
-                    transform: getButtonTransform('theme'),
-                  }}
-                  aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
-                  title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
-                >
-                  {isDark ? (
-                    <FluentIcon
-                      iconName={WeatherMoon32Regular}
-                      color={theme.palette.neutralPrimary}
-                    />
-                  ) : (
-                    <FluentIcon
-                      iconName={WeatherSunny32Regular}
-                      color={theme.palette.neutralPrimary}
-                    />
-                  )}
-                </button>
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    opacity: hoveredButton === 'theme' ? 1 : 0,
-                    visibility:
-                      hoveredButton === 'theme' ? 'visible' : 'hidden',
-                    transition:
-                      'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
-                    fontSize: theme.typography.fontSizes.md,
-                    letterSpacing: theme.typography.letterSpacing.tight,
-                    fontWeight: theme.typography.fontWeights.semiBold,
-                    color: theme.palette.neutralPrimary,
-                    marginTop: '-0.25rem',
-                    backgroundColor: 'transparent',
-                    padding: '0',
-                    whiteSpace: 'nowrap',
-                    pointerEvents: 'none',
-                    zIndex: 200,
-                  }}
-                >
-                  {isDark ? 'Dark' : 'Light'}
-                </span>
-              </div>
-            )}
+            {isMounted &&
+              !isHomePage &&
+              (themeMode === 'light' || themeMode === 'dark') && (
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={handleThemeClick}
+                    onMouseEnter={() => setHoveredButton('theme')}
+                    onMouseLeave={() => setHoveredButton(null)}
+                    onBlur={() => setHoveredButton(null)}
+                    style={{
+                      ...buttonStyle,
+                      transform: getButtonTransform('theme'),
+                    }}
+                    aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
+                    title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
+                  >
+                    {isDark ? (
+                      <FluentIcon
+                        iconName={WeatherMoon32Regular}
+                        color={theme.palette.neutralPrimary}
+                      />
+                    ) : (
+                      <FluentIcon
+                        iconName={WeatherSunny32Regular}
+                        color={theme.palette.neutralPrimary}
+                      />
+                    )}
+                  </button>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      opacity: hoveredButton === 'theme' ? 1 : 0,
+                      visibility:
+                        hoveredButton === 'theme' ? 'visible' : 'hidden',
+                      transition:
+                        'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
+                      fontSize: theme.typography.fontSizes.md,
+                      letterSpacing: theme.typography.letterSpacing.tight,
+                      fontWeight: theme.typography.fontWeights.semiBold,
+                      color: theme.palette.neutralPrimary,
+                      marginTop: '-0.25rem',
+                      backgroundColor: 'transparent',
+                      padding: '0',
+                      whiteSpace: 'nowrap',
+                      pointerEvents: 'none',
+                      zIndex: 200,
+                    }}
+                  >
+                    {isDark ? 'Dark' : 'Light'}
+                  </span>
+                </div>
+              )}
 
-            {!isHomePage && !(authRequired && !isAuthenticated) && (
-              <div style={{ position: 'relative' }}>
-                <button
-                  type='button'
-                  onClick={handleSettingsClick}
-                  onMouseEnter={() => setHoveredButton('settings')}
-                  onMouseLeave={() => setHoveredButton(null)}
-                  onBlur={() => setHoveredButton(null)}
-                  style={{
-                    ...buttonStyle,
-                    transform: getButtonTransform('settings'),
-                  }}
-                  aria-label={
-                    activeModal === 'settings'
-                      ? 'Close settings'
-                      : 'Open settings'
-                  }
-                  aria-expanded={activeModal === 'settings'}
-                  aria-controls='settings-panel'
-                >
-                  {activeModal === 'settings' ? (
-                    <FluentIcon
-                      iconName={DismissSquare32Regular}
-                      color={theme.palette.neutralPrimary}
-                    />
-                  ) : (
-                    <FluentIcon
-                      iconName={Settings32Regular}
-                      color={theme.palette.neutralPrimary}
-                    />
-                  )}
-                </button>
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    opacity: hoveredButton === 'settings' ? 1 : 0,
-                    visibility:
-                      hoveredButton === 'settings' ? 'visible' : 'hidden',
-                    transition:
-                      'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
-                    fontSize: theme.typography.fontSizes.md,
-                    letterSpacing: theme.typography.letterSpacing.tight,
-                    fontWeight: theme.typography.fontWeights.semiBold,
-                    color: theme.palette.neutralPrimary,
-                    marginTop: '-0.25rem',
-                    backgroundColor:
-                      themeMode === 'high-contrast'
-                        ? theme.colorNeutralBackground1
-                        : 'transparent',
-                    padding: themeMode === 'high-contrast' ? '4px 8px' : '0',
-                    whiteSpace: 'nowrap',
-                    pointerEvents: 'none',
-                    zIndex: 200,
-                  }}
-                >
-                  Settings
-                </span>
-              </div>
-            )}
+            {isMounted &&
+              !isHomePage &&
+              !(authRequired && !isAuthenticated) && (
+                <div style={{ position: 'relative' }}>
+                  <button
+                    type='button'
+                    onClick={handleSettingsClick}
+                    onMouseEnter={() => setHoveredButton('settings')}
+                    onMouseLeave={() => setHoveredButton(null)}
+                    onBlur={() => setHoveredButton(null)}
+                    style={{
+                      ...buttonStyle,
+                      transform: getButtonTransform('settings'),
+                    }}
+                    aria-label={
+                      activeModal === 'settings'
+                        ? 'Close settings'
+                        : 'Open settings'
+                    }
+                    aria-expanded={activeModal === 'settings'}
+                    aria-controls='settings-panel'
+                  >
+                    {activeModal === 'settings' ? (
+                      <FluentIcon
+                        iconName={DismissSquare32Regular}
+                        color={theme.palette.neutralPrimary}
+                      />
+                    ) : (
+                      <FluentIcon
+                        iconName={Settings32Regular}
+                        color={theme.palette.neutralPrimary}
+                      />
+                    )}
+                  </button>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      opacity: hoveredButton === 'settings' ? 1 : 0,
+                      visibility:
+                        hoveredButton === 'settings' ? 'visible' : 'hidden',
+                      transition:
+                        'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
+                      fontSize: theme.typography.fontSizes.md,
+                      letterSpacing: theme.typography.letterSpacing.tight,
+                      fontWeight: theme.typography.fontWeights.semiBold,
+                      color: theme.palette.neutralPrimary,
+                      marginTop: '-0.25rem',
+                      backgroundColor:
+                        themeMode === 'high-contrast'
+                          ? theme.colorNeutralBackground1
+                          : 'transparent',
+                      padding: themeMode === 'high-contrast' ? '4px 8px' : '0',
+                      whiteSpace: 'nowrap',
+                      pointerEvents: 'none',
+                      zIndex: 200,
+                    }}
+                  >
+                    Settings
+                  </span>
+                </div>
+              )}
 
             {/* Menu toggle */}
-            {!(authRequired && !isAuthenticated) && (
+            {isMounted && !(authRequired && !isAuthenticated) && (
               <div style={{ position: 'relative' }}>
                 <button
                   type='button'

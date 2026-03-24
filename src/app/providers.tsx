@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { ExtendedThemeProvider } from '@/theme/providers/ExtendedThemeProvider';
 import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
@@ -11,6 +12,7 @@ import { useAccessControl } from '@/hooks';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { authRequired, isAuthenticated } = useAccessControl();
+  const pathname = usePathname();
   return (
     <ExtendedThemeProvider>
       <StoreHydrator />
@@ -22,7 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         ensures it stays viewport-fixed in all theme modes.
       */}
       <Header />
-      <KoFiWidget />
+      <KoFiWidget pathname={pathname} />
       <FontScaleProvider>
         <AccessGate>
           {/* Page content (includes main with PageTransition from RootLayout) */}

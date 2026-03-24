@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
@@ -55,12 +55,21 @@ export function StandardPageLayout({
   children,
   featureImage,
 }: StandardPageLayoutProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   const { layoutPreference } = useAppTheme();
   const isLeftHanded = layoutPreference === 'left-handed';
-  const isMobileLandscape = useIsMobileLandscape();
-  const isTablet = useIsTablet();
+  const isMobileLandscapeHook = useIsMobileLandscape();
+  const isTabletHook = useIsTablet();
+
+  // Only use actual hook values after mounting to avoid hydration mismatch
+  const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
+  const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Mobile landscape: 3 cols for image, 9 cols for content (mirrored for left-handed)
   // Otherwise: tablet/desktop proportions (50%/33% for image, 50%/67% for content)
@@ -83,12 +92,15 @@ export function StandardPageLayout({
   // Contained viewport layout with feature image
   if (featureImage) {
     return (
-      <SiteLayout showFooter={false}>
+      <SiteLayout showFooter={false} isContainedView={true}>
         {/* Mobile: normal scrolling with standard footer | Tablet/Desktop: contained viewport with overlay footer */}
-        <div className='flex flex-col md:flex-row min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] md:overflow-hidden'>
+        <div
+          className='flex flex-col md:flex-row min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] md:overflow-hidden'
+          suppressHydrationWarning
+        >
           {/* Feature image pane - fixed and vertically centered on tablet/desktop */}
           {/* Tablet portrait (md): 50% width (6x6) | Tablet landscape+ (lg): 33% width (4x8) */}
-          <aside className={imagePaneClasses}>
+          <aside className={imagePaneClasses} suppressHydrationWarning>
             <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
               <ResponsiveFeatureImage
                 src={featureImage.src}
@@ -100,7 +112,11 @@ export function StandardPageLayout({
 
           {/* Content pane - scrollable independently with responsive mirrored margins */}
           {/* Tablet portrait (md): 50% reserve | Tablet landscape+ (lg): 33% reserve */}
-          <div id='content-scroll-pane' className={contentPaneClasses}>
+          <div
+            id='content-scroll-pane'
+            className={contentPaneClasses}
+            suppressHydrationWarning
+          >
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col'>
               <div className='md:w-full md:my-auto'>{children}</div>
             </div>
