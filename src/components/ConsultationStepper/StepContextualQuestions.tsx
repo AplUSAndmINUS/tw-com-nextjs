@@ -60,7 +60,8 @@ function FileUploadField({
   return (
     <div>
       <Typography
-        variant='p'
+        variant='body'
+        as='p'
         style={{
           fontWeight: theme.typography.fontWeights.semiBold,
           color: theme.palette.neutralPrimary,
@@ -82,7 +83,8 @@ function FileUploadField({
       />
       {file && (
         <Typography
-          variant='p'
+          variant='body'
+          as='p'
           style={{
             color: theme.palette.neutralSecondary,
             fontSize: theme.typography.fonts.bodySmall.fontSize,
@@ -94,7 +96,8 @@ function FileUploadField({
       )}
       {error && (
         <Typography
-          variant='p'
+          variant='body'
+          as='p'
           style={{
             color: theme.palette.redDark,
             fontSize: theme.typography.fonts.bodySmall.fontSize,
@@ -167,7 +170,7 @@ export const StepContextualQuestions: React.FC<
           label={question.label}
           value={data.answers[question.id] || ''}
           options={question.options}
-          onChange={(value) => updateAnswer(question.id, value)}
+          onChange={(value) => updateAnswer(question.id, value ?? '')}
           placeholder='Select an option…'
           aria-label={question.label}
         />
@@ -180,7 +183,7 @@ export const StepContextualQuestions: React.FC<
           key={question.id}
           label={question.label}
           value={data.answers[question.id] || ''}
-          onChange={(value) => updateAnswer(question.id, value)}
+          onChange={(event) => updateAnswer(question.id, event.target.value)}
           placeholder={question.placeholder}
           required={question.required}
           rows={3}
@@ -193,10 +196,11 @@ export const StepContextualQuestions: React.FC<
         key={question.id}
         label={question.label}
         value={data.answers[question.id] || ''}
-        onChange={(value) => updateAnswer(question.id, value)}
+        onChange={(event) => updateAnswer(question.id, event.target.value)}
         placeholder={question.placeholder}
         required={question.required}
         type='text'
+        fullWidth
       />
     );
   };
@@ -220,7 +224,8 @@ export const StepContextualQuestions: React.FC<
         Step 2 — Tell us a little about your needs
       </Typography>
       <Typography
-        variant='p'
+        variant='body'
+        as='p'
         style={{
           color: theme.palette.neutralSecondary,
           marginBottom: theme.spacing.l,
@@ -254,7 +259,8 @@ export const StepContextualQuestions: React.FC<
                 {errors[q.id] && (
                   <div role='alert'>
                     <Typography
-                      variant='p'
+                      variant='body'
+                      as='p'
                       style={{
                         color: theme.palette.redDark,
                         fontSize: theme.typography.fonts.bodySmall.fontSize,
@@ -274,16 +280,20 @@ export const StepContextualQuestions: React.FC<
       <div className='flex justify-between mt-6'>
         <FormButton
           variant='secondary'
-          text='← Back'
           onClick={onBack}
           size='medium'
-        />
+          type='button'
+        >
+          ← Back
+        </FormButton>
         <FormButton
           variant='primary'
-          text='Next: Contact & Schedule →'
           onClick={handleNext}
           size='medium'
-        />
+          type='button'
+        >
+          Next: Contact & Schedule →
+        </FormButton>
       </div>
     </div>
   );

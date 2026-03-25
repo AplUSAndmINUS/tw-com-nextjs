@@ -7,13 +7,10 @@
 
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { Typography } from '@/theme/components/typography';
-import { FormButton } from '@/theme/components/form/FormButton';
-import { FormInput } from '@/theme/components/form/FormInput';
-import { FormSelect } from '@/theme/components/form/FormSelect';
+import { Typography } from '@/components/Typography';
+import { FormButton, FormSelect, Input } from '@/components/Form';
 import { REFERRAL_OPTIONS } from './constants';
 import { MeetingLength, StepThreeData, SubmitStatus } from './types';
-import { Input } from '../Form';
 
 interface StepContactScheduleProps {
   data: StepThreeData;
@@ -109,52 +106,54 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
       <div className='flex flex-col gap-4'>
         {/* Name */}
         <div>
-          <FormInput
+          <Input
             label='Full Name'
             value={data.fullName}
-            onChange={(v) => update('fullName', v)}
+            onChange={(event) => update('fullName', event.target.value)}
             placeholder='Your full name'
             required
-            requiredIndicator
             type='text'
             aria-label='Full Name'
+            fullWidth
           />
           {errors.fullName && <ErrorMsg>{errors.fullName}</ErrorMsg>}
         </div>
 
         {/* Email */}
         <div>
-          <FormInput
+          <Input
             label='Email Address'
             value={data.email}
-            onChange={(v) => update('email', v)}
+            onChange={(event) => update('email', event.target.value)}
             placeholder='you@example.com'
             required
-            requiredIndicator
             type='email'
             aria-label='Email Address'
+            fullWidth
           />
           {errors.email && <ErrorMsg>{errors.email}</ErrorMsg>}
         </div>
 
         {/* Phone */}
-        <FormInput
+        <Input
           label='Phone (optional)'
           value={data.phone}
-          onChange={(v) => update('phone', formatPhone(v))}
+          onChange={(event) => update('phone', formatPhone(event.target.value))}
           placeholder='(555) 000-0000'
           type='tel'
           aria-label='Phone number (optional)'
+          fullWidth
         />
 
         {/* Company */}
-        <FormInput
+        <Input
           label='Company (optional)'
           value={data.company}
-          onChange={(v) => update('company', v)}
+          onChange={(event) => update('company', event.target.value)}
           placeholder='Your company or organization'
           type='text'
           aria-label='Company (optional)'
+          fullWidth
         />
 
         {/* Meeting length */}
@@ -174,10 +173,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
             }}
           >
             Preferred Meeting Length{' '}
-            <span
-              aria-hidden='true'
-              style={{ color: theme.palette.redDark }}
-            >
+            <span aria-hidden='true' style={{ color: theme.palette.redDark }}>
               *
             </span>
           </legend>
@@ -193,7 +189,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                   padding: `${theme.spacing.xs} 0`,
                 }}
               >
-                <FormInput
+                <Input
                   type='radio'
                   name='meeting-length'
                   value={value}
@@ -216,7 +212,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                       display: 'inline',
                     }}
                   >
-                    {label} 
+                    {label}
                   </Typography>{' '}
                   <Typography
                     variant='body'
@@ -241,7 +237,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
             label='How did you hear about us?'
             value={data.referralSource}
             options={REFERRAL_OPTIONS}
-            onChange={(v) => update('referralSource', v)}
+            onChange={(value) => update('referralSource', value ?? '')}
             placeholder='Select an option…'
             aria-label='How did you hear about us?'
           />
@@ -252,20 +248,20 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
 
         {/* Referral "other" text */}
         {data.referralSource === 'other' && (
-          <FormInput
+          <Input
             label='Please specify'
             value={data.referralOther}
-            onChange={(v) => update('referralOther', v)}
+            onChange={(event) => update('referralOther', event.target.value)}
             placeholder='Tell us how you found us…'
             type='text'
             aria-label='Please specify how you heard about us'
+            fullWidth
           />
         )}
 
         {/* Consent */}
         <div>
-          <Typography
-            variant='label' 
+          <label
             style={{
               display: 'flex',
               alignItems: 'flex-start',
@@ -273,7 +269,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               cursor: 'pointer',
             }}
           >
-            <FormInput
+            <Input
               type='checkbox'
               checked={data.consent}
               onChange={(e) => update('consent', e.target.checked)}
@@ -309,10 +305,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                 <span className='sr-only'> (opens in new window)</span>
               </a>{' '}
               for more info on how we use your data.{' '}
-              <span
-                aria-hidden='true'
-                style={{ color: theme.palette.redDark }}
-              >
+              <span aria-hidden='true' style={{ color: theme.palette.redDark }}>
                 *
               </span>
             </Typography>
@@ -348,19 +341,23 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
       <div className='flex justify-between mt-6'>
         <FormButton
           variant='secondary'
-          text='← Back'
           onClick={onBack}
           size='medium'
           disabled={isLoading}
-        />
+          type='button'
+        >
+          ← Back
+        </FormButton>
         <FormButton
           variant='primary'
-          text={isLoading ? 'Opening calendar…' : 'Schedule a time →'}
           onClick={handleSchedule}
           size='medium'
           disabled={isLoading}
           aria-busy={isLoading}
-        />
+          type='button'
+        >
+          {isLoading ? 'Opening calendar…' : 'Schedule a time →'}
+        </FormButton>
       </div>
     </div>
   );
