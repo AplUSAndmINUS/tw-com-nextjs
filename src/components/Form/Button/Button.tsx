@@ -92,7 +92,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...restProps
     } = rest;
 
-    // Pointer-based handlers — only fire for mouse input to prevent iOS stuck-hover
+    // Pointer-based hover stays mouse-only to avoid iOS stuck-hover.
+    // Press interactions should still work for touch and pen input.
     const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>) => {
       if (e.pointerType !== 'mouse') return;
       if (!disabled && !loading) setIsHovered(true);
@@ -109,16 +110,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
-      if (e.pointerType !== 'mouse') return;
       if (!disabled && !loading) setIsActive(true);
-      consumerOnMouseDown?.(e as React.MouseEvent<HTMLButtonElement>);
+      if (e.pointerType === 'mouse') {
+        consumerOnMouseDown?.(e as React.MouseEvent<HTMLButtonElement>);
+      }
       consumerOnPointerDown?.(e);
     };
 
     const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
-      if (e.pointerType !== 'mouse') return;
       setIsActive(false);
-      consumerOnMouseUp?.(e as React.MouseEvent<HTMLButtonElement>);
+      if (e.pointerType === 'mouse') {
+        consumerOnMouseUp?.(e as React.MouseEvent<HTMLButtonElement>);
+      }
       consumerOnPointerUp?.(e);
     };
 
