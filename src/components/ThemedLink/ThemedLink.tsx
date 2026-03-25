@@ -7,10 +7,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { LinkProps } from 'next/link';
 
-interface ThemedLinkProps extends Omit<LinkProps, 'href'> {
+interface ThemedLinkProps
+  extends
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
+    Omit<LinkProps, 'href'> {
   href: string;
-  target?: string;
-  rel?: string;
   children: React.ReactNode;
   className?: string;
   isFooter?: boolean; // New prop to indicate if this is a footer link
