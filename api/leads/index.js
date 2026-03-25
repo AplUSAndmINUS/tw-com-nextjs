@@ -33,10 +33,10 @@
 /* Import consts */
 const https = require('https');
 const crypto = require('crypto');
-const { Client } = require('@microsoft/microsoft-graph-client');
-require('isomorphic-fetch');
-const { DefaultAzureCredential } = require('@azure/identity');
-const { QueueServiceClient } = require('@azure/storage-queue');
+// require('isomorphic-fetch');
+// const { Client } = require('@microsoft/microsoft-graph-client');
+// const { DefaultAzureCredential } = require('@azure/identity');
+// const { QueueServiceClient } = require('@azure/storage-queue');
 
 /* Load configuration from environment variables for Azure and SharePoint */
 const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
