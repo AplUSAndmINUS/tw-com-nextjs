@@ -104,13 +104,12 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
         style={buttonStyles}
         className={className}
       >
-        {isHomePage ||
-          (isHero && (
-            <FluentIcon
-              iconName={CalendarLtr28Regular}
-              style={{ marginRight: '0.5rem' }}
-            />
-          ))}
+        {(isHomePage || isHero) && (
+          <FluentIcon
+            iconName={CalendarLtr28Regular}
+            style={{ marginRight: '0.5rem' }}
+          />
+        )}
         Book a Consultation
       </FormButton>
       <ConsultationStepper

@@ -8,7 +8,7 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
-import { FormButton, FormSelect, Input } from '@/components/Form';
+import { Checkbox, FormButton, FormSelect, Input, Radio } from '@/components/Form';
 import { REFERRAL_OPTIONS } from './constants';
 import { MeetingLength, StepThreeData, SubmitStatus } from './types';
 
@@ -189,8 +189,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                   padding: `${theme.spacing.xs} 0`,
                 }}
               >
-                <Input
-                  type='radio'
+                <Radio
                   name='meeting-length'
                   value={value}
                   checked={data.preferredMeetingLength === value}
@@ -269,8 +268,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               cursor: 'pointer',
             }}
           >
-            <Input
-              type='checkbox'
+            <Checkbox
               checked={data.consent}
               onChange={(e) => update('consent', e.target.checked)}
               aria-label='Consent to be contacted and data storage'
@@ -278,9 +276,9 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               style={{
                 marginTop: '3px',
                 accentColor: theme.palette.themePrimary,
-                width: '18px',
-                height: '18px',
-                cursor: 'pointer',
+                width: '24px',
+                height: '24px',
+                cursor: 'pointer', 
                 flexShrink: 0,
               }}
             />
