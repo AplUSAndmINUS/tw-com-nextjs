@@ -59,6 +59,25 @@ function useImageLoadState(src: string | ImageProps['src']) {
   };
 }
 
+function mergeRefs<T>(
+  ...refs: Array<React.Ref<T> | undefined>
+): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (!ref) {
+        return;
+      }
+
+      if (typeof ref === 'function') {
+        ref(value);
+        return;
+      }
+
+      ref.current = value;
+    });
+  };
+}
+
 function LoadingOverlay({
   isVisible,
   overlayStyle,
@@ -111,6 +130,22 @@ export function LoadingImage({
   ...imageProps
 }: LoadingImageProps) {
   const { loadState, markLoaded, markError } = useImageLoadState(src);
+  const internalImageRef = React.useRef<HTMLImageElement | null>(null);
+
+  React.useEffect(() => {
+    const imageElement = internalImageRef.current;
+
+    if (!imageElement || !imageElement.complete) {
+      return;
+    }
+
+    if (imageElement.naturalWidth > 0) {
+      markLoaded();
+      return;
+    }
+
+    markError();
+  }, [src, markLoaded, markError]);
 
   return (
     <span
@@ -131,6 +166,7 @@ export function LoadingImage({
       />
       <Image
         {...imageProps}
+        ref={mergeRefs(internalImageRef, imageProps.ref)}
         src={src}
         fill={fill}
         onLoad={(event) => {
@@ -169,6 +205,22 @@ export function NativeLoadingImage({
 }: NativeLoadingImageProps) {
   const resolvedSrc = typeof src === 'string' ? src : '';
   const { loadState, markLoaded, markError } = useImageLoadState(resolvedSrc);
+  const internalImageRef = React.useRef<HTMLImageElement | null>(null);
+
+  React.useEffect(() => {
+    const imageElement = internalImageRef.current;
+
+    if (!imageElement || !imageElement.complete) {
+      return;
+    }
+
+    if (imageElement.naturalWidth > 0) {
+      markLoaded();
+      return;
+    }
+
+    markError();
+  }, [resolvedSrc, markLoaded, markError]);
 
   return (
     <span
@@ -189,6 +241,7 @@ export function NativeLoadingImage({
       />
       <img
         {...imageProps}
+        ref={mergeRefs(internalImageRef, imageProps.ref)}
         src={resolvedSrc}
         onLoad={(event) => {
           markLoaded();
