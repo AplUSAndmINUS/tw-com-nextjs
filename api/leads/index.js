@@ -172,6 +172,14 @@ const takeRateLimitToken = (ipAddress) => {
   };
 };
 
+// Normalize request bodies across Azure Functions runtimes that may or may not pre-parse JSON.
+const parseJsonBody = async (req) => {
+  const rawBody =
+    typeof req.body === 'string' ? req.body : ((await req.text?.()) ?? '');
+
+  return rawBody ? JSON.parse(rawBody) : req.body;
+};
+
 // Performs an HTTPS request, resolving with { statusCode, body } */
 const httpsRequest = (options, requestData) => {
   return new Promise((resolve, reject) => {
@@ -455,7 +463,22 @@ module.exports = async function (context, req) {
   }
 
   // Validate the input
-  const payload = req.body;
+  let payload;
+  try {
+    payload = await parseJsonBody(req);
+  } catch {
+    logWarn('Invalid request: malformed JSON body');
+    context.res = {
+      status: 400,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        error: 'Invalid request: missing or malformed JSON body',
+        requestId,
+      }),
+    };
+    return;
+  }
+
   if (!payload || typeof payload !== 'object') {
     logWarn('Invalid request: missing or malformed JSON body');
     context.res = {
