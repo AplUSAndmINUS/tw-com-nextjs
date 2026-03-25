@@ -220,7 +220,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
         </Typography>
       </div>
 
-      {/* Subheading — adopts interaction colour */}
+      {/* Subheading — stays text color for accessibility */}
       {subheading && (
         <Typography
           variant='h5'
