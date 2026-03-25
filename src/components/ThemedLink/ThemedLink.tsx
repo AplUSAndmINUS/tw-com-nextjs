@@ -57,12 +57,24 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
 
   // Underline only in high-contrast mode for accessibility; grayscale relies on color alone
   const shouldUnderline = theme.themeMode === 'high-contrast';
-  const defaultTextColor = isFooter
-    ? theme.colorNeutralForeground2
-    : theme.semanticColors.link.default;
-  const hoverTextColor = theme.semanticColors.link.hover;
+  const explicitTextColor = style?.color;
+  const explicitBackgroundColor = style?.backgroundColor;
+  const defaultTextColor =
+    explicitTextColor ??
+    (isFooter
+      ? theme.colorNeutralForeground2
+      : theme.semanticColors.link.default);
+  const hoverTextColor =
+    explicitTextColor ??
+    (isFooter
+      ? theme.colorNeutralForeground1
+      : theme.semanticColors.link.hover);
   const pressedBackgroundColor = defaultTextColor;
-  const pressedTextColor = theme.semanticColors.background.base;
+  const pressedTextColor =
+    typeof explicitBackgroundColor === 'string' &&
+    explicitBackgroundColor !== 'transparent'
+      ? explicitBackgroundColor
+      : theme.semanticColors.background.base;
   const baseTransform = style?.transform ? `${style.transform} ` : '';
   const interactiveTransform =
     isHovered && hoverScale

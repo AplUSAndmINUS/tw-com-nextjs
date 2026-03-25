@@ -139,7 +139,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
     <>
       {/* Optional badge — top-right corner */}
       {badge && (
-        <div
+        <Typography variant='label'
           style={{
             position: 'absolute',
             top: theme.spacing.s,
@@ -157,7 +157,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
           }}
         >
           {badge}
-        </div>
+        </Typography>
       )}
 
       {/* Accent line */}
@@ -220,14 +220,14 @@ export const BaseCard: React.FC<BaseCardProps> = ({
         </Typography>
       </div>
 
-      {/* Subheading — adopts interaction colour */}
+      {/* Subheading — stays text color for accessibility */}
       {subheading && (
         <Typography
           variant='h5'
           style={{
             fontSize: href ? '1rem' : '0.9375rem',
             lineHeight: 1.2,
-            color: currentColor,
+            color: theme.palette.neutralPrimary,
             marginBottom: theme.spacing.s,
             transition: 'color 0.2s ease',
           }}
@@ -285,18 +285,19 @@ export const BaseCard: React.FC<BaseCardProps> = ({
 
       {/* CTA text link */}
       {cta && (
-        <span
+        <Typography variant='label'
           style={{
             display: 'block',
             fontSize: '0.875rem',
             fontWeight: 600,
-            color: isHovered ? theme.palette.neutralPrimary : currentColor,
+            letterSpacing: '-0.01em',
+            color: currentColor,
             marginTop: theme.spacing.s,
             transition: 'color 0.2s ease',
           }}
         >
           {cta}
-        </span>
+        </Typography>
       )}
     </>
   );

@@ -149,6 +149,30 @@ due to Markdown limitation. The first heading in the content is hidden, and the 
   display: none;
 }
 
+/* Short landscape: 1366×768 desktop, iPad Air/Pro landscape, and similar
+   viewports where height is constrained (≤ 900 px) and width is ≥ 1024 px.
+   Reduce vertical spacing so content doesn't require excessive scrolling. */
+@media (min-width: 1024px) and (max-height: 900px) and (orientation: landscape) {
+  /* Reduce large top-margin utility classes used between page sections */
+  .mt-10 {
+    margin-top: 1.5rem;
+  }
+  .mt-8 {
+    margin-top: 1.25rem;
+  }
+  /* Reduce bottom padding on content wrappers */
+  .pb-8 {
+    padding-bottom: 1.25rem;
+  }
+  .pb-16 {
+    padding-bottom: 1.5rem;
+  }
+  /* Reduce flex / grid gaps inside page-level content */
+  .gap-8 {
+    gap: 1.25rem;
+  }
+}
+
 /* Ko-Fi widget: hidden by default, shown only on allowed pages via a body class.
    The body class is toggled by KoFiWidget.tsx so the hide rule is present from
    the very first paint — no flash of the widget on non-allowed pages.
