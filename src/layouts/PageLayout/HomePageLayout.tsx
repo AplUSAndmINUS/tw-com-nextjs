@@ -1,9 +1,9 @@
 'use client';
 
 import { ReactNode } from 'react';
-import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface HomePageLayoutProps {
   children: ReactNode;
@@ -42,7 +42,7 @@ export function HomePageLayout({
             {/* Left image pane - sticky, non-scrollable on desktop */}
             <aside className='lg:col-span-3 lg:h-full lg:overflow-hidden relative'>
               <div className='relative w-full h-64 lg:h-full'>
-                <Image
+                <LoadingImage
                   src={featureImage.src}
                   alt={featureImage.alt}
                   fill

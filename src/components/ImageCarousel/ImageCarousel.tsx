@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { GalleryItem } from '@/content/types';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface ImageCarouselProps {
   images: GalleryItem[];
@@ -62,7 +62,7 @@ export function ImageCarousel({
               aria-label={onImageClick ? 'View image fullscreen' : undefined}
               tabIndex={onImageClick ? 0 : -1}
             >
-              <Image
+              <LoadingImage
                 src={resolveUrl(current.url)}
                 alt={current.alt}
                 fill
@@ -128,7 +128,7 @@ export function ImageCarousel({
                   : undefined
               }
             >
-              <Image
+              <LoadingImage
                 src={resolveUrl(img.url)}
                 alt={img.alt}
                 fill

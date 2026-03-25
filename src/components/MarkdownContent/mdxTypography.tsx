@@ -8,8 +8,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import type { MDXComponents } from 'mdx/types';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 // ---------------------------------------------------------------------------
 // CSS Variables - automatically updated by FluentProvider
@@ -329,7 +329,7 @@ export const mdxComponents: MDXComponents = {
   img: ({ src, alt }) =>
     src ? (
       <span style={{ display: 'block', marginBottom: '1.25rem' }}>
-        <Image
+        <LoadingImage
           src={src}
           alt={alt ?? ''}
           width={800}

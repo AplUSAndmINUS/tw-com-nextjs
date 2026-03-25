@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { PodcastEpisode } from '@/content/types';
 import { ViewType } from '@/store';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -26,7 +26,7 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
         <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
           <div className='relative w-full aspect-square bg-gray-100 dark:bg-gray-800'>
             {episode.imageUrl ? (
-              <Image
+              <LoadingImage
                 src={episode.imageUrl}
                 alt={episode.title}
                 fill
@@ -96,7 +96,7 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
         <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
           <div className='relative flex-shrink-0 w-10 h-10 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800'>
             {episode.imageUrl ? (
-              <Image
+              <LoadingImage
                 src={episode.imageUrl}
                 alt={episode.title}
                 fill
@@ -147,7 +147,7 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
         {/* Thumbnail */}
         <div className='relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800'>
           {episode.imageUrl ? (
-            <Image
+            <LoadingImage
               src={episode.imageUrl}
               alt={episode.title}
               fill

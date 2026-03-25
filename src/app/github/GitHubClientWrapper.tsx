@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { format } from 'date-fns';
-import Image from 'next/image';
 import {
   ContentListingPage,
   FilterConfig,
 } from '@/components/ContentListingPage';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { GitHubRepo } from './types';
@@ -184,7 +184,7 @@ export function GitHubClientWrapper({
               >
                 {owner}
               </Typography>
-              <Image
+              <LoadingImage
                 src={`https://ghchart.rshah.org/${owner}`}
                 alt={`${owner} GitHub contributions`}
                 width={800}
