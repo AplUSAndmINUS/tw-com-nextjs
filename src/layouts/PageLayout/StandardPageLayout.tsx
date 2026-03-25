@@ -98,8 +98,8 @@ export function StandardPageLayout({
   if (hasMediaPane) {
     return (
       <SiteLayout showFooter={false} isContainedView>
-        <div className={containerClasses}>
-          <aside className={imagePaneClasses}>
+        <div className={containerClasses} suppressHydrationWarning>
+          <aside className={imagePaneClasses} suppressHydrationWarning>
             {mediaPane ??
               (featureImage ? (
                 <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
@@ -112,7 +112,11 @@ export function StandardPageLayout({
               ) : null)}
           </aside>
 
-          <div id='content-scroll-pane' className={contentPaneClasses}>
+          <div
+            id='content-scroll-pane'
+            className={contentPaneClasses}
+            suppressHydrationWarning
+          >
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col max-width-content'>
               <div className='md:w-full md:my-auto lg:pb-12'>{children}</div>
             </div>

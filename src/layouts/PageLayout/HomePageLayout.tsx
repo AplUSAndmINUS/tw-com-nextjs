@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 
 interface HomePageLayoutProps {
   children: ReactNode;
@@ -29,8 +30,11 @@ export function HomePageLayout({
   children,
   featureImage,
 }: HomePageLayoutProps) {
-  const { layoutPreference } = useAppTheme();
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const { layoutPreference, isHydrated } = useAppTheme();
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
 
   return (
     <SiteLayout isContainedView hideFooterOnMobile>

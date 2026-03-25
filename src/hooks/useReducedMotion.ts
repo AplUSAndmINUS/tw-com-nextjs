@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 
 /**
@@ -11,7 +12,32 @@ import { useUserPreferencesStore } from '@/store/userPreferencesStore';
  */
 export const useReducedMotion = () => {
   const { preferences } = useUserPreferencesStore();
+  const persistApi = useUserPreferencesStore.persist;
+  const [isHydrated, setIsHydrated] = React.useState(
+    persistApi?.hasHydrated?.() ?? true
+  );
   const [osPreference, setOsPreference] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!persistApi) {
+      setIsHydrated(true);
+      return;
+    }
+
+    const unsubscribeHydrate = persistApi.onHydrate(() => {
+      setIsHydrated(false);
+    });
+    const unsubscribeFinishHydration = persistApi.onFinishHydration(() => {
+      setIsHydrated(true);
+    });
+
+    setIsHydrated(persistApi.hasHydrated());
+
+    return () => {
+      unsubscribeHydrate();
+      unsubscribeFinishHydration();
+    };
+  }, [persistApi]);
 
   React.useLayoutEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -28,11 +54,14 @@ export const useReducedMotion = () => {
     };
   }, []);
 
-  const shouldReduceMotion = preferences.reducedMotion || osPreference;
+  const reducedMotionPreference = isHydrated
+    ? preferences.reducedMotion
+    : defaultUserPreferences.reducedMotion;
+  const shouldReduceMotion = reducedMotionPreference || osPreference;
 
   return {
     shouldReduceMotion,
-    userPreference: preferences.reducedMotion,
+    userPreference: reducedMotionPreference,
     osPreference,
   };
 };

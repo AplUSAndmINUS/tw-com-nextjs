@@ -26,6 +26,7 @@ import {
 } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { NavigationMenu } from './NavigationMenu';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
@@ -60,6 +61,7 @@ export function Header() {
     themeMode,
     setThemeMode,
     layoutPreference,
+    isHydrated,
     reducedTransparency,
   } = useAppTheme();
   const pathname = usePathname();
@@ -72,7 +74,10 @@ export function Header() {
   const { shouldReduceMotion } = useReducedMotion();
   const { authRequired, isAuthenticated } = useAccessControl();
 
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
 
   const isDark =
     themeMode === 'dark' ||
@@ -531,8 +536,6 @@ export function Header() {
                         ? 'Close settings'
                         : 'Open settings'
                     }
-                    aria-expanded={activeModal === 'settings'}
-                    aria-controls='settings-panel'
                   >
                     {activeModal === 'settings' ? (
                       <FluentIcon
@@ -593,8 +596,6 @@ export function Header() {
                   aria-label={
                     activeModal === 'menu' ? 'Close menu' : 'Open menu'
                   }
-                  aria-expanded={activeModal === 'menu'}
-                  aria-controls='navigation-menu'
                 >
                   {activeModal === 'menu' ? (
                     <FluentIcon

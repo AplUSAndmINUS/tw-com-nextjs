@@ -17,6 +17,7 @@ import type { NavItem, NavigationMenuProps } from './navigation.types';
 import { SocialLinks } from '../SocialLinks/SocialLinks';
 import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { Dismiss32Regular } from '@fluentui/react-icons';
 import LinktreeLogo from '@/assets/svgs/LinktreeLogo';
 
@@ -100,7 +101,7 @@ function NavigationItem({
 }
 
 export function NavigationMenu({ onClose }: NavigationMenuProps) {
-  const { theme, layoutPreference } = useAppTheme();
+  const { theme, layoutPreference, isHydrated } = useAppTheme();
   const { shouldReduceMotion } = useReducedMotion();
   const pathname = usePathname();
   const isMobileHook = useIsMobile();
@@ -116,7 +117,10 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
     setIsMounted(true);
   }, []);
 
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
   const textAlignment = isLeftHanded ? 'left' : 'right';
   const flexAlignment = isLeftHanded ? 'flex-start' : 'flex-end';
 
@@ -228,6 +232,8 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
             href='https://linktr.ee/aplusinflux'
             target='_blank'
             rel='noopener noreferrer'
+            aria-label='Visit Terence Waters on Linktree'
+            title='Visit Terence Waters on Linktree'
           >
             <LinktreeLogo />
           </a>
