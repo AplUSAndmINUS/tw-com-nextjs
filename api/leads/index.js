@@ -40,6 +40,7 @@ const CORS_BASE_HEADERS = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
+  Vary: 'Origin',
 };
 
 /** Maps frontend service keys to display labels in the SharePoint Leads List */
@@ -94,7 +95,7 @@ const getCorsHeaders = (origin, allowedOrigins) => {
 
   return {
     ...CORS_BASE_HEADERS,
-    'Access-Control-Allow-Origin': canReflectOrigin ? normalizedOrigin : '*',
+    'Access-Control-Allow-Origin': canReflectOrigin ? normalizedOrigin : 'null',
   };
 };
 
@@ -591,10 +592,8 @@ module.exports = async function (context, req) {
 
   // Get SharePoint and Azure credentials
   const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
-  const clientSecret =
-    process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET;
-  const tenantId =
-    process.env.ENTRAID_TENANT_ID;
+  const clientSecret = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET;
+  const tenantId = process.env.ENTRAID_TENANT_ID;
   const siteId = process.env.SHAREPOINT_SITE_ID;
   const listId = process.env.LEADS_LIST_ID;
   const queueConnStr = process.env.AZURE_QUEUE_CONNECTION_STRING;
