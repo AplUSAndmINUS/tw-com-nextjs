@@ -120,9 +120,11 @@ function LoadingOverlay({
         ...overlayStyle,
       }}
     >
-      <span role='status' aria-label={spinnerLabel}>
-        <Spinner size={spinnerSize} />
-      </span>
+      {isVisible ? (
+        <span role='status' aria-label={spinnerLabel}>
+          <Spinner size={spinnerSize} />
+        </span>
+      ) : null}
     </span>
   );
 }
