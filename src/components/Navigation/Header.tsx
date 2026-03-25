@@ -106,6 +106,8 @@ export function Header() {
   const currentPageTitle =
     breadcrumbItems[breadcrumbItems.length - 1]?.label ?? 'Home';
   const isHomePage = pathname === '/';
+  const isSettingsOpen = activeModal === 'settings';
+  const isMenuOpen = activeModal === 'menu';
 
   const handleThemeClick = () => {
     setHoveredButton(null);
@@ -521,34 +523,49 @@ export function Header() {
               !isHomePage &&
               !(authRequired && !isAuthenticated) && (
                 <div style={{ position: 'relative' }}>
-                  <button
-                    type='button'
-                    onClick={handleSettingsClick}
-                    onMouseEnter={() => setHoveredButton('settings')}
-                    onMouseLeave={() => setHoveredButton(null)}
-                    onBlur={() => setHoveredButton(null)}
-                    style={{
-                      ...buttonStyle,
-                      transform: getButtonTransform('settings'),
-                    }}
-                    aria-label={
-                      activeModal === 'settings'
-                        ? 'Close settings'
-                        : 'Open settings'
-                    }
-                  >
-                    {activeModal === 'settings' ? (
+                  {isSettingsOpen ? (
+                    <button
+                      type='button'
+                      onClick={handleSettingsClick}
+                      onMouseEnter={() => setHoveredButton('settings')}
+                      onMouseLeave={() => setHoveredButton(null)}
+                      onBlur={() => setHoveredButton(null)}
+                      style={{
+                        ...buttonStyle,
+                        transform: getButtonTransform('settings'),
+                      }}
+                      aria-label='Close settings'
+                      aria-haspopup='dialog'
+                      aria-expanded='true'
+                      aria-controls='settings-panel'
+                    >
                       <FluentIcon
                         iconName={DismissSquare32Regular}
                         color={theme.palette.neutralPrimary}
                       />
-                    ) : (
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      onClick={handleSettingsClick}
+                      onMouseEnter={() => setHoveredButton('settings')}
+                      onMouseLeave={() => setHoveredButton(null)}
+                      onBlur={() => setHoveredButton(null)}
+                      style={{
+                        ...buttonStyle,
+                        transform: getButtonTransform('settings'),
+                      }}
+                      aria-label='Open settings'
+                      aria-haspopup='dialog'
+                      aria-expanded='false'
+                      aria-controls='settings-panel'
+                    >
                       <FluentIcon
                         iconName={Settings32Regular}
                         color={theme.palette.neutralPrimary}
                       />
-                    )}
-                  </button>
+                    </button>
+                  )}
                   <span
                     style={{
                       position: 'absolute',
@@ -583,32 +600,49 @@ export function Header() {
             {/* Menu toggle */}
             {isMounted && !(authRequired && !isAuthenticated) && (
               <div style={{ position: 'relative' }}>
-                <button
-                  type='button'
-                  onClick={handleMenuClick}
-                  onMouseEnter={() => setHoveredButton('menu')}
-                  onMouseLeave={() => setHoveredButton(null)}
-                  onBlur={() => setHoveredButton(null)}
-                  style={{
-                    ...buttonStyle,
-                    transform: getButtonTransform('menu'),
-                  }}
-                  aria-label={
-                    activeModal === 'menu' ? 'Close menu' : 'Open menu'
-                  }
-                >
-                  {activeModal === 'menu' ? (
+                {isMenuOpen ? (
+                  <button
+                    type='button'
+                    onClick={handleMenuClick}
+                    onMouseEnter={() => setHoveredButton('menu')}
+                    onMouseLeave={() => setHoveredButton(null)}
+                    onBlur={() => setHoveredButton(null)}
+                    style={{
+                      ...buttonStyle,
+                      transform: getButtonTransform('menu'),
+                    }}
+                    aria-label='Close menu'
+                    aria-haspopup='dialog'
+                    aria-expanded='true'
+                    aria-controls='navigation-menu'
+                  >
                     <FluentIcon
                       iconName={DismissSquare32Regular}
                       color={theme.palette.neutralPrimary}
                     />
-                  ) : (
+                  </button>
+                ) : (
+                  <button
+                    type='button'
+                    onClick={handleMenuClick}
+                    onMouseEnter={() => setHoveredButton('menu')}
+                    onMouseLeave={() => setHoveredButton(null)}
+                    onBlur={() => setHoveredButton(null)}
+                    style={{
+                      ...buttonStyle,
+                      transform: getButtonTransform('menu'),
+                    }}
+                    aria-label='Open menu'
+                    aria-haspopup='dialog'
+                    aria-expanded='false'
+                    aria-controls='navigation-menu'
+                  >
                     <FluentIcon
                       iconName={Navigation32Regular}
                       color={theme.palette.neutralPrimary}
                     />
-                  )}
-                </button>
+                  </button>
+                )}
                 <span
                   style={{
                     position: 'absolute',

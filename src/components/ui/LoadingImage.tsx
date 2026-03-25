@@ -86,7 +86,7 @@ function mergeRefs<T>(
         return;
       }
 
-      ref.current = value;
+      (ref as React.MutableRefObject<T | null>).current = value;
     });
   };
 }
