@@ -63,11 +63,13 @@ export const ConsultationCTA: React.FC = () => {
             fontFamily: theme.typography.fonts.body.fontFamily,
             boxShadow: theme.shadows.button,
           }}
-          onMouseEnter={(e) => {
+          onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+            if (e.pointerType !== 'mouse') return;
             setButtonHovered(true);
             (e.currentTarget as HTMLElement).style.opacity = '0.9';
           }}
-          onMouseLeave={(e) => {
+          onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+            if (e.pointerType !== 'mouse') return;
             setButtonHovered(false);
             (e.currentTarget as HTMLElement).style.opacity = '1';
           }}
@@ -89,8 +91,12 @@ export const ConsultationCTA: React.FC = () => {
             transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}, border-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
             fontFamily: theme.typography.fonts.body.fontFamily,
           }}
-          onMouseEnter={() => setSecondaryHovered(true)}
-          onMouseLeave={() => setSecondaryHovered(false)}
+          onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+            if (e.pointerType === 'mouse') setSecondaryHovered(true);
+          }}
+          onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+            if (e.pointerType === 'mouse') setSecondaryHovered(false);
+          }}
         >
           Visit Fluxline.pro
         </Link>

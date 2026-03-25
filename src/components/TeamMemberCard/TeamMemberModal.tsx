@@ -144,12 +144,14 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
                       fontSize: '0.875rem',
                       fontWeight: theme.typography.fontWeights.semiBold,
                     }}
-                    onMouseEnter={(e) => {
+                    onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+                      if (e.pointerType !== 'mouse') return;
                       const el = e.currentTarget;
-                      el.style.backgroundColor = `${theme.palette.neutralQuaternary}90`; // Add some transparency on hover
+                      el.style.backgroundColor = `${theme.palette.neutralQuaternary}90`;
                       el.style.transform = 'translateY(-2px)';
                     }}
-                    onMouseLeave={(e) => {
+                    onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+                      if (e.pointerType !== 'mouse') return;
                       const el = e.currentTarget;
                       el.style.backgroundColor =
                         theme.palette.neutralQuaternaryAlt;

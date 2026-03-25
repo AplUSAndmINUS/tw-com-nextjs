@@ -68,7 +68,10 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            onMouseEnter={() => setIsFooterVisible(true)}
+            onPointerEnter={(e) => {
+              if (e.pointerType !== 'mouse') return;
+              setIsFooterVisible(true);
+            }}
             onClick={() => setIsFooterVisible(true)}
             className='hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-2 rounded-lg transition-all font-medium items-center justify-center'
             style={{
@@ -98,7 +101,10 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
             />
             <motion.footer
               {...animationProps}
-              onMouseLeave={() => setIsFooterVisible(false)}
+              onPointerLeave={(e) => {
+                if (e.pointerType !== 'mouse') return;
+                setIsFooterVisible(false);
+              }}
               id='footer-content'
               className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
               role='contentinfo'

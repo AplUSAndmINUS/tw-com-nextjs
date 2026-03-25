@@ -92,8 +92,8 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
           color: theme.palette.neutralPrimary,
           lineHeight: 1,
         }}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+        onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setShowTooltip(true); }}
+        onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setShowTooltip(false); }}
         onFocus={() => setShowTooltip(true)}
         onBlur={() => setShowTooltip(false)}
         onClick={handleToggleTooltip}
@@ -112,7 +112,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
       <div
         id={tooltipId}
         role='tooltip'
-        className='pointer-events-none absolute left-1/2 top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] max-w-xs -translate-x-1/2 rounded-lg px-4 py-2.5 md:left-full md:top-1/2 md:mt-0 md:ml-3 md:w-max md:-translate-y-1/2 md:translate-x-0'
+        className='pointer-events-none absolute left-full top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] max-w-xs -translate-x-1/2 rounded-lg px-4 py-2.5 md:top-1/2 md:mt-0 md:ml-3 md:w-max md:-translate-y-1/2 md:translate-x-0'
         style={{
           backgroundColor: theme.semanticColors.background.elevated,
           color: theme.semanticColors.text.primary,

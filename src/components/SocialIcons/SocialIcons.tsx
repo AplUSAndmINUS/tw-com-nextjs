@@ -67,8 +67,14 @@ export const SocialIcons: React.FC<SocialIconsProps> = ({
               href={item.url}
               target='_blank'
               rel='noreferrer noopener'
-              onMouseEnter={() => setHoveredIcon(item.url)}
-              onMouseLeave={() => setHoveredIcon(null)}
+              onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+                if (e.pointerType !== 'mouse') return;
+                setHoveredIcon(item.url);
+              }}
+              onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+                if (e.pointerType !== 'mouse') return;
+                setHoveredIcon(null);
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -28,8 +28,12 @@ export function AboutHeroCTAs() {
           fontFamily: theme.typography.fonts.body.fontFamily,
           boxShadow: theme.shadows.button,
         }}
-        onMouseEnter={() => setPrimaryHovered(true)}
-        onMouseLeave={() => setPrimaryHovered(false)}
+        onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+          if (e.pointerType === 'mouse') setPrimaryHovered(true);
+        }}
+        onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+          if (e.pointerType === 'mouse') setPrimaryHovered(false);
+        }}
       >
         Book a Consultation
       </Link>
@@ -48,8 +52,12 @@ export function AboutHeroCTAs() {
           transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}, border-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
           fontFamily: theme.typography.fonts.body.fontFamily,
         }}
-        onMouseEnter={() => setSecondaryHovered(true)}
-        onMouseLeave={() => setSecondaryHovered(false)}
+        onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+          if (e.pointerType === 'mouse') setSecondaryHovered(true);
+        }}
+        onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+          if (e.pointerType === 'mouse') setSecondaryHovered(false);
+        }}
       >
         Visit Fluxline.pro
       </Link>

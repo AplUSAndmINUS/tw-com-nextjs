@@ -174,12 +174,14 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
                 position: 'absolute',
                 left: theme.spacing.l,
               }}
-              onMouseEnter={(e) => {
+              onPointerEnter={(e: React.PointerEvent<HTMLButtonElement>) => {
+                if (e.pointerType !== 'mouse') return;
                 e.currentTarget.style.transform = 'scale(1.1)';
                 e.currentTarget.style.backgroundColor =
                   theme.palette.neutralLighter;
               }}
-              onMouseLeave={(e) => {
+              onPointerLeave={(e: React.PointerEvent<HTMLButtonElement>) => {
+                if (e.pointerType !== 'mouse') return;
                 e.currentTarget.style.transform = 'scale(1)';
                 e.currentTarget.style.backgroundColor =
                   theme.semanticColors.background.base;
@@ -245,12 +247,14 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
                 position: 'absolute',
                 right: theme.spacing.l,
               }}
-              onMouseEnter={(e) => {
+              onPointerEnter={(e: React.PointerEvent<HTMLButtonElement>) => {
+                if (e.pointerType !== 'mouse') return;
                 e.currentTarget.style.transform = 'scale(1.1)';
                 e.currentTarget.style.backgroundColor =
                   theme.palette.neutralLighter;
               }}
-              onMouseLeave={(e) => {
+              onPointerLeave={(e: React.PointerEvent<HTMLButtonElement>) => {
+                if (e.pointerType !== 'mouse') return;
                 e.currentTarget.style.transform = 'scale(1)';
                 e.currentTarget.style.backgroundColor =
                   theme.semanticColors.background.base;

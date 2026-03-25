@@ -48,8 +48,8 @@ function NavigationItem({
       style={{ textDecoration: 'none', width: '100%', display: 'block' }}
     >
       <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setIsHovered(true); }}
+        onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setIsHovered(false); }}
         style={{
           display: 'flex',
           alignItems: 'center',
