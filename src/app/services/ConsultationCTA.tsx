@@ -5,7 +5,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 
 export const ConsultationCTA: React.FC = () => {
-  const { theme, isDark } = useAppTheme();
+  const { theme } = useAppTheme();
 
   const isLightFamilyMode =
     theme.themeMode === 'light' ||
@@ -47,21 +47,12 @@ export const ConsultationCTA: React.FC = () => {
         </Typography>
         <ThemedLink
           href='/contact'
+          hoverScale={1.05}
           className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
           style={{
             backgroundColor: theme.semanticColors.link.default,
             color: theme.semanticColors.background.base,
             boxShadow: theme.shadows.button,
-          }}
-          onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
-            if (e.pointerType !== 'mouse') return;
-            (e.currentTarget as HTMLElement).style.opacity = '0.9';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
-          }}
-          onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
-            if (e.pointerType !== 'mouse') return;
-            (e.currentTarget as HTMLElement).style.opacity = '1';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
           }}
         >
           Book a Consultation
@@ -71,21 +62,12 @@ export const ConsultationCTA: React.FC = () => {
           href='https://fluxline.pro'
           target='_blank'
           rel='noopener noreferrer'
+          hoverScale={1.05}
           className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
           style={{
             border: `2px solid ${theme.semanticColors.border.emphasis}`,
             color: theme.semanticColors.text.primary,
             backgroundColor: 'transparent',
-          }}
-          onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
-            if (e.pointerType === 'mouse')
-              (e.currentTarget as HTMLElement).style.opacity = '0.9';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
-          }}
-          onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
-            if (e.pointerType === 'mouse')
-              (e.currentTarget as HTMLElement).style.opacity = '1';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
           }}
         >
           Visit Fluxline.pro
