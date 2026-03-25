@@ -191,7 +191,7 @@ export function LoadingImage({
         }}
         style={{
           ...style,
-          opacity: loadState === 'loaded' ? 1 : 0,
+          opacity: loadState === 'loading' ? 0 : 1,
           transition: appendOpacityTransition(
             style?.transition,
             fadeDurationMs
@@ -270,7 +270,7 @@ export function NativeLoadingImage({
         }}
         style={{
           ...style,
-          opacity: loadState === 'loaded' ? 1 : 0,
+          opacity: loadState === 'loading' ? 0 : 1,
           transition: appendOpacityTransition(
             style?.transition,
             fadeDurationMs

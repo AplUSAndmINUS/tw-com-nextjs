@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
+import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
-import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface ContentLayoutProps {
   children: ReactNode;
@@ -36,7 +36,7 @@ export function ContentLayout({
             {/* Feature image — sticky sidebar on md+ */}
             <aside className='md:col-span-3 md:sticky md:top-20'>
               <div className='relative w-full rounded-xl overflow-hidden shadow-lg aspect-[3/4]'>
-                <LoadingImage
+                <Image
                   src={featureImage.src}
                   alt={featureImage.alt}
                   fill
