@@ -23,6 +23,8 @@ export interface FormButtonProps {
   disabled?: boolean;
   /** Button type for forms */
   type?: 'button' | 'submit' | 'reset';
+  /** Additional class names */
+  className?: string;
 }
 
 /**
@@ -43,6 +45,7 @@ export const FormButton: React.FC<FormButtonProps> = ({
   fullWidth = false,
   style,
   children,
+  className,
   ...rest
 }) => {
   const getAppearance = (): FluentButtonProps['appearance'] => {
@@ -65,6 +68,7 @@ export const FormButton: React.FC<FormButtonProps> = ({
   return (
     <Button
       appearance={getAppearance()}
+      className={className}
       size={size}
       style={{
         width: fullWidth ? '100%' : undefined,
