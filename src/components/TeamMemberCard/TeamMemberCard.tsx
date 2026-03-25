@@ -65,7 +65,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
       <div
         {...interactionProps}
         onClick={
-          !isMobile || !isTablet ? () => setIsModalOpen(true) : undefined
+          !isMobile && !isTablet ? () => setIsModalOpen(true) : undefined
         }
         style={{
           display: 'flex',
