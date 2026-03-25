@@ -55,7 +55,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
     <div role='group' aria-labelledby='step1-heading'>
       <Typography
         variant='h3'
-        className='step1-heading'
+        id='step1-heading'
         style={{
           color: theme.palette.themePrimary,
           marginBottom: theme.spacing.xs,

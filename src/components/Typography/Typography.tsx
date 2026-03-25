@@ -61,6 +61,7 @@ interface TypographyProps {
   padding?: string;
   style?: React.CSSProperties;
   className?: string;
+  id?: string;
 }
 
 /**
@@ -68,6 +69,7 @@ interface TypographyProps {
  * Uses the extended theme system from fluentTheme.ts
  */
 export const Typography: React.FC<TypographyProps> = ({
+  id,
   variant,
   as,
   children,
