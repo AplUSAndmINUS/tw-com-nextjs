@@ -12,6 +12,7 @@ import {
   useWindowSize,
 } from '@/hooks/useMediaQuery';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
+import { NativeLoadingImage } from '@/components/ui/LoadingImage';
 import { Typography } from '../Typography';
 
 type ImageOrientation = 'portrait' | 'landscape' | 'square';
@@ -238,7 +239,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                         : theme.semanticColors.background.muted,
                     }}
                   >
-                    <img
+                    <NativeLoadingImage
                       src={card.imageUrl}
                       alt={card.imageAlt}
                       style={{
@@ -247,20 +248,22 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                         objectFit: 'cover',
                       }}
                     />
-                    <div
+                    <Typography
+                      variant='label'
                       style={{
                         position: 'absolute',
-                        bottom: 0,
-                        left: 0,
+                        bottom: '0.5rem',
+                        left: '0.5rem',
                         right: 0,
                         padding: theme.spacing.s1,
-                        background: 'rgba(0, 0, 0, 0.6)',
+                        background: 'rgba(0, 0, 0, 0.7)',
                         color: 'white',
                         fontSize: '0.875rem',
+                        fontWeight: 500,
                       }}
                     >
                       {card.imageText}
-                    </div>
+                    </Typography>
                   </div>
                 )}
                 <div
@@ -416,7 +419,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       aspectRatio: '1 / 1',
                     }}
                   >
-                    <img
+                    <NativeLoadingImage
                       src={card.imageUrl}
                       alt={card.imageAlt}
                       onLoad={handleImageLoad(card.id)}
@@ -596,7 +599,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                       backgroundColor: theme.semanticColors.background.muted,
                     }}
                   >
-                    <img
+                    <NativeLoadingImage
                       src={card.imageUrl}
                       alt={card.imageAlt}
                       onLoad={handleImageLoad(card.id)}

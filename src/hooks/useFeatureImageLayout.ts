@@ -7,6 +7,7 @@
  */
 
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 
 export interface FeatureImageLayoutOptions {
   containerClasses?: string;
@@ -23,8 +24,11 @@ export function useFeatureImageLayout({
   contentRightOffsetClasses = 'md:mr-[50%] lg:mr-[33.333333%]',
   contentLeftOffsetClasses = 'md:ml-[50%] lg:ml-[33.333333%]',
 }: FeatureImageLayoutOptions = {}) {
-  const { layoutPreference } = useAppTheme();
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const { layoutPreference, isHydrated } = useAppTheme();
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
 
   const fixedPaneSideClasses = isLeftHanded ? 'md:right-0' : 'md:left-0';
   const fixedContentOffsetClasses = isLeftHanded

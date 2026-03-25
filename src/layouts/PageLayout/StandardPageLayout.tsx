@@ -22,6 +22,8 @@ interface StandardPageLayoutProps {
   };
   /** Optional custom media pane rendered in place of the default feature image. */
   mediaPane?: ReactNode;
+  /** Forces the contained split-pane shell even if the custom media pane prop is not stable during hydration. */
+  hasMediaPane?: boolean;
   /** Optional layout overrides for the contained split-pane view. */
   layoutOptions?: FeatureImageLayoutOptions;
 }
@@ -60,6 +62,7 @@ export function StandardPageLayout({
   children,
   featureImage,
   mediaPane,
+  hasMediaPane = false,
   layoutOptions,
 }: StandardPageLayoutProps) {
   const [isMounted, setIsMounted] = useState(false);
@@ -71,7 +74,8 @@ export function StandardPageLayout({
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
-  const hasMediaPane = Boolean(featureImage || mediaPane);
+  const usesMediaPaneLayout =
+    hasMediaPane || Boolean(featureImage || mediaPane);
   const paneSizeClasses = isMobileLandscape
     ? 'md:w-1/4 xl:w-1/3'
     : 'md:w-[40%] lg:w-1/3';
@@ -95,11 +99,11 @@ export function StandardPageLayout({
   }, []);
 
   // Contained viewport layout with feature image
-  if (hasMediaPane) {
+  if (usesMediaPaneLayout) {
     return (
       <SiteLayout showFooter={false} isContainedView>
-        <div className={containerClasses}>
-          <aside className={imagePaneClasses}>
+        <div className={containerClasses} suppressHydrationWarning>
+          <aside className={imagePaneClasses} suppressHydrationWarning>
             {mediaPane ??
               (featureImage ? (
                 <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
@@ -112,7 +116,11 @@ export function StandardPageLayout({
               ) : null)}
           </aside>
 
-          <div id='content-scroll-pane' className={contentPaneClasses}>
+          <div
+            id='content-scroll-pane'
+            className={contentPaneClasses}
+            suppressHydrationWarning
+          >
             <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col max-width-content'>
               <div className='md:w-full md:my-auto lg:pb-12'>{children}</div>
             </div>

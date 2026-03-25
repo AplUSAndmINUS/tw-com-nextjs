@@ -158,9 +158,13 @@ export function ContentListingPage({
   const router = useRouter();
   const { theme } = useAppTheme();
   const { viewType, setViewType } = useContentFilterStore();
+  const persistApi = useContentFilterStore.persist;
   const isMobileHook = useIsMobile();
   const isTabletHook = useIsTablet();
   const [isMounted, setIsMounted] = React.useState(false);
+  const [isViewTypeHydrated, setIsViewTypeHydrated] = React.useState(
+    persistApi?.hasHydrated?.() ?? true
+  );
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobile = isMounted ? isMobileHook : false;
@@ -171,15 +175,43 @@ export function ContentListingPage({
     setIsMounted(true);
   }, []);
 
+  React.useEffect(() => {
+    if (!persistApi) {
+      setIsViewTypeHydrated(true);
+      return;
+    }
+
+    const unsubscribeHydrate = persistApi.onHydrate(() => {
+      setIsViewTypeHydrated(false);
+    });
+    const unsubscribeFinishHydration = persistApi.onFinishHydration(() => {
+      setIsViewTypeHydrated(true);
+    });
+
+    setIsViewTypeHydrated(persistApi.hasHydrated());
+
+    if (!persistApi.hasHydrated()) {
+      void persistApi.rehydrate();
+    }
+
+    return () => {
+      unsubscribeHydrate();
+      unsubscribeFinishHydration();
+    };
+  }, [persistApi]);
+
   // View type options for dropdown
   const viewOptions: SelectOption[] = [
     { value: 'grid', label: 'Grid View' },
     { value: 'small', label: 'Small Tile' },
     { value: 'large', label: 'Large Tile' },
   ];
+  const fallbackViewType = defaultCardType || 'grid';
   const resolvedViewType = showViewSelector
-    ? viewType
-    : defaultCardType || 'grid';
+    ? isViewTypeHydrated
+      ? viewType
+      : fallbackViewType
+    : fallbackViewType;
 
   // Ensure filters array is always defined
   const safeFilters = filters || [];
@@ -195,15 +227,25 @@ export function ContentListingPage({
   };
 
   React.useEffect(() => {
+    if (!isViewTypeHydrated) {
+      return;
+    }
+
     if (!showViewSelector) {
-      setViewType(defaultCardType || 'grid');
+      setViewType(fallbackViewType);
       return;
     }
 
     if (defaultCardType) {
       setViewType(defaultCardType);
     }
-  }, [defaultCardType, setViewType, showViewSelector]);
+  }, [
+    defaultCardType,
+    fallbackViewType,
+    isViewTypeHydrated,
+    setViewType,
+    showViewSelector,
+  ]);
 
   const filterSelectSize = isMobile ? 'small' : 'medium';
 
@@ -285,7 +327,7 @@ export function ContentListingPage({
               label='View'
               options={viewOptions}
               size={filterSelectSize}
-              value={viewType}
+              value={resolvedViewType}
               onChange={(e) =>
                 setViewType((e.target.value as ViewType) || 'grid')
               }

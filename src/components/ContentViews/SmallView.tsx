@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ContentItem } from '@/content/types';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface SmallViewProps {
   items: ContentItem[];
@@ -48,7 +48,7 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
               {/* Thumbnail */}
               {item.imageUrl && (
                 <div className='relative w-24 h-24 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden'>
-                  <Image
+                  <LoadingImage
                     src={item.imageUrl}
                     alt={item.imageAlt || item.title}
                     fill

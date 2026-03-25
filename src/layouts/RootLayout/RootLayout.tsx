@@ -59,14 +59,18 @@ export function RootLayout({
   const footerWrapperClassName = hideFooterOnMobile ? 'hidden md:block' : '';
 
   return (
-    <div className={containerClassName}>
+    <div className={containerClassName} suppressHydrationWarning>
       <a
         href='#main-content'
         className='hide-scrollbar sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
       >
         Skip to main content
       </a>
-      <main id='main-content' className={mainClassName}>
+      <main
+        id='main-content'
+        className={mainClassName}
+        suppressHydrationWarning
+      >
         <PageTransition duration={300} className={transitionClassName}>
           {children}
         </PageTransition>

@@ -23,6 +23,7 @@ import {
   VIDEO_TABS,
   formatDuration,
 } from '@/app/videos/types';
+import { NativeLoadingImage } from '@/components/ui/LoadingImage';
 
 /**
  * VideoCard Component
@@ -72,7 +73,7 @@ function VideoCard({
       {/* Thumbnail */}
       <div className='relative' style={{ paddingTop: '56.25%' }}>
         {video.thumbnailUrl && !imageError ? (
-          <img
+          <NativeLoadingImage
             src={video.thumbnailUrl}
             alt={video.title}
             className='absolute top-0 left-0 w-full h-full object-cover'

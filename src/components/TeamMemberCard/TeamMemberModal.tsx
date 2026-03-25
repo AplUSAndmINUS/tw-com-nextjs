@@ -6,11 +6,11 @@
  */
 
 import React from 'react';
-import Image from 'next/image';
 import { ContactCard24Regular } from '@fluentui/react-icons';
 import { Modal } from '@/components/Modal';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMember } from './TeamMemberCard';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
@@ -71,7 +71,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
           }}
         >
           {member.photo ? (
-            <Image
+            <LoadingImage
               src={member.photo}
               alt={`${member.name} - ${member.role}`}
               fill

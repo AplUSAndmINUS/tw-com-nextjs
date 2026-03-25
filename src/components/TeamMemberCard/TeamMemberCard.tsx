@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import Image from 'next/image';
 import {
   ArrowExpand28Regular,
   ContactCard24Regular,
 } from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMemberModal } from './TeamMemberModal';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
@@ -64,7 +64,9 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
     <>
       <div
         {...interactionProps}
-        onClick={!isMobile || !isTablet ? () => setIsModalOpen(true) : undefined}
+        onClick={
+          !isMobile && !isTablet ? () => setIsModalOpen(true) : undefined
+        }
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -98,7 +100,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           }}
         >
           {member.photo ? (
-            <Image
+            <LoadingImage
               src={member.photo}
               alt={`${member.name} - ${member.role}`}
               fill

@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink';
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import {
   useIsMobile,
   useIsMobileLandscape,
@@ -22,8 +23,12 @@ export default function HomePageClient() {
     setThemeMode,
     reducedTransparency,
     layoutPreference,
+    isHydrated,
   } = useAppTheme();
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
   const [animationStage, setAnimationStage] = useState(0);
 
   // Capture the original theme on component initialization to restore on unmount
@@ -94,7 +99,10 @@ export default function HomePageClient() {
     <PageLayout isHomePage>
       <section
         className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} ${isLargePortrait ? 'justify-end' : 'justify-end lg:justify-center'} h-full sm:px-4 md:px-6 lg:px-12`}
-        style={{ paddingBottom: isMobile || isTablet || isLargePortrait ? '80px' : undefined }}
+        style={{
+          paddingBottom:
+            isMobile || isTablet || isLargePortrait ? '80px' : undefined,
+        }}
       >
         {/* Translucent card container around text */}
         <div

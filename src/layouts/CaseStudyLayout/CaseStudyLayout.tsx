@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { Typography } from '@/components/Typography';
 import { useFeatureImageLayout } from '@/hooks/useFeatureImageLayout';

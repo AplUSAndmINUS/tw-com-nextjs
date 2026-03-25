@@ -15,6 +15,8 @@ interface PageLayoutProps {
   };
   /** Optional custom media pane rendered in place of the default feature image. */
   mediaPane?: ReactNode;
+  /** Forces the split-pane layout shell even if the custom media pane ReactNode is not stable during hydration. */
+  hasMediaPane?: boolean;
   /** Optional layout overrides for the contained split-pane view. */
   layoutOptions?: FeatureImageLayoutOptions;
 
@@ -71,6 +73,7 @@ export function PageLayout({
   children,
   featureImage,
   mediaPane,
+  hasMediaPane,
   layoutOptions,
   isHomePage = false,
 }: PageLayoutProps) {
@@ -80,6 +83,7 @@ export function PageLayout({
     <StandardPageLayout
       featureImage={featureImage}
       mediaPane={mediaPane}
+      hasMediaPane={hasMediaPane}
       layoutOptions={layoutOptions}
     >
       {children}

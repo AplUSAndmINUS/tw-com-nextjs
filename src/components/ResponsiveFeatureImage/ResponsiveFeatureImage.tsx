@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { Typography } from '@/components/Typography/Typography';
 import { useIsTablet, useIsDesktop } from '@/hooks';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface ResponsiveFeatureImageProps {
   src: string;
@@ -91,7 +91,7 @@ export function ResponsiveFeatureImage({
     <div
       className={`relative w-full rounded-xl overflow-hidden shadow-lg ${getAspectClass()}`}
     >
-      <Image
+      <LoadingImage
         src={src}
         alt={alt}
         fill

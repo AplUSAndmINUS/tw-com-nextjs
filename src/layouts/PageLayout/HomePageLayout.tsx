@@ -1,9 +1,10 @@
 'use client';
 
 import { ReactNode } from 'react';
-import Image from 'next/image';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { LoadingImage } from '@/components/ui/LoadingImage';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 
 interface HomePageLayoutProps {
   children: ReactNode;
@@ -29,8 +30,11 @@ export function HomePageLayout({
   children,
   featureImage,
 }: HomePageLayoutProps) {
-  const { layoutPreference } = useAppTheme();
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const { layoutPreference, isHydrated } = useAppTheme();
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
 
   return (
     <SiteLayout isContainedView hideFooterOnMobile>
@@ -42,7 +46,7 @@ export function HomePageLayout({
             {/* Left image pane - sticky, non-scrollable on desktop */}
             <aside className='lg:col-span-3 lg:h-full lg:overflow-hidden relative'>
               <div className='relative w-full h-64 lg:h-full'>
-                <Image
+                <LoadingImage
                   src={featureImage.src}
                   alt={featureImage.alt}
                   fill

@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { VideoItem } from '@/content/types';
 import { ViewType } from '@/store';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface VideoCardProps {
   video: VideoItem;
@@ -30,7 +30,7 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
         <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
           <div className='relative flex-shrink-0 w-16 h-10 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800'>
             {video.thumbnailUrl ? (
-              <Image
+              <LoadingImage
                 src={video.thumbnailUrl}
                 alt={video.title}
                 fill
@@ -79,7 +79,7 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
         <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-shadow'>
           <div className='relative w-full aspect-[16/10] bg-gray-100 dark:bg-gray-800'>
             {video.thumbnailUrl ? (
-              <Image
+              <LoadingImage
                 src={video.thumbnailUrl}
                 alt={video.title}
                 fill
@@ -167,7 +167,7 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow'>
         <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
           {video.thumbnailUrl ? (
-            <Image
+            <LoadingImage
               src={video.thumbnailUrl}
               alt={video.title}
               fill

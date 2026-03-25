@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 import { ContentItem } from '@/content/types';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
@@ -41,7 +41,7 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
             <Card className='h-full flex flex-col overflow-hidden'>
               {item.imageUrl && (
                 <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
-                  <Image
+                  <LoadingImage
                     src={item.imageUrl}
                     alt={item.imageAlt || item.title}
                     fill

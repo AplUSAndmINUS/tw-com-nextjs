@@ -318,6 +318,65 @@ function MyComponent() {
 
 Fixed-position elements with `backdrop-filter` and semi-transparent backgrounds can cause rendering issues on iOS Safari. Always provide opaque fallbacks or use the `reducedTransparency` pattern to ensure the Header and other fixed elements remain visible.
 
+### 7.6 — Hydration Safety For Persisted Preferences
+
+TW.com uses persisted Zustand preferences for theme mode, layout preference, reduced motion, reduced transparency, and other presentation-affecting settings. These preferences can cause full-page hydration mismatches if the client reads persisted values before hydration completes and renders different layout classes than the server.
+
+This is especially important for:
+
+- `layoutPreference` (`left-handed` vs `right-handed`) because it changes split-pane positioning, alignment, and motion direction
+- `themeMode` because it changes gradients, theme tokens, and dark-mode class application
+- `reducedMotion` because it changes Framer Motion output and transition timing
+- Any persisted content/view preference that changes rendered markup or layout structure
+
+**Required pattern:**
+
+- Keep persisted stores that affect SSR-visible layout/theme output on `skipHydration: true`
+- Rehydrate them centrally via `StoreHydrator` after mount
+- Use deterministic SSR defaults until hydration completes
+- Prefer `useAppTheme()` for render-time theme/layout/motion decisions instead of reading `useUserPreferencesStore()` directly in components
+- Use `isHydrated` from `useAppTheme()` together with `defaultUserPreferences` to compute resolved values during hydration
+
+**Implementation pattern:**
+
+```tsx
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
+
+function Example() {
+  const { layoutPreference, isHydrated } = useAppTheme();
+
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
+
+  return <div>{/* hydration-safe layout */}</div>;
+}
+```
+
+**Copilot rules:**
+
+- **Never** read persisted user preference values directly from `useUserPreferencesStore()` inside layout-critical render paths unless the component also handles hydration safely
+- **Always** use deterministic fallback values for `layoutPreference`, `themeMode`, `reducedMotion`, and similar persisted preferences until hydration completes
+- **Always** preserve the `defaultUserPreferences` export in `src/store/userPreferencesStore.ts` because it is the SSR fallback source of truth
+- **Always** preserve `StoreHydrator` rehydration for `userPreferencesStore` and other persisted stores that use `skipHydration: true`
+- **Do not** remove `suppressHydrationWarning` from shared layout wrappers such as `RootLayout`, `SiteLayout`, or split-pane `PageLayout` containers unless the entire server/client render path has been made deterministic without it
+- When updating left-handed/right-handed layout logic, verify that the server render and the first client render both resolve to the same default before persisted preferences are applied
+- When updating motion behavior, ensure `useReducedMotion` does not switch to a persisted user preference until hydration has completed
+
+**Affected files and patterns:**
+
+- `src/theme/hooks/useAppTheme.tsx` — exposes `isHydrated` and hydration-safe resolved preferences
+- `src/store/userPreferencesStore.ts` — defines `defaultUserPreferences` and persisted user preferences
+- `src/components/StoreHydrator/StoreHydrator.tsx` — performs one-time client rehydration
+- `src/hooks/useFeatureImageLayout.ts` — must use hydration-safe left/right layout resolution
+- `src/layouts/RootLayout/RootLayout.tsx` and `src/layouts/SiteLayout/SiteLayout.tsx` — shared wrappers for hydration-sensitive layout classes
+- `src/layouts/PageLayout/StandardPageLayout.tsx` — split-pane layout path most sensitive to left-handed hydration mismatches
+
+This rule exists because removing these safeguards has previously caused hydration failures across multiple routes such as `/services`, `/blog`, `/contact`, and other pages that use `PageLayout` with feature images.
+
 ---
 
 ## 8. Performance & Accessibility

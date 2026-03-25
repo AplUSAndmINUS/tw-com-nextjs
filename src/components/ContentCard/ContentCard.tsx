@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ContentItem } from '@/content/types';
 import { ViewType } from '@/store';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { LoadingImage } from '@/components/ui/LoadingImage';
 
 interface ContentCardProps {
   item: ContentItem;
@@ -52,7 +52,7 @@ function GridCard({
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
         {item.imageUrl && (
           <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
-            <Image
+            <LoadingImage
               src={item.imageUrl}
               alt={item.imageAlt ?? item.title}
               fill
@@ -128,7 +128,7 @@ function LargeCard({
       <article className='flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700 py-8'>
         {item.imageUrl && (
           <div className='relative flex-shrink-0 w-full md:w-64 aspect-video md:aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800'>
-            <Image
+            <LoadingImage
               src={item.imageUrl}
               alt={item.imageAlt ?? item.title}
               fill
@@ -196,7 +196,7 @@ function SmallCard({ item, href }: { item: ContentItem; href: string }) {
       <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
         {item.imageUrl && (
           <div className='relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800'>
-            <Image
+            <LoadingImage
               src={item.imageUrl}
               alt={item.imageAlt ?? item.title}
               fill

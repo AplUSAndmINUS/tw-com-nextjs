@@ -49,7 +49,11 @@ export function SiteLayout({
       showFooter={showFooter}
       hideFooterOnMobile={hideFooterOnMobile}
     >
-      <div className={backgroundClassName} style={backgroundStyle}>
+      <div
+        className={backgroundClassName}
+        style={backgroundStyle}
+        suppressHydrationWarning
+      >
         {children}
       </div>
     </RootLayout>

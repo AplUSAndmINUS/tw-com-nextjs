@@ -2,13 +2,14 @@
  * MDX Typography Components
  * =========================
  * Server-compatible typography components for MDX rendering.
- * Uses CSS variables directly (set by FluentProvider) without client-side hooks.
+ * Uses CSS variables directly (set by FluentProvider) without client-side hooks
+ * or client-only UI wrappers so MDX content stays server-renderable.
  * Matches the typography definitions from fluentTheme.ts.
  */
 
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { MDXComponents } from 'mdx/types';
 
 // ---------------------------------------------------------------------------
@@ -334,6 +335,8 @@ export const mdxComponents: MDXComponents = {
           alt={alt ?? ''}
           width={800}
           height={450}
+          sizes='100vw'
+          loading='lazy'
           role={alt ? undefined : 'none'}
           style={{ width: '100%', height: 'auto', borderRadius: '0.5rem' }}
           unoptimized

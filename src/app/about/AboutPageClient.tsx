@@ -52,6 +52,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   return (
     <PageLayout
       mediaPane={mediaPane}
+      hasMediaPane
       layoutOptions={{
         paneSizeClasses: 'md:w-[40%] lg:w-1/3',
         contentRightOffsetClasses: 'md:mr-[40%] lg:mr-[33.333333%]',

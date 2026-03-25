@@ -26,6 +26,7 @@ import {
 } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
+import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { NavigationMenu } from './NavigationMenu';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
@@ -60,6 +61,7 @@ export function Header() {
     themeMode,
     setThemeMode,
     layoutPreference,
+    isHydrated,
     reducedTransparency,
   } = useAppTheme();
   const pathname = usePathname();
@@ -72,7 +74,10 @@ export function Header() {
   const { shouldReduceMotion } = useReducedMotion();
   const { authRequired, isAuthenticated } = useAccessControl();
 
-  const isLeftHanded = layoutPreference === 'left-handed';
+  const resolvedLayoutPreference = isHydrated
+    ? layoutPreference
+    : defaultUserPreferences.layoutPreference;
+  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
 
   const isDark =
     themeMode === 'dark' ||
@@ -101,6 +106,8 @@ export function Header() {
   const currentPageTitle =
     breadcrumbItems[breadcrumbItems.length - 1]?.label ?? 'Home';
   const isHomePage = pathname === '/';
+  const isSettingsOpen = activeModal === 'settings';
+  const isMenuOpen = activeModal === 'menu';
 
   const handleThemeClick = () => {
     setHoveredButton(null);
@@ -516,36 +523,49 @@ export function Header() {
               !isHomePage &&
               !(authRequired && !isAuthenticated) && (
                 <div style={{ position: 'relative' }}>
-                  <button
-                    type='button'
-                    onClick={handleSettingsClick}
-                    onMouseEnter={() => setHoveredButton('settings')}
-                    onMouseLeave={() => setHoveredButton(null)}
-                    onBlur={() => setHoveredButton(null)}
-                    style={{
-                      ...buttonStyle,
-                      transform: getButtonTransform('settings'),
-                    }}
-                    aria-label={
-                      activeModal === 'settings'
-                        ? 'Close settings'
-                        : 'Open settings'
-                    }
-                    aria-expanded={activeModal === 'settings'}
-                    aria-controls='settings-panel'
-                  >
-                    {activeModal === 'settings' ? (
+                  {isSettingsOpen ? (
+                    <button
+                      type='button'
+                      onClick={handleSettingsClick}
+                      onMouseEnter={() => setHoveredButton('settings')}
+                      onMouseLeave={() => setHoveredButton(null)}
+                      onBlur={() => setHoveredButton(null)}
+                      style={{
+                        ...buttonStyle,
+                        transform: getButtonTransform('settings'),
+                      }}
+                      aria-label='Close settings'
+                      aria-haspopup='dialog'
+                      aria-expanded='true'
+                      aria-controls='settings-panel'
+                    >
                       <FluentIcon
                         iconName={DismissSquare32Regular}
                         color={theme.palette.neutralPrimary}
                       />
-                    ) : (
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      onClick={handleSettingsClick}
+                      onMouseEnter={() => setHoveredButton('settings')}
+                      onMouseLeave={() => setHoveredButton(null)}
+                      onBlur={() => setHoveredButton(null)}
+                      style={{
+                        ...buttonStyle,
+                        transform: getButtonTransform('settings'),
+                      }}
+                      aria-label='Open settings'
+                      aria-haspopup='dialog'
+                      aria-expanded='false'
+                      aria-controls='settings-panel'
+                    >
                       <FluentIcon
                         iconName={Settings32Regular}
                         color={theme.palette.neutralPrimary}
                       />
-                    )}
-                  </button>
+                    </button>
+                  )}
                   <span
                     style={{
                       position: 'absolute',
@@ -580,34 +600,49 @@ export function Header() {
             {/* Menu toggle */}
             {isMounted && !(authRequired && !isAuthenticated) && (
               <div style={{ position: 'relative' }}>
-                <button
-                  type='button'
-                  onClick={handleMenuClick}
-                  onMouseEnter={() => setHoveredButton('menu')}
-                  onMouseLeave={() => setHoveredButton(null)}
-                  onBlur={() => setHoveredButton(null)}
-                  style={{
-                    ...buttonStyle,
-                    transform: getButtonTransform('menu'),
-                  }}
-                  aria-label={
-                    activeModal === 'menu' ? 'Close menu' : 'Open menu'
-                  }
-                  aria-expanded={activeModal === 'menu'}
-                  aria-controls='navigation-menu'
-                >
-                  {activeModal === 'menu' ? (
+                {isMenuOpen ? (
+                  <button
+                    type='button'
+                    onClick={handleMenuClick}
+                    onMouseEnter={() => setHoveredButton('menu')}
+                    onMouseLeave={() => setHoveredButton(null)}
+                    onBlur={() => setHoveredButton(null)}
+                    style={{
+                      ...buttonStyle,
+                      transform: getButtonTransform('menu'),
+                    }}
+                    aria-label='Close menu'
+                    aria-haspopup='dialog'
+                    aria-expanded='true'
+                    aria-controls='navigation-menu'
+                  >
                     <FluentIcon
                       iconName={DismissSquare32Regular}
                       color={theme.palette.neutralPrimary}
                     />
-                  ) : (
+                  </button>
+                ) : (
+                  <button
+                    type='button'
+                    onClick={handleMenuClick}
+                    onMouseEnter={() => setHoveredButton('menu')}
+                    onMouseLeave={() => setHoveredButton(null)}
+                    onBlur={() => setHoveredButton(null)}
+                    style={{
+                      ...buttonStyle,
+                      transform: getButtonTransform('menu'),
+                    }}
+                    aria-label='Open menu'
+                    aria-haspopup='dialog'
+                    aria-expanded='false'
+                    aria-controls='navigation-menu'
+                  >
                     <FluentIcon
                       iconName={Navigation32Regular}
                       color={theme.palette.neutralPrimary}
                     />
-                  )}
-                </button>
+                  </button>
+                )}
                 <span
                   style={{
                     position: 'absolute',
