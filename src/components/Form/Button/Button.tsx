@@ -96,7 +96,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>) => {
       if (e.pointerType !== 'mouse') return;
       if (!disabled && !loading) setIsHovered(true);
-      consumerOnMouseEnter?.(e as unknown as React.MouseEvent<HTMLButtonElement>);
+      consumerOnMouseEnter?.(e as React.MouseEvent<HTMLButtonElement>);
       consumerOnPointerEnter?.(e);
     };
 
@@ -104,21 +104,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       if (e.pointerType !== 'mouse') return;
       setIsHovered(false);
       setIsActive(false);
-      consumerOnMouseLeave?.(e as unknown as React.MouseEvent<HTMLButtonElement>);
+      consumerOnMouseLeave?.(e as React.MouseEvent<HTMLButtonElement>);
       consumerOnPointerLeave?.(e);
     };
 
     const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
       if (e.pointerType !== 'mouse') return;
       if (!disabled && !loading) setIsActive(true);
-      consumerOnMouseDown?.(e as unknown as React.MouseEvent<HTMLButtonElement>);
+      consumerOnMouseDown?.(e as React.MouseEvent<HTMLButtonElement>);
       consumerOnPointerDown?.(e);
     };
 
     const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
       if (e.pointerType !== 'mouse') return;
       setIsActive(false);
-      consumerOnMouseUp?.(e as unknown as React.MouseEvent<HTMLButtonElement>);
+      consumerOnMouseUp?.(e as React.MouseEvent<HTMLButtonElement>);
       consumerOnPointerUp?.(e);
     };
 
