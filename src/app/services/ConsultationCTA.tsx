@@ -45,33 +45,34 @@ export const ConsultationCTA: React.FC = () => {
           If this service fits where you are right now, we can start with a
           focused consultation and define your next best move.
         </Typography>
-        <ThemedLink
-          href='/contact'
-          hoverScale={1.05}
-          className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
-          style={{
-            backgroundColor: theme.semanticColors.link.default,
-            color: theme.semanticColors.background.base,
-            boxShadow: theme.shadows.button,
-          }}
-        >
-          Book a Consultation
-        </ThemedLink>
-        &nbsp;&nbsp;&nbsp;
-        <ThemedLink
-          href='https://fluxline.pro'
-          target='_blank'
-          rel='noopener noreferrer'
-          hoverScale={1.05}
-          className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
-          style={{
-            border: `2px solid ${theme.semanticColors.border.emphasis}`,
-            color: theme.semanticColors.text.primary,
-            backgroundColor: 'transparent',
-          }}
-        >
-          Visit Fluxline.pro
-        </ThemedLink>
+        <div className='flex flex-wrap gap-4'>
+          <ThemedLink
+            href='/contact'
+            hoverScale={1.05}
+            className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
+            style={{
+              backgroundColor: theme.semanticColors.link.default,
+              color: theme.semanticColors.background.base,
+              boxShadow: theme.shadows.button,
+            }}
+          >
+            Book a Consultation
+          </ThemedLink>
+          <ThemedLink
+            href='https://fluxline.pro'
+            target='_blank'
+            rel='noopener noreferrer'
+            hoverScale={1.05}
+            className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
+            style={{
+              border: `2px solid ${theme.semanticColors.border.emphasis}`,
+              color: theme.semanticColors.text.primary,
+              backgroundColor: 'transparent',
+            }}
+          >
+            Visit Fluxline.pro
+          </ThemedLink>
+        </div>
       </section>
     </div>
   );
