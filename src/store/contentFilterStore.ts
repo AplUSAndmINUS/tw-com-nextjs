@@ -24,6 +24,7 @@ export const useContentFilterStore = create<ContentFilterState>()(
     }),
     {
       name: 'tw-content-filter-storage',
+      skipHydration: true,
     }
   )
 );
