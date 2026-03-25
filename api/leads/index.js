@@ -11,7 +11,7 @@
  * - ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET      — Entra ID app registration client secret
  * - ENTRAID_TENANT_ID                              — Azure AD tenant ID (GUID format)
  * - SHAREPOINT_SITE_ID                             — SharePoint site ID (GUID format)
- * - LEADS_LIST_ID                                  — SharePoint list ID for consultation leads
+ * - LEADS_LIST_ID or SHAREPOINT_LIST_ID            — SharePoint list ID for consultation leads
  *
  * Optional Environment Variables:
  * - LEAD_ALLOWED_ORIGINS                   — Comma-separated allowed browser origins
@@ -33,30 +33,6 @@
 /* Import consts */
 const https = require('https');
 const crypto = require('crypto');
-const { fieldset } = require('framer-motion/client');
-const { headers } = require('next/headers');
-// require('isomorphic-fetch');
-// const { Client } = require('@microsoft/microsoft-graph-client');
-// const { DefaultAzureCredential } = require('@azure/identity');
-// const { QueueServiceClient } = require('@azure/storage-queue');
-
-/* Load configuration from environment variables for Azure and SharePoint */
-const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
-const clientSecret = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET;
-const tenantId = process.env.ENTRAID_TENANT_ID;
-const sharepointSiteId = process.env.SHAREPOINT_SITE_ID;
-const leadsListId = process.env.LEADS_LIST_ID;
-
-/* Optional security and rate-limiting config */
-const allowedOrigins = process.env.LEAD_ALLOWED_ORIGINS
-  ? process.env.LEAD_ALLOWED_ORIGINS.split(',')
-  : [];
-const rateLimitWindowMs =
-  parseInt(process.env.LEAD_RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000; // 15 minutes
-const rateLimitMaxRequests =
-  parseInt(process.env.LEAD_RATE_LIMIT_MAX_REQUESTS) || 10;
-const azureQueueConnectionString = process.env.AZURE_QUEUE_CONNECTION_STRING;
-const leadQueueName = process.env.LEAD_QUEUE_NAME;
 
 /* Constants */
 
@@ -79,6 +55,7 @@ const SERVICE_LABELS = {
 const VALID_MEETING_LENGTHS = ['20', '30', '45'];
 const DEFAULT_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const DEFAULT_RATE_LIMIT_MAX_REQUESTS = 10;
+const DEFAULT_LEAD_QUEUE_NAME = 'lead-queue';
 const leadRateLimitStore = new Map(); // In-memory store for rate-limiting (IP address -> [timestamps])
 
 /** Helper Functions **/
@@ -161,7 +138,7 @@ const takeRateLimitToken = (ipAddress) => {
       ? maxRequests
       : DEFAULT_RATE_LIMIT_MAX_REQUESTS;
   const key = ipAddress || 'unknown';
-  const existing = leadRateLimitStore.get(key) || [];
+  const existing = leadRateLimitStore.get(key);
 
   if (!existing || now >= existing.resetTime) {
     leadRateLimitStore.set(key, {
@@ -336,7 +313,7 @@ const enqueuePayload = async (
   const accountKey = keyMatch[1];
   const endpoint = endpointMatch
     ? new URL(endpointMatch[1]).hostname
-    : `https://${accountName}.queue.core.windows.net`;
+    : `${accountName}.queue.core.windows.net`;
 
   // Build the request to create the queue if it doesn't exist (idempotent)
   const messageXml = `<QueueMessage><MessageText>${Buffer.from(JSON.stringify(payload)).toString('base64')}</MessageText></QueueMessage>`;
@@ -419,11 +396,12 @@ module.exports = async function (context, req) {
   if (req.method === 'OPTIONS') {
     if (!isAllowedOrigin(origin, allowedOrigins)) {
       logWarn(`CORS preflight request from disallowed origin: ${origin}`);
-      return {
+      context.res = {
         status: 403,
         headers: corsHeaders,
         body: JSON.stringify({ error: 'Forbidden origin' }),
       };
+      return;
     }
 
     context.res = { status: 204, headers: corsHeaders, body: '' }; // Default to No Content for non-POST requests
@@ -433,7 +411,7 @@ module.exports = async function (context, req) {
   // no GET commands should be accepted by this endpoint, only POST for lead submission
   if (req.method !== 'POST') {
     logWarn(`Rejected non-POST request: ${req.method}`);
-    return {
+    context.res = {
       status: 405,
       headers: corsHeaders,
       body: JSON.stringify({ error: 'Method Not Allowed' }),
@@ -591,11 +569,13 @@ module.exports = async function (context, req) {
 
   // Optionally store raw payload for audit
   const storeRawPayload = process.env.LEAD_STORE_RAW_PAYLOAD === 'true';
+  let rawPayloadLength = null;
   if (storeRawPayload) {
     // Redact sensitive-adjacent keys before storing
     const raw = { ...payload };
     delete raw.consent; // stored in ConsentGiven column
     const rawJson = JSON.stringify(raw);
+    rawPayloadLength = rawJson.length;
     // Only store if within a safe size limit; omit entirely rather than store malformed data
     if (rawJson.length <= 100000) {
       fields.RawPayload = rawJson;
@@ -606,126 +586,119 @@ module.exports = async function (context, req) {
     }
   }
 
-  log(`Storing raw payload with length ${rawJson.length} characters`);
+  if (rawPayloadLength !== null) {
+    log(`Storing raw payload with length ${rawPayloadLength} characters`);
+  }
 
   // Get SharePoint and Azure credentials
   const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
-  const clientSecret = process.env.ENTRAID_SP_CLIENT_SECRET;
-  const tenantId = process.env.ENTRAID_SP_TENANT_ID;
+  const clientSecret =
+    process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET ||
+    process.env.ENTRAID_SP_CLIENT_SECRET;
+  const tenantId =
+    process.env.ENTRAID_TENANT_ID || process.env.ENTRAID_SP_TENANT_ID;
   const siteId = process.env.SHAREPOINT_SITE_ID;
   const listId = process.env.LEADS_LIST_ID;
   const queueConnStr = process.env.AZURE_QUEUE_CONNECTION_STRING;
-  const queueName = process.env.LEAD_QUEUE_NAME;
+  const queueName = process.env.LEAD_QUEUE_NAME || DEFAULT_LEAD_QUEUE_NAME;
 
-    try {
-        const token = await getGraphToken(tenantId, clientId, clientSecret);
+  // If SharePoint config is missing, optionally queue the payload and accept the request.
+  if (!clientId || !clientSecret || !tenantId || !siteId || !listId) {
+    logWarn(
+      'Lead: SharePoint env vars not configured — accepted without persisting'
+    );
 
-        // if missing any data, warn, then push it to Azure Queue Storage if configured, otherwise accept without persisting
-        if (!clientId || !clientSecret || !tenantId || !siteId || !listId) {
-            logWarn(
-                'Lead: SharePoint env vars not configured — accepted without persisting'
-            );
+    if (queueConnStr) {
+      const queued = await enqueuePayload(
+        { ...fields, _requestId: requestId },
+        queueName,
+        queueConnStr,
+        log
+      );
 
-            if (queueConnStr) {
-                const queued = await enqueuePayload(
-                    { ...fields, _requestId: requestId },
-                    queueName,
-                    queueConnStr,
-                    log
-                );
-
-                if (queued) {
-                    context.res = {
-                        status: 202,
-                        headers: corsHeaders,
-                        body: JSON.stringify({
-                            success: true,
-                            requestId,
-                            note: 'accepted — queued because persistence is unavailable',
-                        }),
-                    };
-                    return;
-                }
-            }
-
-            context.res = {
-                status: 200,
-                headers: corsHeaders,
-                body: JSON.stringify({
-                    success: true,
-                    requestId,
-                    note: 'accepted but not persisted',
-                }),
-            };
-        }
-
-        // else, proceed with normal SharePoint item creation with retry logic
-        try {
-            log(`Lead: submitting fields — ${Object.keys(fields).join(', ')}`);
-            const token = await getGraphToken(tenantId, clientId, clientSecret);
-            const created = await createSharePointItemWithRetry(
-                token,
-                siteId,
-                listId,
-                fields,
-                log
-            );
-
-            log(`Lead: SharePoint item created — webUrl: ${created.webUrl || 'n/a'}`);
-
-            context.res = {
-                status: 200,
-                headers: corsHeaders,
-                body: JSON.stringify({
-                    success: true,
-                    requestId,
-                    itemUrl: created.webUrl || null,
-                }),
-            };
-        } catch (error) {
-            logError(`Lead: submission failed — ${error.message}`);
-
-            // On transient errors, attempt to queue the payload for later retry
-            if (error.transient && queueConnStr) {
-                const queued = await enqueuePayload(
-                    { ...fields, _requestId: requestId },
-                    queueName,
-                    queueConnStr,
-                    log
-                );
-
-                if (queued) {
-                    context.res = {
-                        status: 202,
-                        headers: corsHeaders,
-                        body: JSON.stringify({
-                            success: true,
-                            requestId,
-                            note: 'accepted — will be retried',
-                        }),
-                    };
-                    return;
-                }
-
-                context.res = {
-                    status: 500,
-                    headers: corsHeaders,
-                    body: JSON.stringify({
-                        error: 'An unexpected error occurred. Please try again.',
-                        requestId,
-                    }),
-                };
-                return;
-            } else {
-                context.res = {
-                    status: 500,
-                    headers: corsHeaders,
-                    body: JSON.stringify({
-                        error: 'An unexpected error occurred. Please try again.',
-                        requestId,
-                    }),
-                };
-            }
-        }
+      if (queued) {
+        context.res = {
+          status: 202,
+          headers: corsHeaders,
+          body: JSON.stringify({
+            success: true,
+            requestId,
+            note: 'accepted — queued because persistence is unavailable',
+          }),
+        };
+        return;
+      }
     }
+
+    context.res = {
+      status: 200,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        success: true,
+        requestId,
+        note: 'accepted but not persisted',
+      }),
+    };
+    return;
+  }
+
+  try {
+    log(`Lead: submitting fields — ${Object.keys(fields).join(', ')}`);
+    const token = await getGraphToken(tenantId, clientId, clientSecret);
+    const created = await createSharePointItemWithRetry(
+      token,
+      siteId,
+      listId,
+      fields,
+      log
+    );
+
+    log(`Lead: SharePoint item created — webUrl: ${created.webUrl || 'n/a'}`);
+
+    context.res = {
+      status: 200,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        success: true,
+        requestId,
+        itemUrl: created.webUrl || null,
+      }),
+    };
+    return;
+  } catch (error) {
+    logError(`Lead: submission failed — ${error.message}`);
+
+    // On transient errors, attempt to queue the payload for later retry.
+    if (error.isTransient && queueConnStr) {
+      const queued = await enqueuePayload(
+        { ...fields, _requestId: requestId },
+        queueName,
+        queueConnStr,
+        log
+      );
+
+      if (queued) {
+        context.res = {
+          status: 202,
+          headers: corsHeaders,
+          body: JSON.stringify({
+            success: true,
+            requestId,
+            note: 'accepted — will be retried',
+          }),
+        };
+        return;
+      }
+    }
+
+    context.res = {
+      status: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        error: 'An unexpected error occurred. Please try again.',
+        requestId,
+      }),
+    };
+    return;
+  }
 };
