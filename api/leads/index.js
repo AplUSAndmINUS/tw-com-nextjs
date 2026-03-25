@@ -568,8 +568,6 @@ module.exports = async function (context, req) {
     ServicesSelected: serviceLabels,
     AnswersJSON: JSON.stringify(payload.answers || {}),
     PreferredMeetingLength: String(payload.preferredMeetingLength || ''),
-    TidyCalBookingID: payload.tidycalBookingId || '',
-    ZoomLink: payload.zoomLink || '',
     ReferralSource: payload.referralSource || '',
     ConsentGiven: true,
     // Date and Time — ISO 8601, no milliseconds
