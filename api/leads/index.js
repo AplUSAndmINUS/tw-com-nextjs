@@ -34,6 +34,7 @@
 const https = require('https');
 const crypto = require('crypto');
 const { fieldset } = require('framer-motion/client');
+const { headers } = require('next/headers');
 // require('isomorphic-fetch');
 // const { Client } = require('@microsoft/microsoft-graph-client');
 // const { DefaultAzureCredential } = require('@azure/identity');
@@ -403,15 +404,328 @@ const enqueuePayload = async (
 
 // Main header Azure Function handler
 module.exports = async function (context, req) {
-  context.log('JavaScript HTTP trigger function processed a request.');
+  const requestId = newRequestId();
+  const log = (message) => context.log(`[${requestId}] ${message}`);
+  log('Received request');
 
-  const name = req.query.name || (req.body && req.body.name);
-  const responseMessage = name
-    ? 'Hello, ' + name + '. This HTTP triggered function executed successfully.'
-    : 'This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.';
+  const logWarn = (message) => context.log.warn(`[${requestId}] ${message}`);
+  const logError = (message) => context.log.error(`[${requestId}] ${message}`);
 
-  context.res = {
-    // status: 200, /* Defaults to 200 */
-    body: responseMessage,
+  const origin = req.headers.origin || req.headers.Origin || '';
+  const allowedOrigins = parseAllowedOrigins();
+  const corsHeaders = getCorsHeaders(origin, allowedOrigins);
+
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    if (!isAllowedOrigin(origin, allowedOrigins)) {
+      logWarn(`CORS preflight request from disallowed origin: ${origin}`);
+      return {
+        status: 403,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: 'Forbidden origin' }),
+      };
+    }
+
+    context.res = { status: 204, headers: corsHeaders, body: '' }; // Default to No Content for non-POST requests
+    return;
+  }
+
+  // no GET commands should be accepted by this endpoint, only POST for lead submission
+  if (req.method !== 'POST') {
+    logWarn(`Rejected non-POST request: ${req.method}`);
+    return {
+      status: 405,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
+    };
+    return;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Request protection — best-effort origin allowlist and rate limiting
+  // ---------------------------------------------------------------------------
+  if (!isAllowedOrigin(origin, allowedOrigins)) {
+    logWarn(`Rejected request from disallowed origin: ${origin}`);
+    context.res = {
+      status: 403,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'Forbidden origin' }),
+    };
+    return;
+  }
+
+  // begin lead submission processing
+  const clientIp = getClientIp(req);
+  const rateLimitResult = takeRateLimitToken(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    logWarn(
+      `Rate limit exceeded for IP ${clientIp}. Retry after ${rateLimitResult.retryAfterSeconds} seconds.`
+    );
+    context.res = {
+      status: 429,
+      headers: {
+        ...corsHeaders,
+        'Retry-After': String(rateLimitResult.retryAfterSeconds),
+      },
+      body: JSON.stringify({
+        error: 'Too Many Requests',
+        retryAfter: rateLimitResult.retryAfterSeconds,
+      }),
+    };
+    return;
+  }
+
+  // Validate the input
+  const payload = req.body;
+  if (!payload || typeof payload !== 'object') {
+    logWarn('Invalid request: missing or malformed JSON body');
+    context.res = {
+      status: 400,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        error: 'Invalid request: missing or malformed JSON body',
+        requestId,
+      }),
+    };
+    return;
+  }
+
+  // Review validation errors
+  const validationErrors = [];
+  if (
+    !payload.fullName ||
+    typeof payload.fullName !== 'string' ||
+    payload.fullName.trim().length < 2
+  ) {
+    validationErrors.push('fullName is required (minimum 2 characters).');
+  }
+
+  if (!payload.email || typeof payload.email !== 'string') {
+    validationErrors.push('email is required.');
+  } else if (!isValidEmail(payload.email)) {
+    validationErrors.push('email must be a valid email address.');
+  }
+
+  if (!Array.isArray(payload.services) || payload.services.length === 0) {
+    validationErrors.push('services must be a non-empty array.');
+  }
+
+  if (!payload.submittedAt || typeof payload.submittedAt !== 'string') {
+    validationErrors.push('submittedAt is required (ISO 8601 timestamp).');
+  }
+
+  if (!payload.preferredMeetingLength) {
+    validationErrors.push('preferredMeetingLength is required.');
+  } else if (
+    !VALID_MEETING_LENGTHS.includes(String(payload.preferredMeetingLength))
+  ) {
+    validationErrors.push(
+      `preferredMeetingLength must be one of: ${VALID_MEETING_LENGTHS.join(', ')}.`
+    );
+  }
+
+  // Consent must always be true
+  if (payload.consent !== true) {
+    validationErrors.push('consent must be true.');
+  }
+
+  if (validationErrors.length > 0) {
+    logWarn(`Validation failed: ${validationErrors.join(' ')}`);
+    context.res = {
+      status: 400,
+      headers: corsHeaders,
+      body: JSON.stringify({
+        error: 'Validation failed',
+        details: validationErrors,
+        requestId,
+      }),
+    };
+    return;
+  }
+
+  // If passed, build SharePoint field values
+  const serviceLabels = Array.isArray(payload.services)
+    ? payload.services.map((k) => SERVICE_LABELS[k] || k)
+    : [];
+
+  // Graph API v1.0 SharePoint list items — field value rules:
+  //   Choice (multi-select): array of strings (Graph API v1.0 documented format)
+  //   Choice (single-select): plain string
+  //   Yes/No: boolean true only (omit false — SharePoint defaults to false)
+  //   Date/Time: ISO 8601 without milliseconds, Z suffix
+  //   Text: omit empty strings rather than sending ""
+  const rawFields = {
+    Title: `${payload.fullName.trim()} - ${serviceLabels[0] || 'Enquiry'}`,
+    FullName: payload.fullName.trim(),
+    Email: payload.email.trim(),
+    Phone: payload.phone || '',
+    Company: payload.company || '',
+    // Multi-select Choice column — Graph API v1.0 requires the @odata.type annotation
+    // alongside the array, otherwise it returns invalidRequest 400.
+    'ServicesSelected@odata.type': 'Collection(Edm.String)',
+    ServicesSelected: serviceLabels,
+    AnswersJSON: JSON.stringify(payload.answers || {}),
+    PreferredMeetingLength: String(payload.preferredMeetingLength || ''),
+    TidyCalBookingID: payload.tidycalBookingId || '',
+    ZoomLink: payload.zoomLink || '',
+    ReferralSource: payload.referralSource || '',
+    ConsentGiven: true,
+    // Date and Time — ISO 8601, no milliseconds
+    SubmittedAt: (payload.submittedAt || new Date().toISOString()).replace(
+      /\.\d{3}Z$/,
+      'Z'
+    ),
+    Status: 'New',
+    // NotificationSent omitted — SharePoint Yes/No defaults to false; sending false explicitly
+    // can trigger invalidRequest on some tenants
   };
+
+  // Strip empty strings — Graph API returns 400 for empty string on some column types.
+  // Arrays (ServicesSelected) are kept as-is.
+  const fields = Object.fromEntries(
+    Object.entries(rawFields).filter(
+      ([, v]) => v !== '' && v !== null && v !== undefined
+    )
+  );
+
+  // Optionally store raw payload for audit
+  const storeRawPayload = process.env.LEAD_STORE_RAW_PAYLOAD === 'true';
+  if (storeRawPayload) {
+    // Redact sensitive-adjacent keys before storing
+    const raw = { ...payload };
+    delete raw.consent; // stored in ConsentGiven column
+    const rawJson = JSON.stringify(raw);
+    // Only store if within a safe size limit; omit entirely rather than store malformed data
+    if (rawJson.length <= 100000) {
+      fields.RawPayload = rawJson;
+    } else {
+      logWarn(
+        'Lead: raw payload exceeds 100 KB limit — RawPayload field omitted'
+      );
+    }
+  }
+
+  log(`Storing raw payload with length ${rawJson.length} characters`);
+
+  // Get SharePoint and Azure credentials
+  const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
+  const clientSecret = process.env.ENTRAID_SP_CLIENT_SECRET;
+  const tenantId = process.env.ENTRAID_SP_TENANT_ID;
+  const siteId = process.env.SHAREPOINT_SITE_ID;
+  const listId = process.env.LEADS_LIST_ID;
+  const queueConnStr = process.env.AZURE_QUEUE_CONNECTION_STRING;
+  const queueName = process.env.LEAD_QUEUE_NAME;
+
+    try {
+        const token = await getGraphToken(tenantId, clientId, clientSecret);
+
+        // if missing any data, warn, then push it to Azure Queue Storage if configured, otherwise accept without persisting
+        if (!clientId || !clientSecret || !tenantId || !siteId || !listId) {
+            logWarn(
+                'Lead: SharePoint env vars not configured — accepted without persisting'
+            );
+
+            if (queueConnStr) {
+                const queued = await enqueuePayload(
+                    { ...fields, _requestId: requestId },
+                    queueName,
+                    queueConnStr,
+                    log
+                );
+
+                if (queued) {
+                    context.res = {
+                        status: 202,
+                        headers: corsHeaders,
+                        body: JSON.stringify({
+                            success: true,
+                            requestId,
+                            note: 'accepted — queued because persistence is unavailable',
+                        }),
+                    };
+                    return;
+                }
+            }
+
+            context.res = {
+                status: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    success: true,
+                    requestId,
+                    note: 'accepted but not persisted',
+                }),
+            };
+        }
+
+        // else, proceed with normal SharePoint item creation with retry logic
+        try {
+            log(`Lead: submitting fields — ${Object.keys(fields).join(', ')}`);
+            const token = await getGraphToken(tenantId, clientId, clientSecret);
+            const created = await createSharePointItemWithRetry(
+                token,
+                siteId,
+                listId,
+                fields,
+                log
+            );
+
+            log(`Lead: SharePoint item created — webUrl: ${created.webUrl || 'n/a'}`);
+
+            context.res = {
+                status: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    success: true,
+                    requestId,
+                    itemUrl: created.webUrl || null,
+                }),
+            };
+        } catch (error) {
+            logError(`Lead: submission failed — ${error.message}`);
+
+            // On transient errors, attempt to queue the payload for later retry
+            if (error.transient && queueConnStr) {
+                const queued = await enqueuePayload(
+                    { ...fields, _requestId: requestId },
+                    queueName,
+                    queueConnStr,
+                    log
+                );
+
+                if (queued) {
+                    context.res = {
+                        status: 202,
+                        headers: corsHeaders,
+                        body: JSON.stringify({
+                            success: true,
+                            requestId,
+                            note: 'accepted — will be retried',
+                        }),
+                    };
+                    return;
+                }
+
+                context.res = {
+                    status: 500,
+                    headers: corsHeaders,
+                    body: JSON.stringify({
+                        error: 'An unexpected error occurred. Please try again.',
+                        requestId,
+                    }),
+                };
+                return;
+            } else {
+                context.res = {
+                    status: 500,
+                    headers: corsHeaders,
+                    body: JSON.stringify({
+                        error: 'An unexpected error occurred. Please try again.',
+                        requestId,
+                    }),
+                };
+            }
+        }
+    }
 };
