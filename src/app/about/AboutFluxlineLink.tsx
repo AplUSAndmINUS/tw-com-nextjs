@@ -19,8 +19,12 @@ export function AboutFluxlineLink() {
         textDecoration: 'underline',
         transition: `color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
+        if (e.pointerType === 'mouse') setHovered(true);
+      }}
+      onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
+        if (e.pointerType === 'mouse') setHovered(false);
+      }}
     >
       Fluxline Resonance Group
     </a>

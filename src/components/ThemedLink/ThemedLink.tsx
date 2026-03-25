@@ -61,8 +61,8 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
       rel={rel}
       className={className}
       style={mergedStyles}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setIsHovered(true); }}
+      onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setIsHovered(false); }}
       {...linkProps}
     >
       {children}

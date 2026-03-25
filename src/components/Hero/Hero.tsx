@@ -158,16 +158,16 @@ export const Hero: React.FC<HeroProps> = ({
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    theme.semanticColors.background.base;
+                onPointerEnter={(e: React.PointerEvent<HTMLDivElement>) => {
+                  if (e.pointerType !== 'mouse') return;
+                  e.currentTarget.style.backgroundColor = theme.semanticColors.background.base;
                   e.currentTarget.style.borderColor = accentColor;
                   e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
                 }}
-                onMouseLeave={(e) => {
+                onPointerLeave={(e: React.PointerEvent<HTMLDivElement>) => {
+                  if (e.pointerType !== 'mouse') return;
                   e.currentTarget.style.backgroundColor = controlSurfaceColor;
-                  e.currentTarget.style.borderColor =
-                    theme.semanticColors.border.default;
+                  e.currentTarget.style.borderColor = theme.semanticColors.border.default;
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >

@@ -92,8 +92,8 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
           color: theme.palette.neutralPrimary,
           lineHeight: 1,
         }}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+        onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setShowTooltip(true); }}
+        onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setShowTooltip(false); }}
         onFocus={() => setShowTooltip(true)}
         onBlur={() => setShowTooltip(false)}
         onClick={handleToggleTooltip}

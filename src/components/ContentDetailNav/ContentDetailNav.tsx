@@ -45,8 +45,8 @@ export function ContentDetailNav({
       {/* Previous Entry */}
       <div
         className='flex-1 min-w-0'
-        onMouseEnter={() => setPrevHovered(true)}
-        onMouseLeave={() => setPrevHovered(false)}
+        onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setPrevHovered(true); }}
+        onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setPrevHovered(false); }}
       >
         {prevHref ? (
           <ThemedLink
@@ -81,8 +81,8 @@ export function ContentDetailNav({
       {/* Back to Listing */}
       {listingPath && listingLabel && (
         <span
-          onMouseEnter={() => setBackHovered(true)}
-          onMouseLeave={() => setBackHovered(false)}
+          onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setBackHovered(true); }}
+          onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setBackHovered(false); }}
           className='flex-shrink-0'
         >
           <ThemedLink
@@ -114,8 +114,8 @@ export function ContentDetailNav({
       {/* Next Entry */}
       <div
         className='flex-1 min-w-0 text-right'
-        onMouseEnter={() => setNextHovered(true)}
-        onMouseLeave={() => setNextHovered(false)}
+        onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setNextHovered(true); }}
+        onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setNextHovered(false); }}
       >
         {nextHref ? (
           <ThemedLink

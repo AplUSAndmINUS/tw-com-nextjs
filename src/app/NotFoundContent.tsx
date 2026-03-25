@@ -42,8 +42,8 @@ export function NotFoundContent() {
           href='/'
           className='inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-colors min-w-[200px]'
           style={primaryBtnStyle}
-          onMouseEnter={() => setHomeBtnHovered(true)}
-          onMouseLeave={() => setHomeBtnHovered(false)}
+          onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHomeBtnHovered(true); }}
+          onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHomeBtnHovered(false); }}
         >
           ← Go to Home
         </Link>
@@ -51,8 +51,8 @@ export function NotFoundContent() {
           href='/content-hub'
           className='inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 font-semibold transition-colors min-w-[200px]'
           style={outlineBtnStyle}
-          onMouseEnter={() => setContentBtnHovered(true)}
-          onMouseLeave={() => setContentBtnHovered(false)}
+          onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setContentBtnHovered(true); }}
+          onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setContentBtnHovered(false); }}
         >
           Browse Content Hub
         </Link>
@@ -88,8 +88,8 @@ export function NotFoundContent() {
                   ? { borderColor: theme.semanticColors.link.default }
                   : undefined
               }
-              onMouseEnter={() => setHoveredCard(href)}
-              onMouseLeave={() => setHoveredCard(null)}
+              onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredCard(href); }}
+              onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredCard(null); }}
             >
               <Typography variant='h4' className='font-semibold mb-1'>
                 {label}
