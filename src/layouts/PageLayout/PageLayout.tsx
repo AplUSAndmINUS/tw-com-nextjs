@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { HomePageLayout } from './HomePageLayout';
 import { StandardPageLayout } from './StandardPageLayout';
@@ -21,7 +23,7 @@ interface PageLayoutProps {
 }
 
 /**
- * PageLayout — Server-first layout router
+ * PageLayout — Client-side layout router
  *
  * Intelligently delegates to specialized layout components based on page type:
  *
@@ -33,7 +35,7 @@ interface PageLayoutProps {
  *     - Special animations and interactions
  *
  * → StandardPageLayout (isHomePage = false, default):
- *     Server/Client hybrid with:
+ *     Client layout shell used by server-rendered route pages with:
  *     - Normal or contained viewport based on featureImage
  *     - Standard scrolling behavior
  *     - Optional feature image with fixed positioning
@@ -41,9 +43,10 @@ interface PageLayoutProps {
  *
  * Performance Benefits:
  * ---------------------
- * This separation keeps standard pages server-rendered when possible and avoids
- * unnecessary client-side resize listeners and JavaScript when homepage-specific
- * features aren't needed.
+ * Route pages can remain server components for SSG/metadata/SEO while this
+ * client-side router handles viewport-specific layout behavior. Splitting the
+ * homepage and standard page shells also avoids pulling homepage-only behavior
+ * into the standard page path.
  *
  * Usage:
  * ------
@@ -71,14 +74,9 @@ export function PageLayout({
   layoutOptions,
   isHomePage = false,
 }: PageLayoutProps) {
-  // Route to appropriate layout component
-  if (isHomePage) {
-    return (
-      <HomePageLayout featureImage={featureImage}>{children}</HomePageLayout>
-    );
-  }
-
-  return (
+  return isHomePage ? (
+    <HomePageLayout featureImage={featureImage}>{children}</HomePageLayout>
+  ) : (
     <StandardPageLayout
       featureImage={featureImage}
       mediaPane={mediaPane}

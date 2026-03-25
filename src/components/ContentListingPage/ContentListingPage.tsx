@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Typography } from '@/components/Typography';
 import { AdaptiveCardGrid, AdaptiveCard } from '@/components/AdaptiveCardGrid';
@@ -397,12 +397,25 @@ export function ContentListingPage({
             subtitle={emptyStateMessage}
           />
         ) : (
-          <AdaptiveCardGrid
-            cards={safeCards}
-            basePath={basePath}
-            viewType={resolvedViewType}
-            onCardClick={handleCardClick}
-          />
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={resolvedViewType}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -16 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.24,
+                ease: 'easeInOut',
+              }}
+            >
+              <AdaptiveCardGrid
+                cards={safeCards}
+                basePath={basePath}
+                viewType={resolvedViewType}
+                onCardClick={handleCardClick}
+              />
+            </motion.div>
+          </AnimatePresence>
         )}
       </div>
 

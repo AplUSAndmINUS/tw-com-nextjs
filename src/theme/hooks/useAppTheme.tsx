@@ -12,13 +12,18 @@
  * through FluentUI's useTheme() hook.
  */
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { IExtendedTheme, themeMap, ThemeMode } from '../fluentTheme';
-import { useUserPreferencesStore } from '@/store/userPreferencesStore';
+import {
+  defaultUserPreferences,
+  useUserPreferencesStore,
+} from '@/store/userPreferencesStore';
 
 export type { ThemeMode };
 
 export interface UseAppThemeReturn {
+  /** True once the persisted preferences store has rehydrated on the client */
+  isHydrated: boolean;
   /** Current theme mode */
   themeMode: ThemeMode;
   /** Current extended theme object */
@@ -64,12 +69,39 @@ export interface UseAppThemeReturn {
  */
 export function useAppTheme(): UseAppThemeReturn {
   const { preferences, setPreference } = useUserPreferencesStore();
+  const persistApi = useUserPreferencesStore.persist;
+  const [isHydrated, setIsHydrated] = useState(
+    persistApi?.hasHydrated?.() ?? true
+  );
 
-  const themeMode = preferences.themeMode;
-  const fontScale = preferences.fontScale;
-  const layoutPreference = preferences.layoutPreference;
-  const reducedMotion = preferences.reducedMotion;
-  const reducedTransparency = preferences.reducedTransparency;
+  useEffect(() => {
+    if (!persistApi) {
+      setIsHydrated(true);
+      return;
+    }
+
+    const unsubscribeHydrate = persistApi.onHydrate(() => {
+      setIsHydrated(false);
+    });
+    const unsubscribeFinishHydration = persistApi.onFinishHydration(() => {
+      setIsHydrated(true);
+    });
+
+    setIsHydrated(persistApi.hasHydrated());
+
+    return () => {
+      unsubscribeHydrate();
+      unsubscribeFinishHydration();
+    };
+  }, [persistApi]);
+
+  const resolvedPreferences = isHydrated ? preferences : defaultUserPreferences;
+
+  const themeMode = resolvedPreferences.themeMode;
+  const fontScale = resolvedPreferences.fontScale;
+  const layoutPreference = resolvedPreferences.layoutPreference;
+  const reducedMotion = resolvedPreferences.reducedMotion;
+  const reducedTransparency = resolvedPreferences.reducedTransparency;
 
   const theme = themeMap[themeMode] as IExtendedTheme;
 
@@ -129,6 +161,7 @@ export function useAppTheme(): UseAppThemeReturn {
   }, [isDark]);
 
   return {
+    isHydrated,
     themeMode,
     theme,
     setThemeMode,

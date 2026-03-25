@@ -8,6 +8,8 @@ interface RootLayoutProps {
   isContainedView?: boolean;
   /** If false, suppresses the default footer (for layouts that handle their own footer) */
   showFooter?: boolean;
+  /** If true, hides the shared footer on mobile while keeping it visible on md+ */
+  hideFooterOnMobile?: boolean;
 }
 
 /**
@@ -42,45 +44,38 @@ export function RootLayout({
   children,
   isContainedView = false,
   showFooter = true,
+  hideFooterOnMobile = false,
 }: RootLayoutProps) {
-  if (isContainedView) {
-    return (
-      <div className='flex flex-col h-screen overflow-hidden'>
-        <a
-          href='#main-content'
-          className='hide-scrollbar sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
-        >
-          Skip to main content
-        </a>
-        {/* Flex-1 makes main content fill remaining height */}
-        <main
-          id='main-content'
-          className='hide-scrollbar flex-1 overflow-y-auto overflow-x-hidden flex flex-col pt-[var(--site-header-height)]'
-        >
-          <PageTransition duration={300} className='flex-1 flex flex-col'>
-            {children}
-          </PageTransition>
-        </main>
-      </div>
-    );
-  }
+  const containerClassName = isContainedView
+    ? 'flex flex-col h-screen overflow-hidden'
+    : 'flex flex-col min-h-screen';
+  const mainClassName = [
+    'hide-scrollbar flex-1 pt-[var(--site-header-height)]',
+    isContainedView ? 'flex flex-col overflow-y-auto overflow-x-hidden' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+  const transitionClassName = isContainedView ? 'flex-1 flex flex-col' : '';
+  const footerWrapperClassName = hideFooterOnMobile ? 'hidden md:block' : '';
 
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className={containerClassName}>
       <a
         href='#main-content'
         className='hide-scrollbar sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
       >
         Skip to main content
       </a>
-      {/* Shared header offset keeps content aligned with the responsive fixed header height. */}
-      <main
-        id='main-content'
-        className='hide-scrollbar flex-1 pt-[var(--site-header-height)]'
-      >
-        <PageTransition duration={300}>{children}</PageTransition>
+      <main id='main-content' className={mainClassName}>
+        <PageTransition duration={300} className={transitionClassName}>
+          {children}
+        </PageTransition>
       </main>
-      {showFooter && <Footer isCompact />}
+      {showFooter && (
+        <div className={footerWrapperClassName}>
+          <Footer isCompact />
+        </div>
+      )}
     </div>
   );
 }

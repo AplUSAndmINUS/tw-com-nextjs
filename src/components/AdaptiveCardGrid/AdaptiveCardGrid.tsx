@@ -119,15 +119,20 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
     },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    visible: (index: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: index * 0.06,
+        duration: 0.28,
+        ease: [0.22, 1, 0.36, 1] as const,
+      },
+    }),
   };
 
   const accentColor = theme.semanticColors.accent.teal;
@@ -188,10 +193,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           width: '100%',
         }}
       >
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           return (
             <motion.div
               key={card.id}
+              custom={index}
               variants={itemVariants}
               initial='hidden'
               animate='visible'
@@ -362,10 +368,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
           margin: '0 auto',
         }}
       >
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           return (
             <motion.div
               key={card.id}
+              custom={index}
               variants={itemVariants}
               initial='hidden'
               animate='visible'
@@ -538,10 +545,11 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
         width: '100%',
       }}
     >
-      {cards.map((card) => {
+      {cards.map((card, index) => {
         return (
           <motion.div
             key={card.id}
+            custom={index}
             variants={itemVariants}
             initial='hidden'
             animate='visible'
