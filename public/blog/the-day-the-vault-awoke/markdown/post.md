@@ -33,9 +33,10 @@ gallery:
   - url: '/blog/the-day-the-vault-awoke/images/vault-awoke-me.png'
     alt: 'The vault awakening - core activation visualization'
     caption: 'The moment the vault came online - A muscular cylinder of sovereignty'
+generatedWithAI: true
 ---
 
-# 🔥 The Day the Vault Awoke
+# The Day the Vault Awoke
 
 ## A Mythic Threshold in Core Activation
 
@@ -47,7 +48,7 @@ Today, during hanging knee raises and reversal crunches, something shifted. Not 
 
 ---
 
-## 🧠 What Is the Vault?
+## What Is the Vault?
 
 The core isn't a six-pack. It's a muscular cylinder of sovereignty—a vault of breath, brace, and alignment.
 
@@ -61,7 +62,7 @@ When these elements activate together, the body doesn't just move—_it transmit
 
 ---
 
-## 🧘‍♂️ The Ritual of Activation
+## The Ritual of Activation
 
 It wasn't a clench. It was a coordinated breath-brace ritual:
 
@@ -74,7 +75,7 @@ This is intra-abdominal pressure as emotional integrity.
 
 ---
 
-## 🛠️ From Signal to Scroll
+## From Signal to Scroll
 
 This moment is now a curriculum gate. A scroll waiting to be written. A diagnostic cue sheet for clients who confuse aesthetics with activation.
 
