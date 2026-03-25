@@ -18,7 +18,7 @@
  * - LEAD_RATE_LIMIT_WINDOW_MS              — Rate-limit window in ms (default: 900000)
  * - LEAD_RATE_LIMIT_MAX_REQUESTS           — Max requests per IP per window (default: 10)
  * - AZURE_QUEUE_CONNECTION_STRING          — Azure Storage connection string for fallback queue
- * - LEAD_QUEUE_NAME                        — Queue name for failed/transient submissions (default: lead-queue)
+ * - LEAD_QUEUE_NAME                        — Queue name for failed/transient submissions
  *
  * POST /api/leads
  * Body: LeadPayload (see ConsultationStepper/types.ts for structure)

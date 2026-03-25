@@ -6,24 +6,14 @@ import {
   ButtonProps as FluentButtonProps,
 } from '@fluentui/react-components';
 
-export interface FormButtonProps {
+export type FormButtonProps = Omit<FluentButtonProps, 'appearance' | 'size'> & {
   /** Button variant */
   variant?: 'primary' | 'secondary' | 'outline' | 'subtle' | 'transparent';
   /** Button size */
   size?: 'small' | 'medium' | 'large';
   /** Whether the button is full width */
   fullWidth?: boolean;
-  /** Button content */
-  children?: React.ReactNode;
-  /** Custom styles */
-  style?: React.CSSProperties;
-  /** Click handler */
-  onClick?: () => void;
-  /** Whether the button is disabled */
-  disabled?: boolean;
-  /** Button type for forms */
-  type?: 'button' | 'submit' | 'reset';
-}
+};
 
 /**
  * FormButton Component
@@ -43,6 +33,7 @@ export const FormButton: React.FC<FormButtonProps> = ({
   fullWidth = false,
   style,
   children,
+  className,
   ...rest
 }) => {
   const getAppearance = (): FluentButtonProps['appearance'] => {
@@ -64,13 +55,14 @@ export const FormButton: React.FC<FormButtonProps> = ({
 
   return (
     <Button
+      {...(rest as FluentButtonProps)}
       appearance={getAppearance()}
+      className={className}
       size={size}
       style={{
         width: fullWidth ? '100%' : undefined,
         ...style,
       }}
-      {...rest}
     >
       {children}
     </Button>
