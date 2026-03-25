@@ -55,7 +55,6 @@ const SERVICE_LABELS = {
 const VALID_MEETING_LENGTHS = ['20', '30', '45'];
 const DEFAULT_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const DEFAULT_RATE_LIMIT_MAX_REQUESTS = 10;
-const DEFAULT_LEAD_QUEUE_NAME = 'lead-queue';
 const leadRateLimitStore = new Map(); // In-memory store for rate-limiting (IP address -> [timestamps])
 
 /** Helper Functions **/
@@ -593,14 +592,13 @@ module.exports = async function (context, req) {
   // Get SharePoint and Azure credentials
   const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
   const clientSecret =
-    process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET ||
-    process.env.ENTRAID_SP_CLIENT_SECRET;
+    process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET;
   const tenantId =
-    process.env.ENTRAID_TENANT_ID || process.env.ENTRAID_SP_TENANT_ID;
+    process.env.ENTRAID_TENANT_ID;
   const siteId = process.env.SHAREPOINT_SITE_ID;
   const listId = process.env.LEADS_LIST_ID;
   const queueConnStr = process.env.AZURE_QUEUE_CONNECTION_STRING;
-  const queueName = process.env.LEAD_QUEUE_NAME || DEFAULT_LEAD_QUEUE_NAME;
+  const queueName = process.env.LEAD_QUEUE_NAME;
 
   // If SharePoint config is missing, optionally queue the payload and accept the request.
   if (!clientId || !clientSecret || !tenantId || !siteId || !listId) {
