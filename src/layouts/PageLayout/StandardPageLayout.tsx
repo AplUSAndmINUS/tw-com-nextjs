@@ -5,7 +5,7 @@ import { SiteLayout } from '@/layouts/SiteLayout';
 import { ResponsiveFeatureImage } from '@/components/ResponsiveFeatureImage';
 import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
-import { useIsMobileLandscape, useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsMobileLandscape, useIsTablet, useIsShortLandscape } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
 import {
   useFeatureImageLayout,
@@ -69,10 +69,12 @@ export function StandardPageLayout({
   const pathname = usePathname();
   const isMobileLandscapeHook = useIsMobileLandscape();
   const isTabletHook = useIsTablet();
+  const isShortLandscapeHook = useIsShortLandscape();
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
+  const isShortLandscape = isMounted ? isShortLandscapeHook : false;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const usesMediaPaneLayout =
     hasMediaPane || Boolean(featureImage || mediaPane);
@@ -121,8 +123,8 @@ export function StandardPageLayout({
             className={contentPaneClasses}
             suppressHydrationWarning
           >
-            <div className='flex-1 px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 md:min-h-full md:flex md:flex-col max-width-content'>
-              <div className='md:w-full md:my-auto lg:pb-12'>{children}</div>
+            <div className={`flex-1 px-4 sm:px-6 lg:px-8 pt-0 md:min-h-full md:flex md:flex-col max-width-content${isShortLandscape ? ' pb-4 md:py-4' : ' pb-8 md:py-8'}`}>
+              <div className={`md:w-full md:my-auto${isShortLandscape ? '' : ' lg:pb-12'}`}>{children}</div>
             </div>
 
             <div className='md:hidden'>
@@ -140,7 +142,7 @@ export function StandardPageLayout({
 
   return (
     <SiteLayout showFooter={false}>
-      <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 pb-8 md:py-8 max-width-content'>
+      <div className={`mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 max-width-content${isShortLandscape ? ' pb-4 md:py-4' : ' pb-8 md:py-8'}`}>
         <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
           {children}
         </div>

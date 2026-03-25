@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
-import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
+import { useIsMobile, useIsTablet, useIsShortLandscape } from '@/hooks/useMediaQuery';
 import { resolveIconName } from '@/utils/iconResolver';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
@@ -76,12 +76,18 @@ export const Hero: React.FC<HeroProps> = ({
   const { theme, themeMode } = useAppTheme();
   const isMobileHook = useIsMobile();
   const isTabletHook = useIsTablet();
+  const isShortLandscapeHook = useIsShortLandscape();
   const [isMounted, setIsMounted] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobile = isMounted ? isMobileHook : false;
   const isTablet = isMounted ? isTabletHook : false;
+  const isShortLandscape = isMounted ? isShortLandscapeHook : false;
+  // Treat short landscape screens like tablets for sizing purposes so that
+  // the Hero doesn't consume excessive vertical space on 1366×768 desktops
+  // and iPad Air/Pro landscape orientations.
+  const isCompact = isTablet || isShortLandscape;
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -126,7 +132,7 @@ export const Hero: React.FC<HeroProps> = ({
           backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
           padding: isMobile
             ? `${theme.spacing.l}`
-            : isTablet
+            : isCompact
               ? `${theme.spacing.xl} ${theme.spacing.xxl}`
               : `${theme.spacing.xxl} ${theme.spacing.xxxl}`,
           boxShadow: showShadow ? theme.shadows.hero : theme.shadows.card,
@@ -183,12 +189,12 @@ export const Hero: React.FC<HeroProps> = ({
           {IconComponent && (
             <IconComponent
               style={{
-                fontSize: isMobile ? '2rem' : '2.5rem',
+                fontSize: isMobile ? '2rem' : isCompact ? '2rem' : '2.5rem',
                 color: accentColor,
                 flexShrink: 0,
                 paddingRight: '0.25rem',
-                width: isMobile ? '36px' : '48px',
-                height: isMobile ? '36px' : '48px',
+                width: isMobile ? '36px' : isCompact ? '36px' : '48px',
+                height: isMobile ? '36px' : isCompact ? '36px' : '48px',
               }}
             />
           )}
@@ -197,7 +203,7 @@ export const Hero: React.FC<HeroProps> = ({
             style={{
               color: theme.semanticColors.text.heading,
               margin: 0,
-              fontSize: isMobile ? '1.75rem' : '2.5rem',
+              fontSize: isMobile ? '1.75rem' : isCompact ? '2rem' : '2.5rem',
               lineHeight: 1.2,
               flex: 1,
             }}
@@ -306,12 +312,12 @@ export const Hero: React.FC<HeroProps> = ({
         )}
 
         {description && (
-          <div style={{ marginBottom: '1rem' }}>
+          <div style={{ marginBottom: isCompact ? '0.5rem' : '1rem' }}>
             <Typography
               variant='body'
               style={{
                 color: theme.semanticColors.text.muted,
-                fontSize: isMobile ? '0.9375rem' : '1.0625rem',
+                fontSize: isMobile ? '0.9375rem' : isCompact ? '1rem' : '1.0625rem',
                 lineHeight: 1.6,
                 margin: 0,
                 // Use CSS line-clamp for mobile when not expanded

@@ -152,6 +152,23 @@ export const useIsTabletLandscape = () => {
   );
 };
 
+/**
+ * Detects short landscape screens: 1366×768 low-res desktops, iPad Air/Pro
+ * landscape (1180×820, 1194×834), and similar viewports where the height
+ * is constrained enough that full desktop-sized content causes excessive
+ * scrolling.
+ *
+ * Matches when:
+ *   - viewport is at least 1024 px wide (desktop territory)
+ *   - viewport height is at most 900 px
+ *   - device is in landscape orientation
+ */
+export const useIsShortLandscape = () => {
+  return useMediaQuery(
+    `(min-width: ${breakpoints.lg}px) and (max-height: 900px) and (orientation: landscape)`
+  );
+};
+
 type DeviceOrientation =
   | 'landscape'
   | 'portrait'
