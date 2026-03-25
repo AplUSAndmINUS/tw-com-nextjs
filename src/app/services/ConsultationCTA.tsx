@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 
 export const ConsultationCTA: React.FC = () => {
   const { theme, isDark } = useAppTheme();
@@ -20,8 +19,6 @@ export const ConsultationCTA: React.FC = () => {
     : theme.semanticColors.background.elevated;
 
   const accentColor = theme.semanticColors.accent.yellow;
-  const [buttonHovered, setButtonHovered] = useState(false);
-  const [secondaryHovered, setSecondaryHovered] = useState(false);
 
   return (
     <div style={{ borderRadius: '1rem', overflow: 'clip' }}>
@@ -48,58 +45,51 @@ export const ConsultationCTA: React.FC = () => {
           If this service fits where you are right now, we can start with a
           focused consultation and define your next best move.
         </Typography>
-        <Link
+        <ThemedLink
           href='/contact'
           className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
           style={{
-            backgroundColor: buttonHovered
-              ? theme.colorBrandBackgroundHover
-              : theme.colorBrandBackground,
-            color: isDark
-              ? theme.colorNeutralBackground2
-              : theme.colorNeutralForegroundOnBrand,
-            textDecoration: 'none',
-            transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
-            fontFamily: theme.typography.fonts.body.fontFamily,
+            backgroundColor: theme.semanticColors.link.default,
+            color: theme.semanticColors.background.base,
             boxShadow: theme.shadows.button,
           }}
           onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
             if (e.pointerType !== 'mouse') return;
-            setButtonHovered(true);
             (e.currentTarget as HTMLElement).style.opacity = '0.9';
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
           }}
           onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
             if (e.pointerType !== 'mouse') return;
-            setButtonHovered(false);
             (e.currentTarget as HTMLElement).style.opacity = '1';
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
           }}
         >
           Book a Consultation
-        </Link>{' '}
-        <Link
+        </ThemedLink>
+        &nbsp;&nbsp;&nbsp;
+        <ThemedLink
           href='https://fluxline.pro'
           target='_blank'
           rel='noopener noreferrer'
           className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
           style={{
-            backgroundColor: secondaryHovered
-              ? theme.colorNeutralBackground2Hover
-              : 'transparent',
+            border: `2px solid ${theme.semanticColors.border.emphasis}`,
             color: theme.semanticColors.text.primary,
-            border: `1px solid ${theme.semanticColors.border.default}`,
-            textDecoration: 'none',
-            transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}, border-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
-            fontFamily: theme.typography.fonts.body.fontFamily,
+            backgroundColor: 'transparent',
           }}
           onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
-            if (e.pointerType === 'mouse') setSecondaryHovered(true);
+            if (e.pointerType === 'mouse')
+              (e.currentTarget as HTMLElement).style.opacity = '0.9';
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)';
           }}
           onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
-            if (e.pointerType === 'mouse') setSecondaryHovered(false);
+            if (e.pointerType === 'mouse')
+              (e.currentTarget as HTMLElement).style.opacity = '1';
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
           }}
         >
           Visit Fluxline.pro
-        </Link>
+        </ThemedLink>
       </section>
     </div>
   );

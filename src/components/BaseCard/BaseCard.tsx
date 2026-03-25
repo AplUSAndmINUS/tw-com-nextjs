@@ -227,7 +227,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
           style={{
             fontSize: href ? '1rem' : '0.9375rem',
             lineHeight: 1.2,
-            color: currentColor,
+            color: theme.palette.neutralPrimary,
             marginBottom: theme.spacing.s,
             transition: 'color 0.2s ease',
           }}
