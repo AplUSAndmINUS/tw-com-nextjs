@@ -95,7 +95,7 @@ export function ResponsiveFeatureImage({
         src={src}
         alt={alt}
         fill
-        sizes='(max-width: 400px) 100vw, 25vw'
+        sizes='(max-width: 1024px) 100vw, 25vw'
         className='object-cover'
         priority
         onLoad={handleImageLoad}
