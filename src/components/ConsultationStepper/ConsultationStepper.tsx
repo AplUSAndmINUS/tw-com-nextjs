@@ -19,9 +19,11 @@ import { StepServiceSelection } from './StepServiceSelection';
 import { StepContextualQuestions } from './StepContextualQuestions';
 import { StepContactSchedule } from './StepContactSchedule';
 import { TIDYCAL_LINKS } from './constants';
-import { getApiEndpoint } from '@/lib/getApiUrl';
+import { getApiBaseUrl } from '@/lib/environment';
 import { LeadPayload, MeetingLength, StepperStep, SubmitStatus } from './types';
 import { FormButton } from '@/components/Form/FormButton';
+import { FluentIcon } from '../FluentIcon';
+import { Checkmark28Regular } from '@fluentui/react-icons';
 
 declare global {
   interface Window {
@@ -191,7 +193,7 @@ function SuccessView({ onClose }: { onClose: () => void }) {
       aria-live='polite'
     >
       <div style={{ fontSize: '4rem' }} aria-hidden='true'>
-        🎉
+        <FluentIcon iconName={Checkmark28Regular} />
       </div>
       <Typography
         variant='h3'
@@ -313,7 +315,17 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
     );
 
     // Open TidyCal in a new tab
-    window.open(tidyCalUrl, '_blank', 'noopener,noreferrer');
+    const tidyCalWindow = window.open(
+      tidyCalUrl,
+      '_blank',
+      'noopener,noreferrer'
+    );
+
+    if (!tidyCalWindow) {
+      fireEvent('consultation_booking_failed');
+      setStatus('error');
+      return;
+    }
 
     fireEvent('consultation_step_completed', { step: 3 });
 
@@ -322,13 +334,21 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       setStatus('submitting');
 
       const utmParams = new URLSearchParams(window.location.search);
+      const answers = { ...step2.answers };
+
+      if (step2.fileUpload) {
+        answers._uploadedReferenceFile = `${step2.fileUpload.name} (${Math.round(
+          step2.fileUpload.size / 1024
+        )} KB)`;
+      }
+
       const payload: LeadPayload = {
         fullName: step3.fullName,
         email: step3.email,
         phone: step3.phone,
         company: step3.company,
         services: step1.services,
-        answers: step2.answers,
+        answers,
         preferredMeetingLength: step3.preferredMeetingLength,
         referralSource:
           step3.referralSource === 'other'
@@ -341,26 +361,36 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
         utmCampaign: utmParams.get('utm_campaign') ?? undefined,
       };
 
-      const response = await fetch(getApiEndpoint('/api/lead'), {
+      const response = await fetch(`${getApiBaseUrl()}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        await response.json().catch(() => ({}));
-        fireEvent('consultation_booking_confirmed');
-      } else {
-        // Still show success — booking was opened, lead will be retried
-        fireEvent('consultation_booking_confirmed');
-      }
-    } catch {
-      // Don't block the user — TidyCal was already opened
-      fireEvent('consultation_booking_failed');
-    }
+      const responseBody = await response.json().catch(() => ({}));
 
-    clearDraft();
-    setStatus('success');
+      if (response.ok) {
+        fireEvent('consultation_booking_confirmed');
+        clearDraft();
+        setStatus('success');
+      } else {
+        fireEvent('consultation_booking_failed');
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(
+            '[ConsultationStepper] Lead submission failed:',
+            response.status,
+            responseBody
+          );
+        }
+        setStatus('error');
+      }
+    } catch (error) {
+      fireEvent('consultation_booking_failed');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('[ConsultationStepper] Lead submission failed:', error);
+      }
+      setStatus('error');
+    }
   }, [step1, step2, step3, clearDraft]);
 
   const handleClose = useCallback(() => {

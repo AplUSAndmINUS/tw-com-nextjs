@@ -6,6 +6,7 @@ import { FormButton } from '@/components/Form/FormButton';
 import { useDeviceOrientation } from '@/hooks';
 import { FluentIcon } from '../FluentIcon';
 import { CalendarLtr28Regular } from '@fluentui/react-icons';
+import { ConsultationStepper } from '../ConsultationStepper';
 
 interface BookingsButtonProps {
   animateSubHeader?: boolean;
@@ -27,6 +28,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
   isHero = false,
 }) => {
   const [isMounted, setIsMounted] = React.useState(false);
+  const [stepperOpen, setStepperOpen] = React.useState(false);
   const isOrientationHook = useDeviceOrientation();
   const orientation = isMounted ? isOrientationHook : '';
 
@@ -98,7 +100,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
       <FormButton
         variant='primary'
         size={isHero ? 'large' : isHomePage ? 'medium' : 'small'}
-        // onClick={handleClick}
+        onClick={() => setStepperOpen(true)}
         style={buttonStyles}
         className={className}
       >
@@ -111,10 +113,10 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
           ))}
         Book a Consultation
       </FormButton>
-      {/* <ConsultationStepper
+      <ConsultationStepper
         isOpen={stepperOpen}
         onDismiss={() => setStepperOpen(false)}
-      /> */}
+      />
     </>
   );
 };
