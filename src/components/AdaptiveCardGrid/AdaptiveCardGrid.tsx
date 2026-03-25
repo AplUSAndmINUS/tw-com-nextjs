@@ -501,7 +501,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                         marginTop: theme.spacing.xs,
                       }}
                     >
-                      {card.tags.slice(0, 3).map((tag) => (
+                      {card.tags.slice(0, 2).map((tag) => (
                         <Typography
                           variant='label'
                           key={tag}
