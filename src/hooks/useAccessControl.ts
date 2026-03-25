@@ -12,9 +12,9 @@
  * triggering new API requests.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAccessControlStore } from '@/store/accessControlStore';
-import { getEnvironment, requiresAuthentication } from '@/lib/environment';
+import { getEnvironment, isLocalhost } from '@/lib/environment';
 
 export function useAccessControl() {
   const {
@@ -27,7 +27,16 @@ export function useAccessControl() {
   } = useAccessControlStore();
 
   const environment = getEnvironment();
-  const authRequired = requiresAuthentication();
+  const environmentRequiresAuthentication =
+    environment === 'dev' || environment === 'test';
+  const [isLocalBypassEnabled, setIsLocalBypassEnabled] = useState(false);
+
+  useEffect(() => {
+    setIsLocalBypassEnabled(isLocalhost());
+  }, []);
+
+  const authRequired =
+    environmentRequiresAuthentication && !isLocalBypassEnabled;
 
   // Initialize auth on mount, but only once via the store
   useEffect(() => {
