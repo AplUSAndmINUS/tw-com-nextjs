@@ -11,7 +11,7 @@
  * - ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET      — Entra ID app registration client secret
  * - ENTRAID_TENANT_ID                              — Azure AD tenant ID (GUID format)
  * - SHAREPOINT_SITE_ID                             — SharePoint site ID (GUID format)
- * - LEADS_LIST_ID or SHAREPOINT_LIST_ID            — SharePoint list ID for consultation leads
+ * - LEADS_LIST_ID                                  — SharePoint list ID for consultation leads
  *
  * Optional Environment Variables:
  * - LEAD_ALLOWED_ORIGINS                   — Comma-separated allowed browser origins
@@ -263,7 +263,7 @@ const createSharePointItem = async (token, siteId, listId, fields, log) => {
   throw err;
 };
 
-// Calls createSharePointItem with expoential-backoff retry (up to three attempts)
+// Calls createSharePointItem with exponential backoff retry (up to three attempts)
 const createSharePointItemWithRetry = async (
   token,
   siteId,
