@@ -119,9 +119,6 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
     },
   };
 
@@ -133,7 +130,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
       transition: {
         delay: index * 0.06,
         duration: 0.28,
-        ease: 'easeOut',
+        ease: [0.22, 1, 0.36, 1] as const,
       },
     }),
   };
