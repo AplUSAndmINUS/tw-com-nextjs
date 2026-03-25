@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { LoadingImage } from '@/components/ui/LoadingImage';
@@ -35,8 +35,8 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
             key={item.slug}
             href={itemUrl}
             className='group block transition-all duration-300 hover:scale-[1.01]'
-            onMouseEnter={() => setHoveredSlug(item.slug)}
-            onMouseLeave={() => setHoveredSlug(null)}
+            onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(item.slug); }}
+            onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(null); }}
           >
             <Card className='h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300'>
               {/* Large Featured Image */}

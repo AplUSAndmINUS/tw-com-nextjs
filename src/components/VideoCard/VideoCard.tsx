@@ -24,8 +24,8 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
       <Link
         href={href}
         className='group block'
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+        onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
       >
         <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
           <div className='relative flex-shrink-0 w-16 h-10 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800'>
@@ -73,8 +73,8 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
       <Link
         href={href}
         className='group block'
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+        onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
       >
         <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-shadow'>
           <div className='relative w-full aspect-[16/10] bg-gray-100 dark:bg-gray-800'>
@@ -161,8 +161,8 @@ export function VideoCard({ video, viewType = 'grid' }: VideoCardProps) {
     <Link
       href={href}
       className='group block'
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+      onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow'>
         <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
