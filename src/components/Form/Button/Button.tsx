@@ -79,35 +79,50 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
-    // Extract consumer-provided mouse handlers from rest props
+    // Extract consumer-provided mouse and pointer handlers from rest props
     const {
       onMouseEnter: consumerOnMouseEnter,
       onMouseLeave: consumerOnMouseLeave,
       onMouseDown: consumerOnMouseDown,
       onMouseUp: consumerOnMouseUp,
+      onPointerEnter: consumerOnPointerEnter,
+      onPointerLeave: consumerOnPointerLeave,
+      onPointerDown: consumerOnPointerDown,
+      onPointerUp: consumerOnPointerUp,
       ...restProps
     } = rest;
 
-    // Compose internal and consumer handlers
-    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Pointer-based hover stays mouse-only to avoid iOS stuck-hover.
+    // Press interactions should still work for touch and pen input.
+    const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (e.pointerType !== 'mouse') return;
       if (!disabled && !loading) setIsHovered(true);
-      consumerOnMouseEnter?.(e);
+      consumerOnMouseEnter?.(e as React.MouseEvent<HTMLButtonElement>);
+      consumerOnPointerEnter?.(e);
     };
 
-    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handlePointerLeave = (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (e.pointerType !== 'mouse') return;
       setIsHovered(false);
       setIsActive(false);
-      consumerOnMouseLeave?.(e);
+      consumerOnMouseLeave?.(e as React.MouseEvent<HTMLButtonElement>);
+      consumerOnPointerLeave?.(e);
     };
 
-    const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
       if (!disabled && !loading) setIsActive(true);
-      consumerOnMouseDown?.(e);
+      if (e.pointerType === 'mouse') {
+        consumerOnMouseDown?.(e as React.MouseEvent<HTMLButtonElement>);
+      }
+      consumerOnPointerDown?.(e);
     };
 
-    const handleMouseUp = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
       setIsActive(false);
-      consumerOnMouseUp?.(e);
+      if (e.pointerType === 'mouse') {
+        consumerOnMouseUp?.(e as React.MouseEvent<HTMLButtonElement>);
+      }
+      consumerOnPointerUp?.(e);
     };
 
     // Size configurations
@@ -392,10 +407,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           disabled={disabled || loading}
           className={`tw-button ${className}`}
           style={buttonStyles}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
           {...restProps}
         >
           {renderContent()}

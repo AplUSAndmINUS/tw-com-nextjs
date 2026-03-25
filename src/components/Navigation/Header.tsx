@@ -469,8 +469,8 @@ export function Header() {
                 <div style={{ position: 'relative' }}>
                   <button
                     onClick={handleThemeClick}
-                    onMouseEnter={() => setHoveredButton('theme')}
-                    onMouseLeave={() => setHoveredButton(null)}
+                    onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('theme'); }}
+                    onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
                     onBlur={() => setHoveredButton(null)}
                     style={{
                       ...buttonStyle,
@@ -527,8 +527,8 @@ export function Header() {
                     <button
                       type='button'
                       onClick={handleSettingsClick}
-                      onMouseEnter={() => setHoveredButton('settings')}
-                      onMouseLeave={() => setHoveredButton(null)}
+                      onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('settings'); }}
+                      onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
                       onBlur={() => setHoveredButton(null)}
                       style={{
                         ...buttonStyle,
@@ -548,8 +548,8 @@ export function Header() {
                     <button
                       type='button'
                       onClick={handleSettingsClick}
-                      onMouseEnter={() => setHoveredButton('settings')}
-                      onMouseLeave={() => setHoveredButton(null)}
+                      onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('settings'); }}
+                      onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
                       onBlur={() => setHoveredButton(null)}
                       style={{
                         ...buttonStyle,
@@ -604,8 +604,8 @@ export function Header() {
                   <button
                     type='button'
                     onClick={handleMenuClick}
-                    onMouseEnter={() => setHoveredButton('menu')}
-                    onMouseLeave={() => setHoveredButton(null)}
+                    onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('menu'); }}
+                    onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
                     onBlur={() => setHoveredButton(null)}
                     style={{
                       ...buttonStyle,
@@ -625,8 +625,8 @@ export function Header() {
                   <button
                     type='button'
                     onClick={handleMenuClick}
-                    onMouseEnter={() => setHoveredButton('menu')}
-                    onMouseLeave={() => setHoveredButton(null)}
+                    onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('menu'); }}
+                    onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
                     onBlur={() => setHoveredButton(null)}
                     style={{
                       ...buttonStyle,

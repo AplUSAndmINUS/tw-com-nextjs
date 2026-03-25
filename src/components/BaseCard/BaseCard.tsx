@@ -308,8 +308,8 @@ export const BaseCard: React.FC<BaseCardProps> = ({
         href={href}
         className={`block h-full rounded-xl focus-visible:outline-none ${className ?? ''}`}
         aria-label={ariaLabel || title}
-        onMouseEnter={interactionProps.onMouseEnter}
-        onMouseLeave={interactionProps.onMouseLeave}
+        onPointerEnter={interactionProps.onPointerEnter}
+        onPointerLeave={interactionProps.onPointerLeave}
         onFocus={interactionProps.onFocus}
         onBlur={interactionProps.onBlur}
         style={{ padding: 0, borderWidth: 0, borderStyle: 'none', ...style }}
@@ -330,12 +330,13 @@ export const BaseCard: React.FC<BaseCardProps> = ({
         style={cardStyle}
         onClick={!disabled ? onClick : undefined}
         onKeyDown={handleKeyDown}
-        onMouseEnter={interactionProps.onMouseEnter}
-        onMouseLeave={interactionProps.onMouseLeave}
+        onPointerEnter={interactionProps.onPointerEnter}
+        onPointerLeave={interactionProps.onPointerLeave}
         onFocus={interactionProps.onFocus}
         onBlur={interactionProps.onBlur}
-        onMouseDown={interactionProps.onMouseDown}
-        onMouseUp={interactionProps.onMouseUp}
+        onPointerDown={interactionProps.onPointerDown}
+        onPointerUp={interactionProps.onPointerUp}
+        onPointerCancel={interactionProps.onPointerCancel}
       >
         {cardContent}
       </div>
@@ -347,8 +348,8 @@ export const BaseCard: React.FC<BaseCardProps> = ({
     <div
       className={className}
       style={cardStyle}
-      onMouseEnter={interactionProps.onMouseEnter}
-      onMouseLeave={interactionProps.onMouseLeave}
+      onPointerEnter={interactionProps.onPointerEnter}
+      onPointerLeave={interactionProps.onPointerLeave}
       onFocus={interactionProps.onFocus}
       onBlur={interactionProps.onBlur}
     >

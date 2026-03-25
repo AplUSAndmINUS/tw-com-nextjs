@@ -189,11 +189,13 @@ export const Modal: React.FC<ModalProps> = ({
                     color: theme.semanticColors.text.muted,
                     transition: 'all 0.2s ease',
                   }}
-                  onMouseEnter={(e) => {
+                  onPointerEnter={(e: React.PointerEvent<HTMLButtonElement>) => {
+                    if (e.pointerType !== 'mouse') return;
                     e.currentTarget.style.backgroundColor =
                       theme.palette.neutralLighter;
                   }}
-                  onMouseLeave={(e) => {
+                  onPointerLeave={(e: React.PointerEvent<HTMLButtonElement>) => {
+                    if (e.pointerType !== 'mouse') return;
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >

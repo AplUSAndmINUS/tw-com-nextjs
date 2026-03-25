@@ -20,8 +20,8 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
       <Link
         href={`/podcasts/${episode.slug}`}
         className='group block'
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+        onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
       >
         <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
           <div className='relative w-full aspect-square bg-gray-100 dark:bg-gray-800'>
@@ -90,8 +90,8 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
       <Link
         href={`/podcasts/${episode.slug}`}
         className='group block'
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+        onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
       >
         <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
           <div className='relative flex-shrink-0 w-10 h-10 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800'>
@@ -140,8 +140,8 @@ export function PodcastCard({ episode, viewType = 'large' }: PodcastCardProps) {
     <Link
       href={`/podcasts/${episode.slug}`}
       className='group block'
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+      onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
       <article className='flex gap-4 border-b border-gray-200 dark:border-gray-700 py-5 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors rounded-lg px-2 -mx-2'>
         {/* Thumbnail */}

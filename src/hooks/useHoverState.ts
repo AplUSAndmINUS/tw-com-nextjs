@@ -9,8 +9,12 @@ export const useHoverState = (initialState: boolean = false) => {
   const hoverProps = {
     onFocus: () => setIsHovered(true),
     onBlur: () => setIsHovered(false),
-    onMouseEnter: () => setIsHovered(true),
-    onMouseLeave: () => setIsHovered(false),
+    onPointerEnter: (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse') setIsHovered(true);
+    },
+    onPointerLeave: (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse') setIsHovered(false);
+    },
   };
 
   return [isHovered, hoverProps] as const;
@@ -23,8 +27,12 @@ export const useMultiHoverState = () => {
   const getHoverProps = (id: string) => ({
     onFocus: () => setHoveredId(id),
     onBlur: () => setHoveredId(null),
-    onMouseEnter: () => setHoveredId(id),
-    onMouseLeave: () => setHoveredId(null),
+    onPointerEnter: (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse') setHoveredId(id);
+    },
+    onPointerLeave: (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse') setHoveredId(null);
+    },
   });
 
   const isHovered = (id: string) => hoveredId === id;

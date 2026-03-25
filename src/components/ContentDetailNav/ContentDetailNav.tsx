@@ -45,12 +45,20 @@ export function ContentDetailNav({
       {/* Previous Entry */}
       <div
         className='flex-1 min-w-0'
-        onMouseEnter={() => setPrevHovered(true)}
-        onMouseLeave={() => setPrevHovered(false)}
+        onPointerEnter={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          setPrevHovered(true);
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          setPrevHovered(false);
+        }}
       >
         {prevHref ? (
           <ThemedLink
             href={prevHref}
+            hoverScale={1.1}
+            invertOnPress
             className='group inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all'
             style={{
               fontSize: '0.9rem',
@@ -81,12 +89,20 @@ export function ContentDetailNav({
       {/* Back to Listing */}
       {listingPath && listingLabel && (
         <span
-          onMouseEnter={() => setBackHovered(true)}
-          onMouseLeave={() => setBackHovered(false)}
+          onPointerEnter={(e) => {
+            if (e.pointerType !== 'mouse') return;
+            setBackHovered(true);
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType !== 'mouse') return;
+            setBackHovered(false);
+          }}
           className='flex-shrink-0'
         >
           <ThemedLink
             href={listingPath}
+            hoverScale={1.1}
+            invertOnPress
             className='px-4 py-2 rounded-lg border-2 transition-all'
             style={{
               fontSize: '0.875rem',
@@ -114,12 +130,20 @@ export function ContentDetailNav({
       {/* Next Entry */}
       <div
         className='flex-1 min-w-0 text-right'
-        onMouseEnter={() => setNextHovered(true)}
-        onMouseLeave={() => setNextHovered(false)}
+        onPointerEnter={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          setNextHovered(true);
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          setNextHovered(false);
+        }}
       >
         {nextHref ? (
           <ThemedLink
             href={nextHref}
+            hoverScale={1.1}
+            invertOnPress
             className='group inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all'
             style={{
               fontSize: '0.9rem',

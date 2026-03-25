@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 export interface UseCardStateOptions {
@@ -11,12 +11,13 @@ export interface UseCardStateOptions {
 }
 
 export interface InteractionHandlers {
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+  onPointerEnter?: (e: React.PointerEvent) => void;
+  onPointerLeave?: (e: React.PointerEvent) => void;
   onFocus?: () => void;
   onBlur?: () => void;
-  onMouseDown?: () => void;
-  onMouseUp?: () => void;
+  onPointerDown?: (e: React.PointerEvent) => void;
+  onPointerUp?: (e: React.PointerEvent) => void;
+  onPointerCancel?: (e: React.PointerEvent) => void;
 }
 
 export interface CardStateReturn {
@@ -128,15 +129,20 @@ export function useCardState({
   const interactionProps: InteractionHandlers = {};
 
   if (hoverable) {
-    interactionProps.onMouseEnter = () => setIsHovered(true);
-    interactionProps.onMouseLeave = () => setIsHovered(false);
+    interactionProps.onPointerEnter = (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse') setIsHovered(true);
+    };
+    interactionProps.onPointerLeave = (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse') setIsHovered(false);
+    };
     interactionProps.onFocus = () => setIsHovered(true);
     interactionProps.onBlur = () => setIsHovered(false);
   }
 
   if (clickable) {
-    interactionProps.onMouseDown = () => setIsActive(true);
-    interactionProps.onMouseUp = () => setIsActive(false);
+    interactionProps.onPointerDown = () => setIsActive(true);
+    interactionProps.onPointerUp = () => setIsActive(false);
+    interactionProps.onPointerCancel = () => setIsActive(false);
   }
 
   return {

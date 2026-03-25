@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { LoadingImage } from '@/components/ui/LoadingImage';
@@ -35,8 +35,8 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
             key={item.slug}
             href={itemUrl}
             className='group block transition-transform duration-200 hover:scale-[1.02]'
-            onMouseEnter={() => setHoveredSlug(item.slug)}
-            onMouseLeave={() => setHoveredSlug(null)}
+            onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(item.slug); }}
+            onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(null); }}
           >
             <Card className='h-full flex flex-col overflow-hidden'>
               {item.imageUrl && (

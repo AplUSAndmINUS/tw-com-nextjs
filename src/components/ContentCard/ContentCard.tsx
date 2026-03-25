@@ -46,8 +46,8 @@ function GridCard({
     <Link
       href={href}
       className='group block'
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+      onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
       <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
         {item.imageUrl && (
@@ -122,8 +122,8 @@ function LargeCard({
     <Link
       href={href}
       className='group block'
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+      onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
       <article className='flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700 py-8'>
         {item.imageUrl && (
@@ -190,8 +190,8 @@ function SmallCard({ item, href }: { item: ContentItem; href: string }) {
     <Link
       href={href}
       className='group block'
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
+      onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
       <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
         {item.imageUrl && (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ContentItem } from '@/content/types';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -34,8 +34,8 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
             key={item.slug}
             href={itemUrl}
             className='group block'
-            onMouseEnter={() => setHoveredSlug(item.slug)}
-            onMouseLeave={() => setHoveredSlug(null)}
+            onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(item.slug); }}
+            onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(null); }}
           >
             <div
               className='flex gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-all duration-200 bg-white dark:bg-gray-900'

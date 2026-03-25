@@ -58,8 +58,14 @@ function VideoCard({
       tabIndex={0}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onPointerEnter={(e: React.PointerEvent<HTMLDivElement>) => {
+        if (e.pointerType !== 'mouse') return;
+        setHovered(true);
+      }}
+      onPointerLeave={(e: React.PointerEvent<HTMLDivElement>) => {
+        if (e.pointerType !== 'mouse') return;
+        setHovered(false);
+      }}
       className='cursor-pointer rounded-lg overflow-hidden border transition-all duration-200'
       style={{
         borderColor: hovered

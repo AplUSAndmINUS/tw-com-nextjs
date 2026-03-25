@@ -69,8 +69,14 @@ export function BlogIndexClient({ posts, allTags }: BlogIndexClientProps) {
             <article
               key={post.slug}
               className='border-b pb-8'
-              onMouseEnter={() => setHoveredPostSlug(post.slug)}
-              onMouseLeave={() => setHoveredPostSlug(null)}
+              onPointerEnter={(e) => {
+                if (e.pointerType !== 'mouse') return;
+                setHoveredPostSlug(post.slug);
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType !== 'mouse') return;
+                setHoveredPostSlug(null);
+              }}
             >
               {post.tags.length > 0 && (
                 <div className='flex gap-2 mb-2 flex-wrap'>
