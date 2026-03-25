@@ -19,7 +19,14 @@
     "SHAREPOINT_EMAIL_FIELD": "Title",
     "SHAREPOINT_PLATFORM_FIELD": "field_1",
     "SHAREPOINT_TIMESTAMP_FIELD": "Timestamp",
-    "ALLOWED_ORIGIN_EXTRA": "http://localhost:3000"
+    "ALLOWED_ORIGIN_EXTRA": "http://localhost:3000",
+    "LEADS_LIST_ID": "leads-list-id-placeholder",
+    "AZURE_QUEUE_CONNECTION_STRING": "azure-queue-connection-string-placeholder",
+    "LEAD_QUEUE_NAME": "lead-queue-name-placeholder",
+    "LEAD_ALLOWED_ORIGINS": "http://localhost:3000,http://localhost:7071,https://www.terencewaters.com,https://terencewaters.com",
+    "LEAD_RATE_LIMIT_MAX_REQUESTS": "10",
+    "LEAD_RATE_LIMIT_WINDOW_MS": "900000",
+    "LEAD_STORE_RAW_PAYLOAD": "false"
   },
   "Host": {
     "CORS": "*",
