@@ -112,7 +112,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
       <div
         id={tooltipId}
         role='tooltip'
-        className='pointer-events-none absolute left-full top-1/2 z-50 ml-3 w-max max-w-xs -translate-y-1/2 rounded-lg px-4 py-2.5'
+        className='pointer-events-none absolute left-1/2 top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] max-w-xs -translate-x-1/2 rounded-lg px-4 py-2.5 md:left-full md:top-1/2 md:mt-0 md:ml-3 md:w-max md:-translate-y-1/2 md:translate-x-0'
         style={{
           backgroundColor: theme.semanticColors.background.elevated,
           color: theme.semanticColors.text.primary,
@@ -126,9 +126,20 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         }}
       >
         {tooltipText}
-        {/* Tooltip arrow pointing left */}
+        {/* Tooltip arrow points up on mobile and left on md+ */}
         <span
-          className='absolute right-full top-1/2 -translate-y-1/2'
+          className='absolute bottom-full left-1/2 -translate-x-1/2 md:hidden'
+          aria-hidden='true'
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: '6px solid transparent',
+            borderRight: '6px solid transparent',
+            borderBottom: `6px solid ${theme.semanticColors.background.elevated}`,
+          }}
+        />
+        <span
+          className='absolute right-full top-1/2 hidden -translate-y-1/2 md:block'
           aria-hidden='true'
           style={{
             width: 0,
