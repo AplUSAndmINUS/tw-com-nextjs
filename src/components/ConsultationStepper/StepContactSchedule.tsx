@@ -283,12 +283,9 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                 onChange={(e) => update('consent', e.target.checked)}
                 aria-label='Consent to be contacted and data storage'
                 required
+                size='large'
                 style={{
                   marginTop: '3px',
-                  accentColor: theme.palette.themePrimary,
-                  width: '24px',
-                  height: '24px',
-                  cursor: 'pointer',
                   flexShrink: 0,
                 }}
               />
