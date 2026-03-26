@@ -467,8 +467,10 @@ export function Header() {
             {isMounted &&
               !isHomePage &&
               (themeMode === 'light' || themeMode === 'dark') && (
-                <div className={'flex flex-row items-center justify-center gap-2'}>
-                  <BookingsButton isHeader />
+                <div
+                  className={'flex flex-row items-center justify-center gap-2'}
+                >
+                  {!isMobile && <BookingsButton isHeader />}
                   <div style={{ position: 'relative' }}>
                     <button
                       onClick={handleThemeClick}
