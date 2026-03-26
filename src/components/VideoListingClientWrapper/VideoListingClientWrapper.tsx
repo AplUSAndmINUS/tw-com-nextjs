@@ -82,7 +82,8 @@ function VideoCard({
           <NativeLoadingImage
             src={video.thumbnailUrl}
             alt={video.title}
-            className='absolute top-0 left-0 w-full h-full object-cover'
+            wrapperStyle={{ position: 'absolute', inset: 0 }}
+            className='w-full h-full object-cover'
             onError={handleImageError}
             loading='lazy'
           />
@@ -179,10 +180,11 @@ function VideoModal({
   onDismiss: () => void;
 }) {
   const { theme } = useAppTheme();
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const embedUrl =
     video.type === 'playlist'
-      ? `https://www.youtube.com/embed/videoseries?list=${video.id}`
-      : `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+      ? `https://www.youtube.com/embed/videoseries?list=${video.id}${origin ? `&origin=${origin}` : ''}`
+      : `https://www.youtube.com/embed/${video.id}?autoplay=1${origin ? `&origin=${origin}` : ''}`;
   const watchUrl =
     video.type === 'playlist'
       ? `https://www.youtube.com/playlist?list=${video.id}`
@@ -219,8 +221,9 @@ function VideoModal({
             src={embedUrl}
             title={video.title}
             frameBorder='0'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
             allowFullScreen
+            referrerPolicy='strict-origin-when-cross-origin'
             className='absolute top-0 left-0 w-full h-full'
           />
         </div>
