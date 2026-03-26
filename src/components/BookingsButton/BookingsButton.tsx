@@ -67,7 +67,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
           ? '0.5rem 0.25rem'
           : '0.75rem 1rem',
     minHeight: orientation === 'portrait' ? '40px' : undefined,
-    minWidth: isHeader ? '225px' : '250px',
+    minWidth: isHeader ? '225px' : undefined,
     maxWidth: isHomePage ? undefined : '300px',
     width: animateSubHeader || orientation === 'portrait' ? '100%' : 'auto',
     fontSize: getResponsiveFontSize(),
@@ -116,14 +116,16 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
             justifyContent: 'center',
           }}
         >
-          {(isHomePage || isHero) && (
+          {isHomePage && (
             <FluentIcon
               iconName={CalendarLtr24Regular}
               style={{ marginRight: '0.5rem' }}
               color={theme.semanticColors.text.primary}
             />
           )}
-          <Typography variant='body'>Book a Consultation</Typography>
+          <Typography variant='body' style={{ fontSize: '1.125rem', lineHeight: 1.3 }}>
+            Book a Consultation
+          </Typography>
         </div>
       </Button>
       <ConsultationStepper
