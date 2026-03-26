@@ -7,11 +7,14 @@
 
 import React from 'react';
 
+import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { Button } from '@/components/Form';
+import { Button, Checkbox } from '@/components/Form';
 import { Typography } from '@/components/Typography';
 import { SERVICE_OPTIONS } from './constants';
+import { resolveIconName } from '@/utils/iconResolver';
 import { ServiceKey, StepOneData } from './types';
+import { useCardState } from '@/hooks/useCardState';
 
 interface StepServiceSelectionProps {
   data: StepOneData;
@@ -26,6 +29,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const [error, setError] = React.useState('');
+  const { accentColor } = useCardState();
 
   const toggle = (key: ServiceKey) => {
     let next: ServiceKey[];
@@ -77,6 +81,8 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
       <div className='flex flex-col gap-3'>
         {SERVICE_OPTIONS.map((option) => {
           const isSelected = data.services.includes(option.key);
+          const iconComponent = resolveIconName(option.icon);
+
           return (
             <label
               key={option.key}
@@ -86,16 +92,15 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                 gap: theme.spacing.m,
                 padding: theme.spacing.m,
                 borderRadius: theme.borderRadius.m,
-                border: `2px solid ${isSelected ? theme.palette.themePrimary : theme.palette.neutralQuaternaryAlt}`,
+                border: `2px solid ${isSelected ? theme.palette.themePrimary : theme.palette.neutralLighterAlt}`,
                 backgroundColor: isSelected
-                  ? theme.palette.themeLighterAlt
-                  : theme.palette.neutralLighterAlt,
+                  ? theme.semanticColors.background.elevated
+                  : theme.semanticColors.background.base,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
               }}
             >
-              <input
-                type='checkbox'
+              <Checkbox
                 checked={isSelected}
                 onChange={() => toggle(option.key)}
                 aria-label={option.label}
@@ -109,10 +114,26 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                 }}
               />
               <span
-                style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}
+                style={{
+                  width: '1.5rem',
+                  height: '1.5rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
                 aria-hidden='true'
               >
-                {option.icon}
+                {iconComponent && (
+                  <FluentIcon
+                    iconName={iconComponent}
+                    color={
+                      isSelected
+                        ? theme.palette.themePrimary
+                        : accentColor
+                    }
+                  />
+                )}
               </span>
               <div>
                 <Typography
@@ -121,7 +142,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                     fontWeight: theme.typography.fontWeights.semiBold,
                     color: isSelected
                       ? theme.palette.themePrimary
-                      : theme.palette.neutralPrimary,
+                      : accentColor,
                     margin: 0,
                     marginBottom: '2px',
                   }}
@@ -131,7 +152,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                 <Typography
                   variant='body'
                   style={{
-                    color: theme.palette.neutralSecondary,
+                    color: theme.palette.neutralTertiary,
                     margin: 0,
                   }}
                 >

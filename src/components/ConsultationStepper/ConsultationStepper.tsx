@@ -413,16 +413,17 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       isOpen={isOpen}
       onDismiss={handleClose}
       ariaLabel='Book a consultation'
-      maxWidth='640px'
+      maxWidth='800px'
     >
       <div
         style={{
           padding: theme.spacing.xl,
           paddingTop: theme.spacing.l,
+          border: `2px solid ${theme.palette.neutralLighterAlt}`,
         }}
       >
         {/* Draft restore banner */}
-        {hasDraft && currentStep === 1 && status === 'idle' && (
+        {/* {hasDraft && currentStep === 1 && status === 'idle' && (
           <div
             style={{
               marginBottom: theme.spacing.m,
@@ -465,7 +466,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
               Clear
             </Button>
           </div>
-        )}
+        )} */}
 
         {status === 'success' ? (
           <SuccessView onClose={handleClose} />

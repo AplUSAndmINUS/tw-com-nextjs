@@ -3,6 +3,8 @@
  * Shared type definitions for the three-step onboarding stepper
  */
 
+import type { FluentIconName } from '@/utils/iconResolver';
+
 export type ServiceKey =
   | 'personal_training'
   | 'it_consulting'
@@ -15,7 +17,7 @@ export interface ServiceOption {
   key: ServiceKey;
   label: string;
   description: string;
-  icon: string;
+  icon: FluentIconName;
 }
 
 export type QuestionType = 'text' | 'dropdown' | 'textarea' | 'file';
