@@ -120,7 +120,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
             <FluentIcon
               iconName={CalendarLtr24Regular}
               style={{ marginRight: '0.5rem' }}
-              color={theme.semanticColors.text.primary}
+              color={theme.colorNeutralBackground1}
             />
           )}
           <Typography
