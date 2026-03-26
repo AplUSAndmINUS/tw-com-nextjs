@@ -48,15 +48,26 @@ export default function ContactPage() {
 
         {/* Secondary: Contact Form (de-emphasized) */}
         <div className='flex flex-col gap-4'>
-          <div className='flex items-center gap-3'>
-            <hr className='flex-1 border-t border-gray-200 dark:border-gray-700' />
+          <div className='flex flex-col items-start gap-3 text-black-700 dark:text-neutral-200'>
             <Typography
-              variant='caption'
-              className='text-xs text-gray-400 dark:text-gray-500 uppercase tracking-widest whitespace-nowrap'
+              variant='h3'
+              style={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+              }}
             >
-              Prefer email? Send a note instead
+              Prefer to write? Send us a note.
             </Typography>
-            <hr className='flex-1 border-t border-gray-200 dark:border-gray-700' />
+            <Typography
+              variant='body'
+              className='text-black-600 dark:text-neutral-300'
+              style={{
+                fontSize: '0.9rem',
+                maxWidth: '480px',
+              }}
+            >
+              Feel free to use the form below. I will respond as soon as I can!
+            </Typography>
           </div>
           <ReCaptchaProvider>
             <ContactForm />
