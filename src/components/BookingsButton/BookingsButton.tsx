@@ -123,7 +123,14 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
               color={theme.semanticColors.text.primary}
             />
           )}
-          <Typography variant='body' style={{ fontSize: '1.125rem', lineHeight: 1.3 }}>
+          <Typography
+            variant='body'
+            style={{
+              fontSize: '1.125rem',
+              lineHeight: 1.3,
+              color: theme.colorNeutralBackground1,
+            }}
+          >
             Book a Consultation
           </Typography>
         </div>
