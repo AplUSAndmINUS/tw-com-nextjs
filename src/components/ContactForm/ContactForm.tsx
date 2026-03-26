@@ -62,7 +62,6 @@ export const ContactForm: React.FC = () => {
   const contentWrapperStyle: React.CSSProperties = {
     width: '100%',
     maxWidth: '600px',
-    marginInline: 'auto',
   };
 
   const handleChange = (
