@@ -39,13 +39,7 @@ export default function ContactPage() {
           iconName='Mail24Regular'
           description="Let's discuss your needs and goals! Whether you're seeking project estimates, personalized training, strategic consulting, or web development solutions—I'm happy to help. Send me a message or click the button below to get started!"
         >
-          <a
-            href='https://outlook.office.com/book/Bookings@terencewaters.com/'
-            rel='noopener noreferrer'
-            target='_blank'
-          >
-            <BookingsButton isHero />
-          </a>
+          <BookingsButton isHero />
         </Hero>
 
         {/* Contact Me Form section */}

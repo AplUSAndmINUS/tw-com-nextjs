@@ -5,7 +5,7 @@ import React from 'react';
 import { Button } from '@/components/Form';
 import { useDeviceOrientation } from '@/hooks';
 import { FluentIcon } from '../FluentIcon';
-import { CalendarLtr28Regular } from '@fluentui/react-icons';
+import { CalendarLtr24Regular } from '@fluentui/react-icons';
 import { ConsultationStepper } from '../ConsultationStepper';
 
 interface BookingsButtonProps {
@@ -100,14 +100,14 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
     <>
       <Button
         variant='primary'
-        size={isHero ? 'large' : isHomePage ? 'medium' : 'small'}
+        size={isHero || isHomePage ? 'medium' : 'small'}
         onClick={() => setStepperOpen(true)}
         style={buttonStyles}
         className={className}
       >
         {(isHomePage || isHero) && (
           <FluentIcon
-            iconName={CalendarLtr28Regular}
+            iconName={CalendarLtr24Regular}
             style={{ marginRight: '0.5rem' }}
           />
         )}
