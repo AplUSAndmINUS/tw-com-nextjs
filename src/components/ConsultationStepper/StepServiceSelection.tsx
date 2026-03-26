@@ -110,12 +110,9 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                   checked={isSelected}
                   onChange={() => toggle(option.key)}
                   aria-label={option.label}
+                  size='medium'
                   style={{
                     marginTop: '3px',
-                    accentColor: theme.palette.themePrimary,
-                    width: '18px',
-                    height: '18px',
-                    cursor: 'pointer',
                     flexShrink: 0,
                   }}
                 />
@@ -135,9 +132,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                   <FluentIcon
                     iconName={iconComponent}
                     color={
-                      isSelected
-                        ? theme.palette.themePrimary
-                        : accentColor
+                      isSelected ? theme.palette.themePrimary : accentColor
                     }
                   />
                 )}

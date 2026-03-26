@@ -271,16 +271,8 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
   const [status, setStatus] = React.useState<SubmitStatus>('idle');
   const [tidyCalUrl, setTidyCalUrl] = React.useState('');
 
-  const {
-    step1,
-    step2,
-    step3,
-    hasDraft,
-    setStep1,
-    setStep2,
-    setStep3,
-    clearDraft,
-  } = useConsultationStorage();
+  const { step1, step2, step3, setStep1, setStep2, setStep3, clearDraft } =
+    useConsultationStorage();
 
   // Fire "stepper opened" event on open
   useEffect(() => {
@@ -415,52 +407,6 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
           border: `2px solid ${theme.palette.neutralLighterAlt}`,
         }}
       >
-        {/* Draft restore banner */}
-        {/* {hasDraft && currentStep === 1 && status === 'idle' && (
-          <div
-            style={{
-              marginBottom: theme.spacing.m,
-              padding: theme.spacing.s2,
-              backgroundColor: theme.palette.themeLighterAlt,
-              border: `1px solid ${theme.palette.themeLight}`,
-              borderRadius: theme.borderRadius.container.small,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: theme.spacing.s2,
-            }}
-          >
-            <Typography
-              variant='body'
-              style={{
-                color: theme.palette.themePrimary,
-                fontSize: theme.typography.fonts.bodySmall.fontSize,
-                margin: 0,
-              }}
-            >
-              📋 Your previous answers have been restored.
-            </Typography>
-            <Button
-              type='button'
-              onClick={clearDraft}
-              style={{
-                backgroundColor: 'transparent',
-                borderWidth: 0,
-                borderStyle: 'solid',
-                borderColor: 'transparent',
-                color: theme.palette.neutralSecondary,
-                cursor: 'pointer',
-                fontSize: theme.typography.fonts.bodySmall.fontSize,
-                flexShrink: 0,
-                boxShadow: 'none',
-              }}
-              aria-label='Clear saved draft'
-            >
-              Clear
-            </Button>
-          </div>
-        )} */}
-
         {status === 'success' ? (
           <SuccessView onClose={handleClose} />
         ) : status === 'schedule' ? (
