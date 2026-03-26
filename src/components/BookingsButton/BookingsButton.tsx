@@ -69,6 +69,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
     width: animateSubHeader || orientation === 'portrait' ? '100%' : 'auto',
     fontSize: getResponsiveFontSize(),
     fontWeight: '600',
+    cursor: 'pointer',
     boxShadow: '0 4px 8px rgba(0,0,0,0.12)',
     // Animation states
     ...(willAnimate &&

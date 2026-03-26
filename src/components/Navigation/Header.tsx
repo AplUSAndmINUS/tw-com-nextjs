@@ -37,6 +37,7 @@ import {
   WeatherMoon32Regular,
   WeatherSunny32Regular,
 } from '@fluentui/react-icons';
+import { BookingsButton } from '../BookingsButton/BookingsButton';
 
 export interface BreadcrumbItem {
   label: string;
@@ -466,56 +467,65 @@ export function Header() {
             {isMounted &&
               !isHomePage &&
               (themeMode === 'light' || themeMode === 'dark') && (
-                <div style={{ position: 'relative' }}>
-                  <button
-                    onClick={handleThemeClick}
-                    onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('theme'); }}
-                    onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
-                    onBlur={() => setHoveredButton(null)}
-                    style={{
-                      ...buttonStyle,
-                      transform: getButtonTransform('theme'),
-                    }}
-                    aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
-                    title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
-                  >
-                    {isDark ? (
-                      <FluentIcon
-                        iconName={WeatherMoon32Regular}
-                        color={theme.palette.neutralPrimary}
-                      />
-                    ) : (
-                      <FluentIcon
-                        iconName={WeatherSunny32Regular}
-                        color={theme.palette.neutralPrimary}
-                      />
-                    )}
-                  </button>
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      opacity: hoveredButton === 'theme' ? 1 : 0,
-                      visibility:
-                        hoveredButton === 'theme' ? 'visible' : 'hidden',
-                      transition:
-                        'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
-                      fontSize: theme.typography.fontSizes.md,
-                      letterSpacing: theme.typography.letterSpacing.tight,
-                      fontWeight: theme.typography.fontWeights.semiBold,
-                      color: theme.palette.neutralPrimary,
-                      marginTop: '-0.25rem',
-                      backgroundColor: 'transparent',
-                      padding: '0',
-                      whiteSpace: 'nowrap',
-                      pointerEvents: 'none',
-                      zIndex: 200,
-                    }}
-                  >
-                    {isDark ? 'Dark' : 'Light'}
-                  </span>
+                <div className={'flex flex-row items-center justify-center gap-2'}>
+                  <BookingsButton isHeader />
+                  <div style={{ position: 'relative' }}>
+                    <button
+                      onClick={handleThemeClick}
+                      onPointerEnter={(e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        setHoveredButton('theme');
+                      }}
+                      onPointerLeave={(e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        setHoveredButton(null);
+                      }}
+                      onBlur={() => setHoveredButton(null)}
+                      style={{
+                        ...buttonStyle,
+                        transform: getButtonTransform('theme'),
+                      }}
+                      aria-label={`Displaying ${isDark ? 'dark' : 'light'} mode`}
+                      title={`Displaying ${isDark ? 'dark' : 'light'} mode`}
+                    >
+                      {isDark ? (
+                        <FluentIcon
+                          iconName={WeatherMoon32Regular}
+                          color={theme.palette.neutralPrimary}
+                        />
+                      ) : (
+                        <FluentIcon
+                          iconName={WeatherSunny32Regular}
+                          color={theme.palette.neutralPrimary}
+                        />
+                      )}
+                    </button>
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        opacity: hoveredButton === 'theme' ? 1 : 0,
+                        visibility:
+                          hoveredButton === 'theme' ? 'visible' : 'hidden',
+                        transition:
+                          'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
+                        fontSize: theme.typography.fontSizes.md,
+                        letterSpacing: theme.typography.letterSpacing.tight,
+                        fontWeight: theme.typography.fontWeights.semiBold,
+                        color: theme.palette.neutralPrimary,
+                        marginTop: '-0.25rem',
+                        backgroundColor: 'transparent',
+                        padding: '0',
+                        whiteSpace: 'nowrap',
+                        pointerEvents: 'none',
+                        zIndex: 200,
+                      }}
+                    >
+                      {isDark ? 'Dark' : 'Light'}
+                    </span>
+                  </div>
                 </div>
               )}
 
@@ -527,8 +537,14 @@ export function Header() {
                     <button
                       type='button'
                       onClick={handleSettingsClick}
-                      onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('settings'); }}
-                      onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
+                      onPointerEnter={(e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        setHoveredButton('settings');
+                      }}
+                      onPointerLeave={(e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        setHoveredButton(null);
+                      }}
                       onBlur={() => setHoveredButton(null)}
                       style={{
                         ...buttonStyle,
@@ -548,8 +564,14 @@ export function Header() {
                     <button
                       type='button'
                       onClick={handleSettingsClick}
-                      onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('settings'); }}
-                      onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
+                      onPointerEnter={(e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        setHoveredButton('settings');
+                      }}
+                      onPointerLeave={(e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        setHoveredButton(null);
+                      }}
                       onBlur={() => setHoveredButton(null)}
                       style={{
                         ...buttonStyle,
@@ -604,8 +626,14 @@ export function Header() {
                   <button
                     type='button'
                     onClick={handleMenuClick}
-                    onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('menu'); }}
-                    onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType !== 'mouse') return;
+                      setHoveredButton('menu');
+                    }}
+                    onPointerLeave={(e) => {
+                      if (e.pointerType !== 'mouse') return;
+                      setHoveredButton(null);
+                    }}
                     onBlur={() => setHoveredButton(null)}
                     style={{
                       ...buttonStyle,
@@ -625,8 +653,14 @@ export function Header() {
                   <button
                     type='button'
                     onClick={handleMenuClick}
-                    onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton('menu'); }}
-                    onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredButton(null); }}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType !== 'mouse') return;
+                      setHoveredButton('menu');
+                    }}
+                    onPointerLeave={(e) => {
+                      if (e.pointerType !== 'mouse') return;
+                      setHoveredButton(null);
+                    }}
                     onBlur={() => setHoveredButton(null)}
                     style={{
                       ...buttonStyle,
