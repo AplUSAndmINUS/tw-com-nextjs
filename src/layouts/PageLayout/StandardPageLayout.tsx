@@ -135,13 +135,24 @@ export function StandardPageLayout({
       measureLayout();
     });
 
+    const mutationObserver = new MutationObserver(() => {
+      measureLayout();
+    });
+
     resizeObserver.observe(paneElement);
     resizeObserver.observe(innerElement);
+    mutationObserver.observe(innerElement, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+    });
 
     window.addEventListener('resize', measureLayout);
 
     return () => {
       resizeObserver.disconnect();
+      mutationObserver.disconnect();
       window.removeEventListener('resize', measureLayout);
     };
   }, [isMounted, usesMediaPaneLayout, children]);
