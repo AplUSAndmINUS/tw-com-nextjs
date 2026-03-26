@@ -139,6 +139,10 @@ export function StandardPageLayout({
       measureLayout();
     });
 
+    // Async pages such as /videos can start with a short loading state, then
+    // expand after data arrives without changing the observed pane box size.
+    // Re-measure on subtree mutations so the layout drops out of centered mode
+    // as soon as the content becomes scrollable.
     resizeObserver.observe(paneElement);
     resizeObserver.observe(innerElement);
     mutationObserver.observe(innerElement, {
