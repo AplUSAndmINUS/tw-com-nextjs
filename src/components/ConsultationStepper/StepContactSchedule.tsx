@@ -272,20 +272,27 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               cursor: 'pointer',
             }}
           >
-            <Checkbox
-              checked={data.consent}
-              onChange={(e) => update('consent', e.target.checked)}
-              aria-label='Consent to be contacted and data storage'
-              required
-              style={{
-                marginTop: '3px',
-                accentColor: theme.palette.themePrimary,
-                width: '24px',
-                height: '24px',
-                cursor: 'pointer',
-                flexShrink: 0,
+            <div
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
               }}
-            />
+            >
+              <Checkbox
+                checked={data.consent}
+                onChange={(e) => update('consent', e.target.checked)}
+                aria-label='Consent to be contacted and data storage'
+                required
+                style={{
+                  marginTop: '3px',
+                  accentColor: theme.palette.themePrimary,
+                  width: '24px',
+                  height: '24px',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                }}
+              />
+            </div>
             <Typography
               variant='body'
               style={{
