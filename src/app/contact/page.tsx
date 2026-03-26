@@ -32,24 +32,29 @@ export default function ContactPage() {
         title: 'Contact Me',
       }}
     >
-      <div className='relative max-width-content pt-0 pb-8 md:pb-16 md:py-8 flex flex-col gap-8'>
-        {/* Let's Connect section */}
+      <div className='relative max-width-content pt-0 pb-8 md:pb-16 md:py-8 flex flex-col gap-10'>
+        {/* Primary CTA: Start a Conversation */}
         <Hero
-          title="Let's Connect!"
-          iconName='Mail24Regular'
-          description="Let's discuss your needs and goals! Whether you're seeking project estimates, personalized training, strategic consulting, or web development solutions—I'm happy to help. Send me a message or click the button below to get started!"
+          title='Start a Conversation'
+          iconName='CalendarLtr24Regular'
+          description="Book a free consultation and let's map out your next move together. Whether you need project estimates, strategic consulting, training, or web development — I'll help you find the right path forward."
+          showShadow
         >
           <BookingsButton isHero />
         </Hero>
 
-        {/* Contact Me Form section */}
+        {/* Secondary: Contact Form (de-emphasized) */}
         <div className='flex flex-col gap-4'>
-          <Typography
-            variant='h2'
-            className='text-2xl font-bold uppercase tracking-wide'
-          >
-            Contact Me Form
-          </Typography>
+          <div className='flex items-center gap-3'>
+            <hr className='flex-1 border-t border-gray-200 dark:border-gray-700' />
+            <Typography
+              variant='caption'
+              className='text-xs text-gray-400 dark:text-gray-500 uppercase tracking-widest whitespace-nowrap'
+            >
+              Prefer email? Send a note instead
+            </Typography>
+            <hr className='flex-1 border-t border-gray-200 dark:border-gray-700' />
+          </div>
           <ReCaptchaProvider>
             <ContactForm />
           </ReCaptchaProvider>
