@@ -6,8 +6,8 @@ import { Typography } from '@/components/Typography';
 import { ContactForm } from '@/components/ContactForm';
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
-import { Button } from '@/components/Form/Button/Button';
 import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
+import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -44,13 +44,7 @@ export default function ContactPage() {
             rel='noopener noreferrer'
             target='_blank'
           >
-            <Button
-              type='button'
-              variant='primary'
-              aria-label='Book a free consultation with Terence Waters'
-            >
-              Book a Free Consultation
-            </Button>
+            <BookingsButton isHero />
           </a>
         </Hero>
 

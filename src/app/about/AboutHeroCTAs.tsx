@@ -2,41 +2,21 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
 
 /**
  * AboutHeroCTAs — Theme-aware CTA buttons for the About page Hero.
  * Lives as a client component so it can consume useAppTheme().
  */
 export function AboutHeroCTAs() {
-  const { theme, isDark } = useAppTheme();
-  const [primaryHovered, setPrimaryHovered] = useState(false);
+  const { theme } = useAppTheme();
   const [secondaryHovered, setSecondaryHovered] = useState(false);
 
   return (
     <div style={{ display: 'flex', gap: '0.75rem' }}>
-      <Link
-        href='/contact'
-        className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
-        style={{
-          backgroundColor: primaryHovered
-            ? theme.colorBrandBackgroundHover
-            : theme.colorBrandBackground,
-          color: isDark ? theme.colorNeutralBackground2 : theme.colorNeutralForegroundOnBrand,
-          textDecoration: 'none',
-          transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
-          fontFamily: theme.typography.fonts.body.fontFamily,
-          boxShadow: theme.shadows.button,
-        }}
-        onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
-          if (e.pointerType === 'mouse') setPrimaryHovered(true);
-        }}
-        onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {
-          if (e.pointerType === 'mouse') setPrimaryHovered(false);
-        }}
-      >
-        Book a Consultation
-      </Link>
+      <BookingsButton isHero />
       <Link
         href='https://fluxline.pro'
         target='_blank'
