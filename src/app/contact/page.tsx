@@ -32,31 +32,47 @@ export default function ContactPage() {
         title: 'Contact Me',
       }}
     >
-      <div className='relative max-width-content pt-0 pb-8 md:pb-16 md:py-8 flex flex-col gap-8'>
-        {/* Let's Connect section */}
+      <div className='relative max-width-content pt-0 pb-8 md:pb-16 md:py-8 flex flex-col gap-10'>
+        {/* Primary CTA: Start a Conversation */}
         <Hero
-          title="Let's Connect!"
-          iconName='Mail24Regular'
-          description="Let's discuss your needs and goals! Whether you're seeking project estimates, personalized training, strategic consulting, or web development solutions—I'm happy to help. Send me a message or click the button below to get started!"
+          title='Start a Conversation'
+          iconName='CalendarLtr24Regular'
+          description="Book a free consultation and let's map out your next move together. Whether you need project estimates, strategic consulting, training, or web development — I'll help you find the right path forward."
+          showShadow
         >
           <BookingsButton isHero />
         </Hero>
 
-        {/* Contact Me Form section */}
+        {/* Newsletter CTA */}
+        <NewsletterSignupCTA className='mt-4' />
+
+        {/* Secondary: Contact Form (de-emphasized) */}
         <div className='flex flex-col gap-4'>
-          <Typography
-            variant='h2'
-            className='text-2xl font-bold uppercase tracking-wide'
-          >
-            Contact Me Form
-          </Typography>
+          <div className='flex flex-col items-start gap-3 text-black-700 dark:text-neutral-200'>
+            <Typography
+              variant='h3'
+              style={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+              }}
+            >
+              Prefer to write? Send us a note.
+            </Typography>
+            <Typography
+              variant='body'
+              className='text-black-600 dark:text-neutral-300'
+              style={{
+                fontSize: '0.9rem',
+                maxWidth: '480px',
+              }}
+            >
+              Feel free to use the form below. I will respond as soon as I can!
+            </Typography>
+          </div>
           <ReCaptchaProvider>
             <ContactForm />
           </ReCaptchaProvider>
         </div>
-
-        {/* Newsletter CTA */}
-        <NewsletterSignupCTA className='mt-4' />
       </div>
     </PageLayout>
   );
