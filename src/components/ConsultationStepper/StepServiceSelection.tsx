@@ -100,19 +100,26 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
                 transition: 'all 0.2s ease',
               }}
             >
-              <Checkbox
-                checked={isSelected}
-                onChange={() => toggle(option.key)}
-                aria-label={option.label}
-                style={{
-                  marginTop: '3px',
-                  accentColor: theme.palette.themePrimary,
-                  width: '18px',
-                  height: '18px',
-                  cursor: 'pointer',
-                  flexShrink: 0,
+              <div
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
                 }}
-              />
+              >
+                <Checkbox
+                  checked={isSelected}
+                  onChange={() => toggle(option.key)}
+                  aria-label={option.label}
+                  style={{
+                    marginTop: '3px',
+                    accentColor: theme.palette.themePrimary,
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer',
+                    flexShrink: 0,
+                  }}
+                />
+              </div>
               <span
                 style={{
                   width: '1.5rem',
