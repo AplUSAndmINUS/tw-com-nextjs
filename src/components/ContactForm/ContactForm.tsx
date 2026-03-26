@@ -59,6 +59,12 @@ export const ContactForm: React.FC = () => {
   // Get only the errors for touched fields
   const visibleErrors = getVisibleErrors(errors, touched);
 
+  const contentWrapperStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '600px',
+    marginInline: 'auto',
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -132,140 +138,145 @@ export const ContactForm: React.FC = () => {
 
   if (isSuccess) {
     return (
-      <div
-        role='status'
-        aria-live='polite'
-        style={{
-          padding: theme.spacing.xl,
-          backgroundColor: theme.semanticColors.background.elevated,
-          borderRadius: theme.borderRadius.container.medium,
-          border: `1px solid ${theme.semanticColors.border.default}`,
-          textAlign: 'center',
-        }}
-      >
-        <Typography
-          variant='h3'
+      <div style={contentWrapperStyle}>
+        <div
+          role='status'
+          aria-live='polite'
           style={{
-            color: theme.semanticColors.text.heading,
-            marginBottom: theme.spacing.s1,
+            padding: theme.spacing.xl,
+            backgroundColor: theme.semanticColors.background.elevated,
+            borderRadius: theme.borderRadius.container.medium,
+            border: `1px solid ${theme.semanticColors.border.default}`,
+            textAlign: 'center',
           }}
         >
-          Message Sent!
-        </Typography>
-        <Typography
-          variant='body'
-          style={{ color: theme.semanticColors.text.muted }}
-        >
-          Thank you for reaching out. I&apos;ll get back to you as soon as
-          possible.
-        </Typography>
-        <a
-          href='https://terencewaters.com'
-          rel='noopener noreferrer'
-          target='_self'
-        >
-          <Button
-            type='button'
-            variant='primary'
-            aria-label='Return to home page'
+          <Typography
+            variant='h3'
+            style={{
+              color: theme.semanticColors.text.heading,
+              marginBottom: theme.spacing.s1,
+            }}
           >
-            Return to Home
-          </Button>
-        </a>
+            Message Sent!
+          </Typography>
+          <Typography
+            variant='body'
+            style={{ color: theme.semanticColors.text.muted }}
+          >
+            Thank you for reaching out. I&apos;ll get back to you as soon as
+            possible.
+          </Typography>
+          <a
+            href='https://terencewaters.com'
+            rel='noopener noreferrer'
+            target='_self'
+          >
+            <Button
+              type='button'
+              variant='primary'
+              aria-label='Return to home page'
+            >
+              Return to Home
+            </Button>
+          </a>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: theme.spacing.m,
-          maxWidth: '600px',
-        }}
-      >
-        <Input
-          label='Name'
-          name='name'
-          type='text'
-          placeholder='Enter your name (min. 10 characters)'
-          value={form.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={visibleErrors.name}
-          required
-          fullWidth
-          maxLength={200}
-          aria-label='Your name'
-          aria-invalid={!!visibleErrors.name}
-          aria-describedby={visibleErrors.name ? 'name-error' : undefined}
-        />
+    <div style={contentWrapperStyle}>
+      <form onSubmit={handleSubmit} noValidate>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: theme.spacing.m,
+          }}
+        >
+          <Input
+            label='Name'
+            name='name'
+            type='text'
+            placeholder='Enter your name (min. 10 characters)'
+            value={form.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={visibleErrors.name}
+            required
+            fullWidth
+            maxLength={200}
+            aria-label='Your name'
+            aria-invalid={!!visibleErrors.name}
+            aria-describedby={visibleErrors.name ? 'name-error' : undefined}
+          />
 
-        <Input
-          label='Email'
-          name='email'
-          type='email'
-          placeholder='Enter your email'
-          value={form.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={visibleErrors.email}
-          required
-          fullWidth
-          maxLength={254}
-          aria-label='Your email address'
-          aria-invalid={!!visibleErrors.email}
-          aria-describedby={visibleErrors.email ? 'email-error' : undefined}
-        />
+          <Input
+            label='Email'
+            name='email'
+            type='email'
+            placeholder='Enter your email'
+            value={form.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={visibleErrors.email}
+            required
+            fullWidth
+            maxLength={254}
+            aria-label='Your email address'
+            aria-invalid={!!visibleErrors.email}
+            aria-describedby={visibleErrors.email ? 'email-error' : undefined}
+          />
 
-        <Textarea
-          label='Message'
-          name='message'
-          placeholder='Enter a message (min. 15 characters)'
-          value={form.message}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={visibleErrors.message}
-          required
-          fullWidth
-          rows={5}
-          maxLength={5000}
-          showCount
-          aria-label='Your message'
-          aria-invalid={!!visibleErrors.message}
-          aria-describedby={visibleErrors.message ? 'message-error' : undefined}
-        />
-
-        {submitError && (
-          <Typography
-            variant='body'
-            style={{
-              color: theme.colorPaletteRedForeground1,
-              fontSize: '0.875rem',
-            }}
-          >
-            {submitError}
-          </Typography>
-        )}
-
-        <div>
-          <Button
-            type='submit'
-            variant='primary'
-            loading={isLoading}
-            disabled={isSubmitDisabled}
-            aria-label={
-              isSubmitDisabled
-                ? 'Complete all fields to send message'
-                : 'Send message'
+          <Textarea
+            label='Message'
+            name='message'
+            placeholder='Enter a message (min. 15 characters)'
+            value={form.message}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={visibleErrors.message}
+            required
+            fullWidth
+            rows={5}
+            maxLength={5000}
+            showCount
+            aria-label='Your message'
+            aria-invalid={!!visibleErrors.message}
+            aria-describedby={
+              visibleErrors.message ? 'message-error' : undefined
             }
-          >
-            Send Message
-          </Button>
+          />
+
+          {submitError && (
+            <Typography
+              variant='body'
+              style={{
+                color: theme.colorPaletteRedForeground1,
+                fontSize: '0.875rem',
+              }}
+            >
+              {submitError}
+            </Typography>
+          )}
+
+          <div>
+            <Button
+              type='submit'
+              variant='primary'
+              loading={isLoading}
+              disabled={isSubmitDisabled}
+              aria-label={
+                isSubmitDisabled
+                  ? 'Complete all fields to send message'
+                  : 'Send message'
+              }
+            >
+              Send Message
+            </Button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
