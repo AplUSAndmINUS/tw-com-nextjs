@@ -8,7 +8,7 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
-import { Checkbox, FormButton, FormSelect, Input, Radio } from '@/components/Form';
+import { Button, Checkbox, Input, Radio, Select } from '@/components/Form';
 import { REFERRAL_OPTIONS } from './constants';
 import { MeetingLength, StepThreeData, SubmitStatus } from './types';
 
@@ -232,13 +232,17 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
 
         {/* Referral source */}
         <div>
-          <FormSelect
+          <Select
             label='How did you hear about us?'
             value={data.referralSource}
-            options={REFERRAL_OPTIONS}
-            onChange={(value) => update('referralSource', value ?? '')}
+            options={REFERRAL_OPTIONS.map(({ key, text }) => ({
+              value: key,
+              label: text,
+            }))}
+            onChange={(event) => update('referralSource', event.target.value)}
             placeholder='Select an option…'
             aria-label='How did you hear about us?'
+            fullWidth
           />
           {errors.referralSource && (
             <ErrorMsg>{errors.referralSource}</ErrorMsg>
@@ -278,7 +282,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                 accentColor: theme.palette.themePrimary,
                 width: '24px',
                 height: '24px',
-                cursor: 'pointer', 
+                cursor: 'pointer',
                 flexShrink: 0,
               }}
             />
@@ -337,7 +341,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
       )}
 
       <div className='flex justify-between mt-6'>
-        <FormButton
+        <Button
           variant='secondary'
           onClick={onBack}
           size='medium'
@@ -345,8 +349,8 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
           type='button'
         >
           ← Back
-        </FormButton>
-        <FormButton
+        </Button>
+        <Button
           variant='primary'
           onClick={handleSchedule}
           size='medium'
@@ -355,7 +359,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
           type='button'
         >
           {isLoading ? 'Opening calendar…' : 'Schedule a time →'}
-        </FormButton>
+        </Button>
       </div>
     </div>
   );

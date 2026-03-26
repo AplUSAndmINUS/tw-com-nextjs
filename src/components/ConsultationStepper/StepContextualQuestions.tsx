@@ -8,10 +8,7 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
-import { FormButton } from '@/components/Form/FormButton';
-import { Input } from '@/components/Form/Input/Input';
-import { FormSelect } from '@/components/Form/FormSelect';
-import { Textarea } from '@/components/Form/Textarea/Textarea';
+import { Button, Input, Select, Textarea } from '@/components/Form';
 import { getQuestionSet } from './constants';
 import { ServiceKey, StepOneData, StepTwoData, Question } from './types';
 
@@ -165,14 +162,18 @@ export const StepContextualQuestions: React.FC<
 
     if (question.type === 'dropdown' && question.options) {
       return (
-        <FormSelect
+        <Select
           key={question.id}
           label={question.label}
           value={data.answers[question.id] || ''}
-          options={question.options}
-          onChange={(value) => updateAnswer(question.id, value ?? '')}
+          options={question.options.map(({ key, text }) => ({
+            value: key,
+            label: text,
+          }))}
+          onChange={(event) => updateAnswer(question.id, event.target.value)}
           placeholder='Select an option…'
           aria-label={question.label}
+          fullWidth
         />
       );
     }
@@ -278,22 +279,22 @@ export const StepContextualQuestions: React.FC<
       )}
 
       <div className='flex justify-between mt-6'>
-        <FormButton
+        <Button
           variant='secondary'
           onClick={onBack}
           size='medium'
           type='button'
         >
           ← Back
-        </FormButton>
-        <FormButton
+        </Button>
+        <Button
           variant='primary'
           onClick={handleNext}
           size='medium'
           type='button'
         >
           Next: Contact & Schedule →
-        </FormButton>
+        </Button>
       </div>
     </div>
   );

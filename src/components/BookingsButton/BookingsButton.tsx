@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { FormButton } from '@/components/Form/FormButton';
+import { Button } from '@/components/Form';
 import { useDeviceOrientation } from '@/hooks';
 import { FluentIcon } from '../FluentIcon';
 import { CalendarLtr28Regular } from '@fluentui/react-icons';
@@ -97,7 +97,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
 
   return (
     <>
-      <FormButton
+      <Button
         variant='primary'
         size={isHero ? 'large' : isHomePage ? 'medium' : 'small'}
         onClick={() => setStepperOpen(true)}
@@ -111,7 +111,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
           />
         )}
         Book a Consultation
-      </FormButton>
+      </Button>
       <ConsultationStepper
         isOpen={stepperOpen}
         onDismiss={() => setStepperOpen(false)}

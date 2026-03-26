@@ -21,7 +21,7 @@ import { StepContactSchedule } from './StepContactSchedule';
 import { TIDYCAL_LINKS } from './constants';
 import { getApiBaseUrl } from '@/lib/environment';
 import { LeadPayload, MeetingLength, StepperStep, SubmitStatus } from './types';
-import { FormButton } from '@/components/Form/FormButton';
+import { Button } from '@/components/Form';
 import { FluentIcon } from '../FluentIcon';
 import { Checkmark28Regular } from '@fluentui/react-icons';
 
@@ -90,7 +90,7 @@ function StepIndicator({
                   flex: idx < 2 ? 1 : undefined,
                 }}
               >
-                <FormButton
+                <Button
                   type='button'
                   onClick={() => isClickable && onStepClick(step)}
                   disabled={!isClickable}
@@ -102,9 +102,12 @@ function StepIndicator({
                     alignItems: 'center',
                     gap: '4px',
                     cursor: isClickable ? 'pointer' : 'default',
-                    background: 'none',
-                    border: 'none',
+                    backgroundColor: 'transparent',
+                    borderWidth: 0,
+                    borderStyle: 'solid',
+                    borderColor: 'transparent',
                     padding: 0,
+                    boxShadow: 'none',
                   }}
                 >
                   <div
@@ -148,7 +151,7 @@ function StepIndicator({
                   >
                     {STEP_LABELS[step]}
                   </Typography>
-                </FormButton>
+                </Button>
 
                 {/* Connector line */}
                 {idx < 2 && (
@@ -209,21 +212,24 @@ function SuccessView({ onClose }: { onClose: () => void }) {
         confirmation email with all the details.
       </Typography>
 
-      <FormButton
+      <Button
         type='button'
         onClick={onClose}
         style={{
           marginTop: theme.spacing.m,
-          background: 'none',
-          border: 'none',
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          borderStyle: 'solid',
+          borderColor: 'transparent',
           color: theme.palette.neutralSecondary,
           cursor: 'pointer',
           fontSize: theme.typography.fonts.bodySmall.fontSize,
           textDecoration: 'underline',
+          boxShadow: 'none',
         }}
       >
         Close
-      </FormButton>
+      </Button>
     </div>
   );
 }
@@ -440,21 +446,24 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
             >
               📋 Your previous answers have been restored.
             </Typography>
-            <FormButton
+            <Button
               type='button'
               onClick={clearDraft}
               style={{
-                background: 'none',
-                border: 'none',
+                backgroundColor: 'transparent',
+                borderWidth: 0,
+                borderStyle: 'solid',
+                borderColor: 'transparent',
                 color: theme.palette.neutralSecondary,
                 cursor: 'pointer',
                 fontSize: theme.typography.fonts.bodySmall.fontSize,
                 flexShrink: 0,
+                boxShadow: 'none',
               }}
               aria-label='Clear saved draft'
             >
               Clear
-            </FormButton>
+            </Button>
           </div>
         )}
 

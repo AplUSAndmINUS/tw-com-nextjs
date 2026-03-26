@@ -150,6 +150,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         transition: 'all 0.2s ease',
       };
 
+      // had to separate out the border properties so they do not overwrite themselves through SSG-to-client hydration -TW
       switch (variant) {
         case 'primary':
           return {
@@ -157,7 +158,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: theme.semanticColors.link.default,
               color: theme.semanticColors.background.base,
-              border: `2px solid ${theme.semanticColors.link.default}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.semanticColors.link.default,
             },
             hover: {
               backgroundColor: theme.semanticColors.link.hover,
@@ -177,7 +180,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: theme.palette.neutralLighter,
               color: theme.palette.neutralDark,
-              border: `2px solid ${theme.palette.neutralQuaternary}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.palette.neutralQuaternary,
             },
             hover: {
               backgroundColor: theme.palette.neutralLight,
@@ -197,7 +202,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: 'transparent',
               color: theme.semanticColors.text.primary,
-              border: `2px solid ${theme.semanticColors.border.emphasis}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.semanticColors.border.emphasis,
             },
             hover: {
               backgroundColor: theme.palette.neutralLighter,
@@ -219,7 +226,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: 'transparent',
               color: theme.semanticColors.text.primary,
-              border: '2px solid transparent',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: 'transparent',
             },
             hover: {
               backgroundColor: theme.palette.neutralLighter,
@@ -235,7 +244,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: theme.colorPaletteGreenForeground1,
               color: theme.palette.white,
-              border: `2px solid ${theme.colorPaletteGreenForeground1}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.colorPaletteGreenForeground1,
             },
             hover: {
               backgroundColor: theme.colorPaletteGreenForeground2,
@@ -255,7 +266,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: theme.colorPaletteYellowForeground1,
               color: theme.palette.neutralPrimary,
-              border: `2px solid ${theme.colorPaletteYellowForeground1}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.colorPaletteYellowForeground1,
             },
             hover: {
               backgroundColor: theme.colorPaletteYellowForeground2,
@@ -275,7 +288,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: theme.colorPaletteRedForeground1,
               color: theme.palette.white,
-              border: `2px solid ${theme.colorPaletteRedForeground1}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.colorPaletteRedForeground1,
             },
             hover: {
               backgroundColor: theme.palette.redDark,
@@ -295,7 +310,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ...baseTransition,
               backgroundColor: theme.palette.themePrimary,
               color: theme.palette.white,
-              border: `2px solid ${theme.palette.themePrimary}`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: theme.palette.themePrimary,
             },
             hover: {
               backgroundColor: theme.palette.themeDark,

@@ -8,8 +8,8 @@
 import React from 'react';
 
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { Button } from '@/components/Form';
 import { Typography } from '@/components/Typography';
-import { FormButton } from '@/components/Form/FormButton';
 import { SERVICE_OPTIONS } from './constants';
 import { ServiceKey, StepOneData } from './types';
 
@@ -157,9 +157,9 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
       )}
 
       <div className='flex justify-end mt-6'>
-        <FormButton variant='primary' onClick={handleNext} size='medium'>
+        <Button variant='primary' onClick={handleNext} size='medium'>
           Next: Tell us about your needs →
-        </FormButton>
+        </Button>
       </div>
     </div>
   );
