@@ -7,6 +7,7 @@ import { useDeviceOrientation } from '@/hooks';
 import { FluentIcon } from '../FluentIcon';
 import { CalendarLtr24Regular } from '@fluentui/react-icons';
 import { ConsultationStepper } from '../ConsultationStepper';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface BookingsButtonProps {
   animateSubHeader?: boolean;
@@ -31,6 +32,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
   const [stepperOpen, setStepperOpen] = React.useState(false);
   const isOrientationHook = useDeviceOrientation();
   const orientation = isMounted ? isOrientationHook : '';
+  const { theme } = useAppTheme();
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -109,6 +111,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
           <FluentIcon
             iconName={CalendarLtr24Regular}
             style={{ marginRight: '0.5rem' }}
+            color={theme.semanticColors.text.primary}
           />
         )}
         Book a Consultation
