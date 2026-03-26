@@ -8,7 +8,7 @@
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
-import { Checkbox, FormButton, FormSelect, Input, Radio } from '@/components/Form';
+import { Button, Checkbox, Input, Radio, Select } from '@/components/Form';
 import { REFERRAL_OPTIONS } from './constants';
 import { MeetingLength, StepThreeData, SubmitStatus } from './types';
 
@@ -100,7 +100,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
         }}
       >
         Enter your details below. After clicking &ldquo;Schedule a time&rdquo;
-        you&apos;ll be taken to our booking calendar to pick a slot.
+        you&apos;ll be able to pick a slot without leaving this modal.
       </Typography>
 
       <div className='flex flex-col gap-4'>
@@ -232,13 +232,17 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
 
         {/* Referral source */}
         <div>
-          <FormSelect
+          <Select
             label='How did you hear about us?'
             value={data.referralSource}
-            options={REFERRAL_OPTIONS}
-            onChange={(value) => update('referralSource', value ?? '')}
+            options={REFERRAL_OPTIONS.map(({ key, text }) => ({
+              value: key,
+              label: text,
+            }))}
+            onChange={(event) => update('referralSource', event.target.value)}
             placeholder='Select an option…'
             aria-label='How did you hear about us?'
+            fullWidth
           />
           {errors.referralSource && (
             <ErrorMsg>{errors.referralSource}</ErrorMsg>
@@ -268,20 +272,24 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               cursor: 'pointer',
             }}
           >
-            <Checkbox
-              checked={data.consent}
-              onChange={(e) => update('consent', e.target.checked)}
-              aria-label='Consent to be contacted and data storage'
-              required
-              style={{
-                marginTop: '3px',
-                accentColor: theme.palette.themePrimary,
-                width: '24px',
-                height: '24px',
-                cursor: 'pointer', 
-                flexShrink: 0,
+            <div
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
               }}
-            />
+            >
+              <Checkbox
+                checked={data.consent}
+                onChange={(e) => update('consent', e.target.checked)}
+                aria-label='Consent to be contacted and data storage'
+                required
+                size='large'
+                style={{
+                  marginTop: '3px',
+                  flexShrink: 0,
+                }}
+              />
+            </div>
             <Typography
               variant='body'
               style={{
@@ -337,7 +345,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
       )}
 
       <div className='flex justify-between mt-6'>
-        <FormButton
+        <Button
           variant='secondary'
           onClick={onBack}
           size='medium'
@@ -345,8 +353,8 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
           type='button'
         >
           ← Back
-        </FormButton>
-        <FormButton
+        </Button>
+        <Button
           variant='primary'
           onClick={handleSchedule}
           size='medium'
@@ -355,7 +363,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
           type='button'
         >
           {isLoading ? 'Opening calendar…' : 'Schedule a time →'}
-        </FormButton>
+        </Button>
       </div>
     </div>
   );

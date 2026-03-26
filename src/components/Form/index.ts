@@ -55,9 +55,3 @@ export type { SliderProps, SliderSize } from './Slider/Slider';
 // Tabs
 export { Tabs } from './Tabs/Tabs';
 export type { TabsProps, TabsVariant, TabsSize, Tab } from './Tabs/Tabs';
-
-// Legacy exports (deprecated - use new components above)
-export { FormSelect } from './FormSelect';
-export type { FormSelectProps, FormSelectOption } from './FormSelect';
-export { FormButton } from './FormButton';
-export type { FormButtonProps } from './FormButton';

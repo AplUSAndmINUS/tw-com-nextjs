@@ -3,6 +3,7 @@
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
+import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
 
 export const ConsultationCTA: React.FC = () => {
   const { theme } = useAppTheme();
@@ -46,18 +47,7 @@ export const ConsultationCTA: React.FC = () => {
           focused consultation and define your next best move.
         </Typography>
         <div className='flex flex-wrap gap-4'>
-          <ThemedLink
-            href='/contact'
-            hoverScale={1.05}
-            className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
-            style={{
-              backgroundColor: theme.semanticColors.link.default,
-              color: theme.semanticColors.background.base,
-              boxShadow: theme.shadows.button,
-            }}
-          >
-            Book a Consultation
-          </ThemedLink>
+          <BookingsButton isHero />
           <ThemedLink
             href='https://fluxline.pro'
             target='_blank'

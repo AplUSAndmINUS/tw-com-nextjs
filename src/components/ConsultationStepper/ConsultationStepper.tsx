@@ -18,10 +18,11 @@ import { useConsultationStorage } from './useConsultationStorage';
 import { StepServiceSelection } from './StepServiceSelection';
 import { StepContextualQuestions } from './StepContextualQuestions';
 import { StepContactSchedule } from './StepContactSchedule';
+import { StepTidyCal } from './StepTidyCal';
 import { TIDYCAL_LINKS } from './constants';
 import { getApiBaseUrl } from '@/lib/environment';
 import { LeadPayload, MeetingLength, StepperStep, SubmitStatus } from './types';
-import { FormButton } from '@/components/Form/FormButton';
+import { Button } from '@/components/Form';
 import { FluentIcon } from '../FluentIcon';
 import { Checkmark28Regular } from '@fluentui/react-icons';
 
@@ -90,7 +91,7 @@ function StepIndicator({
                   flex: idx < 2 ? 1 : undefined,
                 }}
               >
-                <FormButton
+                <Button
                   type='button'
                   onClick={() => isClickable && onStepClick(step)}
                   disabled={!isClickable}
@@ -102,9 +103,12 @@ function StepIndicator({
                     alignItems: 'center',
                     gap: '4px',
                     cursor: isClickable ? 'pointer' : 'default',
-                    background: 'none',
-                    border: 'none',
+                    backgroundColor: 'transparent',
+                    borderWidth: 0,
+                    borderStyle: 'solid',
+                    borderColor: 'transparent',
                     padding: 0,
+                    boxShadow: 'none',
                   }}
                 >
                   <div
@@ -148,7 +152,7 @@ function StepIndicator({
                   >
                     {STEP_LABELS[step]}
                   </Typography>
-                </FormButton>
+                </Button>
 
                 {/* Connector line */}
                 {idx < 2 && (
@@ -209,21 +213,24 @@ function SuccessView({ onClose }: { onClose: () => void }) {
         confirmation email with all the details.
       </Typography>
 
-      <FormButton
+      <Button
         type='button'
         onClick={onClose}
         style={{
           marginTop: theme.spacing.m,
-          background: 'none',
-          border: 'none',
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          borderStyle: 'solid',
+          borderColor: 'transparent',
           color: theme.palette.neutralSecondary,
           cursor: 'pointer',
           fontSize: theme.typography.fonts.bodySmall.fontSize,
           textDecoration: 'underline',
+          boxShadow: 'none',
         }}
       >
         Close
-      </FormButton>
+      </Button>
     </div>
   );
 }
@@ -262,17 +269,10 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
   const { theme } = useAppTheme();
   const [currentStep, setCurrentStep] = React.useState<StepperStep>(1);
   const [status, setStatus] = React.useState<SubmitStatus>('idle');
+  const [tidyCalUrl, setTidyCalUrl] = React.useState('');
 
-  const {
-    step1,
-    step2,
-    step3,
-    hasDraft,
-    setStep1,
-    setStep2,
-    setStep3,
-    clearDraft,
-  } = useConsultationStorage();
+  const { step1, step2, step3, setStep1, setStep2, setStep3, clearDraft } =
+    useConsultationStorage();
 
   // Fire "stepper opened" event on open
   useEffect(() => {
@@ -298,7 +298,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
 
   const handleSchedule = useCallback(async () => {
     fireEvent('consultation_booking_initiated');
-    setStatus('booking');
+    setStatus('submitting');
 
     // Build a brief note for TidyCal prefill
     const answerLines = Object.entries(step2.answers)
@@ -313,26 +313,10 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       step3.email,
       note
     );
-
-    // Open TidyCal in a new tab
-    const tidyCalWindow = window.open(
-      tidyCalUrl,
-      '_blank',
-      'noopener,noreferrer'
-    );
-
-    if (!tidyCalWindow) {
-      fireEvent('consultation_booking_failed');
-      setStatus('error');
-      return;
-    }
-
-    fireEvent('consultation_step_completed', { step: 3 });
+    setTidyCalUrl(tidyCalUrl);
 
     // Post lead payload to backend
     try {
-      setStatus('submitting');
-
       const utmParams = new URLSearchParams(window.location.search);
       const answers = { ...step2.answers };
 
@@ -370,9 +354,8 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       const responseBody = await response.json().catch(() => ({}));
 
       if (response.ok) {
-        fireEvent('consultation_booking_confirmed');
-        clearDraft();
-        setStatus('success');
+        fireEvent('consultation_step_completed', { step: 3 });
+        setStatus('schedule');
       } else {
         fireEvent('consultation_booking_failed');
         if (process.env.NODE_ENV === 'development') {
@@ -391,7 +374,13 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       }
       setStatus('error');
     }
-  }, [step1, step2, step3, clearDraft]);
+  }, [step1, step2, step3]);
+
+  const handleBookingComplete = useCallback(() => {
+    fireEvent('consultation_booking_confirmed');
+    clearDraft();
+    setStatus('success');
+  }, [clearDraft]);
 
   const handleClose = useCallback(() => {
     onDismiss();
@@ -399,6 +388,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
     setTimeout(() => {
       setCurrentStep(1);
       setStatus('idle');
+      setTidyCalUrl('');
     }, 300);
   }, [onDismiss]);
 
@@ -407,59 +397,24 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       isOpen={isOpen}
       onDismiss={handleClose}
       ariaLabel='Book a consultation'
-      maxWidth='640px'
+      maxWidth={status === 'schedule' ? '960px' : '800px'}
+      maxHeight={status === 'schedule' ? '92vh' : '90vh'}
     >
       <div
         style={{
           padding: theme.spacing.xl,
           paddingTop: theme.spacing.l,
+          border: `2px solid ${theme.palette.neutralLighterAlt}`,
         }}
       >
-        {/* Draft restore banner */}
-        {hasDraft && currentStep === 1 && status === 'idle' && (
-          <div
-            style={{
-              marginBottom: theme.spacing.m,
-              padding: theme.spacing.s2,
-              backgroundColor: theme.palette.themeLighterAlt,
-              border: `1px solid ${theme.palette.themeLight}`,
-              borderRadius: theme.borderRadius.container.small,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: theme.spacing.s2,
-            }}
-          >
-            <Typography
-              variant='body'
-              style={{
-                color: theme.palette.themePrimary,
-                fontSize: theme.typography.fonts.bodySmall.fontSize,
-                margin: 0,
-              }}
-            >
-              📋 Your previous answers have been restored.
-            </Typography>
-            <FormButton
-              type='button'
-              onClick={clearDraft}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: theme.palette.neutralSecondary,
-                cursor: 'pointer',
-                fontSize: theme.typography.fonts.bodySmall.fontSize,
-                flexShrink: 0,
-              }}
-              aria-label='Clear saved draft'
-            >
-              Clear
-            </FormButton>
-          </div>
-        )}
-
         {status === 'success' ? (
           <SuccessView onClose={handleClose} />
+        ) : status === 'schedule' ? (
+          <StepTidyCal
+            tidyCalUrl={tidyCalUrl}
+            onBack={() => setStatus('idle')}
+            onComplete={handleBookingComplete}
+          />
         ) : (
           <>
             <StepIndicator currentStep={currentStep} onStepClick={goToStep} />

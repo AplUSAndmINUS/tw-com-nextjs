@@ -10,42 +10,42 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     key: 'personal_training',
     label: 'Personal Training',
     description:
-      'Fitness coaching, workout plans, and performance optimisation.',
-    icon: '💪',
+      'Fitness coaching, workout plans, and performance optimization.',
+    icon: 'Accessibility28Regular',
   },
   {
     key: 'it_consulting',
     label: 'IT Business Consulting',
     description:
       'Technology strategy, system audits, and digital transformation.',
-    icon: '💻',
+    icon: 'PeopleCommunity28Regular',
   },
   {
     key: 'graphic_design',
     label: 'Graphic Design',
     description:
       'Brand identity, marketing materials, and visual storytelling.',
-    icon: '🎨',
+    icon: 'DesignIdeas28Filled',
   },
   {
     key: 'web_development',
     label: 'Web Development',
     description: 'Custom websites, web apps, and modern digital experiences.',
-    icon: '🌐',
+    icon: 'Code24Filled',
   },
   {
     key: 'resonance_coaching',
     label: 'Resonance Core Framework Coaching',
     description:
       'Mindset alignment, life strategy, and personal resonance work.',
-    icon: '✨',
+    icon: 'Heart28Filled',
   },
   {
     key: 'help_me_choose',
     label: "I don't know / Help me choose",
     description:
       "Not sure which service fits? Select this and we'll guide you on the call.",
-    icon: '🤔',
+    icon: 'QuestionCircle28Regular',
   },
 ];
 
