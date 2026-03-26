@@ -82,7 +82,8 @@ function VideoCard({
           <NativeLoadingImage
             src={video.thumbnailUrl}
             alt={video.title}
-            className='absolute top-0 left-0 w-full h-full object-cover'
+            wrapperStyle={{ position: 'absolute', inset: 0 }}
+            className='w-full h-full object-cover'
             onError={handleImageError}
             loading='lazy'
           />
@@ -179,10 +180,31 @@ function VideoModal({
   onDismiss: () => void;
 }) {
   const { theme } = useAppTheme();
-  const embedUrl =
-    video.type === 'playlist'
-      ? `https://www.youtube.com/embed/videoseries?list=${video.id}`
-      : `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const embedUrl = (() => {
+    const baseUrl =
+      video.type === 'playlist'
+        ? 'https://www.youtube.com/embed/videoseries'
+        : `https://www.youtube.com/embed/${video.id}`;
+    const url = new URL(baseUrl);
+
+    if (video.type === 'playlist') {
+      url.searchParams.set('list', video.id);
+    }
+
+    url.searchParams.set('autoplay', '1');
+    url.searchParams.set('controls', '1');
+    url.searchParams.set('fs', '1');
+    url.searchParams.set('rel', '0');
+    url.searchParams.set('modestbranding', '1');
+    url.searchParams.set('playsinline', '1');
+
+    if (origin) {
+      url.searchParams.set('origin', origin);
+    }
+
+    return url.toString();
+  })();
   const watchUrl =
     video.type === 'playlist'
       ? `https://www.youtube.com/playlist?list=${video.id}`
@@ -219,9 +241,11 @@ function VideoModal({
             src={embedUrl}
             title={video.title}
             frameBorder='0'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
             allowFullScreen
+            referrerPolicy='strict-origin-when-cross-origin'
             className='absolute top-0 left-0 w-full h-full'
+            style={{ display: 'block', backgroundColor: '#000' }}
           />
         </div>
 
