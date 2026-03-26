@@ -33,6 +33,11 @@ export const metadata: Metadata = {
 
 const EDUCATION = [
   {
+    credential: 'Ph.D. – Technology Management, Information Systems',
+    school: 'Northcentral University',
+    year: '2026-2030 (in progress)',
+  },
+  {
     credential: 'MBA – IT Management',
     school: 'Western Governors University',
     year: '2019',
