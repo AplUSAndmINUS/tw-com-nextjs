@@ -8,6 +8,7 @@ import { FluentIcon } from '../FluentIcon';
 import { CalendarLtr24Regular } from '@fluentui/react-icons';
 import { ConsultationStepper } from '../ConsultationStepper';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { Typography } from '../Typography';
 
 interface BookingsButtonProps {
   animateSubHeader?: boolean;
@@ -61,18 +62,19 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
     padding: isHeader
       ? '0.5rem'
       : isHero
-        ? '1rem 1.25rem'
+        ? '0.75rem 1.25rem'
         : !isHomePage
           ? '0.5rem 0.25rem'
           : '0.75rem 1rem',
     minHeight: orientation === 'portrait' ? '40px' : undefined,
     minWidth: isHeader ? '225px' : '250px',
-    maxWidth: isHomePage ? undefined : '500px',
+    maxWidth: isHomePage ? undefined : '300px',
     width: animateSubHeader || orientation === 'portrait' ? '100%' : 'auto',
     fontSize: getResponsiveFontSize(),
     fontWeight: '600',
     cursor: 'pointer',
     boxShadow: '0 4px 8px rgba(0,0,0,0.12)',
+    color: theme.semanticColors.text.primary,
     // Animation states
     ...(willAnimate &&
       !animateSubHeader && {
@@ -107,14 +109,22 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
         style={buttonStyles}
         className={className}
       >
-        {(isHomePage || isHero) && (
-          <FluentIcon
-            iconName={CalendarLtr24Regular}
-            style={{ marginRight: '0.5rem' }}
-            color={theme.semanticColors.text.primary}
-          />
-        )}
-        Book a Consultation
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {(isHomePage || isHero) && (
+            <FluentIcon
+              iconName={CalendarLtr24Regular}
+              style={{ marginRight: '0.5rem' }}
+              color={theme.semanticColors.text.primary}
+            />
+          )}
+          <Typography variant='body'>Book a Consultation</Typography>
+        </div>
       </Button>
       <ConsultationStepper
         isOpen={stepperOpen}

@@ -29,6 +29,8 @@ export function AboutHeroCTAs() {
           color: theme.semanticColors.text.primary,
           border: `1px solid ${theme.semanticColors.border.default}`,
           textDecoration: 'none',
+          fontSize: '1.125rem',
+          fontWeight: 'normal',
           transition: `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}, border-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
           fontFamily: theme.typography.fonts.body.fontFamily,
         }}
