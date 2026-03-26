@@ -183,6 +183,7 @@ export const ContactForm: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           gap: theme.spacing.m,
+          maxWidth: '600px',
         }}
       >
         <Input

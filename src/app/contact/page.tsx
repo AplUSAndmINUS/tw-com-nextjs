@@ -43,6 +43,9 @@ export default function ContactPage() {
           <BookingsButton isHero />
         </Hero>
 
+        {/* Newsletter CTA */}
+        <NewsletterSignupCTA className='mt-4' />
+
         {/* Secondary: Contact Form (de-emphasized) */}
         <div className='flex flex-col gap-4'>
           <div className='flex items-center gap-3'>
@@ -59,9 +62,6 @@ export default function ContactPage() {
             <ContactForm />
           </ReCaptchaProvider>
         </div>
-
-        {/* Newsletter CTA */}
-        <NewsletterSignupCTA className='mt-4' />
       </div>
     </PageLayout>
   );
