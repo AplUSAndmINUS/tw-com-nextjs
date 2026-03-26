@@ -18,6 +18,7 @@ import { useConsultationStorage } from './useConsultationStorage';
 import { StepServiceSelection } from './StepServiceSelection';
 import { StepContextualQuestions } from './StepContextualQuestions';
 import { StepContactSchedule } from './StepContactSchedule';
+import { StepTidyCal } from './StepTidyCal';
 import { TIDYCAL_LINKS } from './constants';
 import { getApiBaseUrl } from '@/lib/environment';
 import { LeadPayload, MeetingLength, StepperStep, SubmitStatus } from './types';
@@ -268,6 +269,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
   const { theme } = useAppTheme();
   const [currentStep, setCurrentStep] = React.useState<StepperStep>(1);
   const [status, setStatus] = React.useState<SubmitStatus>('idle');
+  const [tidyCalUrl, setTidyCalUrl] = React.useState('');
 
   const {
     step1,
@@ -304,7 +306,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
 
   const handleSchedule = useCallback(async () => {
     fireEvent('consultation_booking_initiated');
-    setStatus('booking');
+    setStatus('submitting');
 
     // Build a brief note for TidyCal prefill
     const answerLines = Object.entries(step2.answers)
@@ -319,26 +321,10 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       step3.email,
       note
     );
-
-    // Open TidyCal in a new tab
-    const tidyCalWindow = window.open(
-      tidyCalUrl,
-      '_blank',
-      'noopener,noreferrer'
-    );
-
-    if (!tidyCalWindow) {
-      fireEvent('consultation_booking_failed');
-      setStatus('error');
-      return;
-    }
-
-    fireEvent('consultation_step_completed', { step: 3 });
+    setTidyCalUrl(tidyCalUrl);
 
     // Post lead payload to backend
     try {
-      setStatus('submitting');
-
       const utmParams = new URLSearchParams(window.location.search);
       const answers = { ...step2.answers };
 
@@ -376,9 +362,8 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       const responseBody = await response.json().catch(() => ({}));
 
       if (response.ok) {
-        fireEvent('consultation_booking_confirmed');
-        clearDraft();
-        setStatus('success');
+        fireEvent('consultation_step_completed', { step: 3 });
+        setStatus('schedule');
       } else {
         fireEvent('consultation_booking_failed');
         if (process.env.NODE_ENV === 'development') {
@@ -397,7 +382,13 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       }
       setStatus('error');
     }
-  }, [step1, step2, step3, clearDraft]);
+  }, [step1, step2, step3]);
+
+  const handleBookingComplete = useCallback(() => {
+    fireEvent('consultation_booking_confirmed');
+    clearDraft();
+    setStatus('success');
+  }, [clearDraft]);
 
   const handleClose = useCallback(() => {
     onDismiss();
@@ -405,6 +396,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
     setTimeout(() => {
       setCurrentStep(1);
       setStatus('idle');
+      setTidyCalUrl('');
     }, 300);
   }, [onDismiss]);
 
@@ -413,7 +405,8 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
       isOpen={isOpen}
       onDismiss={handleClose}
       ariaLabel='Book a consultation'
-      maxWidth='800px'
+      maxWidth={status === 'schedule' ? '960px' : '800px'}
+      maxHeight={status === 'schedule' ? '92vh' : '90vh'}
     >
       <div
         style={{
@@ -470,6 +463,12 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
 
         {status === 'success' ? (
           <SuccessView onClose={handleClose} />
+        ) : status === 'schedule' ? (
+          <StepTidyCal
+            tidyCalUrl={tidyCalUrl}
+            onBack={() => setStatus('idle')}
+            onComplete={handleBookingComplete}
+          />
         ) : (
           <>
             <StepIndicator currentStep={currentStep} onStepClick={goToStep} />

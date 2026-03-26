@@ -89,5 +89,6 @@ export type SubmitStatus =
   | 'idle'
   | 'booking'
   | 'submitting'
+  | 'schedule'
   | 'success'
   | 'error';

@@ -100,7 +100,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
         }}
       >
         Enter your details below. After clicking &ldquo;Schedule a time&rdquo;
-        you&apos;ll be taken to our booking calendar to pick a slot.
+        you&apos;ll be able to pick a slot without leaving this modal.
       </Typography>
 
       <div className='flex flex-col gap-4'>
