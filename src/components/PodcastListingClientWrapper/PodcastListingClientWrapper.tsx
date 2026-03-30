@@ -9,9 +9,35 @@ import {
 } from '@/components/ContentListingPage';
 import { PodcastEpisode } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
+import { SpreakerPlayer } from '@/components/SpreakerPlayer';
+import { SPREAKER_SHOW_ID } from '@/lib/spreaker';
+
+/** External platform links — Spotify/Apple Podcasts URLs TBD */
+const PLATFORM_LINKS = [
+  {
+    id: 'spreaker',
+    label: 'Spreaker',
+    href: 'https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--6933506',
+    icon: '🎙',
+  },
+  {
+    id: 'spotify',
+    label: 'Spotify',
+    href: null, // Link forthcoming
+    icon: '🎵',
+  },
+  {
+    id: 'apple',
+    label: 'Apple Podcasts',
+    href: null, // Link forthcoming
+    icon: '🎧',
+  },
+] as const;
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
+  /** Whether the Spreaker feed is currently available */
+  feedAvailable?: boolean;
 }
 
 /**
@@ -20,6 +46,7 @@ interface PodcastListingClientWrapperProps {
  */
 export function PodcastListingClientWrapper({
   initialEpisodes,
+  feedAvailable = false,
 }: PodcastListingClientWrapperProps) {
   // State for filters
   const [selectedTag, setSelectedTag] = useState<string | undefined>();
@@ -160,26 +187,68 @@ export function PodcastListingClientWrapper({
       : `Showing ${filteredEpisodes.length} of ${initialEpisodes.length} episode${initialEpisodes.length !== 1 ? 's' : ''}`;
 
   return (
-    <ContentListingPage
-      title='Podcasts'
-      iconName='MicRegular'
-      description='Audio conversations on technology, creativity, and building meaningful things.'
-      basePath='/podcasts'
-      cards={cards}
-      filters={filters}
-      sortBy={sortBy}
-      onSortChange={setSortBy}
-      dateFrom={dateFrom}
-      dateTo={dateTo}
-      onDateFromChange={setDateFrom}
-      onDateToChange={setDateTo}
-      onClearDates={() => {
-        setDateFrom('');
-        setDateTo('');
-      }}
-      resultsMessage={resultsMessage}
-      emptyStateTitle='No podcast episodes found'
-      emptyStateMessage='Try adjusting your filters to see more episodes.'
-    />
+    <div>
+      {/* Spreaker embedded player */}
+      <div className='mb-8'>
+        <SpreakerPlayer
+          showId={SPREAKER_SHOW_ID}
+          available={feedAvailable}
+          height='350px'
+          theme='dark'
+        />
+      </div>
+
+      {/* Platform selector buttons */}
+      <nav className='flex flex-wrap gap-3 mb-8' aria-label='Listen on'>
+        {PLATFORM_LINKS.map((platform) =>
+          platform.href ? (
+            <a
+              key={platform.id}
+              href={platform.href}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-opacity hover:opacity-80'
+              aria-label={`Listen on ${platform.label}`}
+            >
+              <span aria-hidden='true'>{platform.icon}</span>
+              {platform.label}
+            </a>
+          ) : (
+            <span
+              key={platform.id}
+              className='inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium opacity-40 cursor-not-allowed'
+              aria-label={`${platform.label} — coming soon`}
+              title='Coming soon'
+            >
+              <span aria-hidden='true'>{platform.icon}</span>
+              {platform.label}
+            </span>
+          )
+        )}
+      </nav>
+
+      {/* Episode listing */}
+      <ContentListingPage
+        title='Episodes'
+        iconName='MicRegular'
+        description='Audio conversations on technology, creativity, and building meaningful things.'
+        basePath='/podcasts'
+        cards={cards}
+        filters={filters}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        onDateFromChange={setDateFrom}
+        onDateToChange={setDateTo}
+        onClearDates={() => {
+          setDateFrom('');
+          setDateTo('');
+        }}
+        resultsMessage={resultsMessage}
+        emptyStateTitle='No podcast episodes found'
+        emptyStateMessage='Try adjusting your filters to see more episodes.'
+      />
+    </div>
   );
 }

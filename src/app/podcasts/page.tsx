@@ -3,6 +3,7 @@ import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import type { PodcastEpisode } from '@/content/types';
+import { fetchSpreakerEpisodes } from '@/lib/spreaker';
 import PodcastImage from '@/assets/images/Podcasts1400x1875.jpg';
 
 export const metadata: Metadata = {
@@ -22,8 +23,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * Static placeholder episodes — replaced at runtime by the Azure Function
- * (api/podcasts) once the Azure Storage account is configured.
+ * Static placeholder episodes shown when the Spreaker RSS feed is unavailable
+ * at build time.
  */
 const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
   {
@@ -38,7 +39,12 @@ const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
   },
 ];
 
-export default function PodcastsPage() {
+export default async function PodcastsPage() {
+  // Attempt to fetch live episode data from the Spreaker RSS feed at build time.
+  // Falls back gracefully to placeholder episodes if the feed is unavailable.
+  const feed = await fetchSpreakerEpisodes();
+  const episodes = feed.available ? feed.episodes : PLACEHOLDER_EPISODES;
+
   return (
     <PageLayout
       featureImage={{
@@ -47,7 +53,10 @@ export default function PodcastsPage() {
         title: 'Podcasts',
       }}
     >
-      <PodcastListingClientWrapper initialEpisodes={PLACEHOLDER_EPISODES} />
+      <PodcastListingClientWrapper
+        initialEpisodes={episodes}
+        feedAvailable={feed.available}
+      />
     </PageLayout>
   );
 }

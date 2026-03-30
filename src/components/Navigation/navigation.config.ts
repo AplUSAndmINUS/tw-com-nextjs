@@ -43,6 +43,11 @@ export const navItems: NavItem[] = [
     description: 'Explore open-source projects and repositories',
   },
   {
+    label: 'Podcasts',
+    path: '/podcasts',
+    description: 'Listen to the A+ in FLUX Mythmaker Series podcast',
+  },
+  {
     label: 'Contact Me',
     path: '/contact',
     description: 'Get in touch with Terence Waters',

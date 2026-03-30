@@ -57,6 +57,8 @@ export interface PodcastEpisode {
   transcript?: string;
   season?: number;
   episode?: number;
+  /** Spreaker numeric episode ID used for episode-specific embed URLs */
+  spreakerEpisodeId?: string;
 }
 
 export type ContentType =
