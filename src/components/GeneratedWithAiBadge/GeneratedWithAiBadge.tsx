@@ -24,6 +24,11 @@ export interface GeneratedWithAiBadgeProps {
    * On mobile (`useIsMobile`), tooltip always opens below regardless of this prop.
    */
   isHero?: boolean;
+  /**
+   * Content to render inside the Responsible AI Usage modal.
+   * Pass pre-rendered MDX from a server component using next-mdx-remote/rsc.
+   */
+  modalContent?: React.ReactNode;
 }
 
 const DEFAULT_TOOLTIP =
@@ -55,6 +60,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
   className,
   style,
   isHero = false,
+  modalContent,
 }) => {
   const { theme, themeMode } = useAppTheme();
   const [showTooltip, setShowTooltip] = useState(false);
@@ -103,7 +109,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
 
   // Tooltip positioning: below when in Hero or mobile, to the right otherwise
   const tooltipPositionClass = tooltipBelow
-    ? 'pointer-events-none absolute left-1/2 top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2 rounded-lg px-4 py-2.5'
+    ? 'pointer-events-none absolute left-full top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2 rounded-lg px-4 py-2.5'
     : 'pointer-events-none absolute left-full top-1/2 z-50 ml-3 w-max max-w-xs -translate-y-1/2 rounded-lg px-4 py-2.5';
 
   return (
@@ -126,8 +132,14 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
           color: theme.palette.neutralPrimary,
           lineHeight: 1,
         }}
-        onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setShowTooltip(true); }}
-        onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setShowTooltip(false); }}
+        onPointerEnter={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          setShowTooltip(true);
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          setShowTooltip(false);
+        }}
         onFocus={() => setShowTooltip(true)}
         onBlur={() => setShowTooltip(false)}
         onClick={handleToggleTooltip}
@@ -218,7 +230,8 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         }}
         onPointerLeave={(e) => {
           if (e.pointerType !== 'mouse') return;
-          e.currentTarget.style.backgroundColor = theme.palette.neutralLighterAlt;
+          e.currentTarget.style.backgroundColor =
+            theme.palette.neutralLighterAlt;
           e.currentTarget.style.color = theme.semanticColors.text.muted;
         }}
       >
@@ -230,31 +243,28 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         isOpen={isModalOpen}
         onDismiss={() => setIsModalOpen(false)}
         ariaLabel='Responsible AI Usage'
-        maxWidth='95vw'
-        maxHeight='95vh'
+        maxWidth='800px'
+        maxHeight='90vh'
         showCloseButton={true}
         style={{
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          height: '95vh',
           padding: 0,
         }}
       >
         {/* Spacer to clear the close button */}
         <div style={{ height: '56px', flexShrink: 0 }} />
-        <iframe
-          src='https://fluxline.pro/legal/responsible-ai-usage/'
-          title='Responsible AI Usage — Fluxline.pro'
+        <div
           style={{
             flex: 1,
-            width: '100%',
-            border: 'none',
-            display: 'block',
+            overflowY: 'auto',
+            padding: '0 2rem 2rem',
             minHeight: 0,
           }}
-          sandbox='allow-scripts allow-forms'
-        />
+        >
+          {modalContent}
+        </div>
       </Modal>
     </div>
   );
