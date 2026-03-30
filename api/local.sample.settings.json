@@ -26,7 +26,8 @@
     "LEAD_ALLOWED_ORIGINS": "http://localhost:3000,http://localhost:7071,https://www.terencewaters.com,https://terencewaters.com",
     "LEAD_RATE_LIMIT_MAX_REQUESTS": "10",
     "LEAD_RATE_LIMIT_WINDOW_MS": "900000",
-    "LEAD_STORE_RAW_PAYLOAD": "false"
+    "LEAD_STORE_RAW_PAYLOAD": "false",
+    "AzureWebJobs.ping.Disabled": "true"
   },
   "Host": {
     "CORS": "*",
