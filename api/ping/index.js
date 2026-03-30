@@ -21,10 +21,12 @@
  * @param {import('@azure/functions').Timer} myTimer
  */
 module.exports = async function (context, myTimer) {
-  const environment = (process.env.ENVIRONMENT || 'prod').toLowerCase();
+  const environment = (process.env.ENVIRONMENT || 'dev').toLowerCase();
 
+  // Non-prod environments should have AzureWebJobs.ping.Disabled=true set as
+  // an app setting so this trigger never fires. The early return is a fallback
+  // in case that app setting is not in place.
   if (environment !== 'prod') {
-    context.log(`Ping skipped — environment is "${environment}" (prod only)`);
     return;
   }
 
