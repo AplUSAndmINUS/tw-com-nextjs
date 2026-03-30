@@ -66,6 +66,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
   const [showTooltip, setShowTooltip] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const tooltipId = React.useId();
   const isMobile = useIsMobile();
 
@@ -146,7 +147,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         onKeyDown={handleKeyDown}
         tabIndex={0}
         role='button'
-        aria-label={`Generated with AI. ${tooltipText.replace(/\n/g, ' ')}`}
+        aria-label={`Generated with AI. ${tooltipText.replace(/(\r?\n|\\n)/g, ' ')}`}
         aria-describedby={tooltipId}
         aria-controls={tooltipId}
       >
@@ -205,67 +206,72 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         )}
       </div>
 
-      {/* WindowNew icon button — opens Responsible AI Usage modal */}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        aria-label='View Responsible AI Usage guidelines'
-        title='Responsible AI Usage'
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '6px',
-          borderRadius: theme.borderRadius.container.small,
-          border: `1px solid ${theme.semanticColors.border.default}`,
-          backgroundColor: theme.palette.neutralLighterAlt,
-          color: theme.semanticColors.text.muted,
-          cursor: 'pointer',
-          transition: 'background-color 0.2s ease, color 0.2s ease',
-          flexShrink: 0,
-        }}
-        onPointerEnter={(e) => {
-          if (e.pointerType !== 'mouse') return;
-          e.currentTarget.style.backgroundColor = theme.palette.neutralLighter;
-          e.currentTarget.style.color = theme.semanticColors.text.primary;
-        }}
-        onPointerLeave={(e) => {
-          if (e.pointerType !== 'mouse') return;
-          e.currentTarget.style.backgroundColor =
-            theme.palette.neutralLighterAlt;
-          e.currentTarget.style.color = theme.semanticColors.text.muted;
-        }}
-      >
-        <FluentIcon iconName={WindowNew20Regular} />
-      </button>
+      {/* WindowNew icon button — opens Responsible AI Usage modal (only when modalContent is provided) */}
+      {modalContent && (
+        <>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            aria-label='View Responsible AI Usage guidelines'
+            title='Responsible AI Usage'
+            onPointerEnter={(e) => {
+              if (e.pointerType !== 'mouse') return;
+              setIsButtonHovered(true);
+            }}
+            onPointerLeave={(e) => {
+              if (e.pointerType !== 'mouse') return;
+              setIsButtonHovered(false);
+            }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px',
+              borderRadius: theme.borderRadius.container.small,
+              border: `1px solid ${theme.semanticColors.border.default}`,
+              backgroundColor: isButtonHovered
+                ? theme.palette.neutralLighter
+                : theme.palette.neutralLighterAlt,
+              color: isButtonHovered
+                ? theme.semanticColors.text.primary
+                : theme.semanticColors.text.muted,
+              cursor: 'pointer',
+              transition: 'background-color 0.2s ease, color 0.2s ease',
+              flexShrink: 0,
+            }}
+          >
+            <FluentIcon iconName={WindowNew20Regular} />
+          </button>
 
-      {/* Responsible AI Usage Modal */}
-      <Modal
-        isOpen={isModalOpen}
-        onDismiss={() => setIsModalOpen(false)}
-        ariaLabel='Responsible AI Usage'
-        maxWidth='800px'
-        maxHeight='90vh'
-        showCloseButton={true}
-        style={{
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: 0,
-        }}
-      >
-        {/* Spacer to clear the close button */}
-        <div style={{ height: '56px', flexShrink: 0 }} />
-        <div
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            padding: '0 2rem 2rem',
-            minHeight: 0,
-          }}
-        >
-          {modalContent}
-        </div>
-      </Modal>
+          {/* Responsible AI Usage Modal */}
+          <Modal
+            isOpen={isModalOpen}
+            onDismiss={() => setIsModalOpen(false)}
+            ariaLabel='Responsible AI Usage'
+            maxWidth='800px'
+            maxHeight='90vh'
+            showCloseButton={true}
+            style={{
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: 0,
+            }}
+          >
+            {/* Spacer to clear the close button */}
+            <div style={{ height: '56px', flexShrink: 0 }} />
+            <div
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '0 2rem 2rem',
+                minHeight: 0,
+              }}
+            >
+              {modalContent}
+            </div>
+          </Modal>
+        </>
+      )}
     </div>
   );
 };
