@@ -144,8 +144,7 @@ export async function fetchSpreakerEpisodes(): Promise<SpreakerFeedResult> {
 
     // Channel-level header text (everything before the first <item>)
     const channelHeader = xml.split('<item>')[0] ?? '';
-    const showTitle =
-      extractText(channelHeader, 'title') || fallback.showTitle;
+    const showTitle = extractText(channelHeader, 'title') || fallback.showTitle;
     const showDescription =
       extractText(channelHeader, 'description') || fallback.showDescription;
     const showImageUrl =
@@ -167,6 +166,56 @@ export async function fetchSpreakerEpisodes(): Promise<SpreakerFeedResult> {
     };
   } catch (err) {
     console.warn('[Spreaker] Failed to fetch RSS feed:', err);
+    return fallback;
+  }
+}
+
+/**
+ * Fetch podcast episodes from the `/api/podcasts` Azure Function.
+ *
+ * Intended for **client-side** use — call this from a `useEffect` or SWR/React
+ * Query hook. The response shape mirrors `SpreakerFeedResult` so callers can
+ * treat build-time and runtime data identically.
+ *
+ * Returns `available: false` on any network or parse error so the UI degrades
+ * gracefully without throwing.
+ */
+export async function fetchPodcastsFromApi(): Promise<SpreakerFeedResult> {
+  const fallback: SpreakerFeedResult = {
+    episodes: [],
+    showTitle: 'A+ in FLUX Mythmaker Series',
+    showDescription:
+      'Audio conversations on technology, creativity, and building meaningful things.',
+    showImageUrl: '',
+    available: false,
+  };
+
+  try {
+    const res = await fetch('/api/podcasts');
+
+    if (!res.ok) {
+      console.warn(`[Spreaker API] /api/podcasts returned HTTP ${res.status}`);
+      return fallback;
+    }
+
+    const data = (await res.json()) as Partial<SpreakerFeedResult> & {
+      error?: string;
+    };
+
+    if (data.error) {
+      console.warn('[Spreaker API] Server error:', data.error);
+      return fallback;
+    }
+
+    return {
+      episodes: data.episodes ?? [],
+      showTitle: data.showTitle ?? fallback.showTitle,
+      showDescription: data.showDescription ?? fallback.showDescription,
+      showImageUrl: data.showImageUrl ?? '',
+      available: data.available ?? (data.episodes?.length ?? 0) > 0,
+    };
+  } catch (err) {
+    console.warn('[Spreaker API] fetch failed:', err);
     return fallback;
   }
 }

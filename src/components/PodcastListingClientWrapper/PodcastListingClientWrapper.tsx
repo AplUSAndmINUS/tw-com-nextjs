@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
@@ -9,6 +9,7 @@ import {
 } from '@/components/ContentListingPage';
 import { PodcastEpisode } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
+import { fetchPodcastsFromApi } from '@/lib/spreaker';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
@@ -24,6 +25,24 @@ export function PodcastListingClientWrapper({
   initialEpisodes,
   feedAvailable = false,
 }: PodcastListingClientWrapperProps) {
+  // Live episode data — seeded from SSG props, refreshed from /api/podcasts on mount
+  const [episodes, setEpisodes] = useState<PodcastEpisode[]>(initialEpisodes);
+  const [isFeedAvailable, setIsFeedAvailable] =
+    useState<boolean>(feedAvailable);
+
+  useEffect(() => {
+    fetchPodcastsFromApi()
+      .then((result) => {
+        if (result.available && result.episodes.length > 0) {
+          setEpisodes(result.episodes);
+          setIsFeedAvailable(true);
+        }
+      })
+      .catch(() => {
+        // Silently fall back to SSG data — no user-visible error
+      });
+  }, []);
+
   // State for filters
   const [selectedTag, setSelectedTag] = useState<string | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<
@@ -36,23 +55,23 @@ export function PodcastListingClientWrapper({
   // Extract unique tags and categories
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
-    initialEpisodes.forEach((episode) => {
+    episodes.forEach((episode) => {
       episode.tags?.forEach((tag) => tagSet.add(tag));
     });
     return Array.from(tagSet).sort();
-  }, [initialEpisodes]);
+  }, [episodes]);
 
   const allCategories = useMemo(() => {
     const categorySet = new Set<string>();
-    initialEpisodes.forEach((episode) => {
+    episodes.forEach((episode) => {
       if (episode.category) categorySet.add(episode.category);
     });
     return Array.from(categorySet).sort();
-  }, [initialEpisodes]);
+  }, [episodes]);
 
   // Filter and sort episodes
   const filteredEpisodes = useMemo(() => {
-    let filtered = [...initialEpisodes];
+    let filtered = [...episodes];
 
     // Filter by tag
     if (selectedTag) {
@@ -95,14 +114,7 @@ export function PodcastListingClientWrapper({
     });
 
     return filtered;
-  }, [
-    initialEpisodes,
-    selectedTag,
-    selectedCategory,
-    dateFrom,
-    dateTo,
-    sortBy,
-  ]);
+  }, [episodes, selectedTag, selectedCategory, dateFrom, dateTo, sortBy]);
 
   // Transform episodes to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -158,13 +170,12 @@ export function PodcastListingClientWrapper({
 
   // Generate results message
   const resultsMessage =
-    filteredEpisodes.length === initialEpisodes.length
+    filteredEpisodes.length === episodes.length
       ? `Showing all ${filteredEpisodes.length} episode${filteredEpisodes.length !== 1 ? 's' : ''}`
-      : `Showing ${filteredEpisodes.length} of ${initialEpisodes.length} episode${initialEpisodes.length !== 1 ? 's' : ''}`;
+      : `Showing ${filteredEpisodes.length} of ${episodes.length} episode${episodes.length !== 1 ? 's' : ''}`;
 
   return (
     <div>
-
       {/* Episode listing */}
       <ContentListingPage
         title='Podcast Episodes'
@@ -179,7 +190,7 @@ export function PodcastListingClientWrapper({
         dateTo={dateTo}
         onDateFromChange={setDateFrom}
         onDateToChange={setDateTo}
-        feedAvailable={feedAvailable}
+        feedAvailable={isFeedAvailable}
         onClearDates={() => {
           setDateFrom('');
           setDateTo('');
