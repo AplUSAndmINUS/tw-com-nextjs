@@ -11,8 +11,7 @@
  * Environment variables required:
  *   ENVIRONMENT  — The current environment (dev, test, or prod)
  *
- * Schedule: every 15 minutes ("0 */15 * * * *")
- */
+ * Schedule: every 15 minutes ("0 */ //15 * * * *")*/
 
 'use strict';
 
