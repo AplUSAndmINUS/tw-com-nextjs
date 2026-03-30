@@ -8,6 +8,7 @@ import { ContentGalleryClient } from '@/components/ContentGalleryClient';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
+import { content as responsibleAiContent } from '@/assets/fluxline-legal/responsible-ai-legal';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -66,7 +67,17 @@ export default async function PortfolioEntryPage({ params }: Props) {
         />
       }
     >
-      {entry.generatedWithAI && <GeneratedWithAiBadge className='mb-6' />}
+      {entry.generatedWithAI && (
+        <GeneratedWithAiBadge
+          className='mb-6'
+          modalContent={
+            <MDXRemote
+              source={responsibleAiContent}
+              components={mdxComponents}
+            />
+          }
+        />
+      )}
       {entry.gallery && entry.gallery.length > 0 && (
         <ContentGalleryClient gallery={entry.gallery} />
       )}

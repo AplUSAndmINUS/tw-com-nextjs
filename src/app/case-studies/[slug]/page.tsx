@@ -7,6 +7,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
+import { content as responsibleAiContent } from '@/assets/fluxline-legal/responsible-ai-legal';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -79,7 +80,17 @@ export default async function CaseStudyPage({ params }: Props) {
       }
     >
       {/* Gallery removed - feature image now opens in modal via CaseStudyLayout */}
-      {cs.generatedWithAI && <GeneratedWithAiBadge className='mb-6' />}
+      {cs.generatedWithAI && (
+        <GeneratedWithAiBadge
+          className='mb-6'
+          modalContent={
+            <MDXRemote
+              source={responsibleAiContent}
+              components={mdxComponents}
+            />
+          }
+        />
+      )}
       <MDXRemote source={cs.content} components={mdxComponents} />
     </CaseStudyLayout>
   );
