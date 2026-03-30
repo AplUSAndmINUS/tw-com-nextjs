@@ -42,7 +42,7 @@ const DEFAULT_TOOLTIP =
  * with a hover/focus tooltip for additional context.
  *
  * Also includes a WindowNew icon button that opens a near-fullscreen modal
- * displaying the Responsible AI Usage guidelines from Fluxline.pro.
+ * displaying the Responsible AI Usage guidelines adapted from Fluxline.pro.
  *
  * Uses Fluent UI theme tokens for colors/typography and Tailwind for layout.
  *
@@ -242,7 +242,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
             <FluentIcon iconName={WindowNew20Regular} />
           </button>
 
-          {/* Responsible AI Usage Modal */}
+          {/* Responsible AI Usage Modal which opens at maxWidth 800px */}
           <Modal
             isOpen={isModalOpen}
             onDismiss={() => setIsModalOpen(false)}
