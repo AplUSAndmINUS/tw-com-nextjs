@@ -1,20 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { AiGeneratedIcon } from '@/assets/svgs/AiGeneratedIcon';
+import { Modal } from '@/components/Modal';
+import { FluentIcon } from '@/components/FluentIcon';
+import { WindowNew20Regular } from '@fluentui/react-icons';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 export interface GeneratedWithAiBadgeProps {
   /**
    * Custom tooltip text describing the AI usage.
    * Defaults to a standard AI disclosure message.
+   * Supports `\n` for line breaks.
    */
   tooltipText?: string;
   /** Additional CSS class */
   className?: string;
   /** Additional inline styles for the badge wrapper */
   style?: React.CSSProperties;
+  /**
+   * When true, the tooltip opens below the badge (suitable for Hero sections).
+   * On mobile (`useIsMobile`), tooltip always opens below regardless of this prop.
+   */
+  isHero?: boolean;
 }
+
+const DEFAULT_TOOLTIP =
+  'This content was created with AI assistance and reviewed by our team.\nClick the icon to read our Responsible AI Usage guidelines.';
 
 /**
  * GeneratedWithAiBadge
@@ -23,6 +36,9 @@ export interface GeneratedWithAiBadgeProps {
  * Displays a gradient AI icon to the left of "Generated with AI" text,
  * with a hover/focus tooltip for additional context.
  *
+ * Also includes a WindowNew icon button that opens a near-fullscreen modal
+ * displaying the Responsible AI Usage guidelines from Fluxline.pro.
+ *
  * Uses Fluent UI theme tokens for colors/typography and Tailwind for layout.
  *
  * @example
@@ -30,18 +46,29 @@ export interface GeneratedWithAiBadgeProps {
  * // Basic usage
  * <GeneratedWithAiBadge />
  *
- * // With custom tooltip
- * <GeneratedWithAiBadge tooltipText="This article was written with AI assistance." />
+ * // In a Hero section (tooltip shows below)
+ * <GeneratedWithAiBadge isHero />
  * ```
  */
 export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
-  tooltipText = 'This content was drafted with AI assistance and carefully verified by our team for accuracy. We take full responsibility for what we publish and advocate transparent, responsible AI use.',
+  tooltipText = DEFAULT_TOOLTIP,
   className,
   style,
+  isHero = false,
 }) => {
   const { theme, themeMode } = useAppTheme();
-  const [showTooltip, setShowTooltip] = React.useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const tooltipId = React.useId();
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Tooltip goes below if isHero or on mobile (checked only after mount to avoid hydration mismatch)
+  const tooltipBelow = isHero || (isMounted && isMobile);
 
   // Use solid color for high-contrast and colorblind themes
   const isHighContrastOrColorblind = [
@@ -72,9 +99,16 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
     }
   };
 
+  const tooltipLines = tooltipText.split(/\n|\\n/);
+
+  // Tooltip positioning: below when in Hero or mobile, to the right otherwise
+  const tooltipPositionClass = tooltipBelow
+    ? 'pointer-events-none absolute left-1/2 top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2 rounded-lg px-4 py-2.5'
+    : 'pointer-events-none absolute left-full top-1/2 z-50 ml-3 w-max max-w-xs -translate-y-1/2 rounded-lg px-4 py-2.5';
+
   return (
     <div
-      className={`relative inline-flex${className ? ` ${className}` : ''}`}
+      className={`relative inline-flex items-center gap-2${className ? ` ${className}` : ''}`}
       style={{ ...style, overflow: 'visible' }}
     >
       {/* Badge pill */}
@@ -100,19 +134,19 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         onKeyDown={handleKeyDown}
         tabIndex={0}
         role='button'
-        aria-label={`Content was drafted with AI. ${tooltipText}`}
+        aria-label={`Generated with AI. ${tooltipText.replace(/\n/g, ' ')}`}
         aria-describedby={tooltipId}
         aria-controls={tooltipId}
       >
         <AiGeneratedIcon size={24} />
-        <span>AI Transparency</span>
+        <span>Generated with AI</span>
       </div>
 
-      {/* Tooltip - positioned to the right */}
+      {/* Tooltip */}
       <div
         id={tooltipId}
         role='tooltip'
-        className='pointer-events-none absolute left-full top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] max-w-xs -translate-x-1/2 rounded-lg px-4 py-2.5 md:top-1/2 md:mt-0 md:ml-3 md:w-max md:-translate-y-1/2 md:translate-x-0'
+        className={tooltipPositionClass}
         style={{
           backgroundColor: theme.semanticColors.background.elevated,
           color: theme.semanticColors.text.primary,
@@ -125,31 +159,103 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
           transition: `opacity ${theme.animations.duration.fast} ${theme.animations.easing.easeInOut}, visibility ${theme.animations.duration.fast} ${theme.animations.easing.easeInOut}`,
         }}
       >
-        {tooltipText}
-        {/* Tooltip arrow points up on mobile and left on md+ */}
-        <span
-          className='absolute bottom-full left-1/2 -translate-x-1/2 md:hidden'
-          aria-hidden='true'
-          style={{
-            width: 0,
-            height: 0,
-            borderLeft: '6px solid transparent',
-            borderRight: '6px solid transparent',
-            borderBottom: `6px solid ${theme.semanticColors.background.elevated}`,
-          }}
-        />
-        <span
-          className='absolute right-full top-1/2 hidden -translate-y-1/2 md:block'
-          aria-hidden='true'
-          style={{
-            width: 0,
-            height: 0,
-            borderTop: '6px solid transparent',
-            borderBottom: '6px solid transparent',
-            borderRight: `6px solid ${theme.semanticColors.background.elevated}`,
-          }}
-        />
+        {tooltipLines.map((line, i) => (
+          <React.Fragment key={i}>
+            {line}
+            {i < tooltipLines.length - 1 && <br />}
+          </React.Fragment>
+        ))}
+        {/* Arrow: points up when tooltip is below, points left when tooltip is to the right */}
+        {tooltipBelow ? (
+          <span
+            className='absolute bottom-full left-1/2 -translate-x-1/2'
+            aria-hidden='true'
+            style={{
+              width: 0,
+              height: 0,
+              borderLeft: '6px solid transparent',
+              borderRight: '6px solid transparent',
+              borderBottom: `6px solid ${theme.semanticColors.background.elevated}`,
+            }}
+          />
+        ) : (
+          <span
+            className='absolute right-full top-1/2 -translate-y-1/2'
+            aria-hidden='true'
+            style={{
+              width: 0,
+              height: 0,
+              borderTop: '6px solid transparent',
+              borderBottom: '6px solid transparent',
+              borderRight: `6px solid ${theme.semanticColors.background.elevated}`,
+            }}
+          />
+        )}
       </div>
+
+      {/* WindowNew icon button — opens Responsible AI Usage modal */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        aria-label='View Responsible AI Usage guidelines'
+        title='Responsible AI Usage'
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '6px',
+          borderRadius: theme.borderRadius.container.small,
+          border: `1px solid ${theme.semanticColors.border.default}`,
+          backgroundColor: theme.palette.neutralLighterAlt,
+          color: theme.semanticColors.text.muted,
+          cursor: 'pointer',
+          transition: 'background-color 0.2s ease, color 0.2s ease',
+          flexShrink: 0,
+        }}
+        onPointerEnter={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          e.currentTarget.style.backgroundColor = theme.palette.neutralLighter;
+          e.currentTarget.style.color = theme.semanticColors.text.primary;
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== 'mouse') return;
+          e.currentTarget.style.backgroundColor = theme.palette.neutralLighterAlt;
+          e.currentTarget.style.color = theme.semanticColors.text.muted;
+        }}
+      >
+        <FluentIcon iconName={WindowNew20Regular} />
+      </button>
+
+      {/* Responsible AI Usage Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onDismiss={() => setIsModalOpen(false)}
+        ariaLabel='Responsible AI Usage'
+        maxWidth='95vw'
+        maxHeight='95vh'
+        showCloseButton={true}
+        style={{
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '95vh',
+          padding: 0,
+        }}
+      >
+        {/* Spacer to clear the close button */}
+        <div style={{ height: '56px', flexShrink: 0 }} />
+        <iframe
+          src='https://fluxline.pro/legal/responsible-ai-usage/'
+          title='Responsible AI Usage — Fluxline.pro'
+          style={{
+            flex: 1,
+            width: '100%',
+            border: 'none',
+            display: 'block',
+            minHeight: 0,
+          }}
+          sandbox='allow-scripts allow-forms'
+        />
+      </Modal>
     </div>
   );
 };
