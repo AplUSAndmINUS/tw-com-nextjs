@@ -1,0 +1,21 @@
+name: Ping Warmup (PROD keep-alive)
+
+# Calls the /api/ping HTTP endpoint every 15 minutes to keep the PROD Azure
+# Functions host warm. This replicates the timerTrigger that SWA does not
+# support.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # allow manual runs for testing
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping PROD API
+        run: |
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" "${{ secrets.PROD_PING_URL }}")
+          echo "Ping response status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::warning::Ping returned non-200 status: $STATUS"
+          fi
