@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GalleryItem } from '@/content/types';
 import { ImageCarousel } from '@/components/ImageCarousel';
 import { ImageCarouselModal } from '@/components/ImageCarouselModal';
