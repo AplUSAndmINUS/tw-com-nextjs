@@ -196,11 +196,7 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
             style={{
               position: 'relative',
               flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              maxWidth: '100%',
-              maxHeight: '100%',
+              alignSelf: 'stretch',
               overflow: 'hidden',
             }}
           >
@@ -217,10 +213,8 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
                   opacity: { duration: 0.2 },
                 }}
                 style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  minHeight: '400px',
+                  position: 'absolute',
+                  inset: 0,
                 }}
               >
                 <LoadingImage
