@@ -56,7 +56,7 @@ I left my career thinking that my business was going to just take over as my new
 
 You see, _identity alignment_ doesn't come from a simple process of trial and error. Nor is it handed to you. **It's made and found.**
 
-I started [Fluxline.pro](https://fluxline.pro/fluxline-ethos) with a vision: An idea that said I wanted to become the best version of myself and help others do so through helping people see themselves in their work, their job, their lives. 
+I started [Fluxline.pro](https://fluxline.pro/fluxline-ethos) with a vision: An idea that said I wanted to become the best version of myself and help others do so through helping people see themselves in their work, their job, their lives.
 
 _**(And don't get me wrong—I still strongly believe that and have made Fluxline to specifically embody identity alignment and resonance.)**_
 
@@ -80,23 +80,23 @@ The abstract means of how I saw the world just spilled out onto my personal and 
 
 In [The Resonance Core Framework™](https://fluxline.pro/services/resonance-core), I teach people that for you to be an effective individual, you must align your entire being in who you truly are and make decisions that resonate with yourself and others in accordance with that alignment. Because your identity is the one thing no one can take away from you... and ironically, the one thing you can control, shape, update, and transform.
 
-But I didn't know truly how important it was until after these nine months of literally _no work_ shaped my perspective of it all. Because in the end, _I learned that I'm not just an aspiring entrepreneur... oh no._ Instead, I'm much more rounded in my approach to life. 
+But I didn't know truly how important it was until after these nine months of literally _no work_ shaped my perspective of it all. Because in the end, _I learned that I'm not just an aspiring entrepreneur... oh no._ Instead, I'm much more rounded in my approach to life.
 
-And it became self-evident in the smallest, simplest acts of alignment with who I truly am that made the difference. 
+And it became self-evident in the smallest, simplest acts of alignment with who I truly am that made the difference.
 
-- I knew... but didn't truly know... that I am a lifelong student and student.
-- I love people and inspiring them to be their best selves.
+- I knew... but didn't truly know... that I am a lifelong student and teacher.
+- I love people by inspiring them to be their best selves.
 - I love sharing my resonance with others through felt experience.
 - I express my devotion to my spiritual, knowledgeable, fit self through all my levels of knowledge and experience.
 - I don't fit just one mold of person—I'm not just a personal trainer, a writer, a student, an entrepreneur, a goal-setter, a driven steward of my success. _**I'm all of them put together!**_
 
-And the hardest part I had to learn for myself was that my constant need to push so much work out the door at once was actually _hindering_ my ability to flourish and transform. 
+And the hardest part I had to learn for myself was that my constant need to push so much work out the door at once was actually _hindering_ my ability to flourish and transform.
 
 ---
 
 ### Alignment comes in small truths and wins, not large strides
 
-This is the point I wanted to drive home today. My alignment happened when I learned to notice who I was and why I do what I do—not in the huge wins or push-through work I did day-to-day. 
+This is the point I wanted to drive home today. My alignment happened when I learned to notice who I was and why I do what I do—not in the huge wins or push-through work I did day-to-day.
 
 - That work distracted me from my alignment.
 - That drive to push hard and do so much all at once distorted my vision.
