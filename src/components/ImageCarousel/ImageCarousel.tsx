@@ -34,13 +34,17 @@ export function ImageCarousel({
     return `${basePath}${url}`;
   }
 
-  function updateActive(index: number) {
-    setActive(index);
-    onActiveIndexChange?.(index);
+  function updateActive(getNext: (prev: number) => number) {
+    setActive((prev) => {
+      const next = getNext(prev);
+      onActiveIndexChange?.(next);
+      return next;
+    });
   }
 
-  const prev = () => updateActive((active - 1 + images.length) % images.length);
-  const next = () => updateActive((active + 1) % images.length);
+  const prev = () =>
+    updateActive((i) => (i - 1 + images.length) % images.length);
+  const next = () => updateActive((i) => (i + 1) % images.length);
 
   const current = images[active];
 
@@ -125,7 +129,7 @@ export function ImageCarousel({
           {images.map((img, i) => (
             <button
               key={i}
-              onClick={() => updateActive(i)}
+              onClick={() => updateActive(() => i)}
               aria-label={`View image ${i + 1}: ${img.alt}`}
               className={`relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md overflow-hidden border-2 transition-colors ${
                 i === active ? '' : 'border-transparent hover:border-gray-400'
