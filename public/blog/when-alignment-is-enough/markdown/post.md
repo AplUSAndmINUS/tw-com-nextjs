@@ -146,4 +146,3 @@ My book will embody this for you all when you read it come Q3 2026—identity al
 ### Links
 
 [The Resonance Core Framework™](https://terencewaters.com/services/resonance-core)
-[Contact Me](https://terencewaters.com/contact)
