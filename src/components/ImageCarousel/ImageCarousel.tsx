@@ -13,6 +13,8 @@ interface ImageCarouselProps {
   className?: string;
   /** Optional click handler for when the main image is clicked */
   onImageClick?: () => void;
+  /** Called whenever the active slide index changes */
+  onActiveIndexChange?: (index: number) => void;
 }
 
 export function ImageCarousel({
@@ -20,6 +22,7 @@ export function ImageCarousel({
   basePath = '',
   className = '',
   onImageClick,
+  onActiveIndexChange,
 }: ImageCarouselProps) {
   const { reducedTransparency, theme } = useAppTheme();
   const [active, setActive] = useState(0);
@@ -31,8 +34,17 @@ export function ImageCarousel({
     return `${basePath}${url}`;
   }
 
-  const prev = () => setActive((i) => (i - 1 + images.length) % images.length);
-  const next = () => setActive((i) => (i + 1) % images.length);
+  function updateActive(getNext: (prev: number) => number) {
+    setActive((prev) => {
+      const next = getNext(prev);
+      onActiveIndexChange?.(next);
+      return next;
+    });
+  }
+
+  const prev = () =>
+    updateActive((i) => (i - 1 + images.length) % images.length);
+  const next = () => updateActive((i) => (i + 1) % images.length);
 
   const current = images[active];
 
@@ -117,7 +129,7 @@ export function ImageCarousel({
           {images.map((img, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => updateActive(() => i)}
               aria-label={`View image ${i + 1}: ${img.alt}`}
               className={`relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md overflow-hidden border-2 transition-colors ${
                 i === active ? '' : 'border-transparent hover:border-gray-400'
