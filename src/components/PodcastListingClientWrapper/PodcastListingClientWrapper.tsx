@@ -22,21 +22,47 @@ const PLATFORM_CONFIGS: {
   key: keyof typeof PODCAST_PLATFORMS;
   label: string;
   ariaLabel: string;
+  // Brand colors are hardcoded because they are official platform brand guidelines,
+  // not part of the app theme. They are only applied in light/dark mode to preserve
+  // legibility in high-contrast and colorblindness-accessible themes.
+  brandColor: string;
 }[] = [
-  { key: 'spreaker', label: 'Spreaker', ariaLabel: 'Listen on Spreaker' },
+  {
+    key: 'spreaker',
+    label: 'Spreaker',
+    ariaLabel: 'Listen on Spreaker',
+    brandColor: '#EE722E', // Spreaker brand orange
+  },
   {
     key: 'applePodcasts',
     label: 'Apple Podcasts',
     ariaLabel: 'Listen on Apple Podcasts',
+    brandColor: '#B150E2', // Apple Podcasts brand purple
   },
-  { key: 'spotify', label: 'Spotify', ariaLabel: 'Listen on Spotify' },
+  {
+    key: 'spotify',
+    label: 'Spotify',
+    ariaLabel: 'Listen on Spotify',
+    brandColor: '#1DB954', // Spotify brand green
+  },
   {
     key: 'amazonMusic',
     label: 'Amazon Music',
     ariaLabel: 'Listen on Amazon Music',
+    brandColor: '#00A8E1', // Amazon Music brand blue
   },
-  { key: 'deezer', label: 'Deezer', ariaLabel: 'Listen on Deezer' },
-  { key: 'podchaser', label: 'Podchaser', ariaLabel: 'Listen on Podchaser' },
+  {
+    key: 'deezer',
+    label: 'Deezer',
+    ariaLabel: 'Listen on Deezer',
+    brandColor: '#A238FF', // Deezer brand violet
+  },
+  {
+    key: 'podchaser',
+    label: 'Podchaser',
+    ariaLabel: 'Listen on Podchaser',
+    brandColor: '#2EBFA5', // Podchaser brand teal
+  },
 ];
 
 /**
@@ -48,6 +74,12 @@ export function PodcastListingClientWrapper({
   feedAvailable = false,
 }: PodcastListingClientWrapperProps) {
   const { theme } = useAppTheme();
+
+  // Brand colors are only applied in standard light/dark modes.
+  // Accessibility themes (high-contrast, colorblindness, grayscale) fall back to
+  // the default neutral palette so platform branding never compromises readability.
+  const useBrandColors =
+    theme.themeMode === 'light' || theme.themeMode === 'dark';
   // Live episode data — seeded from SSG props, refreshed from /api/podcasts on mount
   const [episodes, setEpisodes] = useState<PodcastEpisode[]>(initialEpisodes);
   const [isFeedAvailable, setIsFeedAvailable] =
@@ -203,44 +235,47 @@ export function PodcastListingClientWrapper({
       role='list'
       aria-label='Subscribe to the podcast on your preferred platform'
     >
-      {PLATFORM_CONFIGS.map(({ key, label, ariaLabel }) => (
-        <a
-          key={key}
-          href={PODCAST_PLATFORMS[key]}
-          target='_blank'
-          rel='noopener noreferrer'
-          aria-label={ariaLabel}
-          role='listitem'
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '6px 16px',
-            borderRadius: '9999px',
-            border: `1px solid ${theme.palette.neutralTertiary}`,
-            color: theme.palette.neutralPrimary,
-            textDecoration: 'none',
-            fontSize: '13px',
-            fontWeight: 500,
-            transition: 'all 0.15s ease',
-            backgroundColor: theme.palette.neutralLighterAlt,
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor =
-              theme.palette.themePrimary;
-            (e.currentTarget as HTMLAnchorElement).style.color =
-              theme.palette.themePrimary;
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor =
-              theme.palette.neutralTertiary;
-            (e.currentTarget as HTMLAnchorElement).style.color =
-              theme.palette.neutralPrimary;
-          }}
-        >
-          {label}
-        </a>
-      ))}
+      {PLATFORM_CONFIGS.map(({ key, label, ariaLabel, brandColor }) => {
+        const activeBrandColor = useBrandColors ? brandColor : undefined;
+        return (
+          <a
+            key={key}
+            href={PODCAST_PLATFORMS[key]}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={ariaLabel}
+            role='listitem'
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 16px',
+              borderRadius: '9999px',
+              border: `2px solid ${
+                activeBrandColor ?? theme.palette.neutralTertiary
+              }`,
+              color: activeBrandColor ?? theme.palette.neutralPrimary,
+              textDecoration: 'none',
+              fontSize: '13px',
+              fontWeight: 500,
+              transition: 'all 0.15s ease',
+              backgroundColor: theme.palette.neutralLighterAlt,
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = activeBrandColor
+                ? `${activeBrandColor}22`
+                : theme.palette.neutralLighter;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                theme.palette.neutralLighterAlt;
+            }}
+          >
+            {label}
+          </a>
+        );
+      })}
     </nav>
   );
 
