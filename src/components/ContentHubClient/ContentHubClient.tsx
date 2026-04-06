@@ -119,7 +119,6 @@ export function ContentHubClient() {
               icon={category.icon}
               hoverable={!isDisabled}
               disabled={isDisabled}
-              featured={category.featured}
               className='relative overflow-hidden rounded-xl border p-4'
               badge={
                 isDisabled
