@@ -21,28 +21,62 @@ const SPREAKER_SHOW_ID = '6933506';
 const SPREAKER_RSS_URL = `https://www.spreaker.com/show/${SPREAKER_SHOW_ID}/episodes/feed`;
 const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--${SPREAKER_SHOW_ID}`;
 
-const CORS_HEADERS = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
-};
+// Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
+const ALLOWED_ORIGIN_RE =
+  /^https:\/\/((?:[a-zA-Z0-9-]+\.)?terencewaters\.com)$/;
+
+/** HTTP request timeout in milliseconds */
+const REQUEST_TIMEOUT_MS = 10000;
+
+/**
+ * Returns CORS headers scoped to an allowed origin.
+ * Echoes the request origin back instead of '*', blocking disallowed third parties.
+ * Set ALLOWED_ORIGIN_EXTRA to permit one additional origin (e.g. Azure SWA preview URLs).
+ * @param {string|undefined} origin
+ * @returns {object}
+ */
+function getCorsHeaders(origin) {
+  const extra = process.env.ALLOWED_ORIGIN_EXTRA || '';
+  const isAllowed =
+    (origin && ALLOWED_ORIGIN_RE.test(origin)) || (extra && origin === extra);
+
+  return {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': isAllowed ? origin : 'null',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
+    Vary: 'Origin',
+  };
+}
 
 /**
  * Performs an HTTPS GET and returns the response body as a string.
+ * Rejects on non-2xx status codes and enforces a request timeout.
  * @param {string} url
  * @returns {Promise<string>}
  */
 function httpGet(url) {
   return new Promise((resolve, reject) => {
-    https
-      .get(url, (res) => {
-        let data = '';
-        res.on('data', (chunk) => (data += chunk));
-        res.on('end', () => resolve(data));
-      })
-      .on('error', reject);
+    const req = https.get(url, (res) => {
+      const { statusCode } = res;
+
+      if (statusCode < 200 || statusCode >= 300) {
+        res.resume(); // Consume response data to free up memory/socket
+        reject(new Error(`Request failed with status code ${statusCode}`));
+        return;
+      }
+
+      let data = '';
+      res.on('data', (chunk) => (data += chunk));
+      res.on('end', () => resolve(data));
+    });
+
+    req.on('error', reject);
+
+    req.setTimeout(REQUEST_TIMEOUT_MS, () => {
+      req.destroy(new Error('Request timed out'));
+    });
   });
 }
 
@@ -159,11 +193,14 @@ function parseRssItem(itemXml) {
 module.exports = async function (context, req) {
   context.log('podcasts function triggered');
 
+  const origin = req.headers?.origin || req.headers?.Origin;
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return {
       status: 204,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: '',
     };
   }
@@ -171,7 +208,7 @@ module.exports = async function (context, req) {
   if (req.method !== 'GET') {
     return {
       status: 405,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ episodes: [], error: 'Method not allowed' }),
     };
   }
@@ -201,7 +238,7 @@ module.exports = async function (context, req) {
 
     return {
       status: 200,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({
         episodes,
         showTitle,
@@ -215,7 +252,7 @@ module.exports = async function (context, req) {
     context.log('podcasts function error:', error);
     return {
       status: 503,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({
         episodes: [],
         showTitle: 'A+ in FLUX Mythmaker Series',

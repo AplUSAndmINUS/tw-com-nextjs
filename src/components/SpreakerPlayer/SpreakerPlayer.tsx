@@ -1,5 +1,6 @@
 'use client';
 
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import {
   SPREAKER_SHOW_ID,
   SPREAKER_SHOW_URL,
@@ -7,9 +8,6 @@ import {
 
 /** Spreaker iframe player embed base URL */
 const WIDGET_PLAYER_URL = 'https://widget.spreaker.com/player';
-
-/** External Spreaker show page URL */
-const SPREAKER_SHOW_EXTERNAL = SPREAKER_SHOW_URL;
 
 interface SpreakerPlayerProps {
   /** Spreaker show ID — defaults to the A+ in FLUX Mythmaker Series */
@@ -42,20 +40,30 @@ export function SpreakerPlayer({
   theme = 'dark',
   available = true,
 }: SpreakerPlayerProps) {
+  const { theme: appTheme, reducedTransparency } = useAppTheme();
+
   if (!available) {
     return (
       <div
         className='flex items-center justify-center p-8 rounded-lg'
-        style={{ background: 'rgba(0,0,0,0.06)' }}
+        style={{
+          backgroundColor: reducedTransparency
+            ? appTheme.palette.neutralLight
+            : appTheme.palette.neutralLighterAlt,
+        }}
         role='alert'
         aria-live='polite'
       >
-        <p className='text-sm' style={{ opacity: 0.6 }}>
+        <p
+          className='text-sm'
+          style={{ color: appTheme.palette.neutralSecondary }}
+        >
           This podcast is currently unavailable.{' '}
           <a
-            href={SPREAKER_SHOW_EXTERNAL}
+            href={SPREAKER_SHOW_URL}
             target='_blank'
             rel='noopener noreferrer'
+            style={{ color: appTheme.semanticColors.link.default }}
             className='underline'
           >
             Visit on Spreaker

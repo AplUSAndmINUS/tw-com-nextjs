@@ -31,6 +31,8 @@ export interface BaseCardProps {
   pointer?: boolean;
   /** Disable all interactions and reduce opacity */
   disabled?: boolean;
+  /** Whether this card represents featured/highlighted content. Renders the accent bar with the accent colour at rest. */
+  featured?: boolean;
   /** Badge text shown in the top-right corner (e.g. "Coming Soon!") */
   badge?: string;
   /** aria-label for the card */
@@ -83,6 +85,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
   onClick,
   hoverable = true,
   disabled = false,
+  featured = false,
   badge,
   ariaLabel,
   children,
@@ -94,6 +97,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
 
   const {
     isHovered,
+    accentColor,
     currentColor,
     topBarColor,
     borderColor,
@@ -160,13 +164,13 @@ export const BaseCard: React.FC<BaseCardProps> = ({
         </Typography>
       )}
 
-      {/* Accent line */}
+      {/* Accent line — uses accentColor at rest when featured; hover state takes priority */}
       <div
         style={{
           width: '100%',
           height: '4px',
           borderRadius: theme.borderRadius.container.small,
-          backgroundColor: topBarColor,
+          backgroundColor: featured && !isHovered ? accentColor : topBarColor,
           marginBottom: title === '' ? theme.spacing.s1 : theme.spacing.m,
           flexShrink: 0,
           transition: 'background-color 0.2s ease',

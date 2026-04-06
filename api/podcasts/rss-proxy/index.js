@@ -10,14 +10,32 @@
 
 const SPREAKER_RSS_URL = 'https://www.spreaker.com/show/6933506/episodes/feed';
 
-const CORS_HEADERS = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  // Cache for 30 minutes; serve stale for up to 1 hour while revalidating
-  'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
-};
+// Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
+const ALLOWED_ORIGIN_RE =
+  /^https:\/\/((?:[a-zA-Z0-9-]+\.)?terencewaters\.com)$/;
+
+/**
+ * Returns CORS headers scoped to an allowed origin.
+ * Echoes the request origin back instead of '*', blocking disallowed third parties.
+ * Set ALLOWED_ORIGIN_EXTRA to permit one additional origin (e.g. Azure SWA preview URLs).
+ * @param {string|undefined} origin
+ * @returns {object}
+ */
+function getCorsHeaders(origin) {
+  const extra = process.env.ALLOWED_ORIGIN_EXTRA || '';
+  const isAllowed =
+    (origin && ALLOWED_ORIGIN_RE.test(origin)) || (extra && origin === extra);
+
+  return {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': isAllowed ? origin : 'null',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    // Cache for 30 minutes; serve stale for up to 1 hour while revalidating
+    'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
+    Vary: 'Origin',
+  };
+}
 
 /**
  * Extract the text content of an XML tag.
@@ -138,9 +156,12 @@ function parseRSSItems(xml) {
 }
 
 module.exports = async function (context, req) {
+  const origin = req.headers?.origin || req.headers?.Origin;
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    context.res = { status: 204, headers: CORS_HEADERS, body: '' };
+    context.res = { status: 204, headers: corsHeaders, body: '' };
     return;
   }
 
@@ -157,14 +178,14 @@ module.exports = async function (context, req) {
 
     context.res = {
       status: 200,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ episodes }),
     };
   } catch (error) {
     context.log.error('Podcast RSS proxy error:', error.message);
     context.res = {
       status: 500,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({
         error: 'Failed to fetch podcast episodes from RSS feed.',
         episodes: [],
