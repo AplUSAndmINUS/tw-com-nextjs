@@ -11,6 +11,7 @@ const contentCategories: {
   icon: FluentIconName;
   href: string;
   cta: string;
+  featured?: boolean;
   disabled: boolean;
 }[] = [
   {
@@ -64,7 +65,8 @@ const contentCategories: {
     icon: 'MicRegular',
     href: '/podcasts',
     cta: 'Listen Now',
-    disabled: true,
+    featured: true,
+    disabled: false,
   },
 ];
 
@@ -118,8 +120,14 @@ export function ContentHubClient() {
               hoverable={!isDisabled}
               disabled={isDisabled}
               className='relative overflow-hidden rounded-xl border p-4'
-              badge={isDisabled ? 'Coming Soon' : undefined}
-              ariaLabel={`${category.title} - ${category.description} - ${isDisabled ? 'Coming Soon' : category.cta}`}
+              badge={
+                isDisabled
+                  ? 'Coming Soon'
+                  : category.featured
+                    ? 'New!'
+                    : undefined
+              }
+              ariaLabel={`${category.title} - ${category.description} - ${isDisabled ? 'Coming Soon' : category.featured ? 'New!' : category.cta}`}
             />
           </motion.div>
         );

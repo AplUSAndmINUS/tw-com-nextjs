@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import {
   ContentListingPage,
@@ -9,10 +9,61 @@ import {
 } from '@/components/ContentListingPage';
 import { PodcastEpisode } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
+import { fetchPodcastsFromApi, PODCAST_PLATFORMS } from '@/lib/spreaker';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
+  /** Whether the Spreaker feed is currently available */
+  feedAvailable?: boolean;
 }
+
+const PLATFORM_CONFIGS: {
+  key: keyof typeof PODCAST_PLATFORMS;
+  label: string;
+  ariaLabel: string;
+  // Brand colors are hardcoded because they are official platform brand guidelines,
+  // not part of the app theme. They are only applied in light/dark mode to preserve
+  // legibility in high-contrast and colorblindness-accessible themes.
+  brandColor: string;
+}[] = [
+  {
+    key: 'spreaker',
+    label: 'Spreaker',
+    ariaLabel: 'Listen on Spreaker',
+    brandColor: '#EE722E', // Spreaker brand orange
+  },
+  {
+    key: 'applePodcasts',
+    label: 'Apple Podcasts',
+    ariaLabel: 'Listen on Apple Podcasts',
+    brandColor: '#B150E2', // Apple Podcasts brand purple
+  },
+  {
+    key: 'spotify',
+    label: 'Spotify',
+    ariaLabel: 'Listen on Spotify',
+    brandColor: '#1DB954', // Spotify brand green
+  },
+  {
+    key: 'amazonMusic',
+    label: 'Amazon Music',
+    ariaLabel: 'Listen on Amazon Music',
+    brandColor: '#00A8E1', // Amazon Music brand blue
+  },
+  {
+    key: 'deezer',
+    label: 'Deezer',
+    ariaLabel: 'Listen on Deezer',
+    brandColor: '#A238FF', // Deezer brand violet
+  },
+  {
+    key: 'podchaser',
+    label: 'Podchaser',
+    ariaLabel: 'Listen on Podchaser',
+    brandColor: '#2EBFA5', // Podchaser brand teal
+  },
+];
 
 /**
  * Podcast Listing Client Wrapper
@@ -20,7 +71,33 @@ interface PodcastListingClientWrapperProps {
  */
 export function PodcastListingClientWrapper({
   initialEpisodes,
+  feedAvailable = false,
 }: PodcastListingClientWrapperProps) {
+  const { theme } = useAppTheme();
+
+  // Brand colors are only applied in standard light/dark modes.
+  // Accessibility themes (high-contrast, colorblindness, grayscale) fall back to
+  // the default neutral palette so platform branding never compromises readability.
+  const useBrandColors =
+    theme.themeMode === 'light' || theme.themeMode === 'dark';
+  // Live episode data — seeded from SSG props, refreshed from /api/podcasts on mount
+  const [episodes, setEpisodes] = useState<PodcastEpisode[]>(initialEpisodes);
+  const [isFeedAvailable, setIsFeedAvailable] =
+    useState<boolean>(feedAvailable);
+
+  useEffect(() => {
+    fetchPodcastsFromApi()
+      .then((result) => {
+        if (result.available && result.episodes.length > 0) {
+          setEpisodes(result.episodes);
+          setIsFeedAvailable(true);
+        }
+      })
+      .catch(() => {
+        // Silently fall back to SSG data — no user-visible error
+      });
+  }, []);
+
   // State for filters
   const [selectedTag, setSelectedTag] = useState<string | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<
@@ -33,23 +110,23 @@ export function PodcastListingClientWrapper({
   // Extract unique tags and categories
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
-    initialEpisodes.forEach((episode) => {
+    episodes.forEach((episode) => {
       episode.tags?.forEach((tag) => tagSet.add(tag));
     });
     return Array.from(tagSet).sort();
-  }, [initialEpisodes]);
+  }, [episodes]);
 
   const allCategories = useMemo(() => {
     const categorySet = new Set<string>();
-    initialEpisodes.forEach((episode) => {
+    episodes.forEach((episode) => {
       if (episode.category) categorySet.add(episode.category);
     });
     return Array.from(categorySet).sort();
-  }, [initialEpisodes]);
+  }, [episodes]);
 
   // Filter and sort episodes
   const filteredEpisodes = useMemo(() => {
-    let filtered = [...initialEpisodes];
+    let filtered = [...episodes];
 
     // Filter by tag
     if (selectedTag) {
@@ -92,14 +169,7 @@ export function PodcastListingClientWrapper({
     });
 
     return filtered;
-  }, [
-    initialEpisodes,
-    selectedTag,
-    selectedCategory,
-    dateFrom,
-    dateTo,
-    sortBy,
-  ]);
+  }, [episodes, selectedTag, selectedCategory, dateFrom, dateTo, sortBy]);
 
   // Transform episodes to card format
   const cards: AdaptiveCard[] = useMemo(() => {
@@ -155,13 +225,63 @@ export function PodcastListingClientWrapper({
 
   // Generate results message
   const resultsMessage =
-    filteredEpisodes.length === initialEpisodes.length
+    filteredEpisodes.length === episodes.length
       ? `Showing all ${filteredEpisodes.length} episode${filteredEpisodes.length !== 1 ? 's' : ''}`
-      : `Showing ${filteredEpisodes.length} of ${initialEpisodes.length} episode${initialEpisodes.length !== 1 ? 's' : ''}`;
+      : `Showing ${filteredEpisodes.length} of ${episodes.length} episode${episodes.length !== 1 ? 's' : ''}`;
+
+  const heroContent = (
+    <nav
+      className='flex flex-wrap gap-3 mt-4'
+      role='list'
+      aria-label='Subscribe to the podcast on your preferred platform'
+    >
+      {PLATFORM_CONFIGS.map(({ key, label, ariaLabel, brandColor }) => {
+        const activeBrandColor = useBrandColors ? brandColor : undefined;
+        return (
+          <a
+            key={key}
+            href={PODCAST_PLATFORMS[key]}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={ariaLabel}
+            role='listitem'
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 16px',
+              borderRadius: '9999px',
+              border: `2px solid ${
+                activeBrandColor ?? theme.palette.neutralTertiary
+              }`,
+              color: activeBrandColor ?? theme.palette.neutralPrimary,
+              textDecoration: 'none',
+              fontSize: '13px',
+              fontWeight: 500,
+              transition: 'all 0.15s ease',
+              backgroundColor: theme.palette.neutralLighterAlt,
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = activeBrandColor
+                ? `${activeBrandColor}22`
+                : theme.palette.neutralLighter;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                theme.palette.neutralLighterAlt;
+            }}
+          >
+            {label}
+          </a>
+        );
+      })}
+    </nav>
+  );
 
   return (
     <ContentListingPage
-      title='Podcasts'
+      title='Podcast Episodes'
       iconName='MicRegular'
       description='Audio conversations on technology, creativity, and building meaningful things.'
       basePath='/podcasts'
@@ -173,6 +293,7 @@ export function PodcastListingClientWrapper({
       dateTo={dateTo}
       onDateFromChange={setDateFrom}
       onDateToChange={setDateTo}
+      feedAvailable={isFeedAvailable}
       onClearDates={() => {
         setDateFrom('');
         setDateTo('');
@@ -180,6 +301,7 @@ export function PodcastListingClientWrapper({
       resultsMessage={resultsMessage}
       emptyStateTitle='No podcast episodes found'
       emptyStateMessage='Try adjusting your filters to see more episodes.'
+      heroContent={heroContent}
     />
   );
 }

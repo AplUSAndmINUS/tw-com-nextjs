@@ -13,6 +13,8 @@ import { Button, Select, SelectOption, DateInput } from '@/components/Form';
 import { Hero } from '@/components/Hero';
 import { NewsletterSignupCTA } from '../NewsletterSignupCTA';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { SpreakerPlayer } from '../SpreakerPlayer';
+import { SPREAKER_SHOW_ID } from '@/lib/spreaker';
 
 /**
  * Filter configuration for single-select dropdown
@@ -57,6 +59,7 @@ export interface ContentListingPageProps {
   iconName?: string;
   description: string;
   basePath: string;
+  feedAvailable?: boolean; // Optional prop to indicate if the Spreaker feed is available (for Podcasts page)
 
   // Content
   cards: AdaptiveCard[];
@@ -99,6 +102,7 @@ export interface ContentListingPageProps {
 
   // Custom section
   customSection?: React.ReactNode;
+  heroContent?: React.ReactNode;
   emailNewsletterSignup?: boolean;
 }
 
@@ -149,10 +153,12 @@ export function ContentListingPage({
   emptyStateMessage = 'Try adjusting your filters to see more items.',
   ctaSection,
   onCardClick,
+  feedAvailable = false,
   backArrow = false,
   emailNewsletterSignup = false,
   backArrowPath = '/content-hub',
   customSection,
+  heroContent,
   showViewSelector = true,
 }: ContentListingPageProps) {
   const router = useRouter();
@@ -390,7 +396,9 @@ export function ContentListingPage({
             {renderFilters()}
           </div>
         }
-      />
+      >
+        {heroContent ?? null}
+      </Hero>
 
       {/* Results Message */}
       {resultsMessage && (
@@ -428,6 +436,18 @@ export function ContentListingPage({
         >
           {customSection}
         </motion.div>
+      )}
+
+      {/* Spreaker embedded player */}
+      {title === 'Podcast Episodes' && (
+        <div style={{ marginTop: theme.spacing.l }}>
+          <SpreakerPlayer
+            showId={SPREAKER_SHOW_ID}
+            available={feedAvailable}
+            height='350px'
+            theme='dark'
+          />
+        </div>
       )}
 
       {/* Content Grid */}
