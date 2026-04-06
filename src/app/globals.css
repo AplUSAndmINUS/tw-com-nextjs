@@ -96,10 +96,11 @@ nav[role='banner'] {
 }
 
 /* Homepage background images - automatically switches based on viewport aspect ratio */
+/* background position custom due to position of my face against the top nav bar */
 .homepage-background {
   background-image: url('/images/HomePageCover4kLandscape.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: 20% 30%;
   background-repeat: no-repeat;
 }
 
