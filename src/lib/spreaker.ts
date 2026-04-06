@@ -12,6 +12,20 @@ export const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/a-in-flux-myt
 /** Spreaker widget script CDN URL */
 export const SPREAKER_WIDGET_SCRIPT = 'https://widget.spreaker.com/widgets.js';
 
+/** Platform URLs for the A+ In FLUX Mythmaker podcast */
+export const PODCAST_PLATFORMS = {
+  spreaker:
+    'https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--6933506',
+  applePodcasts:
+    'https://podcasts.apple.com/us/podcast/a+-in-flux-mythmaker-series/id1891152754',
+  spotify: 'https://open.spotify.com/show/0kmCO10TwluoHUYdD3v4Qe',
+  amazonMusic:
+    'https://music.amazon.com/podcasts/b4d2ead1-4aaa-4189-b4bd-bd41141030a7',
+  deezer: 'https://www.deezer.com/show/1002848441',
+  podchaser:
+    'https://www.podchaser.com/podcasts/a-in-flux-mythmaker-series-6436183',
+} as const;
+
 export interface SpreakerFeedResult {
   episodes: PodcastEpisode[];
   showTitle: string;

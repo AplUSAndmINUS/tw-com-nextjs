@@ -9,13 +9,35 @@ import {
 } from '@/components/ContentListingPage';
 import { PodcastEpisode } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
-import { fetchPodcastsFromApi } from '@/lib/spreaker';
+import { fetchPodcastsFromApi, PODCAST_PLATFORMS } from '@/lib/spreaker';
+import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
   /** Whether the Spreaker feed is currently available */
   feedAvailable?: boolean;
 }
+
+const PLATFORM_CONFIGS: {
+  key: keyof typeof PODCAST_PLATFORMS;
+  label: string;
+  ariaLabel: string;
+}[] = [
+  { key: 'spreaker', label: 'Spreaker', ariaLabel: 'Listen on Spreaker' },
+  {
+    key: 'applePodcasts',
+    label: 'Apple Podcasts',
+    ariaLabel: 'Listen on Apple Podcasts',
+  },
+  { key: 'spotify', label: 'Spotify', ariaLabel: 'Listen on Spotify' },
+  {
+    key: 'amazonMusic',
+    label: 'Amazon Music',
+    ariaLabel: 'Listen on Amazon Music',
+  },
+  { key: 'deezer', label: 'Deezer', ariaLabel: 'Listen on Deezer' },
+  { key: 'podchaser', label: 'Podchaser', ariaLabel: 'Listen on Podchaser' },
+];
 
 /**
  * Podcast Listing Client Wrapper
@@ -25,6 +47,7 @@ export function PodcastListingClientWrapper({
   initialEpisodes,
   feedAvailable = false,
 }: PodcastListingClientWrapperProps) {
+  const { theme } = useAppTheme();
   // Live episode data — seeded from SSG props, refreshed from /api/podcasts on mount
   const [episodes, setEpisodes] = useState<PodcastEpisode[]>(initialEpisodes);
   const [isFeedAvailable, setIsFeedAvailable] =
@@ -176,6 +199,52 @@ export function PodcastListingClientWrapper({
 
   return (
     <div>
+      {/* Platform subscription links */}
+      <div
+        className='flex flex-wrap gap-3 mb-8'
+        role='list'
+        aria-label='Subscribe to the podcast on your preferred platform'
+      >
+        {PLATFORM_CONFIGS.map(({ key, label, ariaLabel }) => (
+          <a
+            key={key}
+            href={PODCAST_PLATFORMS[key]}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={ariaLabel}
+            role='listitem'
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              borderRadius: theme.borderRadius.m,
+              border: `1px solid ${theme.palette.neutralTertiary}`,
+              color: theme.palette.neutralPrimary,
+              textDecoration: 'none',
+              fontSize: '13px',
+              fontWeight: 500,
+              transition: 'all 0.15s ease',
+              backgroundColor: theme.palette.neutralLighterAlt,
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                theme.palette.themePrimary;
+              (e.currentTarget as HTMLAnchorElement).style.color =
+                theme.palette.themePrimary;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                theme.palette.neutralTertiary;
+              (e.currentTarget as HTMLAnchorElement).style.color =
+                theme.palette.neutralPrimary;
+            }}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+
       {/* Episode listing */}
       <ContentListingPage
         title='Podcast Episodes'
