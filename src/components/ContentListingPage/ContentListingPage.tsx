@@ -102,6 +102,7 @@ export interface ContentListingPageProps {
 
   // Custom section
   customSection?: React.ReactNode;
+  heroContent?: React.ReactNode;
   emailNewsletterSignup?: boolean;
 }
 
@@ -157,6 +158,7 @@ export function ContentListingPage({
   emailNewsletterSignup = false,
   backArrowPath = '/content-hub',
   customSection,
+  heroContent,
   showViewSelector = true,
 }: ContentListingPageProps) {
   const router = useRouter();
@@ -174,28 +176,6 @@ export function ContentListingPage({
   const isMobile = isMounted ? isMobileHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const { shouldReduceMotion } = useReducedMotion();
-
-  /** External platform links — Spotify/Apple Podcasts URLs TBD */
-  const PLATFORM_LINKS = [
-    {
-      id: 'spreaker',
-      label: 'Spreaker',
-      href: 'https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--6933506',
-      icon: '🎙',
-    },
-    {
-      id: 'spotify',
-      label: 'Spotify',
-      href: null, // Link forthcoming
-      icon: '🎵',
-    },
-    {
-      id: 'apple',
-      label: 'Apple Podcasts',
-      href: null, // Link forthcoming
-      icon: '🎧',
-    },
-  ] as const;
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -417,36 +397,7 @@ export function ContentListingPage({
           </div>
         }
       >
-        {/* Platform selector buttons */}
-        {title === 'Podcast Episodes' ? (
-          <nav className='flex flex-wrap gap-3 mt-4' aria-label='Listen on'>
-            {PLATFORM_LINKS.map((platform) =>
-              platform.href ? (
-                <a
-                  key={platform.id}
-                  href={platform.href}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-opacity hover:opacity-80'
-                  aria-label={`Listen on ${platform.label}`}
-                >
-                  <span aria-hidden='true'>{platform.icon}</span>
-                  {platform.label}
-                </a>
-              ) : (
-                <span
-                  key={platform.id}
-                  className='inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium opacity-40 cursor-not-allowed'
-                  aria-label={`${platform.label} — coming soon`}
-                  title='Coming soon'
-                >
-                  <span aria-hidden='true'>{platform.icon}</span>
-                  {platform.label}
-                </span>
-              )
-            )}
-          </nav>
-        ) : null}
+        {heroContent ?? null}
       </Hero>
 
       {/* Results Message */}
@@ -487,6 +438,18 @@ export function ContentListingPage({
         </motion.div>
       )}
 
+      {/* Spreaker embedded player */}
+      {title === 'Podcast Episodes' && (
+        <div style={{ marginTop: theme.spacing.l }}>
+          <SpreakerPlayer
+            showId={SPREAKER_SHOW_ID}
+            available={feedAvailable}
+            height='350px'
+            theme='dark'
+          />
+        </div>
+      )}
+
       {/* Content Grid */}
       <div style={{ marginTop: theme.spacing.l }}>
         {safeCards.length === 0 ? (
@@ -517,18 +480,6 @@ export function ContentListingPage({
           </AnimatePresence>
         )}
       </div>
-
-      {/* Spreaker embedded player */}
-      {title === 'Podcast Episodes' && (
-        <div className='mb-8'>
-          <SpreakerPlayer
-            showId={SPREAKER_SHOW_ID}
-            available={feedAvailable}
-            height='350px'
-            theme='dark'
-          />
-        </div>
-      )}
 
       {/* CTA Section */}
       {ctaSection && (

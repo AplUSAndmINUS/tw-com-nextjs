@@ -197,77 +197,76 @@ export function PodcastListingClientWrapper({
       ? `Showing all ${filteredEpisodes.length} episode${filteredEpisodes.length !== 1 ? 's' : ''}`
       : `Showing ${filteredEpisodes.length} of ${episodes.length} episode${episodes.length !== 1 ? 's' : ''}`;
 
-  return (
-    <div>
-      {/* Platform subscription links */}
-      <div
-        className='flex flex-wrap gap-3 mb-8'
-        role='list'
-        aria-label='Subscribe to the podcast on your preferred platform'
-      >
-        {PLATFORM_CONFIGS.map(({ key, label, ariaLabel }) => (
-          <a
-            key={key}
-            href={PODCAST_PLATFORMS[key]}
-            target='_blank'
-            rel='noopener noreferrer'
-            aria-label={ariaLabel}
-            role='listitem'
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 14px',
-              borderRadius: theme.borderRadius.m,
-              border: `1px solid ${theme.palette.neutralTertiary}`,
-              color: theme.palette.neutralPrimary,
-              textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: 500,
-              transition: 'all 0.15s ease',
-              backgroundColor: theme.palette.neutralLighterAlt,
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor =
-                theme.palette.themePrimary;
-              (e.currentTarget as HTMLAnchorElement).style.color =
-                theme.palette.themePrimary;
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor =
-                theme.palette.neutralTertiary;
-              (e.currentTarget as HTMLAnchorElement).style.color =
-                theme.palette.neutralPrimary;
-            }}
-          >
-            {label}
-          </a>
-        ))}
-      </div>
+  const heroContent = (
+    <nav
+      className='flex flex-wrap gap-3 mt-4'
+      role='list'
+      aria-label='Subscribe to the podcast on your preferred platform'
+    >
+      {PLATFORM_CONFIGS.map(({ key, label, ariaLabel }) => (
+        <a
+          key={key}
+          href={PODCAST_PLATFORMS[key]}
+          target='_blank'
+          rel='noopener noreferrer'
+          aria-label={ariaLabel}
+          role='listitem'
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '6px 16px',
+            borderRadius: '9999px',
+            border: `1px solid ${theme.palette.neutralTertiary}`,
+            color: theme.palette.neutralPrimary,
+            textDecoration: 'none',
+            fontSize: '13px',
+            fontWeight: 500,
+            transition: 'all 0.15s ease',
+            backgroundColor: theme.palette.neutralLighterAlt,
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.borderColor =
+              theme.palette.themePrimary;
+            (e.currentTarget as HTMLAnchorElement).style.color =
+              theme.palette.themePrimary;
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.borderColor =
+              theme.palette.neutralTertiary;
+            (e.currentTarget as HTMLAnchorElement).style.color =
+              theme.palette.neutralPrimary;
+          }}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  );
 
-      {/* Episode listing */}
-      <ContentListingPage
-        title='Podcast Episodes'
-        iconName='MicRegular'
-        description='Audio conversations on technology, creativity, and building meaningful things.'
-        basePath='/podcasts'
-        cards={cards}
-        filters={filters}
-        sortBy={sortBy}
-        onSortChange={setSortBy}
-        dateFrom={dateFrom}
-        dateTo={dateTo}
-        onDateFromChange={setDateFrom}
-        onDateToChange={setDateTo}
-        feedAvailable={isFeedAvailable}
-        onClearDates={() => {
-          setDateFrom('');
-          setDateTo('');
-        }}
-        resultsMessage={resultsMessage}
-        emptyStateTitle='No podcast episodes found'
-        emptyStateMessage='Try adjusting your filters to see more episodes.'
-      />
-    </div>
+  return (
+    <ContentListingPage
+      title='Podcast Episodes'
+      iconName='MicRegular'
+      description='Audio conversations on technology, creativity, and building meaningful things.'
+      basePath='/podcasts'
+      cards={cards}
+      filters={filters}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      dateFrom={dateFrom}
+      dateTo={dateTo}
+      onDateFromChange={setDateFrom}
+      onDateToChange={setDateTo}
+      feedAvailable={isFeedAvailable}
+      onClearDates={() => {
+        setDateFrom('');
+        setDateTo('');
+      }}
+      resultsMessage={resultsMessage}
+      emptyStateTitle='No podcast episodes found'
+      emptyStateMessage='Try adjusting your filters to see more episodes.'
+      heroContent={heroContent}
+    />
   );
 }
