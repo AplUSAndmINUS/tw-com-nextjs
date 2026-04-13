@@ -100,7 +100,7 @@ export function CaseStudyLayout({
       >
         {featureImage ? (
           <div className={containerClasses}>
-            {/* Feature image pane - fixed and vertically centered on md+ */}
+            {/* Feature image pane - fixed and vertically centered on lg+ */}
             <aside
               className={imagePaneClasses}
               style={{
