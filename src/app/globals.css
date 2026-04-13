@@ -187,3 +187,13 @@ due to Markdown limitation. The first heading in the content is hidden, and the 
 body.kofi-visible [id^='kofi-widget-overlay'] {
   display: block !important;
 }
+
+/* Footer link styles to keep them consistent */
+a.footer-link {
+  &:visited,
+  &:active,
+  &:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}

@@ -176,15 +176,15 @@ function FooterNewsletterMini() {
             display: 'block',
           }}
         >
-          <Link
+          <ThemedLink
             href='/unsubscribe'
             style={{
               color: theme.colorBrandForeground1,
-              textDecoration: 'underline',
             }}
+            isFooter
           >
             Unsubscribe
-          </Link>
+          </ThemedLink>
         </Typography>
       </div>
     );
@@ -269,15 +269,17 @@ function FooterNewsletterMini() {
               marginTop: '0.125rem',
             }}
           >
-            <Link
+            <ThemedLink
               href='/unsubscribe'
               style={{
                 color: theme.semanticColors.text.muted,
                 textDecoration: 'underline',
+                fontSize: '0.7rem',
               }}
+              isFooter
             >
               Unsubscribe
-            </Link>
+            </ThemedLink>
           </Typography>
         </div>
       </form>
@@ -300,6 +302,7 @@ export function FooterContent({
   headerContent,
 }: FooterContentProps) {
   const year = new Date().getFullYear();
+  const { theme } = useAppTheme();
   const { windowWidth } = useWindowSize();
   const orientation = useDeviceOrientation();
   const isLargePortrait = orientation === 'large-portrait';
@@ -318,17 +321,25 @@ export function FooterContent({
         >
           {/* Brand */}
           <div>
-            <Link
-              href='/'
-              className='text-xl font-bold tracking-tight hover:opacity-80 transition-opacity'
+            {/* Switched Typography and ThemedLink JSX so the link can be styled based on theme and compact mode -TW */}
+            <Typography
+              variant='h4'
+              className='text-gray-700 dark:text-gray-300'
             >
-              <Typography
-                variant='h4'
-                className='text-gray-700 dark:text-gray-300'
+              <ThemedLink
+                href='/'
+                className='text-xl font-bold tracking-tight hover:opacity-80 transition-opacity'
+                isFooter
+                style={{
+                  color: theme.semanticColors.text.primary,
+                  fontSize: isCompact ? '1.5rem' : '1.75rem',
+                  fontFamily: theme.typography.fontFamilies.h1,
+                  fontWeight: 600,
+                }}
               >
                 Terence Waters
-              </Typography>
-            </Link>
+              </ThemedLink>
+            </Typography>
             <Typography
               variant='blockquote'
               className={`text-gray-700 dark:text-gray-300 max-w-xs ${
