@@ -139,7 +139,7 @@ export default function AboutPage() {
         {/* ── Education & Certifications ───────────────────────────────────── */}
         <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
           <SectionHeading>Education &amp; Certifications</SectionHeading>
-          <div className='grid grid-cols-1 xl:grid-cols-2 gap-8'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <div>
               <Typography
                 variant='h4'
@@ -153,6 +153,7 @@ export default function AboutPage() {
                     <Typography
                       variant='body'
                       className='font-semibold text-gray-900 dark:text-white text-sm'
+                      style={{ lineHeight: 1.4 }}
                     >
                       {item.credential}
                     </Typography>

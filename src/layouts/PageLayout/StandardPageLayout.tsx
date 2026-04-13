@@ -86,15 +86,13 @@ export function StandardPageLayout({
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const usesMediaPaneLayout =
     hasMediaPane || Boolean(featureImage || mediaPane);
-  const paneSizeClasses = isMobileLandscape
-    ? 'md:w-1/4 xl:w-1/3'
-    : 'md:w-[40%] lg:w-1/3';
+  const paneSizeClasses = isMobileLandscape ? 'md:w-1/4 xl:w-1/3' : 'lg:w-1/4';
   const contentRightOffsetClasses = isMobileLandscape
     ? 'md:mr-[25%] xl:mr-[33.333333%]'
-    : 'md:mr-[40%] lg:mr-[33.333333%]';
+    : 'lg:mr-[25%]';
   const contentLeftOffsetClasses = isMobileLandscape
     ? 'md:ml-[25%] xl:ml-[33.333333%]'
-    : 'md:ml-[40%] lg:ml-[33.333333%]';
+    : 'lg:ml-[25%]';
 
   const { containerClasses, contentPaneClasses, imagePaneClasses } =
     useFeatureImageLayout({
@@ -169,7 +167,7 @@ export function StandardPageLayout({
           <aside className={imagePaneClasses} suppressHydrationWarning>
             {mediaPane ??
               (featureImage ? (
-                <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
+                <div className='w-full max-w-md h-[33.33vh] lg:h-auto px-4 py-6 lg:py-0 overflow-hidden'>
                   <ResponsiveFeatureImage
                     src={featureImage.src}
                     alt={featureImage.alt}
@@ -187,12 +185,12 @@ export function StandardPageLayout({
           >
             <div
               ref={contentInnerRef}
-              className={`flex-1 px-4 sm:px-6 lg:px-8 pt-0 md:min-h-full md:flex md:flex-col max-width-content${
+              className={`flex-1 px-4 sm:px-6 lg:px-8 pt-0 lg:min-h-full lg:flex lg:flex-col max-width-content${
                 isShortLandscape ? ' pb-4 md:py-4' : ' pb-8 md:py-8'
-              }${shouldCenterContainedContent ? ' md:justify-center' : ' md:justify-start'}`}
+              }${shouldCenterContainedContent ? ' lg:justify-center' : ' lg:justify-start'}`}
             >
               <div
-                className={`md:w-full${
+                className={`lg:w-full${
                   isShortLandscape || !shouldCenterContainedContent
                     ? ''
                     : ' lg:pb-12'
@@ -202,13 +200,13 @@ export function StandardPageLayout({
               </div>
             </div>
 
-            <div className='md:hidden'>
+            <div className='lg:hidden'>
               <Footer isCompact />
             </div>
           </div>
         </div>
 
-        <div className='hidden md:block'>
+        <div className='hidden lg:block'>
           <FooterOverlay hideButton={hideFooterToggleButton} />
         </div>
       </SiteLayout>
