@@ -9,6 +9,8 @@ import {
   useIsMobileLandscape,
   useIsTablet,
   useIsShortLandscape,
+  useIsSquare,
+  useIsLargePortrait,
 } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
 import {
@@ -59,8 +61,8 @@ interface StandardPageLayoutProps {
  * Responsive Breakpoints:
  * -----------------------
  * - Mobile landscape: 25% image / 75% content (3:9 ratio)
- * - Tablet portrait: 50% image / 50% content (6:6 ratio)
- * - Desktop: 33% image / 67% content (4:8 ratio)
+ * - Tablet portrait large: 50% image / 50% content (6:6 ratio)
+ * - Desktop: 25% image / 75% content (3:9 ratio)
  */
 export function StandardPageLayout({
   children,
@@ -78,29 +80,40 @@ export function StandardPageLayout({
   const isMobileLandscapeHook = useIsMobileLandscape();
   const isTabletHook = useIsTablet();
   const isShortLandscapeHook = useIsShortLandscape();
+  const isSquareHook = useIsSquare();
+  const isLargePortraitHook = useIsLargePortrait();
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const isShortLandscape = isMounted ? isShortLandscapeHook : false;
+  const isSquare = isMounted ? isSquareHook : false;
+  const isLargePortrait = isMounted ? isLargePortraitHook : false;
+  // Square and large-portrait viewports use a wider 33% image pane
+  const useWiderPane = isSquare || isLargePortrait;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const usesMediaPaneLayout =
     hasMediaPane || Boolean(featureImage || mediaPane);
-  const paneSizeClasses = isMobileLandscape
-    ? 'md:w-1/4 xl:w-1/3'
-    : 'md:w-[40%] lg:w-1/3';
-  const contentRightOffsetClasses = isMobileLandscape
-    ? 'md:mr-[25%] xl:mr-[33.333333%]'
-    : 'md:mr-[40%] lg:mr-[33.333333%]';
-  const contentLeftOffsetClasses = isMobileLandscape
-    ? 'md:ml-[25%] xl:ml-[33.333333%]'
-    : 'md:ml-[40%] lg:ml-[33.333333%]';
-
   const { containerClasses, contentPaneClasses, imagePaneClasses } =
     useFeatureImageLayout({
-      paneSizeClasses,
-      contentRightOffsetClasses,
-      contentLeftOffsetClasses,
+      // Mobile landscape: split activates at md (768 px) with a xl step-up.
+      // All other views: split activates at lg (1024 px).
+      breakpoint: isMobileLandscape ? 'md' : 'lg',
+      paneSizeClasses: isMobileLandscape
+        ? 'md:w-1/4 xl:w-1/3'
+        : useWiderPane
+          ? 'lg:w-1/3'
+          : undefined,
+      contentRightOffsetClasses: isMobileLandscape
+        ? 'md:mr-[25%] xl:mr-[33.333333%]'
+        : useWiderPane
+          ? 'lg:mr-[33.333333%]'
+          : undefined,
+      contentLeftOffsetClasses: isMobileLandscape
+        ? 'md:ml-[25%] xl:ml-[33.333333%]'
+        : useWiderPane
+          ? 'lg:ml-[33.333333%]'
+          : undefined,
       ...layoutOptions,
     });
 
@@ -169,7 +182,7 @@ export function StandardPageLayout({
           <aside className={imagePaneClasses} suppressHydrationWarning>
             {mediaPane ??
               (featureImage ? (
-                <div className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden'>
+                <div className='w-full max-w-md h-[33.33vh] lg:h-auto px-4 py-6 lg:py-0 overflow-hidden'>
                   <ResponsiveFeatureImage
                     src={featureImage.src}
                     alt={featureImage.alt}
@@ -187,12 +200,12 @@ export function StandardPageLayout({
           >
             <div
               ref={contentInnerRef}
-              className={`flex-1 px-4 sm:px-6 lg:px-8 pt-0 md:min-h-full md:flex md:flex-col max-width-content${
+              className={`flex-1 px-4 sm:px-6 lg:px-8 pt-0 lg:min-h-full lg:flex lg:flex-col max-width-content${
                 isShortLandscape ? ' pb-4 md:py-4' : ' pb-8 md:py-8'
-              }${shouldCenterContainedContent ? ' md:justify-center' : ' md:justify-start'}`}
+              }${shouldCenterContainedContent ? ' lg:justify-center' : ' lg:justify-start'}`}
             >
               <div
-                className={`md:w-full${
+                className={`lg:w-full${
                   isShortLandscape || !shouldCenterContainedContent
                     ? ''
                     : ' lg:pb-12'
@@ -202,13 +215,13 @@ export function StandardPageLayout({
               </div>
             </div>
 
-            <div className='md:hidden'>
+            <div className='lg:hidden'>
               <Footer isCompact />
             </div>
           </div>
         </div>
 
-        <div className='hidden md:block'>
+        <div className='hidden lg:block'>
           <FooterOverlay hideButton={hideFooterToggleButton} />
         </div>
       </SiteLayout>

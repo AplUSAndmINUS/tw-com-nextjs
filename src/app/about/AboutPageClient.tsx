@@ -54,9 +54,9 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
       mediaPane={mediaPane}
       hasMediaPane
       layoutOptions={{
-        paneSizeClasses: 'md:w-[40%] lg:w-1/3',
-        contentRightOffsetClasses: 'md:mr-[40%] lg:mr-[33.333333%]',
-        contentLeftOffsetClasses: 'md:ml-[40%] lg:ml-[33.333333%]',
+        paneSizeClasses: 'lg:w-1/4',
+        contentRightOffsetClasses: 'lg:mr-[25%]',
+        contentLeftOffsetClasses: 'lg:ml-[25%]',
       }}
     >
       {children}

@@ -68,7 +68,7 @@ export function ArticleLayout({
     <SiteLayout showFooter={false} isContainedView={!!featureImage}>
       {featureImage ? (
         <div className={containerClasses}>
-          {/* Feature image pane - fixed and vertically centered on md+ */}
+          {/* Feature image pane - fixed and vertically centered on lg+ */}
           <aside
             className={imagePaneClasses}
             style={{
@@ -77,7 +77,7 @@ export function ArticleLayout({
           >
             <button
               onClick={() => setIsModalOpen(true)}
-              className='w-full max-w-md h-[33.33vh] md:h-auto px-4 py-6 md:py-0 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity'
+              className='w-full max-w-md h-[33.33vh] lg:h-auto px-4 py-6 lg:py-0 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity'
               aria-label='View image fullscreen'
             >
               <ResponsiveFeatureImage
@@ -178,11 +178,11 @@ export function ArticleLayout({
         </article>
       )}
       {/* Mobile: Standard footer always visible */}
-      <div className='md:hidden'>
+      <div className='lg:hidden'>
         <Footer isCompact />
       </div>
-      {/* Tablet/Desktop: Interactive footer overlay */}
-      <div className='hidden md:block'>
+      {/* Desktop: Interactive footer overlay */}
+      <div className='hidden lg:block'>
         <FooterOverlay />
       </div>
     </SiteLayout>

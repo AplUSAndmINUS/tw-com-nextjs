@@ -100,7 +100,7 @@ export function CaseStudyLayout({
       >
         {featureImage ? (
           <div className={containerClasses}>
-            {/* Feature image pane - fixed and vertically centered on md+ */}
+            {/* Feature image pane - fixed and vertically centered on lg+ */}
             <aside
               className={imagePaneClasses}
               style={{
@@ -109,7 +109,7 @@ export function CaseStudyLayout({
             >
               {modalImages.length > 1 ? (
                 // Multiple images: show carousel
-                <div className='w-full max-w-xl px-4 py-6 md:py-0'>
+                <div className='w-full max-w-xl px-4 py-6 lg:py-0'>
                   <ImageCarousel
                     images={modalImages}
                     onImageClick={() => setIsModalOpen(true)}
@@ -161,11 +161,11 @@ export function CaseStudyLayout({
         )}
       </div>
       {/* Mobile: Standard footer always visible */}
-      <div className='md:hidden'>
+      <div className='lg:hidden'>
         <Footer isCompact />
       </div>
-      {/* Tablet/Desktop: Interactive footer overlay */}
-      <div className='hidden md:block'>
+      {/* Desktop: Interactive footer overlay */}
+      <div className='hidden lg:block'>
         <FooterOverlay />
       </div>
     </SiteLayout>
