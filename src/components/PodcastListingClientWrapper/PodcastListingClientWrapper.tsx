@@ -261,22 +261,34 @@ export function PodcastListingClientWrapper({
             rel='noopener noreferrer'
             aria-label={ariaLabel}
             role='listitem'
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 16px',
-              borderRadius: '9999px',
-              border: `2px solid ${
-                activeBrandColor ?? theme.palette.neutralTertiary
-              }`,
-              color: activeBrandColor ?? theme.palette.neutralPrimary,
-              textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: 500,
-              transition: 'all 0.15s ease',
-              backgroundColor: theme.palette.neutralLighterAlt,
-            }}
+            className='podcast-platform-btn'
+            style={
+              {
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 16px',
+                borderRadius: '9999px',
+                border: `2px solid ${
+                  activeBrandColor ?? theme.palette.neutralTertiary
+                }`,
+                // Color is set via CSS custom property AND -webkit-text-fill-color.
+                // The browser's forced dark mode only injects rules for `color`,
+                // not `-webkit-text-fill-color`, so this sidesteps the entire
+                // specificity arms race with selectors like a[ping]:link and
+                // html[native-dark-active] that keep escalating !important overrides.
+                '--podcast-btn-color':
+                  activeBrandColor ?? theme.palette.neutralPrimary,
+                color: 'var(--podcast-btn-color)',
+                WebkitTextFillColor:
+                  activeBrandColor ?? theme.palette.neutralPrimary,
+                textDecoration: 'none',
+                fontSize: '13px',
+                fontWeight: 500,
+                transition: 'all 0.15s ease',
+                backgroundColor: theme.palette.neutralLighterAlt,
+              } as React.CSSProperties
+            }
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLAnchorElement;
               el.style.backgroundColor = activeBrandColor

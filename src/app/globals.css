@@ -188,6 +188,17 @@ body.kofi-visible [id^='kofi-widget-overlay'] {
   display: block !important;
 }
 
+/* Override browser native dark-mode link color injection for podcast platform buttons.
+   The browser (Chromium/Safari forced dark mode) injects escalating !important rules
+   for `color` on links. -webkit-text-fill-color overrides `color` for text rendering
+   in all WebKit/Chromium browsers and the browser never injects !important rules for it,
+   permanently ending the specificity arms race. */
+a.podcast-platform-btn,
+html[native-dark-active] a.podcast-platform-btn {
+  color: var(--podcast-btn-color) !important;
+  -webkit-text-fill-color: var(--podcast-btn-color) !important;
+}
+
 /* Footer link styles to keep them consistent */
 a.footer-link {
   &:visited,
