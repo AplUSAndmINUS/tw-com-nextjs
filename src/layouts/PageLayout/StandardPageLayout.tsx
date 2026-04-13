@@ -59,8 +59,8 @@ interface StandardPageLayoutProps {
  * Responsive Breakpoints:
  * -----------------------
  * - Mobile landscape: 25% image / 75% content (3:9 ratio)
- * - Tablet portrait: 50% image / 50% content (6:6 ratio)
- * - Desktop: 33% image / 67% content (4:8 ratio)
+ * - Tablet portrait large: 50% image / 50% content (6:6 ratio)
+ * - Desktop: 25% image / 75% content (3:9 ratio)
  */
 export function StandardPageLayout({
   children,
@@ -86,19 +86,18 @@ export function StandardPageLayout({
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const usesMediaPaneLayout =
     hasMediaPane || Boolean(featureImage || mediaPane);
-  const paneSizeClasses = isMobileLandscape ? 'md:w-1/4 xl:w-1/3' : 'lg:w-1/4';
-  const contentRightOffsetClasses = isMobileLandscape
-    ? 'md:mr-[25%] xl:mr-[33.333333%]'
-    : 'lg:mr-[25%]';
-  const contentLeftOffsetClasses = isMobileLandscape
-    ? 'md:ml-[25%] xl:ml-[33.333333%]'
-    : 'lg:ml-[25%]';
-
   const { containerClasses, contentPaneClasses, imagePaneClasses } =
     useFeatureImageLayout({
-      paneSizeClasses,
-      contentRightOffsetClasses,
-      contentLeftOffsetClasses,
+      // Mobile landscape: split activates at md (768 px) with a xl step-up.
+      // All other views: split activates at lg (1024 px).
+      breakpoint: isMobileLandscape ? 'md' : 'lg',
+      paneSizeClasses: isMobileLandscape ? 'md:w-1/4 xl:w-1/3' : undefined,
+      contentRightOffsetClasses: isMobileLandscape
+        ? 'md:mr-[25%] xl:mr-[33.333333%]'
+        : undefined,
+      contentLeftOffsetClasses: isMobileLandscape
+        ? 'md:ml-[25%] xl:ml-[33.333333%]'
+        : undefined,
       ...layoutOptions,
     });
 
