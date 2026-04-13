@@ -307,6 +307,7 @@ export function PodcastListingClientWrapper({
       {isMobile && (
         <button
           type='button'
+          role='listitem'
           onClick={() => setShowAllPlatforms((prev) => !prev)}
           aria-expanded={showAllPlatforms}
           aria-label={

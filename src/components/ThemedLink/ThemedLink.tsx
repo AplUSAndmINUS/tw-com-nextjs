@@ -151,7 +151,9 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
       href={href}
       target={target}
       rel={rel}
-      className={`${className} ${isFooter ? 'footer-link' : ''}`}
+      className={[className, isFooter ? 'footer-link' : '']
+        .filter(Boolean)
+        .join(' ')}
       style={mergedStyles}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
