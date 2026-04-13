@@ -106,6 +106,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
               fill
               style={{
                 objectFit: 'cover',
+                objectPosition: 'top',
                 filter: filter,
               }}
               sizes={`(max-width: 768px) 100vw, ${maxWidth}`}

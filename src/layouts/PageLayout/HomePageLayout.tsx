@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { SiteLayout } from '@/layouts/SiteLayout';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import { FooterOverlay } from '@/components/FooterOverlay';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
 
 interface HomePageLayoutProps {
@@ -37,7 +38,7 @@ export function HomePageLayout({
   const isLeftHanded = resolvedLayoutPreference === 'left-handed';
 
   return (
-    <SiteLayout isContainedView hideFooterOnMobile>
+    <SiteLayout isContainedView showFooter={false}>
       {/* Mobile: normal scrolling | Desktop: contained viewport */}
       <div className='h-full w-full overflow-y-auto lg:overflow-hidden flex flex-col'>
         {featureImage ? (
@@ -88,6 +89,9 @@ export function HomePageLayout({
             </div>
           </div>
         )}
+      </div>
+      <div className='hidden md:block'>
+        <FooterOverlay />
       </div>
     </SiteLayout>
   );
