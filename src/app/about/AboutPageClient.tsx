@@ -43,7 +43,7 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
 
   const mediaPane = (
     <div className='flex w-full items-center justify-center pt-4 md:pt-0'>
-      <div className='w-full max-w-xs px-4 md:max-w-md md:px-0 md:overflow-hidden md:pt-1 md:pb-1'>
+      <div className='w-full max-w-xs px-4 md:max-w-md md:px-0 md:overflow-hidden md:pt-1 md:pb-1 lg:ml-6'>
         <TeamMemberCard member={teamMember} maxWidth='400px' />
       </div>
     </div>
