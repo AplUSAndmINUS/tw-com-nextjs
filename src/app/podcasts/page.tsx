@@ -4,7 +4,7 @@ import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import type { PodcastEpisode } from '@/content/types';
 import { fetchSpreakerEpisodes } from '@/lib/spreaker';
-import PodcastImage from '@/assets/images/Podcasts1400x1875.jpg';
+import PodcastImage from '@/assets/images/APlusLogo_11052025.png';
 
 export const metadata: Metadata = {
   title: 'Podcasts',
