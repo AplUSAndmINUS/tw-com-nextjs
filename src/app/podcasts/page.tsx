@@ -9,12 +9,12 @@ import PodcastImage from '@/assets/images/APlusLogo_11052025.png';
 export const metadata: Metadata = {
   title: 'Podcasts',
   description:
-    'Audio conversations on technology, creativity, and building meaningful things.',
+    'The Authentic Growth Mythmaker Series- blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Podcasts | Terence Waters',
     description:
-      'Audio conversations on technology, creativity, and building meaningful things.',
+      'The Authentic Growth Mythmaker Series- blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
     url: 'https://terencewaters.com/podcasts',
     siteName: 'Terence Waters',
     type: 'website',

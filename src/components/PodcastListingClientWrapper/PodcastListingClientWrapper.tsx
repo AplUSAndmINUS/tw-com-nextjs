@@ -235,7 +235,7 @@ export function PodcastListingClientWrapper({
   // Generate results message
   const resultsMessage =
     filteredEpisodes.length === episodes.length
-      ? `Showing all ${filteredEpisodes.length} episode${filteredEpisodes.length !== 1 ? 's' : ''}`
+      ? `Showing all ${filteredEpisodes.length} episode${filteredEpisodes.length !== 1 ? 's' : ''} of The Authentic Growth Mythmaker Series`
       : `Showing ${filteredEpisodes.length} of ${episodes.length} episode${episodes.length !== 1 ? 's' : ''}`;
 
   const MOBILE_VISIBLE_COUNT = 3;
@@ -346,9 +346,9 @@ export function PodcastListingClientWrapper({
 
   return (
     <ContentListingPage
-      title='Podcast Episodes'
+      title='Podcasts'
       iconName='MicRegular'
-      description='Audio conversations on technology, creativity, and building meaningful things.'
+      description='The Authentic Growth Mythmaker Series- blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.'
       basePath='/podcasts'
       cards={cards}
       filters={filters}

@@ -439,7 +439,7 @@ export function ContentListingPage({
       )}
 
       {/* Spreaker embedded player */}
-      {title === 'Podcast Episodes' && (
+      {title === 'Podcasts' && (
         <div style={{ marginTop: theme.spacing.l }}>
           <SpreakerPlayer
             showId={SPREAKER_SHOW_ID}
