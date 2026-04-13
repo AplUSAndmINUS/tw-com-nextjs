@@ -194,9 +194,30 @@ body.kofi-visible [id^='kofi-widget-overlay'] {
    in all WebKit/Chromium browsers and the browser never injects !important rules for it,
    permanently ending the specificity arms race. */
 a.podcast-platform-btn,
-html[native-dark-active] a.podcast-platform-btn {
+a.podcast-platform-btn:visited,
+a.podcast-platform-btn:focus,
+a.podcast-platform-btn:active,
+html[native-dark-active] a.podcast-platform-btn,
+html[native-dark-active] a.podcast-platform-btn:visited,
+html[native-dark-active] a.podcast-platform-btn:focus,
+html[native-dark-active] a.podcast-platform-btn:active {
   color: var(--podcast-btn-color) !important;
   -webkit-text-fill-color: var(--podcast-btn-color) !important;
+}
+
+/* Prevent the browser's forced dark mode from overriding link colors on interactive
+   states. The browser injects rules like:
+     html a:visited, html a:visited > *:not(svg) { color: var(--native-dark-visited-link-color) !important }
+   These only ever target `color`, never `-webkit-text-fill-color`. By setting
+   -webkit-text-fill-color: inherit on these states, any element with an explicit
+   -webkit-text-fill-color (set directly or inherited) keeps it across all states.
+   For elements without an explicit -webkit-text-fill-color this is a no-op,
+   so normal link visited/focus/active styling is unaffected. */
+a:visited,
+a:visited > *:not(svg),
+a:focus,
+a:active {
+  -webkit-text-fill-color: inherit;
 }
 
 /* Footer link styles to keep them consistent */
