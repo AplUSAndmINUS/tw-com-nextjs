@@ -2,7 +2,7 @@
 
 /**
  * Podcast RSS Proxy - Azure Function
- * Fetches and parses the Spreaker RSS feed for "A+ In FLUX Mythmaker Series",
+ * Fetches and parses the Spreaker RSS feed for "The Authentic Growth Mythmaker Series",
  * returning episodes in the PodcastEpisode schema consumed by the front-end.
  *
  * Route: GET /api/podcasts/rss-proxy
@@ -133,7 +133,7 @@ function parseRSSItems(xml) {
     episodes.push({
       id: episodeId,
       slug: episodeId,
-      podcast_name: 'A+ In FLUX Mythmaker',
+      podcast_name: 'The Authentic Growth Mythmaker Series',
       episode_title: title,
       author_name: author || 'Terence Waters',
       description,

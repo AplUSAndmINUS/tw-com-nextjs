@@ -8,10 +8,10 @@
  * Route: /api/podcasts/rss
  */
 
-const PODCAST_NAME = 'A+ In FLUX Mythmaker';
+const PODCAST_NAME = 'The Authentic Growth Mythmaker Series';
 const PODCAST_AUTHOR = 'Fluxline';
 const PODCAST_DESCRIPTION =
-  'A+ In FLUX Mythmaker — audio episodes covering transformation, strategy, and personal development by Fluxline.';
+  'The Authentic Growth Mythmaker Series — audio episodes covering transformation, strategy, and personal development by Fluxline.';
 const PODCAST_LINK = 'https://www.fluxline.pro/podcasts';
 const PODCAST_IMAGE = 'https://www.fluxline.pro/images/FluxlineLogo.png';
 const PODCAST_LANGUAGE = 'en-us';

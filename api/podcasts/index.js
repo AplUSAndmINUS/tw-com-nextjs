@@ -3,7 +3,7 @@
 /**
  * Azure Function: api/podcasts
  *
- * Fetches and parses the Spreaker RSS feed for the A+ in FLUX Mythmaker Series
+ * Fetches and parses the Spreaker RSS feed for The Authentic Growth Mythmaker Series
  * (show ID 6933506) and returns episode metadata as JSON.
  *
  * No environment variables required — the Spreaker RSS feed is public.
@@ -218,9 +218,9 @@ module.exports = async function (context, req) {
 
     const channelHeader = xml.split('<item>')[0] || '';
     const showTitle =
-      extractText(channelHeader, 'title') || 'A+ in FLUX Mythmaker Series';
-    const showDescription =
-      extractText(channelHeader, 'description') || '';
+      extractText(channelHeader, 'title') ||
+      'The Authentic Growth Mythmaker Series';
+    const showDescription = extractText(channelHeader, 'description') || '';
     const showImageUrl =
       extractAttr(channelHeader, 'itunes:image', 'href') ||
       extractAttr(channelHeader, 'image', 'href') ||
@@ -255,7 +255,7 @@ module.exports = async function (context, req) {
       headers: corsHeaders,
       body: JSON.stringify({
         episodes: [],
-        showTitle: 'A+ in FLUX Mythmaker Series',
+        showTitle: '`The Authentic Growth Mythmaker Series',
         showDescription: '',
         showImageUrl: '',
         showUrl: SPREAKER_SHOW_URL,

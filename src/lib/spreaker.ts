@@ -1,6 +1,6 @@
 import type { PodcastEpisode } from '@/content/types';
 
-/** Spreaker show ID for "A+ in FLUX Mythmaker Series" */
+/** Spreaker show ID for "The Authentic Growth Mythmaker Series" */
 export const SPREAKER_SHOW_ID = '6933506';
 
 /** Public RSS feed URL for the show */
@@ -12,7 +12,7 @@ export const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/a-in-flux-myt
 /** Spreaker widget script CDN URL */
 export const SPREAKER_WIDGET_SCRIPT = 'https://widget.spreaker.com/widgets.js';
 
-/** Platform URLs for the A+ In FLUX Mythmaker podcast */
+/** Platform URLs for The Authentic Growth Mythmaker Series podcast */
 export const PODCAST_PLATFORMS = {
   spreaker:
     'https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--6933506',
@@ -128,14 +128,14 @@ function parseRssItem(itemXml: string): PodcastEpisode | null {
 }
 
 /**
- * Fetch and parse the Spreaker RSS feed for the A+ in FLUX Mythmaker Series.
+ * Fetch and parse the Spreaker RSS feed for The Authentic Growth Mythmaker Series.
  * Returns an empty episode list (with `available: false`) on any error so
  * pages degrade gracefully when the feed is unavailable at build time.
  */
 export async function fetchSpreakerEpisodes(): Promise<SpreakerFeedResult> {
   const fallback: SpreakerFeedResult = {
     episodes: [],
-    showTitle: 'A+ in FLUX Mythmaker Series',
+    showTitle: 'The Authentic Growth Mythmaker Series',
     showDescription:
       'Audio conversations on technology, creativity, and building meaningful things.',
     showImageUrl: '',
@@ -198,7 +198,7 @@ export async function fetchSpreakerEpisodes(): Promise<SpreakerFeedResult> {
 export async function fetchPodcastsFromApi(): Promise<SpreakerFeedResult> {
   const fallback: SpreakerFeedResult = {
     episodes: [],
-    showTitle: 'A+ in FLUX Mythmaker Series',
+    showTitle: 'The Authentic Growth Mythmaker Series',
     showDescription:
       'Audio conversations on technology, creativity, and building meaningful things.',
     showImageUrl: '',
