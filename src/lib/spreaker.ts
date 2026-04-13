@@ -19,6 +19,7 @@ export const PODCAST_PLATFORMS = {
   applePodcasts:
     'https://podcasts.apple.com/us/podcast/a+-in-flux-mythmaker-series/id1891152754',
   spotify: 'https://open.spotify.com/show/0kmCO10TwluoHUYdD3v4Qe',
+  iHeartRadio: 'https://iheart.com/podcast/329383182',
   amazonMusic:
     'https://music.amazon.com/podcasts/b4d2ead1-4aaa-4189-b4bd-bd41141030a7',
   deezer: 'https://www.deezer.com/show/1002848441',

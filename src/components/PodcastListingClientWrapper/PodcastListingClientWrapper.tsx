@@ -11,6 +11,7 @@ import { PodcastEpisode } from '@/content/types';
 import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
 import { fetchPodcastsFromApi, PODCAST_PLATFORMS } from '@/lib/spreaker';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
@@ -34,16 +35,22 @@ const PLATFORM_CONFIGS: {
     brandColor: '#EE722E', // Spreaker brand orange
   },
   {
+    key: 'spotify',
+    label: 'Spotify',
+    ariaLabel: 'Listen on Spotify',
+    brandColor: '#1DB954', // Spotify brand green
+  },
+  {
     key: 'applePodcasts',
     label: 'Apple Podcasts',
     ariaLabel: 'Listen on Apple Podcasts',
     brandColor: '#B150E2', // Apple Podcasts brand purple
   },
   {
-    key: 'spotify',
-    label: 'Spotify',
-    ariaLabel: 'Listen on Spotify',
-    brandColor: '#1DB954', // Spotify brand green
+    key: 'iHeartRadio',
+    label: 'iHeartRadio',
+    ariaLabel: 'Listen on iHeartRadio',
+    brandColor: '#C6002B', // iHeartRadio brand red
   },
   {
     key: 'amazonMusic',
@@ -74,6 +81,7 @@ export function PodcastListingClientWrapper({
   feedAvailable = false,
 }: PodcastListingClientWrapperProps) {
   const { theme } = useAppTheme();
+  const isMobile = useIsMobile();
 
   // Brand colors are only applied in standard light/dark modes.
   // Accessibility themes (high-contrast, colorblindness, grayscale) fall back to
@@ -84,6 +92,7 @@ export function PodcastListingClientWrapper({
   const [episodes, setEpisodes] = useState<PodcastEpisode[]>(initialEpisodes);
   const [isFeedAvailable, setIsFeedAvailable] =
     useState<boolean>(feedAvailable);
+  const [showAllPlatforms, setShowAllPlatforms] = useState(false);
 
   useEffect(() => {
     fetchPodcastsFromApi()
@@ -229,13 +238,20 @@ export function PodcastListingClientWrapper({
       ? `Showing all ${filteredEpisodes.length} episode${filteredEpisodes.length !== 1 ? 's' : ''}`
       : `Showing ${filteredEpisodes.length} of ${episodes.length} episode${episodes.length !== 1 ? 's' : ''}`;
 
+  const MOBILE_VISIBLE_COUNT = 3;
+
+  const visiblePlatforms =
+    isMobile && !showAllPlatforms
+      ? PLATFORM_CONFIGS.slice(0, MOBILE_VISIBLE_COUNT)
+      : PLATFORM_CONFIGS;
+
   const heroContent = (
     <nav
       className='flex flex-wrap gap-3 mt-4'
       role='list'
       aria-label='Subscribe to the podcast on your preferred platform'
     >
-      {PLATFORM_CONFIGS.map(({ key, label, ariaLabel, brandColor }) => {
+      {visiblePlatforms.map(({ key, label, ariaLabel, brandColor }) => {
         const activeBrandColor = useBrandColors ? brandColor : undefined;
         return (
           <a
@@ -245,22 +261,34 @@ export function PodcastListingClientWrapper({
             rel='noopener noreferrer'
             aria-label={ariaLabel}
             role='listitem'
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 16px',
-              borderRadius: '9999px',
-              border: `2px solid ${
-                activeBrandColor ?? theme.palette.neutralTertiary
-              }`,
-              color: activeBrandColor ?? theme.palette.neutralPrimary,
-              textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: 500,
-              transition: 'all 0.15s ease',
-              backgroundColor: theme.palette.neutralLighterAlt,
-            }}
+            className='podcast-platform-btn'
+            style={
+              {
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 16px',
+                borderRadius: '9999px',
+                border: `2px solid ${
+                  activeBrandColor ?? theme.palette.neutralTertiary
+                }`,
+                // Color is set via CSS custom property AND -webkit-text-fill-color.
+                // The browser's forced dark mode only injects rules for `color`,
+                // not `-webkit-text-fill-color`, so this sidesteps the entire
+                // specificity arms race with selectors like a[ping]:link and
+                // html[native-dark-active] that keep escalating !important overrides.
+                '--podcast-btn-color':
+                  activeBrandColor ?? theme.palette.neutralPrimary,
+                color: 'var(--podcast-btn-color)',
+                WebkitTextFillColor:
+                  activeBrandColor ?? theme.palette.neutralPrimary,
+                textDecoration: 'none',
+                fontSize: '13px',
+                fontWeight: 500,
+                transition: 'all 0.15s ease',
+                backgroundColor: theme.palette.neutralLighterAlt,
+              } as React.CSSProperties
+            }
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLAnchorElement;
               el.style.backgroundColor = activeBrandColor
@@ -276,6 +304,43 @@ export function PodcastListingClientWrapper({
           </a>
         );
       })}
+      {isMobile && (
+        <button
+          type='button'
+          role='listitem'
+          onClick={() => setShowAllPlatforms((prev) => !prev)}
+          aria-expanded={showAllPlatforms}
+          aria-label={
+            showAllPlatforms
+              ? 'Show fewer podcast platforms'
+              : 'Show more podcast platforms'
+          }
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '6px 16px',
+            borderRadius: '9999px',
+            border: `2px solid ${theme.palette.neutralTertiary}`,
+            color: theme.palette.neutralPrimary,
+            background: 'none',
+            cursor: 'pointer',
+            fontSize: '13px',
+            fontWeight: 500,
+            transition: 'all 0.15s ease',
+            backgroundColor: theme.palette.neutralLighterAlt,
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+              theme.palette.neutralLighter;
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+              theme.palette.neutralLighterAlt;
+          }}
+        >
+          {showAllPlatforms ? 'Show Less' : 'Show More'}
+        </button>
+      )}
     </nav>
   );
 
