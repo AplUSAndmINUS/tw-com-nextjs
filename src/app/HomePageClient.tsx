@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink';
 import { motion } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import {
   useIsMobile,
@@ -48,6 +49,7 @@ export default function HomePageClient() {
   const isTabletLandscape = isMounted ? isTabletLandscapeHook : false;
   const orientation = isMounted ? orientationHook : ('landscape' as const); // 'landscape' matches useDeviceOrientation's own useState default
   const isLargePortrait = orientation === 'large-portrait';
+  const footerHeight = useFooterHeight();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -100,8 +102,10 @@ export default function HomePageClient() {
       <section
         className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} ${isLargePortrait ? 'justify-end' : 'justify-end lg:justify-center'} h-full sm:px-4 md:px-6 lg:px-12`}
         style={{
-          paddingBottom:
-            isMobile || isTablet || isLargePortrait ? '80px' : undefined,
+          // On mobile the footer is hidden so use a static gap; on md+ the footer
+          // is always-visible (fixed) so offset paddingBottom by its measured height
+          // so that lg:justify-center visually centres the card above the footer.
+          paddingBottom: isMobile ? '80px' : `calc(${footerHeight})`,
         }}
       >
         {/* Translucent card container around text */}

@@ -32,6 +32,16 @@ const contentCategories: {
     disabled: false,
   },
   {
+    title: 'Podcasts',
+    description:
+      'Audio conversations with creators, technologists, and thinkers.',
+    icon: 'MicRegular',
+    href: '/podcasts',
+    cta: 'Listen Now',
+    featured: true,
+    disabled: false,
+  },
+  {
     title: 'Case Studies',
     description:
       "Deep dives into specific projects — what worked, what didn't, and what I learned.",
@@ -56,16 +66,6 @@ const contentCategories: {
     icon: 'VideoClipRegular',
     href: '/videos',
     cta: 'Watch Videos',
-    disabled: false,
-  },
-  {
-    title: 'Podcasts',
-    description:
-      'Audio conversations with creators, technologists, and thinkers.',
-    icon: 'MicRegular',
-    href: '/podcasts',
-    cta: 'Listen Now',
-    featured: true,
     disabled: false,
   },
 ];

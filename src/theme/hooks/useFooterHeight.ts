@@ -9,44 +9,58 @@ import { useState, useEffect } from 'react';
  * @returns The current footer height as a CSS string (e.g., "200px")
  */
 export const useFooterHeight = (): string => {
-  const [footerHeight, setFooterHeight] = useState('200px'); // Default fallback
+  const [footerHeight, setFooterHeight] = useState('0px');
 
   useEffect(() => {
-    // Look for the footer element - try multiple selectors
-    const footerElement =
+    let cleanupFn: (() => void) | null = null;
+
+    const findFooter = (): Element | null =>
       document.querySelector('footer') ||
       document.querySelector('[role="contentinfo"]') ||
       document.querySelector('[data-footer]');
 
-    const calculateFooterHeight = () => {
-      if (footerElement) {
+    const attachToFooter = (footerElement: Element): (() => void) => {
+      let resizeObserver: ResizeObserver | null = null;
+
+      const calculateFooterHeight = () => {
         const height = footerElement.getBoundingClientRect().height;
         setFooterHeight(`${height}px`);
+      };
+
+      calculateFooterHeight();
+      window.addEventListener('resize', calculateFooterHeight);
+
+      if (window.ResizeObserver) {
+        resizeObserver = new ResizeObserver(calculateFooterHeight);
+        resizeObserver.observe(footerElement);
       }
+
+      return () => {
+        window.removeEventListener('resize', calculateFooterHeight);
+        resizeObserver?.disconnect();
+      };
     };
 
-    // Calculate on mount
-    calculateFooterHeight();
-
-    // Recalculate on resize
-    const handleResize = () => calculateFooterHeight();
-    window.addEventListener('resize', handleResize);
-
-    // Use ResizeObserver if available for more accurate detection
-    let resizeObserver: ResizeObserver | null = null;
-
-    if (footerElement && window.ResizeObserver) {
-      resizeObserver = new ResizeObserver(() => {
-        calculateFooterHeight();
-      });
-      resizeObserver.observe(footerElement);
+    const footerElement = findFooter();
+    if (footerElement) {
+      cleanupFn = attachToFooter(footerElement);
+      return () => cleanupFn?.();
     }
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
+    // Footer not yet in DOM (e.g. mounted asynchronously via AnimatePresence).
+    // Watch for it via MutationObserver, then start measuring once it appears.
+    const mutationObserver = new MutationObserver(() => {
+      const el = findFooter();
+      if (el) {
+        mutationObserver.disconnect();
+        cleanupFn = attachToFooter(el);
       }
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutationObserver.disconnect();
+      cleanupFn?.();
     };
   }, []);
 
