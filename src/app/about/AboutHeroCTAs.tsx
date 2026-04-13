@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 /**
  * AboutHeroCTAs — Theme-aware CTA buttons for the About page Hero.
@@ -12,9 +13,16 @@ import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
  */
 export function AboutHeroCTAs() {
   const { theme } = useAppTheme();
-  const [secondaryHovered, setSecondaryHovered] = useState(false);
+  const [secondaryHovered, setSecondaryHovered] = React.useState(false);
+  const [isMounted, setIsMounted] = React.useState(false);
+  const isMobileHook = useIsMobile();
+  const isMobile = isMounted ? isMobileHook : false;
 
-  return (
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  return !isMobile ? (
     <div style={{ display: 'flex', gap: '0.75rem' }}>
       <BookingsButton isHero />
       <Link
@@ -44,5 +52,5 @@ export function AboutHeroCTAs() {
         Visit Fluxline.pro
       </Link>
     </div>
-  );
+  ) : null;
 }

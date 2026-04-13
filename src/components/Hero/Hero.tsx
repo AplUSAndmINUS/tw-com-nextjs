@@ -4,7 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
-import { useIsMobile, useIsTablet, useIsShortLandscape } from '@/hooks/useMediaQuery';
+import {
+  useIsMobile,
+  useIsTablet,
+  useIsShortLandscape,
+} from '@/hooks/useMediaQuery';
 import { resolveIconName } from '@/utils/iconResolver';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
@@ -166,14 +170,16 @@ export const Hero: React.FC<HeroProps> = ({
                 }}
                 onPointerEnter={(e: React.PointerEvent<HTMLDivElement>) => {
                   if (e.pointerType !== 'mouse') return;
-                  e.currentTarget.style.backgroundColor = theme.semanticColors.background.base;
+                  e.currentTarget.style.backgroundColor =
+                    theme.semanticColors.background.base;
                   e.currentTarget.style.borderColor = accentColor;
                   e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.semanticColors.focus.ring}`;
                 }}
                 onPointerLeave={(e: React.PointerEvent<HTMLDivElement>) => {
                   if (e.pointerType !== 'mouse') return;
                   e.currentTarget.style.backgroundColor = controlSurfaceColor;
-                  e.currentTarget.style.borderColor = theme.semanticColors.border.default;
+                  e.currentTarget.style.borderColor =
+                    theme.semanticColors.border.default;
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
@@ -312,12 +318,16 @@ export const Hero: React.FC<HeroProps> = ({
         )}
 
         {description && (
-          <div style={{ marginBottom: isCompact ? '0.5rem' : '1rem' }}>
+          <div style={{ marginBottom: isCompact ? '0.5rem' : '0' }}>
             <Typography
               variant='body'
               style={{
                 color: theme.semanticColors.text.muted,
-                fontSize: isMobile ? '0.9375rem' : isCompact ? '1rem' : '1.0625rem',
+                fontSize: isMobile
+                  ? '0.9375rem'
+                  : isCompact
+                    ? '1rem'
+                    : '1.0625rem',
                 lineHeight: 1.6,
                 margin: 0,
                 // Use CSS line-clamp for mobile when not expanded
@@ -340,7 +350,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className='rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
                 style={{
                   marginTop: '0.75rem',
-                  padding: '0.5rem 0.75rem',
+                  padding: '0.5rem 1rem',
                   border: `2px solid ${theme.semanticColors.border.emphasis}`,
                   color: accentColor,
                   backgroundColor: theme.semanticColors.background.base,
