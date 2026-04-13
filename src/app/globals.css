@@ -205,19 +205,22 @@ html[native-dark-active] a.podcast-platform-btn:active {
   -webkit-text-fill-color: var(--podcast-btn-color) !important;
 }
 
-/* Prevent the browser's forced dark mode from overriding link colors on interactive
-   states. The browser injects rules like:
-     html a:visited, html a:visited > *:not(svg) { color: var(--native-dark-visited-link-color) !important }
-   These only ever target `color`, never `-webkit-text-fill-color`. By setting
-   -webkit-text-fill-color: inherit on these states, any element with an explicit
-   -webkit-text-fill-color (set directly or inherited) keeps it across all states.
-   For elements without an explicit -webkit-text-fill-color this is a no-op,
-   so normal link visited/focus/active styling is unaffected. */
+/* Global link reset — prevents browser-injected color variables (e.g. visited-link
+   colour from forced dark mode) from overriding component-level styles on any link.
+   -webkit-text-fill-color: inherit defeats the browser's !important injections on
+   WebKit/Chromium since the browser never injects !important for that property.
+   color: inherit and text-decoration: none ensure components control all link
+   appearance via their own tokens and classes. */
+a,
+a:link,
 a:visited,
 a:visited > *:not(svg),
+a:hover,
 a:focus,
 a:active {
+  color: inherit;
   -webkit-text-fill-color: inherit;
+  text-decoration: none;
 }
 
 /* Footer link styles to keep them consistent */

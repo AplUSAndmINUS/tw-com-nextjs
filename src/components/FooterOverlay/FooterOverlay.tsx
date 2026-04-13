@@ -9,6 +9,8 @@ import { useSlideInOut } from '@/hooks';
 interface FooterOverlayProps {
   /** If true, hides the "Show Footer" button (e.g., on article pages where footer should not overlay content) */
   hideButton?: boolean;
+  /** If true, the footer is always visible on desktop — no show/hide toggle (used on homepage) */
+  alwaysVisible?: boolean;
 }
 
 /**
@@ -17,7 +19,10 @@ interface FooterOverlayProps {
  * Used on tablet/desktop viewports for hover-triggered footer display.
  * Separated from StandardPageLayout to keep the layout server-rendered.
  */
-export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
+export function FooterOverlay({
+  hideButton = false,
+  alwaysVisible = false,
+}: FooterOverlayProps) {
   const { theme, themeMode, reducedTransparency } = useAppTheme();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -30,7 +35,8 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    if (alwaysVisible) setIsFooterVisible(true);
+  }, [alwaysVisible]);
 
   const accentColor = theme.palette.themePrimary;
   const isLightFamily =
@@ -92,16 +98,19 @@ export function FooterOverlay({ hideButton = false }: FooterOverlayProps) {
       <AnimatePresence>
         {isFooterVisible && (
           <>
-            {/* Transparent backdrop — dismisses footer on click or touch outside */}
-            <div
-              className='fixed inset-0 z-[49]'
-              aria-hidden='true'
-              onClick={() => setIsFooterVisible(false)}
-              onTouchStart={() => setIsFooterVisible(false)}
-            />
+            {/* Transparent backdrop — dismisses footer on click or touch outside (not shown when alwaysVisible) */}
+            {!alwaysVisible && (
+              <div
+                className='fixed inset-0 z-[49]'
+                aria-hidden='true'
+                onClick={() => setIsFooterVisible(false)}
+                onTouchStart={() => setIsFooterVisible(false)}
+              />
+            )}
             <motion.footer
               {...animationProps}
               onPointerLeave={(e) => {
+                if (alwaysVisible) return;
                 if (e.pointerType !== 'mouse') return;
                 setIsFooterVisible(false);
               }}

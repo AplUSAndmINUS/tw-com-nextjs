@@ -91,7 +91,7 @@ export function HomePageLayout({
         )}
       </div>
       <div className='hidden md:block'>
-        <FooterOverlay />
+        <FooterOverlay alwaysVisible />
       </div>
     </SiteLayout>
   );
