@@ -169,6 +169,31 @@ export const useIsShortLandscape = () => {
   );
 };
 
+/**
+ * Detects near-square viewports where width/height ratio is between ~0.87 and ~1.25.
+ * Used to apply wider image pane (33%) since content is more condensed.
+ */
+export const useIsSquare = () => {
+  const { windowWidth, windowHeight } = useWindowSize();
+  const aspectRatio = windowWidth / windowHeight;
+  // mirror the square detection in useDeviceOrientation
+  return (
+    aspectRatio > 1 / 1.15 &&
+    aspectRatio < 1.25 &&
+    windowWidth >= breakpoints.lg
+  );
+};
+
+/**
+ * Detects tall portrait viewports at desktop width (lg+) where height >> width.
+ * Used to apply wider image pane (33%) to avoid a too-narrow side pane.
+ */
+export const useIsLargePortrait = () => {
+  const { windowWidth, windowHeight } = useWindowSize();
+  const aspectRatio = windowWidth / windowHeight;
+  return aspectRatio <= 1 / 1.15 && windowWidth >= breakpoints.lg;
+};
+
 type DeviceOrientation =
   | 'landscape'
   | 'portrait'

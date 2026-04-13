@@ -9,6 +9,8 @@ import {
   useIsMobileLandscape,
   useIsTablet,
   useIsShortLandscape,
+  useIsSquare,
+  useIsLargePortrait,
 } from '@/hooks/useMediaQuery';
 import { usePathname } from 'next/navigation';
 import {
@@ -78,11 +80,17 @@ export function StandardPageLayout({
   const isMobileLandscapeHook = useIsMobileLandscape();
   const isTabletHook = useIsTablet();
   const isShortLandscapeHook = useIsShortLandscape();
+  const isSquareHook = useIsSquare();
+  const isLargePortraitHook = useIsLargePortrait();
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
   const isTablet = isMounted ? isTabletHook : false;
   const isShortLandscape = isMounted ? isShortLandscapeHook : false;
+  const isSquare = isMounted ? isSquareHook : false;
+  const isLargePortrait = isMounted ? isLargePortraitHook : false;
+  // Square and large-portrait viewports use a wider 33% image pane
+  const useWiderPane = isSquare || isLargePortrait;
   const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const usesMediaPaneLayout =
     hasMediaPane || Boolean(featureImage || mediaPane);
@@ -91,13 +99,21 @@ export function StandardPageLayout({
       // Mobile landscape: split activates at md (768 px) with a xl step-up.
       // All other views: split activates at lg (1024 px).
       breakpoint: isMobileLandscape ? 'md' : 'lg',
-      paneSizeClasses: isMobileLandscape ? 'md:w-1/4 xl:w-1/3' : undefined,
+      paneSizeClasses: isMobileLandscape
+        ? 'md:w-1/4 xl:w-1/3'
+        : useWiderPane
+          ? 'lg:w-1/3'
+          : undefined,
       contentRightOffsetClasses: isMobileLandscape
         ? 'md:mr-[25%] xl:mr-[33.333333%]'
-        : undefined,
+        : useWiderPane
+          ? 'lg:mr-[33.333333%]'
+          : undefined,
       contentLeftOffsetClasses: isMobileLandscape
         ? 'md:ml-[25%] xl:ml-[33.333333%]'
-        : undefined,
+        : useWiderPane
+          ? 'lg:ml-[33.333333%]'
+          : undefined,
       ...layoutOptions,
     });
 
