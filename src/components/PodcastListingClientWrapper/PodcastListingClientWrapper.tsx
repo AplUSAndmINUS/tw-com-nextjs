@@ -297,6 +297,11 @@ export function PodcastListingClientWrapper({
           type='button'
           onClick={() => setShowAllPlatforms((prev) => !prev)}
           aria-expanded={showAllPlatforms}
+          aria-label={
+            showAllPlatforms
+              ? 'Show fewer podcast platforms'
+              : 'Show more podcast platforms'
+          }
           style={{
             display: 'inline-flex',
             alignItems: 'center',
