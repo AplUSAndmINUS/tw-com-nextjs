@@ -35,13 +35,13 @@ export function useFeatureImageLayout({
     ? contentRightOffsetClasses
     : contentLeftOffsetClasses;
 
-  // ml-4 on lg is used to center the image with the right pane and its spacing
   const imagePaneClasses = [
     paneLeadingClasses,
+    'flex items-center justify-center',
     'lg:absolute lg:top-0 lg:bottom-0',
     fixedPaneSideClasses,
     paneSizeClasses,
-    'lg:flex lg:items-center lg:justify-center lg:p-4 lg:overflow-hidden, lg:ml-4',
+    'lg:p-4 lg:overflow-hidden',
   ]
     .filter(Boolean)
     .join(' ');
