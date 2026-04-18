@@ -10,7 +10,7 @@ import {
 const WIDGET_PLAYER_URL = 'https://widget.spreaker.com/player';
 
 interface SpreakerPlayerProps {
-  /** Spreaker show ID — defaults to the A+ in FLUX Mythmaker Series */
+  /** Spreaker show ID — defaults to The Resonant Identity */
   showId?: string;
   /** Spreaker numeric episode ID; when provided renders an episode-specific player */
   episodeId?: string;
@@ -90,7 +90,7 @@ export function SpreakerPlayer({
   const iframeSrc = `${WIDGET_PLAYER_URL}?${params.toString()}`;
   const playerTitle = episodeId
     ? 'Spreaker podcast episode player'
-    : 'A+ in FLUX Mythmaker Series podcast player';
+    : 'The Resonant Identity podcast player';
 
   return (
     <iframe

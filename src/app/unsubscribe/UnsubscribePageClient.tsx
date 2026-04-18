@@ -133,8 +133,8 @@ export function UnsubscribePageClient() {
                 variant='body'
                 style={{ color: theme.semanticColors.text.muted }}
               >
-                You&apos;ve been successfully removed from the A+ in FLUX-
-                Mythmaker Drop newsletter.
+                You&apos;ve been successfully removed from The Resonant Identity
+                email newsletter.
               </Typography>
               <Link href='/'>
                 <Button
@@ -168,8 +168,8 @@ export function UnsubscribePageClient() {
                   variant='body'
                   style={{ color: theme.semanticColors.text.muted }}
                 >
-                  Enter your email address below to unsubscribe from the A+ in
-                  FLUX- Mythmaker Drop newsletter.
+                  Enter your email address below to unsubscribe from The
+                  Resonant Identity email newsletter.
                 </Typography>
               </div>
 

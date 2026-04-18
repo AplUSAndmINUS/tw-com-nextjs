@@ -1,7 +1,7 @@
 /**
  * Azure Function: api/subscribe
  *
- * Subscribes an email address to the "A+ in FLUX- Mythmaker Drop" newsletter
+ * Subscribes an email address to "The Resonant Identity" email newsletter
  * by adding an entry to the SharePoint Online Email Distribution List via the
  * Microsoft Graph API.
  *
