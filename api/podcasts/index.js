@@ -3,7 +3,7 @@
 /**
  * Azure Function: api/podcasts
  *
- * Fetches and parses the Spreaker RSS feed for The Authentic Growth Mythmaker Series
+ * Fetches and parses the Spreaker RSS feed for The Resonant Identity podcast
  * (show ID 6933506) and returns episode metadata as JSON.
  *
  * No environment variables required — the Spreaker RSS feed is public.
@@ -219,7 +219,7 @@ module.exports = async function (context, req) {
     const channelHeader = xml.split('<item>')[0] || '';
     const showTitle =
       extractText(channelHeader, 'title') ||
-      'The Authentic Growth Mythmaker Series';
+      'The Resonant Identity';
     const showDescription = extractText(channelHeader, 'description') || '';
     const showImageUrl =
       extractAttr(channelHeader, 'itunes:image', 'href') ||
@@ -255,7 +255,7 @@ module.exports = async function (context, req) {
       headers: corsHeaders,
       body: JSON.stringify({
         episodes: [],
-        showTitle: '`The Authentic Growth Mythmaker Series',
+        showTitle: 'The Resonant Identity',
         showDescription: '',
         showImageUrl: '',
         showUrl: SPREAKER_SHOW_URL,

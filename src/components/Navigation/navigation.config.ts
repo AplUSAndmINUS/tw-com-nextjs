@@ -45,7 +45,7 @@ export const navItems: NavItem[] = [
   {
     label: 'Podcasts',
     path: '/podcasts',
-    description: 'Listen to The Authentic Growth Mythmaker Series podcast',
+    description: 'Listen to The Resonant Identity podcast',
   },
   {
     label: 'Contact Me',

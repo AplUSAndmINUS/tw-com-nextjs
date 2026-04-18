@@ -1,7 +1,7 @@
 /**
  * Azure Function: api/unsubscribe
  *
- * Unsubscribes an email address from the "A+ in FLUX- Mythmaker Drop" newsletter
+ * Unsubscribes an email address from "The Resonant Identity" email newsletter
  * by finding and deleting the matching entry in the SharePoint Online Email
  * Distribution List via the Microsoft Graph API.
  *

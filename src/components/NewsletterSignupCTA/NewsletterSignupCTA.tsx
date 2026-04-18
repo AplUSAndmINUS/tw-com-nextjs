@@ -23,14 +23,14 @@ export interface NewsletterSignupCTAProps {
  * NewsletterSignupCTA Component
  *
  * Inline call-to-action banner that invites users to subscribe to the
- * "A+ in FLUX- Mythmaker Drop" newsletter. Used on /about and /contact pages.
+ * "The Resonant Identity" email newsletter. Used on /about and /contact pages.
  *
  * On successful subscription the email is written to the SharePoint Online
  * Email Distribution List via the /api/subscribe Azure Function.
  */
 export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
-  heading = 'Join the A+ in FLUX- Mythmaker Drop',
-  description = 'Subscribe to my free, biweekly newsletter — where I share insights on Fluxline, The Resonance Core, and practical ways to improve your life using this powerful framework.',
+  heading = 'Subscribe to The Resonant Identity email newsletter',
+  description = 'Subscribe to my free, biweekly newsletter — where I share insights on The Resonant Identity, The Resonance Core, and practical ways to improve your life using this powerful framework.',
   className = '',
 }) => {
   const { theme, themeMode } = useAppTheme();
@@ -150,8 +150,8 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
             variant='body'
             style={{ color: theme.semanticColors.text.muted }}
           >
-            Welcome to the Mythmaker Drop. Watch your inbox for the first
-            newsletter arriving soon!
+            Welcome to The Resonant Identity newsletter. Watch your inbox for the first
+            issue arriving soon!
           </Typography>
           <Typography
             variant='label'

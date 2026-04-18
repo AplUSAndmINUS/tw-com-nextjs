@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
@@ -10,6 +11,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
 
 const footerLinks = {
   content: [
@@ -195,12 +197,32 @@ function FooterNewsletterMini() {
       className='hidden md:block mt-3 pt-3'
       style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
     >
+      <div className='flex items-center gap-2 mb-2'>
+        <Image
+          src={ResonantIdentityIcon}
+          alt='The Resonant Identity'
+          width={24}
+          height={24}
+          style={{ borderRadius: '4px' }}
+        />
+        <Typography
+          variant='h5'
+          className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
+          style={{ fontSize: '0.875rem', marginBottom: 0 }}
+        >
+          The Resonant Identity
+        </Typography>
+      </div>
       <Typography
-        variant='h5'
-        className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
-        style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}
+        variant='caption'
+        style={{
+          color: theme.semanticColors.text.muted,
+          fontSize: '0.7rem',
+          marginBottom: '0.5rem',
+          display: 'block',
+        }}
       >
-        Newsletter
+        Subscribe to The Resonant Identity email newsletter
       </Typography>
       <form onSubmit={handleSubmit} noValidate>
         <div

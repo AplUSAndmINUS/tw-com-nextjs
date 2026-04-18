@@ -4,17 +4,17 @@ import { PageLayout } from '@/layouts/PageLayout';
 import { PodcastListingClientWrapper } from '@/components/PodcastListingClientWrapper';
 import type { PodcastEpisode } from '@/content/types';
 import { fetchSpreakerEpisodes } from '@/lib/spreaker';
-import PodcastImage from '@/assets/images/APlusLogo_11052025.png';
+import PodcastImage from '@/assets/images/ResonantIdentity_logo.png';
 
 export const metadata: Metadata = {
   title: 'Podcasts',
   description:
-    'The Authentic Growth Mythmaker Series- blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
+    'The Resonant Identity — blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Podcasts | Terence Waters',
     description:
-      'The Authentic Growth Mythmaker Series- blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
+      'The Resonant Identity — blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
     url: 'https://terencewaters.com/podcasts',
     siteName: 'Terence Waters',
     type: 'website',
@@ -49,7 +49,7 @@ export default async function PodcastsPage() {
     <PageLayout
       featureImage={{
         src: PodcastImage.src,
-        alt: 'Podcasts',
+        alt: 'The Resonant Identity podcast logo',
         title: 'Podcasts',
       }}
     >
