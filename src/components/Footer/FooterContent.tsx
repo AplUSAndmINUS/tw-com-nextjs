@@ -207,8 +207,14 @@ function FooterNewsletterMini() {
         />
         <Typography
           variant='h5'
-          className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
-          style={{ fontSize: '0.875rem', marginBottom: 0 }}
+          style={{
+            fontSize: '0.875rem',
+            marginBottom: 0,
+            color: theme.semanticColors.text.primary,
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+          }}
         >
           The Resonant Identity
         </Typography>
