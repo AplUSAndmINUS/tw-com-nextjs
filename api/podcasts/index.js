@@ -19,7 +19,7 @@ const https = require('https');
 
 const SPREAKER_SHOW_ID = '6933506';
 const SPREAKER_RSS_URL = `https://www.spreaker.com/show/${SPREAKER_SHOW_ID}/episodes/feed`;
-const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--${SPREAKER_SHOW_ID}`;
+const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/the-resonant-identity--${SPREAKER_SHOW_ID}`;
 
 // Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
 const ALLOWED_ORIGIN_RE =
