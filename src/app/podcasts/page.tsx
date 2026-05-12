@@ -50,7 +50,7 @@ export default async function PodcastsPage() {
       featureImage={{
         src: PodcastImage.src,
         alt: 'The Resonant Identity podcast logo',
-        title: 'Podcasts',
+        title: '',
       }}
     >
       <PodcastListingClientWrapper
