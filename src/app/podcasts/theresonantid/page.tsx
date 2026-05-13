@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     images: [
       {
-        url: '/images/ResonantIdentity_logo.png',
+        url: ResonantIdentityLogo.src,
         alt: 'The Resonant Identity logo',
       },
     ],
@@ -264,9 +264,7 @@ export default function ResonantIdentityAboutPage() {
                 Explore The Resonant Identity
               </a>
               <a
-                href='https://www.facebook.com/groups/theresonantid'
-                target='_blank'
-                rel='noopener noreferrer'
+                href='#how-it-works'
                 className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold'
               >
                 Start the 7-Day Setup
