@@ -267,9 +267,8 @@ export default function ResonantIdentityAboutPage() {
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold'
-                aria-label='Start the 7-Day Setup (opens in a new window)'
               >
-                Start the 7-Day Setup
+                Join the Community &amp; Start 7-Day Setup
               </a>
             </div>
           </section>
