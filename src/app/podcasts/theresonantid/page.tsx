@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: 'Terence Waters',
     images: [
       {
-        url: ResonantIdentityLogo.src,
+        url: 'https://terencewaters.com/images/ResonantIdentity_logo.png',
         alt: 'The Resonant Identity logo',
       },
     ],
@@ -94,10 +94,7 @@ export default function ResonantIdentityAboutPage() {
         <article className='space-y-8 md:space-y-10'>
           <header
             className='rounded-2xl border p-6 md:p-8 text-center'
-            style={{
-              background:
-                'linear-gradient(160deg, var(--colorNeutralBackground2) 0%, var(--colorNeutralBackground1) 100%)',
-            }}
+            style={{ backgroundColor: 'var(--colorNeutralBackground2)' }}
           >
             <Image
               src={ResonantIdentityIcon}
@@ -247,14 +244,15 @@ export default function ResonantIdentityAboutPage() {
               id='call-to-action'
               className='text-2xl font-semibold tracking-tight'
             >
+              Get Started
+            </h2>
+            <p className='mt-3 leading-8'>
               Begin your 7-day setup and start building an identity that
               resonates.
-            </h2>
+            </p>
             <div className='mt-4 flex flex-col sm:flex-row gap-3'>
               <a
-                href='https://www.facebook.com/groups/theresonantid'
-                target='_blank'
-                rel='noopener noreferrer'
+                href='/podcasts'
                 className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold'
                 style={{
                   backgroundColor: 'var(--colorBrandBackground)',
@@ -264,7 +262,9 @@ export default function ResonantIdentityAboutPage() {
                 Explore The Resonant Identity
               </a>
               <a
-                href='#how-it-works'
+                href='https://www.facebook.com/groups/theresonantid'
+                target='_blank'
+                rel='noopener noreferrer'
                 className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold'
               >
                 Start the 7-Day Setup
