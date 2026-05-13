@@ -98,7 +98,7 @@ Generates a fully static export in `out/`.
 
 ## Newsletter Subscribe / Unsubscribe
 
-The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter signup and removal for the "A+ in FLUX- Mythmaker Drop" mailing list.
+The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter signup and removal for the "The Resonant Identity" mailing list.
 
 ### How it works
 

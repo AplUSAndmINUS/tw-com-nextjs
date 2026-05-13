@@ -1,30 +1,28 @@
 import type { PodcastEpisode } from '@/content/types';
 
-/** Spreaker show ID for "The Authentic Growth Mythmaker Series" */
+/** Spreaker show ID for "The Resonant Identity" */
 export const SPREAKER_SHOW_ID = '6933506';
 
 /** Public RSS feed URL for the show */
 const SPREAKER_RSS_URL = `https://www.spreaker.com/show/${SPREAKER_SHOW_ID}/episodes/feed`;
 
 /** Canonical show URL on Spreaker */
-export const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--${SPREAKER_SHOW_ID}`;
+export const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/the-resonant-identity--${SPREAKER_SHOW_ID}`;
 
 /** Spreaker widget script CDN URL */
 export const SPREAKER_WIDGET_SCRIPT = 'https://widget.spreaker.com/widgets.js';
 
-/** Platform URLs for The Authentic Growth Mythmaker Series podcast */
+/** Platform URLs for The Resonant Identity podcast */
 export const PODCAST_PLATFORMS = {
-  spreaker:
-    'https://www.spreaker.com/podcast/a-in-flux-mythmaker-series--6933506',
+  spreaker: 'https://www.spreaker.com/podcast/the-resonant-identity--6933506',
   applePodcasts:
-    'https://podcasts.apple.com/us/podcast/a+-in-flux-mythmaker-series/id1891152754',
+    'https://podcasts.apple.com/us/podcast/the-resonant-identity/id1891152754',
   spotify: 'https://open.spotify.com/show/0kmCO10TwluoHUYdD3v4Qe',
   iHeartRadio: 'https://iheart.com/podcast/329383182',
   amazonMusic:
     'https://music.amazon.com/podcasts/b4d2ead1-4aaa-4189-b4bd-bd41141030a7',
   deezer: 'https://www.deezer.com/show/1002848441',
-  podchaser:
-    'https://www.podchaser.com/podcasts/a-in-flux-mythmaker-series-6436183',
+  podchaser: 'https://www.podchaser.com/podcasts/the-resonant-identity-6436183',
 } as const;
 
 export interface SpreakerFeedResult {
@@ -128,14 +126,14 @@ function parseRssItem(itemXml: string): PodcastEpisode | null {
 }
 
 /**
- * Fetch and parse the Spreaker RSS feed for The Authentic Growth Mythmaker Series.
+ * Fetch and parse the Spreaker RSS feed for The Resonant Identity podcast.
  * Returns an empty episode list (with `available: false`) on any error so
  * pages degrade gracefully when the feed is unavailable at build time.
  */
 export async function fetchSpreakerEpisodes(): Promise<SpreakerFeedResult> {
   const fallback: SpreakerFeedResult = {
     episodes: [],
-    showTitle: 'The Authentic Growth Mythmaker Series',
+    showTitle: 'The Resonant Identity',
     showDescription:
       'Audio conversations on technology, creativity, and building meaningful things.',
     showImageUrl: '',
@@ -198,7 +196,7 @@ export async function fetchSpreakerEpisodes(): Promise<SpreakerFeedResult> {
 export async function fetchPodcastsFromApi(): Promise<SpreakerFeedResult> {
   const fallback: SpreakerFeedResult = {
     episodes: [],
-    showTitle: 'The Authentic Growth Mythmaker Series',
+    showTitle: 'The Resonant Identity',
     showDescription:
       'Audio conversations on technology, creativity, and building meaningful things.',
     showImageUrl: '',

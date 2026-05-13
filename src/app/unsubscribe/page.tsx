@@ -4,12 +4,12 @@ import { UnsubscribePageClient } from './UnsubscribePageClient';
 
 export const metadata: Metadata = {
   title: 'Unsubscribe',
-  description: 'Unsubscribe from the A+ in FLUX- Mythmaker Drop newsletter.',
+  description: 'Unsubscribe from The Resonant Identity email newsletter.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Unsubscribe | Terence Waters',
     description:
-      'Unsubscribe from the A+ in FLUX- Mythmaker Drop newsletter.',
+      'Unsubscribe from The Resonant Identity email newsletter.',
     url: 'https://terencewaters.com/unsubscribe',
     siteName: 'Terence Waters',
     type: 'website',

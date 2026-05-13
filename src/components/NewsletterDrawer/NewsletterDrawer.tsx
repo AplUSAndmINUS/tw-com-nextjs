@@ -27,7 +27,7 @@ export interface NewsletterDrawerProps {
  * NewsletterDrawer Component
  *
  * A bottom-slide drawer that invites users to subscribe to the
- * "A+ in FLUX- Mythmaker Drop" newsletter.
+ * "The Resonant Identity" email newsletter.
  *
  * - Automatically appears after SHOW_DELAY_MS on non-home pages
  * - Clicking "X" dismisses permanently (stored in Zustand / localStorage)
@@ -251,7 +251,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                     variant='body'
                     style={{ color: theme.semanticColors.text.muted }}
                   >
-                    Welcome to the Mythmaker Drop. Check your inbox for your
+                    Welcome to The Resonant Identity newsletter. Check your inbox for your
                     first issue!
                   </Typography>
                 </div>
@@ -270,7 +270,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                         color: theme.semanticColors.text.primary,
                       }}
                     >
-                      Sign up for my A+ in FLUX email newsletter
+                      Subscribe to The Resonant Identity email newsletter
                     </Typography>
                     <Typography
                       variant='body'
@@ -279,10 +279,10 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                         lineHeight: 1.6,
                       }}
                     >
-                      Subscribe to my free, biweekly newsletter, The Mythmaker
-                      Drop — where I share insights on Fluxline, The Resonance
-                      Core, and practical ways to improve your life using this
-                      powerful framework.
+                      Subscribe to my free, biweekly newsletter, The Resonant
+                      Identity — where I share insights on identity architecture,
+                      self-improvement, and practical frameworks for navigating
+                      transitions with clarity and intention.
                     </Typography>
                   </div>
 
