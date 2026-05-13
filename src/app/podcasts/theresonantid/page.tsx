@@ -84,7 +84,7 @@ export default function ResonantIdentityAboutPage() {
   return (
     <PageLayout
       featureImage={{
-        src: ResonantIdentityLogo,
+        src: ResonantIdentityLogo.src,
         alt: 'The Resonant Identity logo',
       }}
     >
