@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
 import { ContentDetailNav } from '@/components/ContentDetailNav';
@@ -251,7 +252,7 @@ export default function ResonantIdentityAboutPage() {
               resonates.
             </p>
             <div className='mt-4 flex flex-col sm:flex-row gap-3'>
-              <a
+              <Link
                 href='/podcasts'
                 className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold'
                 style={{
@@ -260,12 +261,13 @@ export default function ResonantIdentityAboutPage() {
                 }}
               >
                 Explore The Resonant Identity
-              </a>
+              </Link>
               <a
                 href='https://www.facebook.com/groups/theresonantid'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold'
+                aria-label='Start the 7-Day Setup (opens in a new window)'
               >
                 Start the 7-Day Setup
               </a>
