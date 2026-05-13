@@ -11,8 +11,8 @@
 const PODCAST_NAME = 'The Resonant Identity';
 const PODCAST_AUTHOR = 'Terence Waters';
 const PODCAST_DESCRIPTION =
-  'The Resonant Identity — audio episodes covering identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.';
-const PODCAST_LINK = 'https://www.terencewaters.com/podcasts';
+  'The Resonant Identity — a podcast containing audio episodes covering identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.';
+const PODCAST_LINK = 'https://www.fluxline.pro/podcasts';
 const PODCAST_IMAGE = 'https://www.terencewaters.com/images/ResonantIdentity_logo.png';
 const PODCAST_LANGUAGE = 'en-us';
 const PODCAST_CATEGORY = 'Business';

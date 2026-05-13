@@ -14,7 +14,7 @@ export const SPREAKER_WIDGET_SCRIPT = 'https://widget.spreaker.com/widgets.js';
 
 /** Platform URLs for The Resonant Identity podcast */
 export const PODCAST_PLATFORMS = {
-  spreaker: 'https://www.spreaker.com/podcast/the-resonant-identity--6933506',
+  spreaker: SPREAKER_SHOW_URL,
   applePodcasts:
     'https://podcasts.apple.com/us/podcast/the-resonant-identity/id1891152754',
   spotify: 'https://open.spotify.com/show/0kmCO10TwluoHUYdD3v4Qe',
