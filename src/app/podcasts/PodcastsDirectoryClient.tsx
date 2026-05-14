@@ -8,6 +8,8 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import Image from 'next/image';
 import Link from 'next/link';
 import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
+import { Typography } from '@/components/Typography/Typography';
+import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 
 /**
  * PodcastsDirectoryClient
@@ -41,10 +43,8 @@ export function PodcastsDirectoryClient() {
                 ? theme.palette.themePrimary
                 : theme.semanticColors.border.default,
               transform: hovered ? 'translateY(-4px)' : 'none',
-              boxShadow: hovered
-                ? theme.effects.elevation16
-                : theme.effects.elevation4,
-              backgroundColor: theme.semanticColors.card.background,
+              boxShadow: hovered ? theme.shadow16 : theme.shadow4,
+              backgroundColor: theme.semanticColors.border.default,
             }}
           >
             {/* Image */}
@@ -64,7 +64,8 @@ export function PodcastsDirectoryClient() {
             {/* Card Body */}
             <div className='p-6 flex flex-col gap-4 flex-1'>
               {/* Title */}
-              <h2
+              <Typography
+                variant='h3'
                 className='text-2xl font-semibold transition-colors'
                 style={{
                   color: hovered
@@ -73,60 +74,68 @@ export function PodcastsDirectoryClient() {
                 }}
               >
                 The Resonant Identity
-              </h2>
+              </Typography>
 
               {/* Description */}
-              <p
+              <Typography
+                variant='body'
                 className='text-base leading-relaxed flex-1'
-                style={{ color: theme.semanticColors.text.secondary }}
               >
                 A podcast blending identity architecture, self-improvement, and
                 practical frameworks for navigating transitions with clarity and
                 intention.
-              </p>
+              </Typography>
 
               {/* Action Buttons */}
               <div className='flex flex-col sm:flex-row gap-3 mt-4'>
-                <Link
+                <ThemedLink
+                  variant='bodySmall'
+                  hoverScale={1.05}
+                  invertOnPress
                   href='/podcasts/theresonantid'
                   className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold transition-colors'
                   style={{
                     backgroundColor: theme.palette.themePrimary,
                     color: theme.palette.white,
+                    fontSize: '1rem',
                   }}
                 >
                   <span className='mr-2'>▶</span>
                   View Episodes
-                </Link>
-                <Link
+                </ThemedLink>
+                <ThemedLink
+                  variant='bodySmall'
+                  hoverScale={1.05}
+                  invertOnPress
                   href='/podcasts/theresonantid/about'
-                  className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold transition-colors'
+                  className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold'
                   style={{
-                    borderColor: theme.semanticColors.border.default,
-                    color: theme.semanticColors.link.default,
+                    borderColor: theme.semanticColors.border.emphasis,
+                    color: theme.palette.neutralSecondary,
+                    fontSize: '1rem',
                   }}
                 >
                   <span className='mr-2'>ⓘ</span>
                   About TRI
-                </Link>
+                </ThemedLink>
               </div>
             </div>
           </div>
         </div>
 
         {/* Empty state message for future podcasts */}
-        <div
+        {/* <div
           className='flex flex-col items-center mt-16 pt-12 text-center border-t'
           style={{
             borderColor: theme.semanticColors.border.default,
-            color: theme.semanticColors.text.tertiary,
+            color: theme.semanticColors.text.muted,
           }}
         >
           <div className='text-5xl mb-4'>🎙️</div>
-          <p style={{ color: theme.semanticColors.text.secondary }}>
+          <Typography variant='body' style={{ color: theme.semanticColors.text.muted }}>
             More podcasts coming soon.
-          </p>
-        </div>
+          </Typography>
+        </div> */}
       </div>
     </PageLayout>
   );
