@@ -27,6 +27,7 @@ export function SiteLayout({
   hideFooterOnMobile,
 }: SiteLayoutProps) {
   const { theme, themeMode } = useAppTheme();
+  const minPageHeight = 'calc(100dvh - var(--site-header-height))';
 
   const backgroundStyle: CSSProperties = {
     background:
@@ -38,10 +39,11 @@ export function SiteLayout({
             ? theme.gradients.dark.background
             : theme.gradients.light.background,
     backgroundAttachment: 'fixed',
+    minHeight: minPageHeight,
   };
   const backgroundClassName = isContainedView
     ? 'w-full h-full'
-    : 'w-full min-h-full';
+    : 'flex w-full min-h-full flex-col';
 
   return (
     <RootLayout
