@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { format, parseISO } from 'date-fns';
+import Link from 'next/link';
 import {
   ContentListingPage,
   FilterConfig,
@@ -12,6 +13,7 @@ import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
 import { fetchPodcastsFromApi, PODCAST_PLATFORMS } from '@/lib/spreaker';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { TRI_LINKS } from '@/app/podcasts/theresonantid/constants';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
@@ -246,102 +248,113 @@ export function PodcastListingClientWrapper({
       : PLATFORM_CONFIGS;
 
   const heroContent = (
-    <nav
-      className='flex flex-wrap gap-3 mt-4'
-      role='list'
-      aria-label='Subscribe to the podcast on your preferred platform'
-    >
-      {visiblePlatforms.map(({ key, label, ariaLabel, brandColor }) => {
-        const activeBrandColor = useBrandColors ? brandColor : undefined;
-        return (
-          <a
-            key={key}
-            href={PODCAST_PLATFORMS[key]}
-            target='_blank'
-            rel='noopener noreferrer'
-            aria-label={ariaLabel}
+    <>
+      <Link
+        href={TRI_LINKS.about}
+        target='_blank'
+        rel='noopener noreferrer'
+        className='inline-flex mt-4 mb-1 items-center rounded-full px-4 py-2 text-xs font-semibold transition-colors'
+        style={{
+          border: `2px solid ${theme.semanticColors.link.default}`,
+          color: theme.semanticColors.link.default,
+          textDecoration: 'none',
+        }}
+        aria-label='Learn more about The Resonant Identity'
+      >
+        About The Resonant Identity
+      </Link>
+      <nav
+        className='flex flex-wrap gap-3 mt-2'
+        role='list'
+        aria-label='Subscribe to the podcast on your preferred platform'
+      >
+        {visiblePlatforms.map(({ key, label, ariaLabel, brandColor }) => {
+          const activeBrandColor = useBrandColors ? brandColor : undefined;
+          return (
+            <a
+              key={key}
+              href={PODCAST_PLATFORMS[key]}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label={ariaLabel}
+              role='listitem'
+              className='podcast-platform-btn'
+              style={
+                {
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 16px',
+                  borderRadius: '9999px',
+                  border: `2px solid ${
+                    activeBrandColor ?? theme.palette.neutralTertiary
+                  }`,
+                  '--podcast-btn-color':
+                    activeBrandColor ?? theme.palette.neutralPrimary,
+                  color: 'var(--podcast-btn-color)',
+                  WebkitTextFillColor:
+                    activeBrandColor ?? theme.palette.neutralPrimary,
+                  textDecoration: 'none',
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  transition: 'all 0.15s ease',
+                  backgroundColor: theme.palette.neutralLighterAlt,
+                } as React.CSSProperties
+              }
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.backgroundColor = activeBrandColor
+                  ? `${activeBrandColor}22`
+                  : theme.palette.neutralLighter;
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+                  theme.palette.neutralLighterAlt;
+              }}
+            >
+              {label}
+            </a>
+          );
+        })}
+        {isMobile && (
+          <button
+            type='button'
             role='listitem'
-            className='podcast-platform-btn'
-            style={
-              {
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 16px',
-                borderRadius: '9999px',
-                border: `2px solid ${
-                  activeBrandColor ?? theme.palette.neutralTertiary
-                }`,
-                // Color is set via CSS custom property AND -webkit-text-fill-color.
-                // The browser's forced dark mode only injects rules for `color`,
-                // not `-webkit-text-fill-color`, so this sidesteps the entire
-                // specificity arms race with selectors like a[ping]:link and
-                // html[native-dark-active] that keep escalating !important overrides.
-                '--podcast-btn-color':
-                  activeBrandColor ?? theme.palette.neutralPrimary,
-                color: 'var(--podcast-btn-color)',
-                WebkitTextFillColor:
-                  activeBrandColor ?? theme.palette.neutralPrimary,
-                textDecoration: 'none',
-                fontSize: '13px',
-                fontWeight: 500,
-                transition: 'all 0.15s ease',
-                backgroundColor: theme.palette.neutralLighterAlt,
-              } as React.CSSProperties
+            onClick={() => setShowAllPlatforms((prev) => !prev)}
+            aria-expanded={showAllPlatforms}
+            aria-label={
+              showAllPlatforms
+                ? 'Show fewer podcast platforms'
+                : 'Show more podcast platforms'
             }
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '6px 16px',
+              borderRadius: '9999px',
+              border: `2px solid ${theme.palette.neutralTertiary}`,
+              color: theme.palette.neutralPrimary,
+              background: 'none',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: 500,
+              transition: 'all 0.15s ease',
+              backgroundColor: theme.palette.neutralLighterAlt,
+            }}
             onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.backgroundColor = activeBrandColor
-                ? `${activeBrandColor}22`
-                : theme.palette.neutralLighter;
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                theme.palette.neutralLighter;
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor =
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
                 theme.palette.neutralLighterAlt;
             }}
           >
-            {label}
-          </a>
-        );
-      })}
-      {isMobile && (
-        <button
-          type='button'
-          role='listitem'
-          onClick={() => setShowAllPlatforms((prev) => !prev)}
-          aria-expanded={showAllPlatforms}
-          aria-label={
-            showAllPlatforms
-              ? 'Show fewer podcast platforms'
-              : 'Show more podcast platforms'
-          }
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '6px 16px',
-            borderRadius: '9999px',
-            border: `2px solid ${theme.palette.neutralTertiary}`,
-            color: theme.palette.neutralPrimary,
-            background: 'none',
-            cursor: 'pointer',
-            fontSize: '13px',
-            fontWeight: 500,
-            transition: 'all 0.15s ease',
-            backgroundColor: theme.palette.neutralLighterAlt,
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              theme.palette.neutralLighter;
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              theme.palette.neutralLighterAlt;
-          }}
-        >
-          {showAllPlatforms ? 'Show Less' : 'Show More'}
-        </button>
-      )}
-    </nav>
+            {showAllPlatforms ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </nav>
+    </>
   );
 
   return (

@@ -45,6 +45,10 @@ export interface BreadcrumbItem {
   isClickable?: boolean;
 }
 
+const BREADCRUMB_LABELS: Record<string, string> = {
+  theresonantid: 'The Resonant Identity',
+};
+
 export function Header() {
   const [activeModal, setActiveModal] = React.useState<
     'menu' | 'settings' | null
@@ -94,10 +98,13 @@ export function Header() {
     paths.forEach((path) => {
       currentPath += `/${path}`;
       const decodedPath = decodeURIComponent(path);
-      const label = decodedPath
-        .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+      const normalizedPath = decodedPath.toLowerCase();
+      const label =
+        BREADCRUMB_LABELS[normalizedPath] ||
+        decodedPath
+          .split('-')
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
       crumbs.push({ label, href: currentPath, isClickable: true });
     });
 
