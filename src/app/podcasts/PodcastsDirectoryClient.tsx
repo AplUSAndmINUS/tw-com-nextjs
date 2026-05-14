@@ -32,7 +32,7 @@ export function PodcastsDirectoryClient() {
         />
 
         {/* Podcasts Grid - Currently one podcast */}
-        <div className='mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className='mt-12 grid grid-cols-1 md:grid-cols-2 gap-6'>
           {/* The Resonant Identity Card */}
           <div
             onMouseEnter={() => setHovered(true)}

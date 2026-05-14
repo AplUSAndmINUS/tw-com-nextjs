@@ -115,7 +115,7 @@ export function TheResonantIdentityPageClient({
         title: '',
       }}
     >
-      <div className='max-w-5xl mx-auto px-4 py-12'>
+      <div className='max-w-6xl mx-auto px-4 py-12'>
         {/* Page Header */}
         <Hero
           title='The Resonant Identity Podcast'
