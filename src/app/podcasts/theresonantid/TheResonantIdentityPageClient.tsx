@@ -20,6 +20,7 @@ import RSSLogo from '@/assets/svgs/RSSLogo';
 import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
 import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
+import { TRI_LINKS } from './constants';
 
 interface TheResonantIdentityPageProps {
   episodes: PodcastEpisode[];
@@ -258,7 +259,9 @@ export function TheResonantIdentityPageClient({
             variant='bodySmall'
             hoverScale={1.05}
             invertOnPress
-            href='/podcasts/theresonantid/about'
+            href={TRI_LINKS.about}
+            target='_blank'
+            rel='noopener noreferrer'
             className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold transition-colors'
             style={{
               borderColor: theme.semanticColors.border.emphasis,

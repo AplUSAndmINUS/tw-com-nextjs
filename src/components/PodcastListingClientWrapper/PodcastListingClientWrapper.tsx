@@ -13,6 +13,7 @@ import { AdaptiveCard } from '@/components/AdaptiveCardGrid';
 import { fetchPodcastsFromApi, PODCAST_PLATFORMS } from '@/lib/spreaker';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { TRI_LINKS } from '@/app/podcasts/theresonantid/constants';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
@@ -249,7 +250,9 @@ export function PodcastListingClientWrapper({
   const heroContent = (
     <>
       <Link
-        href='/podcasts/theresonantid'
+        href={TRI_LINKS.about}
+        target='_blank'
+        rel='noopener noreferrer'
         className='inline-flex mt-4 mb-1 items-center rounded-full px-4 py-2 text-xs font-semibold transition-colors'
         style={{
           border: `2px solid ${theme.semanticColors.link.default}`,
