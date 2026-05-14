@@ -46,8 +46,7 @@ export interface BreadcrumbItem {
 }
 
 const BREADCRUMB_LABELS: Record<string, string> = {
-  thersonantid: 'The Resonant Core Framework',
-  theresonantid: 'The Resonant Core Framework',
+  theresonantid: 'The Resonant Identity',
 };
 
 export function Header() {

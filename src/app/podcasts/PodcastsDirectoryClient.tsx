@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
@@ -17,7 +16,6 @@ import { TRI_LINKS } from './theresonantid/constants';
  * Currently displays The Resonant Identity as a large tile card
  */
 export function PodcastsDirectoryClient() {
-  const router = useRouter();
   const { theme } = useAppTheme();
   const [hovered, setHovered] = React.useState(false);
 
