@@ -1,24 +1,27 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
-import { fetchSpreakerEpisodes } from '@/lib/spreaker';
-import type { PodcastEpisode } from '@/content/types';
-import { TheResonantIdentityPageClient } from './TheResonantIdentityPageClient';
+import { PageLayout } from '@/layouts/PageLayout';
+import { ContentDetailNav } from '@/components/ContentDetailNav';
+import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
+import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
 
 export const metadata: Metadata = {
-  title: 'The Resonant Identity Podcast',
+  title: 'About The Resonant Identity',
   description:
-    'The Resonant Identity — a podcast blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
+    'A living extension of the Resonance Core Framework where identity becomes practice.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'The Resonant Identity Podcast | Terence Waters',
+    title: 'About The Resonant Identity | Terence Waters',
     description:
-      'A podcast blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
-    url: 'https://terencewaters.com/podcasts/theresonantid',
+      'Discover The Resonant Identity: the practical, community-based expression of the Resonance Core Framework.',
+    url: 'https://terencewaters.com/podcasts/theresonantid/about',
     siteName: 'Terence Waters',
     images: [
       {
         url: 'https://terencewaters.com/images/ResonantIdentity_logo.png',
-        alt: 'The Resonant Identity Podcast',
+        alt: 'The Resonant Identity logo',
       },
     ],
     type: 'website',
@@ -26,41 +29,78 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-/**
- * Static placeholder episodes shown when the Spreaker RSS feed is unavailable
- * at build time.
- */
-const PLACEHOLDER_EPISODES: PodcastEpisode[] = [
+const ecosystemLinks = [
   {
-    slug: 'coming-soon',
-    title: 'Podcasts Coming Soon',
-    description:
-      'New podcast episodes from The Resonant Identity are coming soon. Stay tuned!',
-    audioUrl: '',
-    publishedDate: '2026-01-01',
-    tags: [],
-    category: 'Announcement',
+    label: 'Instagram',
+    value: '@theresonantid',
+    href: 'https://instagram.com/theresonantid',
+  },
+  { label: 'X', value: '@theresonantid', href: 'https://x.com/theresonantid' },
+  {
+    label: 'TikTok',
+    value: '@theresonantid',
+    href: 'https://www.tiktok.com/@theresonantid',
+  },
+  {
+    label: 'Bluesky',
+    value: '@theresonantid',
+    href: 'https://bsky.app/profile/theresonantid.bsky.social',
+  },
+  {
+    label: 'Podcast',
+    value: 'The Resonant Identity',
+    href: '/podcasts/theresonantid',
+  },
+  {
+    label: 'Facebook Group',
+    value: 'The Resonant Identity Community',
+    href: 'https://www.facebook.com/groups/theresonantid',
+  },
+  {
+    label: 'Facebook Page',
+    value: 'The Resonant Identity',
+    href: 'https://facebook.com/theresonantid',
   },
 ];
 
-/**
- * The Resonant Identity Podcast Home Page
- * URL: /podcasts/theresonantid
- * Shows episodes, player, and platform links
- */
-export default async function TheResonantIdentityPodcastPage() {
-  // Attempt to fetch live episode data from the Spreaker RSS feed at build time.
-  // Falls back gracefully to placeholder episodes if the feed is unavailable.
-  const feed = await fetchSpreakerEpisodes();
-  const episodes = feed.available ? feed.episodes : PLACEHOLDER_EPISODES;
+const howItWorks = [
+  {
+    title: 'Micro-Lessons',
+    description:
+      'Short, actionable teachings designed to shift identity through resonance rather than force.',
+  },
+  {
+    title: '7-Day Setup',
+    description:
+      'A guided onboarding sequence that helps you establish your personal resonance baseline.',
+  },
+  {
+    title: 'Ongoing Practice',
+    description:
+      'Weekly prompts, reflections, and identity-building exercises that keep you aligned.',
+  },
+];
 
+export default function ResonantIdentityAboutPage() {
   return (
-    <TheResonantIdentityPageClient
-      episodes={episodes}
-      feedAvailable={feed.available}
-    />
-  );
-}
+    <PageLayout
+      featureImage={{
+        src: ResonantIdentityLogo.src,
+        alt: 'The Resonant Identity logo',
+      }}
+    >
+      <div className='mx-auto max-w-3xl py-8 md:py-12'>
+        <ContentDetailNav
+          listingPath='/podcasts/theresonantid'
+          listingLabel='The Resonant Identity'
+        />
+
+        <article className='space-y-8 md:space-y-10'>
+          <header
+            className='rounded-2xl border p-6 md:p-8 text-center'
+            style={{ backgroundColor: 'var(--colorNeutralBackground2)' }}
+          >
+            <Image
               src={ResonantIdentityIcon}
               alt='The Resonant Identity icon'
               width={72}
@@ -216,14 +256,14 @@ export default async function TheResonantIdentityPodcastPage() {
             </p>
             <div className='mt-4 flex flex-col sm:flex-row gap-3'>
               <Link
-                href='/podcasts'
+                href='/podcasts/theresonantid'
                 className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold'
                 style={{
                   backgroundColor: 'var(--colorBrandBackground)',
                   color: 'var(--colorNeutralForegroundOnBrand)',
                 }}
               >
-                Explore The Resonant Identity
+                Listen to the Podcast
               </Link>
               <a
                 href='https://www.facebook.com/groups/theresonantid'
