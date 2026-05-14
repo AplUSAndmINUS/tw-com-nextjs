@@ -28,6 +28,13 @@ export function PodcastCard({
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleClick();
+    }
+  };
+
   // Shared article content for grid view
   const gridArticleContent = (
     <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
@@ -208,6 +215,9 @@ export function PodcastCard({
       return (
         <div
           onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          role='button'
+          tabIndex={0}
           className='group block cursor-pointer'
           onPointerEnter={(e: React.PointerEvent) => {
             if (e.pointerType === 'mouse') setIsHovered(true);
@@ -242,6 +252,9 @@ export function PodcastCard({
       return (
         <div
           onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          role='button'
+          tabIndex={0}
           className='group block cursor-pointer'
           onPointerEnter={(e: React.PointerEvent) => {
             if (e.pointerType === 'mouse') setIsHovered(true);
@@ -276,6 +289,9 @@ export function PodcastCard({
     return (
       <div
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        role='button'
+        tabIndex={0}
         className='group block cursor-pointer'
         onPointerEnter={(e: React.PointerEvent) => {
           if (e.pointerType === 'mouse') setIsHovered(true);
