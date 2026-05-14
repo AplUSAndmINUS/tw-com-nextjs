@@ -6,6 +6,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
 import { Dismiss32Regular } from '@fluentui/react-icons';
 import { createPortal } from 'react-dom';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 export interface ModalProps {
   /** Whether the modal is open */
@@ -26,6 +27,8 @@ export interface ModalProps {
   style?: React.CSSProperties;
   /** Custom class name */
   className?: string;
+  /** Optional callback fired after exit animation completes */
+  onExitComplete?: () => void;
 }
 
 /**
@@ -55,8 +58,10 @@ export const Modal: React.FC<ModalProps> = ({
   showCloseButton = true,
   style,
   className = '',
+  onExitComplete,
 }) => {
   const { theme, reducedTransparency } = useAppTheme();
+  const { shouldReduceMotion } = useReducedMotion();
 
   // Handle escape key
   useEffect(() => {
@@ -88,38 +93,46 @@ export const Modal: React.FC<ModalProps> = ({
     [onDismiss]
   );
 
-  // Don't render if not open
-  if (!isOpen) return null;
-
   const backdropVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: { duration: shouldReduceMotion ? 0 : 0.18 },
+    },
+    exit: {
+      opacity: 0,
+      transition: { duration: shouldReduceMotion ? 0 : 0.18 },
+    },
   };
 
   const modalVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: 20 },
+    hidden: {
+      opacity: 0,
+      scale: shouldReduceMotion ? 1 : 0.985,
+      y: shouldReduceMotion ? 0 : 12,
+    },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
       transition: {
-        type: 'spring' as const,
-        damping: 25,
-        stiffness: 300,
+        duration: shouldReduceMotion ? 0 : 0.22,
+        ease: [0.2, 0.8, 0.2, 1] as const,
       },
     },
     exit: {
       opacity: 0,
-      scale: 0.95,
-      y: 20,
+      scale: shouldReduceMotion ? 1 : 0.985,
+      y: shouldReduceMotion ? 0 : 12,
       transition: {
-        duration: 0.2,
+        duration: shouldReduceMotion ? 0 : 0.18,
+        ease: [0.4, 0, 1, 1] as const,
       },
     },
   };
 
   const modalContent = (
-    <AnimatePresence>
+    <AnimatePresence mode='wait' onExitComplete={onExitComplete}>
       {isOpen && (
         <>
           {/* Backdrop */}
@@ -127,7 +140,7 @@ export const Modal: React.FC<ModalProps> = ({
             variants={backdropVariants}
             initial='hidden'
             animate='visible'
-            exit='hidden'
+            exit='exit'
             onClick={handleBackdropClick}
             style={{
               position: 'fixed',
@@ -189,12 +202,16 @@ export const Modal: React.FC<ModalProps> = ({
                     color: theme.semanticColors.text.muted,
                     transition: 'all 0.2s ease',
                   }}
-                  onPointerEnter={(e: React.PointerEvent<HTMLButtonElement>) => {
+                  onPointerEnter={(
+                    e: React.PointerEvent<HTMLButtonElement>
+                  ) => {
                     if (e.pointerType !== 'mouse') return;
                     e.currentTarget.style.backgroundColor =
                       theme.palette.neutralLighter;
                   }}
-                  onPointerLeave={(e: React.PointerEvent<HTMLButtonElement>) => {
+                  onPointerLeave={(
+                    e: React.PointerEvent<HTMLButtonElement>
+                  ) => {
                     if (e.pointerType !== 'mouse') return;
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}

@@ -1,11 +1,17 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
 import { PageLayout } from '@/layouts/PageLayout';
-import { ContentDetailNav } from '@/components/ContentDetailNav';
+import { AboutSectionWrapper } from '@/components/AboutSectionWrapper';
 import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
-import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
+import { Hero } from '@/components/Hero/Hero';
+import { TiktokLogo } from '@/assets/svgs/TiktokLogo';
+import { InstagramIcon } from '@/assets/svgs/InstagramLogo';
+import { TwitterLogo } from '@/assets/svgs/TwitterLogo';
+import { FacebookIcon } from '@/assets/svgs/FacebookLogo';
+import { Typography } from '@/components/Typography/Typography';
+import SectionHeading from '@/app/about/SectionHeading';
+import { TRI_LINKS } from '../constants';
 
 export const metadata: Metadata = {
   title: 'About The Resonant Identity',
@@ -29,17 +35,17 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-const ecosystemLinks = [
+const socialLinks = [
   {
     label: 'Instagram',
     value: '@theresonantid',
-    href: 'https://instagram.com/theresonantid',
+    href: TRI_LINKS.instagram,
   },
-  { label: 'X', value: '@theresonantid', href: 'https://x.com/theresonantid' },
+  { label: 'X', value: '@theresonantid', href: TRI_LINKS.twitter },
   {
     label: 'TikTok',
     value: '@theresonantid',
-    href: 'https://www.tiktok.com/@theresonantid',
+    href: TRI_LINKS.tiktok,
   },
   {
     label: 'Bluesky',
@@ -49,17 +55,17 @@ const ecosystemLinks = [
   {
     label: 'Podcast',
     value: 'The Resonant Identity',
-    href: '/podcasts/theresonantid',
+    href: TRI_LINKS.podcast,
   },
   {
     label: 'Facebook Group',
     value: 'The Resonant Identity Community',
-    href: 'https://www.facebook.com/groups/theresonantid',
+    href: TRI_LINKS.facebookGroup,
   },
   {
     label: 'Facebook Page',
     value: 'The Resonant Identity',
-    href: 'https://facebook.com/theresonantid',
+    href: TRI_LINKS.facebookPage,
   },
 ];
 
@@ -81,6 +87,39 @@ const howItWorks = [
   },
 ];
 
+function SocialIconLink({
+  href,
+  label,
+  external = true,
+  children,
+}: {
+  href: string;
+  label: string;
+  external?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      aria-label={label}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '48px',
+        height: '48px',
+        borderRadius: '50%',
+        border: '1px solid transparent',
+        transition: 'all 0.2s ease',
+      }}
+    >
+      {children}
+    </Link>
+  );
+}
+
 export default function ResonantIdentityAboutPage() {
   return (
     <PageLayout
@@ -89,119 +128,129 @@ export default function ResonantIdentityAboutPage() {
         alt: 'The Resonant Identity logo',
       }}
     >
-      <div className='mx-auto max-w-3xl py-8 md:py-12'>
-        <ContentDetailNav
-          listingPath='/podcasts/theresonantid'
-          listingLabel='The Resonant Identity'
-        />
-
-        <article className='space-y-8 md:space-y-10'>
-          <header
-            className='rounded-2xl border p-6 md:p-8 text-center'
-            style={{ backgroundColor: 'var(--colorNeutralBackground2)' }}
+      <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
+        <Hero
+          title='The Resonant Identity Podcast'
+          iconName='MicRegular'
+          description='A living extension of the Resonance Core Framework where identity becomes practice and is formed through coherence.'
+          backArrow={true}
+          backArrowPath='/podcasts/theresonantid'
+        >
+          <Typography
+            variant='h5'
+            style={{
+              textTransform: 'unset',
+            }}
           >
-            <Image
-              src={ResonantIdentityIcon}
-              alt='The Resonant Identity icon'
-              width={72}
-              height={72}
-              className='mx-auto mb-4'
-              priority
-            />
-            <h1 className='text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight'>
-              The Resonant Identity
-            </h1>
-            <p
-              className='mt-3 text-base sm:text-lg'
-              style={{ color: 'var(--colorNeutralForeground2)' }}
+            Social Media:
+          </Typography>
+          <div className='flex flex-wrap items-center gap-3'>
+            <SocialIconLink
+              href={TRI_LINKS.instagram}
+              label='The Resonant Identity on Instagram'
             >
-              A living extension of the Resonance Core Framework — where
-              identity becomes practice.
-            </p>
-          </header>
+              <InstagramIcon style={{ width: '24px', height: '24px' }} />
+            </SocialIconLink>
+            <SocialIconLink
+              href={TRI_LINKS.twitter}
+              label='The Resonant Identity on X'
+            >
+              <TwitterLogo style={{ width: '24px', height: '24px' }} />
+            </SocialIconLink>
+            <SocialIconLink
+              href={TRI_LINKS.tiktok}
+              label='The Resonant Identity on TikTok'
+            >
+              <TiktokLogo style={{ width: '24px', height: '24px' }} />
+            </SocialIconLink>
+            <SocialIconLink
+              href={TRI_LINKS.facebookGroup}
+              label='The Resonant Identity Community Facebook Group'
+            >
+              <FacebookIcon style={{ width: '24px', height: '24px' }} />
+            </SocialIconLink>
+          </div>
+        </Hero>
 
-          <section aria-labelledby='what-tri-is' className='space-y-4'>
-            <h2
-              id='what-tri-is'
-              className='text-2xl font-semibold tracking-tight'
+        <AboutSectionWrapper
+          variant='default'
+          className='mt-10 space-y-4 rounded-lg p-6'
+        >
+          <div aria-labelledby='what-tri-is'>
+            <SectionHeading>What The Resonant Identity Is</SectionHeading>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300'
+              style={{ lineHeight: 1.75, fontSize: '1rem' }}
             >
-              What The Resonant Identity Is
-            </h2>
-            <p className='leading-8'>
               The Resonant Identity began as a question:{' '}
               <em>What does it mean to build a self that feels true?</em> It
               grew out of the Resonance Core Framework and became a living
               rhythm for identity transformation, micro-lessons, and applied
               resonance — helping you build an identity that feels aligned,
               coherent, and grounded in who you&apos;re becoming.
-            </p>
-          </section>
+            </Typography>
+          </div>
+        </AboutSectionWrapper>
 
-          <section aria-labelledby='how-it-works' className='space-y-4'>
-            <h2
-              id='how-it-works'
-              className='text-2xl font-semibold tracking-tight'
-            >
-              How It Works
-            </h2>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+        <AboutSectionWrapper variant='accent' className='mt-10 rounded-lg p-6'>
+          <div aria-labelledby='how-it-works'>
+            <SectionHeading isAccent>How It Works</SectionHeading>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
               {howItWorks.map((item) => (
                 <div key={item.title} className='rounded-xl border p-4 md:p-5'>
-                  <h3 className='text-lg font-semibold'>{item.title}</h3>
-                  <p
-                    className='mt-2 text-sm leading-6'
-                    style={{ color: 'var(--colorNeutralForeground2)' }}
+                  <Typography variant='h5' className='text-lg font-semibold'>
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    variant='body'
+                    className='mt-2 text-sm leading-6 text-gray-700 dark:text-gray-300'
                   >
                     {item.description}
-                  </p>
+                  </Typography>
                 </div>
               ))}
             </div>
-          </section>
+          </div>
+        </AboutSectionWrapper>
 
-          <section aria-labelledby='connection-to-rcf' className='space-y-4'>
-            <h2
-              id='connection-to-rcf'
-              className='text-2xl font-semibold tracking-tight'
+        <AboutSectionWrapper variant='default' className='mt-10 rounded-lg p-6'>
+          <div aria-labelledby='connection-to-rcf'>
+            <SectionHeading>Connection to the RCF</SectionHeading>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300'
+              style={{ lineHeight: 1.75, fontSize: '1rem' }}
             >
-              Connection to the RCF
-            </h2>
-            <p className='leading-8'>
               The Resonant Identity is built on the foundations of the Resonance
               Core Framework — a model for identity formation rooted in
               coherence, clarity, and intentional self-construction. TRI is the
               practical, community-based expression of that framework.
-            </p>
-          </section>
+            </Typography>
+          </div>
+        </AboutSectionWrapper>
 
-          <section
-            aria-labelledby='community-layer'
-            className='space-y-4 rounded-xl border p-5 md:p-6'
-            style={{ backgroundColor: 'var(--colorNeutralBackground2)' }}
-          >
-            <h2
-              id='community-layer'
-              className='text-2xl font-semibold tracking-tight'
+        <AboutSectionWrapper variant='subtle' className='mt-10 rounded-lg p-6'>
+          <div aria-labelledby='community-layer'>
+            <SectionHeading>Community Layer</SectionHeading>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300'
+              style={{ lineHeight: 1.75, fontSize: '1rem' }}
             >
-              Community Layer
-            </h2>
-            <p className='leading-8'>
               The Facebook Group is the collaborative heart of TRI. It&apos;s
               where members share reflections, integrate the micro-lessons, and
               support each other through identity shifts. It&apos;s a space for
               resonance, not performance — a place to practice becoming.
-            </p>
-          </section>
+            </Typography>
+          </div>
+        </AboutSectionWrapper>
 
-          <section aria-labelledby='ecosystem-links' className='space-y-4'>
-            <h2
-              id='ecosystem-links'
-              className='text-2xl font-semibold tracking-tight'
-            >
-              Ecosystem Links
-            </h2>
-            <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-              {ecosystemLinks.map((link) => (
+        <AboutSectionWrapper variant='default' className='mt-10 rounded-lg p-6'>
+          <div aria-labelledby='social-links'>
+            <SectionHeading>Social Links</SectionHeading>
+            <ul className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+              {socialLinks.map((link) => (
                 <li key={link.label} className='rounded-lg border px-4 py-3'>
                   <a
                     href={link.href}
@@ -214,47 +263,46 @@ export default function ResonantIdentityAboutPage() {
                     }
                   >
                     <span className='text-sm font-semibold'>{link.label}</span>
-                    <span
-                      className='text-sm'
-                      style={{ color: 'var(--colorNeutralForeground2)' }}
-                    >
+                    <span className='text-sm text-gray-600 dark:text-gray-400'>
                       {link.value}
                     </span>
                   </a>
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
+        </AboutSectionWrapper>
 
-          <section aria-labelledby='personal-note' className='space-y-4'>
-            <h2
-              id='personal-note'
-              className='text-2xl font-semibold tracking-tight'
+        <AboutSectionWrapper variant='default' className='mt-10 rounded-lg p-6'>
+          <div aria-labelledby='personal-note'>
+            <SectionHeading>Personal Note</SectionHeading>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300'
+              style={{ lineHeight: 1.75, fontSize: '1rem' }}
             >
-              Personal Note
-            </h2>
-            <p className='leading-8'>
               TRI is one of the most meaningful things I&apos;ve created.
               It&apos;s the bridge between my philosophical work and the lived
               experience of becoming. I&apos;m glad you&apos;re here.
-            </p>
-          </section>
+            </Typography>
+          </div>
+        </AboutSectionWrapper>
 
-          <section
-            aria-labelledby='call-to-action'
-            className='rounded-xl border p-5 md:p-6'
-          >
-            <h2
-              id='call-to-action'
-              className='text-2xl font-semibold tracking-tight'
+        <AboutSectionWrapper
+          variant='accent'
+          className='mt-10 mb-10 rounded-lg p-6'
+        >
+          <div aria-labelledby='call-to-action'>
+            <SectionHeading isAccent>Get Started</SectionHeading>
+            <Typography
+              variant='body'
+              className='text-gray-700 dark:text-gray-300'
+              style={{ lineHeight: 1.75, fontSize: '1rem' }}
             >
-              Get Started
-            </h2>
-            <p className='mt-3 leading-8'>
               Begin your 7-day setup and start building an identity that
               resonates.
-            </p>
-            <div className='mt-4 flex flex-col sm:flex-row gap-3'>
+            </Typography>
+            <div className='mt-4 flex flex-col gap-3 sm:flex-row'>
               <Link
                 href='/podcasts/theresonantid'
                 className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold'
@@ -274,8 +322,8 @@ export default function ResonantIdentityAboutPage() {
                 Join the Community &amp; Start 7-Day Setup
               </a>
             </div>
-          </section>
-        </article>
+          </div>
+        </AboutSectionWrapper>
       </div>
     </PageLayout>
   );

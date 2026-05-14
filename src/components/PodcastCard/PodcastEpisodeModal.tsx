@@ -16,16 +16,22 @@ import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 interface PodcastEpisodeModalProps {
   isOpen: boolean;
   onDismiss: () => void;
-  episode: PodcastEpisode;
+  episode: PodcastEpisode | null;
+  onExitComplete?: () => void;
 }
 
 export const PodcastEpisodeModal: React.FC<PodcastEpisodeModalProps> = ({
   isOpen,
   onDismiss,
   episode,
+  onExitComplete,
 }) => {
   const { theme } = useAppTheme();
   const { filter } = useColorVisionFilter();
+
+  if (!episode) {
+    return null;
+  }
 
   const isDark =
     theme.themeMode === 'dark' ||
@@ -36,6 +42,7 @@ export const PodcastEpisodeModal: React.FC<PodcastEpisodeModalProps> = ({
     <Modal
       isOpen={isOpen}
       onDismiss={onDismiss}
+      onExitComplete={onExitComplete}
       ariaLabel={`${episode.title} - Episode Details`}
       maxWidth='900px'
       showCloseButton={true}

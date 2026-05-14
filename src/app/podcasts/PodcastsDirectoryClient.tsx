@@ -6,7 +6,6 @@ import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import Image from 'next/image';
-import Link from 'next/link';
 import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
 import { Typography } from '@/components/Typography/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';

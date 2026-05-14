@@ -84,6 +84,7 @@ export function TheResonantIdentityPageClient({
 }: TheResonantIdentityPageProps) {
   const { theme, themeMode } = useAppTheme();
   const rssEndpoint = '/api/podcasts/rss';
+  const [isEpisodeModalOpen, setIsEpisodeModalOpen] = React.useState(false);
   const [selectedEpisode, setSelectedEpisode] =
     React.useState<PodcastEpisode | null>(null);
 
@@ -94,9 +95,14 @@ export function TheResonantIdentityPageClient({
 
   const handleEpisodeClick = (episode: PodcastEpisode) => {
     setSelectedEpisode(episode);
+    setIsEpisodeModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    setIsEpisodeModalOpen(false);
+  };
+
+  const handleModalExitComplete = () => {
     setSelectedEpisode(null);
   };
 
@@ -312,13 +318,12 @@ export function TheResonantIdentityPageClient({
       </div>
 
       {/* Episode Modal */}
-      {selectedEpisode && (
-        <PodcastEpisodeModal
-          isOpen={true}
-          onDismiss={handleCloseModal}
-          episode={selectedEpisode}
-        />
-      )}
+      <PodcastEpisodeModal
+        isOpen={isEpisodeModalOpen}
+        onDismiss={handleCloseModal}
+        onExitComplete={handleModalExitComplete}
+        episode={selectedEpisode}
+      />
     </PageLayout>
   );
 }
