@@ -5,7 +5,6 @@ import React from 'react';
 import { useAppTheme } from '../../theme/hooks/useAppTheme';
 
 interface TwitterLogoProps {
-  isDarkMode?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -22,6 +21,7 @@ export const TwitterLogo: React.FC<TwitterLogoProps> = ({
 
   return (
     <svg
+      className={className}
       style={{ ...rootClass, ...style }}
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'

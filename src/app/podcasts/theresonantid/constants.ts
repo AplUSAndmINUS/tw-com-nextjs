@@ -6,5 +6,4 @@ export const TRI_LINKS = {
   about: 'https://fluxline.pro/podcasts/theresonantid/about',
   facebookGroup: 'https://www.facebook.com/groups/theresonantid',
   facebookPage: 'https://www.facebook.com/theresonantid',
-  sevenDaySetup: 'https://www.facebook.com/groups/theresonantid',
 } as const;
