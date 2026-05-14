@@ -49,24 +49,25 @@ export function PodcastCard({
           />
         ) : (
           <div className='absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700'>
-            <span className='text-white text-5xl'>🎙</span>
+            <Typography variant='caption' className='text-white text-5xl'>🎙</Typography>
           </div>
         )}
       </div>
       <div className='p-4 flex flex-col flex-1'>
         <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
           {episode.season !== undefined && episode.episode !== undefined && (
-            <span>
+            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
               S{episode.season}E{episode.episode}
-            </span>
+            </Typography>
           )}
           {episode.category && (
-            <span
+            <Typography
+              variant='caption'
               className='font-medium'
               style={{ color: theme.semanticColors.link.default }}
             >
               {episode.category}
-            </span>
+            </Typography>
           )}
         </div>
         <Typography
@@ -112,27 +113,38 @@ export function PodcastCard({
           />
         ) : (
           <div className='absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700'>
-            <span className='text-white text-xs'>🎙</span>
+            <Typography variant='caption' className='text-white text-xs'>🎙</Typography>
           </div>
         )}
       </div>
       <div className='flex-1 min-w-0'>
-        <h3
+        <Typography
+          variant='bodySmall'
           className='text-sm font-semibold transition-colors line-clamp-2'
           style={{
             color: isHovered ? theme.semanticColors.link.default : undefined,
           }}
         >
           {episode.title}
-        </h3>
+        </Typography>
         <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
-          {episode.category && <span>{episode.category}</span>}
-          {episode.publishedDate && (
-            <time dateTime={episode.publishedDate}>
-              {episode.publishedDate}
-            </time>
+          {episode.category && (
+            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
+              {episode.category}
+            </Typography>
           )}
-          {episode.duration && <span>{episode.duration}</span>}
+          {episode.publishedDate && (
+            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
+              <time dateTime={episode.publishedDate}>
+                {episode.publishedDate}
+              </time>
+            </Typography>
+          )}
+          {episode.duration && (
+            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
+              {episode.duration}
+            </Typography>
+          )}
         </div>
       </div>
     </article>
@@ -153,7 +165,7 @@ export function PodcastCard({
           />
         ) : (
           <div className='absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700'>
-            <span className='text-white text-2xl'>🎙</span>
+            <Typography variant='caption' className='text-white text-2xl'>🎙</Typography>
           </div>
         )}
       </div>
@@ -162,47 +174,51 @@ export function PodcastCard({
       <div className='flex-1 min-w-0'>
         <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
           {episode.season !== undefined && episode.episode !== undefined && (
-            <span>
+            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
               S{episode.season}E{episode.episode}
-            </span>
+            </Typography>
           )}
           {episode.category && (
-            <span
-              className='font-medium'
-              style={{ color: theme.semanticColors.link.default }}
-            >
+            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
               {episode.category}
-            </span>
+            </Typography>
           )}
           {episode.publishedDate && (
-            <time dateTime={episode.publishedDate}>
-              {episode.publishedDate}
-            </time>
+            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
+              <time dateTime={episode.publishedDate}>
+                {episode.publishedDate}
+              </time>
+            </Typography>
           )}
-          {episode.duration && <span>{episode.duration}</span>}
+          {episode.duration && (
+            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
+              {episode.duration}
+            </Typography>
+          )}
         </div>
-        <h2
-          className='font-semibold text-base transition-colors line-clamp-2'
+        <Typography variant='h5'
+          className='font-semibold text-base transition-colors line-clamp-3'
           style={{
             color: isHovered ? theme.semanticColors.link.default : undefined,
           }}
         >
           {episode.title}
-        </h2>
+        </Typography>
         {episode.description && (
-          <p className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
+          <Typography variant='caption' className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
             {episode.description}
-          </p>
+          </Typography>
         )}
         {episode.tags && episode.tags.length > 0 && (
           <div className='mt-1.5 flex flex-wrap gap-1'>
             {episode.tags.slice(0, 3).map((tag) => (
-              <span
+              <Typography
                 key={tag}
+                variant='caption'
                 className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
               >
                 {tag}
-              </span>
+              </Typography>
             ))}
           </div>
         )}

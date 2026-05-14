@@ -88,9 +88,35 @@ export function TheResonantIdentityPageClient({
   const [isEpisodeModalOpen, setIsEpisodeModalOpen] = React.useState(false);
   const [selectedEpisode, setSelectedEpisode] =
     React.useState<PodcastEpisode | null>(null);
+  const [isPlayNowHovered, setIsPlayNowHovered] = React.useState(false);
+  const [isPlayNowPressed, setIsPlayNowPressed] = React.useState(false);
 
   // Brand colors only in light/dark mode; accessible modes use default secondary styling
   const useBrandColors = themeMode === 'light' || themeMode === 'dark';
+  const playNowTypographyStyle = theme.typography.fonts.body;
+  const playNowShouldUnderline = theme.themeMode === 'high-contrast';
+  const playNowBaseBackgroundColor = theme.palette.themePrimary;
+  const playNowBaseTextColor = theme.palette.white;
+  const playNowBaseTransform = 'scale(1)';
+  const playNowTransitionParts = [
+    `color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
+    `background-color ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
+    `transform ${theme.animations.duration.fast} ${theme.animations.easing.smooth}`,
+  ];
+  const playNowButtonStyles: React.CSSProperties = {
+    ...playNowTypographyStyle,
+    backgroundColor: isPlayNowPressed
+      ? playNowBaseTextColor
+      : playNowBaseBackgroundColor,
+    color: isPlayNowPressed ? playNowBaseBackgroundColor : playNowBaseTextColor,
+    cursor: 'pointer' as React.CSSProperties['cursor'],
+    textDecoration: playNowShouldUnderline ? 'underline' : 'none',
+    transform: isPlayNowHovered
+      ? `${playNowBaseTransform} scale(1.05)`
+      : playNowBaseTransform,
+    transition: playNowTransitionParts.join(', '),
+    border: 'none',
+  };
 
   const mostRecentEpisode = episodes.length > 0 ? episodes[0] : null;
 
@@ -134,7 +160,7 @@ export function TheResonantIdentityPageClient({
               >
                 Subscribe on Your Favorite Platform
               </Typography>
-              <div className='flex flex-wrap items-center gap-4'>
+              <div className='flex flex-wrap items-center gap-4 mb-8'>
                 <PlatformIconLink
                   href={PODCAST_PLATFORMS.spreaker}
                   label='Listen on Spreaker'
@@ -217,12 +243,28 @@ export function TheResonantIdentityPageClient({
                   {mostRecentEpisode.title}
                 </Typography>
                 <button
+                  type='button'
                   onClick={() => handleEpisodeClick(mostRecentEpisode)}
                   className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold transition-colors'
-                  style={{
-                    backgroundColor: theme.palette.themePrimary,
-                    color: theme.palette.white,
+                  onPointerEnter={(
+                    event: React.PointerEvent<HTMLButtonElement>
+                  ) => {
+                    if (event.pointerType === 'mouse') {
+                      setIsPlayNowHovered(true);
+                    }
                   }}
+                  onPointerLeave={(
+                    event: React.PointerEvent<HTMLButtonElement>
+                  ) => {
+                    if (event.pointerType === 'mouse') {
+                      setIsPlayNowHovered(false);
+                    }
+                    setIsPlayNowPressed(false);
+                  }}
+                  onPointerDown={() => setIsPlayNowPressed(true)}
+                  onPointerUp={() => setIsPlayNowPressed(false)}
+                  onPointerCancel={() => setIsPlayNowPressed(false)}
+                  style={playNowButtonStyles}
                 >
                   Play Now
                   <span className='ml-2'>→</span>
