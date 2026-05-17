@@ -21,10 +21,10 @@ const footerLinks = {
     { href: '/content-hub', label: 'Content Hub' },
   ],
   work: [
+    { href: '/podcasts/theresonantid', label: 'The Resonant Identity Podcast', },
+    { href: '/services/resonance-core', label: 'Resonance Core Framework' },
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/case-studies', label: 'Case Studies' },
-    { href: '/services', label: 'Services' },
-    { href: '/services/resonance-core', label: 'Resonance Core Framework' },
   ],
   connect: [
     { href: '/about', label: 'About' },
@@ -369,15 +369,14 @@ export function FooterContent({
               </ThemedLink>
             </Typography>
             <Typography
-              variant='blockquote'
-              className={`text-gray-700 dark:text-gray-300 max-w-xs ${
-                isCompact ? 'mt-1' : 'mt-2'
-              }`}
-              style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
+              variant='h3'
+              className='text-gray-500 dark:text-gray-400'
+              style={{ fontSize: '1.25rem', fontStyle: 'italic', marginTop: '0.25rem' }}
             >
-              {isCompact
-                ? 'Author, technologist, and creative thinker.'
-                : 'Author, technologist, and creative thinker. Writing about technology, creativity, and the human experience.'}
+              "Know who you are and what you stand for!" <br />
+              <em style={{ fontWeight: 100 }}>
+                &mdash; Terence Waters &amp; The Resonant Identity
+              </em>
             </Typography>
           </div>
 
@@ -414,7 +413,7 @@ export function FooterContent({
 
         {/* Bottom bar */}
         <div
-          className={`flex flex-col sm:flex-row items-center justify-between pb-4 sm:pb-0 md:gap-2 ${
+          className={`flex flex-col items-left justify-start pb-4 sm:pb-0 md:gap-2 ${
             isCompact ? 'pt-0' : 'pt-1'
           }`}
         >
@@ -423,7 +422,8 @@ export function FooterContent({
             className='text-gray-700 dark:text-gray-300'
             style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
           >
-            &copy; 2025-{year} Terence Waters. All rights reserved.
+            &copy; 2025-
+            {year} Terence Waters and his awesomeness. All rights reserved.
           </Typography>
         </div>
       </div>

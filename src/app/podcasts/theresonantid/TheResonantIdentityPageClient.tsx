@@ -295,7 +295,7 @@ export function TheResonantIdentityPageClient({
             style={{ color: theme.semanticColors.text.muted }}
           >
             Learn more about the philosophy, community, and mission behind The
-            Resonant Identity (TRI).
+            Resonant Identity Podcast.
           </Typography>
           <ThemedLink
             variant='bodySmall'
@@ -310,7 +310,7 @@ export function TheResonantIdentityPageClient({
               color: theme.semanticColors.link.default,
             }}
           >
-            About TRI
+            About The Resonant Identity
             <span className='ml-2'>→</span>
           </ThemedLink>
         </div>

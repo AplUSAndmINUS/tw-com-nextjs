@@ -116,7 +116,7 @@ export function PodcastsDirectoryClient() {
                   }}
                 >
                   <span className='mr-2'>ⓘ</span>
-                  About TRI
+                  About The Resonant Identity
                 </ThemedLink>
               </div>
             </div>
