@@ -118,30 +118,34 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
-          <SectionHeading>AI-Optimized Biography</SectionHeading>
-          <section aria-labelledby='ai-bio-short-summary' className='space-y-4'>
-            <h3 id='ai-bio-short-summary' className='text-lg font-semibold'>
-              Short Summary
-            </h3>
-            <Typography variant='body'>{AI_BIOGRAPHY.shortSummary}</Typography>
-          </section>
-          <section aria-labelledby='ai-bio-long-summary' className='space-y-4'>
-            <h3 id='ai-bio-long-summary' className='text-lg font-semibold'>
-              Long Summary
-            </h3>
-            <Typography variant='body'>{AI_BIOGRAPHY.longSummary}</Typography>
-          </section>
-          <section aria-labelledby='ai-bio-expertise' className='space-y-4'>
-            <h3 id='ai-bio-expertise' className='text-lg font-semibold'>
-              Core Expertise
-            </h3>
-            <ul className='list-disc pl-5 space-y-2'>
-              {AI_BIOGRAPHY.expertise.map((item) => (
-                <li key={item}>
-                  <Typography variant='body'>{item}</Typography>
-                </li>
-              ))}
-            </ul>
+          <section aria-labelledby='ai-optimized-biography' className='space-y-4'>
+            <SectionHeading id='ai-optimized-biography'>
+              AI-Optimized Biography
+            </SectionHeading>
+            <section aria-labelledby='ai-bio-short-summary' className='space-y-4'>
+              <h3 id='ai-bio-short-summary' className='text-lg font-semibold'>
+                Short Summary
+              </h3>
+              <Typography variant='body'>{AI_BIOGRAPHY.shortSummary}</Typography>
+            </section>
+            <section aria-labelledby='ai-bio-long-summary' className='space-y-4'>
+              <h3 id='ai-bio-long-summary' className='text-lg font-semibold'>
+                Long Summary
+              </h3>
+              <Typography variant='body'>{AI_BIOGRAPHY.longSummary}</Typography>
+            </section>
+            <section aria-labelledby='ai-bio-expertise' className='space-y-4'>
+              <h3 id='ai-bio-expertise' className='text-lg font-semibold'>
+                Core Expertise
+              </h3>
+              <ul className='list-disc pl-5 space-y-2'>
+                {AI_BIOGRAPHY.expertise.map((item) => (
+                  <li key={item}>
+                    <Typography variant='body'>{item}</Typography>
+                  </li>
+                ))}
+              </ul>
+            </section>
           </section>
         </AboutSectionWrapper>
 

@@ -6,15 +6,20 @@ import { useAppTheme } from '@/theme';
 function SectionHeading({
   children,
   isAccent,
+  id,
 }: {
   children: ReactNode;
   isAccent?: boolean;
+  id?: string;
 }) {
   const { theme } = useAppTheme();
 
   return (
     <div className='mb-6'>
-      <h2 className='text-2xl font-bold uppercase tracking-wide text-gray-900 dark:text-white'>
+      <h2
+        id={id}
+        className='text-2xl font-bold uppercase tracking-wide text-gray-900 dark:text-white'
+      >
         {children}
       </h2>
       <div
