@@ -14,6 +14,7 @@ import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
 import { AboutFluxlineLink } from './AboutFluxlineLink';
 import { AboutFeaturedProjects } from './AboutFeaturedProjects';
+import { AI_BIOGRAPHY, getPersonSchema } from '@/utils/structuredData';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -66,8 +67,14 @@ const CERTIFICATIONS = [
 ];
 
 export default function AboutPage() {
+  const personSchema = getPersonSchema('https://terencewaters.com/about');
+
   return (
     <AboutPageClient>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
       <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
@@ -108,6 +115,34 @@ export default function AboutPage() {
             build not just solutions — but philosophies, brands, and living
             identities that evolve with them.
           </Typography>
+        </AboutSectionWrapper>
+
+        <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
+          <SectionHeading>AI-Optimized Biography</SectionHeading>
+          <section aria-labelledby='ai-bio-short-summary' className='space-y-4'>
+            <h3 id='ai-bio-short-summary' className='text-lg font-semibold'>
+              Short Summary
+            </h3>
+            <Typography variant='body'>{AI_BIOGRAPHY.shortSummary}</Typography>
+          </section>
+          <section aria-labelledby='ai-bio-long-summary' className='space-y-4'>
+            <h3 id='ai-bio-long-summary' className='text-lg font-semibold'>
+              Long Summary
+            </h3>
+            <Typography variant='body'>{AI_BIOGRAPHY.longSummary}</Typography>
+          </section>
+          <section aria-labelledby='ai-bio-expertise' className='space-y-4'>
+            <h3 id='ai-bio-expertise' className='text-lg font-semibold'>
+              Core Expertise
+            </h3>
+            <ul className='list-disc pl-5 space-y-2'>
+              {AI_BIOGRAPHY.expertise.map((item) => (
+                <li key={item}>
+                  <Typography variant='body'>{item}</Typography>
+                </li>
+              ))}
+            </ul>
+          </section>
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
