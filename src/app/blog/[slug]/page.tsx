@@ -125,8 +125,8 @@ export default async function BlogPostPage({ params }: Props) {
             Key Insights
           </h2>
           <ul className='list-disc pl-5 space-y-2'>
-            {keyInsights.map((insight, index) => (
-              <li key={index}>{insight}</li>
+            {keyInsights.map((insight) => (
+              <li key={insight}>{insight}</li>
             ))}
           </ul>
         </section>
@@ -135,8 +135,8 @@ export default async function BlogPostPage({ params }: Props) {
             FAQ
           </h2>
           <dl className='space-y-4'>
-            {faqItems.map((item, index) => (
-              <div key={index}>
+            {faqItems.map((item) => (
+              <div key={item.question}>
                 <dt className='font-semibold'>{item.question}</dt>
                 <dd className='mt-1'>{item.answer}</dd>
               </div>

@@ -29,8 +29,8 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <HomePageClient />
-      <section aria-label='AI biography summary' className='sr-only'>
-        <h2>Terence Waters — AI profile summary</h2>
+      <section aria-labelledby='ai-bio-summary' className='sr-only'>
+        <h2 id='ai-bio-summary'>Terence Waters — AI profile summary</h2>
         <p>{AI_BIOGRAPHY.shortSummary}</p>
         <p>{AI_BIOGRAPHY.longSummary}</p>
         <ul>
