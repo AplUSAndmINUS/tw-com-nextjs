@@ -136,8 +136,8 @@ export default function AboutPage() {
               Core Expertise
             </h3>
             <ul className='list-disc pl-5 space-y-2'>
-              {AI_BIOGRAPHY.expertise.map((item, index) => (
-                <li key={index}>
+              {AI_BIOGRAPHY.expertise.map((item) => (
+                <li key={item}>
                   <Typography variant='body'>{item}</Typography>
                 </li>
               ))}

@@ -34,8 +34,8 @@ export default function HomePage() {
         <p>{AI_BIOGRAPHY.shortSummary}</p>
         <p>{AI_BIOGRAPHY.longSummary}</p>
         <ul>
-          {AI_BIOGRAPHY.expertise.map((item, index) => (
-            <li key={index}>{item}</li>
+          {AI_BIOGRAPHY.expertise.map((item) => (
+            <li key={item}>{item}</li>
           ))}
         </ul>
       </section>
