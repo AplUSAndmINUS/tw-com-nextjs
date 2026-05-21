@@ -126,7 +126,7 @@ export default async function BlogPostPage({ params }: Props) {
           </h2>
           <ul className='list-disc pl-5 space-y-2'>
             {keyInsights.map((insight, index) => (
-              <li key={`${insight}-${index}`}>{insight}</li>
+              <li key={index}>{insight}</li>
             ))}
           </ul>
         </section>
@@ -136,7 +136,7 @@ export default async function BlogPostPage({ params }: Props) {
           </h2>
           <dl className='space-y-4'>
             {faqItems.map((item, index) => (
-              <div key={`${item.question}-${index}`}>
+              <div key={index}>
                 <dt className='font-semibold'>{item.question}</dt>
                 <dd className='mt-1'>{item.answer}</dd>
               </div>
