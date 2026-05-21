@@ -113,6 +113,12 @@ export function getAuthorSchema() {
 }
 
 export function getBlogPostingSchema(post: ContentItem, slug: string) {
+  const datePublished = post.date ?? post.publishedDate;
+  const dateModified =
+    post.date && post.publishedDate && post.date !== post.publishedDate
+      ? post.date
+      : undefined;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -120,8 +126,8 @@ export function getBlogPostingSchema(post: ContentItem, slug: string) {
     description: getBlogStructuredSummary(post),
     url: `${SITE_URL}/blog/${slug}`,
     mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
-    datePublished: post.date ?? post.publishedDate,
-    dateModified: post.date ?? post.publishedDate,
+    datePublished,
+    dateModified,
     image: post.imageUrl ? `${SITE_URL}${post.imageUrl}` : undefined,
     keywords: post.seoKeywords?.length ? post.seoKeywords : post.tags,
     author: getAuthorSchema(),

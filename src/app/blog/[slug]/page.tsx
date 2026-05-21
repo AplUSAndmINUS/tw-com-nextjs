@@ -113,7 +113,10 @@ export default async function BlogPostPage({ params }: Props) {
         />
       )}
       <MDXRemote source={post.content} components={mdxComponents} />
-      <section className='mt-10 border-t pt-8 space-y-8'>
+      <section
+        className='mt-10 border-t pt-8 space-y-8'
+        aria-label='AI-discoverable content'
+      >
         <section aria-labelledby='structured-summary'>
           <h2 id='structured-summary' className='text-2xl font-semibold mb-3'>
             Structured Summary

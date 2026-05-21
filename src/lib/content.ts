@@ -81,17 +81,28 @@ function validateFaqItems(data: unknown): FAQItem[] | undefined {
 
   for (const item of data) {
     if (typeof item !== 'object' || item === null) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Invalid faq item: expected object');
+      }
       continue;
     }
 
     const obj = item as Record<string, unknown>;
     if (typeof obj.question !== 'string' || typeof obj.answer !== 'string') {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          'Invalid faq item: expected string "question" and "answer" fields'
+        );
+      }
       continue;
     }
 
     const question = obj.question.trim();
     const answer = obj.answer.trim();
     if (!question || !answer) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Invalid faq item: question/answer cannot be empty');
+      }
       continue;
     }
 

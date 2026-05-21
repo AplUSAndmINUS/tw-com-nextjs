@@ -122,22 +122,22 @@ export default function AboutPage() {
             <SectionHeading id='ai-optimized-biography'>
               AI-Optimized Biography
             </SectionHeading>
-            <section aria-labelledby='ai-bio-short-summary' className='space-y-4'>
-              <h3 id='ai-bio-short-summary' className='text-lg font-semibold'>
+            <div role='group' aria-labelledby='ai-bio-short-summary' className='space-y-4'>
+              <p id='ai-bio-short-summary' className='text-lg font-semibold'>
                 Short Summary
-              </h3>
+              </p>
               <Typography variant='body'>{AI_BIOGRAPHY.shortSummary}</Typography>
-            </section>
-            <section aria-labelledby='ai-bio-long-summary' className='space-y-4'>
-              <h3 id='ai-bio-long-summary' className='text-lg font-semibold'>
+            </div>
+            <div role='group' aria-labelledby='ai-bio-long-summary' className='space-y-4'>
+              <p id='ai-bio-long-summary' className='text-lg font-semibold'>
                 Long Summary
-              </h3>
+              </p>
               <Typography variant='body'>{AI_BIOGRAPHY.longSummary}</Typography>
-            </section>
-            <section aria-labelledby='ai-bio-expertise' className='space-y-4'>
-              <h3 id='ai-bio-expertise' className='text-lg font-semibold'>
+            </div>
+            <div role='group' aria-labelledby='ai-bio-expertise' className='space-y-4'>
+              <p id='ai-bio-expertise' className='text-lg font-semibold'>
                 Core Expertise
-              </h3>
+              </p>
               <ul className='list-disc pl-5 space-y-2'>
                 {AI_BIOGRAPHY.expertise.map((item) => (
                   <li key={item}>
@@ -145,7 +145,7 @@ export default function AboutPage() {
                   </li>
                 ))}
               </ul>
-            </section>
+            </div>
           </section>
         </AboutSectionWrapper>
 
