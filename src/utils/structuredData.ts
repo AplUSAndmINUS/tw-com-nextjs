@@ -121,7 +121,7 @@ export function getBlogPostingSchema(post: ContentItem, slug: string) {
     url: `${SITE_URL}/blog/${slug}`,
     mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
     datePublished: post.publishedDate ?? post.date,
-    dateModified: post.date || post.publishedDate,
+    dateModified: post.date ?? post.publishedDate,
     image: post.imageUrl ? `${SITE_URL}${post.imageUrl}` : undefined,
     keywords: post.seoKeywords?.length ? post.seoKeywords : post.tags,
     author: getAuthorSchema(),
