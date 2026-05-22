@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
-import { AI_BIOGRAPHY, getPersonSchema } from '@/utils/structuredData';
+import { getPersonSchema } from '@/utils/structuredData';
 import HomePageClient from './HomePageClient';
 
 export const metadata: Metadata = {
@@ -24,21 +25,12 @@ export default function HomePage() {
 
   return (
     <>
-      <script
+      <Script
+        id='homepage-person-schema'
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <HomePageClient />
-      <section aria-labelledby='ai-bio-summary' className='sr-only'>
-        <h2 id='ai-bio-summary'>Terence Waters — AI profile summary</h2>
-        <p>{AI_BIOGRAPHY.shortSummary}</p>
-        <p>{AI_BIOGRAPHY.longSummary}</p>
-        <ul>
-          {AI_BIOGRAPHY.expertise.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
     </>
   );
 }

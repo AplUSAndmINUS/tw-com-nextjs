@@ -139,6 +139,74 @@ export function getBlogPostingSchema(post: ContentItem, slug: string) {
   };
 }
 
+/**
+ * Organization schema for Fluxline Resonance Group
+ * Used in root layout to establish organizational context
+ */
+export function getOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': 'https://fluxline.pro/#organization',
+    name: 'Fluxline Resonance Group',
+    url: 'https://fluxline.pro',
+    logo: 'https://fluxline.pro/images/FluxlineLogo.png',
+    founder: {
+      '@type': 'Person',
+      '@id': 'https://terencewaters.com/#person',
+      name: PERSON_NAME,
+      url: SITE_URL,
+    },
+    sameAs: ['https://fluxline.pro', 'https://github.com/Fluxline-Pro'],
+  };
+}
+
+/**
+ * WebSite schema for root layout
+ * Establishes site identity and search capabilities
+ */
+export function getWebSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: 'Terence Waters',
+    description:
+      'Personal website of Terence Waters — author, technologist, and creative thinker exploring identity, resonance, and human-centered systems.',
+    publisher: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+    },
+    inLanguage: 'en-US',
+  };
+}
+
+/**
+ * AboutPage schema for /about
+ */
+export function getAboutPageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${SITE_URL}/about#aboutpage`,
+    url: `${SITE_URL}/about`,
+    name: 'About Terence Waters',
+    description: AI_BIOGRAPHY.longSummary,
+    mainEntity: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+    },
+    publisher: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+    },
+  };
+}
+
 export function getFaqSchema(post: ContentItem) {
   return {
     '@context': 'https://schema.org',
@@ -151,5 +219,74 @@ export function getFaqSchema(post: ContentItem) {
         text: item.answer,
       },
     })),
+  };
+}
+
+/**
+ * Case Study Article schema
+ */
+export function getCaseStudySchema(caseStudy: ContentItem, slug: string) {
+  const datePublished = caseStudy.publishedDate ?? caseStudy.date;
+  const dateModified =
+    caseStudy.date &&
+    caseStudy.publishedDate &&
+    caseStudy.date !== caseStudy.publishedDate
+      ? caseStudy.date
+      : undefined;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${SITE_URL}/case-studies/${slug}#article`,
+    headline: caseStudy.title,
+    description: caseStudy.excerpt,
+    url: `${SITE_URL}/case-studies/${slug}`,
+    mainEntityOfPage: `${SITE_URL}/case-studies/${slug}`,
+    datePublished,
+    dateModified,
+    image: caseStudy.imageUrl ? `${SITE_URL}${caseStudy.imageUrl}` : undefined,
+    keywords: caseStudy.seoKeywords?.length
+      ? caseStudy.seoKeywords
+      : caseStudy.tags,
+    author: getAuthorSchema(),
+    publisher: {
+      '@type': 'Person',
+      name: PERSON_NAME,
+      url: SITE_URL,
+    },
+    isPartOf: {
+      '@type': 'CollectionPage',
+      '@id': `${SITE_URL}/case-studies#collection`,
+      url: `${SITE_URL}/case-studies`,
+      name: 'Case Studies',
+    },
+  };
+}
+
+/**
+ * Portfolio CreativeWork schema
+ */
+export function getPortfolioSchema(portfolio: ContentItem, slug: string) {
+  const datePublished = portfolio.publishedDate ?? portfolio.date;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${SITE_URL}/portfolio/${slug}#creativework`,
+    name: portfolio.title,
+    description: portfolio.excerpt,
+    url: `${SITE_URL}/portfolio/${slug}`,
+    datePublished,
+    image: portfolio.imageUrl ? `${SITE_URL}${portfolio.imageUrl}` : undefined,
+    keywords: portfolio.seoKeywords?.length
+      ? portfolio.seoKeywords
+      : portfolio.tags,
+    creator: getAuthorSchema(),
+    isPartOf: {
+      '@type': 'CollectionPage',
+      '@id': `${SITE_URL}/portfolio#collection`,
+      url: `${SITE_URL}/portfolio`,
+      name: 'Portfolio',
+    },
   };
 }

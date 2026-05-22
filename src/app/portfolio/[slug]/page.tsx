@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { PortfolioLayout } from '@/layouts/PortfolioLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
@@ -9,6 +10,7 @@ import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
 import { content as responsibleAiContent } from '@/assets/fluxline-legal/responsible-ai-legal';
+import { getPortfolioSchema } from '@/utils/structuredData';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -52,6 +54,8 @@ export default async function PortfolioEntryPage({ params }: Props) {
     currentIndex < sortedSlugs.length - 1 ? allEntries[currentIndex + 1] : null;
   const nextEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
 
+  const portfolioSchema = getPortfolioSchema(entry, slug);
+
   return (
     <PortfolioLayout
       title={entry.title}
@@ -67,6 +71,11 @@ export default async function PortfolioEntryPage({ params }: Props) {
         />
       }
     >
+      <Script
+        id={`portfolio-schema-${slug}`}
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(portfolioSchema) }}
+      />
       {entry.generatedWithAI && (
         <GeneratedWithAiBadge
           className='mb-6'

@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
+import { getServicesItemListSchema } from '@/utils/structuredData';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
@@ -24,6 +26,8 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
+  const servicesSchema = getServicesItemListSchema();
+
   return (
     <PageLayout
       featureImage={{
@@ -32,6 +36,11 @@ export default function ServicesPage() {
         title: 'Services',
       }}
     >
+      <Script
+        id='services-itemlist-schema'
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+      />
       <div className='pt-0 pb-8 md:py-8'>
         <Hero
           title='Services'

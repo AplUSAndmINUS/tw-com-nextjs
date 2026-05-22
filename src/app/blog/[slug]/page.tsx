@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { ArticleLayout } from '@/layouts/ArticleLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
@@ -88,15 +89,18 @@ export default async function BlogPostPage({ params }: Props) {
         />
       }
     >
-      <script
+      <Script
+        id={`blog-author-schema-${slug}`}
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(authorSchema) }}
       />
-      <script
+      <Script
+        id={`blog-posting-schema-${slug}`}
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
-      <script
+      <Script
+        id={`blog-faq-schema-${slug}`}
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />

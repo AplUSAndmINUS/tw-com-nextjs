@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { CaseStudyLayout } from '@/layouts/CaseStudyLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
@@ -8,6 +9,7 @@ import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { mdxComponents } from '@/components/MarkdownContent';
 import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
 import { content as responsibleAiContent } from '@/assets/fluxline-legal/responsible-ai-legal';
+import { getCaseStudySchema } from '@/utils/structuredData';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -58,6 +60,8 @@ export default async function CaseStudyPage({ params }: Props) {
     ? { src: cs.imageUrl, alt: cs.imageAlt ?? cs.title }
     : undefined;
 
+  const caseStudySchema = getCaseStudySchema(cs, slug);
+
   return (
     <CaseStudyLayout
       title={cs.title}
@@ -79,6 +83,11 @@ export default async function CaseStudyPage({ params }: Props) {
         />
       }
     >
+      <Script
+        id={`case-study-schema-${slug}`}
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
+      />
       {/* Gallery removed - feature image now opens in modal via CaseStudyLayout */}
       {cs.generatedWithAI && (
         <GeneratedWithAiBadge
