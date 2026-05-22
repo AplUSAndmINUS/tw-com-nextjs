@@ -290,3 +290,68 @@ export function getPortfolioSchema(portfolio: ContentItem, slug: string) {
     },
   };
 }
+
+/**
+ * Services ItemList schema
+ */
+export function getServicesItemListSchema() {
+  const services = [
+    {
+      name: 'Design',
+      description:
+        'Interface and experience design for products, content systems, and digital platforms that need clarity and momentum.',
+      url: `${SITE_URL}/services/design`,
+    },
+    {
+      name: 'Development',
+      description:
+        'Modern web development and implementation support focused on performance, maintainability, and long-term product growth.',
+      url: `${SITE_URL}/services/development`,
+    },
+    {
+      name: 'Consulting',
+      description:
+        'Strategic advisory for founders and teams navigating architecture decisions, product direction, and execution planning.',
+      url: `${SITE_URL}/services/consulting`,
+    },
+    {
+      name: 'Resonance Core',
+      description:
+        'Identity-centered coaching and guidance for creators and leaders building aligned work, voice, and long-term direction.',
+      url: `${SITE_URL}/services/resonance-core`,
+    },
+    {
+      name: 'Personal Training',
+      description:
+        "Personalized fitness coaching with emotional intelligence—build strength, reduce pain, and align your physical practice with who you're becoming.",
+      url: `${SITE_URL}/services/personal-training`,
+    },
+  ];
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/services#itemlist`,
+    name: 'Terence Waters Services',
+    description:
+      'Professional services across design, development, consulting, Resonance Core coaching, and personal training.',
+    url: `${SITE_URL}/services`,
+    numberOfItems: services.length,
+    itemListElement: services.map((service, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Service',
+        '@id': service.url,
+        name: service.name,
+        description: service.description,
+        url: service.url,
+        provider: {
+          '@type': 'Person',
+          '@id': `${SITE_URL}/#person`,
+          name: PERSON_NAME,
+        },
+      },
+    })),
+  };
+}
