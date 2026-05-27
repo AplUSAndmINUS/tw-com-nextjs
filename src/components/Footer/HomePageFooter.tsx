@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Script from 'next/script';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FooterContent } from './FooterContent';
 import { getPersonSchema } from '@/utils/structuredData';
@@ -59,7 +60,8 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
         transition: 'opacity 0.2s ease-in',
       }}
     >
-      <script
+      <Script
+        id='footer-person-schema'
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
       />

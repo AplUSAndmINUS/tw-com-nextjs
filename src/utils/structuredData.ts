@@ -117,7 +117,7 @@ export function getAuthorSchema() {
 }
 
 export function getBlogPostingSchema(post: ContentItem, slug: string) {
-  const datePublished = post.date ?? post.publishedDate;
+  const datePublished = post.publishedDate ?? post.date;
   const dateModified =
     post.date && post.publishedDate && post.date !== post.publishedDate
       ? post.date
