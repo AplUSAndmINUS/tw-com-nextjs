@@ -8,19 +8,14 @@ import { PercentageBullet } from '@/components/PercentageBullet';
 import { AboutSectionWrapper } from '@/components/AboutSectionWrapper';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import { AboutPageClient } from './AboutPageClient';
-import { AboutCapabilities } from './AboutCapabilities';
 import { AboutTimeline } from './AboutTimeline';
 import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
-import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
-import { AboutFluxlineLink } from './AboutFluxlineLink';
 import { AboutFeaturedProjects } from './AboutFeaturedProjects';
-import {
-  AI_BIOGRAPHY,
-  getPersonSchema,
-  getAboutPageSchema,
-} from '@/utils/structuredData';
+import { AboutParagraph } from './AboutParagraph';
+import { AboutBulletList } from './AboutBulletList';
+import { getPersonSchema, getAboutPageSchema } from '@/utils/structuredData';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -47,12 +42,12 @@ const EDUCATION = [
   {
     credential: 'MBA – IT Management',
     school: 'Western Governors University',
-    year: '2019',
+    year: '2017-2019',
   },
   {
     credential: 'B.S. – Web Design & Development',
     school: 'Independence University',
-    year: '2017',
+    year: '2014-2017',
   },
   {
     credential: 'Certificate – Web Programming',
@@ -93,102 +88,205 @@ export default function AboutPage() {
         <Hero
           title='About Me'
           iconName='Person24Regular'
-          description='Hi there! I am Terence Waters, a dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
+          description='Come on in and stay awhile; I have some stories to share.'
         >
+          <div className='mt-2' />
           <AboutHeroCTAs />
         </Hero>
 
-        {/****************  This is all going to be redone completely in another user story ****************/}
+        {/* ── Opening Statement ────────────────────────────────────────────── */}
+        <AboutSectionWrapper variant='accent' className='mt-10 space-y-6 p-6'>
+          <SectionHeading isAccent>Hi! I'm Terence :)</SectionHeading>
+          <AboutParagraph>
+            I help people and organizations rebuild the parts of themselves they
+            thought were permanent.
+          </AboutParagraph>
+          <AboutParagraph>
+            I’m a systems architect by training, a designer by instinct, and a
+            coach by necessity <br />— because most people don’t need more
+            information. <br /> We need <strong>clarity</strong>,{' '}
+            <strong>structure</strong>, and a way back to ourselves.
+          </AboutParagraph>
+          <AboutParagraph>
+            For the past 15+ years, I’ve worked across IT architecture,
+            full‑stack development, brand identity, curriculum design, and
+            personal transformation — translating complexity into clarity for
+            individuals, founders, and mission‑driven teams.
+          </AboutParagraph>
+          <AboutParagraph>
+            If you're here, you're probably in a season of becoming.
+          </AboutParagraph>
+          <AboutParagraph variant='blockquote' style={{ fontSize: '1.25rem' }}>
+            <em>You're in the right place.</em>
+          </AboutParagraph>
+        </AboutSectionWrapper>
 
-        {/* ── Professional Summary commenting out for now when it's being rewritten and will be reused -TW ─────────────────────────────────────────── */}
-        {/* <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
-          <SectionHeading>Professional Summary</SectionHeading>
-          <Typography
-            className={'text-gray-700 dark:text-gray-300'}
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
-            I am a creator of transformative systems, brand experiences, and
-            human-centric technology, specializing in modular web development,
-            IT infrastructure, and scalable design ecosystems with a focus on
-            emotional intelligence, strategic innovation, and long-term impact.
-          </Typography>
-          <Typography
-            variant='body'
-            className='text-gray-700 dark:text-gray-300'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
-            Over 15 years as a technologist, educator, and founder have shaped
-            someone who bridges enterprise precision with human-centered
-            creativity. As founder of <AboutFluxlineLink />, I help clients
-            build not just solutions — but philosophies, brands, and living
-            identities that evolve with them.
-          </Typography>
-        </AboutSectionWrapper> */}
+        {/* ── What I Believe ───────────────────────────────────────────────── */}
+        <AboutSectionWrapper variant='subtle' className='mt-10 space-y-4 p-6'>
+          <SectionHeading>What I Believe</SectionHeading>
+          <AboutParagraph>
+            Identity isn't a mask you wear —{' '}
+            <em>
+              <strong>it's a frequency you return to.</strong>
+            </em>
+          </AboutParagraph>
+          <AboutParagraph>
+            Real transformation isn’t about forcing yourself into a new shape.
+            <br />
+            <br />
+            It’s architectural. <br />
+            It’s structural. <br />
+            It’s the slow, intentional re-alignment of the internal systems that
+            shape how you think, create, and move through the world.
+          </AboutParagraph>
+          <AboutParagraph>
+            Whether I’m building a platform, designing a brand, or coaching
+            someone through a transition, my work is always about the same
+            thing:
+          </AboutParagraph>
+          <AboutParagraph variant='blockquote' style={{ fontSize: '1.25rem' }}>
+            Helping people return to their resonance.
+          </AboutParagraph>
+          <AboutParagraph>
+            Not the version of themselves they were taught to be.{' '}
+            <em>
+              <strong>The version they actually are.</strong>
+            </em>
+          </AboutParagraph>
+        </AboutSectionWrapper>
 
+        {/* ── What I Do ────────────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
-          <section
-            aria-labelledby='ai-optimized-biography'
-            className='space-y-4'
-          >
-            <SectionHeading id='ai-optimized-biography'>
-              Hey! Who's this guy?!
-            </SectionHeading>
-            <div
-              role='group'
-              aria-labelledby='ai-bio-long-summary'
-              className='space-y-4'
-            >
+          <SectionHeading>What I Do</SectionHeading>
+          <AboutParagraph>
+            I build systems — technical, personal, and organizational — that
+            help people operate with more clarity, coherence, and confidence.
+          </AboutParagraph>
+
+          <AboutParagraph className='mt-6'>
+            Everything I build is designed to be:
+          </AboutParagraph>
+          <AboutBulletList>
+            <li>✨ Human-centered</li>
+            <li>✨ Emotionally intelligent</li>
+            <li>✨ Technically sound</li>
+            <li>✨ Scalable</li>
+            <li>✨ Deeply resonant</li>
+          </AboutBulletList>
+
+          <div className='space-y-4 mt-6'>
+            <div>
               <Typography
                 variant='h4'
-                id='ai-bio-long-summary'
-                style={{ marginBottom: '0' }}
+                style={{ marginBottom: '0.5rem', fontWeight: 600 }}
               >
-                The Summary
+                For individuals:
               </Typography>
+
+              <AboutParagraph>
+                I help you understand your identity architecture, dissolve the
+                noise, and rebuild your internal systems so you can move through
+                life with more alignment and less friction.
+              </AboutParagraph>
+            </div>
+
+            <div>
               <Typography
-                variant='label'
-                className='text-gray-700 dark:text-gray-300'
-                style={{ fontSize: '1rem', marginTop: '1rem' }}
+                variant='h4'
+                style={{ marginBottom: '0.5rem', fontWeight: 600 }}
               >
-                (An AI-Optimized Biography, because well, it's kinda awesome!)
+                For founders & creators:
               </Typography>
-              <Typography variant='body' style={{ marginTop: '1rem' }}>
-                {AI_BIOGRAPHY.longSummary}
-              </Typography>
+              <AboutParagraph>
+                I design brands, platforms, and workflows that feel like you —
+                not the version of you the internet told you to be.
+              </AboutParagraph>
             </div>
-            <div
-              role='group'
-              aria-labelledby='ai-bio-expertise'
-              className='space-y-4'
-            >
-              <Typography variant='h4' id='ai-bio-expertise'>
-                Core Expertise
+
+            <div>
+              <Typography
+                variant='h4'
+                style={{ marginBottom: '0.5rem', fontWeight: 600 }}
+              >
+                For teams & organizations:
               </Typography>
-              <ul className='list-disc pl-5 space-y-2'>
-                {AI_BIOGRAPHY.expertise.map((item) => (
-                  <li key={item}>
-                    <Typography variant='body'>{item}</Typography>
-                  </li>
-                ))}
-              </ul>
+              <AboutParagraph>
+                I architect modular systems, digital experiences, and strategic
+                frameworks that make complexity feel navigable and growth feel
+                possible.
+              </AboutParagraph>
             </div>
-          </section>
+          </div>
+        </AboutSectionWrapper>
+
+        {/* ── How I Work ───────────────────────────────────────────────────── */}
+        <AboutSectionWrapper variant='subtle' className='mt-10 space-y-4 p-6'>
+          <SectionHeading>How I Work</SectionHeading>
+          <AboutParagraph>I'm a strange mix of:</AboutParagraph>
+          <AboutBulletList>
+            <li>✨ Technologist</li>
+            <li>✨ Designer</li>
+            <li>✨ Strategist</li>
+            <li>✨ Educator</li>
+            <li>✨ Coach</li>
+            <li>✨ Quiet observer of human behavior</li>
+          </AboutBulletList>
+          <AboutParagraph>
+            I see patterns quickly. <br />I translate complexity into clarity.{' '}
+            <br />
+            And I build systems that help people feel more like themselves —
+            whether that's through a website, a workflow, a curriculum, or a
+            conversation.
+          </AboutParagraph>
+          <AboutParagraph>My approach is:</AboutParagraph>
+          <AboutBulletList>
+            <li>✨ Warm</li>
+            <li>✨ Structured</li>
+            <li>✨ Curious</li>
+            <li>✨ Iterative</li>
+            <li>✨ Grounded in real human experience</li>
+          </AboutBulletList>
+          <AboutParagraph weight='semibold'>
+            I don't force people into frameworks. <br />
+            <em>
+              <strong>I design frameworks around people.</strong>
+            </em>
+          </AboutParagraph>
+        </AboutSectionWrapper>
+
+        {/* ── Why This Work Matters ────────────────────────────────────────── */}
+        <AboutSectionWrapper variant='accent' className='mt-10 space-y-4 p-6'>
+          <SectionHeading isAccent>Why This Work Matters to Me</SectionHeading>
+          <AboutParagraph>
+            Because I’ve rebuilt myself more than once — professionally,
+            personally, creatively.
+          </AboutParagraph>
+          <AboutParagraph>
+            Every time, the thing that saved me wasn’t motivation or hustle.
+          </AboutParagraph>
+          <AboutParagraph weight='semibold' size='large'>
+            It was architecture.
+          </AboutParagraph>
+          <AboutParagraph>
+            Structure. <br />
+            Clarity. <br />A way to understand who I was becoming and why.
+          </AboutParagraph>
+          <AboutParagraph>
+            <em>
+              <strong>Now I help others do the same.</strong>
+            </em>
+            <br />
+            Let me show you how I've done it!
+          </AboutParagraph>
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='accent' className='mt-10 p-6 rounded-lg'>
+        {/* <AboutSectionWrapper variant='accent' className='mt-10 p-6 rounded-lg'>
           <SectionHeading isAccent>
             Core Capabilities &amp; Expertise
           </SectionHeading>
           <AboutCapabilities />
-        </AboutSectionWrapper>
+        </AboutSectionWrapper> */}
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
@@ -300,10 +398,44 @@ export default function AboutPage() {
           </div>
         </AboutSectionWrapper>
 
-        {/* ── Newsletter CTA ───────────────────────────────────────────────── */}
-        <div className='mt-10 mb-10'>
-          <NewsletterSignupCTA />
-        </div>
+        {/* -- If You're here.... ───────────────────────────────────── */}
+        <AboutSectionWrapper
+          variant='accent'
+          className='mt-10 md:p-8 p-6 mb-10 rounded-lg'
+        >
+          <SectionHeading isAccent>If You're here....</SectionHeading>
+          <Typography
+            variant='body'
+            style={{
+              lineHeight: 1.75,
+              fontSize: '1rem',
+            }}
+          >
+            You’re probably navigating a transition — personal, professional,
+            creative, or internal.
+          </Typography>
+          <br />
+          <Typography
+            variant='body'
+            style={{
+              lineHeight: 1.75,
+              fontSize: '1rem',
+            }}
+          >
+            You don’t need to have it all figured out. <br />
+            You just need a place where you can breathe, think, and rebuild with
+            intention.
+          </Typography>
+          <br />
+          <Typography
+            variant='blockquote'
+            style={{
+              lineHeight: 1.75,
+            }}
+          >
+            I’d be honored to walk with you.
+          </Typography>
+        </AboutSectionWrapper>
       </div>
     </AboutPageClient>
   );
