@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { PodcastEpisode } from '@/content/types';
 import { ViewType } from '@/store';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { LoadingImage } from '@/components/ui/LoadingImage';
 import { Typography } from '../Typography';
+import { useMouseMultiHoverState } from '@/hooks/useHoverState';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -20,7 +22,9 @@ export function PodcastCard({
   onClick,
 }: PodcastCardProps) {
   const { theme } = useAppTheme();
-  const [isHovered, setIsHovered] = useState(false);
+  const { isHovered, getHoverProps } = useMouseMultiHoverState();
+  const isMobileHook = useIsMobile();
+  const isMobile = isMobileHook ? true : false;
 
   const handleClick = () => {
     if (onClick) {
@@ -35,74 +39,208 @@ export function PodcastCard({
     }
   };
 
+  // Theme colors matching AdaptiveCardGrid
+  const accentColor = theme.semanticColors.accent.teal;
+  const isLightFamilyMode =
+    theme.themeMode === 'light' ||
+    theme.themeMode === 'protanopia' ||
+    theme.themeMode === 'deuteranopia' ||
+    theme.themeMode === 'tritanopia' ||
+    theme.themeMode === 'grayscale';
+
+  const cardSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.muted
+    : theme.semanticColors.background.elevated;
+
+  const cardHoverSurfaceColor = isLightFamilyMode
+    ? theme.semanticColors.background.elevated
+    : theme.semanticColors.background.base;
+
+  // Image dimensions for grid view
+  const gridImageHeight = '200px';
+
+  // Handle image load (can be extended for orientation detection if needed)
+  const handleImageLoad =
+    (id: string) => (event: React.SyntheticEvent<HTMLImageElement>) => {
+      // Image loaded successfully
+    };
+
   // Shared article content for grid view
   const gridArticleContent = (
-    <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
-      <div className='relative w-full aspect-square bg-gray-100 dark:bg-gray-800'>
-        {episode.imageUrl ? (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        cursor: 'pointer',
+        borderRadius: theme.borderRadius.container.medium,
+        overflow: 'hidden',
+        backgroundColor: isHovered(episode.slug)
+          ? cardHoverSurfaceColor
+          : cardSurfaceColor,
+        backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+        border: `1px solid ${isHovered(episode.slug) ? accentColor : theme.semanticColors.border.default}`,
+        transition: 'all 0.3s ease',
+        transform: isHovered(episode.slug)
+          ? 'translateY(-4px)'
+          : 'translateY(0)',
+        boxShadow: isHovered(episode.slug)
+          ? theme.shadows.cardElevated
+          : theme.shadows.card,
+      }}
+    >
+      {episode.imageUrl && (
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: gridImageHeight,
+            flexShrink: 0,
+          }}
+        >
           <LoadingImage
             src={episode.imageUrl}
             alt={episode.title}
             fill
             sizes='(max-width: 768px) 100vw, 33vw'
-            className='object-cover group-hover:scale-[1.02] transition-transform duration-300'
+            style={{ objectFit: 'cover' }}
+            onLoad={handleImageLoad(episode.slug)}
           />
-        ) : (
-          <div className='absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700'>
-            <Typography variant='caption' className='text-white text-5xl'>🎙</Typography>
+        </div>
+      )}
+      <div
+        style={{
+          padding: theme.spacing.m,
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: theme.spacing.s1,
+              marginBottom: theme.spacing.xs,
+            }}
+          >
+            {episode.season !== undefined && episode.episode !== undefined && (
+              <Typography
+                variant='caption'
+                style={{
+                  fontWeight: 500,
+                  color: theme.semanticColors.link.default,
+                }}
+              >
+                S{episode.season}E{episode.episode}
+              </Typography>
+            )}
+            {episode.category && (
+              <Typography
+                variant='caption'
+                style={{
+                  fontWeight: 500,
+                  color: theme.semanticColors.link.default,
+                }}
+              >
+                {episode.category}
+              </Typography>
+            )}
           </div>
-        )}
-      </div>
-      <div className='p-4 flex flex-col flex-1'>
-        <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
-          {episode.season !== undefined && episode.episode !== undefined && (
-            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
-              S{episode.season}E{episode.episode}
-            </Typography>
-          )}
-          {episode.category && (
+          <Typography
+            variant='h3'
+            style={{
+              fontWeight: 600,
+              fontSize: '1rem',
+              lineHeight: '1.5',
+              color: isHovered(episode.slug)
+                ? theme.semanticColors.link.default
+                : theme.semanticColors.text.primary,
+              transition: 'color 0.3s ease',
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              marginBottom: theme.spacing.xs,
+            }}
+          >
+            {episode.title}
+          </Typography>
+          {episode.description && (
             <Typography
-              variant='caption'
-              className='font-medium'
-              style={{ color: theme.semanticColors.link.default }}
+              variant='body'
+              style={{
+                fontSize: '0.875rem',
+                color: theme.semanticColors.text.muted,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
             >
-              {episode.category}
+              {episode.description}
             </Typography>
           )}
         </div>
-        <Typography
-          variant='h3'
-          className='font-semibold text-base transition-colors line-clamp-3 flex-1'
+        <div
           style={{
-            color: isHovered ? theme.semanticColors.link.default : undefined,
+            marginTop: theme.spacing.s1,
+            display: 'flex',
+            alignItems: 'center',
+            gap: theme.spacing.s1,
           }}
         >
-          {episode.title}
-        </Typography>
-        {episode.description && (
-          <Typography
-            variant='body'
-            className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'
-          >
-            {episode.description}
-          </Typography>
-        )}
-        <div className='mt-2 flex items-center gap-2 text-xs text-gray-400'>
           {episode.publishedDate && (
-            <time dateTime={episode.publishedDate}>
-              {episode.publishedDate}
-            </time>
+            <Typography
+              variant='caption'
+              style={{ color: theme.semanticColors.text.muted }}
+            >
+              <time dateTime={episode.publishedDate}>
+                {episode.publishedDate}
+              </time>
+            </Typography>
           )}
-          {episode.duration && <span>{episode.duration}</span>}
+          {episode.duration && (
+            <Typography
+              variant='caption'
+              style={{ color: theme.semanticColors.text.muted }}
+            >
+              {episode.duration}
+            </Typography>
+          )}
         </div>
       </div>
-    </article>
+    </div>
   );
 
   // Shared article content for small view
   const smallArticleContent = (
-    <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
-      <div className='relative flex-shrink-0 w-10 h-10 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800'>
+    <article
+      style={{
+        display: 'flex',
+        alignItems: 'start',
+        gap: theme.spacing.m,
+        backgroundColor: isHovered(episode.slug)
+          ? cardHoverSurfaceColor
+          : cardSurfaceColor,
+        borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+        paddingTop: theme.spacing.m,
+        paddingBottom: theme.spacing.m,
+      }}
+    >
+      <div
+        style={{
+          position: 'relative',
+          flexShrink: 0,
+          width: '2.5rem',
+          height: '2.5rem',
+          borderRadius: theme.borderRadius.container.small,
+          overflow: 'hidden',
+          backgroundColor: theme.semanticColors.background.base,
+        }}
+      >
         {episode.imageUrl ? (
           <LoadingImage
             src={episode.imageUrl}
@@ -112,36 +250,80 @@ export function PodcastCard({
             className='object-cover'
           />
         ) : (
-          <div className='absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700'>
-            <Typography variant='caption' className='text-white text-xs'>🎙</Typography>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: theme.semanticColors.background.elevated,
+            }}
+          >
+            <Typography variant='caption' style={{ fontSize: '0.75rem' }}>
+              🎙
+            </Typography>
           </div>
         )}
       </div>
-      <div className='flex-1 min-w-0'>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <Typography
           variant='bodySmall'
-          className='text-sm font-semibold transition-colors line-clamp-2'
           style={{
-            color: isHovered ? theme.semanticColors.link.default : undefined,
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            color: isHovered(episode.slug)
+              ? theme.semanticColors.link.default
+              : theme.semanticColors.text.primary,
+            transition: 'color 0.3s ease',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
           }}
         >
           {episode.title}
         </Typography>
-        <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: theme.spacing.s1,
+            marginTop: theme.spacing.xs,
+          }}
+        >
           {episode.category && (
-            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='caption'
+              style={{
+                fontWeight: 500,
+                color: theme.semanticColors.link.default,
+              }}
+            >
               {episode.category}
             </Typography>
           )}
           {episode.publishedDate && (
-            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='caption'
+              style={{
+                fontWeight: 500,
+                color: theme.semanticColors.link.default,
+              }}
+            >
               <time dateTime={episode.publishedDate}>
                 {episode.publishedDate}
               </time>
             </Typography>
           )}
           {episode.duration && (
-            <Typography variant='caption' className='font-medium' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='caption'
+              style={{
+                fontWeight: 500,
+                color: theme.semanticColors.link.default,
+              }}
+            >
               {episode.duration}
             </Typography>
           )}
@@ -152,9 +334,37 @@ export function PodcastCard({
 
   // Shared article content for large/list view
   const largeArticleContent = (
-    <article className='flex gap-4 border-b border-gray-200 dark:border-gray-700 py-5 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors rounded-lg px-2 -mx-2'>
+    <article
+      style={{
+        display: 'flex',
+        gap: theme.spacing.m,
+        borderBottom: `1px solid ${theme.semanticColors.border.default}`,
+        paddingTop: theme.spacing.l,
+        paddingBottom: theme.spacing.l,
+        paddingLeft: theme.spacing.m,
+        paddingRight: theme.spacing.m,
+        marginLeft: `-${theme.spacing.s1}`,
+        marginRight: `-${theme.spacing.s1}`,
+        borderRadius: theme.borderRadius.container.small,
+        minHeight: isMobile ? 'auto' : '200px',
+        backgroundColor: isHovered(episode.slug)
+          ? cardHoverSurfaceColor
+          : theme.semanticColors.background.muted,
+        transition: 'background-color 0.3s ease',
+      }}
+    >
       {/* Thumbnail */}
-      <div className='relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800'>
+      <div
+        style={{
+          position: 'relative',
+          flexShrink: 0,
+          width: '5rem',
+          height: '5rem',
+          borderRadius: theme.borderRadius.container.small,
+          overflow: 'hidden',
+          backgroundColor: theme.semanticColors.background.muted,
+        }}
+      >
         {episode.imageUrl ? (
           <LoadingImage
             src={episode.imageUrl}
@@ -164,58 +374,124 @@ export function PodcastCard({
             className='object-cover'
           />
         ) : (
-          <div className='absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700'>
-            <Typography variant='caption' className='text-white text-2xl'>🎙</Typography>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: theme.semanticColors.background.elevated,
+            }}
+          >
+            <Typography variant='caption' style={{ fontSize: '1.5rem' }}>
+              🎙
+            </Typography>
           </div>
         )}
       </div>
 
       {/* Info */}
-      <div className='flex-1 min-w-0'>
-        <div className='flex items-center gap-2 text-xs text-gray-400 mb-1'>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: theme.spacing.s1,
+            marginBottom: theme.spacing.xs,
+          }}
+        >
           {episode.season !== undefined && episode.episode !== undefined && (
-            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='label'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               S{episode.season}E{episode.episode}
             </Typography>
           )}
           {episode.category && (
-            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='label'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               {episode.category}
             </Typography>
           )}
           {episode.publishedDate && (
-            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='label'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               <time dateTime={episode.publishedDate}>
                 {episode.publishedDate}
               </time>
             </Typography>
           )}
           {episode.duration && (
-            <Typography variant='label' style={{ color: theme.semanticColors.link.default }}>
+            <Typography
+              variant='label'
+              style={{ color: theme.semanticColors.link.default }}
+            >
               {episode.duration}
             </Typography>
           )}
         </div>
-        <Typography variant='h5'
-          className='font-semibold text-base transition-colors line-clamp-3'
+        <Typography
+          variant='h5'
           style={{
-            color: isHovered ? theme.semanticColors.link.default : undefined,
+            fontWeight: 600,
+            fontSize: '1rem',
+            color: isHovered(episode.slug)
+              ? theme.semanticColors.link.default
+              : theme.semanticColors.text.primary,
+            transition: 'color 0.3s ease',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
           }}
         >
           {episode.title}
         </Typography>
         {episode.description && (
-          <Typography variant='caption' className='mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2'>
+          <Typography
+            variant='bodySmall'
+            style={{
+              marginTop: theme.spacing.xs,
+              fontSize: '0.875rem',
+              color: theme.semanticColors.text.muted,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
             {episode.description}
           </Typography>
         )}
         {episode.tags && episode.tags.length > 0 && (
-          <div className='mt-1.5 flex flex-wrap gap-1'>
+          <div
+            style={{
+              marginTop: theme.spacing.s1,
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: theme.spacing.xs,
+            }}
+          >
             {episode.tags.slice(0, 3).map((tag) => (
               <Typography
                 key={tag}
                 variant='caption'
-                className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
+                style={{
+                  fontSize: '0.75rem',
+                  backgroundColor: theme.semanticColors.background.muted,
+                  color: theme.semanticColors.text.muted,
+                  borderRadius: theme.borderRadius.container.small,
+                  paddingLeft: theme.spacing.s1,
+                  paddingRight: theme.spacing.s1,
+                  paddingTop: theme.spacing.xs,
+                  paddingBottom: theme.spacing.xs,
+                }}
               >
                 {tag}
               </Typography>
@@ -234,13 +510,8 @@ export function PodcastCard({
           onKeyDown={handleKeyDown}
           role='button'
           tabIndex={0}
-          className='group block cursor-pointer'
-          onPointerEnter={(e: React.PointerEvent) => {
-            if (e.pointerType === 'mouse') setIsHovered(true);
-          }}
-          onPointerLeave={(e: React.PointerEvent) => {
-            if (e.pointerType === 'mouse') setIsHovered(false);
-          }}
+          style={{ cursor: 'pointer' }}
+          {...getHoverProps(episode.slug)}
         >
           {gridArticleContent}
         </div>
@@ -250,13 +521,8 @@ export function PodcastCard({
     return (
       <Link
         href={`/podcasts/${episode.slug}`}
-        className='group block'
-        onPointerEnter={(e: React.PointerEvent) => {
-          if (e.pointerType === 'mouse') setIsHovered(true);
-        }}
-        onPointerLeave={(e: React.PointerEvent) => {
-          if (e.pointerType === 'mouse') setIsHovered(false);
-        }}
+        style={{ display: 'block' }}
+        {...getHoverProps(episode.slug)}
       >
         {gridArticleContent}
       </Link>
@@ -272,12 +538,7 @@ export function PodcastCard({
           role='button'
           tabIndex={0}
           className='group block cursor-pointer'
-          onPointerEnter={(e: React.PointerEvent) => {
-            if (e.pointerType === 'mouse') setIsHovered(true);
-          }}
-          onPointerLeave={(e: React.PointerEvent) => {
-            if (e.pointerType === 'mouse') setIsHovered(false);
-          }}
+          {...getHoverProps(episode.slug)}
         >
           {smallArticleContent}
         </div>
@@ -288,12 +549,7 @@ export function PodcastCard({
       <Link
         href={`/podcasts/${episode.slug}`}
         className='group block'
-        onPointerEnter={(e: React.PointerEvent) => {
-          if (e.pointerType === 'mouse') setIsHovered(true);
-        }}
-        onPointerLeave={(e: React.PointerEvent) => {
-          if (e.pointerType === 'mouse') setIsHovered(false);
-        }}
+        {...getHoverProps(episode.slug)}
       >
         {smallArticleContent}
       </Link>
@@ -309,12 +565,7 @@ export function PodcastCard({
         role='button'
         tabIndex={0}
         className='group block cursor-pointer'
-        onPointerEnter={(e: React.PointerEvent) => {
-          if (e.pointerType === 'mouse') setIsHovered(true);
-        }}
-        onPointerLeave={(e: React.PointerEvent) => {
-          if (e.pointerType === 'mouse') setIsHovered(false);
-        }}
+        {...getHoverProps(episode.slug)}
       >
         {largeArticleContent}
       </div>
@@ -325,12 +576,7 @@ export function PodcastCard({
     <Link
       href={`/podcasts/${episode.slug}`}
       className='group block'
-      onPointerEnter={(e: React.PointerEvent) => {
-        if (e.pointerType === 'mouse') setIsHovered(true);
-      }}
-      onPointerLeave={(e: React.PointerEvent) => {
-        if (e.pointerType === 'mouse') setIsHovered(false);
-      }}
+      {...getHoverProps(episode.slug)}
     >
       {largeArticleContent}
     </Link>
