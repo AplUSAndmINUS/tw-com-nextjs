@@ -232,3 +232,9 @@ a.footer-link {
     text-decoration: none !important;
   }
 }
+
+/* Unordered lists adding the font */
+ul.ml-6.mt-2.space-y-1 {
+  font-family: 'merriweather', Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+}
