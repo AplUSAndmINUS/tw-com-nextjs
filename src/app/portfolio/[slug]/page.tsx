@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import { PortfolioLayout } from '@/layouts/PortfolioLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -74,7 +75,7 @@ export default async function PortfolioEntryPage({ params }: Props) {
       <Script
         id={`portfolio-schema-${slug}`}
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(portfolioSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(portfolioSchema) }}
       />
       {entry.generatedWithAI && (
         <GeneratedWithAiBadge

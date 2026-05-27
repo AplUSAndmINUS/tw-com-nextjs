@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import { ArticleLayout } from '@/layouts/ArticleLayout';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -92,17 +93,17 @@ export default async function BlogPostPage({ params }: Props) {
       <Script
         id={`blog-author-schema-${slug}`}
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(authorSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(authorSchema) }}
       />
       <Script
         id={`blog-posting-schema-${slug}`}
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(blogPostingSchema) }}
       />
       <Script
         id={`blog-faq-schema-${slug}`}
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
       />
       {/* Gallery removed - feature image now opens in modal via ArticleLayout */}
       {post.generatedWithAI && (

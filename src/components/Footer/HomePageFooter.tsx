@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FooterContent } from './FooterContent';
 import { getPersonSchema } from '@/utils/structuredData';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 
 /**
  * HomePageFooter — Footer with glassmorphism styling, always visible inline on all breakpoints.
@@ -60,7 +61,7 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
     >
       <script
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
       />
       <FooterContent isCompact={isCompact} />
     </footer>

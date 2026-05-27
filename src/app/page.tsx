@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { getPersonSchema } from '@/utils/structuredData';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import HomePageClient from './HomePageClient';
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function HomePage() {
       <Script
         id='homepage-person-schema'
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
       />
       <HomePageClient />
     </>

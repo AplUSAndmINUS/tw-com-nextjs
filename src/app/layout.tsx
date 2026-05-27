@@ -6,6 +6,7 @@ import {
   getOrganizationSchema,
   getWebSiteSchema,
 } from '@/utils/structuredData';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 
 import './globals.css';
 import { Providers } from './providers';
@@ -81,19 +82,19 @@ export default function RootLayout({
         <Script
           id='schema-person'
           type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
         />
         <Script
           id='schema-organization'
           type='application/ld+json'
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
+            __html: safeJsonLd(organizationSchema),
           }}
         />
         <Script
           id='schema-website'
           type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }}
         />
 
         {/* Google AdSense */}

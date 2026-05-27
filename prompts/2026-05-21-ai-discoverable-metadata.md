@@ -84,9 +84,13 @@ Implemented comprehensive AI-discoverability infrastructure for TerenceWaters.co
 
 - Used Next.js `<Script>` component instead of raw `<script>` tags
 - Added unique `id` attributes to all JSON-LD scripts (e.g., `id='homepage-person-schema'`)
-- Consistent use of `dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}`
+- Use `safeJsonLd()` utility instead of raw `JSON.stringify()` to prevent XSS vulnerabilities
 
-**Note:** Following Fluxline PR review feedback, we should consider escaping `<` characters in JSON-LD to prevent XSS if content contains `</script>` sequences. This can be added as a follow-up enhancement.
+**Security Implementation:**
+
+Created `src/utils/safeJsonLd.ts` which escapes dangerous characters (`<`, `>`, `&`) that could break out of script tags. This prevents XSS attacks from user-generated content (frontmatter, blog posts, FAQ answers) that might contain `</script>` sequences.
+
+All schema injections now use: `dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}`
 
 ---
 

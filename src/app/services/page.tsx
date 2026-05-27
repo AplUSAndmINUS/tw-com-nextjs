@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { getServicesItemListSchema } from '@/utils/structuredData';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import { PageLayout } from '@/layouts/PageLayout';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
@@ -39,7 +40,7 @@ export default function ServicesPage() {
       <Script
         id='services-itemlist-schema'
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(servicesSchema) }}
       />
       <div className='pt-0 pb-8 md:py-8'>
         <Hero

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { PercentageBullet } from '@/components/PercentageBullet';
@@ -80,12 +81,12 @@ export default function AboutPage() {
       <Script
         id='about-person-schema'
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
       />
       <Script
         id='about-aboutpage-schema'
         type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
       />
       <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}

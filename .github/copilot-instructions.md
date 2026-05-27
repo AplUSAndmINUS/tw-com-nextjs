@@ -379,7 +379,69 @@ This rule exists because removing these safeguards has previously caused hydrati
 
 ---
 
-## 8. Performance & Accessibility
+## 8. Structured Data & JSON-LD Security
+
+### 8.1 — JSON-LD Schema Usage
+
+TW.com uses structured data (JSON-LD) for SEO and AI discoverability. Schema functions are centralized in `src/utils/structuredData.ts`.
+
+**Available schemas:**
+
+- `getPersonSchema()` — Person entity with stable `@id`
+- `getOrganizationSchema()` — Fluxline Resonance Group
+- `getWebSiteSchema()` — TW.com site identity
+- `getAboutPageSchema()` — About page metadata
+- `getBlogPostingSchema()` — Blog posts with author, dates, keywords
+- `getFaqSchema()` — FAQ structured data for blog posts
+- `getCaseStudySchema()` — Case study articles
+- `getPortfolioSchema()` — Portfolio creative works
+- `getServicesItemListSchema()` — Services listing
+
+### 8.2 — Safe JSON-LD Injection
+
+**Always use `safeJsonLd()` utility instead of raw `JSON.stringify()`**
+
+The `safeJsonLd()` function in `src/utils/safeJsonLd.ts` prevents XSS vulnerabilities by escaping characters that could break out of script tags:
+
+- `<` becomes `\u003c` (prevents `</script>` tag injection)
+- `>` becomes `\u003e` (prevents `<script>` injection)
+- `&` becomes `\u0026` (prevents HTML entity issues)
+
+**Required pattern:**
+
+```tsx
+import Script from 'next/script';
+import { safeJsonLd } from '@/utils/safeJsonLd';
+import { getPersonSchema } from '@/utils/structuredData';
+
+const personSchema = getPersonSchema('https://terencewaters.com/about');
+
+<Script
+  id='person-schema'
+  type='application/ld+json'
+  dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
+/>;
+```
+
+**Copilot rules:**
+
+- **Never** use raw `JSON.stringify()` with `dangerouslySetInnerHTML` for JSON-LD
+- **Always** use `safeJsonLd()` for all schema injections
+- This is critical because user-generated content (frontmatter, blog posts, FAQ answers) might contain `</script>` sequences
+
+### 8.3 — Schema Entity Cross-Linking
+
+All schemas use stable `@id` properties for entity resolution:
+
+- Person: `https://terencewaters.com/#person`
+- Organization: `https://fluxline.pro/#organization`
+- WebSite: `https://terencewaters.com/#website`
+
+This ensures proper cross-referencing across all pages (e.g., `Organization.founder` references the same Person entity).
+
+---
+
+## 9. Performance & Accessibility
 
 Copilot must:
 
@@ -396,7 +458,7 @@ Copilot must:
 
 ---
 
-## 9. Code Quality
+## 10. Code Quality
 
 Copilot should:
 
@@ -406,7 +468,7 @@ Copilot should:
 - Use descriptive variable names
 - Write self-documenting code
 
-## 10. Package Management
+## 11. Package Management
 
 Copilot should:
 
@@ -418,7 +480,7 @@ Copilot should:
 
 ---
 
-## 11. When Copilot Should Ask for Clarification
+## 12. When Copilot Should Ask for Clarification
 
 Copilot should ask when:
 
@@ -428,7 +490,7 @@ Copilot should ask when:
 
 ---
 
-## 12. When Copilot Should Proceed Without Asking
+## 13. When Copilot Should Proceed Without Asking
 
 Copilot should proceed when:
 
@@ -438,7 +500,7 @@ Copilot should proceed when:
 
 ---
 
-## 13. Example Prompts for TW.com
+## 14. Example Prompts for TW.com
 
 **Add a new blog post type**
 
@@ -454,7 +516,7 @@ Copilot should proceed when:
 
 ---
 
-## 14. Azure Architecture
+## 15. Azure Architecture
 
 - Azure Static Web App fully runs in Azure
 - `output: 'export'` in `next.config.ts` for static export
@@ -464,7 +526,7 @@ Copilot should proceed when:
 
 ---
 
-## 15. Newsletter Subscribe / Unsubscribe
+## 16. Newsletter Subscribe / Unsubscribe
 
 The newsletter system connects front-end forms to a SharePoint Online list via Microsoft Graph API Azure Functions.
 
@@ -527,7 +589,7 @@ The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (d
 
 ---
 
-## 16. Token-Based Access Control (DEV / TEST)
+## 17. Token-Based Access Control (DEV / TEST)
 
 DEV and TEST deployments are protected by a token gate.
 PROD is publicly accessible.
@@ -561,7 +623,7 @@ PROD is publicly accessible.
 
 ---
 
-## 17. Prompt Logging
+## 18. Prompt Logging
 
 All AI-assisted development prompts should be logged in the `/prompts` folder for visibility. This project is primarily AI-driven with @Aplusandminus directing architecture and front-end build.
 
@@ -569,6 +631,6 @@ Create a new file per session or feature: `prompts/YYYY-MM-DD-topic.md`
 
 ---
 
-## 18. Final Rule
+## 19. Final Rule
 
 Copilot should prioritize clarity, consistency, and the authorial voice of TW.com.
