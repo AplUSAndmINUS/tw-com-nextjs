@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import { PercentageBullet } from '@/components/PercentageBullet';
@@ -14,6 +16,11 @@ import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
 import { AboutFluxlineLink } from './AboutFluxlineLink';
 import { AboutFeaturedProjects } from './AboutFeaturedProjects';
+import {
+  AI_BIOGRAPHY,
+  getPersonSchema,
+  getAboutPageSchema,
+} from '@/utils/structuredData';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -66,8 +73,21 @@ const CERTIFICATIONS = [
 ];
 
 export default function AboutPage() {
+  const personSchema = getPersonSchema('https://terencewaters.com/about');
+  const aboutPageSchema = getAboutPageSchema();
+
   return (
     <AboutPageClient>
+      <Script
+        id='about-person-schema'
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
+      />
+      <Script
+        id='about-aboutpage-schema'
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
+      />
       <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
@@ -78,8 +98,10 @@ export default function AboutPage() {
           <AboutHeroCTAs />
         </Hero>
 
-        {/* ── Professional Summary ─────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
+        {/****************  This is all going to be redone completely in another user story ****************/}
+
+        {/* ── Professional Summary commenting out for now when it's being rewritten and will be reused -TW ─────────────────────────────────────────── */}
+        {/* <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
           <SectionHeading>Professional Summary</SectionHeading>
           <Typography
             className={'text-gray-700 dark:text-gray-300'}
@@ -108,6 +130,56 @@ export default function AboutPage() {
             build not just solutions — but philosophies, brands, and living
             identities that evolve with them.
           </Typography>
+        </AboutSectionWrapper> */}
+
+        <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
+          <section
+            aria-labelledby='ai-optimized-biography'
+            className='space-y-4'
+          >
+            <SectionHeading id='ai-optimized-biography'>
+              Hey! Who's this guy?!
+            </SectionHeading>
+            <div
+              role='group'
+              aria-labelledby='ai-bio-long-summary'
+              className='space-y-4'
+            >
+              <Typography
+                variant='h4'
+                id='ai-bio-long-summary'
+                style={{ marginBottom: '0' }}
+              >
+                The Summary
+              </Typography>
+              <Typography
+                variant='label'
+                className='text-gray-700 dark:text-gray-300'
+                style={{ fontSize: '1rem', marginTop: '1rem' }}
+              >
+                (An AI-Optimized Biography, because well, it's kinda awesome!)
+              </Typography>
+              <Typography variant='body' style={{ marginTop: '1rem' }}>
+                {AI_BIOGRAPHY.longSummary}
+              </Typography>
+            </div>
+            <div
+              role='group'
+              aria-labelledby='ai-bio-expertise'
+              className='space-y-4'
+            >
+              <Typography variant='h4' id='ai-bio-expertise'>
+                Core Expertise
+              </Typography>
+              <ul className='list-disc pl-5 space-y-2'>
+                {AI_BIOGRAPHY.expertise.map((item) => (
+                  <li key={item}>
+                    <Typography variant='body'>{item}</Typography>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}

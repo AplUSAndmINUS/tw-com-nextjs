@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { ContentItem, GalleryItem, ContentType } from '@/content/types';
+import { ContentItem, FAQItem, GalleryItem, ContentType } from '@/content/types';
 
 const CONTENT_DIR = path.join(process.cwd(), 'public');
 
@@ -67,6 +67,51 @@ function validateStringArray(data: unknown): string[] {
     .map((item) => String(item));
 }
 
+/**
+ * Validates and returns a properly typed array of FAQ items.
+ * @param data - Raw data that should be an array of FAQ objects
+ * @returns Validated FAQ array or undefined
+ */
+function validateFaqItems(data: unknown): FAQItem[] | undefined {
+  if (!Array.isArray(data)) {
+    return undefined;
+  }
+
+  const validatedItems: FAQItem[] = [];
+
+  for (const item of data) {
+    if (typeof item !== 'object' || item === null) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Invalid faq item: expected object');
+      }
+      continue;
+    }
+
+    const obj = item as Record<string, unknown>;
+    if (typeof obj.question !== 'string' || typeof obj.answer !== 'string') {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          'Invalid faq item: expected string "question" and "answer" fields'
+        );
+      }
+      continue;
+    }
+
+    const question = obj.question.trim();
+    const answer = obj.answer.trim();
+    if (!question || !answer) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Invalid faq item: question/answer cannot be empty');
+      }
+      continue;
+    }
+
+    validatedItems.push({ question, answer });
+  }
+
+  return validatedItems.length > 0 ? validatedItems : undefined;
+}
+
 /** Map raw frontmatter data to a strongly-typed ContentItem. */
 function mapFrontmatter(
   slug: string,
@@ -104,6 +149,9 @@ function mapFrontmatter(
     seoTitle: (data.seoTitle as string) ?? undefined,
     seoDescription: (data.seoDescription as string) ?? undefined,
     seoKeywords: validateStringArray(data.seoKeywords),
+    structuredSummary: (data.structuredSummary as string) ?? undefined,
+    keyInsights: validateStringArray(data.keyInsights),
+    faq: validateFaqItems(data.faq),
   };
 }
 

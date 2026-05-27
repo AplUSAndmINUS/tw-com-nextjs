@@ -4,6 +4,11 @@ export interface GalleryItem {
   caption?: string;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 export interface ContentItem {
   slug: string;
   title: string;
@@ -29,6 +34,10 @@ export interface ContentItem {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string[];
+  // AI-friendly structured content
+  structuredSummary?: string;
+  keyInsights?: string[];
+  faq?: FAQItem[];
 }
 
 export interface VideoItem {

@@ -1,8 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Script from 'next/script';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FooterContent } from './FooterContent';
+import { getPersonSchema } from '@/utils/structuredData';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 
 /**
  * HomePageFooter — Footer with glassmorphism styling, always visible inline on all breakpoints.
@@ -15,6 +18,7 @@ import { FooterContent } from './FooterContent';
 export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
   const { theme, themeMode, reducedTransparency } = useAppTheme();
   const [isMounted, setIsMounted] = useState(false);
+  const personSchema = getPersonSchema('https://terencewaters.com/#footer');
 
   useEffect(() => {
     setIsMounted(true);
@@ -56,6 +60,11 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
         transition: 'opacity 0.2s ease-in',
       }}
     >
+      <Script
+        id='footer-person-schema'
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
+      />
       <FooterContent isCompact={isCompact} />
     </footer>
   );

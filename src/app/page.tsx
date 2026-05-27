@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
+import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
+import { getPersonSchema } from '@/utils/structuredData';
+import { safeJsonLd } from '@/utils/safeJsonLd';
 import HomePageClient from './HomePageClient';
 
 export const metadata: Metadata = {
@@ -19,5 +22,16 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HomePageClient />;
+  const personSchema = getPersonSchema('https://terencewaters.com');
+
+  return (
+    <>
+      <Script
+        id='homepage-person-schema'
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
+      />
+      <HomePageClient />
+    </>
+  );
 }
