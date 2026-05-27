@@ -37,6 +37,7 @@ export function getPersonSchema(mainEntityOfPage: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': `${SITE_URL}/#person`,
     name: PERSON_NAME,
     url: SITE_URL,
     mainEntityOfPage,
@@ -47,6 +48,7 @@ export function getPersonSchema(mainEntityOfPage: string) {
     sameAs: PERSON_SAME_AS,
     worksFor: {
       '@type': 'Organization',
+      '@id': 'https://fluxline.pro/#organization',
       name: 'Fluxline Resonance Group',
       url: 'https://fluxline.pro',
     },
@@ -99,6 +101,7 @@ export function getAuthorSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': `${SITE_URL}/#person`,
     name: PERSON_NAME,
     url: SITE_URL,
     jobTitle: PERSON_ROLES,
@@ -106,6 +109,7 @@ export function getAuthorSchema() {
     sameAs: PERSON_SAME_AS,
     worksFor: {
       '@type': 'Organization',
+      '@id': 'https://fluxline.pro/#organization',
       name: 'Fluxline Resonance Group',
       url: 'https://fluxline.pro',
     },
