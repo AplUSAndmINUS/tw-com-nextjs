@@ -15,6 +15,16 @@ const contentCategories: {
   disabled: boolean;
 }[] = [
   {
+    title: 'Podcasts',
+    description:
+      'Audio conversations with creators, technologists, and thinkers.',
+    icon: 'MicRegular',
+    href: '/podcasts',
+    cta: 'Listen Now',
+    featured: true,
+    disabled: false,
+  },
+  {
     title: 'Blog',
     description:
       'Long-form articles on technology, creativity, and the human experience.',
@@ -29,16 +39,6 @@ const contentCategories: {
     icon: 'DesignIdeasFilled',
     href: '/portfolio',
     cta: 'View Work',
-    disabled: false,
-  },
-  {
-    title: 'Podcasts',
-    description:
-      'Audio conversations with creators, technologists, and thinkers.',
-    icon: 'MicRegular',
-    href: '/podcasts',
-    cta: 'Listen Now',
-    featured: true,
     disabled: false,
   },
   {

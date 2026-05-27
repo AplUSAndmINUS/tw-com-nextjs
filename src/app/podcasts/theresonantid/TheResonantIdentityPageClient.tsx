@@ -21,6 +21,8 @@ import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
 import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS } from './constants';
+import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
+import { WindowNew24Regular } from '@fluentui/react-icons';
 
 interface TheResonantIdentityPageProps {
   episodes: PodcastEpisode[];
@@ -311,7 +313,13 @@ export function TheResonantIdentityPageClient({
             }}
           >
             About The Resonant Identity
-            <span className='ml-2'>→</span>
+            <FluentIcon
+              color={theme.semanticColors.link.default}
+              iconName={WindowNew24Regular}
+              style={{
+                marginLeft: theme.spacing.s1,
+              }}
+            />
           </ThemedLink>
         </div>
 
