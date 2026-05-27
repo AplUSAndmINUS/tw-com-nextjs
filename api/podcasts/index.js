@@ -9,7 +9,7 @@
  * No environment variables required — the Spreaker RSS feed is public.
  *
  * Query params:
- *   (none currently — returns all episodes from the show RSS feed)
+ *   (none currently — returns up to the 15 most recent episodes from the show RSS feed)
  *
  * Deploy to Azure Static Web Apps alongside the Next.js static export.
  * The function will be accessible at /api/podcasts.
@@ -18,7 +18,9 @@
 const https = require('https');
 
 const SPREAKER_SHOW_ID = '6933506';
-const SPREAKER_RSS_URL = `https://www.spreaker.com/show/${SPREAKER_SHOW_ID}/episodes/feed`;
+const MAX_EPISODES = 15;
+// Ask upstream for MAX_EPISODES, then enforce the same cap locally for safety.
+const SPREAKER_RSS_URL = `https://www.spreaker.com/show/${SPREAKER_SHOW_ID}/episodes/feed?limit=${MAX_EPISODES}`;
 const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/the-resonant-identity--${SPREAKER_SHOW_ID}`;
 
 // Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
@@ -233,19 +235,31 @@ module.exports = async function (context, req) {
       const ep = parseRssItem(match[1]);
       if (ep) episodes.push(ep);
     }
+    const sortedEpisodes = episodes
+      .map((episode) => ({
+        episode,
+        sortTime: episode.publishedDate
+          ? Date.parse(episode.publishedDate) || 0
+          : 0,
+      }))
+      .sort((a, b) => b.sortTime - a.sortTime)
+      .map((item) => item.episode);
+    const limitedEpisodes = sortedEpisodes.slice(0, MAX_EPISODES);
 
-    context.log(`Fetched ${episodes.length} episodes from Spreaker RSS`);
+    context.log(
+      `Fetched ${episodes.length} episodes from Spreaker RSS (${limitedEpisodes.length} returned)`
+    );
 
     return {
       status: 200,
       headers: corsHeaders,
       body: JSON.stringify({
-        episodes,
+        episodes: limitedEpisodes,
         showTitle,
         showDescription,
         showImageUrl,
         showUrl: SPREAKER_SHOW_URL,
-        available: episodes.length > 0,
+        available: limitedEpisodes.length > 0,
       }),
     };
   } catch (error) {

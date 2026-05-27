@@ -271,7 +271,7 @@ export default function HomePageClient() {
               className={`flex ${isMobileLandscape ? 'gap-2' : 'gap-4'} flex-wrap ${isMobile ? 'justify-center' : 'justify-start'}`}
             >
               <ThemedLink
-                href='/blog'
+                href='/about'
                 className={`rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${
                   isMobileLandscape
                     ? 'px-3 py-1.5'
@@ -285,7 +285,7 @@ export default function HomePageClient() {
                   boxShadow: theme.shadows.button,
                 }}
               >
-                Read My Blog
+                Who am I?
               </ThemedLink>
               <ThemedLink
                 href='/portfolio'
