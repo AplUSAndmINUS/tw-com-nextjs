@@ -22,7 +22,7 @@ import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS } from './constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import { WindowNew24Regular } from '@fluentui/react-icons';
+import { ArrowRight24Regular, WindowNew24Regular } from '@fluentui/react-icons';
 
 interface TheResonantIdentityPageProps {
   episodes: PodcastEpisode[];
@@ -224,7 +224,7 @@ export function TheResonantIdentityPageClient({
             {/* Most Recent Episode CTA */}
             {mostRecentEpisode && (
               <div
-                className='rounded-lg border p-6'
+                className='relative flex-column rounded-lg border p-6'
                 style={{
                   borderColor: theme.palette.themePrimary,
                   backgroundColor: theme.semanticColors.background.elevated,
@@ -235,15 +235,27 @@ export function TheResonantIdentityPageClient({
                   className='text-lg font-semibold mb-2'
                   style={{ color: theme.semanticColors.text.primary }}
                 >
-                  Listen to Most Recent Episode
+                  Listen to the Most Recent Episode
                 </Typography>
                 <Typography
                   variant='body'
-                  className='mb-3'
                   style={{ color: theme.semanticColors.text.muted }}
                 >
                   {mostRecentEpisode.title}
                 </Typography>
+                <Typography
+                  variant='label'
+                  className='mb-3'
+                  style={{
+                    color: theme.semanticColors.text.muted,
+                    position: 'absolute',
+                    top: '1.5rem',
+                    right: '1.5rem',
+                  }}
+                >
+                  {mostRecentEpisode.publishedDate}
+                </Typography>
+                <br />
                 <button
                   type='button'
                   onClick={() => handleEpisodeClick(mostRecentEpisode)}
@@ -269,7 +281,11 @@ export function TheResonantIdentityPageClient({
                   style={playNowButtonStyles}
                 >
                   Play Now
-                  <span className='ml-2'>→</span>
+                  <FluentIcon
+                    color={playNowBaseTextColor}
+                    iconName={ArrowRight24Regular}
+                    style={{ marginLeft: '0.5rem' }}
+                  />
                 </button>
               </div>
             )}
