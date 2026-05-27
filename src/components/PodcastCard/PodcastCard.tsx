@@ -23,8 +23,7 @@ export function PodcastCard({
 }: PodcastCardProps) {
   const { theme } = useAppTheme();
   const { isHovered, getHoverProps } = useMouseMultiHoverState();
-  const isMobileHook = useIsMobile();
-  const isMobile = isMobileHook ? true : false;
+  const isMobile = useIsMobile();
 
   const handleClick = () => {
     if (onClick) {
@@ -58,12 +57,6 @@ export function PodcastCard({
 
   // Image dimensions for grid view
   const gridImageHeight = '200px';
-
-  // Handle image load (can be extended for orientation detection if needed)
-  const handleImageLoad =
-    (id: string) => (event: React.SyntheticEvent<HTMLImageElement>) => {
-      // Image loaded successfully
-    };
 
   // Shared article content for grid view
   const gridArticleContent = (
@@ -104,7 +97,6 @@ export function PodcastCard({
             fill
             sizes='(max-width: 768px) 100vw, 33vw'
             style={{ objectFit: 'cover' }}
-            onLoad={handleImageLoad(episode.slug)}
           />
         </div>
       )}
@@ -220,7 +212,7 @@ export function PodcastCard({
     <article
       style={{
         display: 'flex',
-        alignItems: 'start',
+        alignItems: 'flex-start',
         gap: theme.spacing.m,
         backgroundColor: isHovered(episode.slug)
           ? cardHoverSurfaceColor
