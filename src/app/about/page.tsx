@@ -13,6 +13,8 @@ import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
 import { AboutFeaturedProjects } from './AboutFeaturedProjects';
+import { AboutParagraph } from './AboutParagraph';
+import { AboutBulletList } from './AboutBulletList';
 import { getPersonSchema, getAboutPageSchema } from '@/utils/structuredData';
 
 export const metadata: Metadata = {
@@ -40,12 +42,12 @@ const EDUCATION = [
   {
     credential: 'MBA – IT Management',
     school: 'Western Governors University',
-    year: '2019',
+    year: '2017-2019',
   },
   {
     credential: 'B.S. – Web Design & Development',
     school: 'Independence University',
-    year: '2017',
+    year: '2014-2017',
   },
   {
     credential: 'Certificate – Web Programming',
@@ -84,7 +86,7 @@ export default function AboutPage() {
       <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
-          title="Hi! I'm Terence :)"
+          title='About Me'
           iconName='Person24Regular'
           description='Come on in and stay awhile; I have some stories to share.'
         >
@@ -94,80 +96,41 @@ export default function AboutPage() {
 
         {/* ── Opening Statement ────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='accent' className='mt-10 space-y-6 p-6'>
-          <SectionHeading isAccent>Hey...Who's this guy?!</SectionHeading>
-          <Typography
-            variant='body'
-            style={{ lineHeight: 1.75, fontSize: '1.125rem' }}
-          >
+          <SectionHeading isAccent>Hi! I'm Terence :)</SectionHeading>
+          <AboutParagraph>
             I help people and organizations rebuild the parts of themselves they
             thought were permanent.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1.125rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             I’m a systems architect by training, a designer by instinct, and a
-            coach by necessity — because most people don’t need more
+            coach by necessity <br />— because most people don’t need more
             information. <br /> We need <strong>clarity</strong>,{' '}
             <strong>structure</strong>, and a way back to ourselves.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1.125rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             For the past 15+ years, I’ve worked across IT architecture,
             full‑stack development, brand identity, curriculum design, and
             personal transformation — translating complexity into clarity for
             individuals, founders, and mission‑driven teams.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1.125rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             If you're here, you're probably in a season of becoming.
-          </Typography>
-          <Typography
-            variant='blockquote'
-            style={{
-              lineHeight: 1.75,
-              fontWeight: 600,
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph variant='blockquote' style={{ fontSize: '1.25rem' }}>
             <em>You're in the right place.</em>
-          </Typography>
+          </AboutParagraph>
         </AboutSectionWrapper>
 
         {/* ── What I Believe ───────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='subtle' className='mt-10 space-y-4 p-6'>
           <SectionHeading>What I Believe</SectionHeading>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          <AboutParagraph>
             Identity isn't a mask you wear —{' '}
             <em>
               <strong>it's a frequency you return to.</strong>
             </em>
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             Real transformation isn’t about forcing yourself into a new shape.
             <br />
             <br />
@@ -175,76 +138,41 @@ export default function AboutPage() {
             It’s structural. <br />
             It’s the slow, intentional re-alignment of the internal systems that
             shape how you think, create, and move through the world.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             Whether I’m building a platform, designing a brand, or coaching
             someone through a transition, my work is always about the same
             thing:
-          </Typography>
-          <Typography
-            variant='blockquote'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1.125rem',
-              fontWeight: 600,
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph variant='blockquote' style={{ fontSize: '1.25rem' }}>
             Helping people return to their resonance.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             Not the version of themselves they were taught to be.{' '}
             <em>
               <strong>The version they actually are.</strong>
             </em>
-          </Typography>
+          </AboutParagraph>
         </AboutSectionWrapper>
 
         {/* ── What I Do ────────────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
           <SectionHeading>What I Do</SectionHeading>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          <AboutParagraph>
             I build systems — technical, personal, and organizational — that
             help people operate with more clarity, coherence, and confidence.
-          </Typography>
+          </AboutParagraph>
 
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-              marginTop: '1.5rem',
-            }}
-          >
+          <AboutParagraph className='mt-6'>
             Everything I build is designed to be:
-          </Typography>
-          <ul
-            className='ml-6 mt-2 space-y-1'
-            style={{ lineHeight: 1.75 }}
-          >
+          </AboutParagraph>
+          <AboutBulletList>
             <li>✨ Human-centered</li>
             <li>✨ Emotionally intelligent</li>
             <li>✨ Technically sound</li>
             <li>✨ Scalable</li>
             <li>✨ Deeply resonant</li>
-          </ul>
+          </AboutBulletList>
 
           <div className='space-y-4 mt-6'>
             <div>
@@ -255,17 +183,11 @@ export default function AboutPage() {
                 For individuals:
               </Typography>
 
-              <Typography
-                variant='body'
-                style={{
-                  lineHeight: 1.75,
-                  fontSize: '1rem',
-                }}
-              >
+              <AboutParagraph>
                 I help you understand your identity architecture, dissolve the
                 noise, and rebuild your internal systems so you can move through
                 life with more alignment and less friction.
-              </Typography>
+              </AboutParagraph>
             </div>
 
             <div>
@@ -275,16 +197,10 @@ export default function AboutPage() {
               >
                 For founders & creators:
               </Typography>
-              <Typography
-                variant='body'
-                style={{
-                  lineHeight: 1.75,
-                  fontSize: '1rem',
-                }}
-              >
+              <AboutParagraph>
                 I design brands, platforms, and workflows that feel like you —
                 not the version of you the internet told you to be.
-              </Typography>
+              </AboutParagraph>
             </div>
 
             <div>
@@ -294,17 +210,11 @@ export default function AboutPage() {
               >
                 For teams & organizations:
               </Typography>
-              <Typography
-                variant='body'
-                style={{
-                  lineHeight: 1.75,
-                  fontSize: '1rem',
-                }}
-              >
+              <AboutParagraph>
                 I architect modular systems, digital experiences, and strategic
                 frameworks that make complexity feel navigable and growth feel
                 possible.
-              </Typography>
+              </AboutParagraph>
             </div>
           </div>
         </AboutSectionWrapper>
@@ -312,128 +222,62 @@ export default function AboutPage() {
         {/* ── How I Work ───────────────────────────────────────────────────── */}
         <AboutSectionWrapper variant='subtle' className='mt-10 space-y-4 p-6'>
           <SectionHeading>How I Work</SectionHeading>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
-            I'm a strange mix of:
-          </Typography>
-          <ul
-            className='ml-6 mt-2 space-y-1'
-            style={{ lineHeight: 1.75 }}
-          >
+          <AboutParagraph>I'm a strange mix of:</AboutParagraph>
+          <AboutBulletList>
             <li>✨ Technologist</li>
             <li>✨ Designer</li>
             <li>✨ Strategist</li>
             <li>✨ Educator</li>
             <li>✨ Coach</li>
             <li>✨ Quiet observer of human behavior</li>
-          </ul>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutBulletList>
+          <AboutParagraph>
             I see patterns quickly. <br />I translate complexity into clarity.{' '}
             <br />
             And I build systems that help people feel more like themselves —
             whether that's through a website, a workflow, a curriculum, or a
             conversation.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
-            My approach is:
-          </Typography>
-          <ul
-            className='ml-6 mt-2 space-y-1'
-            style={{ lineHeight: 1.75 }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>My approach is:</AboutParagraph>
+          <AboutBulletList>
             <li>✨ Warm</li>
             <li>✨ Structured</li>
             <li>✨ Curious</li>
             <li>✨ Iterative</li>
             <li>✨ Grounded in real human experience</li>
-          </ul>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-              fontWeight: 600,
-            }}
-          >
+          </AboutBulletList>
+          <AboutParagraph weight='semibold'>
             I don't force people into frameworks. <br />
             <em>
               <strong>I design frameworks around people.</strong>
             </em>
-          </Typography>
+          </AboutParagraph>
         </AboutSectionWrapper>
 
         {/* ── Why This Work Matters ────────────────────────────────────────── */}
         <AboutSectionWrapper variant='accent' className='mt-10 space-y-4 p-6'>
           <SectionHeading isAccent>Why This Work Matters to Me</SectionHeading>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          <AboutParagraph>
             Because I’ve rebuilt myself more than once — professionally,
             personally, creatively.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             Every time, the thing that saved me wasn’t motivation or hustle.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1.125rem',
-              fontWeight: 600,
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph weight='semibold' size='large'>
             It was architecture.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             Structure. <br />
             Clarity. <br />A way to understand who I was becoming and why.
-          </Typography>
-          <Typography
-            variant='body'
-            style={{
-              lineHeight: 1.75,
-              fontSize: '1rem',
-            }}
-          >
+          </AboutParagraph>
+          <AboutParagraph>
             <em>
               <strong>Now I help others do the same.</strong>
             </em>
             <br />
             Let me show you how I've done it!
-          </Typography>
+          </AboutParagraph>
         </AboutSectionWrapper>
 
         {/* ── Core Capabilities ────────────────────────────────────────────── */}
