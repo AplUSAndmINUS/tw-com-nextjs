@@ -14,7 +14,6 @@ import { AboutSkillsTable } from './AboutSkillsTable';
 import SectionHeading from './SectionHeading';
 import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { AboutHeroCTAs } from './AboutHeroCTAs';
-import { AboutFluxlineLink } from './AboutFluxlineLink';
 import { AboutFeaturedProjects } from './AboutFeaturedProjects';
 import {
   AI_BIOGRAPHY,
@@ -91,9 +90,9 @@ export default function AboutPage() {
       <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
-          title='About Me'
+          title='Hi — I'm Terence'
           iconName='Person24Regular'
-          description='Hi there! I am Terence Waters, a dynamic, multidisciplinary founder and senior technologist with 15+ years of experience spanning IT architecture, full-stack development, brand identity, curriculum design, and personal transformation coaching — adept at translating complexity into clarity.'
+          description='I help people and organizations rebuild the parts of themselves they thought were permanent. I'm a systems architect by training, a designer by instinct, and a coach by necessity — because the truth is, most of us don't need more information. We need clarity, structure, and a way back to ourselves.'
         >
           <AboutHeroCTAs />
         </Hero>

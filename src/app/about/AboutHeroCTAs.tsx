@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
+import { WindowNew24Regular } from '@fluentui/react-icons';
 
 /**
  * AboutHeroCTAs — Theme-aware CTA buttons for the About page Hero.
@@ -35,7 +37,7 @@ export function AboutHeroCTAs() {
             ? theme.colorNeutralBackground2Hover
             : 'transparent',
           color: theme.semanticColors.text.primary,
-          border: `1px solid ${theme.semanticColors.border.default}`,
+          border: `2px solid ${theme.semanticColors.border.emphasis}`,
           textDecoration: 'none',
           fontSize: '1.125rem',
           fontWeight: 'normal',
@@ -49,7 +51,7 @@ export function AboutHeroCTAs() {
           if (e.pointerType === 'mouse') setSecondaryHovered(false);
         }}
       >
-        Visit Fluxline.pro
+        Visit Fluxline.pro <FluentIcon iconName={WindowNew24Regular} />
       </Link>
     </div>
   ) : null;
