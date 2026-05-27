@@ -19,6 +19,7 @@ const https = require('https');
 
 const SPREAKER_SHOW_ID = '6933506';
 const MAX_EPISODES = 15;
+// Ask upstream for MAX_EPISODES, then enforce the same cap locally for safety.
 const SPREAKER_RSS_URL = `https://www.spreaker.com/show/${SPREAKER_SHOW_ID}/episodes/feed?limit=${MAX_EPISODES}`;
 const SPREAKER_SHOW_URL = `https://www.spreaker.com/podcast/the-resonant-identity--${SPREAKER_SHOW_ID}`;
 
@@ -234,12 +235,16 @@ module.exports = async function (context, req) {
       const ep = parseRssItem(match[1]);
       if (ep) episodes.push(ep);
     }
-    episodes.sort(
-      (a, b) =>
-        (b.publishedDate ? new Date(b.publishedDate).getTime() : 0) -
-        (a.publishedDate ? new Date(a.publishedDate).getTime() : 0)
-    );
-    const limitedEpisodes = episodes.slice(0, MAX_EPISODES);
+    const sortedEpisodes = episodes
+      .map((episode) => ({
+        episode,
+        sortTime: episode.publishedDate
+          ? Date.parse(episode.publishedDate) || 0
+          : 0,
+      }))
+      .sort((a, b) => b.sortTime - a.sortTime)
+      .map((item) => item.episode);
+    const limitedEpisodes = sortedEpisodes.slice(0, MAX_EPISODES);
 
     context.log(
       `Fetched ${episodes.length} episodes from Spreaker RSS (${limitedEpisodes.length} returned)`
