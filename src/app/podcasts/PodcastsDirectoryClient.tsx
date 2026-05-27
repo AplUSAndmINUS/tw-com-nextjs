@@ -9,6 +9,8 @@ import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
 import { Typography } from '@/components/Typography/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS } from './theresonantid/constants';
+import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
+import { ArrowRight24Regular, WindowNew24Regular } from '@fluentui/react-icons';
 
 /**
  * PodcastsDirectoryClient
@@ -98,8 +100,12 @@ export function PodcastsDirectoryClient() {
                     fontSize: '1rem',
                   }}
                 >
-                  <span className='mr-2'>▶</span>
                   View Episodes
+                  <FluentIcon
+                    color={theme.palette.white}
+                    iconName={ArrowRight24Regular}
+                    style={{ marginLeft: '0.5rem' }}
+                  />
                 </ThemedLink>
                 <ThemedLink
                   variant='bodySmall'
@@ -115,8 +121,12 @@ export function PodcastsDirectoryClient() {
                     fontSize: '1rem',
                   }}
                 >
-                  <span className='mr-2'>ⓘ</span>
                   About The Resonant Identity
+                  <FluentIcon
+                    color={theme.palette.neutralSecondary}
+                    iconName={WindowNew24Regular}
+                    style={{ marginLeft: '0.5rem' }}
+                  />
                 </ThemedLink>
               </div>
             </div>
