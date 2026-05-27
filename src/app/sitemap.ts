@@ -24,6 +24,18 @@ const SITE_URL = process.env.SITE_URL || 'https://terencewaters.com';
 const env = getEnvironment();
 const isProd = env === 'prod';
 
+/**
+ * Safely parse a date string, returning undefined if invalid or empty.
+ * This prevents Invalid Date entries in the sitemap.
+ */
+function safeParseDate(dateStr?: string): Date | undefined {
+  if (!dateStr || dateStr.trim() === '') {
+    return undefined;
+  }
+  const parsed = new Date(dateStr);
+  return isNaN(parsed.getTime()) ? undefined : parsed;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Non-production: Return minimal stub
   if (!isProd) {
@@ -130,9 +142,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
       url: `${SITE_URL}/blog/${post.slug}`,
-      lastModified: post.publishedDate
-        ? new Date(post.publishedDate)
-        : new Date(post.date),
+      lastModified:
+        safeParseDate(post.publishedDate) || safeParseDate(post.date),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     }));
@@ -140,9 +151,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const portfolioPages: MetadataRoute.Sitemap = portfolioItems.map(
       (item) => ({
         url: `${SITE_URL}/portfolio/${item.slug}`,
-        lastModified: item.publishedDate
-          ? new Date(item.publishedDate)
-          : new Date(item.date),
+        lastModified:
+          safeParseDate(item.publishedDate) || safeParseDate(item.date),
         changeFrequency: 'monthly' as const,
         priority: 0.8,
       })
@@ -150,9 +160,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const caseStudyPages: MetadataRoute.Sitemap = caseStudies.map((study) => ({
       url: `${SITE_URL}/case-studies/${study.slug}`,
-      lastModified: study.publishedDate
-        ? new Date(study.publishedDate)
-        : new Date(study.date),
+      lastModified:
+        safeParseDate(study.publishedDate) || safeParseDate(study.date),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     }));
