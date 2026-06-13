@@ -11,6 +11,14 @@ const {
   resetNewsletterRateLimitStore,
 } = require('./newsletterRateLimit');
 
+const EXTERNAL_ENV_KEYS = [
+  'ENTRAID_TENANT_ID',
+  'ENTRAID_SP_APP_REGISTRATION_CLIENT_ID',
+  'ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET',
+  'SHAREPOINT_SITE_ID',
+  'SHAREPOINT_LIST_ID',
+];
+
 function createLogger(warnings) {
   const logger = () => {};
   logger.warn = (message) => warnings.push(message);
@@ -36,6 +44,26 @@ test.beforeEach(() => {
   delete process.env.NEWSLETTER_RATE_LIMIT_WINDOW_MS;
   delete process.env.NEWSLETTER_RATE_LIMIT_MAX_REQUESTS;
 });
+
+async function withExternalEnvDisabled(callback) {
+  const originalEntries = EXTERNAL_ENV_KEYS.map((key) => [key, process.env[key]]);
+
+  for (const key of EXTERNAL_ENV_KEYS) {
+    delete process.env[key];
+  }
+
+  try {
+    return await callback();
+  } finally {
+    for (const [key, value] of originalEntries) {
+      if (value === undefined) {
+        delete process.env[key];
+      } else {
+        process.env[key] = value;
+      }
+    }
+  }
+}
 
 test('getClientIp prefers the first forwarded IP address', () => {
   assert.equal(
@@ -67,19 +95,21 @@ test('subscribe returns 429 and logs when the IP exceeds the limit', async () =>
   const context = { log: createLogger(warnings) };
   const req = createRequest('203.0.113.21');
 
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    await subscribe(context, req);
-  }
+  await withExternalEnvDisabled(async () => {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await subscribe(context, req);
+    }
 
-  const response = await subscribe(context, req);
-  const body = JSON.parse(response.body);
+    const response = await subscribe(context, req);
+    const body = JSON.parse(response.body);
 
-  assert.equal(response.status, 429);
-  assert.equal(body.error, 'Too Many Requests');
-  assert.equal(body.retryAfter, 3600);
-  assert.equal(response.headers['Retry-After'], '3600');
-  assert.match(warnings[0], /Newsletter subscribe rate limit exceeded/);
-  assert.match(warnings[0], /Violation #1/);
+    assert.equal(response.status, 429);
+    assert.equal(body.error, 'Too Many Requests');
+    assert.equal(body.retryAfter, 3600);
+    assert.equal(response.headers['Retry-After'], '3600');
+    assert.match(warnings[0], /Newsletter subscribe rate limit exceeded/);
+    assert.match(warnings[0], /Violation #1/);
+  });
 });
 
 test('subscribe and unsubscribe share the same per-IP limiter', async () => {
@@ -88,15 +118,17 @@ test('subscribe and unsubscribe share the same per-IP limiter', async () => {
   const unsubscribeContext = { log: createLogger(warnings) };
   const req = createRequest('203.0.113.42');
 
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    await subscribe(subscribeContext, req);
-  }
+  await withExternalEnvDisabled(async () => {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await subscribe(subscribeContext, req);
+    }
 
-  const response = await unsubscribe(unsubscribeContext, req);
-  const body = JSON.parse(response.body);
+    const response = await unsubscribe(unsubscribeContext, req);
+    const body = JSON.parse(response.body);
 
-  assert.equal(response.status, 429);
-  assert.equal(body.error, 'Too Many Requests');
-  assert.equal(response.headers['Retry-After'], '3600');
-  assert.match(warnings[0], /Newsletter unsubscribe rate limit exceeded/);
+    assert.equal(response.status, 429);
+    assert.equal(body.error, 'Too Many Requests');
+    assert.equal(response.headers['Retry-After'], '3600');
+    assert.match(warnings[0], /Newsletter unsubscribe rate limit exceeded/);
+  });
 });
