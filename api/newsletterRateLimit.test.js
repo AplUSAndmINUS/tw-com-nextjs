@@ -77,8 +77,28 @@ test('getClientIp prefers the first forwarded IP address', () => {
   );
 });
 
+test('getClientIp falls back to x-client-ip and x-real-ip', () => {
+  assert.equal(
+    getClientIp({
+      headers: {
+        'x-client-ip': '198.51.100.30',
+      },
+    }),
+    '198.51.100.30'
+  );
+
+  assert.equal(
+    getClientIp({
+      headers: {
+        'x-real-ip': '198.51.100.31',
+      },
+    }),
+    '198.51.100.31'
+  );
+});
+
 test('takeNewsletterRateLimitToken allows three requests per hour by default', () => {
-  const attempts = Array.from({ length: 4 }, () =>
+  const attempts = Array.from({ length: 6 }, () =>
     takeNewsletterRateLimitToken('203.0.113.15')
   );
 
@@ -87,6 +107,10 @@ test('takeNewsletterRateLimitToken allows three requests per hour by default', (
   assert.equal(attempts[2].allowed, true);
   assert.equal(attempts[3].allowed, false);
   assert.equal(attempts[3].violations, 1);
+  assert.equal(attempts[4].allowed, false);
+  assert.equal(attempts[4].violations, 2);
+  assert.equal(attempts[5].allowed, false);
+  assert.equal(attempts[5].violations, 3);
   assert.ok(attempts[3].retryAfterSeconds > 0);
 });
 

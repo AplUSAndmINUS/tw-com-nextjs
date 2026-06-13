@@ -36,6 +36,8 @@ function takeNewsletterRateLimitToken(ipAddress) {
   const existing = newsletterRateLimitStore.get(key);
 
   if (!existing || now >= existing.resetTime) {
+    // Violations are tracked per rolling window because the handlers only need
+    // to log repeated abuse during the active throttling period.
     newsletterRateLimitStore.set(key, {
       count: 1,
       resetTime: now + effectiveWindowMs,
