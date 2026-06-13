@@ -64,6 +64,24 @@ function isValidEmail(email) {
 }
 
 /**
+ * Escapes a string value for safe use inside an OData string literal.
+ *
+ * OData encodes string literals between single quotes, and a literal single
+ * quote inside the value must be represented as two consecutive single quotes
+ * (e.g. "o'hara@example.com" → "o''hara@example.com"). Without this escaping
+ * a value such as "user@x.com' or '1'='1" could manipulate the filter
+ * expression and match unintended list items.
+ *
+ * Reference: OData v4 spec §5.1.1.6.1 "String and Collection Literals"
+ *
+ * @param {string} value - Raw string to embed in an OData filter literal
+ * @returns {string} Escaped string safe for use between single quotes
+ */
+function escapeODataString(value) {
+  return value.replace(/'/g, "''");
+}
+
+/**
  * Performs an HTTPS request and returns the parsed JSON response.
  * @param {object} options - Node https.request options
  * @param {string|null} body - Request body (JSON string or null)
@@ -142,8 +160,13 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
  */
 async function findEmailInSharePoint(accessToken, siteId, listId, email) {
   const emailField = process.env.SHAREPOINT_EMAIL_FIELD || 'Title';
+  // Escape single quotes in the email before embedding it in the OData filter
+  // literal. OData represents a literal ' as '' (doubled), so a malicious
+  // value like "x@y.com' or '1'='1" is neutralised to "x@y.com'' or ''1''=''1"
+  // and cannot break out of the surrounding string literal.
+  const safeEmail = escapeODataString(email);
   const encodedFilter = encodeURIComponent(
-    `fields/${emailField} eq '${email}'`
+    `fields/${emailField} eq '${safeEmail}'`
   );
   // $expand=fields is required for the fields/ filter prefix to resolve.
   // Prefer header allows filtering on non-indexed columns.
@@ -300,3 +323,6 @@ module.exports = async function (context, req) {
     };
   }
 };
+
+// Named export for unit testing — does not affect the Azure Function binding.
+module.exports.escapeODataString = escapeODataString;

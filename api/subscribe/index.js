@@ -135,6 +135,12 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
 
 /**
  * Adds a new item to the SharePoint Email Distribution List.
+ *
+ * Note: the email value is sent as a JSON field in the POST body, not
+ * embedded in an OData $filter string, so no OData string escaping is
+ * required here. See api/unsubscribe/index.js for the escapeODataString
+ * helper that protects the filter-based lookup in the unsubscribe path.
+ *
  * @param {string} accessToken
  * @param {string} siteId
  * @param {string} listId
