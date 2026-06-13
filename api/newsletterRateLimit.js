@@ -43,7 +43,6 @@ function takeNewsletterRateLimitToken(ipAddress) {
     });
     return {
       allowed: true,
-      retryAfterSeconds: Math.ceil(effectiveWindowMs / 1000),
       violations: 0,
     };
   }
@@ -63,10 +62,6 @@ function takeNewsletterRateLimitToken(ipAddress) {
   existing.count += 1;
   return {
     allowed: true,
-    retryAfterSeconds: Math.max(
-      1,
-      Math.ceil((existing.resetTime - now) / 1000)
-    ),
     violations: existing.violations,
   };
 }
