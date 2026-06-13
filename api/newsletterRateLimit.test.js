@@ -18,6 +18,7 @@ const EXTERNAL_ENV_KEYS = [
   'SHAREPOINT_SITE_ID',
   'SHAREPOINT_LIST_ID',
 ];
+const DEFAULT_RETRY_AFTER_SECONDS = 60 * 60;
 
 function createLogger(warnings) {
   const logger = () => {};
@@ -129,8 +130,11 @@ test('subscribe returns 429 and logs when the IP exceeds the limit', async () =>
 
     assert.equal(response.status, 429);
     assert.equal(body.error, 'Too Many Requests');
-    assert.equal(body.retryAfter, 3600);
-    assert.equal(response.headers['Retry-After'], '3600');
+    assert.equal(body.retryAfter, DEFAULT_RETRY_AFTER_SECONDS);
+    assert.equal(
+      response.headers['Retry-After'],
+      String(DEFAULT_RETRY_AFTER_SECONDS)
+    );
     assert.match(warnings[0], /Newsletter subscribe rate limit exceeded/);
     assert.match(warnings[0], /Violation #1/);
   });
@@ -152,7 +156,10 @@ test('subscribe and unsubscribe share the same per-IP limiter', async () => {
 
     assert.equal(response.status, 429);
     assert.equal(body.error, 'Too Many Requests');
-    assert.equal(response.headers['Retry-After'], '3600');
+    assert.equal(
+      response.headers['Retry-After'],
+      String(DEFAULT_RETRY_AFTER_SECONDS)
+    );
     assert.match(warnings[0], /Newsletter unsubscribe rate limit exceeded/);
   });
 });
