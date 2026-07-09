@@ -24,6 +24,10 @@
 'use strict';
 
 const https = require('https');
+const {
+  getClientIp,
+  takeNewsletterRateLimitToken,
+} = require('../newsletterRateLimit');
 
 // Matches terencewaters.com and any subdomain (e.g. www., dev., staging.)
 const ALLOWED_ORIGIN_RE =
@@ -197,6 +201,26 @@ module.exports = async function (context, req) {
       status: 405,
       headers: corsHeaders,
       body: JSON.stringify({ error: 'Method not allowed' }),
+    };
+  }
+
+  const clientIp = getClientIp(req);
+  const rateLimitResult = takeNewsletterRateLimitToken(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    context.log.warn(
+      `Newsletter subscribe rate limit exceeded for IP ${clientIp}. Violation #${rateLimitResult.violations}. Retry after ${rateLimitResult.retryAfterSeconds} seconds.`
+    );
+    return {
+      status: 429,
+      headers: {
+        ...corsHeaders,
+        'Retry-After': String(rateLimitResult.retryAfterSeconds),
+      },
+      body: JSON.stringify({
+        error: 'Too Many Requests',
+        retryAfter: rateLimitResult.retryAfterSeconds,
+      }),
     };
   }
 

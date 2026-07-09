@@ -108,6 +108,7 @@ The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter si
 4. Platform and timestamp columns are optional; leave `SHAREPOINT_PLATFORM_FIELD` or `SHAREPOINT_TIMESTAMP_FIELD` empty to skip those fields.
 5. **CORS** is restricted to `terencewaters.com` and its subdomains. Set `ALLOWED_ORIGIN_EXTRA` to permit one additional origin (e.g. `http://localhost:3000` locally or an Azure SWA preview URL).
 6. **Front-end rate limiting** is enforced via the `useNewsletterRateLimit` hook: max 3 submissions per rolling 1-hour window, tracked in `localStorage` under key `tw_newsletter_submissions`. This limit is shared across subscribe and unsubscribe forms.
+7. **Server-side rate limiting** is enforced in the Azure Functions: max 3 requests per IP per rolling 1-hour window across both newsletter endpoints. Exceeded requests return `429 Too Many Requests`, include a `Retry-After` header, and log repeated violations for monitoring.
 
 ### Key files
 
