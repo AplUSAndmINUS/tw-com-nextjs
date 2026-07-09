@@ -4,7 +4,7 @@
   "description": "Azure Functions for TW.com",
   "scripts": {
     "start": "func start",
-    "test": "echo \"No tests specified\""
+    "test": "node unsubscribe/unsubscribe.test.js"
   },
   "dependencies": {},
   "devDependencies": {},
