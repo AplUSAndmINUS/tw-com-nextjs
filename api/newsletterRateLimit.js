@@ -33,6 +33,14 @@ function takeNewsletterRateLimitToken(ipAddress) {
 
   const now = Date.now();
   const key = ipAddress || 'unknown';
+
+  // Opportunistically prune expired entries to keep memory bounded
+  for (const [storedKey, storedEntry] of newsletterRateLimitStore.entries()) {
+    if (now >= storedEntry.resetTime) {
+      newsletterRateLimitStore.delete(storedKey);
+    }
+  }
+
   const existing = newsletterRateLimitStore.get(key);
 
   if (!existing || now >= existing.resetTime) {
