@@ -684,6 +684,17 @@ const { statusCode, text } = await request(url, { method: 'DELETE' });
 | `API_HTTP_MAX_RETRIES`         | `2`     | Retries after the first attempt (`0` = off) |
 | `API_HTTP_RETRY_BASE_DELAY_MS` | `500`   | First backoff delay; doubles per retry      |
 
+### Running the API tests
+
+`cd api && yarn test` (or `npm test`) runs the suite on Node's built-in test runner — no test framework is installed.
+
+The script **lists its test files explicitly**. That is deliberate, and both obvious alternatives are wrong here:
+
+- bare `node --test` also matches anything under a `test/` directory, which picks up `api/test/index.js` — a deployed HTTP-triggered Function, not a test — and runs it as a vacuously passing test file;
+- `node --test "**/*.test.js"` relies on glob expansion of positional args, which Node only added in **21**. The Functions runtime is Node 18/20 (see `engines`), so on a matching local Node that silently finds zero tests.
+
+**When adding a test file, add it to the `test` script in `api/package.json`** — it will not be picked up automatically.
+
 ### Copilot rules
 
 - Never call `https.request()` or `require('https')` directly in a new Azure Function — use `request`/`requestJson`. (`api/podcasts` and `api/youtube` still do; they predate this client.)
@@ -691,7 +702,8 @@ const { statusCode, text } = await request(url, { method: 'DELETE' });
 - Do not set a `Content-Length` header; `fetch` derives it from the body.
 - Map `isTimeoutError(err)` to **504 Gateway Timeout**, not 500, so a slow upstream is distinguishable from a real failure.
 - Pass `maxRetries: 0` when an outer layer already retries, so attempts don't multiply.
-- **Never retry a non-idempotent write.** A timeout is exactly the case where the upstream most likely _did_ apply the write and was merely slow to say so, so a retry duplicates it — silently, since the caller still sees a success. The write POSTs (`subscribe`'s list-item create, `contact`'s SMTP2Go send, `leads`' list-item create) all pass `maxRetries: 0` and surface 504 instead. Retries are for reads, token calls, and deletes.
+- **Never retry a non-idempotent write.** A timeout is exactly the case where the upstream most likely _did_ apply the write and was merely slow to say so, so a retry duplicates it — silently, since the caller still sees a success. Every write on this path passes `maxRetries: 0` and surfaces 504 instead: `subscribe`'s and `leads`' list-item creates, `contact`'s SMTP2Go send, and `leads`' queue enqueue. Retries are for reads, token calls, and deletes.
+- "Write" includes **spending a single-use resource**, not just creating a row. `contact`'s reCAPTCHA verify passes `maxRetries: 0` because the token is one-shot: retrying a token Google already consumed returns `timeout-or-duplicate`, which would surface as the user's captcha failing rather than the upstream timeout it really is.
 - A retryable DELETE must treat **404 as success** (see `unsubscribe`): a retry after a delete that actually landed sees 404, and calling that a failure reports 500 for completed work.
 - Don't flatten a timeout into a domain-level failure result. `verifyRecaptcha` rethrows `HttpTimeoutError` rather than folding it into `{ success: false }`, so a Google outage reports 504 instead of telling the user their captcha failed.
 

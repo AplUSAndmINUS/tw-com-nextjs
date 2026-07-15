@@ -348,6 +348,10 @@ const enqueuePayload = async (
 
   // Enqueue the message
   try {
+    // maxRetries: 0 — enqueuing is a write. A timeout after the queue accepted
+    // the message would put a second copy on it and the lead would be
+    // processed twice. The caller treats a false return as "not queued", which
+    // is the safer way to be wrong here.
     const { statusCode } = await request(`https://${endpoint}${requestPath}`, {
       method: 'POST',
       // No explicit Content-Length: fetch derives it from the body, and the
@@ -359,6 +363,7 @@ const enqueuePayload = async (
         Authorization: authHeader,
       },
       body: messageXml,
+      maxRetries: 0,
       label: 'Azure Queue enqueue',
       log,
     });

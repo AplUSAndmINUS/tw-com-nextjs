@@ -363,6 +363,97 @@ test('unsubscribe reports success when the delete 404s after a retried timeout',
   }
 });
 
+test('contact does not retry the reCAPTCHA verify, since the token is single-use', async () => {
+  // Google consumes the token, then stalls. A retry would verify an already
+  // spent token and get {'error-codes': ['timeout-or-duplicate']} — a
+  // definitive failure that would be reported as the user's captcha failing.
+  const restoreEnv = withEnv({
+    ...CONTACT_ENV,
+    RECAPTCHA_SECRET_KEY: 'secret',
+  });
+  const original = globalThis.fetch;
+  const context = createContext();
+  let verifies = 0;
+
+  globalThis.fetch = (url, opts) => {
+    if (String(url).includes('recaptcha')) {
+      verifies += 1;
+      return new Promise((_resolve, reject) => {
+        opts.signal.addEventListener('abort', () => {
+          const err = new Error('This operation was aborted');
+          err.name = 'AbortError';
+          reject(err);
+        });
+      });
+    }
+
+    throw new Error('SMTP2Go must not be reached when verification failed');
+  };
+
+  try {
+    const res = await contact(context, {
+      method: 'POST',
+      headers: { origin: 'https://terencewaters.com' },
+      body: JSON.stringify({
+        name: 'Ada',
+        email: 'ada@example.com',
+        message: 'Hello there',
+        recaptchaToken: 'token',
+      }),
+    });
+
+    assert.equal(verifies, 1, 'the single-use token must be spent once');
+    assert.equal(res.status, 504);
+  } finally {
+    globalThis.fetch = original;
+    restoreEnv();
+  }
+});
+
+test('contact still returns 400 for a genuine captcha failure', async () => {
+  const restoreEnv = withEnv({
+    ...CONTACT_ENV,
+    RECAPTCHA_SECRET_KEY: 'secret',
+  });
+  const original = globalThis.fetch;
+  const context = createContext();
+
+  globalThis.fetch = async (url) => {
+    if (String(url).includes('recaptcha')) {
+      return {
+        status: 200,
+        headers: new Headers(),
+        text: async () =>
+          JSON.stringify({ success: false, 'error-codes': ['invalid-input'] }),
+      };
+    }
+
+    throw new Error('SMTP2Go must not be reached when verification failed');
+  };
+
+  try {
+    const res = await contact(context, {
+      method: 'POST',
+      headers: { origin: 'https://terencewaters.com' },
+      body: JSON.stringify({
+        name: 'Ada',
+        email: 'ada@example.com',
+        message: 'Hello there',
+        recaptchaToken: 'token',
+      }),
+    });
+
+    assert.equal(
+      res.status,
+      400,
+      'a real captcha rejection is the user’s problem, not an outage'
+    );
+  } finally {
+    globalThis.fetch = original;
+    restoreEnv();
+  }
+});
+
 test('contact returns 504, not 400, when reCAPTCHA times out', async () => {
   // A Google outage is not the user failing a captcha.
   const restoreEnv = withEnv({

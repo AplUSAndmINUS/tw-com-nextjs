@@ -69,10 +69,16 @@ async function httpPost(url, payload, log) {
  * @returns {Promise<{ statusCode: number; body: object }>}
  */
 async function httpPostForm(url, params, log) {
+  // maxRetries: 0 — a reCAPTCHA token is single-use. If Google consumes the
+  // token and then stalls, a retry verifies an already-spent token and gets a
+  // definitive { success: false, 'error-codes': ['timeout-or-duplicate'] },
+  // which would be reported to the user as a failed captcha rather than the
+  // upstream timeout it actually is.
   const { statusCode, text } = await request(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams(params).toString(),
+    maxRetries: 0,
     label: 'reCAPTCHA verify',
     log,
   });
@@ -226,16 +232,28 @@ module.exports = async function (context, req) {
         (msg) => context.log(msg)
       );
     } catch (error) {
-      // Only a timeout escapes verifyRecaptcha; everything else is folded into
-      // a { success: false } result.
-      context.log(
-        `Contact form timed out calling ${error.label} after ${error.timeoutMs} ms`
-      );
+      // Only a timeout escapes verifyRecaptcha today — everything else is
+      // folded into a { success: false } result — but guard rather than assume,
+      // so a future throw path there doesn't silently become a 504.
+      if (isTimeoutError(error)) {
+        context.log(
+          `Contact form timed out calling ${error.label} after ${error.timeoutMs} ms`
+        );
+        return {
+          status: 504,
+          headers: CORS_HEADERS,
+          body: JSON.stringify({
+            error: 'The request timed out. Please try again later.',
+          }),
+        };
+      }
+
+      context.log('reCAPTCHA verification error:', error);
       return {
-        status: 504,
+        status: 500,
         headers: CORS_HEADERS,
         body: JSON.stringify({
-          error: 'The request timed out. Please try again later.',
+          error: 'Failed to verify reCAPTCHA. Please try again.',
         }),
       };
     }
