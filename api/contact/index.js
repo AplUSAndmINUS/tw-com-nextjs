@@ -15,7 +15,7 @@
 
 'use strict';
 
-const https = require('https');
+const { request, isTimeoutError } = require('../httpClient');
 
 const SMTP2GO_API_URL = 'https://api.smtp2go.com/v3/email/send';
 const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
@@ -30,95 +30,63 @@ const CORS_HEADERS = {
 
 /**
  * Performs an HTTPS POST with a JSON body and returns the parsed response.
+ *
+ * Parses strictly: an unparseable body rejects rather than resolving with an
+ * empty object, so a 200 carrying garbage is reported as a failure instead of
+ * being mistaken for a sent email.
+ *
  * @param {string} url
  * @param {object} payload
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<{ statusCode: number; body: object }>}
  */
-function httpPost(url, payload) {
-  return new Promise((resolve, reject) => {
-    const data = JSON.stringify(payload);
-    const urlObj = new URL(url);
-
-    const options = {
-      hostname: urlObj.hostname,
-      path: urlObj.pathname,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(data),
-      },
-    };
-
-    const req = https.request(options, (res) => {
-      let responseBody = '';
-      res.on('data', (chunk) => (responseBody += chunk));
-      res.on('end', () => {
-        try {
-          resolve({
-            statusCode: res.statusCode,
-            body: JSON.parse(responseBody),
-          });
-        } catch {
-          reject(new Error('Failed to parse response'));
-        }
-      });
-    });
-
-    req.on('error', reject);
-    req.write(data);
-    req.end();
+async function httpPost(url, payload, log) {
+  const { statusCode, text } = await request(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    label: 'SMTP2Go send',
+    log,
   });
+
+  try {
+    return { statusCode, body: JSON.parse(text) };
+  } catch {
+    throw new Error('Failed to parse response');
+  }
 }
 
 /**
  * Performs an HTTPS POST with URL-encoded form data.
  * @param {string} url
  * @param {object} params - Key-value pairs to encode
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<{ statusCode: number; body: object }>}
  */
-function httpPostForm(url, params) {
-  return new Promise((resolve, reject) => {
-    const formData = new URLSearchParams(params).toString();
-    const urlObj = new URL(url);
-
-    const options = {
-      hostname: urlObj.hostname,
-      path: urlObj.pathname,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(formData),
-      },
-    };
-
-    const req = https.request(options, (res) => {
-      let responseBody = '';
-      res.on('data', (chunk) => (responseBody += chunk));
-      res.on('end', () => {
-        try {
-          resolve({
-            statusCode: res.statusCode,
-            body: JSON.parse(responseBody),
-          });
-        } catch {
-          reject(new Error('Failed to parse reCAPTCHA response'));
-        }
-      });
-    });
-
-    req.on('error', reject);
-    req.write(formData);
-    req.end();
+async function httpPostForm(url, params, log) {
+  const { statusCode, text } = await request(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(params).toString(),
+    label: 'reCAPTCHA verify',
+    log,
   });
+
+  try {
+    return { statusCode, body: JSON.parse(text) };
+  } catch {
+    throw new Error('Failed to parse reCAPTCHA response');
+  }
 }
 
 /**
  * Verifies a reCAPTCHA v3 token with Google's API.
  * @param {string} token - The reCAPTCHA token from the client
  * @param {string} secretKey - The reCAPTCHA secret key
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<{ success: boolean; score?: number; error?: string }>}
  */
-async function verifyRecaptcha(token, secretKey) {
+async function verifyRecaptcha(token, secretKey, log) {
   if (!token) {
     return { success: false, error: 'reCAPTCHA token is required' };
   }
@@ -128,10 +96,14 @@ async function verifyRecaptcha(token, secretKey) {
   }
 
   try {
-    const result = await httpPostForm(RECAPTCHA_VERIFY_URL, {
-      secret: secretKey,
-      response: token,
-    });
+    const result = await httpPostForm(
+      RECAPTCHA_VERIFY_URL,
+      {
+        secret: secretKey,
+        response: token,
+      },
+      log
+    );
 
     const { success, score, 'error-codes': errorCodes } = result.body;
 
@@ -235,7 +207,8 @@ module.exports = async function (context, req) {
     context.log('Verifying reCAPTCHA token');
     const recaptchaResult = await verifyRecaptcha(
       recaptchaToken,
-      recaptchaSecretKey
+      recaptchaSecretKey,
+      (msg) => context.log(msg)
     );
 
     if (!recaptchaResult.success) {
@@ -353,7 +326,9 @@ module.exports = async function (context, req) {
   };
 
   try {
-    const result = await httpPost(SMTP2GO_API_URL, emailPayload);
+    const result = await httpPost(SMTP2GO_API_URL, emailPayload, (msg) =>
+      context.log(msg)
+    );
 
     if (result.statusCode !== 200 || result.body?.data?.error) {
       context.log('SMTP2Go error:', result.body);
@@ -375,6 +350,19 @@ module.exports = async function (context, req) {
       }),
     };
   } catch (error) {
+    if (isTimeoutError(error)) {
+      context.log(
+        `Contact form timed out calling ${error.label} after ${error.timeoutMs} ms`
+      );
+      return {
+        status: 504,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: 'The request timed out. Please try again later.',
+        }),
+      };
+    }
+
     context.log('Error calling SMTP2Go:', error);
     return {
       status: 500,

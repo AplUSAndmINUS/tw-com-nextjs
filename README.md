@@ -109,6 +109,19 @@ The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter si
 5. **CORS** is restricted to `terencewaters.com` and its subdomains. Set `ALLOWED_ORIGIN_EXTRA` to permit one additional origin (e.g. `http://localhost:3000` locally or an Azure SWA preview URL).
 6. **Front-end rate limiting** is enforced via the `useNewsletterRateLimit` hook: max 3 submissions per rolling 1-hour window, tracked in `localStorage` under key `tw_newsletter_submissions`. This limit is shared across subscribe and unsubscribe forms.
 7. **Server-side rate limiting** is enforced in the Azure Functions: max 3 requests per IP per rolling 1-hour window across both newsletter endpoints. The limiter is an in-memory per-worker-instance limit (best-effort; resets on cold start and isn't shared across scaled-out instances). Exceeded requests return `429 Too Many Requests`, include a `Retry-After` header, and log repeated violations for monitoring.
+8. **Timeouts and retries** are handled by the shared client in `api/httpClient.js`. Every call to Entra ID and Graph times out after 5 seconds per attempt and is retried up to twice with exponential backoff on 5xx responses and timeouts. A request that times out on every attempt returns `504 Gateway Timeout`, and each timeout is logged with the endpoint name.
+
+### Outbound HTTP client
+
+`api/httpClient.js` is shared by the subscribe, unsubscribe, contact, and leads functions. It wraps the global `fetch()` from Node 18+, so it adds no dependency. Defaults can be overridden through application settings:
+
+| Variable                       | Default | Purpose                                     |
+| ------------------------------ | ------- | ------------------------------------------- |
+| `API_HTTP_TIMEOUT_MS`          | `5000`  | Per-attempt timeout                         |
+| `API_HTTP_MAX_RETRIES`         | `2`     | Retries after the first attempt (`0` = off) |
+| `API_HTTP_RETRY_BASE_DELAY_MS` | `500`   | First backoff delay; doubles per retry      |
+
+Note that 4xx and 429 responses are deliberately not retried: a 4xx fails identically on a retry, and 429 carries a `Retry-After` that a blind backoff would ignore.
 
 ### Key files
 
@@ -116,6 +129,8 @@ The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter si
 | ------------------------------------------------------------ | ------------------------------------------------------------- |
 | `api/subscribe/index.js`                                     | Azure Function — adds email to SharePoint list                |
 | `api/unsubscribe/index.js`                                   | Azure Function — finds and deletes email from SharePoint list |
+| `api/httpClient.js`                                          | Shared fetch client — 5s timeout, backoff retry, 504 mapping  |
+| `api/newsletterRateLimit.js`                                 | Server-side rate limiting (3 requests / IP / hour)            |
 | `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting hook (3 attempts / 1 hour)            |
 | `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer (Framer Motion) with subscribe form           |
 | `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA (used on /about and /contact)            |

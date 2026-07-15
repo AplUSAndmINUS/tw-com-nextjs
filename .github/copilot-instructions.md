@@ -570,6 +570,19 @@ All newsletter forms (subscribe and unsubscribe) use the `useNewsletterRateLimit
 - Display `timeUntilReset` in the error message so users know when they can try again
 - The limit is intentionally shared across subscribe and unsubscribe (same `localStorage` key)
 
+### Server-side rate limiting
+
+The front-end hook is a courtesy, not a control — `localStorage` is trivially bypassed. Both functions independently enforce the same limit in `api/newsletterRateLimit.js`, keyed on the client IP from `x-forwarded-for` (falling back to `x-client-ip` / `x-real-ip`). Exceeding it returns **429** with a `Retry-After` header, and repeated violations are logged with a running count.
+
+Overridable via `NEWSLETTER_RATE_LIMIT_WINDOW_MS` (default 1 h) and `NEWSLETTER_RATE_LIMIT_MAX_REQUESTS` (default 3).
+
+The store is an in-memory `Map`, so the limit is per Function instance and resets on cold start. That is accepted for a newsletter form; a distributed store would be needed if this ever guarded something costly.
+
+**Copilot rules:**
+
+- Never remove the server-side check on the grounds that the front-end already limits submissions — they defend different threats
+- Timeouts and upstream errors must not consume a token silently; the token is taken before validation, so a rejected request still counts
+
 ### NewsletterDrawer animation
 
 The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (direction: `'up'`) for a slide-up-from-bottom entrance and slide-down exit. The backdrop fades independently. Both respect `useReducedMotion` (duration collapses to `0`).
@@ -580,6 +593,8 @@ The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (d
 | ------------------------------------------------------------ | ------------------------------------------ |
 | `api/subscribe/index.js`                                     | Azure Function — subscribe                 |
 | `api/unsubscribe/index.js`                                   | Azure Function — unsubscribe               |
+| `api/httpClient.js`                                          | Shared fetch client — timeout + backoff    |
+| `api/newsletterRateLimit.js`                                 | Server-side rate limiting (3/hour per IP)  |
 | `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting (3/hour, shared)   |
 | `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer with subscribe form        |
 | `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA                       |
@@ -631,6 +646,55 @@ Create a new file per session or feature: `prompts/YYYY-MM-DD-topic.md`
 
 ---
 
-## 19. Final Rule
+## 19. Outbound HTTP from Azure Functions
+
+Every outbound call from an Azure Function to a third party (Microsoft Graph, Entra ID, SMTP2Go, reCAPTCHA, Azure Queue Storage) goes through the shared client at `api/httpClient.js`. It wraps the global `fetch()` built into Node 18+, so it adds no dependency.
+
+It exists because the hand-rolled `httpsRequest()` helpers it replaced set no timeout: a stalled upstream held the invocation open until the Functions host killed it, and a single transient 5xx surfaced to the caller as a hard failure.
+
+### What it provides
+
+- **Timeout** — 5 s per attempt by default, enforced with `AbortController` and covering the body read as well as the response headers.
+- **Retry** — exponential backoff with jitter on 5xx responses and timeouts. 2 retries by default (3 attempts total). 4xx and 429 are **not** retried: a 4xx fails identically on a retry, and 429 carries a `Retry-After` that a blind backoff would ignore.
+- **`HttpTimeoutError`** — carries `label` and `timeoutMs` for logging, plus `isTimeout` (so handlers can map to 504) and `isTransient` (so `api/leads/index.js`'s own retry loop treats it as retryable).
+
+### API
+
+```js
+const { request, requestJson, isTimeoutError } = require('../httpClient');
+
+// requestJson parses the body; returns {} for an empty or unparseable one.
+const { statusCode, body } = await requestJson(url, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload),
+  label: 'Graph list item create', // appears in timeout and retry logs
+  log, // usually (msg) => context.log(msg)
+});
+
+// request returns the raw body as `text` — use it for 204s and non-JSON.
+const { statusCode, text } = await request(url, { method: 'DELETE' });
+```
+
+### Environment overrides
+
+| Variable                       | Default | Purpose                                     |
+| ------------------------------ | ------- | ------------------------------------------- |
+| `API_HTTP_TIMEOUT_MS`          | `5000`  | Per-attempt timeout                         |
+| `API_HTTP_MAX_RETRIES`         | `2`     | Retries after the first attempt (`0` = off) |
+| `API_HTTP_RETRY_BASE_DELAY_MS` | `500`   | First backoff delay; doubles per retry      |
+
+### Copilot rules
+
+- Never call `https.request()` or `require('https')` directly in a new Azure Function — use `request`/`requestJson`. (`api/podcasts` and `api/youtube` still do; they predate this client.)
+- Always pass a `label` — it is what makes a timeout log identify the endpoint.
+- Do not set a `Content-Length` header; `fetch` derives it from the body.
+- Map `isTimeoutError(err)` to **504 Gateway Timeout**, not 500, so a slow upstream is distinguishable from a real failure.
+- Pass `maxRetries: 0` when an outer layer already retries, so attempts don't multiply.
+- Retrying a non-idempotent POST can duplicate a write if the upstream applied it before failing. Prefer `maxRetries: 0` where a duplicate is worse than a failure.
+
+---
+
+## 20. Final Rule
 
 Copilot should prioritize clarity, consistency, and the authorial voice of TW.com.

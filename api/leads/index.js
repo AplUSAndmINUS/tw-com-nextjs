@@ -31,8 +31,8 @@
 'use strict';
 
 /* Import consts */
-const https = require('https');
 const crypto = require('crypto');
+const { request, isTimeoutError } = require('../httpClient');
 
 /* Constants */
 
@@ -180,22 +180,8 @@ const parseJsonBody = async (req) => {
   return rawBody ? JSON.parse(rawBody) : req.body;
 };
 
-// Performs an HTTPS request, resolving with { statusCode, body } */
-const httpsRequest = (options, requestData) => {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => (data += chunk));
-      res.on('end', () => resolve({ statusCode: res.statusCode, body: data }));
-    });
-    req.on('error', (err) => reject(err));
-    if (requestData) req.write(requestData);
-    req.end();
-  });
-};
-
 // Obtain a Graph API access token using client credentials flow
-const getGraphToken = async (tenantId, clientId, clientSecret) => {
+const getGraphToken = async (tenantId, clientId, clientSecret, log) => {
   const body = new URLSearchParams({
     grant_type: 'client_credentials',
     client_id: clientId,
@@ -203,17 +189,15 @@ const getGraphToken = async (tenantId, clientId, clientSecret) => {
     scope: 'https://graph.microsoft.com/.default',
   }).toString();
 
-  const { statusCode, body: responseBody } = await httpsRequest(
+  const { statusCode, text: responseBody } = await request(
+    `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
     {
-      hostname: `login.microsoftonline.com`,
-      path: `/${tenantId}/oauth2/v2.0/token`,
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(body),
-      },
-    },
-    body
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+      label: 'Entra ID token endpoint',
+      log,
+    }
   );
 
   if (statusCode >= 200 && statusCode < 300) {
@@ -234,18 +218,23 @@ const getGraphToken = async (tenantId, clientId, clientSecret) => {
 const createSharePointItem = async (token, siteId, listId, fields, log) => {
   const body = JSON.stringify({ fields });
 
-  const { statusCode, body: responseBody } = await httpsRequest(
+  // maxRetries: 0 — createSharePointItemWithRetry below already applies its own
+  // backoff loop. Letting the client retry too would multiply the attempts
+  // (3 outer x 3 inner) against Graph. The timeout still applies per attempt,
+  // and HttpTimeoutError carries isTransient so the outer loop retries it.
+  const { statusCode, text: responseBody } = await request(
+    `https://graph.microsoft.com/v1.0/sites/${siteId}/lists/${listId}/items`,
     {
-      hostname: 'graph.microsoft.com',
-      path: `/v1.0/sites/${siteId}/lists/${listId}/items`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
-        'Content-Length': Buffer.byteLength(body),
       },
-    },
-    body
+      body,
+      maxRetries: 0,
+      label: 'Graph list item create',
+      log,
+    }
   );
 
   if (statusCode >= 200 && statusCode < 300) {
@@ -325,7 +314,6 @@ const enqueuePayload = async (
 
   // Build the request to create the queue if it doesn't exist (idempotent)
   const messageXml = `<QueueMessage><MessageText>${Buffer.from(JSON.stringify(payload)).toString('base64')}</MessageText></QueueMessage>`;
-  const contentLength = Buffer.byteLength(messageXml);
   const date = new Date().toUTCString();
 
   // The HTTP request path on the Queue service host is /{queueName}/messages.
@@ -356,21 +344,20 @@ const enqueuePayload = async (
 
   // Enqueue the message
   try {
-    const { statusCode } = await httpsRequest(
-      {
-        hostname: endpoint,
-        path: requestPath,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/xml',
-          'Content-Length': contentLength,
-          'x-ms-date': date,
-          'x-ms-version': '2020-10-02',
-          Authorization: authHeader,
-        },
+    const { statusCode } = await request(`https://${endpoint}${requestPath}`, {
+      method: 'POST',
+      // No explicit Content-Length: fetch derives it from the body, and the
+      // Shared Key stringToSign below does not cover that header.
+      headers: {
+        'Content-Type': 'application/xml',
+        'x-ms-date': date,
+        'x-ms-version': '2020-10-02',
+        Authorization: authHeader,
       },
-      messageXml
-    );
+      body: messageXml,
+      label: 'Azure Queue enqueue',
+      log,
+    });
 
     if (statusCode >= 200 && statusCode < 300) {
       log(
@@ -662,7 +649,7 @@ module.exports = async function (context, req) {
 
   try {
     log(`Lead: submitting fields — ${Object.keys(fields).join(', ')}`);
-    const token = await getGraphToken(tenantId, clientId, clientSecret);
+    const token = await getGraphToken(tenantId, clientId, clientSecret, log);
     const created = await createSharePointItemWithRetry(
       token,
       siteId,
@@ -686,7 +673,15 @@ module.exports = async function (context, req) {
   } catch (error) {
     logError(`Lead: submission failed — ${error.message}`);
 
+    if (isTimeoutError(error)) {
+      logError(
+        `Lead: timed out calling ${error.label} after ${error.timeoutMs} ms`
+      );
+    }
+
     // On transient errors, attempt to queue the payload for later retry.
+    // HttpTimeoutError sets isTransient, so a timed-out lead is queued rather
+    // than dropped — the 202 below is a better outcome than surfacing 504.
     if (error.isTransient && queueConnStr) {
       const queued = await enqueuePayload(
         { ...fields, _requestId: requestId },
@@ -707,6 +702,20 @@ module.exports = async function (context, req) {
         };
         return;
       }
+    }
+
+    // Timed out and could not be queued — report the upstream timeout rather
+    // than a generic 500 so callers can distinguish it from a real error.
+    if (isTimeoutError(error)) {
+      context.res = {
+        status: 504,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: 'The request timed out. Please try again.',
+          requestId,
+        }),
+      };
+      return;
     }
 
     context.res = {
