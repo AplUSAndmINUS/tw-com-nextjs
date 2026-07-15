@@ -7,6 +7,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { LinkProps } from 'next/link';
 
+const EXTERNAL_OR_SPECIAL_PROTOCOL_PATTERN = /^(https?:|mailto:|tel:)/i;
+
+function isExternalOrSpecialProtocol(href: string): boolean {
+  return EXTERNAL_OR_SPECIAL_PROTOCOL_PATTERN.test(href);
+}
+
 interface ThemedLinkProps
   extends
     Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
@@ -40,6 +46,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   const { theme } = useAppTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const isExternalHref = isExternalOrSpecialProtocol(href);
 
   const {
     onPointerEnter: consumerOnPointerEnter,
@@ -146,11 +153,40 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
     consumerOnBlur?.(e);
   };
 
+  const resolvedRel =
+    target === '_blank'
+      ? [rel, 'noopener', 'noreferrer'].filter(Boolean).join(' ')
+      : rel;
+
+  if (isExternalHref) {
+    return (
+      <a
+        href={href}
+        target={target}
+        rel={resolvedRel}
+        className={[className, isFooter ? 'footer-link' : '']
+          .filter(Boolean)
+          .join(' ')}
+        style={mergedStyles}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        {...restLinkProps}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
     <Link
       href={href}
       target={target}
-      rel={rel}
+      rel={resolvedRel}
       className={[className, isFooter ? 'footer-link' : '']
         .filter(Boolean)
         .join(' ')}
