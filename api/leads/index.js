@@ -318,6 +318,7 @@ const enqueuePayload = async (
 
   // Build the request to create the queue if it doesn't exist (idempotent)
   const messageXml = `<QueueMessage><MessageText>${Buffer.from(JSON.stringify(payload)).toString('base64')}</MessageText></QueueMessage>`;
+  const contentLength = Buffer.byteLength(messageXml, 'utf8').toString();
   const date = new Date().toUTCString();
 
   // The HTTP request path on the Queue service host is /{queueName}/messages.
@@ -329,13 +330,23 @@ const enqueuePayload = async (
   // the account name as a prefix, regardless of the actual HTTP path.
   const canonicalizedResource = `/${accountName}/${leadQueueName}/messages`;
 
-  // Build HMAC-SHA256 signature for authentication
+  // Build HMAC-SHA256 signature for authentication.
+  // The Shared Key string-to-sign must include all required header slots,
+  // including Content-Length, and that value must match the actual request.
   const stringToSign = [
     'POST',
     '', // Content-Encoding
+    '', // Content-Language
+    contentLength, // Content-Length
+    '', // Content-MD5
     'application/xml', // Content-Type
     '', // Date (x-ms-date is used instead)
-    `x-ms-date:${date}\nx-ms-version:2020-10-02`, // x-ms headers
+    '', // If-Modified-Since
+    '', // If-Match
+    '', // If-None-Match
+    '', // If-Unmodified-Since
+    '', // Range
+    `x-ms-date:${date}\nx-ms-version:2020-10-02`, // Canonicalized headers
     canonicalizedResource,
   ].join('\n');
 
@@ -355,9 +366,9 @@ const enqueuePayload = async (
     // handler's own catch does not get a chance to answer — a known gap.
     const { statusCode } = await request(`https://${endpoint}${requestPath}`, {
       method: 'POST',
-      // No explicit Content-Length: fetch derives it from the body, and the
-      // Shared Key stringToSign below does not cover that header.
+      // Set Content-Length explicitly so the signed value matches the request.
       headers: {
+        'Content-Length': contentLength,
         'Content-Type': 'application/xml',
         'x-ms-date': date,
         'x-ms-version': '2020-10-02',
