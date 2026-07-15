@@ -7,3 +7,5 @@ export type {
 } from './userPreferencesStore';
 export { useAccessControlStore } from './accessControlStore';
 export { useNewsletterStore } from './newsletterStore';
+export { useConsentStore } from './consentStore';
+export type { ConsentState } from './consentStore';

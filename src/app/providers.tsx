@@ -8,6 +8,8 @@ import { AccessGate } from '@/components/AccessGate';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
 import { NewsletterDrawerWrapper } from '@/components/NewsletterDrawer';
+import { CookieBanner } from '@/components/CookieBanner';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { useAccessControl } from '@/hooks';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -32,6 +34,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </AccessGate>
         {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
         {(!authRequired || !isAuthenticated) && <NewsletterDrawerWrapper />}
+        {/* Cookie consent banner — rendered for all users on first visit */}
+        <CookieBanner />
+        {/* Google Analytics + AdSense — consent-gated via consentStore */}
+        <GoogleAnalytics />
       </FontScaleProvider>
     </ExtendedThemeProvider>
   );
