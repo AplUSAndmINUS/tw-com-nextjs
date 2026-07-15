@@ -6,8 +6,12 @@ import { useConsentStore } from '@/store/consentStore';
 
 declare global {
   interface Window {
-    dataLayer?: Record<string, unknown>[];
-    gtag?: (cmd: string, target: string, params?: Record<string, unknown>) => void;
+    dataLayer?: unknown[];
+    gtag?: (
+      cmd: string,
+      target: string,
+      params?: Record<string, unknown>
+    ) => void;
   }
 }
 
@@ -21,7 +25,11 @@ const ADSENSE_PUB_ID = 'ca-pub-7691902367885014';
  * Calls window.gtag if it is available.
  * Handles consent updates, config, and event commands.
  */
-function callGtag(cmd: string, target: string, params?: Record<string, unknown>) {
+function callGtag(
+  cmd: string,
+  target: string,
+  params?: Record<string, unknown>
+) {
   try {
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag(cmd, target, params);

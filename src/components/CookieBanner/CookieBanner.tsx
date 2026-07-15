@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useConsentStore } from '@/store/consentStore';
@@ -88,7 +89,7 @@ export const CookieBanner: React.FC = () => {
             bottom: 0,
             left: 0,
             right: 0,
-            zIndex: 1500,
+            zIndex: 900,
             backgroundColor: bannerBg,
             borderTop: `1px solid ${theme.semanticColors.border.default}`,
             boxShadow: theme.shadows.modal,
@@ -120,7 +121,7 @@ export const CookieBanner: React.FC = () => {
                 <strong>Accept All</strong>, you consent to analytics and
                 personalised advertising. You can also{' '}
                 <strong>Reject Non-Essential</strong> cookies. See our{' '}
-                <a
+                <Link
                   href='/legal/privacy-policy'
                   style={{
                     color: theme.semanticColors.link.default,
@@ -129,7 +130,7 @@ export const CookieBanner: React.FC = () => {
                   }}
                 >
                   Privacy Policy
-                </a>{' '}
+                </Link>{' '}
                 for details.
               </Typography>
             </div>
