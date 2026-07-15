@@ -22,6 +22,8 @@ const https = require('https');
 
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
 const DEFAULT_CHANNEL_HANDLE = 'aplusinflux';
+// YouTube handles are case-insensitive, but the API forHandle param requires the exact
+// handle as registered on the channel. These values match their respective channel URLs.
 const ALLOWED_CHANNEL_HANDLES = ['aplusinflux', 'TerenceRWaters', 'theresonantidentity'];
 
 const CORS_HEADERS = {
