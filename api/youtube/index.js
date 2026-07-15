@@ -3,13 +3,15 @@
 /**
  * Azure Function: api/youtube
  *
- * Fetches videos, live streams, and playlists from the @aplusinflux YouTube channel via YouTube Data API v3.
+ * Fetches videos, live streams, and playlists from a YouTube channel via YouTube Data API v3.
  *
  * Environment variables required:
  *   YOUTUBE_API_KEY  — Your Google/YouTube Data API v3 key
  *
  * Query params:
  *   - type: 'videos' | 'live' | 'playlists' (default: 'videos')
+ *   - channel: YouTube channel handle without the @ prefix (default: 'aplusinflux')
+ *              Allowed values: 'aplusinflux', 'TerenceRWaters', 'theresonantidentity'
  *   - pageToken: pagination token (optional)
  *
  * Deploy to Azure Static Web Apps alongside the Next.js static export.
@@ -19,7 +21,8 @@
 const https = require('https');
 
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
-const CHANNEL_HANDLE = 'aplusinflux';
+const DEFAULT_CHANNEL_HANDLE = 'aplusinflux';
+const ALLOWED_CHANNEL_HANDLES = ['aplusinflux', 'TerenceRWaters', 'theresonantidentity'];
 
 const CORS_HEADERS = {
   'Content-Type': 'application/json',
@@ -53,12 +56,13 @@ function httpGet(url) {
 }
 
 /**
- * Resolve @aplusinflux handle to channel ID.
+ * Resolve channel handle to channel ID.
  * @param {string} apiKey
+ * @param {string} channelHandle
  * @returns {Promise<string | null>}
  */
-async function getChannelId(apiKey) {
-  const url = `${YOUTUBE_API_BASE}/channels?part=id&forHandle=${CHANNEL_HANDLE}&key=${apiKey}`;
+async function getChannelId(apiKey, channelHandle) {
+  const url = `${YOUTUBE_API_BASE}/channels?part=id&forHandle=${channelHandle}&key=${apiKey}`;
   try {
     const data = await httpGet(url);
     return data.items?.[0]?.id ?? null;
@@ -217,6 +221,7 @@ module.exports = async function (context, req) {
 
   const type = req.query.type || 'videos';
   const pageToken = req.query.pageToken || undefined;
+  const channelHandle = req.query.channel || DEFAULT_CHANNEL_HANDLE;
 
   // Validate type parameter
   if (!['videos', 'live', 'playlists'].includes(type)) {
@@ -230,10 +235,22 @@ module.exports = async function (context, req) {
     };
   }
 
+  // Validate channel parameter
+  if (!ALLOWED_CHANNEL_HANDLES.includes(channelHandle)) {
+    return {
+      status: 400,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({
+        videos: [],
+        error: 'Invalid channel parameter',
+      }),
+    };
+  }
+
   try {
-    const channelId = await getChannelId(apiKey);
+    const channelId = await getChannelId(apiKey, channelHandle);
     if (!channelId) {
-      context.log(`Channel @${CHANNEL_HANDLE} not found`);
+      context.log(`Channel @${channelHandle} not found`);
       return {
         status: 404,
         headers: CORS_HEADERS,
@@ -246,7 +263,7 @@ module.exports = async function (context, req) {
 
     const result = await fetchVideos(apiKey, channelId, type, pageToken);
     context.log(
-      `Successfully fetched ${result.videos.length} ${type} from @${CHANNEL_HANDLE}`
+      `Successfully fetched ${result.videos.length} ${type} from @${channelHandle}`
     );
 
     return {
