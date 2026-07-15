@@ -350,8 +350,9 @@ const enqueuePayload = async (
   try {
     // maxRetries: 0 — enqueuing is a write. A timeout after the queue accepted
     // the message would put a second copy on it and the lead would be
-    // processed twice. The caller treats a false return as "not queued", which
-    // is the safer way to be wrong here.
+    // processed twice. Note that a timeout here throws rather than returning
+    // false (see the catch below, which rethrows as a plain Error), so the
+    // handler's own catch does not get a chance to answer — a known gap.
     const { statusCode } = await request(`https://${endpoint}${requestPath}`, {
       method: 'POST',
       // No explicit Content-Length: fetch derives it from the body, and the
