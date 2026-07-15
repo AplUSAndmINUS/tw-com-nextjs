@@ -20,9 +20,16 @@ import RSSLogo from '@/assets/svgs/RSSLogo';
 import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
 import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
-import { TRI_LINKS } from './constants';
+import { TRI_LINKS, TRI_YOUTUBE_CHANNEL_HANDLE } from './constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import { ArrowRight24Regular, WindowNew24Regular } from '@fluentui/react-icons';
+import {
+  ArrowRight24Regular,
+  WindowNew24Regular,
+  Video24Regular,
+} from '@fluentui/react-icons';
+import { getApiBaseUrl } from '@/lib/environment';
+import { YouTubeVideo, formatDuration } from '@/app/videos/types';
+import { NativeLoadingImage } from '@/components/ui/LoadingImage';
 
 interface TheResonantIdentityPageProps {
   episodes: PodcastEpisode[];
@@ -78,6 +85,142 @@ function PlatformIconLink({
     >
       <Icon color={iconColor} style={{ width: '28px', height: '28px' }} />
     </Link>
+  );
+}
+
+function TRIYouTubeVideos() {
+  const { theme, reducedTransparency } = useAppTheme();
+  const [videos, setVideos] = React.useState<YouTubeVideo[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const apiUrl = getApiBaseUrl();
+        const res = await fetch(
+          `${apiUrl}/api/youtube?type=videos&channel=${TRI_YOUTUBE_CHANNEL_HANDLE}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) {
+          setVideos((data.videos || []).slice(0, 6));
+        }
+      } catch {
+        // Silently fail — YouTube section is supplemental
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading || videos.length === 0) return null;
+
+  return (
+    <div
+      className='rounded-lg border mt-12 p-6'
+      style={{
+        borderColor: theme.semanticColors.border.default,
+        backgroundColor: theme.semanticColors.background.base,
+      }}
+    >
+      <div className='flex items-center justify-between mb-4'>
+        <Typography
+          variant='h3'
+          className='text-lg font-semibold'
+          style={{ color: theme.semanticColors.text.primary }}
+        >
+          Videos on YouTube
+        </Typography>
+        <ThemedLink
+          variant='bodySmall'
+          hoverScale={1.05}
+          href={TRI_LINKS.youtube}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='inline-flex items-center gap-1 text-sm font-semibold'
+          style={{ color: theme.semanticColors.link.default }}
+        >
+          View all
+          <FluentIcon
+            color={theme.semanticColors.link.default}
+            iconName={WindowNew24Regular}
+            style={{ marginLeft: theme.spacing.s2 }}
+          />
+        </ThemedLink>
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+        {videos.map((video) => {
+          const duration = formatDuration(video.duration);
+          return (
+            <a
+              key={video.id}
+              href={`https://www.youtube.com/watch?v=${video.id}`}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='block rounded-lg overflow-hidden border transition-all duration-200'
+              style={{
+                borderColor: theme.semanticColors.border.default,
+                backgroundColor: theme.semanticColors.background.elevated,
+              }}
+              aria-label={video.title}
+            >
+              <div className='relative' style={{ paddingTop: '56.25%' }}>
+                {video.thumbnailUrl ? (
+                  <NativeLoadingImage
+                    src={video.thumbnailUrl}
+                    alt={video.title}
+                    wrapperStyle={{ position: 'absolute', inset: 0 }}
+                    className='w-full h-full object-cover'
+                    loading='lazy'
+                  />
+                ) : (
+                  <div
+                    className='absolute top-0 left-0 w-full h-full flex items-center justify-center'
+                    style={{
+                      backgroundColor: theme.semanticColors.background.muted,
+                    }}
+                  >
+                    <FluentIcon
+                      iconName={Video24Regular}
+                      style={{
+                        fontSize: '2rem',
+                        color: theme.semanticColors.text.muted,
+                      }}
+                    />
+                  </div>
+                )}
+                {duration && (
+                  <div
+                    className='absolute bottom-2 right-2 text-white text-xs font-semibold px-2 py-1 rounded'
+                    style={{
+                      backgroundColor: reducedTransparency
+                        ? 'rgba(0, 0, 0, 0.95)'
+                        : 'rgba(0, 0, 0, 0.85)',
+                    }}
+                  >
+                    {duration}
+                  </div>
+                )}
+              </div>
+              <div className='p-3'>
+                <Typography
+                  variant='body'
+                  className='font-semibold line-clamp-2 text-sm'
+                  style={{ color: theme.semanticColors.text.primary }}
+                >
+                  {video.title}
+                </Typography>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -338,6 +481,9 @@ export function TheResonantIdentityPageClient({
             />
           </ThemedLink>
         </div>
+
+        {/* TRI YouTube Videos */}
+        <TRIYouTubeVideos />
 
         {/* Episodes Section */}
         <div className='mt-16'>
