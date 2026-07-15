@@ -396,6 +396,37 @@ test('a junk API_HTTP_MAX_RETRIES falls back to the default', async () => {
   }
 });
 
+test('a whitespace-only API_HTTP_MAX_RETRIES does not disable retries', async () => {
+  // Number(' ') is 0, which would silently turn retries off for what is
+  // almost certainly an unset app setting.
+  const stub = stubFetch(async () => fakeResponse(500, 'boom'));
+  process.env.API_HTTP_MAX_RETRIES = '   ';
+
+  try {
+    await request(URL_UNDER_TEST, FAST);
+    assert.equal(stub.calls.length, 3);
+  } finally {
+    delete process.env.API_HTTP_MAX_RETRIES;
+    stub.restore();
+  }
+});
+
+test('a fractional API_HTTP_MAX_RETRIES falls back to the default', async () => {
+  // A non-integer count would leave the attempt loop unable to reach its
+  // bound, falling through to the "unreachable" throw.
+  const stub = stubFetch(async () => fakeResponse(500, 'boom'));
+  process.env.API_HTTP_MAX_RETRIES = '0.5';
+
+  try {
+    const result = await request(URL_UNDER_TEST, FAST);
+    assert.equal(result.statusCode, 500);
+    assert.equal(stub.calls.length, 3);
+  } finally {
+    delete process.env.API_HTTP_MAX_RETRIES;
+    stub.restore();
+  }
+});
+
 test('API_HTTP_TIMEOUT_MS overrides the default timeout', async () => {
   const stub = stubFetch(hangingFetch());
   process.env.API_HTTP_TIMEOUT_MS = '15';

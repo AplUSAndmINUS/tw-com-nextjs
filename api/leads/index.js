@@ -267,7 +267,11 @@ const createSharePointItemWithRetry = async (
     try {
       return await createSharePointItem(token, siteId, listId, fields, log);
     } catch (err) {
-      if (attempt === MAX_ATTEMPTS || !err.isTransient) {
+      // Timeouts are transient but deliberately not retried here: unlike a 5xx,
+      // a timeout leaves it unknown whether Graph committed the row, so
+      // retrying risks duplicate leads. Throwing keeps isTransient set, so the
+      // handler still queues the payload rather than dropping the lead.
+      if (attempt === MAX_ATTEMPTS || !err.isTransient || err.isTimeout) {
         log(
           `Failed to create SharePoint item after ${attempt} attempts: ${err.message}`
         );

@@ -211,6 +211,187 @@ test('contact returns 504 when SMTP2Go never responds', async () => {
   }
 });
 
+// --- write safety: a retry must not duplicate a committed write ---
+
+test('subscribe does not retry the list-item POST, so a slow Graph cannot double-subscribe', async () => {
+  const restoreEnv = withEnv(SHAREPOINT_ENV);
+  const original = globalThis.fetch;
+  const context = createContext();
+  let creates = 0;
+
+  // Graph answers the token call, then accepts the create and goes silent —
+  // the case where the row is most likely already committed.
+  globalThis.fetch = (url, opts) => {
+    const target = String(url);
+
+    if (target.includes('login.microsoftonline.com')) {
+      return Promise.resolve({
+        status: 200,
+        headers: new Headers(),
+        text: async () => JSON.stringify({ access_token: 'token' }),
+      });
+    }
+
+    creates += 1;
+    return new Promise((_resolve, reject) => {
+      opts.signal.addEventListener('abort', () => {
+        const err = new Error('This operation was aborted');
+        err.name = 'AbortError';
+        reject(err);
+      });
+    });
+  };
+
+  try {
+    const res = await subscribe(context, newsletterRequest('203.0.113.7'));
+
+    assert.equal(creates, 1, 'the create POST must be attempted exactly once');
+    assert.equal(
+      res.status,
+      504,
+      'and the timeout must surface, not a false 200'
+    );
+  } finally {
+    globalThis.fetch = original;
+    restoreEnv();
+  }
+});
+
+test('contact does not retry the SMTP2Go send, so a slow upstream cannot double-send', async () => {
+  const restoreEnv = withEnv(CONTACT_ENV);
+  const original = globalThis.fetch;
+  const previousRecaptcha = process.env.RECAPTCHA_SECRET_KEY;
+  delete process.env.RECAPTCHA_SECRET_KEY;
+  const context = createContext();
+  let sends = 0;
+
+  globalThis.fetch = (_url, opts) => {
+    sends += 1;
+    return new Promise((_resolve, reject) => {
+      opts.signal.addEventListener('abort', () => {
+        const err = new Error('This operation was aborted');
+        err.name = 'AbortError';
+        reject(err);
+      });
+    });
+  };
+
+  try {
+    const res = await contact(context, {
+      method: 'POST',
+      headers: { origin: 'https://terencewaters.com' },
+      body: JSON.stringify({
+        name: 'Ada',
+        email: 'ada@example.com',
+        message: 'Hello there',
+      }),
+    });
+
+    assert.equal(sends, 1, 'the recipient must not get a second copy');
+    assert.equal(res.status, 504);
+  } finally {
+    globalThis.fetch = original;
+    if (previousRecaptcha !== undefined) {
+      process.env.RECAPTCHA_SECRET_KEY = previousRecaptcha;
+    }
+    restoreEnv();
+  }
+});
+
+test('unsubscribe reports success when the delete 404s after a retried timeout', async () => {
+  const restoreEnv = withEnv(SHAREPOINT_ENV);
+  const original = globalThis.fetch;
+  const context = createContext();
+  let deletes = 0;
+
+  globalThis.fetch = (url, opts) => {
+    const target = String(url);
+
+    if (target.includes('login.microsoftonline.com')) {
+      return Promise.resolve({
+        status: 200,
+        headers: new Headers(),
+        text: async () => JSON.stringify({ access_token: 'token' }),
+      });
+    }
+
+    if (target.includes('$filter=')) {
+      return Promise.resolve({
+        status: 200,
+        headers: new Headers(),
+        text: async () => JSON.stringify({ value: [{ id: '7' }] }),
+      });
+    }
+
+    deletes += 1;
+
+    // First DELETE lands but stalls; the retry finds the item already gone.
+    if (deletes === 1) {
+      return new Promise((_resolve, reject) => {
+        opts.signal.addEventListener('abort', () => {
+          const err = new Error('This operation was aborted');
+          err.name = 'AbortError';
+          reject(err);
+        });
+      });
+    }
+
+    return Promise.resolve({
+      status: 404,
+      headers: new Headers(),
+      text: async () =>
+        JSON.stringify({ error: { message: 'Item not found' } }),
+    });
+  };
+
+  try {
+    const res = await unsubscribe(context, newsletterRequest('203.0.113.8'));
+
+    assert.equal(
+      deletes,
+      2,
+      'the delete is idempotent, so retrying it is fine'
+    );
+    assert.equal(
+      res.status,
+      200,
+      'the reader is unsubscribed — a 404 on the retry must not report failure'
+    );
+  } finally {
+    globalThis.fetch = original;
+    restoreEnv();
+  }
+});
+
+test('contact returns 504, not 400, when reCAPTCHA times out', async () => {
+  // A Google outage is not the user failing a captcha.
+  const restoreEnv = withEnv({
+    ...CONTACT_ENV,
+    RECAPTCHA_SECRET_KEY: 'secret',
+  });
+  const upstream = stubHangingUpstream();
+  const context = createContext();
+
+  try {
+    const res = await contact(context, {
+      method: 'POST',
+      headers: { origin: 'https://terencewaters.com' },
+      body: JSON.stringify({
+        name: 'Ada',
+        email: 'ada@example.com',
+        message: 'Hello there',
+        recaptchaToken: 'token',
+      }),
+    });
+
+    assert.equal(res.status, 504);
+    assert.match(JSON.parse(res.body).error, /timed out/i);
+  } finally {
+    upstream.restore();
+    restoreEnv();
+  }
+});
+
 test('unsubscribe still escapes single quotes in the OData filter (#131)', async () => {
   const restoreEnv = withEnv({
     ...SHAREPOINT_ENV,

@@ -135,6 +135,11 @@ async function addEmailToSharePoint(accessToken, siteId, listId, email, log) {
 
   const payload = JSON.stringify({ fields });
 
+  // maxRetries: 0 — this POST creates a list row and Graph offers no
+  // idempotency key. A timeout is precisely the case where Graph most likely
+  // *did* commit the write and was merely slow to say so, and there is no
+  // exists-check on this path, so a retry would silently subscribe the reader
+  // twice. Failing loudly (504) beats a duplicate the user cannot see.
   const result = await requestJson(
     `${GRAPH_BASE_URL}/sites/${siteId}/lists/${listId}/items`,
     {
@@ -144,6 +149,7 @@ async function addEmailToSharePoint(accessToken, siteId, listId, email, log) {
         'Content-Type': 'application/json',
       },
       body: payload,
+      maxRetries: 0,
       label: 'Graph list item create',
       log,
     }

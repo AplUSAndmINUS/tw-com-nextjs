@@ -691,7 +691,9 @@ const { statusCode, text } = await request(url, { method: 'DELETE' });
 - Do not set a `Content-Length` header; `fetch` derives it from the body.
 - Map `isTimeoutError(err)` to **504 Gateway Timeout**, not 500, so a slow upstream is distinguishable from a real failure.
 - Pass `maxRetries: 0` when an outer layer already retries, so attempts don't multiply.
-- Retrying a non-idempotent POST can duplicate a write if the upstream applied it before failing. Prefer `maxRetries: 0` where a duplicate is worse than a failure.
+- **Never retry a non-idempotent write.** A timeout is exactly the case where the upstream most likely _did_ apply the write and was merely slow to say so, so a retry duplicates it — silently, since the caller still sees a success. The write POSTs (`subscribe`'s list-item create, `contact`'s SMTP2Go send, `leads`' list-item create) all pass `maxRetries: 0` and surface 504 instead. Retries are for reads, token calls, and deletes.
+- A retryable DELETE must treat **404 as success** (see `unsubscribe`): a retry after a delete that actually landed sees 404, and calling that a failure reports 500 for completed work.
+- Don't flatten a timeout into a domain-level failure result. `verifyRecaptcha` rethrows `HttpTimeoutError` rather than folding it into `{ success: false }`, so a Google outage reports 504 instead of telling the user their captcha failed.
 
 ---
 

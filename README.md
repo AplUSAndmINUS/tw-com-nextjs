@@ -123,6 +123,8 @@ The `/api/subscribe` and `/api/unsubscribe` Azure Functions handle newsletter si
 
 Note that 4xx and 429 responses are deliberately not retried: a 4xx fails identically on a retry, and 429 carries a `Retry-After` that a blind backoff would ignore.
 
+Retries are also switched off for the non-idempotent writes — the subscribe and leads list-item creates, and the contact form's SMTP2Go send. A timeout is exactly the case where the upstream most likely did apply the write and was only slow to acknowledge it, so retrying would add a duplicate subscriber or send a second copy of the email. Those calls still get the 5-second timeout and surface `504` instead.
+
 ### Key files
 
 | File                                                         | Role                                                          |

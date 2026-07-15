@@ -201,7 +201,11 @@ async function deleteEmailFromSharePoint(
     }
   );
 
-  if (result.statusCode !== 204) {
+  // 404 counts as success: the item is gone, which is all this function
+  // promises. That also makes the DELETE safe to retry — a retry after a
+  // timeout that actually landed sees 404 on the second attempt, and treating
+  // it as a failure would report 500 for a completed unsubscribe.
+  if (result.statusCode !== 204 && result.statusCode !== 404) {
     throw new Error(
       `Failed to delete item from SharePoint: HTTP ${result.statusCode}`
     );

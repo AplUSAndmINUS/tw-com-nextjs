@@ -50,14 +50,20 @@ function envNumber(name, fallback) {
 /**
  * Retry count override. Unlike envNumber() this accepts 0, so retries can be
  * switched off globally via API_HTTP_MAX_RETRIES=0.
+ *
+ * Blank and whitespace-only values fall back to the default rather than
+ * becoming 0 — Number(' ') is 0, which would silently disable retries for what
+ * is almost certainly an unset app setting. Non-integers fall back too, since a
+ * fractional count would make the attempt loop's bounds meaningless.
+ *
  * @returns {number}
  */
 function envRetries() {
   const raw = process.env.API_HTTP_MAX_RETRIES;
-  if (raw === undefined || raw === '') return DEFAULT_MAX_RETRIES;
+  if (raw === undefined || raw.trim() === '') return DEFAULT_MAX_RETRIES;
 
   const parsed = Number(raw);
-  return Number.isFinite(parsed) && parsed >= 0 ? parsed : DEFAULT_MAX_RETRIES;
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : DEFAULT_MAX_RETRIES;
 }
 
 /**

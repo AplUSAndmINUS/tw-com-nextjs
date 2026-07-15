@@ -41,10 +41,15 @@ const CORS_HEADERS = {
  * @returns {Promise<{ statusCode: number; body: object }>}
  */
 async function httpPost(url, payload, log) {
+  // maxRetries: 0 — this POST hands a message to SMTP2Go for delivery. If it
+  // accepts the mail and then stalls, a retry sends the recipient a second
+  // copy. There is no idempotency key to lean on, so prefer a visible failure
+  // over a duplicate email.
   const { statusCode, text } = await request(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+    maxRetries: 0,
     label: 'SMTP2Go send',
     log,
   });
@@ -124,6 +129,13 @@ async function verifyRecaptcha(token, secretKey, log) {
 
     return { success: true, score };
   } catch (error) {
+    // A timeout means Google never answered — that is an upstream outage, not
+    // a failed captcha. Rethrow so the handler reports 504 instead of telling
+    // the user their verification failed and to try again.
+    if (isTimeoutError(error)) {
+      throw error;
+    }
+
     return {
       success: false,
       error: `reCAPTCHA verification error: ${error.message}`,
@@ -205,11 +217,28 @@ module.exports = async function (context, req) {
   const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
   if (recaptchaSecretKey) {
     context.log('Verifying reCAPTCHA token');
-    const recaptchaResult = await verifyRecaptcha(
-      recaptchaToken,
-      recaptchaSecretKey,
-      (msg) => context.log(msg)
-    );
+
+    let recaptchaResult;
+    try {
+      recaptchaResult = await verifyRecaptcha(
+        recaptchaToken,
+        recaptchaSecretKey,
+        (msg) => context.log(msg)
+      );
+    } catch (error) {
+      // Only a timeout escapes verifyRecaptcha; everything else is folded into
+      // a { success: false } result.
+      context.log(
+        `Contact form timed out calling ${error.label} after ${error.timeoutMs} ms`
+      );
+      return {
+        status: 504,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: 'The request timed out. Please try again later.',
+        }),
+      };
+    }
 
     if (!recaptchaResult.success) {
       context.log('reCAPTCHA verification failed:', recaptchaResult.error);
