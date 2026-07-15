@@ -19,11 +19,12 @@
  *   200 { "message": "Subscribed successfully" }
  *   400 { "error": "..." }
  *   500 { "error": "..." }
+ *   504 { "error": "..." }  Upstream (Entra ID or Graph) timed out.
  */
 
 'use strict';
 
-const https = require('https');
+const { requestJson, isTimeoutError } = require('../httpClient');
 const {
   getClientIp,
   takeNewsletterRateLimitToken,
@@ -68,47 +69,15 @@ function isValidEmail(email) {
 }
 
 /**
- * Performs an HTTPS request and returns the parsed JSON response.
- * @param {object} options - Node https.request options
- * @param {string|null} body - Request body (JSON string or null)
- * @returns {Promise<{ statusCode: number; body: object }>}
- */
-function httpsRequest(options, body) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let responseBody = '';
-      res.on('data', (chunk) => (responseBody += chunk));
-      res.on('end', () => {
-        try {
-          resolve({
-            statusCode: res.statusCode,
-            body: responseBody ? JSON.parse(responseBody) : {},
-          });
-        } catch {
-          resolve({ statusCode: res.statusCode, body: {} });
-        }
-      });
-    });
-
-    req.on('error', reject);
-
-    if (body) {
-      req.write(body);
-    }
-
-    req.end();
-  });
-}
-
-/**
  * Acquires an OAuth2 access token from Microsoft Entra ID (formerly Azure AD)
  * using the client credentials flow.
  * @param {string} tenantId
  * @param {string} clientId
  * @param {string} clientSecret
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<string>} access token
  */
-async function getAccessToken(tenantId, clientId, clientSecret) {
+async function getAccessToken(tenantId, clientId, clientSecret, log) {
   const body = new URLSearchParams({
     grant_type: 'client_credentials',
     client_id: clientId,
@@ -116,17 +85,16 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
     scope: 'https://graph.microsoft.com/.default',
   }).toString();
 
-  const options = {
-    hostname: 'login.microsoftonline.com',
-    path: `/${tenantId}/oauth2/v2.0/token`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(body),
-    },
-  };
-
-  const result = await httpsRequest(options, body);
+  const result = await requestJson(
+    `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+      label: 'Entra ID token endpoint',
+      log,
+    }
+  );
 
   if (result.statusCode !== 200 || !result.body.access_token) {
     throw new Error(
@@ -149,9 +117,10 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
  * @param {string} siteId
  * @param {string} listId
  * @param {string} email
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<object>} created item
  */
-async function addEmailToSharePoint(accessToken, siteId, listId, email) {
+async function addEmailToSharePoint(accessToken, siteId, listId, email, log) {
   const emailField = process.env.SHAREPOINT_EMAIL_FIELD || 'Email';
   const platformField =
     process.env.SHAREPOINT_PLATFORM_FIELD || 'Lead_x0020_Platform';
@@ -166,18 +135,25 @@ async function addEmailToSharePoint(accessToken, siteId, listId, email) {
 
   const payload = JSON.stringify({ fields });
 
-  const options = {
-    hostname: 'graph.microsoft.com',
-    path: `/v1.0/sites/${siteId}/lists/${listId}/items`,
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(payload),
-    },
-  };
-
-  const result = await httpsRequest(options, payload);
+  // maxRetries: 0 — this POST creates a list row and Graph offers no
+  // idempotency key. A timeout is precisely the case where Graph most likely
+  // *did* commit the write and was merely slow to say so, and there is no
+  // exists-check on this path, so a retry would silently subscribe the reader
+  // twice. Failing loudly (504) beats a duplicate the user cannot see.
+  const result = await requestJson(
+    `${GRAPH_BASE_URL}/sites/${siteId}/lists/${listId}/items`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: payload,
+      maxRetries: 0,
+      label: 'Graph list item create',
+      log,
+    }
+  );
 
   if (result.statusCode !== 201) {
     const detail = result.body?.error?.message || JSON.stringify(result.body);
@@ -267,9 +243,16 @@ module.exports = async function (context, req) {
     };
   }
 
+  const log = (msg) => context.log(msg);
+
   try {
-    const accessToken = await getAccessToken(tenantId, clientId, clientSecret);
-    await addEmailToSharePoint(accessToken, siteId, listId, trimmedEmail);
+    const accessToken = await getAccessToken(
+      tenantId,
+      clientId,
+      clientSecret,
+      log
+    );
+    await addEmailToSharePoint(accessToken, siteId, listId, trimmedEmail, log);
 
     context.log(`Newsletter subscription added for: ${trimmedEmail}`);
 
@@ -279,6 +262,19 @@ module.exports = async function (context, req) {
       body: JSON.stringify({ message: 'Subscribed successfully' }),
     };
   } catch (err) {
+    if (isTimeoutError(err)) {
+      context.log.error(
+        `Newsletter subscribe timed out calling ${err.label} after ${err.timeoutMs} ms`
+      );
+      return {
+        status: 504,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: 'The request timed out. Please try again.',
+        }),
+      };
+    }
+
     context.log.error('Newsletter subscribe error:', err.message);
     return {
       status: 500,

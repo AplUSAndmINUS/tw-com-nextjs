@@ -20,11 +20,12 @@
  *   400 { "error": "..." }
  *   404 { "message": "Email not found" }  Returned whether or not the email existed in the list (no user-visible "not found" error — see 4d).
  *   500 { "error": "..." }
+ *   504 { "error": "..." }  Upstream (Entra ID or Graph) timed out.
  */
 
 'use strict';
 
-const https = require('https');
+const { request, requestJson, isTimeoutError } = require('../httpClient');
 const {
   getClientIp,
   takeNewsletterRateLimitToken,
@@ -86,46 +87,14 @@ function escapeODataString(value) {
 }
 
 /**
- * Performs an HTTPS request and returns the parsed JSON response.
- * @param {object} options - Node https.request options
- * @param {string|null} body - Request body (JSON string or null)
- * @returns {Promise<{ statusCode: number; body: object }>}
- */
-function httpsRequest(options, body) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let responseBody = '';
-      res.on('data', (chunk) => (responseBody += chunk));
-      res.on('end', () => {
-        try {
-          resolve({
-            statusCode: res.statusCode,
-            body: responseBody ? JSON.parse(responseBody) : {},
-          });
-        } catch {
-          resolve({ statusCode: res.statusCode, body: {} });
-        }
-      });
-    });
-
-    req.on('error', reject);
-
-    if (body) {
-      req.write(body);
-    }
-
-    req.end();
-  });
-}
-
-/**
  * Acquires an OAuth2 access token from Microsoft Entra ID using client credentials.
  * @param {string} tenantId
  * @param {string} clientId
  * @param {string} clientSecret
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<string>} access token
  */
-async function getAccessToken(tenantId, clientId, clientSecret) {
+async function getAccessToken(tenantId, clientId, clientSecret, log) {
   const body = new URLSearchParams({
     grant_type: 'client_credentials',
     client_id: clientId,
@@ -133,17 +102,16 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
     scope: 'https://graph.microsoft.com/.default',
   }).toString();
 
-  const options = {
-    hostname: 'login.microsoftonline.com',
-    path: `/${tenantId}/oauth2/v2.0/token`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(body),
-    },
-  };
-
-  const result = await httpsRequest(options, body);
+  const result = await requestJson(
+    `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+      label: 'Entra ID token endpoint',
+      log,
+    }
+  );
 
   if (result.statusCode !== 200 || !result.body.access_token) {
     throw new Error(
@@ -160,9 +128,10 @@ async function getAccessToken(tenantId, clientId, clientSecret) {
  * @param {string} siteId
  * @param {string} listId
  * @param {string} email
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<string|null>} item ID or null if not found
  */
-async function findEmailInSharePoint(accessToken, siteId, listId, email) {
+async function findEmailInSharePoint(accessToken, siteId, listId, email, log) {
   const emailField = process.env.SHAREPOINT_EMAIL_FIELD || 'Title';
   // Escape single quotes in the email before embedding it in the OData filter
   // literal. OData represents a literal ' as '' (doubled), so a malicious
@@ -174,20 +143,18 @@ async function findEmailInSharePoint(accessToken, siteId, listId, email) {
   );
   // $expand=fields is required for the fields/ filter prefix to resolve.
   // Prefer header allows filtering on non-indexed columns.
-  const path = `/v1.0/sites/${siteId}/lists/${listId}/items?$filter=${encodedFilter}&$expand=fields`;
+  const url = `${GRAPH_BASE_URL}/sites/${siteId}/lists/${listId}/items?$filter=${encodedFilter}&$expand=fields`;
 
-  const options = {
-    hostname: 'graph.microsoft.com',
-    path,
+  const result = await requestJson(url, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
       Prefer: 'HonorNonIndexedQueriesWarningMayFailRandomly',
     },
-  };
-
-  const result = await httpsRequest(options, null);
+    label: 'Graph list item lookup',
+    log,
+  });
 
   if (result.statusCode !== 200) {
     const detail = result.body?.error?.message || JSON.stringify(result.body);
@@ -210,21 +177,35 @@ async function findEmailInSharePoint(accessToken, siteId, listId, email) {
  * @param {string} siteId
  * @param {string} listId
  * @param {string} itemId
+ * @param {(msg: string) => void} [log]
  * @returns {Promise<void>}
  */
-async function deleteEmailFromSharePoint(accessToken, siteId, listId, itemId) {
-  const options = {
-    hostname: 'graph.microsoft.com',
-    path: `/v1.0/sites/${siteId}/lists/${listId}/items/${itemId}`,
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
+async function deleteEmailFromSharePoint(
+  accessToken,
+  siteId,
+  listId,
+  itemId,
+  log
+) {
+  // A successful DELETE returns 204 with no body, so use request() rather than
+  // requestJson() — there is nothing to parse.
+  const result = await request(
+    `${GRAPH_BASE_URL}/sites/${siteId}/lists/${listId}/items/${itemId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      label: 'Graph list item delete',
+      log,
+    }
+  );
 
-  const result = await httpsRequest(options, null);
-
-  if (result.statusCode !== 204) {
+  // 404 counts as success: the item is gone, which is all this function
+  // promises. That also makes the DELETE safe to retry — a retry after a
+  // timeout that actually landed sees 404 on the second attempt, and treating
+  // it as a failure would report 500 for a completed unsubscribe.
+  if (result.statusCode !== 204 && result.statusCode !== 404) {
     throw new Error(
       `Failed to delete item from SharePoint: HTTP ${result.statusCode}`
     );
@@ -309,13 +290,21 @@ module.exports = async function (context, req) {
     };
   }
 
+  const log = (msg) => context.log(msg);
+
   try {
-    const accessToken = await getAccessToken(tenantId, clientId, clientSecret);
+    const accessToken = await getAccessToken(
+      tenantId,
+      clientId,
+      clientSecret,
+      log
+    );
     const itemId = await findEmailInSharePoint(
       accessToken,
       siteId,
       listId,
-      trimmedEmail
+      trimmedEmail,
+      log
     );
 
     if (!itemId) {
@@ -328,7 +317,7 @@ module.exports = async function (context, req) {
       };
     }
 
-    await deleteEmailFromSharePoint(accessToken, siteId, listId, itemId);
+    await deleteEmailFromSharePoint(accessToken, siteId, listId, itemId, log);
     context.log(`Newsletter unsubscription completed for: ${trimmedEmail}`);
 
     return {
@@ -337,6 +326,19 @@ module.exports = async function (context, req) {
       body: JSON.stringify({ message: 'Unsubscribed successfully' }),
     };
   } catch (err) {
+    if (isTimeoutError(err)) {
+      context.log.error(
+        `Newsletter unsubscribe timed out calling ${err.label} after ${err.timeoutMs} ms`
+      );
+      return {
+        status: 504,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: 'The request timed out. Please try again.',
+        }),
+      };
+    }
+
     context.log.error('Newsletter unsubscribe error:', err.message);
     return {
       status: 500,

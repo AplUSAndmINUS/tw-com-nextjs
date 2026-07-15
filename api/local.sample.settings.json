@@ -27,6 +27,9 @@
     "LEAD_RATE_LIMIT_MAX_REQUESTS": "10",
     "LEAD_RATE_LIMIT_WINDOW_MS": "900000",
     "LEAD_STORE_RAW_PAYLOAD": "false",
+    "API_HTTP_TIMEOUT_MS": "5000",
+    "API_HTTP_MAX_RETRIES": "2",
+    "API_HTTP_RETRY_BASE_DELAY_MS": "500",
     "AzureWebJobs.ping.Disabled": "true"
   },
   "Host": {
