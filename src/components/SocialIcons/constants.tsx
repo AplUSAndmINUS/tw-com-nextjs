@@ -52,7 +52,7 @@ export const getSocialIcons = (): SocialIcon[] => [
   },
   {
     iconName: YouTubeLogo,
-    url: 'https://www.youtube.com/@terencewaters',
+    url: 'https://www.youtube.com/@TerenceRWaters',
     tooltip: 'YouTube',
     isTagline: true,
   },
