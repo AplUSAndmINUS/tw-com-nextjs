@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useUserPreferencesStore } from '@/store/userPreferencesStore';
 import { useAccessControlStore } from '@/store/accessControlStore';
 import { useNewsletterStore } from '@/store/newsletterStore';
+import { useConsentStore } from '@/store/consentStore';
 
 /**
  * StoreHydrator
@@ -17,6 +18,7 @@ export function StoreHydrator() {
     useUserPreferencesStore.persist?.rehydrate?.();
     useAccessControlStore.persist?.rehydrate?.();
     useNewsletterStore.persist?.rehydrate?.();
+    useConsentStore.persist?.rehydrate?.();
   }, []);
 
   // This component renders nothing—it only manages side effects

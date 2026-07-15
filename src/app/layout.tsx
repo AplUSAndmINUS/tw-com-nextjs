@@ -97,13 +97,39 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }}
         />
 
-        {/* Google AdSense */}
+        {/* Google AdSense publisher verification (meta tag only).
+            The actual AdSense script is consent-gated and loaded client-side
+            by the GoogleAnalytics component when ads consent is granted. */}
         <meta name='google-adsense-account' content='ca-pub-7691902367885014' />
+
+        {/*
+          Google Consent Mode v2 — initialise consent defaults to "denied"
+          BEFORE any Google scripts load. This must run synchronously in <head>
+          so that GA and AdSense never collect personal data before the user
+          has made a consent choice via the CookieBanner.
+          Consent is updated client-side by the GoogleAnalytics component.
+
+          wait_for_update: 500 — GA waits up to 500ms for a consent update before
+          firing with the defaults. Returning visitors with stored consent have their
+          preferences rehydrated quickly by StoreHydrator, well within this window.
+          First-time visitors will always have denied defaults until they interact
+          with the CookieBanner (which appears after SHOW_DELAY_MS = 800ms).
+        */}
         <script
-          async
-          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7691902367885014'
-          crossOrigin='anonymous'
-        ></script>
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'wait_for_update': 500
+              });
+            `,
+          }}
+        />
       </head>
       <body className='font-sans antialiased'>
         <Providers>{children}</Providers>
