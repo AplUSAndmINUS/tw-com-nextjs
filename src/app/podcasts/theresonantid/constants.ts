@@ -4,6 +4,7 @@ export const TRI_LINKS = {
   tiktok: 'https://www.tiktok.com/@theresonantid',
   podcast: '/podcasts/theresonantid/', // setting as the main podcast page for now since it links to all platforms
   about: 'https://fluxline.pro/podcasts/theresonantid/about',
-  facebookGroup: 'https://www.facebook.com/groups/theresonantid',
-  facebookPage: 'https://www.facebook.com/theresonantid',
+  website: 'https://www.theresonantidentity.com/',
+  facebookGroup: 'https://www.facebook.com/groups/theresonantidentity',
+  facebookPage: 'https://www.facebook.com/theresonantidentity',
 } as const;
