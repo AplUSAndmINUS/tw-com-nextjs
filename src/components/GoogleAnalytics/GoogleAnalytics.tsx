@@ -49,7 +49,7 @@ function callGtag(
  * - GA4 script is loaded once the component mounts (always loaded so that
  *   Consent Mode can send anonymised, cookieless pings even before consent).
  * - AdSense is loaded only after `adsConsent` is granted to prevent serving
- *   personalised ads before user interaction.
+ *   personalized ads before user interaction.
  * - On every consent change, `gtag('consent', 'update', {...})` is called to
  *   inform Google of the current consent state.
  *

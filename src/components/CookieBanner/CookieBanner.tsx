@@ -116,21 +116,23 @@ export const CookieBanner: React.FC = () => {
                   lineHeight: 1.5,
                 }}
               >
-                We use cookies and similar technologies to analyse site traffic
-                and serve personalised ads. By clicking{' '}
+                We use cookies and similar technologies to analyze site traffic
+                and serve personalized ads. By clicking{' '}
                 <strong>Accept All</strong>, you consent to analytics and
-                personalised advertising. You can also{' '}
+                personalized advertising. You can also{' '}
                 <strong>Reject Non-Essential</strong> cookies. See our{' '}
-                <Link
-                  href='/legal/privacy-policy'
+                <a
+                  href='https://fluxline.pro/legal/privacy-policy'
+                  target='_blank'
+                  rel='noopener noreferrer'
                   style={{
                     color: theme.semanticColors.link.default,
                     textDecoration: 'underline',
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  Privacy Policy
-                </Link>{' '}
+                  Privacy Policy on Fluxline.pro
+                </a>{' '}
                 for details.
               </Typography>
             </div>
