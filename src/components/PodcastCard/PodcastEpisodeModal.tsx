@@ -12,6 +12,11 @@ import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { PodcastEpisode } from '@/content/types';
 import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
+import {
+  usePodcastPlayer,
+  PlayPauseButton,
+  PodcastScrubber,
+} from '@/components/PodcastPlayer';
 
 interface PodcastEpisodeModalProps {
   isOpen: boolean;
@@ -28,6 +33,17 @@ export const PodcastEpisodeModal: React.FC<PodcastEpisodeModalProps> = ({
 }) => {
   const { theme } = useAppTheme();
   const { filter } = useColorVisionFilter();
+  const { load, setModalOpen } = usePodcastPlayer();
+
+  // Hand the episode to the shared player and suppress the mini-player while
+  // this modal is showing the same controls. Once it closes the mini-player
+  // takes over, mid-episode, without a reload.
+  React.useEffect(() => {
+    if (!episode || !isOpen) return;
+    load(episode);
+    setModalOpen(true);
+    return () => setModalOpen(false);
+  }, [episode, isOpen, load, setModalOpen]);
 
   if (!episode) {
     return null;
@@ -170,19 +186,23 @@ export const PodcastEpisodeModal: React.FC<PodcastEpisodeModalProps> = ({
             </div>
           )}
 
-          {/* Audio Player */}
+          {/* Audio player — drives the shared <audio> element so playback carries
+              over to the mini-player when this modal closes. */}
           {episode.audioUrl && (
-            <div style={{ marginTop: theme.spacing.l }}>
-              <audio
-                controls
-                style={{
-                  width: '100%',
-                  borderRadius: theme.borderRadius.container.small,
-                }}
-              >
-                <source src={episode.audioUrl} type='audio/mpeg' />
-                Your browser does not support the audio element.
-              </audio>
+            <div
+              style={{
+                marginTop: theme.spacing.l,
+                display: 'flex',
+                alignItems: 'center',
+                gap: theme.spacing.s2,
+                padding: theme.spacing.s2,
+                backgroundColor: theme.palette.neutralLighterAlt,
+                border: `1px solid ${theme.semanticColors.border.default}`,
+                borderRadius: theme.borderRadius.container.small,
+              }}
+            >
+              <PlayPauseButton size={48} />
+              <PodcastScrubber />
             </div>
           )}
         </div>
