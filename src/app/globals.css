@@ -188,6 +188,17 @@ body.kofi-visible [id^='kofi-widget-overlay'] {
   display: block !important;
 }
 
+/* Ko-Fi pins its widget to the bottom-left at a z-index in the tens of millions,
+   so it paints over the podcast mini-player bar. Lift it clear by the height the
+   bar reports in --podcast-mini-player-height (set by PodcastMiniPlayer.tsx while
+   the bar is up). Margin, rather than overriding `bottom` or `transform`, leaves
+   Ko-Fi owning its own offset and animations; the 0px fallback makes this a no-op
+   whenever nothing is playing. */
+.floatingchat-container-wrap {
+  margin-bottom: var(--podcast-mini-player-height, 0px);
+  transition: margin-bottom 0.28s ease-out;
+}
+
 /* Override browser native dark-mode link color injection for podcast platform buttons.
    The browser (Chromium/Safari forced dark mode) injects escalating !important rules
    for `color` on links. -webkit-text-fill-color overrides `color` for text rendering

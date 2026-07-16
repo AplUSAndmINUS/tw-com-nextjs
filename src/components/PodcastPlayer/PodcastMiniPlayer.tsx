@@ -40,6 +40,18 @@ const SHOW_NAME = 'The Resonant Identity';
 /** Distance (px) the bar slides up from on enter. */
 const SLIDE_OFFSET = 140;
 
+/**
+ * Vertical space (px) the bar occupies. Taller on mobile, where the scrubber
+ * wraps onto its own row. Page content is padded by this much so the fixed bar
+ * never covers the end of the page, and it is published as
+ * --podcast-mini-player-height for the Ko-Fi widget to clear (see globals.css).
+ */
+const BAR_SPACE_DESKTOP = 88;
+const BAR_SPACE_MOBILE = 132;
+
+/** Custom property other fixed-position UI reads to stay clear of the bar. */
+const BAR_HEIGHT_VAR = '--podcast-mini-player-height';
+
 /** Decode HTML entities (e.g. &amp; -> &) in RSS-provided episode titles. */
 const decodeHtmlEntities = (input: string): string => {
   if (typeof document === 'undefined') return input;
@@ -62,13 +74,17 @@ export const PodcastMiniPlayer: React.FC = () => {
   const visible = Boolean(episode) && hasStarted && !isModalOpen;
   const title = episode ? decodeHtmlEntities(episode.title) : '';
 
-  // Keep the fixed bar from covering the end of the page (footer links, etc.).
+  // Keep the fixed bar from covering the end of the page (footer links, etc.),
+  // and let other bottom-anchored UI move clear of it.
   React.useEffect(() => {
     if (!visible) return;
+    const space = `${isMobile ? BAR_SPACE_MOBILE : BAR_SPACE_DESKTOP}px`;
     const previous = document.body.style.paddingBottom;
-    document.body.style.paddingBottom = isMobile ? '132px' : '88px';
+    document.body.style.paddingBottom = space;
+    document.documentElement.style.setProperty(BAR_HEIGHT_VAR, space);
     return () => {
       document.body.style.paddingBottom = previous;
+      document.documentElement.style.removeProperty(BAR_HEIGHT_VAR);
     };
   }, [visible, isMobile]);
 
