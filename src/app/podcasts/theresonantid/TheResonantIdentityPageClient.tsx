@@ -20,7 +20,7 @@ import RSSLogo from '@/assets/svgs/RSSLogo';
 import ResonantIdentityLogo from '@/assets/images/ResonantIdentity_logo.png';
 import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
-import { TRI_LINKS, TRI_YOUTUBE_CHANNEL_HANDLE } from './constants';
+import { TRI_LINKS, TRI_YOUTUBE_CHANNEL_HANDLES } from './constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
 import {
   ArrowRight24Regular,
@@ -98,8 +98,9 @@ function TRIYouTubeVideos() {
     async function load() {
       try {
         const apiUrl = getApiBaseUrl();
+        const channelQuery = TRI_YOUTUBE_CHANNEL_HANDLES.join(',');
         const res = await fetch(
-          `${apiUrl}/api/youtube?type=videos&channel=${TRI_YOUTUBE_CHANNEL_HANDLE}`
+          `${apiUrl}/api/youtube?type=videos&channel=${encodeURIComponent(channelQuery)}`
         );
         if (!res.ok) return;
         const data = await res.json();

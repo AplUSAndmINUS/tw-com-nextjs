@@ -7,12 +7,12 @@ import VideoImage from '@/assets/images/Video1200x2150.jpg';
 export const metadata: Metadata = {
   title: 'Videos',
   description:
-    'Watch videos from the @aplusinflux YouTube channel — tutorials, live streams, playlists, and more.',
+    'Watch videos from the @TerenceRWaters and @theresonantidentity YouTube channels — tutorials, live streams, playlists, and more.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Videos | Terence Waters',
     description:
-      'Watch videos from the @aplusinflux YouTube channel — tutorials, live streams, playlists, and more.',
+      'Watch videos from the @TerenceRWaters and @theresonantidentity YouTube channels — tutorials, live streams, playlists, and more.',
     url: 'https://terencewaters.com/videos',
     siteName: 'Terence Waters',
     images: [

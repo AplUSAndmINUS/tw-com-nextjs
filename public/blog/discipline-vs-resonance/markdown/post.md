@@ -117,6 +117,6 @@ Book a consultation, and together we'll identify the patterns, stories, and
 emotional architecture that keep you grounded—and growing.
 
 →
-[Book a session with me](https://outlook.office.com/book/Bookings@terencewaters.com/)
+[Book a session with me](https://tidycal.com/terencewaters/)
 
 ---

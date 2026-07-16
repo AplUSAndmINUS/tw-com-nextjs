@@ -104,4 +104,4 @@ Book a consultation, and together we'll identify the patterns, stories, and
 emotional architecture that drive your clarity and impact.
 
 →
-[Book a session with me](https://outlook.office.com/book/Bookings@terencewaters.com/)
+[Book a session with me](https://tidycal.com/terencewaters.com/)

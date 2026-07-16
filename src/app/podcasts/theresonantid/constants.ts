@@ -10,5 +10,8 @@ export const TRI_LINKS = {
   facebookPage: 'https://www.facebook.com/theresonantidentity',
 } as const;
 
-/** Handle used when querying the YouTube API for TRI channel videos. */
-export const TRI_YOUTUBE_CHANNEL_HANDLE = 'theresonantidentity' as const;
+/** Handles used when querying the YouTube API for TRI + Terence channels. */
+export const TRI_YOUTUBE_CHANNEL_HANDLES = [
+  'theresonantidentity',
+  'TerenceRWaters',
+] as const;

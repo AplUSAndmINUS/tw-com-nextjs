@@ -357,7 +357,7 @@ export function VideoListingClientWrapper() {
       <Hero
         title='Videos'
         iconName='VideoClipRegular'
-        description='Watch videos from the @aplusinflux YouTube channel — tutorials, live streams, playlists, and more.'
+        description='Watch videos from the @TerenceRWaters and @theresonantidentity YouTube channels — tutorials, live streams, playlists, and more.'
         backArrow
         backArrowPath='/content-hub'
       />

@@ -10,8 +10,10 @@
  *
  * Query params:
  *   - type: 'videos' | 'live' | 'playlists' (default: 'videos')
- *   - channel: YouTube channel handle without the @ prefix (default: 'aplusinflux')
- *              Allowed values: 'aplusinflux', 'TerenceRWaters', 'theresonantidentity'
+ *   - channel: YouTube channel handle(s) without the @ prefix (optional)
+ *              Supports a single handle or a comma-separated list.
+ *              Defaults to: 'TerenceRWaters,theresonantidentity'
+ *              Allowed values: 'TerenceRWaters', 'theresonantidentity'
  *   - pageToken: pagination token (optional)
  *
  * Deploy to Azure Static Web Apps alongside the Next.js static export.
@@ -21,10 +23,10 @@
 const https = require('https');
 
 const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
-const DEFAULT_CHANNEL_HANDLE = 'aplusinflux';
+const DEFAULT_CHANNEL_HANDLES = ['TerenceRWaters', 'theresonantidentity'];
 // YouTube handles are case-insensitive, but the API forHandle param requires the exact
 // handle as registered on the channel. These values match their respective channel URLs.
-const ALLOWED_CHANNEL_HANDLES = ['aplusinflux', 'TerenceRWaters', 'theresonantidentity'];
+const ALLOWED_CHANNEL_HANDLES = ['TerenceRWaters', 'theresonantidentity'];
 
 const CORS_HEADERS = {
   'Content-Type': 'application/json',
@@ -55,6 +57,22 @@ function httpGet(url) {
       })
       .on('error', reject);
   });
+}
+
+/**
+ * Parse query channel value into normalized handles.
+ * @param {string | undefined} channelQuery
+ * @returns {string[]}
+ */
+function parseChannelHandles(channelQuery) {
+  if (!channelQuery) return DEFAULT_CHANNEL_HANDLES;
+
+  const handles = channelQuery
+    .split(',')
+    .map((handle) => handle.trim())
+    .filter(Boolean);
+
+  return handles.length > 0 ? handles : DEFAULT_CHANNEL_HANDLES;
 }
 
 /**
@@ -223,7 +241,7 @@ module.exports = async function (context, req) {
 
   const type = req.query.type || 'videos';
   const pageToken = req.query.pageToken || undefined;
-  const channelHandle = req.query.channel || DEFAULT_CHANNEL_HANDLE;
+  const channelHandles = parseChannelHandles(req.query.channel);
 
   // Validate type parameter
   if (!['videos', 'live', 'playlists'].includes(type)) {
@@ -237,35 +255,99 @@ module.exports = async function (context, req) {
     };
   }
 
-  // Validate channel parameter
-  if (!ALLOWED_CHANNEL_HANDLES.includes(channelHandle)) {
+  // Validate channel parameter(s)
+  if (
+    channelHandles.some((handle) => !ALLOWED_CHANNEL_HANDLES.includes(handle))
+  ) {
     return {
       status: 400,
       headers: CORS_HEADERS,
       body: JSON.stringify({
         videos: [],
-        error: 'Invalid channel parameter',
+        error:
+          'Invalid channel parameter. Allowed values: TerenceRWaters, theresonantidentity',
+      }),
+    };
+  }
+
+  if (pageToken && channelHandles.length > 1) {
+    return {
+      status: 400,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({
+        videos: [],
+        error: 'pageToken is only supported when querying a single channel',
       }),
     };
   }
 
   try {
-    const channelId = await getChannelId(apiKey, channelHandle);
-    if (!channelId) {
-      context.log(`Channel @${channelHandle} not found`);
-      return {
-        status: 404,
-        headers: CORS_HEADERS,
-        body: JSON.stringify({
-          videos: [],
-          error: 'Channel not found',
-        }),
-      };
+    const perChannelResults = [];
+
+    for (const channelHandle of channelHandles) {
+      const channelId = await getChannelId(apiKey, channelHandle);
+      if (!channelId) {
+        context.log(`Channel @${channelHandle} not found`);
+        return {
+          status: 404,
+          headers: CORS_HEADERS,
+          body: JSON.stringify({
+            videos: [],
+            error: `Channel not found: ${channelHandle}`,
+          }),
+        };
+      }
+
+      const channelResult = await fetchVideos(
+        apiKey,
+        channelId,
+        type,
+        pageToken
+      );
+      perChannelResults.push({
+        handle: channelHandle,
+        ...channelResult,
+      });
     }
 
-    const result = await fetchVideos(apiKey, channelId, type, pageToken);
+    const mergedVideos = perChannelResults
+      .flatMap((result) =>
+        result.videos.map((video) => ({
+          ...video,
+          channelHandle: result.handle,
+        }))
+      )
+      .sort((a, b) => {
+        const aTime = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+        const bTime = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+        return bTime - aTime;
+      });
+
+    const dedupedVideos = [];
+    const seen = new Set();
+    for (const video of mergedVideos) {
+      const key = `${video.type}:${video.id}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      dedupedVideos.push(video);
+    }
+
+    const totalResults = perChannelResults.reduce(
+      (sum, result) => sum + (result.totalResults || 0),
+      0
+    );
+
+    const result = {
+      videos: dedupedVideos,
+      nextPageToken:
+        channelHandles.length === 1
+          ? perChannelResults[0]?.nextPageToken
+          : undefined,
+      totalResults,
+    };
+
     context.log(
-      `Successfully fetched ${result.videos.length} ${type} from @${channelHandle}`
+      `Successfully fetched ${result.videos.length} ${type} across ${channelHandles.join(', ')}`
     );
 
     return {
