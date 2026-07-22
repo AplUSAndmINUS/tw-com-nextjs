@@ -123,7 +123,7 @@ export function HomeContactForm() {
           <input
             className={styles.field}
             name='name'
-            placeholder='Your name'
+            placeholder='Your name (min. 10 characters)'
             value={form.name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -161,7 +161,7 @@ export function HomeContactForm() {
             className={styles.field}
             name='message'
             rows={5}
-            placeholder='What are you working on?'
+            placeholder='What are you working on? (min. 15 characters)'
             value={form.message}
             onChange={handleChange}
             onBlur={handleBlur}

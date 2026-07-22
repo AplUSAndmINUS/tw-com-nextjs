@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { TwReveal, TwSectionHeading } from '@/components/dsm';
 import type { AboutSectionMeta } from './aboutData';
 import styles from './page.module.scss';
@@ -44,11 +45,16 @@ export function AboutSection({
               <span className={styles.secLabel}>{meta.label}</span>
             </div>
             <div className={styles.railImage}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              {/* `fill` rather than intrinsic dimensions: aboutData stores the
+                  static import's `.src` string, so width/height metadata isn't
+                  available here. The rail is a fixed-height, position:relative
+                  box, so fill is the right shape anyway. */}
+              <Image
                 className='tw-media'
                 src={meta.image.src}
                 alt={meta.image.alt}
+                fill
+                sizes='(max-width: 30rem) 100vw, 320px'
               />
             </div>
           </div>
