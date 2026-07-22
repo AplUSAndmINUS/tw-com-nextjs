@@ -1,0 +1,10 @@
+@use 'abstracts' as *;
+
+.socialLink {
+  opacity: 0.85;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    opacity: 1;
+  }
+}

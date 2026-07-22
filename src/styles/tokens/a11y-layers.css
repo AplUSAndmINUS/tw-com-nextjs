@@ -1,0 +1,71 @@
+/**
+ * Orthogonal accessibility overrides
+ * ==================================
+ *
+ * High-contrast and colorblind-safe are modelled here as INDEPENDENT layers
+ * (data-tw-contrast / data-tw-cvd), toggled on top of whichever theme is
+ * active — rather than as discrete data-theme modes. That matches the redesign
+ * prototype's appearance panel, and means a user can run, say, high-contrast
+ * light, which discrete modes could not express.
+ *
+ * These layer over colors.css / colors-modes.css, so they only need to restate
+ * the handful of tokens each concern actually changes. Attribute selectors are
+ * specificity 0,1,0 — the same as a single class — so a later data-theme block
+ * would tie and lose on source order. These are imported last for that reason.
+ *
+ * Note: the eight-mode data-theme system (which encodes high-contrast and the
+ * dichromacy palettes as whole modes) still exists for the legacy SettingsPanel.
+ * The two systems are independent; prefer these orthogonal toggles for new work.
+ */
+
+/* ===== High contrast ===== */
+[data-tw-contrast='high'] {
+  --tw-text-body: #ffffff;
+  --tw-text-base: #ffffff;
+  --tw-text-bright: #ffffff;
+  --tw-text-muted: #e8e4d9;
+  --tw-text-faint: #cfc9ba;
+  --tw-text-heading: #ffffff;
+  --tw-text-heading-display: #ffffff;
+  --tw-border: #6c7581;
+  --tw-border-subtle: #4c5662;
+  --tw-border-strong: #ffffff;
+}
+
+[data-tw-contrast='high'][data-theme='light'] {
+  --tw-text-body: #000000;
+  --tw-text-base: #000000;
+  --tw-text-bright: #000000;
+  --tw-text-muted: #1c1c1c;
+  --tw-text-faint: #333333;
+  --tw-text-heading: #0a0a0a;
+  --tw-text-heading-display: #0a0a0a;
+  --tw-border: #333333;
+  --tw-border-subtle: #555555;
+  --tw-border-strong: #000000;
+}
+
+/* ===== Colorblind-safe palette =====
+   Pulls the two most-confusable brand hues (glacier cyan / sage teal) further
+   apart and moves the primary accent to amber, which stays distinct across the
+   common dichromacies. */
+[data-tw-cvd='on'] {
+  --tw-teal: #4da6c7;
+  --tw-teal-hover: #63b7d6;
+  --tw-teal-tint: #7fc9e6;
+  --tw-teal-bg: rgba(77, 166, 199, 0.16);
+  --tw-accent: #f2c57c;
+  --tw-accent-hover: #f6d08f;
+  --tw-accent-active: #d9ac63;
+  --tw-accent-ink: #0e1116;
+  --tw-line: #f2c57c;
+  --tw-text-heading: #f2c57c;
+}
+
+[data-tw-cvd='on'][data-theme='light'] {
+  --tw-accent: #b8860b;
+  --tw-accent-hover: #a0740a;
+  --tw-accent-ink: #ffffff;
+  --tw-text-heading: #8a6a24;
+  --tw-line: #b8860b;
+}

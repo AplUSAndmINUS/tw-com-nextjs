@@ -7,6 +7,7 @@ import { ArchiveClientWrapper } from '@/app/archive/ArchiveClientWrapper';
 import { getAllContent } from '@/lib/content';
 import { format, parseISO } from 'date-fns';
 import EducationTrainingPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
+import styles from './archive.module.scss';
 
 export const metadata: Metadata = {
   title: 'Archive',
@@ -23,23 +24,19 @@ export const metadata: Metadata = {
 };
 
 export default async function ArchivePage() {
-  const [posts, portfolioEntries, caseStudies] = await Promise.all([
+  const [posts, portfolioEntries] = await Promise.all([
     getAllContent('blog'),
     getAllContent('portfolio'),
-    getAllContent('case-studies'),
   ]);
 
+  // Case studies are hosted on Fluxline.pro, not duplicated on TW.com, so the
+  // archive covers blog + portfolio only.
   const allItems = [
     ...posts.map((p) => ({ ...p, type: 'Blog', href: `/blog/${p.slug}` })),
     ...portfolioEntries.map((p) => ({
       ...p,
       type: 'Portfolio',
       href: `/portfolio/${p.slug}`,
-    })),
-    ...caseStudies.map((c) => ({
-      ...c,
-      type: 'Case Study',
-      href: `/case-studies/${c.slug}`,
     })),
   ].sort((a, b) => {
     const dateA = a.date || '';
@@ -87,16 +84,16 @@ export default async function ArchivePage() {
         title: 'Archive',
       }}
     >
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className={styles.wrap}>
         <Hero
           title='Archive'
           iconName='DocumentText24Regular'
-          description='A complete archive of articles, projects, and case studies — sorted by most recent.'
+          description='A complete archive of articles and projects — sorted by most recent.'
         />
 
-        <section className='mt-12'>
+        <section className={styles.section}>
           {cards.length === 0 ? (
-            <p className='text-gray-500 dark:text-gray-400'>
+            <p className={styles.emptyText}>
               No archived content yet. Check back soon.
             </p>
           ) : (

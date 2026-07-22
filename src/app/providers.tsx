@@ -19,6 +19,23 @@ import { useAccessControl } from '@/hooks';
 export function Providers({ children }: { children: React.ReactNode }) {
   const { authRequired, isAuthenticated } = useAccessControl();
   const pathname = usePathname();
+  // Routes migrated to the design system render their own DSM nav (HomeNav or
+  // TwPageNav, both carrying the appearance panel), so the global Header would
+  // double up. Suppress it on those; every other route keeps the existing
+  // Header until it too is migrated. Extend this list as pages move over.
+  // Normalise the trailing slash (next.config sets trailingSlash: true).
+  const path = pathname !== '/' ? pathname.replace(/\/$/, '') : pathname;
+  const ownsNav =
+    path === '/' ||
+    path === '/blog' ||
+    path.startsWith('/blog/') ||
+    path === '/content-hub' ||
+    path === '/portfolio' ||
+    path.startsWith('/portfolio/') ||
+    path === '/github' ||
+    path === '/videos' ||
+    path.startsWith('/videos/');
+  const isHome = ownsNav;
   return (
     <ExtendedThemeProvider>
       <StoreHydrator />
@@ -28,18 +45,22 @@ export function Providers({ children }: { children: React.ReactNode }) {
       */}
       <PodcastPlayerProvider>
         {/*
-          Header lives outside FontScaleProvider. FontScaleProvider applies the
-          color-vision filter via a wrapper div; any filter on an ancestor of a
-          position:fixed element creates a containing block that breaks fixed
-          positioning. Keeping the Header here (a sibling of the filtered div)
-          ensures it stays viewport-fixed in all theme modes.
+          FontScaleProvider no longer wraps its children in a filtered <div> —
+          the colour-vision modes are real token palettes now, selected by
+          data-theme. That div created a containing block for descendant
+          position:fixed elements, so the Header had to be hoisted out of the
+          tree to escape it, and CookieBanner / Modal / NewsletterDrawer were
+          silently anchoring to the wrapper instead of the viewport in every
+          non-light mode.
+
+          Nothing here creates a containing block, so all of these can sit in
+          their natural place and stay viewport-fixed.
         */}
-        <Header />
-        <KoFiWidget pathname={pathname} />
-        {/* Portals itself into document.body, so it stays viewport-fixed
-            regardless of the color-vision filter wrapper. */}
-        <PodcastMiniPlayer />
         <FontScaleProvider>
+          {!isHome && <Header />}
+          <KoFiWidget pathname={pathname} />
+          {/* Portals itself into document.body. */}
+          <PodcastMiniPlayer />
           <AccessGate>
             {/* Page content (includes main with PageTransition from RootLayout) */}
             {children}

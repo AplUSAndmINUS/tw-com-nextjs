@@ -1,0 +1,64 @@
+@use 'abstracts' as *;
+
+.card {
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  padding: var(--tw-card-pad-lg);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  margin-bottom: 22px;
+}
+
+.kicker {
+  @include kicker;
+}
+
+.profileLink {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 0.84375rem;
+  color: var(--tw-accent);
+  text-decoration: none;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-accent-hover);
+  }
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.chartWrap {
+  margin: 0;
+}
+
+.user {
+  font-family: var(--tw-font-mono);
+  font-size: 0.84375rem;
+  color: var(--tw-text-soft);
+  margin-bottom: 10px;
+}
+
+/* The chart is a fixed-aspect wide image; let it scroll on narrow screens
+   rather than squashing the squares. */
+.chartScroll {
+  overflow-x: auto;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  min-width: 620px;
+  height: auto;
+}

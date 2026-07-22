@@ -6,6 +6,7 @@ import { ContentItem } from '@/content/types';
 import { ViewType } from '@/store';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import styles from './ContentCard.module.scss';
 
 interface ContentCardProps {
   item: ContentItem;
@@ -45,33 +46,33 @@ function GridCard({
   return (
     <Link
       href={href}
-      className='group block'
+      className={styles.cardLink}
       onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
       onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
-      <article className='border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col'>
+      <article className={styles.gridArticle}>
         {item.imageUrl && (
-          <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
+          <div className={styles.gridImageWrap}>
             <LoadingImage
               src={item.imageUrl}
               alt={item.imageAlt ?? item.title}
               fill
               sizes='(max-width: 768px) 100vw, 33vw'
-              className='object-cover group-hover:scale-[1.02] transition-transform duration-300'
+              className={styles.image}
             />
           </div>
         )}
-        <div className='p-5 flex flex-col flex-1'>
+        <div className={styles.gridContent}>
           {(item.category || contentType) && (
             <span
-              className='text-xs font-semibold uppercase tracking-wide mb-1'
+              className={styles.category}
               style={{ color: theme.semanticColors.link.default }}
             >
               {item.category ?? contentType}
             </span>
           )}
           <h2
-            className='text-lg font-semibold transition-colors line-clamp-2'
+            className={styles.gridTitle}
             style={{
               color: isHovered ? theme.semanticColors.link.default : undefined,
             }}
@@ -79,20 +80,20 @@ function GridCard({
             {item.title}
           </h2>
           {item.excerpt && (
-            <p className='mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-3 flex-1'>
+            <p className={styles.gridExcerpt}>
               {item.excerpt}
             </p>
           )}
-          <div className='mt-3 flex items-center justify-between text-xs text-gray-400'>
+          <div className={styles.gridMeta}>
             {item.author && <span>{item.author}</span>}
             {item.date && <time dateTime={item.date}>{item.date}</time>}
           </div>
           {item.tags && item.tags.length > 0 && (
-            <div className='mt-2 flex flex-wrap gap-1'>
+            <div className={styles.tags}>
               {item.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
+                  className={styles.tag}
                 >
                   {tag}
                 </span>
@@ -121,33 +122,33 @@ function LargeCard({
   return (
     <Link
       href={href}
-      className='group block'
+      className={styles.cardLink}
       onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
       onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
-      <article className='flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700 py-8'>
+      <article className={styles.largeArticle}>
         {item.imageUrl && (
-          <div className='relative flex-shrink-0 w-full md:w-64 aspect-video md:aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800'>
+          <div className={styles.largeImageWrap}>
             <LoadingImage
               src={item.imageUrl}
               alt={item.imageAlt ?? item.title}
               fill
               sizes='(max-width: 768px) 100vw, 256px'
-              className='object-cover group-hover:scale-[1.02] transition-transform duration-300'
+              className={styles.image}
             />
           </div>
         )}
-        <div className='flex flex-col justify-center flex-1'>
+        <div className={styles.largeBody}>
           {(item.category || contentType) && (
             <span
-              className='text-xs font-semibold uppercase tracking-wide mb-1'
+              className={styles.category}
               style={{ color: theme.semanticColors.link.default }}
             >
               {item.category ?? contentType}
             </span>
           )}
           <h2
-            className='text-2xl font-bold transition-colors'
+            className={styles.largeTitle}
             style={{
               color: isHovered ? theme.semanticColors.link.default : undefined,
             }}
@@ -155,20 +156,20 @@ function LargeCard({
             {item.title}
           </h2>
           {item.excerpt && (
-            <p className='mt-2 text-gray-600 dark:text-gray-400 line-clamp-4'>
+            <p className={styles.largeExcerpt}>
               {item.excerpt}
             </p>
           )}
-          <div className='mt-3 flex items-center gap-4 text-sm text-gray-400'>
+          <div className={styles.largeMeta}>
             {item.author && <span>{item.author}</span>}
             {item.date && <time dateTime={item.date}>{item.date}</time>}
           </div>
           {item.tags && item.tags.length > 0 && (
-            <div className='mt-2 flex flex-wrap gap-1'>
+            <div className={styles.tags}>
               {item.tags.slice(0, 5).map((tag) => (
                 <span
                   key={tag}
-                  className='text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5'
+                  className={styles.tag}
                 >
                   {tag}
                 </span>
@@ -189,32 +190,32 @@ function SmallCard({ item, href }: { item: ContentItem; href: string }) {
   return (
     <Link
       href={href}
-      className='group block'
+      className={styles.cardLink}
       onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(true); }}
       onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setIsHovered(false); }}
     >
-      <article className='flex items-start gap-3 border-b border-gray-100 dark:border-gray-800 py-3'>
+      <article className={styles.smallArticle}>
         {item.imageUrl && (
-          <div className='relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800'>
+          <div className={styles.smallImageWrap}>
             <LoadingImage
               src={item.imageUrl}
               alt={item.imageAlt ?? item.title}
               fill
               sizes='64px'
-              className='object-cover'
+              className={styles.smallImage}
             />
           </div>
         )}
-        <div className='flex-1 min-w-0'>
+        <div className={styles.smallBody}>
           <h3
-            className='text-sm font-semibold transition-colors line-clamp-2'
+            className={styles.smallTitle}
             style={{
               color: isHovered ? theme.semanticColors.link.default : undefined,
             }}
           >
             {item.title}
           </h3>
-          <div className='flex items-center gap-2 mt-0.5 text-xs text-gray-400'>
+          <div className={styles.smallMeta}>
             {item.category && <span>{item.category}</span>}
             {item.date && <time dateTime={item.date}>{item.date}</time>}
           </div>

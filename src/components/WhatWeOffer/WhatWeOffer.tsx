@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { BaseCard } from '../BaseCard';
+import styles from './WhatWeOffer.module.scss';
 
 export interface OfferItem {
   text: string;
@@ -67,7 +68,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
     <div>
       <Typography
         variant='h3'
-        className='mb-6'
+        className={styles.heading}
         style={{ color: theme.semanticColors.text.heading }}
       >
         What I Offer
@@ -94,7 +95,7 @@ export const WhatWeOffer: React.FC<WhatWeOfferProps> = ({ items }) => {
             title=''
             subheading={`✓ ${item.text}`}
             hoverable={true}
-            className='flex items-start gap-3 rounded-lg border p-4'
+            className={styles.offerCard}
           />
         ))}
       </motion.div>

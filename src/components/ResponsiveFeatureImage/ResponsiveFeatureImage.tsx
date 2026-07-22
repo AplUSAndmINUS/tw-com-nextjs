@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Typography } from '@/components/Typography/Typography';
 import { useIsTablet, useIsDesktop } from '@/hooks';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import styles from './ResponsiveFeatureImage.module.scss';
 
 interface ResponsiveFeatureImageProps {
   src: string;
@@ -66,43 +67,41 @@ export function ResponsiveFeatureImage({
     return '2/3'; // Tall portrait
   };
 
-  // Map aspect ratio to predefined Tailwind classes
+  // Map aspect ratio to predefined aspect-ratio classes
   const getAspectClass = () => {
     // On mobile: use square aspect ratio to keep image compact and fit within 1/3 viewport
-    if (!shouldApplyDynamicRatio) return 'aspect-square';
+    if (!shouldApplyDynamicRatio) return styles.aspectSquare;
 
     switch (getAspectRatioKey()) {
       case '16/9':
-        return 'aspect-video';
+        return styles.aspectVideo;
       case '4/3':
-        return 'aspect-[4/3]';
+        return styles.aspect43;
       case '1/1':
-        return 'aspect-square';
+        return styles.aspectSquare;
       case '3/4':
-        return 'aspect-[3/4]';
+        return styles.aspect34;
       case '2/3':
-        return 'aspect-[2/3]';
+        return styles.aspect23;
       default:
-        return 'aspect-[3/4]';
+        return styles.aspect34;
     }
   };
 
   return (
-    <div
-      className={`relative w-full rounded-xl overflow-hidden shadow-lg ${getAspectClass()}`}
-    >
+    <div className={`${styles.frame} ${getAspectClass()}`}>
       <LoadingImage
         src={src}
         alt={alt}
         fill
         sizes='(max-width: 1024px) 100vw, 25vw'
-        className='object-cover'
+        className={styles.image}
         priority
         onLoad={handleImageLoad}
       />
       {title && (
-        <div className='hidden md:block absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-4'>
-          <Typography variant='h3' className='text-white text-xl font-semibold'>
+        <div className={styles.overlay}>
+          <Typography variant='h3' className={styles.title}>
             {title}
           </Typography>
         </div>

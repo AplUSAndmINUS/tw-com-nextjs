@@ -8,6 +8,7 @@
 
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
+import styles from '@/layouts/PageLayout/featureImageLayout.module.scss';
 
 export interface FeatureImageLayoutOptions {
   containerClasses?: string;
@@ -39,48 +40,48 @@ export function useFeatureImageLayout({
 
   const isMdBreak = breakpoint === 'md';
 
-  // All classes that vary by breakpoint are written as full literal strings so
-  // Tailwind's static scanner includes them in the bundle.
+  // Each breakpoint variant is a distinct CSS Modules class. `max-width-content`
+  // stays a global class (defined in globals.css) appended alongside the module.
   const resolvedContainerClasses =
     containerClasses ??
-    (isMdBreak
-      ? 'flex flex-col md:flex-row min-h-[calc(100vh-var(--site-header-height))] md:h-[calc(100vh-var(--site-header-height))] md:overflow-hidden md:relative md:mx-auto md:w-full max-width-content'
-      : 'flex flex-col lg:flex-row min-h-[calc(100vh-var(--site-header-height))] lg:h-[calc(100vh-var(--site-header-height))] lg:overflow-hidden lg:relative lg:mx-auto lg:w-full max-width-content');
+    `${isMdBreak ? styles.containerMd : styles.containerLg} max-width-content`;
 
   const resolvedPaneSizeClasses =
-    paneSizeClasses ?? (isMdBreak ? 'md:w-1/4' : 'lg:w-1/4');
+    paneSizeClasses ?? (isMdBreak ? styles.paneSizeMd : styles.paneSizeLg);
   const resolvedContentRightOffsetClasses =
-    contentRightOffsetClasses ?? (isMdBreak ? 'md:mr-[25%]' : 'lg:mr-[25%]');
+    contentRightOffsetClasses ??
+    (isMdBreak ? styles.contentRightOffsetMd : styles.contentRightOffsetLg);
   const resolvedContentLeftOffsetClasses =
-    contentLeftOffsetClasses ?? (isMdBreak ? 'md:ml-[25%]' : 'lg:ml-[25%]');
+    contentLeftOffsetClasses ??
+    (isMdBreak ? styles.contentLeftOffsetMd : styles.contentLeftOffsetLg);
 
   const fixedPaneSideClasses = isLeftHanded
     ? isMdBreak
-      ? 'md:right-0'
-      : 'lg:right-0'
+      ? styles.paneRightMd
+      : styles.paneRightLg
     : isMdBreak
-      ? 'md:left-0'
-      : 'lg:left-0';
+      ? styles.paneLeftMd
+      : styles.paneLeftLg;
 
   const fixedContentOffsetClasses = isLeftHanded
     ? resolvedContentRightOffsetClasses
     : resolvedContentLeftOffsetClasses;
 
   const splitAbsoluteClasses = isMdBreak
-    ? 'md:absolute md:top-0 md:bottom-0'
-    : 'lg:absolute lg:top-0 lg:bottom-0';
+    ? styles.splitAbsoluteMd
+    : styles.splitAbsoluteLg;
 
   const splitPaneInnerClasses = isMdBreak
-    ? 'md:p-4 md:overflow-hidden'
-    : 'lg:p-4 lg:overflow-hidden';
+    ? styles.splitInnerMd
+    : styles.splitInnerLg;
 
   const contentScrollClasses = isMdBreak
-    ? 'md:h-full md:w-full md:overflow-y-auto'
-    : 'lg:h-full lg:w-full lg:overflow-y-auto';
+    ? styles.contentScrollMd
+    : styles.contentScrollLg;
 
   const imagePaneClasses = [
     paneLeadingClasses,
-    'flex items-center justify-center',
+    styles.imagePaneBase,
     splitAbsoluteClasses,
     fixedPaneSideClasses,
     resolvedPaneSizeClasses,
@@ -90,7 +91,7 @@ export function useFeatureImageLayout({
     .join(' ');
 
   const contentPaneClasses = [
-    'hide-scrollbar flex-1 flex flex-col',
+    `hide-scrollbar ${styles.contentPaneBase}`,
     contentScrollClasses,
     fixedContentOffsetClasses,
   ].join(' ');

@@ -24,7 +24,7 @@ import { getApiBaseUrl } from '@/lib/environment';
 import { LeadPayload, MeetingLength, StepperStep, SubmitStatus } from './types';
 import { Button } from '@/components/Form';
 import { FluentIcon } from '../FluentIcon';
-import { Checkmark28Regular } from '@fluentui/react-icons';
+import { CheckmarkIcon } from '@/components/icons';
 
 declare global {
   interface Window {
@@ -197,7 +197,7 @@ function SuccessView({ onClose }: { onClose: () => void }) {
       aria-live='polite'
     >
       <div style={{ fontSize: '4rem' }} aria-hidden='true'>
-        <FluentIcon iconName={Checkmark28Regular} />
+        <FluentIcon iconName={CheckmarkIcon} size={28} />
       </div>
       <Typography
         variant='h3'

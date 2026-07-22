@@ -5,8 +5,9 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { AiGeneratedIcon } from '@/assets/svgs/AiGeneratedIcon';
 import { Modal } from '@/components/Modal';
 import { FluentIcon } from '@/components/FluentIcon';
-import { WindowNew20Regular } from '@fluentui/react-icons';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { WindowNewIcon } from '@/components/icons';
+import styles from './GeneratedWithAiBadge.module.scss';
 
 export interface GeneratedWithAiBadgeProps {
   /**
@@ -110,17 +111,17 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
 
   // Tooltip positioning: below when in Hero or mobile, to the right otherwise
   const tooltipPositionClass = tooltipBelow
-    ? 'pointer-events-none absolute left-full top-full z-50 mt-3 w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2 rounded-lg px-4 py-2.5'
-    : 'pointer-events-none absolute left-full top-1/2 z-50 ml-3 w-max max-w-xs -translate-y-1/2 rounded-lg px-4 py-2.5';
+    ? `${styles.tooltip} ${styles.tooltipBelow}`
+    : `${styles.tooltip} ${styles.tooltipRight}`;
 
   return (
     <div
-      className={`relative inline-flex items-center gap-2${className ? ` ${className}` : ''}`}
+      className={`${styles.root}${className ? ` ${className}` : ''}`}
       style={{ ...style, overflow: 'visible' }}
     >
       {/* Badge pill */}
       <div
-        className='inline-flex cursor-default select-none items-center gap-2 rounded-full px-3 py-1.5'
+        className={styles.badge}
         style={{
           background: isHighContrastOrColorblind
             ? theme.palette.neutralLighterAlt
@@ -181,7 +182,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
         {/* Arrow: points up when tooltip is below, points left when tooltip is to the right */}
         {tooltipBelow ? (
           <span
-            className='absolute bottom-full left-1/2 -translate-x-1/2'
+            className={styles.arrowBelow}
             aria-hidden='true'
             style={{
               width: 0,
@@ -193,7 +194,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
           />
         ) : (
           <span
-            className='absolute right-full top-1/2 -translate-y-1/2'
+            className={styles.arrowRight}
             aria-hidden='true'
             style={{
               width: 0,
@@ -239,7 +240,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
               flexShrink: 0,
             }}
           >
-            <FluentIcon iconName={WindowNew20Regular} />
+            <FluentIcon iconName={WindowNewIcon} size={20} />
           </button>
 
           {/* Responsible AI Usage Modal which opens at maxWidth 800px */}

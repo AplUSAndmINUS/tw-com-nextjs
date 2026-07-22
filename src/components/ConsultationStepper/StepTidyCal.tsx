@@ -5,6 +5,7 @@ import React from 'react';
 import { Button } from '@/components/Form';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './StepTidyCal.module.scss';
 
 interface StepTidyCalProps {
   tidyCalUrl: string;
@@ -65,11 +66,11 @@ export const StepTidyCal: React.FC<StepTidyCalProps> = ({
         />
       </div>
 
-      <div className='flex flex-col gap-3 mt-6 sm:flex-row sm:justify-between sm:items-center'>
+      <div className={styles.actions}>
         <Button variant='secondary' type='button' onClick={onBack}>
           ← Back
         </Button>
-        <div className='flex flex-col gap-3 sm:flex-row'>
+        <div className={styles.actionsRight}>
           <Button
             variant='ghost'
             type='button'

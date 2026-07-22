@@ -1,0 +1,167 @@
+/**
+ * .tw-prose — long-form article body
+ * ==================================
+ *
+ * Styling for rendered markdown/MDX in detail pages (blog posts, and later
+ * portfolio / case-study bodies). A global stylesheet rather than a CSS module
+ * because MDX emits plain h2/p/blockquote/etc. with no class hooks — the prose
+ * container carries the single `.tw-prose` class and these descendant rules do
+ * the rest.
+ *
+ * All colour, type and spacing come from design-system tokens, so prose follows
+ * the theme and the accessibility layers like everything else.
+ */
+
+.tw-prose {
+  font-family: var(--tw-font-body);
+  color: var(--tw-text-body);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  max-width: 720px;
+}
+
+.tw-prose > :first-child {
+  margin-top: 0;
+}
+
+.tw-prose h2 {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1.625rem;
+  color: var(--tw-text-heading);
+  margin: 42px 0 14px;
+  letter-spacing: -0.01em;
+}
+
+.tw-prose h3 {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1.1875rem;
+  color: var(--tw-text-heading);
+  margin: 30px 0 10px;
+}
+
+.tw-prose h4 {
+  font-family: var(--tw-font);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  color: var(--tw-text-heading);
+  margin: 24px 0 8px;
+}
+
+.tw-prose p {
+  margin: 0 0 20px;
+}
+
+.tw-prose a {
+  color: var(--tw-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color var(--tw-color-duration, 0.15s) ease;
+}
+
+.tw-prose a:hover {
+  color: var(--tw-accent-hover);
+}
+
+.tw-prose blockquote {
+  margin: 28px 0;
+  padding: 16px 24px;
+  border-left: 3px solid var(--tw-accent);
+  background: var(--tw-surface-alt);
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+  color: var(--tw-text-bright);
+  font-size: 1.1875rem;
+}
+
+.tw-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.tw-prose ul,
+.tw-prose ol {
+  margin: 0 0 20px;
+  padding-left: 22px;
+}
+
+.tw-prose li {
+  margin: 0 0 10px;
+}
+
+.tw-prose li::marker {
+  color: var(--tw-accent);
+}
+
+.tw-prose code {
+  font-family: var(--tw-font-mono);
+  font-size: 0.90625rem;
+  background: var(--tw-surface-inset);
+  border: 1px solid var(--tw-border);
+  border-radius: 6px;
+  padding: 2px 7px;
+  color: var(--tw-text-soft);
+}
+
+.tw-prose pre {
+  margin: 24px 0;
+  padding: 18px 20px;
+  background: var(--tw-surface-inset);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  overflow-x: auto;
+}
+
+/* Code inside a pre block is a plain run, not an inline chip. */
+.tw-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  color: var(--tw-text-body);
+}
+
+.tw-prose strong {
+  color: var(--tw-text-bright);
+  font-weight: 700;
+}
+
+.tw-prose em {
+  font-style: italic;
+}
+
+.tw-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  margin: 28px 0;
+}
+
+.tw-prose hr {
+  border: none;
+  border-top: 1px solid var(--tw-border-subtle);
+  margin: 40px 0;
+}
+
+.tw-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 0.9375rem;
+}
+
+.tw-prose th,
+.tw-prose td {
+  border: 1px solid var(--tw-border);
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.tw-prose th {
+  background: var(--tw-surface-alt);
+  font-family: var(--tw-font);
+  font-weight: 600;
+  color: var(--tw-text-heading);
+}

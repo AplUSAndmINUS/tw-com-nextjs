@@ -10,7 +10,8 @@ import { Typography } from '@/components/Typography/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS } from './theresonantid/constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import { ArrowRight24Regular, WindowNew24Regular } from '@fluentui/react-icons';
+import { ArrowRightIcon, WindowNewIcon } from '@/components/icons';
+import styles from './PodcastsDirectoryClient.module.scss';
 
 /**
  * PodcastsDirectoryClient
@@ -23,7 +24,7 @@ export function PodcastsDirectoryClient() {
 
   return (
     <PageLayout>
-      <div className='max-w-7xl mx-auto px-4 py-12'>
+      <div className={styles.page}>
         {/* Page Header */}
         <Hero
           title='Podcasts'
@@ -32,24 +33,24 @@ export function PodcastsDirectoryClient() {
         />
 
         {/* Podcasts Grid - Currently one podcast */}
-        <div className='mt-12 grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className={styles.grid}>
           {/* The Resonant Identity Card */}
           <div
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className='rounded-lg overflow-hidden border transition-all duration-200 flex flex-col'
+            className={styles.card}
             style={{
               borderColor: hovered
                 ? theme.palette.themePrimary
                 : theme.semanticColors.border.default,
               transform: hovered ? 'translateY(-4px)' : 'none',
-              boxShadow: hovered ? theme.shadow16 : theme.shadow4,
+              boxShadow: hovered ? theme.shadows.cardElevated : theme.shadows.card,
               backgroundColor: theme.semanticColors.border.default,
             }}
           >
             {/* Image */}
             <div
-              className='relative h-64 overflow-hidden'
+              className={styles.image}
               style={{ backgroundColor: theme.palette.neutralLight }}
             >
               <Image
@@ -62,11 +63,11 @@ export function PodcastsDirectoryClient() {
             </div>
 
             {/* Card Body */}
-            <div className='p-6 flex flex-col gap-4 flex-1'>
+            <div className={styles.body}>
               {/* Title */}
               <Typography
                 variant='h3'
-                className='text-2xl font-semibold transition-colors'
+                className={styles.title}
                 style={{
                   color: hovered
                     ? theme.palette.themePrimary
@@ -79,7 +80,7 @@ export function PodcastsDirectoryClient() {
               {/* Description */}
               <Typography
                 variant='body'
-                className='text-base leading-relaxed flex-1'
+                className={styles.description}
               >
                 A podcast blending identity architecture, self-improvement, and
                 practical frameworks for navigating transitions with clarity and
@@ -87,13 +88,13 @@ export function PodcastsDirectoryClient() {
               </Typography>
 
               {/* Action Buttons */}
-              <div className='flex flex-col sm:flex-row gap-3 mt-4'>
+              <div className={styles.actions}>
                 <ThemedLink
                   variant='bodySmall'
                   hoverScale={1.05}
                   invertOnPress
                   href='/podcasts/theresonantid'
-                  className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold transition-colors'
+                  className={styles.primaryBtn}
                   style={{
                     backgroundColor: theme.palette.themePrimary,
                     color: theme.palette.white,
@@ -103,7 +104,7 @@ export function PodcastsDirectoryClient() {
                   View Episodes
                   <FluentIcon
                     color={theme.palette.white}
-                    iconName={ArrowRight24Regular}
+                    iconName={ArrowRightIcon}
                     style={{ marginLeft: '0.5rem' }}
                   />
                 </ThemedLink>
@@ -114,7 +115,7 @@ export function PodcastsDirectoryClient() {
                   href={TRI_LINKS.about}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold'
+                  className={styles.secondaryBtn}
                   style={{
                     borderColor: theme.semanticColors.border.emphasis,
                     color: theme.palette.neutralSecondary,
@@ -124,7 +125,7 @@ export function PodcastsDirectoryClient() {
                   About The Resonant Identity
                   <FluentIcon
                     color={theme.palette.neutralSecondary}
-                    iconName={WindowNew24Regular}
+                    iconName={WindowNewIcon}
                     style={{ marginLeft: '0.5rem' }}
                   />
                 </ThemedLink>

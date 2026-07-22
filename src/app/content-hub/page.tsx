@@ -1,20 +1,21 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
-import ContentPortrait from '@/assets/images/Content1280x1815.jpg';
-import { PageLayout } from '@/layouts/PageLayout';
-import { Hero } from '@/components/Hero';
-import { Typography } from '@/components/Typography';
-import { ContentHubClient } from '@/components/ContentHubClient';
+import { fetchSpreakerEpisodes } from '@/lib/spreaker';
+import { TwPageNav, TwSectionHeading } from '@/components/dsm';
+import type { TwPageNavLink } from '@/components/dsm';
+import { Footer } from '@/components/Footer';
+import ContentHubClient from './ContentHubClient';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'Content Hub',
   description:
-    "All of Terence Waters' content in one place — articles, videos, podcasts, and more.",
+    'Everything Terence Waters publishes — writing, the podcast, portfolio work, videos, and code. Explore by format.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Content Hub | Terence Waters',
     description:
-      "All of Terence Waters' content in one place — articles, videos, podcasts, and more.",
+      'Writing, the podcast, portfolio work, videos, and code — all in one place.',
     url: 'https://terencewaters.com/content-hub',
     siteName: 'Terence Waters',
     type: 'website',
@@ -22,31 +23,42 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-export default function ContentHubPage() {
-  return (
-    <PageLayout
-      featureImage={{
-        src: ContentPortrait.src,
-        alt: 'Content by Terence Waters',
-        title: 'Content Hub',
-      }}
-    >
-      <div className='max-width-content pt-0 pb-8 md:py-8 mb-0 md:mb-8'>
-        {/* Header */}
-        <Hero
-          title='Content Hub'
-          iconName='Search24Regular'
-          description='Everything I create — all in one place. Articles, videos, podcasts, and deep dives into the ideas and work that matter most.'
-        />
+const NAV_LINKS: TwPageNavLink[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Content Hub', href: '/content-hub', active: true },
+  { label: 'Portfolio', href: '/portfolio' },
+];
 
-        {/* Browse by Category */}
-        <section className='mt-8 lg:mt-16'>
-          <Typography variant='h2' className='text-2xl font-bold mb-4'>
-            Browse by Category
-          </Typography>
-          <ContentHubClient />
+// Static export: the latest episode is resolved from the Spreaker feed at build
+// time. If the feed is unavailable the page still renders; the podcast drawer
+// links out instead of offering in-page playback.
+export default async function ContentHubPage() {
+  const feed = await fetchSpreakerEpisodes();
+  const latestEpisode =
+    feed.available && feed.episodes.length > 0 ? feed.episodes[0] : null;
+
+  return (
+    <>
+      <TwPageNav back={{ label: 'Back to Home', href: '/' }} links={NAV_LINKS} />
+      <main>
+        <section className={styles.head}>
+          <div className={styles.headGlow} aria-hidden='true' />
+          <div className={styles.container}>
+            <TwSectionHeading
+              as='h1'
+              kicker='Content Hub'
+              title="Everything I'm making"
+              lede='Writing, the podcast, portfolio work, videos, and code — one place to find all of it. Pick where you want to go.'
+            />
+          </div>
         </section>
-      </div>
-    </PageLayout>
+        <section className={styles.body}>
+          <div className={styles.container}>
+            <ContentHubClient latestEpisode={latestEpisode} />
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

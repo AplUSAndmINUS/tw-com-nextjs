@@ -4,6 +4,7 @@ import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { withAlpha } from '@/utils/color';
 
 const CAPABILITIES = [
   {
@@ -77,7 +78,7 @@ export const AboutCapabilities: React.FC = () => {
                 backgroundColor: accentColor,
                 flexShrink: 0,
                 marginTop: '0.2rem',
-                boxShadow: `0 0 0 4px ${accentColor}28`,
+                boxShadow: `0 0 0 4px ${withAlpha(accentColor, 16)}`,
               }}
             />
             <div>

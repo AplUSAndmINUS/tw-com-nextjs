@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FooterContent } from '@/components/Footer/FooterContent';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useSlideInOut } from '@/hooks';
+import styles from './FooterOverlay.module.scss';
 
 interface FooterOverlayProps {
   /** If true, hides the "Show Footer" button (e.g., on article pages where footer should not overlay content) */
@@ -79,7 +80,7 @@ export function FooterOverlay({
               setIsFooterVisible(true);
             }}
             onClick={() => setIsFooterVisible(true)}
-            className='hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] px-6 py-2 rounded-lg transition-all font-medium items-center justify-center'
+            className={styles.showButton}
             style={{
               border: `2px solid ${theme.semanticColors.border.emphasis}`,
               color: theme.semanticColors.text.primary,
@@ -101,7 +102,7 @@ export function FooterOverlay({
             {/* Transparent backdrop — dismisses footer on click or touch outside (not shown when alwaysVisible) */}
             {!alwaysVisible && (
               <div
-                className='fixed inset-0 z-[49]'
+                className={styles.backdrop}
                 aria-hidden='true'
                 onClick={() => setIsFooterVisible(false)}
                 onTouchStart={() => setIsFooterVisible(false)}
@@ -115,7 +116,7 @@ export function FooterOverlay({
                 setIsFooterVisible(false);
               }}
               id='footer-content'
-              className='fixed bottom-0 left-0 right-0 z-50 max-h-[85vh] overflow-y-auto shadow-2xl'
+              className={styles.footer}
               role='contentinfo'
               style={{
                 borderTop: footerBorderTop,

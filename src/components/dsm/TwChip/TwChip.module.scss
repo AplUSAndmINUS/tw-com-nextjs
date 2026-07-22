@@ -1,0 +1,54 @@
+@use 'abstracts' as *;
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tw-space-xxs);
+  border: 1px solid transparent;
+  border-radius: var(--tw-radius-pill);
+  font-family: var(--tw-font);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ===== Sizes ===== */
+
+.sm {
+  padding: 3px 9px;
+  font-size: var(--tw-chip-badge-size);
+}
+
+.md {
+  padding: 5px 12px;
+  font-size: var(--tw-chip-category-size);
+}
+
+/* ===== Variants ===== */
+
+.default {
+  background: var(--tw-badge-bg);
+  border-color: var(--tw-border);
+  color: var(--tw-text-muted);
+}
+
+/* Gold is the ecosystem-wide "featured" treatment shared with Fluxline and
+   The Resonant Identity — it is not a general-purpose accent. */
+.featured {
+  background: var(--tw-gold-bg);
+  border-color: var(--tw-gold-border);
+  color: var(--tw-gold);
+}
+
+.teal {
+  background: var(--tw-teal-bg);
+  border-color: var(--tw-teal);
+  color: var(--tw-teal-tint);
+}

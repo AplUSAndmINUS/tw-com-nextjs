@@ -9,6 +9,8 @@ import { LoadingImage } from '@/components/ui/LoadingImage';
 import { Typography } from '../Typography';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { accentWash } from '@/utils/color';
+import styles from './PodcastCard.module.scss';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -71,7 +73,7 @@ export function PodcastCard({
         backgroundColor: isHovered(episode.slug)
           ? cardHoverSurfaceColor
           : cardSurfaceColor,
-        backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+        backgroundImage: accentWash(accentColor, 8),
         border: `1px solid ${isHovered(episode.slug) ? accentColor : theme.semanticColors.border.default}`,
         transition: 'all 0.3s ease',
         transform: isHovered(episode.slug)
@@ -239,7 +241,7 @@ export function PodcastCard({
             alt={episode.title}
             fill
             sizes='40px'
-            className='object-cover'
+            className={styles.objectCover}
           />
         ) : (
           <div
@@ -363,7 +365,7 @@ export function PodcastCard({
             alt={episode.title}
             fill
             sizes='80px'
-            className='object-cover'
+            className={styles.objectCover}
           />
         ) : (
           <div
@@ -529,7 +531,7 @@ export function PodcastCard({
           onKeyDown={handleKeyDown}
           role='button'
           tabIndex={0}
-          className='group block cursor-pointer'
+          className={styles.clickable}
           {...getHoverProps(episode.slug)}
         >
           {smallArticleContent}
@@ -540,7 +542,7 @@ export function PodcastCard({
     return (
       <Link
         href={`/podcasts/${episode.slug}`}
-        className='group block'
+        className={styles.linkBlock}
         {...getHoverProps(episode.slug)}
       >
         {smallArticleContent}
@@ -556,7 +558,7 @@ export function PodcastCard({
         onKeyDown={handleKeyDown}
         role='button'
         tabIndex={0}
-        className='group block cursor-pointer'
+        className={styles.clickable}
         {...getHoverProps(episode.slug)}
       >
         {largeArticleContent}
@@ -567,7 +569,7 @@ export function PodcastCard({
   return (
     <Link
       href={`/podcasts/${episode.slug}`}
-      className='group block'
+      className={styles.linkBlock}
       {...getHoverProps(episode.slug)}
     >
       {largeArticleContent}

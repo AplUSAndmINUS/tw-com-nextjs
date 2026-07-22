@@ -17,6 +17,8 @@ import {
   useFeatureImageLayout,
   type FeatureImageLayoutOptions,
 } from '@/hooks/useFeatureImageLayout';
+import styles from './StandardPageLayout.module.scss';
+import featureStyles from './featureImageLayout.module.scss';
 
 interface StandardPageLayoutProps {
   children: ReactNode;
@@ -100,19 +102,19 @@ export function StandardPageLayout({
       // All other views: split activates at lg (1024 px).
       breakpoint: isMobileLandscape ? 'md' : 'lg',
       paneSizeClasses: isMobileLandscape
-        ? 'md:w-1/4 xl:w-1/3'
+        ? featureStyles.paneSizeMdXl
         : useWiderPane
-          ? 'lg:w-1/3'
+          ? featureStyles.paneSizeLgWide
           : undefined,
       contentRightOffsetClasses: isMobileLandscape
-        ? 'md:mr-[25%] xl:mr-[33.333333%]'
+        ? featureStyles.contentRightOffsetMdXl
         : useWiderPane
-          ? 'lg:mr-[33.333333%]'
+          ? featureStyles.contentRightOffsetLgWide
           : undefined,
       contentLeftOffsetClasses: isMobileLandscape
-        ? 'md:ml-[25%] xl:ml-[33.333333%]'
+        ? featureStyles.contentLeftOffsetMdXl
         : useWiderPane
-          ? 'lg:ml-[33.333333%]'
+          ? featureStyles.contentLeftOffsetLgWide
           : undefined,
       ...layoutOptions,
     });
@@ -182,7 +184,7 @@ export function StandardPageLayout({
           <aside className={imagePaneClasses} suppressHydrationWarning>
             {mediaPane ??
               (featureImage ? (
-                <div className='w-full max-w-md h-[33.33vh] lg:h-auto px-4 py-6 lg:py-0 overflow-hidden'>
+                <div className={styles.featureImageWrap}>
                   <ResponsiveFeatureImage
                     src={featureImage.src}
                     alt={featureImage.alt}
@@ -200,28 +202,32 @@ export function StandardPageLayout({
           >
             <div
               ref={contentInnerRef}
-              className={`flex-1 px-4 sm:px-6 lg:px-8 pt-0 lg:min-h-full lg:flex lg:flex-col max-width-content${
-                isShortLandscape ? ' pb-4 md:py-4' : ' pb-8 md:py-8'
-              }${shouldCenterContainedContent ? ' lg:justify-center' : ' lg:justify-start'}`}
+              className={`${styles.contentInner} ${
+                isShortLandscape ? styles.padShort : styles.padDefault
+              } ${
+                shouldCenterContainedContent
+                  ? styles.justifyCenterLg
+                  : styles.justifyStartLg
+              } max-width-content`}
             >
               <div
-                className={`lg:w-full${
+                className={`${styles.innerBlock}${
                   isShortLandscape || !shouldCenterContainedContent
                     ? ''
-                    : ' lg:pb-12'
+                    : ` ${styles.innerBlockPad}`
                 }`}
               >
                 {children}
               </div>
             </div>
 
-            <div className='lg:hidden'>
+            <div className={styles.hideAtLg}>
               <Footer isCompact />
             </div>
           </div>
         </div>
 
-        <div className='hidden lg:block'>
+        <div className={styles.showAtLg}>
           <FooterOverlay hideButton={hideFooterToggleButton} />
         </div>
       </SiteLayout>
@@ -231,16 +237,21 @@ export function StandardPageLayout({
   return (
     <SiteLayout showFooter={false}>
       <div
-        className={`mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0 max-width-content${isShortLandscape ? ' pb-4 md:py-4' : ' pb-8 md:py-8'}`}
+        className={`${styles.normalContainer} ${
+          isShortLandscape ? styles.padShort : styles.padDefault
+        } max-width-content`}
       >
-        <div className='w-full max-width-content' style={{ margin: '0 auto' }}>
+        <div
+          className={`${styles.fullWidth} max-width-content`}
+          style={{ margin: '0 auto' }}
+        >
           {children}
         </div>
       </div>
-      <div className='md:hidden'>
+      <div className={styles.hideAtMd}>
         <Footer isCompact />
       </div>
-      <div className='hidden md:block'>
+      <div className={styles.showAtMd}>
         <FooterOverlay />
       </div>
     </SiteLayout>

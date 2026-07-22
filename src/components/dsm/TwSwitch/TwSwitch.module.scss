@@ -1,0 +1,104 @@
+@use 'abstracts' as *;
+
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  width: 100%;
+  padding: var(--tw-space-xs) 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+
+  @include focus-ring;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+/* With the label hidden there is nothing to space against, so the control
+   shrinks to just the track. */
+.bare {
+  width: auto;
+  padding: 0;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hiddenLabel {
+  @include visually-hidden;
+}
+
+.label {
+  font-family: var(--tw-font);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--tw-text-base);
+}
+
+.description {
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  line-height: var(--tw-body-sm-leading);
+  color: var(--tw-text-muted);
+}
+
+/* ===== Track and knob ===== */
+
+.track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 24px;
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-gray-4);
+  transition: background-color var(--tw-hover-duration) var(--tw-motion-ease);
+
+  @include motion-safe-only;
+}
+
+.knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--tw-white-1);
+  box-shadow: var(--tw-shadow-s);
+  transition: transform var(--tw-hover-duration) var(--tw-motion-ease);
+
+  @include motion-safe-only;
+}
+
+/* Driven off aria-checked rather than a class — the attribute is already the
+   source of truth for assistive tech, so there is no second state to keep in
+   step with it. */
+.switch[aria-checked='true'] .track {
+  background: var(--tw-accent);
+}
+
+.switch[aria-checked='true'] .knob {
+  transform: translateX(20px);
+  /* On the accent fill the knob needs to read against a light surface in the
+     light family too, hence the fixed ink rather than a white. */
+  background: var(--tw-accent-ink);
+}
+
+.switch:not(:disabled):hover .track {
+  background: var(--tw-gray-5);
+}
+
+.switch:not(:disabled)[aria-checked='true']:hover .track {
+  background: var(--tw-accent-hover);
+}

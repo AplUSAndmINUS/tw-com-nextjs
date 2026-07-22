@@ -6,6 +6,7 @@ import { ContentDetailNav } from '@/components/ContentDetailNav';
 import { SpreakerPlayer } from '@/components/SpreakerPlayer';
 import { fetchSpreakerEpisodes, SPREAKER_SHOW_ID } from '@/lib/spreaker';
 import { PodcastEpisodeLabel } from './PodcastEpisodeLabel';
+import styles from './page.module.scss';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -68,7 +69,7 @@ export default async function PodcastEpisodePage({ params }: Props) {
 
   return (
     <PageLayout>
-      <div className='max-w-3xl mx-auto px-4 py-12'>
+      <div className={styles.container}>
         <ContentDetailNav
           prevHref='/podcasts'
           listingPath='/podcasts'
@@ -78,11 +79,11 @@ export default async function PodcastEpisodePage({ params }: Props) {
 
         {episode ? (
           <>
-            <h1 className='text-3xl font-bold mt-2 mb-2'>{episode.title}</h1>
+            <h1 className={styles.title}>{episode.title}</h1>
             {episode.publishedDate && (
               <time
                 dateTime={episode.publishedDate}
-                className='block text-sm mb-4'
+                className={styles.date}
                 style={{ opacity: 0.6 }}
               >
                 {new Date(episode.publishedDate).toLocaleDateString('en-US', {
@@ -94,17 +95,17 @@ export default async function PodcastEpisodePage({ params }: Props) {
               </time>
             )}
             {episode.description && (
-              <p className='mb-6 leading-relaxed'>{episode.description}</p>
+              <p className={styles.description}>{episode.description}</p>
             )}
           </>
         ) : (
-          <h1 className='text-3xl font-bold mt-2 mb-6'>
+          <h1 className={styles.titlePlaceholder}>
             {slug === PLACEHOLDER_SLUG ? 'Podcasts Coming Soon' : `Episode: ${slug}`}
           </h1>
         )}
 
         {/* Spreaker player — episode-specific when possible, show-level otherwise */}
-        <div className='mb-8'>
+        <div className={styles.player}>
           <SpreakerPlayer
             showId={SPREAKER_SHOW_ID}
             episodeId={episodeId}
@@ -115,7 +116,7 @@ export default async function PodcastEpisodePage({ params }: Props) {
         </div>
 
         {!feedAvailable && (
-          <p className='mt-4' style={{ opacity: 0.5, fontSize: '0.875rem' }}>
+          <p className={styles.unavailable} style={{ opacity: 0.5, fontSize: '0.875rem' }}>
             Full episode details coming soon.
           </p>
         )}

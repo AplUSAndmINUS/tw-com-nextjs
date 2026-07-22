@@ -18,8 +18,9 @@ import { SocialLinks } from '../SocialLinks/SocialLinks';
 import { useIsMobile, useIsMobileLandscape } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
-import { Dismiss32Regular } from '@fluentui/react-icons';
 import LinktreeLogo from '@/assets/svgs/LinktreeLogo';
+import { DismissIcon } from '@/components/icons';
+import styles from './NavigationMenu.module.scss';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -56,7 +57,7 @@ function NavigationItem({
           justifyContent: flexAlignment,
           gap: '0.75rem',
           padding: isMobile ? '0.75rem 0 1rem 0.75rem' : '0.75rem 1rem',
-          borderRadius: theme.borderRadiusMedium,
+          borderRadius: theme.borderRadius.m,
           backgroundColor:
             isActive || isHovered
               ? theme.palette.neutralTertiaryAlt
@@ -135,7 +136,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
     >
       {/* Menu Header */}
       <div
-        className='flex items-center justify-between'
+        className={styles.menuHeader}
         style={{
           padding: isMobileLandscape ? '1rem 1.5rem' : '1.5rem 2rem',
           borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
@@ -165,7 +166,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
             aria-label='Close menu'
           >
             <FluentIcon
-              iconName={Dismiss32Regular}
+              iconName={DismissIcon} size={32}
               color={theme.palette.neutralTertiary}
             />
           </button>
@@ -219,7 +220,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           </AnimatePresence>
         </ul>
         <motion.div
-          className={`flex items-end ${isLeftHanded ? 'justify-start' : 'justify-end'} mt-8 transition-transform hover:scale-105`}
+          className={`${styles.linktree} ${isLeftHanded ? styles.linktreeStart : styles.linktreeEnd}`}
           initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{

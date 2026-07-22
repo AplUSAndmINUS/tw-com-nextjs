@@ -1,61 +1,37 @@
 'use client';
 
-import { useAppTheme } from '../hooks/useAppTheme';
-import { FluentProvider } from '@fluentui/react-components';
-
 /**
  * Extended Theme Provider
  *
- * Filters out non-serializable JavaScript objects from the extended theme before
- * passing to FluentUI's FluentProvider. This prevents [object Object] in CSS.
+ * This used to strip ten non-serializable keys off the theme and hand the rest
+ * to Fluent's `<FluentProvider>`, which generated a block of CSS custom
+ * properties from them.
  *
- * Properties filtered out (contain functions/complex objects):
- * - spacing, animations, borderRadius, zIndices, shadows, gradients
- * - breakpoints, mediaQueries, typography, themeMode
+ * That whole mechanism is gone. Colour now lives in real CSS custom properties
+ * loaded from styles/tokens/*.css and selected by the `data-theme` attribute on
+ * <html>, so nothing needs to generate them at runtime. Fluent was only ever
+ * acting as a colour generator here — the sole Fluent component mounted in the
+ * app was a single `<Spinner>`, since replaced.
  *
- * Properties passed through to FluentProvider:
- * - All FluentUI base theme properties (colors, fonts, etc.)
- * - semanticColors (safe - contains only primitive string values)
+ * The component is kept as the theme boundary rather than deleted, so that
+ * `providers.tsx` keeps a stable shape and there is somewhere obvious to hang
+ * future theme-scoped context. It calls useAppTheme() for its side effects: the
+ * hook is what writes data-theme, the `dark` class, color-scheme and the
+ * data-tw-* accessibility attributes onto <html>.
  *
- * IMPORTANT: Extended properties (spacing, animations, etc.) and themeMode are
- * NOT available through FluentUI's theme context. Components MUST use the
- * useAppTheme() hook to access these properties. Never use FluentUI's useTheme()
- * hook for extended properties.
- *
- * @example
- * // ✅ CORRECT - Use useAppTheme() for extended properties
- * const { theme, themeMode } = useAppTheme();
- * console.log(theme.themeMode);  // ✅ Works
- * console.log(theme.spacing);    // ✅ Works
- *
- * // ❌ INCORRECT - FluentUI's useTheme() cannot access extended properties
- * const { theme } = useTheme();
- * console.log(theme.themeMode);  // ❌ undefined
- * console.log(theme.spacing);    // ❌ undefined
+ * Components read theme values with useAppTheme(). Those values are
+ * `var(--tw-*)` strings, so they resolve against whichever mode is active.
  */
+
+import { useAppTheme } from '../hooks/useAppTheme';
+
 export function ExtendedThemeProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { theme } = useAppTheme();
+  // Mounted for its DOM side effects — see the hook's attribute-sync effects.
+  useAppTheme();
 
-  // Filter out extended properties that contain non-serializable objects
-  // IMPORTANT: themeMode is also filtered out here, meaning it's NOT available in
-  // FluentUI's theme context. Components must use useAppTheme() to access it.
-  const {
-    spacing,
-    animations,
-    borderRadius,
-    zIndices,
-    shadows,
-    gradients,
-    breakpoints,
-    mediaQueries,
-    typography,
-    themeMode,
-    ...fluentTheme
-  } = theme;
-
-  return <FluentProvider theme={fluentTheme}>{children}</FluentProvider>;
+  return <>{children}</>;
 }

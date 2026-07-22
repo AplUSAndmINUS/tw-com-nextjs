@@ -61,5 +61,4 @@ export { useFooterHeight } from './hooks/useFooterHeight';
 export { useHeaderHeight } from './hooks/useHeaderHeight';
 
 // Providers
-export { FluentThemeProvider } from './providers/FluentThemeProvider';
 export { ExtendedThemeProvider } from './providers/ExtendedThemeProvider';

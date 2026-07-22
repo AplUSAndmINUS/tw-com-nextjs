@@ -1,0 +1,70 @@
+/**
+ * Container-query grid.
+ *
+ * Columns respond to the GRID's own width, not the viewport. That matters
+ * because the same card grid appears full-width in a section and narrow inside
+ * TwRailLayout — with viewport media queries the rail version would wrongly
+ * claim three columns on a wide screen.
+ *
+ * Column counts are driven by custom properties so the component can set them
+ * per instance without generating a class per permutation.
+ */
+
+.container {
+  container-type: inline-size;
+  /* Deliberately unnamed. A named container would leak globally — CSS Modules
+     hashes class names but NOT container-name — and could collide with another
+     component's named container. Unnamed queries resolve to the nearest
+     container ancestor, which is exactly this element. */
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  gap: var(--tw-grid-gap);
+  grid-template-columns: 1fr;
+}
+
+/* Tablet */
+@container (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(var(--tw-grid-cols-tablet, 2), minmax(0, 1fr));
+  }
+}
+
+/* Desktop */
+@container (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(var(--tw-grid-cols, 3), minmax(0, 1fr));
+  }
+}
+
+/**
+ * Auto-fill variant: when `min` is given, tracks size themselves and the
+ * explicit column counts are ignored. `min(X, 100%)` stops a wide minimum from
+ * overflowing a narrow container.
+ */
+.auto {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(var(--tw-grid-min, 280px), 100%), 1fr)
+  );
+}
+
+@container (min-width: 768px) {
+  .auto {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(var(--tw-grid-min, 280px), 100%), 1fr)
+    );
+  }
+}
+
+@container (min-width: 1024px) {
+  .auto {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(var(--tw-grid-min, 280px), 100%), 1fr)
+    );
+  }
+}

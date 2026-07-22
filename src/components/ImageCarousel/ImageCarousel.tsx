@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { GalleryItem } from '@/content/types';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import styles from './ImageCarousel.module.scss';
 
 interface ImageCarouselProps {
   images: GalleryItem[];
@@ -49,9 +50,9 @@ export function ImageCarousel({
   const current = images[active];
 
   return (
-    <div className={`w-full ${className}`}>
+    <div className={`${styles.root} ${className}`}>
       {/* Main image */}
-      <div className='relative w-full aspect-video rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800'>
+      <div className={styles.main}>
         <AnimatePresence mode='wait'>
           <motion.div
             key={active}
@@ -59,7 +60,7 @@ export function ImageCarousel({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
-            className='absolute inset-0'
+            className={styles.slide}
           >
             <button
               onClick={onImageClick}
@@ -70,7 +71,7 @@ export function ImageCarousel({
                 }
               }}
               disabled={!onImageClick}
-              className={`w-full h-full ${onImageClick ? 'cursor-pointer hover:opacity-90' : 'cursor-default'} transition-opacity`}
+              className={`${styles.mainButton} ${onImageClick ? styles.clickable : styles.notClickable}`}
               aria-label={onImageClick ? 'View image fullscreen' : undefined}
               tabIndex={onImageClick ? 0 : -1}
             >
@@ -79,7 +80,7 @@ export function ImageCarousel({
                 alt={current.alt}
                 fill
                 sizes='(max-width: 768px) 100vw, 75vw'
-                className='object-contain pointer-events-none'
+                className={styles.mainImage}
                 priority={active === 0}
               />
             </button>
@@ -92,14 +93,14 @@ export function ImageCarousel({
             <button
               onClick={prev}
               aria-label='Previous image'
-              className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 ${reducedTransparency ? 'bg-black/90 hover:bg-black' : 'bg-black/50 hover:bg-black/70'} text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl`}
+              className={`${styles.navButton} ${styles.navPrev} ${reducedTransparency ? styles.navSolid : styles.navTranslucent}`}
             >
               ‹
             </button>
             <button
               onClick={next}
               aria-label='Next image'
-              className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 ${reducedTransparency ? 'bg-black/90 hover:bg-black' : 'bg-black/50 hover:bg-black/70'} text-white rounded-full w-9 h-9 md:w-12 md:h-12 flex items-center justify-center transition-colors text-xl md:text-2xl`}
+              className={`${styles.navButton} ${styles.navNext} ${reducedTransparency ? styles.navSolid : styles.navTranslucent}`}
             >
               ›
             </button>
@@ -109,7 +110,7 @@ export function ImageCarousel({
         {/* Counter */}
         {images.length > 1 && (
           <span
-            className={`absolute bottom-2 right-3 text-xs text-white ${reducedTransparency ? 'bg-black/90' : 'bg-black/50'} rounded px-2 py-0.5`}
+            className={`${styles.counter} ${reducedTransparency ? styles.counterSolid : styles.counterTranslucent}`}
           >
             {active + 1} / {images.length}
           </span>
@@ -118,21 +119,21 @@ export function ImageCarousel({
 
       {/* Caption */}
       {current.caption && (
-        <p className='text-sm text-center text-gray-500 dark:text-gray-400 mt-2 italic'>
+        <p className={styles.caption}>
           {current.caption}
         </p>
       )}
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className='flex gap-2 mt-3 overflow-x-auto pb-1'>
+        <div className={styles.thumbs}>
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => updateActive(() => i)}
               aria-label={`View image ${i + 1}: ${img.alt}`}
-              className={`relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md overflow-hidden border-2 transition-colors ${
-                i === active ? '' : 'border-transparent hover:border-gray-400'
+              className={`${styles.thumb} ${
+                i === active ? '' : styles.thumbInactive
               }`}
               style={
                 i === active
@@ -145,7 +146,7 @@ export function ImageCarousel({
                 alt={img.alt}
                 fill
                 sizes='64px'
-                className='object-cover'
+                className={styles.thumbImage}
               />
             </button>
           ))}

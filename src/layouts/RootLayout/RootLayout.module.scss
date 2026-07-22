@@ -1,0 +1,82 @@
+@use 'abstracts' as *;
+
+/**
+ * RootLayout.module.scss
+ *
+ * Co-located classes for the static Tailwind utility strings that lived inline
+ * in RootLayout.tsx.
+ *
+ * Breakpoint map:
+ *   md: = 768px -> @include from('mobile-lg')
+ *
+ * The global class `hide-scrollbar` (globals.css) is kept in the JSX alongside
+ * these module classes, not reimplemented here.
+ */
+
+/* Contained view: flex flex-col h-screen overflow-hidden */
+.containerContained {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Normal view: flex flex-col min-h-screen */
+.containerNormal {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main region base: flex-1 pt-[var(--site-header-height)]
+   (hide-scrollbar kept as a global class in the JSX) */
+.mainBase {
+  flex: 1 1 0%;
+  padding-top: var(--site-header-height);
+}
+
+/* Contained-only main additions: flex flex-col overflow-y-auto overflow-x-hidden */
+.mainContained {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Contained-only page transition wrapper: flex-1 flex flex-col */
+.transitionContained {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer wrapper when hideFooterOnMobile: hidden md:block */
+.footerHiddenMobile {
+  display: none;
+
+  @include from('mobile-lg') {
+    display: block;
+  }
+}
+
+/* Skip-to-content link:
+   sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4
+   focus:z-[200] focus:px-4 focus:py-2 */
+.skipLink {
+  @include visually-hidden;
+
+  &:focus {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 200;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 8px 16px;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    border: 0;
+  }
+}

@@ -1,0 +1,26 @@
+/**
+ * The reveal animation itself is global (`.tw-rv` / `.tw-rv.in`) and lives in
+ * styles/tokens/effects.css, alongside its reduced-motion handling — keeping it
+ * there means the rules apply from first paint rather than waiting on this
+ * module.
+ *
+ * This file carries only what the component adds on top.
+ */
+
+.reveal {
+  // Without this the animated child's margins collapse into the wrapper and
+  // section rhythm drifts by a few pixels once revealed.
+  display: block;
+}
+
+/*
+ * Elements begin at opacity 0 and are revealed by JavaScript. If scripting is
+ * unavailable that would hide the page's content permanently, so force it
+ * visible instead — content availability beats the animation.
+ */
+:global(html.no-js) .reveal,
+:global(noscript) ~ * .reveal {
+  opacity: 1 !important;
+  animation: none !important;
+  transform: none !important;
+}

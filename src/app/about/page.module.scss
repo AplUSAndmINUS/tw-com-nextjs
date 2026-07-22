@@ -1,0 +1,162 @@
+@use 'abstracts' as *;
+
+.page {
+  padding-top: 0;
+
+  @include from('mobile-lg') {
+    padding-top: var(--tw-space-xl);
+    padding-bottom: var(--tw-space-xl);
+  }
+}
+
+.spacer {
+  margin-top: var(--tw-space-xs);
+}
+
+/* ── Section wrappers ─────────────────────────────────────────────── */
+.sectionSpace6 {
+  margin-top: var(--tw-space-xxl);
+  padding: var(--tw-space-l);
+
+  > * + * {
+    margin-top: var(--tw-space-l);
+  }
+}
+
+.sectionSpace4 {
+  margin-top: var(--tw-space-xxl);
+  padding: var(--tw-space-l);
+
+  > * + * {
+    margin-top: var(--tw-space-m);
+  }
+}
+
+.sectionRounded {
+  margin-top: var(--tw-space-xxl);
+  padding: var(--tw-space-l);
+  border-radius: var(--tw-radius-control);
+}
+
+.sectionFeatured {
+  margin-top: var(--tw-space-xxl);
+  border-radius: var(--tw-radius-control);
+
+  @include from('mobile-lg') {
+    padding: var(--tw-space-l);
+  }
+}
+
+.sectionPad8 {
+  margin-top: var(--tw-space-xxl);
+  margin-bottom: var(--tw-space-xxl);
+  padding: var(--tw-space-l);
+  border-radius: var(--tw-radius-control);
+
+  @include from('mobile-lg') {
+    padding: var(--tw-space-xl);
+  }
+}
+
+/* ── Inline helpers ───────────────────────────────────────────────── */
+.mt6 {
+  margin-top: var(--tw-space-l);
+}
+
+.stack4Mt6 {
+  margin-top: var(--tw-space-l);
+
+  > * + * {
+    margin-top: var(--tw-space-m);
+  }
+}
+
+/* ── Education & certifications ───────────────────────────────────── */
+.eduGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--tw-space-xl);
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.colHeading {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tw-text-heading);
+  margin-bottom: var(--tw-space-m);
+}
+
+.stack3 {
+  > * + * {
+    margin-top: var(--tw-space-s);
+  }
+}
+
+.stack2 {
+  > * + * {
+    margin-top: var(--tw-space-xs);
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.degreeName {
+  font-weight: 600;
+  color: var(--tw-text-heading);
+  font-size: 0.875rem;
+}
+
+.degreeMeta {
+  font-size: 0.75rem;
+  color: var(--tw-text-muted);
+}
+
+.certItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tw-space-xxs);
+  font-size: 0.875rem;
+}
+
+.certName {
+  font-weight: 600;
+  color: var(--tw-text-heading);
+}
+
+.certYear {
+  color: var(--tw-text-muted);
+}
+
+.certPlain {
+  font-size: 0.875rem;
+  color: var(--tw-text-muted);
+}
+
+/* ── Proficiency circles grid ─────────────────────────────────────── */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--tw-space-l);
+  align-items: start;
+  justify-items: baseline;
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include from('tablet') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

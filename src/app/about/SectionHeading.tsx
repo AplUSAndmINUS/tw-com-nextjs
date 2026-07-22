@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { useAppTheme } from '@/theme';
 import { Typography } from '@/components/Typography/Typography';
+import styles from './SectionHeading.module.scss';
 
 function SectionHeading({
   children,
@@ -16,11 +17,11 @@ function SectionHeading({
   const { theme } = useAppTheme();
 
   return (
-    <div className='mb-6'>
+    <div className={styles.wrap}>
       <Typography
         variant='h2'
         id={id}
-        className='font-bold uppercase tracking-wide text-gray-900 mt-2 dark:text-white'
+        className={styles.heading}
         style={{
           fontSize: 'clamp(1.6rem, 5vw + 0.5rem, 2.25rem)',
         }}
@@ -28,7 +29,7 @@ function SectionHeading({
         {children}
       </Typography>
       <div
-        className='mt-2 w-40 h-1.5 mb-8 rounded-full'
+        className={styles.rule}
         style={{
           backgroundColor: isAccent
             ? theme.semanticColors.accent.teal

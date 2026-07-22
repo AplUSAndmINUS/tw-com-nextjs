@@ -7,6 +7,7 @@ import { Typography } from '@/components/Typography';
 import { WhatWeOffer } from '@/components/WhatWeOffer';
 import { ConsultationCTA } from '@/app/services/ConsultationCTA';
 import { SERVICES } from '@/app/services/constants';
+import styles from './page.module.scss';
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -57,7 +58,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   return (
     <PageLayout featureImage={service.image}>
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className={styles.page}>
         <Hero
           title={service.title}
           iconName={service.icon}
@@ -66,25 +67,25 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           description={service.heroDescription}
         />
 
-        <section className='mt-8 mb-12'>
-          <div className='space-y-4'>
+        <section className={styles.blurbSection}>
+          <div className={styles.paragraphs}>
             {paragraphs.map((paragraph, index) => (
               <Typography
                 key={index}
                 variant='body'
-                className='leading-relaxed'
+                className={styles.paragraph}
               >
                 {paragraph}
               </Typography>
             ))}
           </div>
           {service.fluxlineUrl && (
-            <div className='mt-6'>
+            <div className={styles.fluxlineLinkWrap}>
               <a
                 href={service.fluxlineUrl}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='inline-flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300 border border-gray-600 dark:border-gray-500 rounded px-3 py-1.5 hover:text-gray-500 dark:hover:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 transition-colors'
+                className={styles.fluxlineLink}
               >
                 More info available on Fluxline.pro ↗
               </a>
@@ -92,7 +93,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           )}
         </section>
 
-        <section className='mt-12 mb-12'>
+        <section className={styles.offersSection}>
           <WhatWeOffer items={service.offers} />
         </section>
 

@@ -1,0 +1,329 @@
+/**
+ * TW.com DSM — accessibility mode overrides
+ *
+ * Loaded after colors.css, which provides the two family base blocks.
+ *
+ * These modes used to be a legacy palette (generic #1a1a1a grays and #5b94ec
+ * blues) run through a CSS hue-rotate filter. Neither matched this design
+ * system, and the filter actively scrambled the palette's own contrast work.
+ * What the legacy palette DID encode correctly was which hues each vision type
+ * can separate, so those hue decisions are carried over and re-expressed on the
+ * DSM's own surfaces.
+ *
+ * Structurally, each dichromacy variant only restates the interactive/accent
+ * group. Backgrounds, body text and neutral borders inherit from the light
+ * family base, so the modes stay recognisably the same brand.
+ */
+
+/* ---------------------------------------------------------------------------
+   Protanopia — reduced red sensitivity. Red/green pairs collapse, so the accent
+   moves to blue and the "featured" gold darkens toward olive, separable from
+   blue by lightness alone.
+   --------------------------------------------------------------------------- */
+[data-theme='protanopia'] {
+  --tw-accent: #005299;
+  --tw-accent-ink: #ffffff;
+  --tw-accent-hover: #0078d4;
+  --tw-accent-active: #004578;
+  --tw-accent-disabled: #a3cded;
+
+  --tw-line: #0078d4;
+  --tw-text-heading: #005299;
+  --tw-text-soft: #004578;
+  --tw-border-strong: #005299;
+  --tw-border-hover: #0078d4;
+
+  --tw-teal: #009eb5;
+  --tw-teal-hover: #00b4cc;
+  --tw-teal-bg: rgba(0, 158, 181, 0.1);
+  --tw-teal-tint: #007a8c;
+
+  --tw-gold: #927200;
+  --tw-gold-border: #7a5f00;
+  --tw-gold-bg: rgba(146, 114, 0, 0.1);
+  --tw-featured: #7a5f00;
+
+  --tw-info: #005299;
+  --tw-info-border: #0078d4;
+  --tw-info-bg: rgba(0, 82, 153, 0.08);
+
+  --tw-gradient-accent: linear-gradient(120deg, #0078d4, #009eb5);
+}
+
+/* ---------------------------------------------------------------------------
+   Deuteranopia — reduced green sensitivity. Same strategy as protanopia, but
+   the blue sits deeper since mid-blues skew green here.
+   --------------------------------------------------------------------------- */
+[data-theme='deuteranopia'] {
+  --tw-accent: #004578;
+  --tw-accent-ink: #ffffff;
+  --tw-accent-hover: #0070c5;
+  --tw-accent-active: #00528c;
+  --tw-accent-disabled: #a4c1ff;
+
+  --tw-line: #0070c5;
+  --tw-text-heading: #004578;
+  --tw-text-soft: #00528c;
+  --tw-border-strong: #004578;
+  --tw-border-hover: #0070c5;
+
+  --tw-teal: #0090bb;
+  --tw-teal-hover: #00a6d4;
+  --tw-teal-bg: rgba(0, 144, 187, 0.1);
+  --tw-teal-tint: #006e8f;
+
+  --tw-gold: #927200;
+  --tw-gold-border: #7a5f00;
+  --tw-gold-bg: rgba(146, 114, 0, 0.1);
+  --tw-featured: #7a5f00;
+
+  --tw-info: #004578;
+  --tw-info-border: #0070c5;
+  --tw-info-bg: rgba(0, 69, 120, 0.08);
+
+  --tw-gradient-accent: linear-gradient(120deg, #0070c5, #0090bb);
+}
+
+/* ---------------------------------------------------------------------------
+   Tritanopia — reduced blue sensitivity. Blue/yellow pairs collapse, so the
+   accent moves to red and the ecosystem teal shifts green, keeping them apart.
+   --------------------------------------------------------------------------- */
+[data-theme='tritanopia'] {
+  --tw-accent: #8f1c28;
+  --tw-accent-ink: #ffffff;
+  --tw-accent-hover: #d13438;
+  --tw-accent-active: #761721;
+  --tw-accent-disabled: #e8a3a3;
+
+  --tw-line: #d13438;
+  --tw-text-heading: #8f1c28;
+  --tw-text-soft: #761721;
+  --tw-border-strong: #8f1c28;
+  --tw-border-hover: #d13438;
+
+  --tw-teal: #00a870;
+  --tw-teal-hover: #00c285;
+  --tw-teal-bg: rgba(0, 168, 112, 0.1);
+  --tw-teal-tint: #00805a;
+
+  --tw-gold: #ab7600;
+  --tw-gold-border: #8a5e00;
+  --tw-gold-bg: rgba(171, 118, 0, 0.1);
+  --tw-featured: #8a5e00;
+
+  --tw-info: #8f1c28;
+  --tw-info-border: #d13438;
+  --tw-info-bg: rgba(143, 28, 40, 0.08);
+
+  --tw-gradient-accent: linear-gradient(120deg, #d13438, #00a870);
+}
+
+/* ---------------------------------------------------------------------------
+   Grayscale (light) — hue removed entirely; separation carried by lightness.
+   --------------------------------------------------------------------------- */
+[data-theme='grayscale'] {
+  --tw-bg-page: #ffffff;
+  --tw-bg-hero-2: #f0f0f0;
+  --tw-bg-hero-3: #e0e0e0;
+
+  --tw-surface-card: #ffffff;
+  --tw-surface-alt: #f5f5f5;
+  --tw-hover-fill: #ebebeb;
+  --tw-badge-bg: #ebebeb;
+  --tw-surface-inset: #f5f5f5;
+
+  --tw-border: #d6d6d6;
+  --tw-border-subtle: #e8e8e8;
+  --tw-border-strong: #333333;
+  --tw-border-hover: #4d4d4d;
+
+  --tw-text-heading: #000000;
+  --tw-text-heading-display: #000000;
+  --tw-text-body: #1a1a1a;
+  --tw-text-base: #1a1a1a;
+  --tw-text-muted: #666666;
+  --tw-text-faint: #767676;
+  --tw-text-soft: #333333;
+  --tw-text-mist: #4d4d4d;
+
+  --tw-accent: #333333;
+  --tw-accent-ink: #ffffff;
+  --tw-accent-hover: #4d4d4d;
+  --tw-accent-active: #262626;
+  --tw-accent-disabled: #b3b3b3;
+
+  --tw-line: #4d4d4d;
+  --tw-teal: #4a4a4a;
+  --tw-teal-hover: #5c5c5c;
+  --tw-teal-bg: rgba(74, 74, 74, 0.1);
+  --tw-teal-tint: #3d3d3d;
+
+  --tw-gold: #666666;
+  --tw-gold-border: #4d4d4d;
+  --tw-gold-bg: rgba(102, 102, 102, 0.1);
+  --tw-featured: #4d4d4d;
+
+  --tw-success: #4a4a4a;
+  --tw-error: #1a1a1a;
+  --tw-warning: #666666;
+  --tw-info: #333333;
+
+  --tw-gradient-accent: linear-gradient(120deg, #4d4d4d, #808080);
+  --tw-gradient-card: linear-gradient(160deg, #ffffff, #f0f0f0);
+  --tw-gradient-band: linear-gradient(150deg, #e0e0e0, #f0f0f0);
+  --tw-gradient-feature: linear-gradient(160deg, #f5f5f5, #ffffff);
+}
+
+/* ---------------------------------------------------------------------------
+   Grayscale (dark) — the same, on the dark surface ladder.
+   --------------------------------------------------------------------------- */
+[data-theme='grayscale-dark'] {
+  --tw-bg-page: #1a1a1a;
+  --tw-bg-deep: #0d0d0d;
+  --tw-bg-hero-1: #1a1a1a;
+  --tw-bg-hero-2: #262626;
+  --tw-bg-hero-3: #333333;
+
+  --tw-surface-card: #242424;
+  --tw-surface-alt: #262626;
+  --tw-hover-fill: #333333;
+  --tw-badge-bg: #333333;
+  --tw-surface-inset: #1f1f1f;
+  --tw-surface-raised: #2b2b2b;
+  --tw-surface-input: #1f1f1f;
+
+  --tw-border: #404040;
+  --tw-border-subtle: #333333;
+  --tw-border-strong: #bfbfbf;
+  --tw-border-hover: #d9d9d9;
+
+  --tw-text-heading: #ffffff;
+  --tw-text-heading-display: #ffffff;
+  --tw-text-body: #e6e6e6;
+  --tw-text-base: #e6e6e6;
+  --tw-text-bright: #ffffff;
+  --tw-text-muted: #a6a6a6;
+  --tw-text-faint: #8c8c8c;
+  --tw-text-soft: #bfbfbf;
+  --tw-text-mist: #a6a6a6;
+
+  --tw-accent: #bfbfbf;
+  --tw-accent-ink: #1a1a1a;
+  --tw-accent-hover: #d9d9d9;
+  --tw-accent-active: #a6a6a6;
+  --tw-accent-disabled: #666666;
+
+  --tw-line: #bfbfbf;
+  --tw-teal: #a0a0a0;
+  --tw-teal-hover: #b8b8b8;
+  --tw-teal-bg: rgba(160, 160, 160, 0.14);
+  --tw-teal-tint: #c4c4c4;
+
+  --tw-gold: #a6a6a6;
+  --tw-gold-border: #787878;
+  --tw-gold-bg: rgba(166, 166, 166, 0.1);
+  --tw-featured: #d9d9d9;
+
+  --tw-success: #b3b3b3;
+  --tw-error: #f2f2f2;
+  --tw-warning: #a6a6a6;
+  --tw-info: #bfbfbf;
+
+  --tw-gradient-accent: linear-gradient(120deg, #bfbfbf, #808080);
+  --tw-gradient-card: linear-gradient(160deg, #262626, #1f1f1f);
+  --tw-gradient-band: linear-gradient(140deg, #333333, #1a1a1a);
+  --tw-gradient-feature: linear-gradient(155deg, #2b2b2b, #1f1f1f);
+  --tw-gradient-hero: linear-gradient(
+    150deg,
+    #1a1a1a 0%,
+    #262626 50%,
+    #404040 100%
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   High contrast — pure white on pure black, 21:1.
+
+   One deliberate fix carried over from the legacy theme: disabled text sat at
+   #666666 on black, roughly 3.66:1. Disabled text is exempt from WCAG 1.4.3 so
+   it was never a formal failure, but it was the one value never re-tuned for
+   this mode, which rather defeats the purpose. Lifted to #949494 (~7:1).
+
+   Grain is disabled here — a noise overlay works against the whole point.
+   --------------------------------------------------------------------------- */
+[data-theme='high-contrast'] {
+  --tw-bg-page: #000000;
+  --tw-bg-deep: #000000;
+  --tw-bg-hero-1: #000000;
+  --tw-bg-hero-2: #0a0a0a;
+  --tw-bg-hero-3: #121212;
+
+  --tw-surface-card: #000000;
+  --tw-surface-alt: #0a0a0a;
+  --tw-hover-fill: #1a1a1a;
+  --tw-badge-bg: #121212;
+  --tw-surface-inset: #000000;
+  --tw-surface-raised: #121212;
+  --tw-surface-input: #000000;
+
+  --tw-border: #ffffff;
+  --tw-border-subtle: #808080;
+  --tw-border-strong: #ffffff;
+  --tw-border-hover: #66b3ff;
+
+  --tw-text-heading: #ffffff;
+  --tw-text-heading-display: #ffffff;
+  --tw-text-body: #ffffff;
+  --tw-text-base: #ffffff;
+  --tw-text-bright: #ffffff;
+  --tw-text-muted: #b3d9ff;
+  --tw-text-faint: #949494;
+  --tw-text-soft: #99ccff;
+  --tw-text-mist: #b3d9ff;
+
+  --tw-accent: #66b3ff;
+  --tw-accent-ink: #000000;
+  --tw-accent-hover: #99ccff;
+  --tw-accent-active: #3399ff;
+  --tw-accent-disabled: #666666;
+
+  --tw-line: #66b3ff;
+  --tw-teal: #00ffee;
+  --tw-teal-hover: #66fff5;
+  --tw-teal-bg: rgba(0, 255, 238, 0.15);
+  --tw-teal-tint: #00ffee;
+
+  --tw-gold: #ffdd00;
+  --tw-gold-border: #ffdd00;
+  --tw-gold-bg: rgba(255, 221, 0, 0.15);
+  --tw-featured: #ffdd00;
+
+  --tw-success: #00ff88;
+  --tw-success-border: #00ff88;
+  --tw-success-bg: rgba(0, 255, 136, 0.15);
+
+  --tw-error: #ff6b6b;
+  --tw-error-border: #ff6b6b;
+  --tw-error-bg: rgba(255, 107, 107, 0.15);
+
+  --tw-warning: #ffdd00;
+  --tw-warning-border: #ffdd00;
+  --tw-warning-bg: rgba(255, 221, 0, 0.15);
+
+  --tw-info: #66b3ff;
+  --tw-info-border: #66b3ff;
+  --tw-info-bg: rgba(102, 179, 255, 0.15);
+
+  --tw-gradient-hero: linear-gradient(
+    150deg,
+    #000000 0%,
+    #0a0a0a 50%,
+    #121212 100%
+  );
+  --tw-gradient-card: linear-gradient(160deg, #000000, #000000);
+  --tw-gradient-accent: linear-gradient(120deg, #66b3ff, #00ffee);
+  --tw-gradient-band: linear-gradient(140deg, #000000, #121212);
+  --tw-gradient-feature: linear-gradient(155deg, #000000, #0a0a0a);
+
+  --tw-noise-opacity: 0;
+}

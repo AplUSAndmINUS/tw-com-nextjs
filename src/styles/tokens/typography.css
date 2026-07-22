@@ -1,0 +1,72 @@
+/**
+ * TW.com DSM — typography tokens
+ * Source: TW.com Design System, tokens/typography.css
+ *
+ * The three families resolve to CSS variables emitted by next/font/local
+ * (see src/app/fonts.ts). Fonts are self-hosted; there is no Typekit or Google
+ * Fonts network request.
+ *
+ * Fluid sizes use cqi (container-relative), not vw, so type responds to the
+ * component's own container. Viewport media queries are reserved for layout.
+ */
+:root {
+  --tw-font:
+    var(--font-montserrat), -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial,
+    sans-serif;
+  --tw-font-body:
+    var(--font-merriweather), Georgia, 'Times New Roman', serif;
+  --tw-font-mono:
+    var(--font-roboto-mono), ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  --tw-mono-size: 0.84375rem;
+  --tw-mono-leading: 1.6;
+
+  /* ===== Display / headings (Montserrat) ===== */
+  --tw-display-size: clamp(2.75rem, 7cqi, 3.75rem);
+  --tw-display-weight: 800;
+  --tw-display-tracking: 0.02em;
+
+  --tw-h1-size: clamp(1.875rem, 5cqi, 2.375rem);
+  --tw-h1-weight: 800;
+  --tw-h2-size: clamp(1.625rem, 4cqi, 2rem);
+  --tw-h2-weight: 700;
+  --tw-h3-size: clamp(1.25rem, 3cqi, 1.4375rem);
+  --tw-h3-weight: 700;
+  --tw-heading-tracking: -0.01em;
+  --tw-band-h2-size: clamp(1.75rem, 4.5cqi, 2.125rem);
+
+  --tw-article-h1: clamp(1.875rem, 4.5cqi, 2.5rem);
+  --tw-article-h2: 1.5625rem;
+  --tw-article-h3: 1.15625rem;
+
+  --tw-subhead-size: clamp(1.0625rem, 3cqi, 1.1875rem);
+  --tw-subhead-weight: 600;
+  --tw-eyebrow-card-size: clamp(1rem, 5.5cqi, 1.375rem);
+
+  /* ===== Body (Merriweather) ===== */
+  --tw-body-size: 1rem;
+  --tw-body-leading: 1.75;
+  --tw-body-sm-size: 0.84375rem;
+  --tw-body-sm-leading: 1.65;
+
+  --tw-kicker-size: 0.75rem;
+  --tw-kicker-tracking: 0.12em;
+  --tw-eyebrow-size: 0.9375rem;
+  --tw-eyebrow-tracking: 0.28em;
+  --tw-meta-size: 0.78125rem;
+  --tw-cta-link-size: 0.78125rem;
+  --tw-cta-link-tracking: 0.08em;
+
+  /* ===== Chip / label sizes ===== */
+  --tw-chip-filter-size: 0.75rem;
+  --tw-chip-badge-size: 0.625rem;
+  --tw-chip-tag-size: 0.6875rem;
+  --tw-chip-category-size: 0.6875rem;
+
+  --tw-fluid-display: clamp(2.5em, 5cqi, 3.5em);
+  --tw-fluid-h2: clamp(1.75em, 4cqi, 2.5em);
+  --tw-fluid-body: clamp(1em, 3cqi, 1.25em);
+  --tw-fluid-caption: clamp(0.75em, 2cqi, 1em);
+  --tw-fluid-mono: clamp(0.875em, 2.5cqi, 1.125em);
+}

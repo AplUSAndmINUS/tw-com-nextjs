@@ -1,18 +1,20 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getRobotsConfig } from '@/utils/metadata';
-import { PageLayout } from '@/layouts/PageLayout';
 import { VideoPlayer } from '@/components/VideoPlayer';
-import { ContentDetailNav } from '@/components/ContentDetailNav';
-import { ThemedLink } from '@/components/ThemedLink';
+import { TwPageNav } from '@/components/dsm';
+import type { TwPageNavLink } from '@/components/dsm';
+import { Footer } from '@/components/Footer';
+import styles from './VideoDetail.module.scss';
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
-  // Return a placeholder so the static export can build the route template.
-  // Real video IDs are loaded client-side via the /api/videos Azure Function.
+  // Placeholder so the static export can build the route template. Real video
+  // IDs are loaded client-side; the listing opens videos in a modal, and this
+  // route only serves direct deep-links.
   return [{ id: 'placeholder' }];
 }
 
@@ -25,33 +27,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const NAV_LINKS: TwPageNavLink[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Content Hub', href: '/content-hub', active: true },
+  { label: 'Portfolio', href: '/portfolio' },
+];
+
 export default async function VideoPlayerPage({ params }: Props) {
   const { id } = await params;
-
   if (!id) notFound();
 
-  // In production the Azure Function at /api/videos returns YouTube video data.
-  // For the static build we render a YouTube embed using the id directly.
   return (
-    <PageLayout>
-      <div className='max-w-4xl mx-auto px-4 py-12'>
-        <ContentDetailNav
-          prevHref='/videos'
-          listingPath='/videos'
-          listingLabel='Videos'
-        />
-        <VideoPlayer youtubeId={id} title={`Video ${id}`} />
-        <div className='mt-6'>
-          <ThemedLink
-            href={`https://www.youtube.com/watch?v=${id}`}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-sm hover:underline'
-          >
-            Watch on YouTube ↗
-          </ThemedLink>
+    <>
+      <TwPageNav back={{ label: 'Back to Videos', href: '/videos' }} links={NAV_LINKS} />
+      <main className={styles.main}>
+        <div className={styles.frame}>
+          <VideoPlayer youtubeId={id} title={`Video ${id}`} />
         </div>
-      </div>
-    </PageLayout>
+        <a
+          className={styles.watch}
+          href={`https://www.youtube.com/watch?v=${id}`}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Watch on YouTube &#8599;
+        </a>
+      </main>
+      <Footer />
+    </>
   );
 }

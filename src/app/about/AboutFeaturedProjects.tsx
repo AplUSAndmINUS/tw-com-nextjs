@@ -2,6 +2,7 @@
 
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { BaseCard } from '@/components/BaseCard';
+import styles from './AboutFeaturedProjects.module.scss';
 
 const FEATURED_PROJECTS = [
   {
@@ -44,7 +45,7 @@ const FEATURED_PROJECTS = [
 
 export function AboutFeaturedProjects() {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
+    <div className={styles.grid}>
       {FEATURED_PROJECTS.map((project) => {
         return (
           <BaseCard
@@ -54,14 +55,14 @@ export function AboutFeaturedProjects() {
             body={project.roles}
             label={project.skills}
             hoverable={true}
-            className='relative overflow-hidden rounded-xl border p-4 bg-white dark:bg-gray-900/60 bg-[linear-gradient(160deg,rgba(254,254,254,0.52),transparent_42%)]'
+            className={styles.card}
           />
         );
       })}
       <ThemedLink
         href='/portfolio'
         variant='body'
-        className='inline-flex items-center justify-center w-full mt-2 px-4 py-2 border-2 border-gray-500 dark:border-white-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]'
+        className={styles.portfolioLink}
       >
         View Full Portfolio
       </ThemedLink>

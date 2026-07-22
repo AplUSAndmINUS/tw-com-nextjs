@@ -7,6 +7,7 @@ import { ContentCard } from '@/components/ContentCard';
 import { ViewSwitcher } from '@/components/ViewSwitcher';
 import { TagFilter } from '@/components/TagFilter';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './UnifiedContentClient.module.scss';
 
 export interface UnifiedContentEntry extends ContentItem {
   contentType: string;
@@ -49,22 +50,22 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
   );
 
   return (
-    <div className='max-w-7xl mx-auto px-4 py-12'>
-      <div className='mb-8'>
-        <h1 className='text-4xl font-bold mb-2'>Content Hub</h1>
-        <p className='text-gray-600 dark:text-gray-400'>
+    <div className={styles.wrap}>
+      <div className={styles.header}>
+        <h1 className={styles.heading}>Content Hub</h1>
+        <p className={styles.subtitle}>
           Explore all content — blog posts, portfolio work, and case studies in
           one place.
         </p>
       </div>
 
       {/* Toolbar */}
-      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6'>
+      <div className={styles.toolbar}>
         {/* Type filter — derived from actual content types */}
-        <div className='flex flex-wrap gap-2'>
+        <div className={styles.typeFilter}>
           <button
             onClick={() => setActiveType(null)}
-            className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+            className={styles.chip}
             style={
               activeType === null
                 ? {
@@ -80,7 +81,7 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
             <button
               key={type}
               onClick={() => setActiveType(type === activeType ? null : type)}
-              className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+              className={styles.chip}
               style={
                 activeType === type
                   ? {
@@ -99,7 +100,7 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
 
       {/* Tag filter */}
       {allTags.length > 0 && (
-        <div className='mb-6'>
+        <div className={styles.tagSection}>
           <TagFilter
             tags={allTags}
             activeTag={activeTag}
@@ -111,9 +112,9 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
 
       {/* Featured section */}
       {featuredEntries.length > 0 && !activeTag && !activeType && (
-        <section className='mb-12'>
-          <h2 className='text-xl font-semibold mb-4'>Featured</h2>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <section className={styles.featuredSection}>
+          <h2 className={styles.featuredHeading}>Featured</h2>
+          <div className={styles.featuredGrid}>
             {featuredEntries.map((entry) => (
               <ContentCard
                 key={`${entry.contentType}-${entry.slug}`}
@@ -124,17 +125,17 @@ export function UnifiedContentClient({ entries }: UnifiedContentClientProps) {
               />
             ))}
           </div>
-          <hr className='my-8 border-gray-200 dark:border-gray-700' />
+          <hr className={styles.divider} />
         </section>
       )}
 
       {/* All content */}
       {filtered.length === 0 ? (
-        <p className='text-gray-500 dark:text-gray-400 py-12 text-center'>
+        <p className={styles.emptyText}>
           No content matches the selected filters.
         </p>
       ) : viewType === 'grid' ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+        <div className={styles.grid}>
           {filtered.map((entry) => (
             <ContentCard
               key={`${entry.contentType}-${entry.slug}`}

@@ -15,6 +15,7 @@ import { SERVICE_OPTIONS } from './constants';
 import { resolveIconName } from '@/utils/iconResolver';
 import { ServiceKey, StepOneData } from './types';
 import { useCardState } from '@/hooks/useCardState';
+import styles from './StepServiceSelection.module.scss';
 
 interface StepServiceSelectionProps {
   data: StepOneData;
@@ -78,7 +79,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
         don&apos;t know&rdquo; and we&apos;ll help on the call.
       </Typography>
 
-      <div className='flex flex-col gap-3'>
+      <div className={styles.options}>
         {SERVICE_OPTIONS.map((option) => {
           const isSelected = data.services.includes(option.key);
           const iconComponent = resolveIconName(option.icon);
@@ -179,7 +180,7 @@ export const StepServiceSelection: React.FC<StepServiceSelectionProps> = ({
         </div>
       )}
 
-      <div className='flex justify-end mt-6'>
+      <div className={styles.actions}>
         <Button variant='primary' onClick={handleNext} size='medium'>
           Next: Tell us about your needs →
         </Button>

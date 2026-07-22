@@ -1,32 +1,40 @@
 'use client';
 
 /**
- * FluentIcon Component
- * Wrapper for Fluent UI v9 icons with theme integration and SSR safety
+ * Icon wrapper with theme-aware colouring.
  *
- * Fluent UI v9 icons come in pre-sized variants. Import the size you need:
- * - Icon16Regular (16px)
- * - Icon20Regular (20px)
- * - Icon24Regular (24px)
- * - Icon28Regular (28px)
- * - Icon32Regular (32px)
- * - Icon48Regular (48px)
+ * Named FluentIcon for historical reasons — it wrapped `@fluentui/react-icons`.
+ * It now renders icons from `src/components/icons`, and the name is kept only
+ * because ~24 call sites use it; renaming is page-migration work.
  *
- * Icons are colored via the `primaryFill` prop, which directly sets the SVG fill.
+ * Two things changed with the icon set:
+ *
+ * - Size is a prop, not part of the component name. Fluent shipped a separate
+ *   component per size (`Home24Regular`, `Home32Regular`); ours take `size`.
+ * - Colour comes from the CSS `color` property via `currentColor`, not Fluent's
+ *   `primaryFill`. The variant colours below are `var(--tw-*)` references, so
+ *   they follow the active theme with no JS involvement.
+ *
+ * The old SSR mount guard is gone. It rendered an empty <span> until after
+ * hydration to dodge a mismatch, which meant every icon on the page popped in
+ * late. These icons are pure and deterministic, so there is nothing to guard.
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import type { FluentIcon as FluentIconComponent } from '@fluentui/react-icons';
+import type { IconProps } from '@/components/icons';
 
 export interface FluentIconProps {
   /**
-   * Fluent UI v9 icon component (pre-sized variant)
+   * Icon component from `@/components/icons`.
+   *
    * @example
-   * import { Home16Regular, Home24Regular, Home48Regular } from '@fluentui/react-icons';
-   * <FluentIcon iconName={Home24Regular} variant="primary" />
+   * import { HomeIcon } from '@/components/icons';
+   * <FluentIcon iconName={HomeIcon} variant='primary' />
    */
-  iconName: FluentIconComponent | React.ComponentType<any>;
+  iconName: React.ComponentType<IconProps>;
+  /** Rendered size in pixels. Defaults to 24. */
+  size?: number;
   /** Custom color (overrides variant) */
   color?: string;
   /** Additional CSS class */
@@ -41,19 +49,9 @@ export interface FluentIconProps {
   onClick?: (event: React.MouseEvent) => void;
 }
 
-/**
- * FluentIcon - Renders Fluent UI v9 icons with theme-aware colors
- *
- * @example
- * ```tsx
- * import { Home24Regular, Search20Regular } from '@fluentui/react-icons';
- *
- * <FluentIcon iconName={Home24Regular} variant="primary" />
- * <FluentIcon iconName={Search20Regular} color="#ff0000" />
- * ```
- */
 export const FluentIcon: React.FC<FluentIconProps> = ({
-  iconName,
+  iconName: IconComponent,
+  size = 24,
   color,
   className,
   style,
@@ -62,11 +60,6 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
   onClick,
 }) => {
   const { theme } = useAppTheme();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const getVariantColor = (): string => {
     if (color) return color;
@@ -89,8 +82,6 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
     }
   };
 
-  const iconColor = getVariantColor();
-
   const wrapperStyles: React.CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
@@ -98,34 +89,21 @@ export const FluentIcon: React.FC<FluentIconProps> = ({
     flexShrink: 0,
     cursor: onClick ? 'pointer' : undefined,
     lineHeight: 0, // Prevents extra spacing around icon
+    // The glyph paints with currentColor, so setting `color` here is what
+    // actually tints it.
+    color: getVariantColor(),
     ...style,
   };
 
-  // Prevent hydration mismatch
-  if (!isMounted) {
-    return (
-      <span
-        style={wrapperStyles}
-        className={className}
-        aria-hidden='true'
-        suppressHydrationWarning
-      />
-    );
-  }
-
-  const IconComponent = iconName as React.ComponentType<any>;
-
-  const containerProps = {
-    style: wrapperStyles,
-    className,
-    'aria-label': ariaLabel,
-    onClick,
-    ...(onClick && { role: 'button', tabIndex: 0 }),
-  };
-
   return (
-    <span {...containerProps}>
-      <IconComponent primaryFill={iconColor} style={{ color: iconColor }} />
+    <span
+      style={wrapperStyles}
+      className={className}
+      aria-label={ariaLabel}
+      onClick={onClick}
+      {...(onClick && { role: 'button', tabIndex: 0 })}
+    >
+      <IconComponent size={size} />
     </span>
   );
 };

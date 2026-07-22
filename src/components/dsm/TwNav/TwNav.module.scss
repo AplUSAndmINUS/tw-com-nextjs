@@ -1,0 +1,152 @@
+@use 'abstracts' as *;
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--tw-nav-bg);
+  border-bottom: 1px solid var(--tw-border-subtle);
+
+  /* Blur is reserved for this element alone in the design system. Both
+     properties read from the same token, which the reduced-transparency
+     preference swaps to `none` (see styles/tokens/effects.css) — so the toggle
+     needs no JS here. */
+  -webkit-backdrop-filter: var(--tw-nav-blur);
+  backdrop-filter: var(--tw-nav-blur);
+}
+
+.inner {
+  @include container-width;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  height: var(--tw-nav-height);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  text-decoration: none;
+  flex-shrink: 0;
+
+  @include focus-ring;
+}
+
+.brandMark {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: var(--tw-space-xxs);
+}
+
+.brandText {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--tw-text-heading);
+  white-space: nowrap;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-l);
+
+  @include until('tablet') {
+    display: none;
+  }
+}
+
+.link {
+  position: relative;
+  font-family: var(--tw-font);
+  font-size: 0.90625rem;
+  font-weight: 500;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+  padding-block: var(--tw-space-xs);
+  transition: color var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+
+  /* Active-section underline. Animated via scaleX so it does not trigger
+     layout on every IntersectionObserver update. */
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: var(--tw-radius-pill);
+    background: var(--tw-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--tw-hover-duration) var(--tw-motion-ease);
+  }
+
+  @include motion-safe-only;
+}
+
+.linkActive {
+  color: var(--tw-text-heading);
+
+  &::after {
+    transform: scaleX(1);
+  }
+}
+
+.burger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--tw-text-heading);
+  cursor: pointer;
+  padding: var(--tw-space-xs);
+  border-radius: var(--tw-radius-control);
+
+  @include focus-ring;
+
+  @include until('tablet') {
+    display: inline-flex;
+  }
+}
+
+.mobilePanel {
+  display: none;
+  flex-direction: column;
+  gap: var(--tw-space-s);
+  padding: var(--tw-space-m) var(--tw-container-pad) var(--tw-space-l);
+  border-top: 1px solid var(--tw-border-subtle);
+  background: var(--tw-bg-deep);
+
+  @include until('tablet') {
+    display: flex;
+  }
+}
+
+.mobileLink {
+  font-family: var(--tw-font);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+  padding-block: var(--tw-space-xs);
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+}
+
+.mobileLinkActive {
+  color: var(--tw-accent);
+}

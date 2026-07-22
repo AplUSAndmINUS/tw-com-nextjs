@@ -1,0 +1,129 @@
+@use 'abstracts' as *;
+
+/* Buttons brighten on hover rather than swapping colour — the palette is
+   already low-contrast by design, and an inversion reads as a different
+   control rather than the same one in a different state. */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tw-space-xs);
+  border: 1px solid transparent;
+  border-radius: var(--tw-radius-control);
+  font-family: var(--tw-font);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    filter var(--tw-hover-duration) var(--tw-motion-ease),
+    background-color var(--tw-color-duration) var(--tw-motion-ease),
+    border-color var(--tw-color-duration) var(--tw-motion-ease),
+    color var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+  @include motion-safe-only;
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}
+
+/* ===== Sizes ===== */
+
+.sm {
+  padding: 9px 18px;
+  font-size: 14px;
+}
+
+.md {
+  padding: 13px 26px;
+  font-size: 15px;
+}
+
+.lg {
+  padding: 14px 30px;
+  font-size: 15.5px;
+}
+
+/* ===== Variants ===== */
+
+.primary {
+  background: var(--tw-accent);
+  color: var(--tw-accent-ink);
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+
+  /* No shrink on press. The press state is a colour step, so the control does
+     not move under the finger that is already on it. */
+  &:active {
+    background: var(--tw-accent-active);
+    filter: none;
+  }
+}
+
+.outline {
+  background: transparent;
+  border-color: var(--tw-line);
+  color: var(--tw-accent);
+
+  &:hover {
+    background: color-mix(in srgb, var(--tw-accent) 10%, transparent);
+    border-color: var(--tw-accent-hover);
+  }
+
+  &:active {
+    background: color-mix(in srgb, var(--tw-accent) 16%, transparent);
+    border-color: var(--tw-accent-active);
+  }
+}
+
+.quiet {
+  padding: 0;
+  background: transparent;
+  border-color: transparent;
+  color: var(--tw-text-muted);
+
+  &:hover {
+    color: var(--tw-text-bright);
+  }
+
+  &:active {
+    color: var(--tw-accent);
+  }
+}
+
+/* ===== Disabled =====
+   `:disabled` covers the <button>; `.isDisabled` carries the <a>, which cannot
+   be disabled natively. Both land on the same rule so the two elements are
+   indistinguishable to a reader. */
+
+.button:disabled,
+.isDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: none;
+  pointer-events: none;
+}
+
+.primary:disabled,
+.primary.isDisabled {
+  background: var(--tw-accent-disabled);
+}
+
+.outline:disabled,
+.outline.isDisabled {
+  border-color: var(--tw-border);
+  color: var(--tw-text-faint);
+}
+
+.quiet:disabled,
+.quiet.isDisabled {
+  color: var(--tw-text-faint);
+}

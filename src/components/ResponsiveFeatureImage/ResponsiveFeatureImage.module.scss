@@ -1,0 +1,56 @@
+@use 'abstracts' as *;
+
+.frame {
+  position: relative;
+  width: 100%;
+  border-radius: var(--tw-radius-card);
+  overflow: hidden;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.aspectSquare {
+  aspect-ratio: 1 / 1;
+}
+
+.aspectVideo {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect43 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect34 {
+  aspect-ratio: 3 / 4;
+}
+
+.aspect23 {
+  aspect-ratio: 2 / 3;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.overlay {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: var(--tw-space-m);
+
+  @include from('mobile-lg') {
+    display: block;
+  }
+}
+
+.title {
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}

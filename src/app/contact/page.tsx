@@ -8,6 +8,7 @@ import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import LinkedInPortrait from '@/assets/images/LinkedInTerenceW1024x1536.jpeg';
 import { NewsletterSignupCTA } from '@/components/NewsletterSignupCTA';
 import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -32,7 +33,7 @@ export default function ContactPage() {
         title: 'Contact Me',
       }}
     >
-      <div className='relative max-width-content pt-0 pb-8 md:pb-16 md:py-8 flex flex-col gap-10'>
+      <div className={`max-width-content ${styles.page}`}>
         {/* Primary CTA: Start a Conversation */}
         <Hero
           title='Start a Conversation'
@@ -44,11 +45,11 @@ export default function ContactPage() {
         </Hero>
 
         {/* Newsletter CTA */}
-        <NewsletterSignupCTA className='mt-4' />
+        <NewsletterSignupCTA className={styles.newsletter} />
 
         {/* Secondary: Contact Form (de-emphasized) */}
-        <div className='flex flex-col gap-4'>
-          <div className='flex flex-col items-start gap-3 text-black-700 dark:text-neutral-200'>
+        <div className={styles.formSection}>
+          <div className={styles.noteHeader}>
             <Typography
               variant='h3'
               style={{
@@ -60,7 +61,7 @@ export default function ContactPage() {
             </Typography>
             <Typography
               variant='body'
-              className='text-black-600 dark:text-neutral-300'
+              className={styles.noteText}
               style={{
                 fontSize: '0.9rem',
                 maxWidth: '480px',

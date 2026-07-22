@@ -22,14 +22,11 @@ import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS, TRI_YOUTUBE_CHANNEL_HANDLES } from './constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import {
-  ArrowRight24Regular,
-  WindowNew24Regular,
-  Video24Regular,
-} from '@fluentui/react-icons';
 import { getApiBaseUrl } from '@/lib/environment';
 import { YouTubeVideo, formatDuration } from '@/app/videos/types';
 import { NativeLoadingImage } from '@/components/ui/LoadingImage';
+import { ArrowRightIcon, VideoIcon, WindowNewIcon } from '@/components/icons';
+import styles from './TheResonantIdentityPageClient.module.scss';
 
 interface TheResonantIdentityPageProps {
   episodes: PodcastEpisode[];
@@ -71,7 +68,7 @@ function PlatformIconLink({
       title={label}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className='flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200'
+      className={styles.platformLink}
       style={{
         backgroundColor: hasBrandColor
           ? brandColor
@@ -123,16 +120,16 @@ function TRIYouTubeVideos() {
 
   return (
     <div
-      className='rounded-lg border mt-12 p-6'
+      className={styles.videosCard}
       style={{
         borderColor: theme.semanticColors.border.default,
         backgroundColor: theme.semanticColors.background.base,
       }}
     >
-      <div className='flex items-center justify-between mb-4'>
+      <div className={styles.videosHead}>
         <Typography
           variant='h3'
-          className='text-lg font-semibold'
+          className={styles.videosTitle}
           style={{ color: theme.semanticColors.text.primary }}
         >
           Videos on YouTube
@@ -143,18 +140,18 @@ function TRIYouTubeVideos() {
           href={TRI_LINKS.youtube}
           target='_blank'
           rel='noopener noreferrer'
-          className='inline-flex items-center gap-1 text-sm font-semibold'
+          className={styles.viewAllLink}
           style={{ color: theme.semanticColors.link.default }}
         >
           View all
           <FluentIcon
             color={theme.semanticColors.link.default}
-            iconName={WindowNew24Regular}
+            iconName={WindowNewIcon}
             style={{ marginLeft: theme.spacing.s2 }}
           />
         </ThemedLink>
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+      <div className={styles.videosGrid}>
         {videos.map((video) => {
           const duration = formatDuration(video.duration);
           return (
@@ -163,31 +160,31 @@ function TRIYouTubeVideos() {
               href={`https://www.youtube.com/watch?v=${video.id}`}
               target='_blank'
               rel='noopener noreferrer'
-              className='block rounded-lg overflow-hidden border transition-all duration-200'
+              className={styles.videoTile}
               style={{
                 borderColor: theme.semanticColors.border.default,
                 backgroundColor: theme.semanticColors.background.elevated,
               }}
               aria-label={video.title}
             >
-              <div className='relative' style={{ paddingTop: '56.25%' }}>
+              <div className={styles.videoThumbWrap} style={{ paddingTop: '56.25%' }}>
                 {video.thumbnailUrl ? (
                   <NativeLoadingImage
                     src={video.thumbnailUrl}
                     alt={video.title}
                     wrapperStyle={{ position: 'absolute', inset: 0 }}
-                    className='w-full h-full object-cover'
+                    className={styles.videoThumbImg}
                     loading='lazy'
                   />
                 ) : (
                   <div
-                    className='absolute top-0 left-0 w-full h-full flex items-center justify-center'
+                    className={styles.videoThumbPlaceholder}
                     style={{
                       backgroundColor: theme.semanticColors.background.muted,
                     }}
                   >
                     <FluentIcon
-                      iconName={Video24Regular}
+                      iconName={VideoIcon}
                       style={{
                         fontSize: '2rem',
                         color: theme.semanticColors.text.muted,
@@ -197,7 +194,7 @@ function TRIYouTubeVideos() {
                 )}
                 {duration && (
                   <div
-                    className='absolute bottom-2 right-2 text-white text-xs font-semibold px-2 py-1 rounded'
+                    className={styles.videoDuration}
                     style={{
                       backgroundColor: reducedTransparency
                         ? 'rgba(0, 0, 0, 0.95)'
@@ -208,10 +205,10 @@ function TRIYouTubeVideos() {
                   </div>
                 )}
               </div>
-              <div className='p-3'>
+              <div className={styles.videoBody}>
                 <Typography
                   variant='body'
-                  className='font-semibold line-clamp-2 text-sm'
+                  className={styles.videoTitle}
                   style={{ color: theme.semanticColors.text.primary }}
                 >
                   {video.title}
@@ -287,7 +284,7 @@ export function TheResonantIdentityPageClient({
         title: '',
       }}
     >
-      <div className='max-w-6xl mx-auto px-4 py-12'>
+      <div className={styles.page}>
         {/* Page Header */}
         <Hero
           title='The Resonant Identity Podcast'
@@ -296,17 +293,17 @@ export function TheResonantIdentityPageClient({
           backArrow={true}
           backArrowPath='/podcasts'
         >
-          <div className='flex flex-col gap-6 mt-6'>
+          <div className={styles.heroExtras}>
             {/* Platform Subscription Icons */}
             <div>
               <Typography
                 variant='h3'
-                className='text-base font-semibold mb-3'
+                className={styles.subscribeHeading}
                 style={{ color: theme.semanticColors.text.primary }}
               >
                 Subscribe on Your Favorite Platform
               </Typography>
-              <div className='flex flex-wrap items-center gap-4 mb-8'>
+              <div className={styles.platformIcons}>
                 <PlatformIconLink
                   href={PODCAST_PLATFORMS.spreaker}
                   label='Listen on Spreaker'
@@ -368,7 +365,7 @@ export function TheResonantIdentityPageClient({
             {/* Most Recent Episode CTA */}
             {mostRecentEpisode && (
               <div
-                className='relative flex-column rounded-lg border p-6'
+                className={styles.recentEpisode}
                 style={{
                   borderColor: theme.palette.themePrimary,
                   backgroundColor: theme.semanticColors.background.elevated,
@@ -376,7 +373,7 @@ export function TheResonantIdentityPageClient({
               >
                 <Typography
                   variant='h3'
-                  className='text-lg font-semibold mb-2'
+                  className={styles.recentHeading}
                   style={{ color: theme.semanticColors.text.primary }}
                 >
                   Listen to the Most Recent Episode
@@ -389,7 +386,7 @@ export function TheResonantIdentityPageClient({
                 </Typography>
                 <Typography
                   variant='label'
-                  className='mb-3'
+                  className={styles.recentDate}
                   style={{
                     color: theme.semanticColors.text.muted,
                     position: 'absolute',
@@ -403,7 +400,7 @@ export function TheResonantIdentityPageClient({
                 <button
                   type='button'
                   onClick={() => handleEpisodeClick(mostRecentEpisode)}
-                  className='inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold transition-colors'
+                  className={styles.playNowBtn}
                   onPointerEnter={(
                     event: React.PointerEvent<HTMLButtonElement>
                   ) => {
@@ -427,7 +424,7 @@ export function TheResonantIdentityPageClient({
                   Play Now
                   <FluentIcon
                     color={playNowBaseTextColor}
-                    iconName={ArrowRight24Regular}
+                    iconName={ArrowRightIcon}
                     style={{ marginLeft: '0.5rem' }}
                   />
                 </button>
@@ -438,7 +435,7 @@ export function TheResonantIdentityPageClient({
 
         {/* About TRI CTA */}
         <div
-          className='rounded-lg border mt-12 p-6'
+          className={styles.aboutCard}
           style={{
             borderColor: theme.semanticColors.border.default,
             backgroundColor: theme.semanticColors.background.base,
@@ -446,14 +443,14 @@ export function TheResonantIdentityPageClient({
         >
           <Typography
             variant='h3'
-            className='text-lg font-semibold mb-2'
+            className={styles.aboutHeading}
             style={{ color: theme.semanticColors.text.primary }}
           >
             About The Resonant Identity Podcast
           </Typography>
           <Typography
             variant='body'
-            className='text-base mb-4'
+            className={styles.aboutText}
             style={{ color: theme.semanticColors.text.muted }}
           >
             Learn more about the philosophy, community, and mission behind The
@@ -466,7 +463,7 @@ export function TheResonantIdentityPageClient({
             href={TRI_LINKS.about}
             target='_blank'
             rel='noopener noreferrer'
-            className='inline-flex items-center justify-center rounded-lg border px-5 py-3 text-sm font-semibold transition-colors'
+            className={styles.aboutBtn}
             style={{
               borderColor: theme.semanticColors.border.emphasis,
               color: theme.semanticColors.link.default,
@@ -475,7 +472,7 @@ export function TheResonantIdentityPageClient({
             About The Resonant Identity
             <FluentIcon
               color={theme.semanticColors.link.default}
-              iconName={WindowNew24Regular}
+              iconName={WindowNewIcon}
               style={{
                 marginLeft: theme.spacing.s1,
               }}
@@ -487,10 +484,10 @@ export function TheResonantIdentityPageClient({
         <TRIYouTubeVideos />
 
         {/* Episodes Section */}
-        <div className='mt-16'>
+        <div className={styles.episodesSection}>
           <Typography
             variant='h3'
-            className='text-2xl font-semibold mb-6'
+            className={styles.episodesHeading}
             style={{ color: theme.semanticColors.text.primary }}
           >
             Episodes ({episodes.length})
@@ -498,7 +495,7 @@ export function TheResonantIdentityPageClient({
 
           {!feedAvailable && (
             <div
-              className='text-center py-12'
+              className={styles.emptyState}
               style={{ color: theme.semanticColors.text.muted }}
             >
               <Typography variant='body'>
@@ -509,7 +506,7 @@ export function TheResonantIdentityPageClient({
 
           {feedAvailable && episodes.length === 0 && (
             <div
-              className='text-center py-12'
+              className={styles.emptyState}
               style={{ color: theme.semanticColors.text.muted }}
             >
               <Typography variant='body'>
@@ -519,7 +516,7 @@ export function TheResonantIdentityPageClient({
           )}
 
           {feedAvailable && episodes.length > 0 && (
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            <div className={styles.episodesGrid}>
               {episodes.map((episode) => (
                 <PodcastCard
                   key={episode.slug}

@@ -10,6 +10,14 @@ export interface UserPreferences {
   maxFontScale: number;
   reducedMotion: boolean;
   reducedTransparency: boolean;
+  /**
+   * High contrast and colorblind-safe are orthogonal layers applied over the
+   * active theme via data-tw-contrast / data-tw-cvd, not discrete themeMode
+   * values — so they compose with both dark and light. See
+   * styles/tokens/a11y-layers.css.
+   */
+  highContrast: boolean;
+  colorblindSafe: boolean;
   themeMode: ThemeMode;
   layoutPreference: 'left-handed' | 'right-handed';
 }
@@ -29,6 +37,8 @@ export const defaultUserPreferences: UserPreferences = {
   maxFontScale: 1.5,
   reducedMotion: false,
   reducedTransparency: false,
+  highContrast: false,
+  colorblindSafe: false,
   themeMode: 'dark',
   layoutPreference: 'right-handed',
 };

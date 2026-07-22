@@ -1,0 +1,103 @@
+@use 'abstracts' as *;
+
+.root {
+  margin-top: var(--tw-space-xl);
+
+  > * + * {
+    margin-top: var(--tw-space-l);
+  }
+}
+
+.intro {
+  color: var(--tw-text-muted);
+  text-align: center;
+}
+
+.ctaRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-m);
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--tw-radius-control);
+  font-weight: 600;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease;
+  min-width: 200px;
+}
+
+.outlineBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--tw-radius-control);
+  border: 2px solid;
+  font-weight: 600;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease;
+  min-width: 200px;
+}
+
+.popularSection {
+  margin-top: 3rem;
+  padding-top: var(--tw-space-xl);
+  border-top: 1px solid var(--tw-border);
+}
+
+.popularHeading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--tw-space-m);
+  text-align: center;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--tw-space-m);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  padding: var(--tw-space-m);
+  border-radius: var(--tw-radius-control);
+  border: 1px solid var(--tw-border);
+  transition: all 150ms ease;
+
+  &:hover {
+    box-shadow: var(--tw-shadow-m);
+  }
+}
+
+.cardTitle {
+  font-weight: 600;
+  margin-bottom: var(--tw-space-xxs);
+}
+
+.cardDesc {
+  color: var(--tw-text-muted);
+  font-size: 0.875rem;
+}

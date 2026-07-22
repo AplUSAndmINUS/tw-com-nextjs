@@ -12,6 +12,7 @@ import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
+import styles from './FooterContent.module.scss';
 
 const footerLinks = {
   content: [
@@ -24,7 +25,7 @@ const footerLinks = {
     { href: '/podcasts/theresonantid', label: 'The Resonant Identity Podcast', },
     { href: '/services/resonance-core', label: 'Resonance Core Framework' },
     { href: '/portfolio', label: 'Portfolio' },
-    { href: '/case-studies', label: 'Case Studies' },
+    { href: 'https://fluxline.pro/case-studies', label: 'Case Studies' },
   ],
   connect: [
     { href: '/about', label: 'About' },
@@ -57,11 +58,11 @@ function FooterLinkSection({
 }: FooterLinkSectionProps) {
   return (
     <div
-      className={`flex flex-col ${isCompact ? 'gap-2 mb-1' : 'gap-4 mb-2'} ${className}`}
+      className={`${styles.linkSection} ${isCompact ? styles.linkSectionCompact : ''} ${className}`}
     >
       <Typography
         variant='h5'
-        className='font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300'
+        className={styles.sectionTitle}
         style={{
           fontSize: isCompact ? '1rem' : '1.25rem',
           marginBottom: isCompact ? '0' : '0.75rem',
@@ -78,7 +79,7 @@ function FooterLinkSection({
           }
         />
       ) : (
-        <ul className={isCompact ? 'space-y-1' : 'space-y-2'} role='list'>
+        <ul className={`${styles.linkList} ${isCompact ? styles.linkListCompact : ''}`} role='list'>
           {links.map(({ href, label }) => (
             <li key={href}>
               <ThemedLink href={href} variant='small' isFooter>
@@ -155,10 +156,7 @@ function FooterNewsletterMini() {
   // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
   if (isSuccess || newsletterSubscribed) {
     return (
-      <div
-        className='hidden md:block mt-3 pt-3'
-        style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
-      >
+      <div className={styles.newsletterMini}>
         <Typography
           variant='caption'
           style={{
@@ -193,11 +191,8 @@ function FooterNewsletterMini() {
   }
 
   return (
-    <div
-      className='hidden md:block mt-3 pt-3'
-      style={{ borderTop: `1px solid ${theme.semanticColors.border.muted}` }}
-    >
-      <div className='flex items-center gap-2 mb-2'>
+    <div className={styles.newsletterMini}>
+      <div className={styles.newsletterHead}>
         <Image
           src={ResonantIdentityIcon}
           alt='The Resonant Identity'
@@ -244,7 +239,7 @@ function FooterNewsletterMini() {
             }}
             maxLength={254}
             aria-label='Newsletter email address'
-            className='outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-700 dark:focus-visible:ring-blue-400'
+            className={`${styles.emailInput} ${error ? styles.emailInputError : ''}`}
             style={{
               width: '100%',
               padding: '0.3rem 0.5rem',
@@ -341,22 +336,21 @@ export function FooterContent({
 
       {/* had to set the max-width here instead of on the parent because the parent needs to stretch full width for the backdrop blur effect to cover the entire screen, but the content inside should be constrained to match the max width of the Navigation and main content. -TW */}
       <div
-        className={`px-6 lg:pl-12 lg:pr-8 max-width-content-footer ${isCompact ? 'py-6' : 'py-8'}`}
-        style={{ margin: '0 auto' }}
+        className={`${styles.container} max-width-content-footer ${isCompact ? styles.containerCompact : ''}`}
       >
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-6 ${isCompact ? 'mb-4' : 'md:mb-0'}`}
+          className={`${styles.grid} ${isCompact ? styles.gridCompact : ''}`}
         >
           {/* Brand */}
           <div>
             {/* Switched Typography and ThemedLink JSX so the link can be styled based on theme and compact mode -TW */}
             <Typography
               variant='h4'
-              className='text-gray-700 dark:text-gray-300'
+              className={styles.brandTitle}
             >
               <ThemedLink
                 href='/'
-                className='text-xl font-bold tracking-tight hover:opacity-80 transition-opacity'
+                className={styles.brandLink}
                 isFooter
                 style={{
                   color: theme.semanticColors.text.primary,
@@ -370,7 +364,7 @@ export function FooterContent({
             </Typography>
             <Typography
               variant='h3'
-              className='text-gray-500 dark:text-gray-400'
+              className={styles.brandTagline}
               style={{ fontSize: '1.25rem', fontStyle: 'italic', marginTop: '0.25rem' }}
             >
               "Know who you are and what you stand for!" <br />
@@ -385,7 +379,7 @@ export function FooterContent({
             title='Content'
             links={footerLinks.content}
             isCompact={isCompact}
-            className='hidden md:flex'
+            className={styles.mdOnly}
           />
           <FooterLinkSection
             title='Work'
@@ -397,7 +391,7 @@ export function FooterContent({
               title='Connect'
               links={footerLinks.connect}
               isCompact={isCompact}
-              className='hidden md:flex'
+              className={styles.mdOnly}
             />
           )}
           <FooterLinkSection
@@ -413,13 +407,11 @@ export function FooterContent({
 
         {/* Bottom bar */}
         <div
-          className={`flex flex-col items-left justify-start pb-4 sm:pb-0 md:gap-2 ${
-            isCompact ? 'pt-0' : 'pt-1'
-          }`}
+          className={`${styles.bottomBar} ${isCompact ? styles.bottomBarCompact : ''}`}
         >
           <Typography
             variant='blockquote'
-            className='text-gray-700 dark:text-gray-300'
+            className={styles.copyright}
             style={{ fontSize: isCompact ? '0.75rem' : '0.875rem' }}
           >
             &copy; 2025-

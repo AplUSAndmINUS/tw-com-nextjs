@@ -1,1 +1,0 @@
-export { CaseStudyListingClientWrapper } from './CaseStudyListingClientWrapper';

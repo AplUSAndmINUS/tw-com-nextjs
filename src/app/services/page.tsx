@@ -9,6 +9,7 @@ import { Typography } from '@/components/Typography';
 import { ServicesClient } from './ServicesClient';
 import ConsultingPortrait from '@/assets/images/ConsultingPortrait.jpg';
 import { ConsultationCTA } from './ConsultationCTA';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -42,20 +43,20 @@ export default function ServicesPage() {
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(servicesSchema) }}
       />
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className={styles.page}>
         <Hero
           title='Services'
           iconName='Settings24Regular'
           description='Explore five focused service tracks designed to help you build better products, stronger systems, and clearer direction.'
         />
 
-        <div className='mt-8'>
-          <Typography variant='h2' className='text-2xl font-bold mb-4'>
+        <div className={styles.sectionHeadingWrap}>
+          <Typography variant='h2' className={styles.sectionHeading}>
             Service Areas
           </Typography>
         </div>
 
-        <div className='mt-4 mb-12'>
+        <div className={styles.servicesWrap}>
           <ServicesClient />
         </div>
 

@@ -1,0 +1,39 @@
+@use 'abstracts' as *;
+
+.row {
+  display: flex;
+  gap: var(--tw-space-m);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.link {
+  display: inline-flex;
+  color: var(--tw-text-soft);
+  transition: color var(--tw-hover-duration) var(--tw-motion-ease),
+    transform var(--tw-hover-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-accent);
+    transform: translateY(-2px);
+  }
+
+  @include motion-safe-only;
+}
+
+/* The SVG is used as a mask; the box is filled with currentColor, so the glyph
+   takes the link's colour. mask-image URL is set per-icon inline. */
+.icon {
+  display: block;
+  width: var(--tw-social-size, 24px);
+  height: var(--tw-social-size, 24px);
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}

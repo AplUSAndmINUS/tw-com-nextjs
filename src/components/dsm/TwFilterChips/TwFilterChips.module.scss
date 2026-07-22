@@ -1,0 +1,57 @@
+@use 'abstracts' as *;
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  overflow-x: auto;
+  /* Vertical padding leaves room for the focus ring, which would otherwise be
+     clipped by the horizontal scroll container. */
+  padding-block: var(--tw-space-xxs);
+  scrollbar-width: thin;
+  scroll-snap-type: x var(--tw-snap-strength);
+  -webkit-overflow-scrolling: touch;
+}
+
+.chip {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  padding: 7px 15px;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-surface-card);
+  color: var(--tw-text-muted);
+  font-family: var(--tw-font);
+  font-size: var(--tw-chip-filter-size);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--tw-color-duration) var(--tw-motion-ease),
+    border-color var(--tw-color-duration) var(--tw-motion-ease),
+    color var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+  @include motion-safe-only;
+
+  &:hover {
+    background: var(--tw-hover-fill);
+    border-color: var(--tw-border-hover);
+    color: var(--tw-text-bright);
+  }
+}
+
+.active {
+  background: var(--tw-accent);
+  border-color: var(--tw-accent);
+  color: var(--tw-accent-ink);
+
+  &:hover {
+    background: var(--tw-accent);
+    border-color: var(--tw-accent);
+    color: var(--tw-accent-ink);
+    filter: brightness(1.08);
+  }
+}

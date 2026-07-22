@@ -1,33 +1,69 @@
 /**
- * Icon Name Resolver for Fluent UI Icons
+ * Icon Name Resolver
  *
- * Maps string icon names to Fluent UI v9 icon components.
- * This is useful for scenarios where icon names come from configuration or content.
+ * Maps string icon names to components, for cases where the name comes from
+ * content or configuration rather than a static import (page frontmatter,
+ * navigation config, service definitions).
+ *
+ * This used to do `import * as FluentIcons from '@fluentui/react-icons'`. A
+ * namespace import defeats tree shaking — the bundler must retain the entire
+ * package, because any key could be read off the namespace at runtime. The app
+ * shipped thousands of glyph modules to service about fifteen string lookups.
+ *
+ * `ICON_MAP` is an explicit object over the local icon set, so only the glyphs
+ * actually referenced are bundled.
  */
 
-import * as FluentIcons from '@fluentui/react-icons';
+import React from 'react';
+import { ICON_MAP, type IconProps } from '@/components/icons';
 
-export type FluentIconName = keyof typeof FluentIcons;
+export type FluentIconName = keyof typeof ICON_MAP;
 
 /**
- * Resolves a string icon name to a Fluent UI icon component
- * @param iconName - String name of the icon (e.g., "DocumentText24Regular")
- * @returns The icon component or undefined if not found
+ * Legacy Fluent names encode size in the identifier (`Home32Regular`), while
+ * the local icons take a `size` prop. This pulls the number back out so the
+ * resolved component renders at the size the old name implied.
  */
+const SIZE_IN_NAME = /(\d+)(?:Regular|Filled)$/;
+
+/**
+ * Size-bound components are memoised by name.
+ *
+ * Without this, every call would return a freshly-created component function.
+ * React compares component identity to decide whether to update or remount, so
+ * a new identity each render would unmount and remount the icon on every parent
+ * render — losing any CSS transition and thrashing the DOM.
+ */
+const resolvedCache = new Map<string, React.ComponentType<IconProps>>();
+
 export function resolveIconName(
   iconName: string | undefined
-): React.ComponentType<any> | undefined {
+): React.ComponentType<IconProps> | undefined {
   if (!iconName) return undefined;
 
-  // Check if the icon exists in Fluent Icons
-  const icon = (FluentIcons as any)[iconName];
+  const cached = resolvedCache.get(iconName);
+  if (cached) return cached;
 
-  if (!icon) {
-    console.warn(`Icon "${iconName}" not found in @fluentui/react-icons`);
+  const Base = ICON_MAP[iconName as FluentIconName];
+
+  if (!Base) {
+    console.warn(
+      `Icon "${iconName}" not found in the local icon set. ` +
+        `Add it to src/components/icons and register it in ICON_MAP.`
+    );
     return undefined;
   }
 
-  return icon;
+  const match = iconName.match(SIZE_IN_NAME);
+  const size = match ? Number(match[1]) : 24;
+
+  // Pass size as a default that callers can still override.
+  const Bound: React.ComponentType<IconProps> = (props) =>
+    React.createElement(Base, { size, ...props });
+  Bound.displayName = `ResolvedIcon(${iconName})`;
+
+  resolvedCache.set(iconName, Bound);
+  return Bound;
 }
 
 /**

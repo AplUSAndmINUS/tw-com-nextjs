@@ -7,7 +7,8 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import { WindowNew24Regular } from '@fluentui/react-icons';
+import { WindowNewIcon } from '@/components/icons';
+import styles from './AboutHeroCTAs.module.scss';
 
 /**
  * AboutHeroCTAs — Theme-aware CTA buttons for the About page Hero.
@@ -31,7 +32,7 @@ export function AboutHeroCTAs() {
         href='https://fluxline.pro'
         target='_blank'
         rel='noopener noreferrer'
-        className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
+        className={styles.secondaryCta}
         style={{
           backgroundColor: secondaryHovered
             ? theme.colorNeutralBackground2Hover
@@ -51,7 +52,7 @@ export function AboutHeroCTAs() {
           if (e.pointerType === 'mouse') setSecondaryHovered(false);
         }}
       >
-        Visit Fluxline.pro <FluentIcon iconName={WindowNew24Regular} />
+        Visit Fluxline.pro <FluentIcon iconName={WindowNewIcon} />
       </Link>
     </div>
   ) : null;

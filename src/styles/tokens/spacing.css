@@ -1,0 +1,49 @@
+/**
+ * TW.com DSM — spacing, layout and radii tokens
+ * Source: TW.com Design System, tokens/spacing.css
+ *
+ * Breakpoints here are for LAYOUT only. Type sizing uses container query units
+ * (cqi) so text responds to its own container rather than the viewport.
+ */
+:root {
+  /* ===== Breakpoints — layout ONLY ===== */
+  --tw-bp-mobile-sm: 600px;
+  --tw-bp-mobile-lg: 768px;
+  --tw-bp-tablet: 1024px;
+  --tw-bp-desktop: 1024px;
+  --tw-bp-4k: 1920px;
+
+  /* ===== Layout ===== */
+  --tw-container: 1220px;
+  --tw-container-pad: 32px;
+  --tw-article: 760px;
+  --tw-section-pad: 88px;
+  --tw-rail-width: 320px;
+  --tw-rail-gap: 56px;
+  --tw-nav-height: 76px;
+
+  /* ===== Spacing scale (8px modular) ===== */
+  --tw-space-xxs: 4px;
+  --tw-space-xs: 8px;
+  --tw-space-s: 12px;
+  --tw-space-m: 16px;
+  --tw-space-l: 24px;
+  --tw-space-xl: 32px;
+  --tw-space-xxl: 40px;
+  --tw-space-xxxl: 48px;
+  --tw-space-xxxxl: 64px;
+
+  /* ===== Component spacing ===== */
+  --tw-card-pad: 24px;
+  --tw-card-pad-lg: 32px;
+  --tw-grid-gap: 16px;
+  --tw-stack-gap: 36px;
+
+  /* ===== Radii ===== */
+  --tw-radius-control: 10px;
+  --tw-radius-card-sm: 14px;
+  --tw-radius-card: 18px;
+  --tw-radius-card-lg: 20px;
+  --tw-radius-band: 26px;
+  --tw-radius-pill: 999px;
+}

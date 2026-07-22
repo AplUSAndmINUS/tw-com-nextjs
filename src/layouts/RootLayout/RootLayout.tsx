@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Footer } from '@/components/Footer';
 import { PageTransition } from '@/components/PageTransition';
+import styles from './RootLayout.module.scss';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -47,22 +48,24 @@ export function RootLayout({
   hideFooterOnMobile = false,
 }: RootLayoutProps) {
   const containerClassName = isContainedView
-    ? 'flex flex-col h-screen overflow-hidden'
-    : 'flex flex-col min-h-screen';
+    ? styles.containerContained
+    : styles.containerNormal;
   const mainClassName = [
-    'hide-scrollbar flex-1 pt-[var(--site-header-height)]',
-    isContainedView ? 'flex flex-col overflow-y-auto overflow-x-hidden' : '',
+    `hide-scrollbar ${styles.mainBase}`,
+    isContainedView ? styles.mainContained : '',
   ]
     .filter(Boolean)
     .join(' ');
-  const transitionClassName = isContainedView ? 'flex-1 flex flex-col' : '';
-  const footerWrapperClassName = hideFooterOnMobile ? 'hidden md:block' : '';
+  const transitionClassName = isContainedView ? styles.transitionContained : '';
+  const footerWrapperClassName = hideFooterOnMobile
+    ? styles.footerHiddenMobile
+    : '';
 
   return (
     <div className={containerClassName} suppressHydrationWarning>
       <a
         href='#main-content'
-        className='hide-scrollbar sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2'
+        className={`hide-scrollbar ${styles.skipLink}`}
       >
         Skip to main content
       </a>

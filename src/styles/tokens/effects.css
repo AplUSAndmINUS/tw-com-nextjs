@@ -1,0 +1,214 @@
+/**
+ * TW.com DSM — motion, elevation and surface-effect tokens
+ * Source: TW.com Design System, tokens/effects.css
+ *
+ * Two deliberate changes from the DSM source:
+ *
+ * 1. The accent glow and icon hover-glow referenced a hardcoded amber
+ *    (rgba(242,197,124,...)) from when honey gold was the accent. The accent is
+ *    now glacier cyan, so both derive from var(--tw-accent) instead and follow
+ *    the token automatically.
+ *
+ * 2. Reduced motion / reduced transparency honour BOTH the OS-level media query
+ *    and the in-app preference, which the settings panel exposes as
+ *    [data-tw-reduced-motion] / [data-tw-reduced-transparency] on <html>.
+ *
+ * -----------------------------------------------------------------------
+ * NAMESPACE HAZARD — read before adding a token
+ * -----------------------------------------------------------------------
+ * `--tw-` is also Tailwind's internal prefix. Tailwind v4 registers about 70
+ * of its own `--tw-*` properties with `@property`, and a registered property
+ * defaults to `inherits: false`.
+ *
+ * That combination fails silently and is genuinely nasty to debug: define a
+ * token whose name Tailwind has registered, and it resolves correctly on
+ * <html> but is EMPTY on every descendant. An `animation` or `transition`
+ * shorthand referencing it then becomes invalid as a whole, so the property
+ * falls back to its initial value — the animation simply never runs, with no
+ * console warning and no visible clue in devtools beyond an empty value.
+ *
+ * The design system's own `--tw-ease` hit exactly this and is renamed
+ * `--tw-motion-ease` here. Before adding any token, check the name against
+ * Tailwind's registered list (search the built CSS for `@property --tw-`).
+ * Names to avoid include: --tw-ease, --tw-duration, --tw-shadow, --tw-blur,
+ * --tw-opacity, --tw-scale-*, --tw-translate-*, --tw-rotate-*, --tw-skew-*,
+ * --tw-gradient-from/via/to/stops/position, --tw-leading, --tw-tracking,
+ * --tw-font-weight, --tw-border-style, --tw-outline-style, --tw-ring-*,
+ * --tw-brightness, --tw-contrast, --tw-grayscale, --tw-saturate, --tw-sepia,
+ * --tw-invert, --tw-hue-rotate, --tw-drop-shadow*, --tw-backdrop-*.
+ *
+ * Suffixed variants are safe: --tw-shadow-s and --tw-nav-blur do not collide
+ * with --tw-shadow and --tw-blur.
+ */
+:root {
+  /* Named --tw-motion-ease, not --tw-ease: see the namespace hazard above. */
+  --tw-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+  --tw-reveal-duration: 1.2s;
+  --tw-hover-duration: 0.18s;
+  --tw-color-duration: 0.15s;
+  --tw-hover-lift: translateY(-3px);
+  --tw-hover-lift-sm: translateY(-2px);
+
+  --tw-nav-bg: rgba(7, 9, 13, 0.82);
+  --tw-nav-blur: blur(12px);
+
+  --tw-toast-bg: #141a25;
+  --tw-toast-border: #2f5480;
+  --tw-toast-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+
+  --tw-shadow-s: 0 2px 8px rgba(20, 10, 0, 0.18);
+  --tw-shadow-m: 0 12px 32px rgba(20, 10, 0, 0.24);
+  --tw-shadow-l: 0 20px 48px rgba(20, 10, 0, 0.3);
+
+  --tw-stagger-step: 90ms;
+  --tw-micro-delay: 45ms;
+  --tw-snap-strength: proximity;
+  --tw-noise-opacity: 0.035;
+
+  --tw-glow-accent: 0 0 0 6px
+    color-mix(in srgb, var(--tw-accent) 18%, transparent);
+}
+
+[data-theme='light'] {
+  --tw-nav-bg: rgba(250, 246, 238, 0.85);
+  --tw-toast-bg: #ffffff;
+  --tw-toast-border: #b99b5e;
+  --tw-toast-shadow: 0 8px 28px rgba(30, 20, 0, 0.14);
+  --tw-shadow-s: 0 2px 8px rgba(30, 20, 0, 0.06);
+  --tw-shadow-m: 0 12px 32px rgba(30, 20, 0, 0.08);
+  --tw-shadow-l: 0 20px 48px rgba(30, 20, 0, 0.12);
+  --tw-noise-opacity: 0.02;
+}
+
+/* ===== Grain — a faint SVG noise wash on hero and feature surfaces ===== */
+.tw-grain {
+  position: relative;
+}
+
+.tw-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--tw-noise-opacity);
+  mix-blend-mode: overlay;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== Scroll ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== Icon micro-interaction ===== */
+.tw-icon-hover {
+  transition:
+    filter var(--tw-hover-duration),
+    transform var(--tw-hover-duration);
+}
+
+.tw-icon-hover:hover {
+  filter: brightness(1.3)
+    drop-shadow(0 0 6px color-mix(in srgb, var(--tw-accent) 50%, transparent));
+  transform: translateY(-2px) scale(1.08);
+}
+
+/* ===== Scroll reveal ===== */
+@keyframes twUp {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes twLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-46px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tw-rv,
+.tw-rv-left {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.tw-rv.in {
+  animation: twUp var(--tw-reveal-duration) var(--tw-motion-ease) both;
+}
+
+.tw-rv-left.in {
+  animation: twLeft 1.5s var(--tw-motion-ease) both;
+}
+
+/* ===== Reduced motion — OS preference or in-app toggle ===== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .tw-icon-hover:hover {
+    filter: none;
+    transform: none;
+  }
+
+  .tw-rv,
+  .tw-rv.in,
+  .tw-rv-left,
+  .tw-rv-left.in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+[data-tw-reduced-motion='true'] {
+  scroll-behavior: auto;
+}
+
+[data-tw-reduced-motion='true'] .tw-icon-hover:hover {
+  filter: none;
+  transform: none;
+}
+
+[data-tw-reduced-motion='true'] :is(.tw-rv, .tw-rv.in, .tw-rv-left, .tw-rv-left.in) {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ===== Reduced transparency — blur is reserved for the nav, so this is where
+   it gets stripped. The nav falls back to an opaque surface. ===== */
+[data-tw-reduced-transparency='true'] {
+  --tw-nav-blur: none;
+  --tw-nav-bg: var(--tw-bg-deep);
+}
+
+/* ===== Photographic media =================================================
+   Tokens can restyle UI chrome but cannot recolour a photograph, so imagery
+   needs its own hook. Mark photographic content (portraits, episode art, hero
+   imagery) with .tw-media — not logos, icons or brand marks.
+
+   Only the grayscale modes filter imagery. Someone who selects grayscale wants
+   the whole page desaturated, photographs included.
+
+   The dichromacy modes deliberately leave photographs alone. The previous
+   implementation hue-rotated them to simulate the condition, which does not
+   help a user who actually has it — they already perceive the image that way,
+   and the rotation only distorts it. Those modes now do their work in the UI
+   palette, where the contrast decisions actually matter.
+   ========================================================================= */
+[data-theme='grayscale'] .tw-media,
+[data-theme='grayscale-dark'] .tw-media {
+  filter: grayscale(100%);
+}

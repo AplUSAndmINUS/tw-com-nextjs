@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './TagFilter.module.scss';
 
 interface TagFilterProps {
   tags: string[];
@@ -26,15 +27,15 @@ export function TagFilter({
   if (tags.length === 0) return null;
 
   return (
-    <div className='flex flex-wrap items-center gap-2'>
+    <div className={styles.wrap}>
       {label && (
-        <span className='text-sm font-medium text-gray-500 dark:text-gray-400 mr-1'>
+        <span className={styles.label}>
           {label}:
         </span>
       )}
       <button
         onClick={() => onTagChange(null)}
-        className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+        className={styles.chip}
         style={activeTag === null ? activeStyle : undefined}
       >
         All
@@ -43,7 +44,7 @@ export function TagFilter({
         <button
           key={tag}
           onClick={() => onTagChange(tag === activeTag ? null : tag)}
-          className='px-3 py-1 rounded-full text-sm transition-colors bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+          className={styles.chip}
           style={activeTag === tag ? activeStyle : undefined}
         >
           {tag}

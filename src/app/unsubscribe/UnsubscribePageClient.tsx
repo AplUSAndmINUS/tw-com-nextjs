@@ -10,6 +10,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import { withAlpha } from '@/utils/color';
 
 /**
  * UnsubscribePageClient
@@ -102,7 +103,7 @@ export function UnsubscribePageClient() {
           style={{
             backgroundColor: reducedTransparency
               ? theme.semanticColors.background.base
-              : `${theme.semanticColors.background.elevated}cc`,
+              : withAlpha(theme.semanticColors.background.elevated, 80),
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
             border: `1px solid ${theme.semanticColors.border.default}`,
             padding: theme.spacing.xl,

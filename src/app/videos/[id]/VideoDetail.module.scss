@@ -1,0 +1,29 @@
+@use 'abstracts' as *;
+
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px var(--tw-container-pad) 90px;
+}
+
+.frame {
+  border-radius: var(--tw-radius-card);
+  overflow: hidden;
+  border: 1px solid var(--tw-border);
+}
+
+.watch {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: var(--tw-font);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--tw-accent);
+  text-decoration: none;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-accent-hover);
+  }
+}

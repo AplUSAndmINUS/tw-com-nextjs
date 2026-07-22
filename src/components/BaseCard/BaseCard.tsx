@@ -7,6 +7,7 @@ import { useCardState } from '@/hooks/useCardState';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { resolveIconName, type FluentIconName } from '@/utils/iconResolver';
+import styles from './BaseCard.module.scss';
 
 export interface BaseCardProps {
   /** Card heading */
@@ -311,7 +312,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
     return (
       <Link
         href={href}
-        className={`block h-full rounded-xl focus-visible:outline-none ${className ?? ''}`}
+        className={`${styles.linkCard} ${className ?? ''}`}
         aria-label={ariaLabel || title}
         onPointerEnter={interactionProps.onPointerEnter}
         onPointerLeave={interactionProps.onPointerLeave}

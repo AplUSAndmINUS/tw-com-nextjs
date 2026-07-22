@@ -11,7 +11,6 @@ import { Typography } from '@/components/Typography';
 import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { PodcastEpisode } from '@/content/types';
-import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import {
   usePodcastPlayer,
   PlayPauseButton,
@@ -32,7 +31,6 @@ export const PodcastEpisodeModal: React.FC<PodcastEpisodeModalProps> = ({
   onExitComplete,
 }) => {
   const { theme } = useAppTheme();
-  const { filter } = useColorVisionFilter();
   const { load, setModalOpen } = usePodcastPlayer();
 
   // Hand the episode to the shared player and suppress the mini-player while
@@ -94,9 +92,9 @@ export const PodcastEpisodeModal: React.FC<PodcastEpisodeModalProps> = ({
               src={episode.imageUrl}
               alt={episode.title}
               fill
+              className='tw-media'
               style={{
                 objectFit: 'cover',
-                filter: filter,
               }}
               sizes='200px'
             />

@@ -1,21 +1,18 @@
 'use client';
 
 import React from 'react';
-import {
-  Code24Regular,
-  People24Regular,
-  Heart24Regular,
-} from '@fluentui/react-icons';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useCardState } from '@/hooks/useCardState';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { withAlpha } from '@/utils/color';
+import { CodeIcon, HeartIcon, PeopleIcon } from '@/components/icons';
 
 const SKILL_CATEGORIES = [
   {
     category: 'Technical',
-    icon: Code24Regular,
+    icon: CodeIcon,
     skills: [
       'React / Next.js / Node.js',
       'TypeScript / JavaScript / C#',
@@ -30,7 +27,7 @@ const SKILL_CATEGORIES = [
   },
   {
     category: 'Leadership & Strategy',
-    icon: People24Regular,
+    icon: PeopleIcon,
     skills: [
       'Project Management',
       'Agile / Scrum (PSM I)',
@@ -44,7 +41,7 @@ const SKILL_CATEGORIES = [
   },
   {
     category: 'Human-Centered',
-    icon: Heart24Regular,
+    icon: HeartIcon,
     skills: [
       'Coaching & Mentoring',
       'Communication Strategy',
@@ -172,7 +169,7 @@ function SkillCard({ cat }: { cat: SkillCat }) {
               alignItems: 'center',
               gap: theme.spacing.s1,
               paddingBottom: theme.spacing.xs,
-              borderBottom: `1px solid ${theme.semanticColors.border.default}28`,
+              borderBottom: `1px solid ${withAlpha(theme.semanticColors.border.default, 16)}`,
             }}
           >
             <div

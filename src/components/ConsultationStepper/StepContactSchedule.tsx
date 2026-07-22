@@ -11,6 +11,7 @@ import { Typography } from '@/components/Typography';
 import { Button, Checkbox, Input, Radio, Select } from '@/components/Form';
 import { REFERRAL_OPTIONS } from './constants';
 import { MeetingLength, StepThreeData, SubmitStatus } from './types';
+import styles from './StepContactSchedule.module.scss';
 
 interface StepContactScheduleProps {
   data: StepThreeData;
@@ -103,7 +104,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
         you&apos;ll be able to pick a slot without leaving this modal.
       </Typography>
 
-      <div className='flex flex-col gap-4'>
+      <div className={styles.fields}>
         {/* Name */}
         <div>
           <Input
@@ -177,7 +178,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               *
             </span>
           </legend>
-          <div className='flex flex-col gap-2 mt-2'>
+          <div className={styles.radioGroup}>
             {MEETING_LENGTHS.map(({ value, label, description }) => (
               <label
                 key={value}
@@ -308,7 +309,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
                 aria-label='Privacy Policy (opens in new window)'
               >
                 Privacy Policy
-                <span className='sr-only'> (opens in new window)</span>
+                <span className={styles.srOnly}> (opens in new window)</span>
               </a>{' '}
               for more info on how we use your data.{' '}
               <span aria-hidden='true' style={{ color: theme.palette.redDark }}>
@@ -344,7 +345,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
         </div>
       )}
 
-      <div className='flex justify-between mt-6'>
+      <div className={styles.actions}>
         <Button
           variant='secondary'
           onClick={onBack}

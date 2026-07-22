@@ -40,19 +40,7 @@ export const LinktreeLogo: React.FC<LinktreeLogoProps> = ({
       />
       <path
         d='M65.7852 5.33374H69.6615L66.9058 2.70668L68.4306 1.13901L71.0577 3.83956V0H73.3357V3.83956L75.9627 1.14513L77.4863 2.70668L74.7319 5.32762H78.607V7.49541H74.7098L77.4827 10.1898L75.9627 11.7208L72.1967 7.93631L68.4306 11.7208L66.9058 10.196L69.6798 7.50153H65.7852V5.33374ZM71.0515 10.6062H73.3296V15.7502H71.0515V10.6062Z'
-        fill={
-          isGreenColorBlind
-            ? '#E4080A'
-            : isRedColorBlind
-              ? '#43E660'
-              : isBlueColorBlind
-                ? '#FF8C00'
-                : isGrayscale
-                  ? '#878787'
-                  : isDarkMode
-                    ? '#43E660'
-                    : '#028A0F'
-        }
+        style={{ fill: isGreenColorBlind ? '#E4080A' : isRedColorBlind ? '#43E660' : isBlueColorBlind ? '#FF8C00' : isGrayscale ? '#878787' : isDarkMode ? '#43E660' : '#028A0F' }}
       />
     </svg>
   );

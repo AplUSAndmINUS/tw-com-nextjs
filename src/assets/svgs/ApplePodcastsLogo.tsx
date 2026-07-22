@@ -24,10 +24,10 @@ export const ApplePodcastsLogo: React.FC<ApplePodcastsLogoProps> = ({
       fill='none'
     >
       {/* Apple Podcasts logo - microphone with broadcast waves */}
-      <circle cx='12' cy='8' r='2.5' fill={fillColor} />
+      <circle cx='12' cy='8' r='2.5' style={{ fill: fillColor }} />
       <path
         d='M12 10.5c-1.38 0-2.5 1.12-2.5 2.5v4c0 .69.56 1.25 1.25 1.25h2.5c.69 0 1.25-.56 1.25-1.25v-4c0-1.38-1.12-2.5-2.5-2.5z'
-        fill={fillColor}
+        style={{ fill: fillColor }}
       />
       <path
         d='M7.5 13c0-2.48 2.02-4.5 4.5-4.5s4.5 2.02 4.5 4.5'

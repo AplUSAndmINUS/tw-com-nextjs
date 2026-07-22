@@ -1,0 +1,196 @@
+@use 'abstracts' as *;
+
+/* ===== Container ===== */
+.container {
+  padding: 32px 24px;
+  margin: 0 auto;
+
+  @include from('tablet') {
+    padding-left: 48px;
+    padding-right: 32px;
+  }
+}
+
+.containerCompact {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+/* ===== Grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--tw-space-l);
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.gridCompact {
+  margin-bottom: 16px;
+}
+
+/* ===== Link section ===== */
+.linkSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-m);
+  margin-bottom: 8px;
+}
+
+.linkSectionCompact {
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* Sections hidden until the footer is wide enough. */
+.mdOnly {
+  display: none;
+
+  @include from('mobile-lg') {
+    display: flex;
+  }
+}
+
+.sectionTitle {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tw-text-muted);
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.linkListCompact {
+  gap: 4px;
+}
+
+/* ===== Brand ===== */
+.brandTitle {
+  color: var(--tw-text-muted);
+}
+
+.brandLink {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: opacity 0.2s var(--tw-motion-ease);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.brandTagline {
+  color: var(--tw-text-faint);
+}
+
+/* ===== Bottom bar ===== */
+.bottomBar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-bottom: 16px;
+  padding-top: 4px;
+
+  @media (min-width: 640px) {
+    padding-bottom: 0;
+  }
+
+  @include from('mobile-lg') {
+    gap: 8px;
+  }
+}
+
+.bottomBarCompact {
+  padding-top: 0;
+}
+
+.copyright {
+  color: var(--tw-text-muted);
+}
+
+/* ===== Newsletter mini (tablet/desktop only) ===== */
+.newsletterMini {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--tw-border-subtle);
+
+  @include from('mobile-lg') {
+    display: block;
+  }
+}
+
+.newsletterHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.newsletterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.emailInput {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-surface-input);
+  color: var(--tw-text-bright);
+  border: 1px solid var(--tw-border);
+  font-family: var(--tw-font-body);
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-glow-accent);
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+}
+
+.emailInputError {
+  border-color: var(--tw-error);
+}
+
+.subscribeButton {
+  padding: 0.3rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-accent);
+  color: var(--tw-accent-ink);
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s var(--tw-motion-ease);
+  font-family: var(--tw-font);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}

@@ -1,13 +1,25 @@
-@import url('https://use.typekit.net/dqf8seo.css');
-@import 'tailwindcss';
+/* TW.com design system tokens.
+   These must come first so every downstream rule — Tailwind utilities, CSS
+   modules, component styles — can reference the custom properties.
+   colors-modes.css layers the six accessibility modes over the two family
+   base blocks in colors.css, so its order matters. */
+@import '../styles/tokens/colors.css';
+@import '../styles/tokens/colors-modes.css';
+@import '../styles/tokens/spacing.css';
+@import '../styles/tokens/typography.css';
+@import '../styles/tokens/effects.css';
+/* a11y-layers last: orthogonal data-tw-contrast / data-tw-cvd overrides that
+   layer on top of any theme, so they must win on source order. */
+@import '../styles/tokens/a11y-layers.css';
+/* Long-form article body styling for rendered markdown/MDX. */
+@import '../styles/tw-prose.css';
 
-/* Configure Tailwind to use class-based dark mode */
-@variant dark (&:where(.dark, .dark *));
+/* Tailwind has been fully removed — every component now styles itself with
+   co-located SCSS modules consuming the design-system tokens above. Theme
+   switching is driven by the `data-theme` attribute on <html>, so no utility
+   framework or dark: variant is involved. */
 
 :root {
-  /* Always use dark background to prevent white from showing through */
-  --background: #0f1419;
-  --foreground: #e4e4e7;
   --site-header-height: calc(4rem + env(safe-area-inset-top));
 }
 
@@ -17,17 +29,17 @@
   }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--tw-bg-page);
+  color: var(--tw-text-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Body copy stays on the neutral sans stack for now. The design system calls
+     for Merriweather (--tw-font-body) sitewide, but flipping it here would
+     restyle every existing page at once; DSM components set it themselves, and
+     the global switch happens as pages migrate. Note <body> also carries
+     Tailwind's font-sans, which would win over this rule regardless. */
   font-family: ui-sans-serif, system-ui, sans-serif;
-  /* Ensure dark background always, even if theme changes */
-  background-color: #0f1419 !important;
 }
 
 /* Global scrollbar suppression.
@@ -150,30 +162,6 @@ due to Markdown limitation. The first heading in the content is hidden, and the 
 .border-t > h1:first-child,
 .border-t > h2:first-child {
   display: none;
-}
-
-/* Short landscape: 1366×768 desktop, iPad Air/Pro landscape, and similar
-   viewports where height is constrained (≤ 900 px) and width is ≥ 1024 px.
-   Reduce vertical spacing so content doesn't require excessive scrolling. */
-@media (min-width: 1024px) and (max-height: 900px) and (orientation: landscape) {
-  /* Reduce large top-margin utility classes used between page sections */
-  .mt-10 {
-    margin-top: 1.5rem;
-  }
-  .mt-8 {
-    margin-top: 1.25rem;
-  }
-  /* Reduce bottom padding on content wrappers */
-  .pb-8 {
-    padding-bottom: 1.25rem;
-  }
-  .pb-16 {
-    padding-bottom: 1.5rem;
-  }
-  /* Reduce flex / grid gaps inside page-level content */
-  .gap-8 {
-    gap: 1.25rem;
-  }
 }
 
 /* Ko-Fi widget: hidden by default, shown only on allowed pages via a body class.

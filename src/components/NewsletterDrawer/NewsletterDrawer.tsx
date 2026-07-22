@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useSlideInOut } from '@/hooks/useSlideInOut';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import { Dismiss24Regular } from '@fluentui/react-icons';
 import { Input } from '@/components/Form/Input/Input';
 import { Button } from '@/components/Form/Button/Button';
 import { Typography } from '@/components/Typography';
@@ -14,6 +13,7 @@ import { useNewsletterStore } from '@/store/newsletterStore';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import { DismissIcon } from '@/components/icons';
 
 /** Delay in ms before the drawer auto-shows on a non-home page */
 const SHOW_DELAY_MS = 5000;
@@ -220,7 +220,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                 zIndex: 10,
               }}
             >
-              <FluentIcon iconName={Dismiss24Regular} />
+              <FluentIcon iconName={DismissIcon} />
             </button>
 
             {/* Content */}

@@ -1,0 +1,165 @@
+@use 'abstracts' as *;
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  background: transparent;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  padding: 8px 12px;
+  color: var(--tw-text-soft);
+  font-family: var(--tw-font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--tw-color-duration) var(--tw-motion-ease),
+    border-color var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+    border-color: var(--tw-border-hover);
+  }
+}
+
+/* On narrow screens the label drops and the gear stands alone. */
+.triggerLabel {
+  @include until('mobile-lg') {
+    @include visually-hidden;
+  }
+}
+
+.panel {
+  position: fixed;
+  top: calc(var(--tw-nav-height) + 10px);
+  right: 24px;
+  z-index: 1100;
+  width: 308px;
+  max-width: calc(100vw - 32px);
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  padding: 22px;
+  box-shadow: var(--tw-shadow-l);
+
+  /* Fade + slight rise. The open state is a COMPOUND selector (.panel.panelOpen)
+     rather than a bare .panelOpen, so it reliably outranks these closed values
+     regardless of stylesheet source order — a plain .panelOpen at equal
+     specificity proved fragile in practice. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.98);
+  transition: opacity 0.2s var(--tw-motion-ease),
+    transform 0.2s var(--tw-motion-ease), visibility 0.2s;
+
+  &.panelOpen {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--tw-text-heading);
+}
+
+.close {
+  background: none;
+  border: none;
+  color: var(--tw-text-faint);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--tw-radius-control);
+  display: inline-flex;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+}
+
+.groupLabel {
+  font-family: var(--tw-font);
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin-bottom: 8px;
+}
+
+.segRow {
+  display: flex;
+  gap: var(--tw-space-xs);
+  margin-bottom: 18px;
+}
+
+.seg {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--tw-border);
+  background: transparent;
+  color: var(--tw-text-soft);
+  border-radius: var(--tw-radius-control);
+  font-family: var(--tw-font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--tw-border-hover);
+    color: var(--tw-text-heading);
+  }
+}
+
+.segOn {
+  background: var(--tw-accent);
+  color: var(--tw-accent-ink);
+  border-color: var(--tw-accent);
+
+  &:hover {
+    color: var(--tw-accent-ink);
+  }
+}
+
+.switches {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reset {
+  margin-top: 18px;
+  background: none;
+  border: none;
+  color: var(--tw-text-soft);
+  font-family: var(--tw-font);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  border-radius: var(--tw-radius-control);
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+}

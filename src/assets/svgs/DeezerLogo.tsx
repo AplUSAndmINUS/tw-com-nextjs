@@ -24,13 +24,13 @@ export const DeezerLogo: React.FC<DeezerLogoProps> = ({
       fill='none'
     >
       {/* Deezer logo - horizontal bars */}
-      <rect x='3' y='4' width='8' height='2.5' rx='0.5' fill={fillColor} />
-      <rect x='3' y='8' width='8' height='2.5' rx='0.5' fill={fillColor} />
-      <rect x='3' y='12' width='8' height='2.5' rx='0.5' fill={fillColor} />
-      <rect x='3' y='16' width='8' height='2.5' rx='0.5' fill={fillColor} />
-      <rect x='13' y='8' width='8' height='2.5' rx='0.5' fill={fillColor} />
-      <rect x='13' y='12' width='8' height='2.5' rx='0.5' fill={fillColor} />
-      <rect x='13' y='16' width='8' height='2.5' rx='0.5' fill={fillColor} />
+      <rect x='3' y='4' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
+      <rect x='3' y='8' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
+      <rect x='3' y='12' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
+      <rect x='3' y='16' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
+      <rect x='13' y='8' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
+      <rect x='13' y='12' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
+      <rect x='13' y='16' width='8' height='2.5' rx='0.5' style={{ fill: fillColor }} />
     </svg>
   );
 };

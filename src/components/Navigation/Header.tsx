@@ -28,16 +28,11 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { NavigationMenu } from './NavigationMenu';
+import styles from './Header.module.scss';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
-import {
-  DismissSquare32Regular,
-  Navigation32Regular,
-  Settings32Regular,
-  WeatherMoon32Regular,
-  WeatherSunny32Regular,
-} from '@fluentui/react-icons';
 import { BookingsButton } from '../BookingsButton/BookingsButton';
+import { DismissSquareIcon, NavigationIcon, SettingsIcon, WeatherMoonIcon, WeatherSunnyIcon } from '@/components/icons';
 
 export interface BreadcrumbItem {
   label: string;
@@ -337,7 +332,7 @@ export function Header() {
         }}
       >
         <div
-          className='max-width-content-header mx-auto'
+          className={`max-width-content-header ${styles.inner}`}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -474,9 +469,7 @@ export function Header() {
             {isMounted &&
               !isHomePage &&
               (themeMode === 'light' || themeMode === 'dark') && (
-                <div
-                  className={'flex flex-row items-center justify-center gap-2'}
-                >
+                <div className={styles.themeGroup}>
                   {!isMobile && <BookingsButton isHeader />}
                   <div style={{ position: 'relative' }}>
                     <button
@@ -499,12 +492,12 @@ export function Header() {
                     >
                       {isDark ? (
                         <FluentIcon
-                          iconName={WeatherMoon32Regular}
+                          iconName={WeatherMoonIcon} size={32}
                           color={theme.palette.neutralPrimary}
                         />
                       ) : (
                         <FluentIcon
-                          iconName={WeatherSunny32Regular}
+                          iconName={WeatherSunnyIcon} size={32}
                           color={theme.palette.neutralPrimary}
                         />
                       )}
@@ -565,7 +558,7 @@ export function Header() {
                       aria-controls='settings-panel'
                     >
                       <FluentIcon
-                        iconName={DismissSquare32Regular}
+                        iconName={DismissSquareIcon} size={32}
                         color={theme.palette.neutralPrimary}
                       />
                     </button>
@@ -592,7 +585,7 @@ export function Header() {
                       aria-controls='settings-panel'
                     >
                       <FluentIcon
-                        iconName={Settings32Regular}
+                        iconName={SettingsIcon} size={32}
                         color={theme.palette.neutralPrimary}
                       />
                     </button>
@@ -654,7 +647,7 @@ export function Header() {
                     aria-controls='navigation-menu'
                   >
                     <FluentIcon
-                      iconName={DismissSquare32Regular}
+                      iconName={DismissSquareIcon} size={32}
                       color={theme.palette.neutralPrimary}
                     />
                   </button>
@@ -681,7 +674,7 @@ export function Header() {
                     aria-controls='navigation-menu'
                   >
                     <FluentIcon
-                      iconName={Navigation32Regular}
+                      iconName={NavigationIcon} size={32}
                       color={theme.palette.neutralPrimary}
                     />
                   </button>
@@ -753,7 +746,7 @@ export function Header() {
                 backgroundColor: isDark
                   ? theme.colorNeutralBackground2
                   : theme.colorNeutralBackground1,
-                boxShadow: theme.shadow64,
+                boxShadow: theme.shadows.modal,
                 overflowY: 'auto',
               }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}

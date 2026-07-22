@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ThemedLink } from '@/components/ThemedLink';
 import { resolveIconName } from '@/utils/iconResolver';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './ContentDetailNav.module.scss';
 
 interface ContentDetailNavProps {
   /** URL of the previous entry (undefined if this is the first) */
@@ -40,11 +41,11 @@ export function ContentDetailNav({
   return (
     <nav
       aria-label='Content navigation'
-      className='flex flex-wrap items-center justify-between gap-4 py-6 mb-8 border-b border-gray-200 dark:border-gray-700'
+      className={styles.nav}
     >
       {/* Previous Entry */}
       <div
-        className='flex-1 min-w-0'
+        className={styles.col}
         onPointerEnter={(e) => {
           if (e.pointerType !== 'mouse') return;
           setPrevHovered(true);
@@ -59,7 +60,7 @@ export function ContentDetailNav({
             href={prevHref}
             hoverScale={1.1}
             invertOnPress
-            className='group inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all'
+            className={styles.link}
             style={{
               fontSize: '0.9rem',
               fontWeight: 500,
@@ -73,15 +74,15 @@ export function ContentDetailNav({
             aria-label={prevTitle ? `Previous: ${prevTitle}` : 'Previous entry'}
           >
             {ChevronLeftIcon && <ChevronLeftIcon style={{ flexShrink: 0 }} />}
-            <span className='hidden sm:inline'>Previous</span>
+            <span className={styles.smInline}>Previous</span>
           </ThemedLink>
         ) : (
           <span
-            className='inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 opacity-50'
+            className={styles.disabled}
             style={{ fontSize: '0.9rem' }}
           >
             {ChevronLeftIcon && <ChevronLeftIcon style={{ flexShrink: 0 }} />}
-            <span className='hidden sm:inline'>Previous</span>
+            <span className={styles.smInline}>Previous</span>
           </span>
         )}
       </div>
@@ -97,13 +98,13 @@ export function ContentDetailNav({
             if (e.pointerType !== 'mouse') return;
             setBackHovered(false);
           }}
-          className='flex-shrink-0'
+          className={styles.backWrap}
         >
           <ThemedLink
             href={listingPath}
             hoverScale={1.1}
             invertOnPress
-            className='px-4 py-2 rounded-lg border-2 transition-all'
+            className={styles.backLink}
             style={{
               fontSize: '0.875rem',
               fontWeight: 600,
@@ -121,15 +122,15 @@ export function ContentDetailNav({
             aria-label={`Back to ${listingLabel}`}
           >
             {ArrowLeftIcon && <ArrowLeftIcon style={{ flexShrink: 0 }} />}
-            <span className='hidden sm:inline'>Back to {listingLabel}</span>
-            <span className='sm:hidden'>{listingLabel}</span>
+            <span className={styles.smInline}>Back to {listingLabel}</span>
+            <span className={styles.smHidden}>{listingLabel}</span>
           </ThemedLink>
         </span>
       )}
 
       {/* Next Entry */}
       <div
-        className='flex-1 min-w-0 text-right'
+        className={`${styles.col} ${styles.textRight}`}
         onPointerEnter={(e) => {
           if (e.pointerType !== 'mouse') return;
           setNextHovered(true);
@@ -144,7 +145,7 @@ export function ContentDetailNav({
             href={nextHref}
             hoverScale={1.1}
             invertOnPress
-            className='group inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 transition-all'
+            className={`${styles.link} ${styles.justifyEnd}`}
             style={{
               fontSize: '0.9rem',
               fontWeight: 500,
@@ -157,15 +158,15 @@ export function ContentDetailNav({
             }}
             aria-label={nextTitle ? `Next: ${nextTitle}` : 'Next entry'}
           >
-            <span className='hidden sm:inline'>Next</span>
+            <span className={styles.smInline}>Next</span>
             {ChevronRightIcon && <ChevronRightIcon style={{ flexShrink: 0 }} />}
           </ThemedLink>
         ) : (
           <span
-            className='inline-flex items-center justify-end gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 opacity-50'
+            className={`${styles.disabled} ${styles.justifyEnd}`}
             style={{ fontSize: '0.9rem' }}
           >
-            <span className='hidden sm:inline'>Next</span>
+            <span className={styles.smInline}>Next</span>
             {ChevronRightIcon && <ChevronRightIcon style={{ flexShrink: 0 }} />}
           </span>
         )}

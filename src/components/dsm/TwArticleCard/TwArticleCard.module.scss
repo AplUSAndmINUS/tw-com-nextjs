@@ -1,0 +1,100 @@
+@use 'abstracts' as *;
+
+.card {
+  @include card-surface;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.interactive {
+  @include card-interactive;
+
+  /* The hover treatment is driven from the card, but the focus ring belongs on
+     the anchor — that is what actually receives focus. */
+  &:focus-within {
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-shadow-m);
+  }
+}
+
+/* ===== Media ===== */
+
+.media {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--tw-surface-inset);
+  border-bottom: 1px solid var(--tw-border);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== Content ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-xs);
+  padding: var(--tw-card-pad);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  flex-wrap: wrap;
+}
+
+.date {
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-meta-size);
+  line-height: var(--tw-mono-leading);
+  color: var(--tw-text-faint);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.3;
+  color: var(--tw-text-heading);
+}
+
+/* Stretched link: the anchor's ::after covers the whole card, so the click
+   target is the card while the accessible name stays just the title. */
+.link {
+  color: inherit;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-accent-hover);
+  }
+}
+
+.excerpt {
+  margin: 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  line-height: var(--tw-body-sm-leading);
+  color: var(--tw-text-muted);
+}

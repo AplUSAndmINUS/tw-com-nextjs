@@ -1,0 +1,459 @@
+@use 'abstracts' as *;
+
+.page {
+  min-height: 100vh;
+  background: var(--tw-bg-page);
+
+  /* Proximity snap — it settles sections near the top without fighting a normal
+     scroll. Padding clears the sticky nav. Stripped under reduced motion. */
+  scroll-snap-type: y proximity;
+  scroll-padding-top: var(--tw-nav-height);
+}
+
+:global([data-tw-reduced-motion='true']) .page {
+  scroll-snap-type: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    scroll-snap-type: none;
+  }
+}
+
+:global(.tw-snap) {
+  scroll-snap-align: start;
+}
+
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: 96px;
+  background: var(--tw-bg-page);
+}
+
+/* Alternating band for rhythm. */
+.sectionAlt {
+  background: var(--tw-surface-alt);
+  border-top: 1px solid var(--tw-border-subtle);
+  border-bottom: 1px solid var(--tw-border-subtle);
+}
+
+/* Corner glows — a soft radial per section, in that section's accent hue. */
+.glowAbout::before,
+.glowWork::before,
+.glowContent::before,
+.glowPortfolio::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.glowAbout::before {
+  background: radial-gradient(
+    900px 460px at 8% 0%,
+    color-mix(in srgb, var(--tw-glacier-cyan) 12%, transparent),
+    transparent 60%
+  );
+}
+.glowWork::before {
+  background: radial-gradient(
+    1100px 520px at 92% -8%,
+    color-mix(in srgb, var(--tw-sage-teal) 16%, transparent),
+    transparent 60%
+  );
+}
+.glowContent::before {
+  background: radial-gradient(
+    1000px 500px at 6% 4%,
+    color-mix(in srgb, var(--tw-gold) 9%, transparent),
+    transparent 58%
+  );
+}
+.glowPortfolio::before {
+  background: radial-gradient(
+    1100px 520px at 90% 100%,
+    color-mix(in srgb, var(--tw-slate-indigo) 16%, transparent),
+    transparent 60%
+  );
+}
+
+.container {
+  position: relative;
+  max-width: var(--tw-container);
+  margin: 0 auto;
+  padding: 0 var(--tw-container-pad);
+}
+
+/* ===== Numbered rail sections ===== */
+.railGrid {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 56px;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.rail {
+  position: sticky;
+  top: calc(var(--tw-nav-height) + 28px);
+  align-self: start;
+
+  @include until('mobile-lg') {
+    position: static;
+  }
+}
+
+.numRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.secNum {
+  font-family: var(--tw-font-mono);
+  font-size: 2.125rem;
+  font-weight: 700;
+  color: var(--tw-accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.secLabel {
+  font-family: var(--tw-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+}
+
+.portrait {
+  width: 100%;
+  border-radius: var(--tw-radius-card);
+  border: 1px solid var(--tw-border);
+  display: block;
+
+  @include until('mobile-lg') {
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+}
+
+.railImage {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  border-radius: var(--tw-radius-card);
+  overflow: hidden;
+  border: 1px solid var(--tw-border);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include until('mobile-lg') {
+    height: 220px;
+  }
+}
+
+.socialBlock {
+  margin-top: 18px;
+}
+
+.socialLabel {
+  font-family: var(--tw-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin-bottom: 11px;
+}
+
+/* ===== Prose + stats ===== */
+.prose {
+  font-family: var(--tw-font-body);
+  font-size: 1.03125rem;
+  line-height: 1.85;
+  color: var(--tw-text-body);
+  margin: 26px 0 0;
+  max-width: 60ch;
+
+  & + & {
+    margin-top: 16px;
+  }
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 34px;
+
+  @include until('mobile-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Card grids ===== */
+.cardGrid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 28px;
+  container-type: inline-size;
+
+  @container (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+
+  @include until('mobile-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Buttons wrapping cards must not look like buttons. */
+.cardButton,
+.featuredButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  border-radius: var(--tw-radius-card);
+
+  @include focus-ring;
+}
+
+.featuredButton {
+  margin-top: 32px;
+}
+
+.filterRow {
+  margin-top: 24px;
+}
+
+.viewAll {
+  margin-top: 34px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 26px;
+  flex-wrap: wrap;
+
+  a {
+    font-family: var(--tw-font);
+    font-weight: 700;
+    font-size: 0.90625rem;
+    color: var(--tw-accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s var(--tw-motion-ease), color 0.2s var(--tw-motion-ease);
+
+    @include focus-ring;
+
+    &:hover {
+      gap: 11px;
+      color: var(--tw-accent-hover);
+    }
+
+    @include motion-safe-only;
+  }
+}
+
+/* ===== Newsletter band ===== */
+.band {
+  position: relative;
+  overflow: hidden;
+  background: var(--tw-gradient-band);
+  border: 1px solid var(--tw-border-strong);
+  border-radius: var(--tw-radius-band);
+  padding: 52px 48px;
+
+  @include until('mobile-lg') {
+    padding: 36px 26px;
+  }
+}
+
+.bandGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 44px;
+  align-items: center;
+  position: relative;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.inlineForm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.notifyRow {
+  margin-top: 16px;
+}
+
+.successNote {
+  background: var(--tw-success-bg);
+  border: 1px solid var(--tw-success-border);
+  border-radius: var(--tw-radius-card-sm);
+  padding: 20px 22px;
+  font-family: var(--tw-font-body);
+  color: var(--tw-text-bright);
+  font-size: 0.9375rem;
+}
+
+.newsletterSocials {
+  margin-top: 24px;
+}
+
+/* ===== Fields ===== */
+.field {
+  width: 100%;
+  background: var(--tw-surface-input);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  padding: 12px 14px;
+  color: var(--tw-text-bright);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s var(--tw-motion-ease);
+
+  &:focus {
+    outline: none;
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-glow-accent);
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+}
+
+.inlineForm .field {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ===== Contact ===== */
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 64px;
+  align-items: start;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.contactCtaRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.contactEmail {
+  margin-top: 26px;
+  font-family: var(--tw-font-mono);
+  font-size: 0.84375rem;
+  color: var(--tw-text-soft);
+}
+
+.contactSocials {
+  margin-top: 22px;
+}
+
+.formCard {
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  padding: 32px;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: block;
+}
+
+.fieldLabel {
+  display: block;
+  font-family: var(--tw-font);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  margin-bottom: 6px;
+}
+
+.contactForm textarea.field {
+  resize: vertical;
+}
+
+.contactFormActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sentState {
+  text-align: center;
+  padding: 32px 8px;
+}
+
+.sentTitle {
+  font-family: var(--tw-font);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin-bottom: 10px;
+}
+
+.sentBody {
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--tw-text-body);
+  margin: 0;
+}
+
+/* ===== Identity watermark ===== */
+.watermark {
+  background: var(--tw-bg-deep);
+  border-top: 1px solid var(--tw-border-subtle);
+  padding: 56px 32px;
+
+  p {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: var(--tw-font-body);
+    font-style: italic;
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--tw-text-muted);
+  }
+}

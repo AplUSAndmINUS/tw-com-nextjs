@@ -9,6 +9,8 @@ import { Typography } from '@/components/Typography';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import { accentWash } from '@/utils/color';
+import styles from './NewsletterSignupCTA.module.scss';
 
 export interface NewsletterSignupCTAProps {
   /** Optional heading override */
@@ -119,7 +121,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
   const surfaceColor = isLightFamily
     ? theme.semanticColors.background.muted
     : theme.semanticColors.background.elevated;
-  const heroGradient = `linear-gradient(160deg, ${accentColor}14 0%, transparent 87%)`;
+  const heroGradient = accentWash(accentColor, 8, 87);
 
   // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
   if (isSuccess || newsletterSubscribed) {
@@ -129,7 +131,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         style={{ borderRadius: '1rem', overflow: 'clip' }}
       >
         <div
-          className='p-6'
+          className={styles.panel}
           style={{
             backgroundColor: surfaceColor,
             backgroundImage: heroGradient,
@@ -184,7 +186,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
       style={{ borderRadius: '1rem', overflow: 'clip' }}
     >
       <div
-        className='p-6'
+        className={styles.panel}
         style={{
           backgroundColor: surfaceColor,
           backgroundImage: heroGradient,

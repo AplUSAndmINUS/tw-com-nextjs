@@ -5,6 +5,7 @@ import {
   SPREAKER_SHOW_ID,
   SPREAKER_SHOW_URL,
 } from '@/lib/spreaker';
+import styles from './SpreakerPlayer.module.scss';
 
 /** Spreaker iframe player embed base URL */
 const WIDGET_PLAYER_URL = 'https://widget.spreaker.com/player';
@@ -45,7 +46,7 @@ export function SpreakerPlayer({
   if (!available) {
     return (
       <div
-        className='flex items-center justify-center p-8 rounded-lg'
+        className={styles.unavailable}
         style={{
           backgroundColor: reducedTransparency
             ? appTheme.palette.neutralLight
@@ -55,7 +56,7 @@ export function SpreakerPlayer({
         aria-live='polite'
       >
         <p
-          className='text-sm'
+          className={styles.unavailableText}
           style={{ color: appTheme.palette.neutralSecondary }}
         >
           This podcast is currently unavailable.{' '}
@@ -64,7 +65,7 @@ export function SpreakerPlayer({
             target='_blank'
             rel='noopener noreferrer'
             style={{ color: appTheme.semanticColors.link.default }}
-            className='underline'
+            className={styles.link}
           >
             Visit on Spreaker
           </a>
@@ -101,7 +102,7 @@ export function SpreakerPlayer({
       title={playerTitle}
       allow='autoplay; clipboard-write'
       aria-label={playerTitle}
-      className='rounded-lg'
+      className={styles.player}
       loading='lazy'
     />
   );

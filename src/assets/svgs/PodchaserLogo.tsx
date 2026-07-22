@@ -32,8 +32,8 @@ export const PodchaserLogo: React.FC<PodchaserLogoProps> = ({
         strokeWidth='2'
         fill='none'
       />
-      <path d='M10 8l6 4-6 4V8z' fill={fillColor} />
-      <circle cx='18' cy='18' r='2.5' fill={fillColor} />
+      <path d='M10 8l6 4-6 4V8z' style={{ fill: fillColor }} />
+      <circle cx='18' cy='18' r='2.5' style={{ fill: fillColor }} />
       <path
         d='M19.5 19.5L22 22'
         stroke={fillColor}

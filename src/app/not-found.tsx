@@ -1,6 +1,7 @@
 import { Hero } from '@/components/Hero';
 import { PageLayout } from '@/layouts/PageLayout';
 import { NotFoundContent } from './NotFoundContent';
+import styles from './not-found.module.scss';
 
 export const metadata = {
   title: '404 - Page Not Found',
@@ -10,7 +11,7 @@ export const metadata = {
 export default function NotFound() {
   return (
     <PageLayout>
-      <div className='max-w-4xl mx-auto pt-0 pb-8 md:py-8'>
+      <div className={styles.page}>
         <Hero
           title='404 - Page Not Found'
           iconName='LocationNotFound24Regular'

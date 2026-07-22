@@ -26,11 +26,12 @@
  */
 
 import {
-  BrandVariants,
-  createLightTheme,
-  createDarkTheme,
-  Theme,
-} from '@fluentui/react-components';
+  tokenColors,
+  tokenPalette,
+  type ITokenColors,
+  type ITokenPalette,
+} from './tokenColors';
+
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -65,42 +66,22 @@ export type TypographyVariant =
   | 'cardMeta';
 
 /**
- * Palette compatibility layer for Fluent UI v8 naming conventions
- * Maps familiar v8 names to v9 color tokens
+ * Palette compatibility layer, originally mapping Fluent v8 names onto v9
+ * tokens. The v8 names survive because ~200 call sites use them; the values
+ * come from the design system now. See theme/tokenColors.ts.
  */
-export interface IPalette {
-  // Primary colors
-  themePrimary: string;
-  themeLighterAlt: string;
-  themeLighter: string;
-  themeLight: string;
-  themeTertiary: string;
-  themeSecondary: string;
-  themeDarkAlt: string;
-  themeDark: string;
-  themeDarker: string;
+export type IPalette = ITokenPalette;
 
-  // Neutral colors
-  neutralLighterAlt: string;
-  neutralLighter: string;
-  neutralLight: string;
-  neutralQuaternaryAlt: string;
-  neutralQuaternary: string;
-  neutralTertiaryAlt: string;
-  neutralTertiary: string;
-  neutralSecondary: string;
-  neutralSecondaryAlt: string;
-  neutralPrimaryAlt: string;
-  neutralPrimary: string;
-  neutralDark: string;
-
-  // Other colors
-  black: string;
-  white: string;
-  redDark: string;
-}
-
-export interface IExtendedTheme extends Theme {
+/**
+ * The application theme.
+ *
+ * This used to extend Fluent's `Theme`, which meant every consumer of
+ * `useAppTheme().theme` transitively depended on Fluent's generated shape — the
+ * single thing keeping @fluentui/react-components load-bearing. It now extends
+ * ITokenColors, which declares just the 28 colour fields the codebase actually
+ * reads, with design system tokens behind them.
+ */
+export interface IExtendedTheme extends ITokenColors {
   spacing: IExtendedSpacing;
   animations: typeof animations;
   borderRadius: typeof borderRadius;
@@ -176,528 +157,62 @@ export interface IExtendedSpacing {
   l2: string;
 }
 
-export type ThemeMode =
-  | 'light'
-  | 'dark'
-  | 'high-contrast'
-  | 'protanopia'
-  | 'deuteranopia'
-  | 'tritanopia'
-  | 'grayscale'
-  | 'grayscale-dark';
-
-// ============================================================================
-// BRAND COLORS
-// ============================================================================
-
-// TerenceWaters.com brand palette - vivid blue primary (Light Mode)
-const twBrand: BrandVariants = {
-  10: '#010812',
-  20: '#091526',
-  30: '#0e2040',
-  40: '#142c58',
-  50: '#1a3a72',
-  60: '#1e4a8e',
-  70: '#2256a8', // more saturated blue
-  80: '#2568c4', // primary: richer, more vivid blue
-  90: '#2e7ad8',
-  100: '#3d8ae4',
-  110: '#5098ec',
-  120: '#64a8f2',
-  130: '#7ab8f6',
-  140: '#92c8f9',
-  150: '#acd6fb',
-  160: '#c8e6fd',
-};
-
-// Dark theme brand palette - vibrant blues that pop on dark backgrounds
-const twBrandDark: BrandVariants = {
-  10: '#0c1b30',
-  20: '#162840',
-  30: '#243870',
-  40: '#2e4888',
-  50: '#3a5a9e',
-  60: '#486db4',
-  70: '#5680ca', // vivid mid-tone blue
-  80: '#6493de', // brand background - vibrant
-  90: '#74a4e8',
-  100: '#84b4f0', // colorBrandForeground1 / palette.themePrimary
-  110: '#96c4f5',
-  120: '#a8d0f8',
-  130: '#bcddf9',
-  140: '#cce7fb',
-  150: '#daeefb',
-  160: '#edf5fc',
-};
-
-// High contrast brand palette
-const twBrandHighContrast: BrandVariants = {
-  10: '#000000',
-  20: '#0a0a0a',
-  30: '#121212',
-  40: '#1a1a1a',
-  50: '#222222',
-  60: '#2a2a2a',
-  70: '#3399FF',
-  80: '#4da6ff',
-  90: '#66b3ff',
-  100: '#80c0ff',
-  110: '#99ccff',
-  120: '#b3d9ff',
-  130: '#cce6ff',
-  140: '#d9ecff',
-  150: '#e6f3ff',
-  160: '#F8F8F8',
-};
-
-// Protanopia (red-blind) brand palette
-const twBrandProtanopia: BrandVariants = {
-  10: '#001428',
-  20: '#002850',
-  30: '#003e72',
-  40: '#004578',
-  50: '#005299',
-  60: '#005A9E',
-  70: '#0066bb',
-  80: '#0078D4',
-  90: '#2B88D8',
-  100: '#4494dc',
-  110: '#5da0e0',
-  120: '#71AFE5',
-  130: '#8abee9',
-  140: '#a3cded',
-  150: '#C7E0F4',
-  160: '#EFF6FC',
-};
-
-// Deuteranopia (green-blind) brand palette
-const twBrandDeuteranopia: BrandVariants = {
-  10: '#001428',
-  20: '#002034',
-  30: '#002850',
-  40: '#003564',
-  50: '#004578',
-  60: '#00528c',
-  70: '#0063B1',
-  80: '#0070c5',
-  90: '#2680d9',
-  100: '#4894FE',
-  110: '#5f9ffe',
-  120: '#76aafe',
-  130: '#8db5fe',
-  140: '#a4c1ff',
-  150: '#C7E0F4',
-  160: '#EFF6FC',
-};
-
-// Tritanopia (blue-blind) brand palette
-const twBrandTritanopia: BrandVariants = {
-  10: '#1a0505',
-  20: '#340a0a',
-  30: '#4e0f0f',
-  40: '#761721',
-  50: '#8f1c28',
-  60: '#A4262C',
-  70: '#bd2b33',
-  80: '#D13438',
-  90: '#db4d51',
-  100: '#e5666a',
-  110: '#ef7f83',
-  120: '#f9989c',
-  130: '#ffb1b5',
-  140: '#ffcace',
-  150: '#E8A3A3',
-  160: '#FEF4F4',
-};
-
-// Grayscale (light) brand palette
-const twBrandGrayscale: BrandVariants = {
-  10: '#000000',
-  20: '#0d0d0d',
-  30: '#1A1A1A',
-  40: '#262626',
-  50: '#333333',
-  60: '#404040',
-  70: '#4d4d4d',
-  80: '#666666',
-  90: '#737373',
-  100: '#808080',
-  110: '#8c8c8c',
-  120: '#999999',
-  130: '#a6a6a6',
-  140: '#b3b3b3',
-  150: '#D9D9D9',
-  160: '#F8F8F8',
-};
-
-// Grayscale dark brand palette
-const twBrandGrayscaleDark: BrandVariants = {
-  10: '#000000',
-  20: '#0d0d0d',
-  30: '#1a1a1a',
-  40: '#262626',
-  50: '#333333',
-  60: '#404040',
-  70: '#4d4d4d',
-  80: '#666666',
-  90: '#808080',
-  100: '#8c8c8c',
-  110: '#999999',
-  120: '#a6a6a6',
-  130: '#bfbfbf',
-  140: '#d9d9d9',
-  150: '#e6e6e6',
-  160: '#ffffff',
-};
-
+// The mode union and the light/dark split live in ./modes so that the CSS
+// tokens, the React hooks and the pre-hydration script all derive from one list.
+export type { ThemeMode } from './modes';
+import type { ThemeMode } from './modes';
 // ============================================================================
 // SEMANTIC COLORS - Text & Interactive States
 // ============================================================================
 
 /**
- * Accessible text and interactive colors for all 8 theme modes
- * Designed for WCAG AAA compliance with book-inspired minimalism
+ * Semantic colour roles, mapped onto design system tokens.
+ *
+ * There used to be eight of these — one per theme mode — each a full set of hex
+ * literals. They are now a single object of `var(--tw-*)` references, because
+ * the mode switching happens in CSS. Changing a colour means editing the token,
+ * once, and every mode follows.
  */
-
-// Light Mode (default light theme)
-export const semanticColorsLight = {
+export const semanticColors: ISemanticColors = {
   text: {
-    primary: '#1a1a1a', // Body text - near black
-    heading: '#0d0d0d', // Headings - true black
-    muted: '#666666', // Captions, metadata
-    disabled: '#999999', // Disabled text
+    primary: 'var(--tw-text-body)',
+    heading: 'var(--tw-text-heading)',
+    muted: 'var(--tw-text-muted)',
+    disabled: 'var(--tw-text-faint)',
   },
   link: {
-    default: '#1854b4', // Vivid blue (brand primary — was near-black navy)
-    hover: '#2363cc', // Brighter blue on hover
-    visited: '#1748a0', // Slightly different for visited
-    active: '#123e94', // Darker on click
-    footer: '#4a5568', // Muted gray-blue for footer
+    default: 'var(--tw-accent)',
+    hover: 'var(--tw-accent-hover)',
+    visited: 'var(--tw-accent-active)',
+    active: 'var(--tw-accent-active)',
+    footer: 'var(--tw-text-muted)',
   },
   background: {
-    base: '#ffffff', // Page background
-    elevated: '#f8f8f8', // Cards, elevated surfaces
-    muted: '#f0f0f0', // Subtle backgrounds
+    base: 'var(--tw-bg-page)',
+    elevated: 'var(--tw-surface-card)',
+    muted: 'var(--tw-surface-alt)',
   },
   border: {
-    default: '#e0e0e0', // Default borders
-    muted: '#f0f0f0', // Subtle borders
-    emphasis: '#1854b4', // Emphasized borders
+    default: 'var(--tw-border)',
+    muted: 'var(--tw-border-subtle)',
+    emphasis: 'var(--tw-border-strong)',
   },
   selection: {
-    background: '#a3caef', // Text selection background
-    text: '#0d0d0d', // Text selection color
+    background: 'var(--tw-accent)',
+    text: 'var(--tw-accent-ink)',
   },
   focus: {
-    ring: '#2363cc', // Focus ring color
-    outline: '#1854b4', // Focus outline
+    ring: 'var(--tw-accent)',
+    outline: 'var(--tw-accent-hover)',
   },
   accent: {
-    teal: '#0aada0', // Bright teal accent
-    tealSubtle: '#eafaf8', // Soft teal background
-    yellow: '#a07800', // Golden amber accent (darkened for contrast on white)
-    yellowSubtle: '#fdf8e8', // Soft amber background
+    teal: 'var(--tw-teal)',
+    tealSubtle: 'var(--tw-teal-bg)',
+    yellow: 'var(--tw-gold)',
+    yellowSubtle: 'var(--tw-gold-bg)',
   },
 };
 
-// Dark Mode (default dark theme - primary mode)
-export const semanticColorsDark = {
-  text: {
-    primary: '#e6e6e6', // Body text - near white
-    heading: '#f5f5f5', // Headings - true white
-    muted: '#999999', // Captions, metadata
-    disabled: '#666666', // Disabled text
-  },
-  link: {
-    default: '#5b94ec', // Vivid blue on dark (was washed-out #8eb9e7)
-    hover: '#74acf2', // Lighter vivid blue on hover
-    visited: '#4e86e0', // Slightly different for visited
-    active: '#82baf4', // Brighter on click
-    footer: '#8ea4c4', // Muted blue for footer
-  },
-  background: {
-    base: '#1a1a1a', // Page background
-    elevated: '#242424', // Cards, elevated surfaces
-    muted: '#2a2a2a', // Subtle backgrounds
-  },
-  border: {
-    default: '#404040', // Default borders
-    muted: '#333333', // Subtle borders
-    emphasis: '#5b94ec', // Emphasized borders
-  },
-  selection: {
-    background: '#3F5FA1', // Text selection background
-    text: '#ffffff', // Text selection color
-  },
-  focus: {
-    ring: '#5b94ec', // Focus ring color
-    outline: '#74acf2', // Focus outline
-  },
-  accent: {
-    teal: '#00ccbc', // Bright teal on dark backgrounds
-    tealSubtle: '#0a2422', // Dark teal background
-    yellow: '#d4ac1c', // Warm gold on dark
-    yellowSubtle: '#251e06', // Dark amber background
-  },
-};
-
-// High Contrast Mode
-export const semanticColorsHighContrast = {
-  text: {
-    primary: '#ffffff', // Pure white on black
-    heading: '#ffffff', // Pure white
-    muted: '#b3d9ff', // Light blue for muted
-    disabled: '#666666', // Gray for disabled
-  },
-  link: {
-    default: '#3399FF', // Bright blue (high contrast)
-    hover: '#66b3ff', // Lighter blue on hover
-    visited: '#80c0ff', // Even lighter for visited
-    active: '#4da6ff', // Active state
-    footer: '#99ccff', // Bright but softer for footer
-  },
-  background: {
-    base: '#000000', // Pure black
-    elevated: '#121212', // Slightly elevated
-    muted: '#1a1a1a', // Muted surfaces
-  },
-  border: {
-    default: '#ffffff', // White borders for contrast
-    muted: '#666666', // Gray for subtle
-    emphasis: '#3399FF', // Bright blue emphasis
-  },
-  selection: {
-    background: '#3399FF', // Bright blue selection
-    text: '#000000', // Black text
-  },
-  focus: {
-    ring: '#66b3ff', // Bright focus ring
-    outline: '#3399FF', // Bright outline
-  },
-  accent: {
-    teal: '#00ffee', // Maximum contrast teal
-    tealSubtle: '#001e1c', // Dark teal background
-    yellow: '#ffdd00', // Maximum contrast yellow
-    yellowSubtle: '#1e1900', // Dark amber background
-  },
-};
-
-// Protanopia (Red-Blind) Mode
-export const semanticColorsProtanopia = {
-  text: {
-    primary: '#1a1a1a',
-    heading: '#0d0d0d',
-    muted: '#666666',
-    disabled: '#999999',
-  },
-  link: {
-    default: '#005299', // Strong blue (no red component)
-    hover: '#0078D4', // Brighter blue
-    visited: '#004578', // Darker blue
-    active: '#0066bb', // Active blue
-    footer: '#4a7ba7', // Muted blue for footer
-  },
-  background: {
-    base: '#ffffff',
-    elevated: '#f8f8f8',
-    muted: '#f0f0f0',
-  },
-  border: {
-    default: '#e0e0e0',
-    muted: '#f0f0f0',
-    emphasis: '#005299',
-  },
-  selection: {
-    background: '#C7E0F4',
-    text: '#0d0d0d',
-  },
-  focus: {
-    ring: '#0078D4',
-    outline: '#005299',
-  },
-  accent: {
-    teal: '#009eb5', // Cyan-blue teal (safe for red-blind)
-    tealSubtle: '#e5f7fa',
-    yellow: '#927200', // Golden amber (safe, no red component)
-    yellowSubtle: '#fdf4d9',
-  },
-};
-
-// Deuteranopia (Green-Blind) Mode
-export const semanticColorsDeuteranopia = {
-  text: {
-    primary: '#1a1a1a',
-    heading: '#0d0d0d',
-    muted: '#666666',
-    disabled: '#999999',
-  },
-  link: {
-    default: '#004578', // Blue (no green component)
-    hover: '#0070c5', // Brighter blue
-    visited: '#00528c', // Different blue shade
-    active: '#2680d9', // Active blue
-    footer: '#4a6a8a', // Muted blue for footer
-  },
-  background: {
-    base: '#ffffff',
-    elevated: '#f8f8f8',
-    muted: '#f0f0f0',
-  },
-  border: {
-    default: '#e0e0e0',
-    muted: '#f0f0f0',
-    emphasis: '#004578',
-  },
-  selection: {
-    background: '#C7E0F4',
-    text: '#0d0d0d',
-  },
-  focus: {
-    ring: '#0070c5',
-    outline: '#004578',
-  },
-  accent: {
-    teal: '#0090bb', // Cyan-blue teal (safe for green-blind)
-    tealSubtle: '#e3f5f9',
-    yellow: '#927200', // Golden amber (safe)
-    yellowSubtle: '#fdf4d9',
-  },
-};
-
-// Tritanopia (Blue-Blind) Mode
-export const semanticColorsTritanopia = {
-  text: {
-    primary: '#1a1a1a',
-    heading: '#0d0d0d',
-    muted: '#666666',
-    disabled: '#999999',
-  },
-  link: {
-    default: '#8f1c28', // Deep red (no blue component)
-    hover: '#D13438', // Brighter red
-    visited: '#761721', // Darker red
-    active: '#db4d51', // Active red
-    footer: '#a0555f', // Muted red for footer
-  },
-  background: {
-    base: '#ffffff',
-    elevated: '#f8f8f8',
-    muted: '#f0f0f0',
-  },
-  border: {
-    default: '#e0e0e0',
-    muted: '#f0f0f0',
-    emphasis: '#8f1c28',
-  },
-  selection: {
-    background: '#ffcace',
-    text: '#0d0d0d',
-  },
-  focus: {
-    ring: '#D13438',
-    outline: '#8f1c28',
-  },
-  accent: {
-    teal: '#00a870', // Greener teal (blue-blind safe — more distinct from gray)
-    tealSubtle: '#e8f8f3',
-    yellow: '#ab7600', // Warm amber
-    yellowSubtle: '#fdf5de',
-  },
-};
-
-// Grayscale (Light) Mode
-export const semanticColorsGrayscale = {
-  text: {
-    primary: '#1a1a1a',
-    heading: '#000000',
-    muted: '#666666',
-    disabled: '#999999',
-  },
-  link: {
-    default: '#333333', // Dark gray (underline required!)
-    hover: '#4d4d4d', // Medium gray
-    visited: '#262626', // Darker gray
-    active: '#666666', // Lighter on click
-    footer: '#737373', // Muted gray for footer
-  },
-  background: {
-    base: '#ffffff',
-    elevated: '#f8f8f8',
-    muted: '#f0f0f0',
-  },
-  border: {
-    default: '#e0e0e0',
-    muted: '#f0f0f0',
-    emphasis: '#333333',
-  },
-  selection: {
-    background: '#D9D9D9',
-    text: '#000000',
-  },
-  focus: {
-    ring: '#4d4d4d',
-    outline: '#333333',
-  },
-  accent: {
-    teal: '#4a4a4a', // Dark gray (grayscale — no color)
-    tealSubtle: '#f2f2f2',
-    yellow: '#666666',
-    yellowSubtle: '#f5f5f5',
-  },
-};
-
-// Grayscale Dark Mode
-export const semanticColorsGrayscaleDark = {
-  text: {
-    primary: '#e6e6e6',
-    heading: '#ffffff',
-    muted: '#999999',
-    disabled: '#666666',
-  },
-  link: {
-    default: '#bfbfbf', // Light gray (underline required!)
-    hover: '#d9d9d9', // Lighter gray
-    visited: '#a6a6a6', // Darker gray
-    active: '#e6e6e6', // Brightest on click
-    footer: '#999999', // Muted gray for footer
-  },
-  background: {
-    base: '#1a1a1a',
-    elevated: '#262626',
-    muted: '#333333',
-  },
-  border: {
-    default: '#404040',
-    muted: '#333333',
-    emphasis: '#bfbfbf',
-  },
-  selection: {
-    background: '#4d4d4d',
-    text: '#ffffff',
-  },
-  focus: {
-    ring: '#bfbfbf',
-    outline: '#d9d9d9',
-  },
-  accent: {
-    teal: '#a0a0a0', // Medium gray (grayscale dark — no color)
-    tealSubtle: '#252525',
-    yellow: '#787878',
-    yellowSubtle: '#1e1e1e',
-  },
-};
-
-// Map semantic colors to theme modes
-export const semanticColorsMap = {
-  light: semanticColorsLight,
-  dark: semanticColorsDark,
-  'high-contrast': semanticColorsHighContrast,
-  protanopia: semanticColorsProtanopia,
-  deuteranopia: semanticColorsDeuteranopia,
-  tritanopia: semanticColorsTritanopia,
-  grayscale: semanticColorsGrayscale,
-  'grayscale-dark': semanticColorsGrayscaleDark,
-};
 
 // ============================================================================
 // CONSTANTS
@@ -1264,202 +779,50 @@ export const typography = {
 // THEME CREATION
 // ============================================================================
 
-// Create base themes from FluentUI
-const baseLightTheme = createLightTheme(twBrand);
-const baseDarkTheme = createDarkTheme(twBrandDark);
-const baseHighContrastTheme = createDarkTheme(twBrandHighContrast);
-const baseProtanopiaTheme = createLightTheme(twBrandProtanopia);
-const baseDeuteranopiaTheme = createLightTheme(twBrandDeuteranopia);
-const baseTritanopiaTheme = createLightTheme(twBrandTritanopia);
-const baseGrayscaleTheme = createLightTheme(twBrandGrayscale);
-const baseGrayscaleDarkTheme = createDarkTheme(twBrandGrayscaleDark);
 
 // ============================================================================
-// PALETTE COMPATIBILITY LAYER (Fluent UI v8 naming → v9 tokens)
+// THEME OBJECTS
 // ============================================================================
 
 /**
- * Creates a v8-style palette object from a v9 theme
- * This allows using familiar v8 names like `palette.neutralPrimary`
- * while actually using v9 tokens under the hood
+ * Build a theme for a mode.
+ *
+ * Colour no longer varies here. Every colour value is a `var(--tw-*)`
+ * reference, and the CSS custom properties themselves change per mode via the
+ * `data-theme` attribute on <html> (see styles/tokens/colors.css and
+ * colors-modes.css). So all eight themes share one palette and differ only by
+ * `themeMode`.
+ *
+ * This is what replaced eight `createLightTheme`/`createDarkTheme` calls, eight
+ * BrandVariants ramps and eight semanticColors objects — roughly 700 lines of
+ * hand-maintained hex that had to be kept in sync with the design system by
+ * hand, and wasn't.
  */
-const createPalette = (baseTheme: Theme): IPalette => ({
-  // Primary/brand colors
-  themePrimary: baseTheme.colorBrandForeground1,
-  themeLighterAlt: baseTheme.colorBrandBackground,
-  themeLighter: baseTheme.colorBrandBackground2,
-  themeLight: baseTheme.colorBrandForeground2,
-  themeTertiary: baseTheme.colorBrandForegroundLink,
-  themeSecondary: baseTheme.colorBrandForeground1,
-  themeDarkAlt: baseTheme.colorBrandForeground1,
-  themeDark: baseTheme.colorBrandForeground2,
-  themeDarker: baseTheme.colorBrandForeground2,
-
-  // Neutral colors (text and backgrounds)
-  neutralLighterAlt: baseTheme.colorNeutralBackground1,
-  neutralLighter: baseTheme.colorNeutralBackground1Hover,
-  neutralLight: baseTheme.colorNeutralBackground2,
-  neutralQuaternaryAlt: baseTheme.colorNeutralBackground3,
-  neutralQuaternary: baseTheme.colorNeutralStroke1,
-  neutralTertiaryAlt: baseTheme.colorNeutralStroke2,
-  neutralTertiary: baseTheme.colorNeutralForeground3,
-  neutralSecondary: baseTheme.colorNeutralForeground2,
-  neutralSecondaryAlt: baseTheme.colorNeutralForeground2,
-  neutralPrimaryAlt: baseTheme.colorNeutralForeground1,
-  neutralPrimary: baseTheme.colorNeutralForeground1,
-  neutralDark: baseTheme.colorNeutralForegroundDisabled,
-
-  // Fixed colors
-  black: baseTheme.colorNeutralForeground1,
-  white: baseTheme.colorNeutralBackground1,
-  redDark: baseTheme.colorPaletteRedForeground1,
+const createTheme = (themeMode: ThemeMode): IExtendedTheme => ({
+  ...tokenColors,
+  spacing,
+  animations,
+  borderRadius,
+  zIndices,
+  shadows,
+  gradients,
+  breakpoints,
+  mediaQueries,
+  typography,
+  semanticColors,
+  palette: tokenPalette,
+  themeMode,
 });
 
-// Create palette objects for each theme
-const paletteLight = createPalette(baseLightTheme);
-const paletteDark = createPalette(baseDarkTheme);
-const paletteHighContrast = createPalette(baseHighContrastTheme);
-const paletteProtanopia = createPalette(baseProtanopiaTheme);
-const paletteDeuteranopia = createPalette(baseDeuteranopiaTheme);
-const paletteTritanopia = createPalette(baseTritanopiaTheme);
-const paletteGrayscale = createPalette(baseGrayscaleTheme);
-const paletteGrayscaleDark = createPalette(baseGrayscaleDarkTheme);
+export const twLightTheme = createTheme('light');
+export const twDarkTheme = createTheme('dark');
+export const twHighContrastTheme = createTheme('high-contrast');
+export const twProtanopiaTheme = createTheme('protanopia');
+export const twDeuteranopiaTheme = createTheme('deuteranopia');
+export const twTritanopiaTheme = createTheme('tritanopia');
+export const twGrayscaleTheme = createTheme('grayscale');
+export const twGrayscaleDarkTheme = createTheme('grayscale-dark');
 
-// Extended light theme
-export const twLightTheme: IExtendedTheme = {
-  ...baseLightTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsLight,
-  palette: paletteLight,
-  themeMode: 'light',
-};
-
-// Extended dark theme
-export const twDarkTheme: IExtendedTheme = {
-  ...baseDarkTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsDark,
-  palette: paletteDark,
-  themeMode: 'dark',
-};
-
-// Extended high-contrast theme
-export const twHighContrastTheme: IExtendedTheme = {
-  ...baseHighContrastTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsHighContrast,
-  palette: paletteHighContrast,
-  themeMode: 'high-contrast',
-};
-
-// Extended protanopia theme (red-blind)
-export const twProtanopiaTheme: IExtendedTheme = {
-  ...baseProtanopiaTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsProtanopia,
-  palette: paletteProtanopia,
-  themeMode: 'protanopia',
-};
-
-// Extended deuteranopia theme (green-blind)
-export const twDeuteranopiaTheme: IExtendedTheme = {
-  ...baseDeuteranopiaTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsDeuteranopia,
-  palette: paletteDeuteranopia,
-  themeMode: 'deuteranopia',
-};
-
-// Extended tritanopia theme (blue-blind)
-export const twTritanopiaTheme: IExtendedTheme = {
-  ...baseTritanopiaTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsTritanopia,
-  palette: paletteTritanopia,
-  themeMode: 'tritanopia',
-};
-
-// Extended grayscale theme
-export const twGrayscaleTheme: IExtendedTheme = {
-  ...baseGrayscaleTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsGrayscale,
-  palette: paletteGrayscale,
-  themeMode: 'grayscale',
-};
-
-// Extended grayscale-dark theme
-export const twGrayscaleDarkTheme: IExtendedTheme = {
-  ...baseGrayscaleDarkTheme,
-  spacing,
-  animations,
-  borderRadius,
-  zIndices,
-  shadows,
-  gradients,
-  breakpoints,
-  mediaQueries,
-  typography,
-  semanticColors: semanticColorsGrayscaleDark,
-  palette: paletteGrayscaleDark,
-  themeMode: 'grayscale-dark',
-};
 
 // Theme map for easy access
 export const themeMap: Record<ThemeMode, IExtendedTheme> = {

@@ -1,313 +1,538 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { PageLayout } from '@/layouts/PageLayout';
-import { Typography } from '@/components/Typography';
-import { ThemedLink } from '@/components/ThemedLink';
-import { motion } from 'framer-motion';
-import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { useFooterHeight } from '@/theme/hooks/useFooterHeight';
-import { defaultUserPreferences } from '@/store/userPreferencesStore';
+import React, { useState } from 'react';
 import {
-  useIsMobile,
-  useIsMobileLandscape,
-  useIsTablet,
-  useIsTabletLandscape,
-  useDeviceOrientation,
-} from '@/hooks/useMediaQuery';
-import type { ThemeMode } from '@/theme/fluentTheme';
+  TwHero,
+  TwSectionHeading,
+  TwStatCard,
+  TwArticleCard,
+  TwFeaturedCard,
+  TwFilterChips,
+  TwReveal,
+  TwButton,
+  TwSwitch,
+} from '@/components/dsm';
+import { Footer } from '@/components/Footer';
+import { HomeNav } from './home/HomeNav';
+import { ServiceDrawer } from './home/ServiceDrawer';
+import { SocialRow } from './home/SocialRow';
+import {
+  homeServices,
+  serviceHref,
+  aboutSocials,
+  wideSocials,
+  type HomeService,
+} from './home/homeData';
+import styles from './HomePageClient.module.scss';
 
-export default function HomePageClient() {
-  const {
-    theme,
-    themeMode,
-    setThemeMode,
-    reducedTransparency,
-    layoutPreference,
-    isHydrated,
-  } = useAppTheme();
-  const resolvedLayoutPreference = isHydrated
-    ? layoutPreference
-    : defaultUserPreferences.layoutPreference;
-  const isLeftHanded = resolvedLayoutPreference === 'left-handed';
-  const [animationStage, setAnimationStage] = useState(0);
+/** Minimal card shape the server hands down (content stripped for payload). */
+export interface HomeCard {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category?: string;
+  date?: string;
+  href: string;
+}
 
-  // Capture the original theme on component initialization to restore on unmount
-  const originalThemeRef = useRef<ThemeMode>(themeMode);
+export interface HomePageClientProps {
+  /** Recent Content Hub items (blog + related), newest first. */
+  content: HomeCard[];
+  /** Portfolio + case-study highlights. */
+  portfolio: HomeCard[];
+}
 
-  const isMobileHook = useIsMobile();
-  const isMobileLandscapeHook = useIsMobileLandscape();
-  const isTabletHook = useIsTablet();
-  const isTabletLandscapeHook = useIsTabletLandscape();
-  const orientationHook = useDeviceOrientation();
+const NAV_LINKS = [
+  { label: 'About', href: '#about' },
+  { label: 'Work', href: '#work' },
+  { label: 'Content', href: '#content' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Contact', href: '#contact' },
+];
 
-  // Only use actual hook values after mounting to avoid hydration mismatch
-  const [isMounted, setIsMounted] = useState(false);
-  const isMobile = isMounted ? isMobileHook : false;
-  const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
-  const isTablet = isMounted ? isTabletHook : false;
-  const isTabletLandscape = isMounted ? isTabletLandscapeHook : false;
-  const orientation = isMounted ? orientationHook : ('landscape' as const); // 'landscape' matches useDeviceOrientation's own useState default
-  const isLargePortrait = orientation === 'large-portrait';
-  const footerHeight = useFooterHeight();
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+const CONTENT_FILTERS = [
+  { label: 'Writing', value: 'Writing' },
+  { label: 'Podcast', value: 'Podcast' },
+  { label: 'Video', value: 'Video' },
+];
 
-  useEffect(() => {
-    // Force dark mode if not already in dark mode
-    if (themeMode !== 'dark') {
-      setThemeMode('dark');
-    }
+/**
+ * Homepage — single-page scroll.
+ *
+ * Rebuilt on the design system from the redesign prototype: hero, then numbered
+ * rail sections (About / Work / Content / Portfolio), newsletter, contact, and
+ * the shared footer. The global Header is suppressed on "/" (see providers.tsx)
+ * so this component owns the whole page shell.
+ *
+ * Content and portfolio cards are real, loaded at build time by page.tsx and
+ * passed in. The service catalogue is static (homeData) and links out to
+ * fluxline.pro via the slide-over drawer.
+ *
+ * The old forced-dark effect and 7-stage intro animation are gone — the token
+ * layer makes light mode viable here, and TwReveal handles entrance motion.
+ */
+export default function HomePageClient({
+  content,
+  portfolio,
+}: HomePageClientProps) {
+  const [contentFilter, setContentFilter] = useState<string | null>(null);
+  const [activeService, setActiveService] = useState<HomeService | null>(null);
 
-    // Restore original theme on unmount (unless it was already dark)
-    return () => {
-      if (originalThemeRef.current !== 'dark') {
-        setThemeMode(originalThemeRef.current);
-      }
-    };
-  }, []); // Empty dependency array is safe because we use ref for original theme
+  // Newsletter + contact are representative local-state forms, matching the
+  // prototype. Real submission wiring (newsletterStore, contact API) can be
+  // connected later.
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+  const [notify, setNotify] = useState(true);
 
-  useEffect(() => {
-    const stages = [
-      { delay: 400, stage: 1 }, // "hi there! :)"
-      { delay: 1200, stage: 2 }, // "my name is"
-      { delay: 2000, stage: 3 }, // "Terence Waters"
-      { delay: 2800, stage: 4 }, // horizontal line
-      { delay: 3400, stage: 5 }, // first tagline
-      { delay: 3900, stage: 6 }, // second tagline
-      { delay: 4400, stage: 7 }, // buttons
-    ];
+  const [cName, setCName] = useState('');
+  const [cEmail, setCEmail] = useState('');
+  const [cMsg, setCMsg] = useState('');
+  const [sent, setSent] = useState(false);
 
-    const timeouts: Array<ReturnType<typeof setTimeout>> = [];
+  const filteredContent =
+    contentFilter === null
+      ? content
+      : content.filter((c) => c.category === contentFilter);
 
-    stages.forEach(({ delay, stage }) => {
-      const timeoutId = setTimeout(() => setAnimationStage(stage), delay);
-      timeouts.push(timeoutId);
-    });
-
-    return () => {
-      timeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-    };
-  }, []);
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-  };
+  const openFluxlineServices = () =>
+    window.open('https://fluxline.pro/services', '_blank', 'noopener');
 
   return (
-    <PageLayout isHomePage>
-      <section
-        className={`flex flex-col ${isLeftHanded ? 'items-end' : 'items-start'} ${isLargePortrait ? 'justify-end' : 'justify-end lg:justify-center'} h-full sm:px-4 md:px-6 lg:px-12`}
-        style={{
-          // On mobile the footer is hidden so use a static gap; on md+ the footer
-          // is always-visible (fixed) so offset paddingBottom by its measured height
-          // so that lg:justify-center visually centres the card above the footer.
-          paddingBottom: isMobile ? '80px' : `calc(${footerHeight})`,
-        }}
-      >
-        {/* Translucent card container around text */}
-        <div
-          className={`text-left rounded-2xl ${reducedTransparency ? '' : 'backdrop-blur-sm'} ${
-            isMobile
-              ? 'w-full space-y-1 p-4'
-              : isMobileLandscape
-                ? 'w-1/2 space-y-2 p-3'
-                : isTabletLandscape
-                  ? 'w-1/2 space-y-4 p-6'
-                  : isTablet
-                    ? isLeftHanded
-                      ? 'w-1/2 space-y-6 p-8'
-                      : 'w-3/4 space-y-6 p-8'
-                    : isLeftHanded
-                      ? 'w-1/2 space-y-8 p-10'
-                      : 'w-full max-w-2xl space-y-8 p-10'
-          }`}
-          style={{
-            backgroundColor: reducedTransparency
-              ? 'rgba(0, 0, 0, 0.85)'
-              : 'rgba(0, 0, 0, 0.5)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-          }}
-        >
-          {/* Greeting */}
-          {animationStage >= 1 && (
-            <motion.div {...fadeInUp} style={{ marginBottom: '0.25rem' }}>
-              <Typography
-                variant='h3'
-                style={{
-                  color: theme.semanticColors.text.muted,
-                  fontWeight: theme.typography.fontWeights.light,
-                  marginBottom: '0.25rem',
-                  fontSize:
-                    isMobileLandscape || isTabletLandscape || isMobile
-                      ? '1.25rem'
-                      : '1.5rem',
-                }}
-              >
-                hi there! :)
-              </Typography>
-            </motion.div>
-          )}
+    <div id='top' className={styles.page}>
+      <HomeNav
+        links={NAV_LINKS}
+        sectionIds={['hero', 'about', 'work', 'content', 'portfolio', 'contact']}
+      />
 
-          {/* Introduction */}
-          {animationStage >= 2 && (
-            <motion.div {...fadeInUp} style={{ marginBottom: '0.25rem' }}>
-              <Typography
-                variant='h2'
-                style={{
-                  color: theme.semanticColors.text.muted,
-                  fontWeight: theme.typography.fontWeights.regular,
-                  marginBottom: '0.25rem',
-                  fontSize:
-                    isMobileLandscape || isMobile
-                      ? '1.15rem'
-                      : isTabletLandscape
-                        ? '1.25rem'
-                        : isTablet
-                          ? '1.35rem'
-                          : '1.75rem',
-                }}
-              >
-                my name is
-              </Typography>
-            </motion.div>
-          )}
+      <section id='hero' className='tw-snap'>
+        <TwHero
+          eyebrow="Hi there 👋 I'm"
+          title='Terence Waters'
+          body='I help people and organizations rebuild the parts of themselves they thought were permanent. Systems thinker, designer, and coach — writing about resonance, identity, and building a life that feels right.'
+          primaryCta={{ label: 'Who am I?', href: '#about' }}
+          secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
+          backgroundImage='/assets/images/hero-landscape.jpg'
+          backgroundImagePortrait='/assets/images/hero-portrait.jpg'
+          tagline='Founder, Fluxline Resonance Group'
+          location='Salt Lake City, Utah'
+          focalPoint='center 30%'
+        />
+      </section>
 
-          {/* Name */}
-          {animationStage >= 3 && (
-            <motion.div {...fadeInUp} style={{ marginBottom: '0.125rem' }}>
-              <Typography
-                variant='h1'
-                style={{
-                  color: theme.semanticColors.text.heading,
-                  fontWeight: theme.typography.fontWeights.bold,
-                  marginBottom: isMobileLandscape ? '0.3rem' : '0.75rem',
-                  fontSize:
-                    isMobileLandscape || isMobile
-                      ? '1.75rem'
-                      : isTabletLandscape
-                        ? '2rem'
-                        : '2.5rem',
-                }}
-              >
-                Terence Waters
-              </Typography>
-            </motion.div>
-          )}
-
-          {/* Divider Line */}
-          {animationStage >= 4 && (
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.6, ease: 'easeInOut' }}
-              style={{
-                transformOrigin: 'center',
-                marginBottom: isMobileLandscape ? '0.3rem' : '1rem',
-              }}
-            >
-              <hr
-                style={{
-                  border: 'none',
-                  height: '2px',
-                  background: theme.semanticColors.border.emphasis,
-                  margin: isMobileLandscape ? '0.3rem 0' : '1rem 0',
-                  maxWidth: isMobileLandscape ? '200px' : '300px',
-                  width: '70%',
-                }}
+      {/* ===== 01 About ===== */}
+      <section id='about' className={`tw-snap ${styles.section} ${styles.glowAbout}`}>
+        <div className={styles.container}>
+          <div className={styles.railGrid}>
+            <div className={styles.rail}>
+              <div className={styles.numRow}>
+                <span className={styles.secNum}>01</span>
+                <span className={styles.secLabel}>About</span>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={`tw-media ${styles.portrait}`}
+                src='/assets/images/portrait-about.jpg'
+                alt='Terence Waters'
               />
-            </motion.div>
-          )}
+              <div className={styles.socialBlock}>
+                <div className={styles.socialLabel}>Social Media</div>
+                <SocialRow items={aboutSocials} />
+              </div>
+            </div>
 
-          {/* Tagline - Line 1 */}
-          {animationStage >= 5 && (
-            <motion.div {...fadeInUp} style={{ marginBottom: '0.25rem' }}>
-              <Typography
-                variant='body'
-                style={{
-                  color: theme.semanticColors.text.primary,
-                  fontSize: isMobileLandscape
-                    ? '0.8rem'
-                    : isMobile
-                      ? '0.95rem'
-                      : '1.15rem',
-                  fontWeight: theme.typography.fontWeights.medium,
-                  marginBottom: isMobileLandscape ? '0.3rem' : '0.5rem',
-                }}
-              >
-                Author, technologist, and creative thinker.
-              </Typography>
-            </motion.div>
-          )}
-
-          {/* Tagline - Line 2 */}
-          {animationStage >= 6 &&
-            !isMobile &&
-            !isMobileLandscape &&
-            !isTablet &&
-            !isTabletLandscape && (
-              <motion.div {...fadeInUp}>
-                <Typography
-                  variant='body'
-                  style={{
-                    color: theme.semanticColors.text.muted,
-                    fontSize: '1rem',
-                    marginBottom: '1.5rem',
-                  }}
-                >
-                  Writing about resonance, authenticity, and building a life
-                  that feels right.
-                </Typography>
-              </motion.div>
-            )}
-
-          {/* CTAs */}
-          {animationStage >= 7 && (
-            <motion.div
-              {...fadeInUp}
-              className={`flex ${isMobileLandscape ? 'gap-2' : 'gap-4'} flex-wrap ${isMobile ? 'justify-center' : 'justify-start'}`}
-            >
-              <ThemedLink
-                href='/about'
-                className={`rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${
-                  isMobileLandscape
-                    ? 'px-3 py-1.5'
-                    : isMobile
-                      ? 'px-3 py-2'
-                      : 'px-6 py-2.5'
-                }`}
-                style={{
-                  backgroundColor: theme.semanticColors.link.default,
-                  color: theme.semanticColors.background.base,
-                  boxShadow: theme.shadows.button,
-                }}
-              >
-                Who am I?
-              </ThemedLink>
-              <ThemedLink
-                href='/portfolio'
-                className={`rounded-lg transition-all font-semibold hover:scale-105 active:scale-95 ${
-                  isMobileLandscape
-                    ? 'px-3 py-1.5'
-                    : isMobile
-                      ? 'px-3 py-2'
-                      : 'px-6 py-2.5'
-                }`}
-                style={{
-                  border: `2px solid ${theme.semanticColors.border.emphasis}`,
-                  color: theme.semanticColors.text.primary,
-                  backgroundColor: 'transparent',
-                }}
-              >
-                View Portfolio
-              </ThemedLink>
-            </motion.div>
-          )}
+            <div>
+              <TwReveal>
+                <TwSectionHeading
+                  kicker='About'
+                  title="Hi, I'm Terence"
+                  subhead="Most people don't need more information. We need clarity, structure, and a way back to ourselves."
+                />
+                <p className={styles.prose}>
+                  I&apos;m a systems architect by training, a designer by
+                  instinct, and a coach by necessity. For 15+ years I&apos;ve
+                  worked across IT architecture, full-stack development, brand
+                  identity, and personal transformation — translating complexity
+                  into clarity for founders and mission-driven teams.
+                </p>
+                <p className={styles.prose}>
+                  Structure. Clarity. A way to understand who I was becoming and
+                  why. That&apos;s the work — and it&apos;s why I build the way I
+                  do.
+                </p>
+                <div className={styles.statGrid}>
+                  <TwStatCard value='15+' label='Years bridging tech & design' />
+                  <TwStatCard value='3' label='Companies in the ecosystem' />
+                  <TwStatCard value='8' label='Accessible theme modes' />
+                </div>
+              </TwReveal>
+            </div>
+          </div>
         </div>
       </section>
-    </PageLayout>
+
+      {/* ===== 02 Work ===== */}
+      <section
+        id='work'
+        className={`tw-snap ${styles.section} ${styles.sectionAlt} ${styles.glowWork}`}
+      >
+        <div className={styles.container}>
+          <div className={styles.railGrid}>
+            <div className={styles.rail}>
+              <div className={styles.numRow}>
+                <span className={styles.secNum}>02</span>
+                <span className={styles.secLabel}>Work</span>
+              </div>
+              <div className={styles.railImage}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className='tw-media'
+                  src='/assets/images/hero-landscape.jpg'
+                  alt='Work across the Fluxline ecosystem'
+                />
+              </div>
+            </div>
+
+            <div>
+              <TwReveal>
+                <TwSectionHeading
+                  kicker='My Work'
+                  title='Design, architecture, and coaching'
+                  lede='I deliver this work through Fluxline Resonance Group. Tap any service to explore it in depth on fluxline.pro — no need to repeat it here.'
+                />
+              </TwReveal>
+
+              <button
+                type='button'
+                className={styles.featuredButton}
+                onClick={openFluxlineServices}
+                aria-label='Open Fluxline Resonance Group services'
+              >
+                <TwFeaturedCard
+                  title='Fluxline Resonance Group'
+                  category='Company'
+                  excerpt='The modular systems company I founded — IT consulting, brand identity, and personal transformation under one architecture.'
+                />
+              </button>
+
+              <div className={styles.cardGrid2}>
+                {homeServices.map((service, i) => (
+                  <TwReveal key={service.slug} delay={i * 90}>
+                    <button
+                      type='button'
+                      className={styles.cardButton}
+                      onClick={() => setActiveService(service)}
+                      aria-haspopup='dialog'
+                    >
+                      <TwArticleCard
+                        title={service.title}
+                        excerpt={service.excerpt}
+                        category={service.category}
+                      />
+                    </button>
+                  </TwReveal>
+                ))}
+              </div>
+
+              <div className={styles.viewAll}>
+                <a href={serviceHref('')} target='_blank' rel='noopener noreferrer'>
+                  View all services &#8594;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 03 Content ===== */}
+      <section
+        id='content'
+        className={`tw-snap ${styles.section} ${styles.glowContent}`}
+      >
+        <div className={styles.container}>
+          <div className={styles.railGrid}>
+            <div className={styles.rail}>
+              <div className={styles.numRow}>
+                <span className={styles.secNum}>03</span>
+                <span className={styles.secLabel}>Content</span>
+              </div>
+              <div className={styles.railImage}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className='tw-media'
+                  src='/assets/images/portrait-about.jpg'
+                  alt='Writing, video, and the podcast'
+                />
+              </div>
+            </div>
+
+            <div>
+              <TwReveal>
+                <TwSectionHeading
+                  kicker='Content Hub'
+                  title='Writing, video, and the podcast'
+                  lede='Long-form thinking on resonance, architecture, and building a life that feels right.'
+                />
+              </TwReveal>
+
+              <div className={styles.filterRow}>
+                <TwFilterChips
+                  options={CONTENT_FILTERS}
+                  value={contentFilter}
+                  onChange={setContentFilter}
+                />
+              </div>
+
+              <div className={styles.cardGrid2}>
+                {filteredContent.slice(0, 6).map((item, i) => (
+                  <TwReveal key={item.slug} delay={i * 90}>
+                    <TwArticleCard
+                      title={item.title}
+                      excerpt={item.excerpt}
+                      category={item.category}
+                      date={item.date}
+                      href={item.href}
+                    />
+                  </TwReveal>
+                ))}
+              </div>
+
+              <div className={styles.viewAll}>
+                <a href='/blog'>Explore the full Content Hub &#8594;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 04 Portfolio ===== */}
+      <section
+        id='portfolio'
+        className={`tw-snap ${styles.section} ${styles.sectionAlt} ${styles.glowPortfolio}`}
+      >
+        <div className={styles.container}>
+          <div className={styles.railGrid}>
+            <div className={styles.rail}>
+              <div className={styles.numRow}>
+                <span className={styles.secNum}>04</span>
+                <span className={styles.secLabel}>Portfolio</span>
+              </div>
+              <div className={styles.railImage}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className='tw-media'
+                  src='/assets/images/hero-landscape.jpg'
+                  alt='Selected work and case studies'
+                />
+              </div>
+            </div>
+
+            <div>
+              <TwReveal>
+                <TwSectionHeading
+                  kicker='Portfolio'
+                  title='Selected work & case studies'
+                  lede='Enterprise platforms and brand systems, from concept through launch.'
+                />
+              </TwReveal>
+
+              <div className={styles.cardGrid2}>
+                {portfolio.slice(0, 4).map((item, i) => (
+                  <TwReveal key={item.slug} delay={i * 90}>
+                    <TwArticleCard
+                      title={item.title}
+                      excerpt={item.excerpt}
+                      category={item.category}
+                      date={item.date}
+                      href={item.href}
+                    />
+                  </TwReveal>
+                ))}
+              </div>
+
+              <div className={styles.viewAll}>
+                <a
+                  href='https://fluxline.pro/case-studies'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Case studies &#8599;
+                </a>
+                <a href='/portfolio'>View the full Portfolio &#8594;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Newsletter ===== */}
+      <section id='newsletter' className={`tw-snap ${styles.section}`}>
+        <div className={styles.container}>
+          <div className={`tw-grain ${styles.band}`}>
+            <div className={styles.bandGrid}>
+              <div>
+                <TwSectionHeading
+                  kicker='Stay Connected'
+                  title='Get new writing in your inbox'
+                  lede='Occasional notes on resonance, systems, and the work in progress. No spam — unsubscribe anytime.'
+                />
+              </div>
+              <div>
+                {subscribed ? (
+                  <div className={styles.successNote}>
+                    You&apos;re in. Thanks for subscribing — I&apos;ll be in
+                    touch.
+                  </div>
+                ) : (
+                  <>
+                    <form
+                      className={styles.inlineForm}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (email.includes('@')) setSubscribed(true);
+                      }}
+                    >
+                      <input
+                        type='email'
+                        className={styles.field}
+                        placeholder='you@example.com'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        aria-label='Email address'
+                        required
+                      />
+                      <TwButton type='submit'>Subscribe</TwButton>
+                    </form>
+                    <div className={styles.notifyRow}>
+                      <TwSwitch
+                        label='Email me when I publish new posts'
+                        checked={notify}
+                        onChange={setNotify}
+                      />
+                    </div>
+                  </>
+                )}
+                <SocialRow
+                  items={wideSocials}
+                  size={24}
+                  className={styles.newsletterSocials}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Contact ===== */}
+      <section
+        id='contact'
+        className={`tw-snap ${styles.section} ${styles.sectionAlt}`}
+      >
+        <div className={styles.container}>
+          <div className={styles.contactGrid}>
+            <TwReveal variant='left'>
+              <TwSectionHeading
+                kicker='Contact'
+                title="Let's build something that resonates"
+              />
+              <p className={styles.prose}>
+                Whether it&apos;s a platform to architect, an identity to
+                rebuild, or just a conversation about the work — I&apos;d
+                genuinely love to hear from you.
+              </p>
+              <p className={styles.prose}>
+                Tell me what you&apos;re working on. I read every message.
+              </p>
+              <div className={styles.contactCtaRow}>
+                <TwButton href='https://tidycal.com/terencewaters'>
+                  Book a consultation
+                </TwButton>
+              </div>
+              <div className={styles.contactEmail}>
+                terence@terencewaters.com
+              </div>
+              <SocialRow items={wideSocials} className={styles.contactSocials} />
+            </TwReveal>
+
+            <TwReveal>
+              <div className={styles.formCard}>
+                {sent ? (
+                  <div className={styles.sentState}>
+                    <div className={styles.sentTitle}>Message sent</div>
+                    <p className={styles.sentBody}>
+                      Thanks for reaching out — I&apos;ll get back to you soon.
+                    </p>
+                  </div>
+                ) : (
+                  <form
+                    className={styles.contactForm}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (cName && cEmail.includes('@') && cMsg) setSent(true);
+                    }}
+                  >
+                    <label className={styles.fieldGroup}>
+                      <span className={styles.fieldLabel}>Name</span>
+                      <input
+                        className={styles.field}
+                        placeholder='Your name'
+                        value={cName}
+                        onChange={(e) => setCName(e.target.value)}
+                        required
+                      />
+                    </label>
+                    <label className={styles.fieldGroup}>
+                      <span className={styles.fieldLabel}>Email</span>
+                      <input
+                        className={styles.field}
+                        type='email'
+                        placeholder='you@example.com'
+                        value={cEmail}
+                        onChange={(e) => setCEmail(e.target.value)}
+                        required
+                      />
+                    </label>
+                    <label className={styles.fieldGroup}>
+                      <span className={styles.fieldLabel}>Message</span>
+                      <textarea
+                        className={styles.field}
+                        rows={5}
+                        placeholder='What are you working on?'
+                        value={cMsg}
+                        onChange={(e) => setCMsg(e.target.value)}
+                        required
+                      />
+                    </label>
+                    <div className={styles.contactFormActions}>
+                      <TwButton type='submit'>Send message</TwButton>
+                      <TwButton
+                        variant='outline'
+                        href='https://tidycal.com/terencewaters'
+                      >
+                        Book a consultation
+                      </TwButton>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </TwReveal>
+          </div>
+        </div>
+      </section>
+
+      <div className={styles.watermark}>
+        <p>
+          &ldquo;Know who you are and what you stand for — in line with your true
+          and chosen identity.&rdquo;
+        </p>
+      </div>
+
+      <Footer />
+
+      <ServiceDrawer
+        service={activeService}
+        onClose={() => setActiveService(null)}
+      />
+    </div>
   );
 }

@@ -1,0 +1,61 @@
+@use 'abstracts' as *;
+
+.layout {
+  display: grid;
+  gap: var(--tw-rail-gap);
+  /* The local override is set inline by the `railWidth` prop; the token is the
+     fallback so the common case needs no inline style at all. */
+  --tw-rail-column: var(--tw-rail-width-local, var(--tw-rail-width));
+}
+
+/* Single column below 768px. The rail follows the content because that is its
+   DOM order — the reordering below is desktop-only. */
+@include until('mobile-lg') {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--tw-space-xxl);
+  }
+}
+
+@include from('mobile-lg') {
+  .railStart {
+    grid-template-columns: var(--tw-rail-column) minmax(0, 1fr);
+  }
+
+  .railStart .rail {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .railStart .main {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .railEnd {
+    grid-template-columns: minmax(0, 1fr) var(--tw-rail-column);
+  }
+}
+
+.main {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.rail {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+/* Sticky only where there is a second column to be sticky alongside — pinning
+   it in the stacked layout would park it over the content. */
+@include from('mobile-lg') {
+  .sticky {
+    position: sticky;
+    top: calc(var(--tw-nav-height) + 24px);
+    align-self: start;
+    /* Keeps a long rail scrollable instead of clipped against the viewport. */
+    max-height: calc(100vh - var(--tw-nav-height) - 48px);
+    overflow-y: auto;
+  }
+}

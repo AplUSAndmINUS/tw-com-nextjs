@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useUserPreferencesStore } from '@/store/userPreferencesStore';
-import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 
 interface FontScaleProviderProps {
   children: React.ReactNode;
@@ -15,42 +14,51 @@ const MAX_FONT_SIZE_PX = BASE_FONT_SIZE * 1.5; // corresponds to maxFontScale
 /**
  * FontScaleProvider
  *
- * Applies global font scaling and color vision CSS filter to the document.
- * - Font scaling: adjusts root element's font size so all rem values scale.
- * - Color vision filter: applies a CSS filter via a wrapper div (NOT body) so that
- *   position:fixed elements (like the Header) are never inside a filtered ancestor,
- *   which would create a containing block and break viewport-fixed positioning.
+ * Scales the root font size so every rem value in the app follows the user's
+ * font-scale preference.
+ *
+ * This provider used to do a second job: apply a colour-vision CSS filter
+ * (grayscale / hue-rotate) through a wrapper <div>. That is gone. The
+ * colourblind and grayscale modes are now real palettes in
+ * styles/tokens/colors-modes.css, selected by data-theme, which is both more
+ * accurate — the old code ran a purpose-built dichromacy palette through a hue
+ * rotation, scrambling its own contrast decisions — and removes a wrapper that
+ * was actively breaking layout.
+ *
+ * Why the wrapper was a problem: any `filter` creates a containing block for
+ * descendant `position: fixed` elements. Everything rendered inside it
+ * (CookieBanner, Modal, NewsletterDrawer) anchored to the wrapper rather than
+ * the viewport in any non-light mode. The Header had to be hoisted out of the
+ * provider tree entirely to escape it.
+ *
+ * Nothing here creates a containing block now, so fixed positioning works
+ * normally throughout.
  */
 export function FontScaleProvider({ children }: FontScaleProviderProps) {
   const { preferences } = useUserPreferencesStore();
-  const { filter } = useColorVisionFilter();
 
-  // Apply font scale to root element
   React.useEffect(() => {
     const fontScale =
       typeof preferences.fontScale === 'number' ? preferences.fontScale : 1;
     const newFontSize = BASE_FONT_SIZE * fontScale;
-    if (isNaN(newFontSize) || newFontSize < MIN_FONT_SIZE_PX || newFontSize > MAX_FONT_SIZE_PX) return;
-    
+    if (
+      isNaN(newFontSize) ||
+      newFontSize < MIN_FONT_SIZE_PX ||
+      newFontSize > MAX_FONT_SIZE_PX
+    )
+      return;
+
     // Capture the original inline style to restore later
     const originalFontSize = document.documentElement.style.fontSize;
     document.documentElement.style.fontSize = `${newFontSize}px`;
-    
+
     return () => {
       // Restore original inline style (or clear if none existed)
       document.documentElement.style.fontSize = originalFontSize;
     };
   }, [preferences.fontScale]);
 
-  // Apply color vision filter via a wrapper div, NOT document.body.
-  // Setting filter on body (or any ancestor of a position:fixed element) creates
-  // a containing block that breaks fixed positioning — the header would scroll
-  // with the page instead of staying fixed to the viewport.
-  return (
-    <div style={filter !== 'none' ? { filter } : undefined}>
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
 
 export default FontScaleProvider;

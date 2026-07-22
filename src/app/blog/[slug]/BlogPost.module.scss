@@ -1,0 +1,51 @@
+@use 'abstracts' as *;
+
+.view {
+  animation: fadeUp 0.4s var(--tw-motion-ease) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+:global([data-tw-reduced-motion='true']) .view {
+  animation: none;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.aiBadge {
+  margin-bottom: 24px;
+}
+
+/* The structured-summary / insights / FAQ appendix. It sits after the article
+   body inside .tw-prose, so headings and lists already inherit prose styling;
+   this just sets it apart with a rule and a dt/dd rhythm. */
+.aiSection {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--tw-border-subtle);
+}
+
+.faq {
+  dt {
+    font-family: var(--tw-font);
+    font-weight: 700;
+    color: var(--tw-text-heading);
+    margin-top: 18px;
+  }
+
+  dd {
+    margin: 6px 0 0;
+    color: var(--tw-text-body);
+  }
+}

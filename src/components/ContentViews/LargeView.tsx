@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { LoadingImage } from '@/components/ui/LoadingImage';
 import { ContentItem } from '@/content/types';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './LargeView.module.scss';
 
 interface LargeViewProps {
   items: ContentItem[];
@@ -17,14 +18,14 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   if (items.length === 0) {
     return (
-      <div className='text-center py-12'>
-        <p className='text-gray-500 dark:text-gray-400'>No content found.</p>
+      <div className={styles.emptyState}>
+        <p className={styles.emptyText}>No content found.</p>
       </div>
     );
   }
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+    <div className={styles.grid}>
       {items.map((item) => {
         const itemUrl = baseUrl
           ? `${baseUrl}/${item.slug}`
@@ -34,28 +35,28 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
           <Link
             key={item.slug}
             href={itemUrl}
-            className='group block transition-all duration-300 hover:scale-[1.01]'
+            className={styles.cardLink}
             onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(item.slug); }}
             onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(null); }}
           >
-            <Card className='h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300'>
+            <Card className={styles.cardInner}>
               {/* Large Featured Image */}
               {item.imageUrl && (
-                <div className='relative w-full aspect-[16/10] bg-gray-100 dark:bg-gray-800'>
+                <div className={styles.imageWrap}>
                   <LoadingImage
                     src={item.imageUrl}
                     alt={item.imageAlt || item.title}
                     fill
-                    className='object-cover'
+                    className={styles.image}
                     sizes='(max-width: 1024px) 100vw, 50vw'
                     priority={items.indexOf(item) < 2} // Prioritize first two images
                   />
 
                   {/* Featured Badge (if applicable) */}
                   {item.featured && (
-                    <div className='absolute top-4 right-4'>
+                    <div className={styles.featuredBadge}>
                       <span
-                        className='inline-block px-3 py-1 text-xs font-semibold rounded-full shadow-lg'
+                        className={styles.featuredLabel}
                         style={{
                           backgroundColor: theme.semanticColors.link.default,
                           color: theme.semanticColors.background.base,
@@ -68,12 +69,12 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                 </div>
               )}
 
-              <div className='p-8'>
+              <div className={styles.content}>
                 {/* Category/Type Badge */}
                 {(item.category || item.type) && (
-                  <div className='mb-3'>
+                  <div className={styles.badgeRow}>
                     <span
-                      className='inline-block px-4 py-1.5 text-sm font-medium rounded-full'
+                      className={styles.badge}
                       style={{
                         backgroundColor: theme.semanticColors.background.muted,
                         color: theme.semanticColors.link.default,
@@ -86,7 +87,7 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
 
                 {/* Title - Larger */}
                 <h2
-                  className='text-2xl lg:text-3xl font-bold mb-3 transition-colors'
+                  className={styles.title}
                   style={{
                     color:
                       hoveredSlug === item.slug
@@ -99,15 +100,15 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
 
                 {/* Excerpt - More visible */}
                 {item.excerpt && (
-                  <p className='text-base lg:text-lg text-gray-700 dark:text-gray-300 mb-6 line-clamp-4'>
+                  <p className={styles.excerpt}>
                     {item.excerpt}
                   </p>
                 )}
 
                 {/* Meta Information */}
-                <div className='flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4'>
+                <div className={styles.meta}>
                   {item.publishedDate && (
-                    <time dateTime={item.publishedDate} className='font-medium'>
+                    <time dateTime={item.publishedDate} className={styles.metaEmphasis}>
                       {new Date(item.publishedDate).toLocaleDateString(
                         'en-US',
                         {
@@ -122,18 +123,18 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
                   {item.author && (
                     <>
                       <span>•</span>
-                      <span className='font-medium'>{item.author}</span>
+                      <span className={styles.metaEmphasis}>{item.author}</span>
                     </>
                   )}
                 </div>
 
                 {/* Tags - Full visibility */}
                 {item.tags && item.tags.length > 0 && (
-                  <div className='flex flex-wrap gap-2'>
+                  <div className={styles.tags}>
                     {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className='inline-block px-3 py-1 text-sm rounded-md bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium'
+                        className={styles.tag}
                       >
                         {tag}
                       </span>
@@ -143,10 +144,10 @@ export function LargeView({ items, baseUrl = '' }: LargeViewProps) {
 
                 {/* Gallery Indicator */}
                 {item.gallery && item.gallery.length > 0 && (
-                  <div className='mt-4 pt-4 border-t border-gray-200 dark:border-gray-700'>
-                    <div className='flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400'>
+                  <div className={styles.galleryIndicator}>
+                    <div className={styles.galleryInner}>
                       <svg
-                        className='w-5 h-5'
+                        className={styles.galleryIcon}
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'

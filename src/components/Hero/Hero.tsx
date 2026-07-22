@@ -10,7 +10,9 @@ import {
   useIsShortLandscape,
 } from '@/hooks/useMediaQuery';
 import { resolveIconName } from '@/utils/iconResolver';
+import { accentWash } from '@/utils/color';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
+import styles from './Hero.module.scss';
 
 export interface HeroProps {
   /** Main heading text */
@@ -133,7 +135,7 @@ export const Hero: React.FC<HeroProps> = ({
             : 'none',
           borderTop: `4px solid ${accentColor}`,
           backgroundColor: heroSurfaceColor,
-          backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+          backgroundImage: accentWash(accentColor, 8),
           padding: isMobile
             ? `${theme.spacing.l}`
             : isCompact
@@ -347,7 +349,7 @@ export const Hero: React.FC<HeroProps> = ({
               <button
                 type='button'
                 onClick={() => setIsExpanded(!isExpanded)}
-                className='rounded-lg transition-all font-semibold hover:scale-105 active:scale-95'
+                className={styles.readMoreButton}
                 style={{
                   marginTop: '0.75rem',
                   padding: '0.5rem 1rem',

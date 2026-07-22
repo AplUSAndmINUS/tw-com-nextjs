@@ -1,0 +1,21 @@
+@use 'abstracts' as *;
+
+.wrap {
+  margin-bottom: var(--tw-space-l);
+}
+
+.heading {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  color: var(--tw-text-heading);
+  margin-top: var(--tw-space-xs);
+}
+
+.rule {
+  margin-top: var(--tw-space-xs);
+  width: 10rem;
+  height: 0.375rem;
+  margin-bottom: var(--tw-space-xl);
+  border-radius: var(--tw-radius-pill);
+}

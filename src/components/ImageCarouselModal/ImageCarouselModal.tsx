@@ -3,15 +3,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Modal } from '@/components/Modal';
 import { FluentIcon } from '@/components/FluentIcon';
-import {
-  ChevronLeft24Regular,
-  ChevronRight24Regular,
-} from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GalleryItem } from '@/content/types';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/icons';
 
 export interface ImageCarouselModalProps {
   /** Whether the modal is open */
@@ -187,7 +184,7 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
                   theme.semanticColors.background.base;
               }}
             >
-              <FluentIcon iconName={ChevronLeft24Regular} />
+              <FluentIcon iconName={ChevronLeftIcon} />
             </button>
           )}
 
@@ -254,7 +251,7 @@ export const ImageCarouselModal: React.FC<ImageCarouselModalProps> = ({
                   theme.semanticColors.background.base;
               }}
             >
-              <FluentIcon iconName={ChevronRight24Regular} />
+              <FluentIcon iconName={ChevronRightIcon} />
             </button>
           )}
         </div>

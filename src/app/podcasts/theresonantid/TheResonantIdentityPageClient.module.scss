@@ -1,0 +1,232 @@
+@use 'abstracts' as *;
+
+.page {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: var(--tw-space-m);
+  padding-block: 48px;
+}
+
+.heroExtras {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-l);
+  margin-top: var(--tw-space-l);
+}
+
+.subscribeHeading {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--tw-space-s);
+}
+
+.platformIcons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tw-space-m);
+  margin-bottom: var(--tw-space-xl);
+}
+
+.platformLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--tw-radius-pill);
+  transition: all 0.2s;
+}
+
+.recentEpisode {
+  position: relative;
+  border-radius: var(--tw-radius-control);
+  border: 1px solid;
+  padding: var(--tw-space-l);
+}
+
+.recentHeading {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  margin-bottom: var(--tw-space-xs);
+}
+
+.recentDate {
+  margin-bottom: var(--tw-space-s);
+}
+
+.playNowBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--tw-radius-control);
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.aboutCard {
+  border-radius: var(--tw-radius-control);
+  border: 1px solid;
+  margin-top: 48px;
+  padding: var(--tw-space-l);
+}
+
+.aboutHeading {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  margin-bottom: var(--tw-space-xs);
+}
+
+.aboutText {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-bottom: var(--tw-space-m);
+}
+
+.aboutBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--tw-radius-control);
+  border: 1px solid;
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    color 0.15s,
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.episodesSection {
+  margin-top: 64px;
+}
+
+.episodesHeading {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  margin-bottom: var(--tw-space-l);
+}
+
+.emptyState {
+  text-align: center;
+  padding-block: 48px;
+}
+
+.episodesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--tw-space-l);
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== TRI YouTube videos ===== */
+.videosCard {
+  border-radius: var(--tw-radius-control);
+  border: 1px solid;
+  margin-top: 48px;
+  padding: var(--tw-space-l);
+}
+
+.videosHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--tw-space-m);
+}
+
+.videosTitle {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tw-space-xxs);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.videosGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--tw-space-m);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.videoTile {
+  display: block;
+  border-radius: var(--tw-radius-control);
+  overflow: hidden;
+  border: 1px solid;
+  transition: all 0.2s;
+}
+
+.videoThumbWrap {
+  position: relative;
+}
+
+.videoThumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoThumbPlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoDuration {
+  position: absolute;
+  bottom: var(--tw-space-xs);
+  right: var(--tw-space-xs);
+  color: var(--tw-white);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 0.25rem;
+}
+
+.videoBody {
+  padding: var(--tw-space-s);
+}
+
+.videoTitle {
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

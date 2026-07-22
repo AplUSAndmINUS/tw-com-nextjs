@@ -1,0 +1,61 @@
+@use 'sass:map';
+
+/// Layout breakpoints.
+///
+/// These mirror the --tw-bp-* tokens in styles/tokens/spacing.css. They are
+/// duplicated here because Sass mixins cannot read CSS custom properties at
+/// compile time — a media query needs a literal value.
+///
+/// Use these for LAYOUT only. Type sizing uses container query units (cqi) so
+/// that text scales against its own container rather than the viewport; see
+/// the `container` mixin below.
+$breakpoints: (
+  'mobile-sm': 600px,
+  'mobile-lg': 768px,
+  'tablet': 1024px,
+  'desktop': 1024px,
+  '4k': 1920px,
+);
+
+/// Min-width media query.
+///
+/// @example scss
+///   .card { padding: 16px; @include from('tablet') { padding: 32px; } }
+@mixin from($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($breakpoints)}.';
+  }
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+/// Max-width media query. Subtracts 0.02px so it never overlaps `from()`.
+@mixin until($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($breakpoints)}.';
+  }
+  @media (max-width: map.get($breakpoints, $name) - 0.02) {
+    @content;
+  }
+}
+
+/// Container query against a named container.
+///
+/// Preferred over `from()` for anything that should respond to its own space
+/// rather than the window — grids, cards, and any component that can appear in
+/// both a full-width section and a narrow rail.
+@mixin container($name, $min) {
+  @container #{$name} (min-width: #{$min}) {
+    @content;
+  }
+}
+
+/// The short-landscape case: wide but vertically constrained (1366x768
+/// laptops, iPad landscape). Existing rules for this live in globals.css and
+/// key off Tailwind utility names; new components should use this instead.
+@mixin short-landscape {
+  @media (min-width: 1024px) and (max-height: 900px) and (orientation: landscape) {
+    @content;
+  }
+}

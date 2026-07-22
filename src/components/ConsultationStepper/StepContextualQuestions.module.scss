@@ -1,0 +1,13 @@
+@use 'abstracts' as *;
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-m);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--tw-space-l);
+}

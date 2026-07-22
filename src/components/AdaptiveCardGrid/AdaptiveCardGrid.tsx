@@ -14,6 +14,8 @@ import {
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 import { NativeLoadingImage } from '@/components/ui/LoadingImage';
 import { Typography } from '../Typography';
+import { accentWash } from '@/utils/color';
+import styles from './AdaptiveCardGrid.module.scss';
 
 type ImageOrientation = 'portrait' | 'landscape' | 'square';
 
@@ -217,7 +219,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   backgroundColor: isHovered(card.id)
                     ? cardHoverSurfaceColor
                     : cardSurfaceColor,
-                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                  backgroundImage: accentWash(accentColor, 8),
                   border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
@@ -373,7 +375,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   backgroundColor: isHovered(card.id)
                     ? cardHoverSurfaceColor
                     : cardSurfaceColor,
-                  backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                  backgroundImage: accentWash(accentColor, 8),
                   border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                   transition: 'all 0.3s ease',
                   transform: isHovered(card.id)
@@ -413,7 +415,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                   </div>
                 )}
                 <div
-                  className='p-4'
+                  className={styles.smallTileContent}
                   style={{
                     flex: 1,
                     minWidth: 0,
@@ -547,7 +549,7 @@ export const AdaptiveCardGrid: React.FC<AdaptiveCardGridProps> = ({
                 backgroundColor: isHovered(card.id)
                   ? cardHoverSurfaceColor
                   : cardSurfaceColor,
-                backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+                backgroundImage: accentWash(accentColor, 8),
                 border: `1px solid ${isHovered(card.id) ? accentColor : theme.semanticColors.border.default}`,
                 transition: 'all 0.3s ease',
                 transform: isHovered(card.id)

@@ -4,10 +4,7 @@ import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { FluentIcon } from '@/components/FluentIcon';
-import {
-  ChevronDown20Regular,
-  ChevronDown24Regular,
-} from '@fluentui/react-icons';
+import { ChevronDownIcon } from '@/components/icons';
 
 export type SelectSize = 'small' | 'medium' | 'large';
 export type SelectVariant = 'default' | 'outlined' | 'filled';
@@ -91,8 +88,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const isTablet = isMounted ? isTabletHook : false;
     const isCompactViewport = isMobile || isTablet;
     const chevronIcon = isCompactViewport
-      ? ChevronDown20Regular
-      : ChevronDown24Regular;
+      ? ChevronDownIcon
+      : ChevronDownIcon;
 
     React.useEffect(() => {
       setIsMounted(true);
