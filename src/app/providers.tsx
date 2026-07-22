@@ -29,7 +29,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     path === '/' ||
     path === '/blog' ||
     path.startsWith('/blog/') ||
-    path === '/content-hub';
+    path === '/content-hub' ||
+    path === '/portfolio' ||
+    path.startsWith('/portfolio/');
   const isHome = ownsNav;
   return (
     <ExtendedThemeProvider>
