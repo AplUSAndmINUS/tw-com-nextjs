@@ -1,162 +1,680 @@
 @use 'abstracts' as *;
 
+/**
+ * About page
+ * ==========
+ *
+ * Rebuilt on the DSM token layer. Nothing here sets a literal colour, font,
+ * radius, or shadow — every value resolves through a --tw-* custom property, so
+ * the page follows all eight theme modes and the reduced-motion preference
+ * without any per-mode branching.
+ *
+ * The section shape (sticky numbered rail on the left, content on the right)
+ * deliberately mirrors HomePageClient.module.scss and fluxline.pro/services.
+ */
+
 .page {
-  padding-top: 0;
+  min-height: 100vh;
+  background: var(--tw-bg-page);
+  scroll-padding-top: var(--tw-nav-height);
+}
 
-  @include from('mobile-lg') {
-    padding-top: var(--tw-space-xl);
-    padding-bottom: var(--tw-space-xl);
+/* ===== Section shell ===== */
+
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: 88px;
+  background: var(--tw-bg-page);
+
+  @include until('mobile-lg') {
+    padding-block: 56px;
   }
 }
 
-.spacer {
-  margin-top: var(--tw-space-xs);
+.sectionAlt {
+  background: var(--tw-surface-alt);
+  border-top: 1px solid var(--tw-border-subtle);
+  border-bottom: 1px solid var(--tw-border-subtle);
 }
 
-/* ── Section wrappers ─────────────────────────────────────────────── */
-.sectionSpace6 {
-  margin-top: var(--tw-space-xxl);
-  padding: var(--tw-space-l);
-
-  > * + * {
-    margin-top: var(--tw-space-l);
-  }
+/* A single soft glow at the top of the page, echoing the homepage's About
+   section so the two feel continuous when you arrive from the callout. */
+.section:first-of-type::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    900px 460px at 8% 0%,
+    color-mix(in srgb, var(--tw-glacier-cyan) 12%, transparent),
+    transparent 60%
+  );
 }
 
-.sectionSpace4 {
-  margin-top: var(--tw-space-xxl);
-  padding: var(--tw-space-l);
-
-  > * + * {
-    margin-top: var(--tw-space-m);
-  }
+.container {
+  position: relative;
+  max-width: var(--tw-container);
+  margin: 0 auto;
+  padding: 0 var(--tw-container-pad);
 }
 
-.sectionRounded {
-  margin-top: var(--tw-space-xxl);
-  padding: var(--tw-space-l);
-  border-radius: var(--tw-radius-control);
-}
-
-.sectionFeatured {
-  margin-top: var(--tw-space-xxl);
-  border-radius: var(--tw-radius-control);
-
-  @include from('mobile-lg') {
-    padding: var(--tw-space-l);
-  }
-}
-
-.sectionPad8 {
-  margin-top: var(--tw-space-xxl);
-  margin-bottom: var(--tw-space-xxl);
-  padding: var(--tw-space-l);
-  border-radius: var(--tw-radius-control);
-
-  @include from('mobile-lg') {
-    padding: var(--tw-space-xl);
-  }
-}
-
-/* ── Inline helpers ───────────────────────────────────────────────── */
-.mt6 {
-  margin-top: var(--tw-space-l);
-}
-
-.stack4Mt6 {
-  margin-top: var(--tw-space-l);
-
-  > * + * {
-    margin-top: var(--tw-space-m);
-  }
-}
-
-/* ── Education & certifications ───────────────────────────────────── */
-.eduGrid {
+.railGrid {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: var(--tw-space-xl);
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 56px;
 
-  @include from('mobile-lg') {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 }
 
-.colHeading {
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--tw-text-heading);
-  margin-bottom: var(--tw-space-m);
-}
+.rail {
+  position: sticky;
+  top: calc(var(--tw-nav-height) + 28px);
+  align-self: start;
 
-.stack3 {
-  > * + * {
-    margin-top: var(--tw-space-s);
+  @include until('mobile-lg') {
+    position: static;
   }
 }
 
-.stack2 {
-  > * + * {
-    margin-top: var(--tw-space-xs);
-  }
-}
-
-.col {
+.numRow {
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-.degreeName {
+.secNum {
+  font-family: var(--tw-font-mono);
+  font-size: 2.125rem;
+  font-weight: 700;
+  color: var(--tw-accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.secLabel {
+  font-family: var(--tw-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+}
+
+.railImage {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  border-radius: var(--tw-radius-card);
+  overflow: hidden;
+  border: 1px solid var(--tw-border);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  @include until('mobile-lg') {
+    height: 240px;
+  }
+}
+
+/* ===== Prose ===== */
+
+.prose {
+  font-family: var(--tw-font-body);
+  font-size: 1.03125rem;
+  line-height: 1.85;
+  color: var(--tw-text-body);
+  margin: 26px 0 0;
+  max-width: 62ch;
+
+  & + & {
+    margin-top: 16px;
+  }
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--tw-text-bright);
+  line-height: 1.7;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 34px;
+
+  @include until('mobile-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pullQuote {
+  margin: 34px 0 0;
+  padding-left: 22px;
+  border-left: 3px solid var(--tw-accent);
+  font-family: var(--tw-font-body);
+  font-style: italic;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  color: var(--tw-text-bright);
+  max-width: 52ch;
+}
+
+/* ===== 02 Beliefs ===== */
+
+.beliefList {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: grid;
+  gap: 18px;
+}
+
+.belief {
+  @include card-surface;
+  padding: var(--tw-card-pad);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.beliefNum {
+  font-family: var(--tw-font-mono);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--tw-accent);
+  padding-top: 2px;
+}
+
+.beliefTitle {
+  font-family: var(--tw-font);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.beliefText {
+  font-family: var(--tw-font-body);
+  font-size: 0.96875rem;
+  line-height: 1.7;
+  color: var(--tw-text-body);
+  margin: 0;
+}
+
+/* ===== 03 Audiences ===== */
+
+.audienceGrid {
+  display: grid;
+  gap: 22px;
+  margin-top: 32px;
+}
+
+.audience {
+  border-left: 2px solid var(--tw-border-strong);
+  padding-left: 18px;
+}
+
+.audienceLabel {
+  font-family: var(--tw-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-accent);
+  margin-bottom: 8px;
+}
+
+.audienceText {
+  font-family: var(--tw-font-body);
+  font-size: 0.96875rem;
+  line-height: 1.75;
+  color: var(--tw-text-body);
+  margin: 0;
+  max-width: 58ch;
+}
+
+/* ===== Chip rows (build qualities, hats) ===== */
+
+.chipLabel {
+  font-family: var(--tw-font);
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin: 34px 0 12px;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ===== 04 Approach ===== */
+
+.approachList {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: grid;
+  gap: 18px;
+}
+
+.approach {
+  @include card-surface(var(--tw-radius-card-sm));
+  padding: 22px 24px;
+}
+
+.approachTitle {
+  font-family: var(--tw-font);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin: 0 0 8px;
+}
+
+.approachText {
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--tw-text-body);
+  margin: 0;
+}
+
+/* ===== 05 Timeline ===== */
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 34px 0 0;
+  display: grid;
+  gap: 26px;
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 34px;
+  border-left: 2px solid var(--tw-border);
+  padding-bottom: 4px;
+  transition: border-color var(--tw-hover-duration) var(--tw-motion-ease);
+
+  &:hover {
+    border-left-color: var(--tw-accent);
+  }
+
+  @include motion-safe-only;
+}
+
+.timelineMarker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border-strong);
+  color: var(--tw-accent);
+  font-family: var(--tw-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timelinePeriod {
+  font-family: var(--tw-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin: 6px 0 8px;
+}
+
+.timelineTitle {
+  font-family: var(--tw-font);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.timelineOrg {
+  font-family: var(--tw-font-body);
+  font-style: italic;
+  font-size: 0.875rem;
+  color: var(--tw-accent);
+  margin: 0 0 12px;
+}
+
+.timelineBullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 7px;
+
+  li {
+    position: relative;
+    padding-left: 18px;
+    font-family: var(--tw-font-body);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--tw-text-muted);
+
+    &::before {
+      content: '\25C6';
+      position: absolute;
+      left: 0;
+      color: var(--tw-accent);
+      font-size: 0.625rem;
+      line-height: 1.7;
+    }
+  }
+}
+
+/* ===== 06 Projects ===== */
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 32px;
+
+  @include until('mobile-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project {
+  @include card-surface(var(--tw-radius-card-sm));
+  @include card-interactive;
+  padding: 22px 24px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.projectPeriod {
+  font-family: var(--tw-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin: 0 0 8px;
+}
+
+.projectName {
+  font-family: var(--tw-font);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin: 0 0 8px;
+  line-height: 1.35;
+}
+
+.projectRole {
+  font-family: var(--tw-font-body);
+  font-size: 0.875rem;
+  color: var(--tw-text-body);
+  margin: 0 0 10px;
+}
+
+.projectStack {
+  font-family: var(--tw-font-mono);
+  font-size: 0.75rem;
+  color: var(--tw-accent);
+  margin: 0;
+}
+
+/* ===== 07 Credentials ===== */
+
+.skillGroups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skillGroup {
+  @include card-surface(var(--tw-radius-card-sm));
+  padding: 22px 24px;
+}
+
+.skillGroupTitle {
+  font-family: var(--tw-font);
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-accent);
+  margin: 0 0 14px;
+}
+
+.skillList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+
+  li {
+    font-family: var(--tw-font-body);
+    font-size: 0.90625rem;
+    line-height: 1.5;
+    color: var(--tw-text-body);
+  }
+}
+
+.credGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.credHeading {
+  font-family: var(--tw-font);
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin: 0 0 16px;
+}
+
+.credList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.credName {
+  font-family: var(--tw-font);
+  font-size: 0.9375rem;
   font-weight: 600;
   color: var(--tw-text-heading);
-  font-size: 0.875rem;
+  margin: 0 0 4px;
+  line-height: 1.4;
 }
 
-.degreeMeta {
+.credMeta {
+  font-family: var(--tw-font-mono);
   font-size: 0.75rem;
-  color: var(--tw-text-muted);
+  color: var(--tw-text-faint);
+  margin: 0;
+}
+
+.certList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
 }
 
 .certItem {
   display: flex;
-  align-items: flex-start;
-  gap: var(--tw-space-xxs);
-  font-size: 0.875rem;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--tw-border-subtle);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }
 
 .certName {
-  font-weight: 600;
-  color: var(--tw-text-heading);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  color: var(--tw-text-body);
 }
 
 .certYear {
-  color: var(--tw-text-muted);
+  font-family: var(--tw-font-mono);
+  font-size: 0.71875rem;
+  color: var(--tw-text-faint);
+  white-space: nowrap;
 }
 
-.certPlain {
-  font-size: 0.875rem;
-  color: var(--tw-text-muted);
-}
+/* ===== Proficiency meters ===== */
 
-/* ── Proficiency circles grid ─────────────────────────────────────── */
-.skillsGrid {
+.meterGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--tw-space-l);
-  align-items: start;
-  justify-items: baseline;
+  gap: 18px 36px;
+  margin-top: 24px;
 
-  @include from('mobile-lg') {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  @include until('mobile-sm') {
+    grid-template-columns: 1fr;
   }
+}
 
-  @include from('tablet') {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+.meterHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 7px;
+}
+
+.meterName {
+  font-family: var(--tw-font-body);
+  font-size: 0.84375rem;
+  color: var(--tw-text-body);
+}
+
+.meterValue {
+  font-family: var(--tw-font-mono);
+  font-size: 0.71875rem;
+  color: var(--tw-text-faint);
+}
+
+.meterTrack {
+  height: 6px;
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-surface-inset);
+  border: 1px solid var(--tw-border-subtle);
+  overflow: hidden;
+}
+
+/*
+ * The fill grows when the enclosing TwReveal flips to `.in`, so the meters
+ * animate as the section scrolls into view without a client component of their
+ * own. `--tw-meter-pct` is the only inline style — it is per-item data.
+ */
+.meterFill {
+  display: block;
+  height: 100%;
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-gradient-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms var(--tw-motion-ease);
+}
+
+:global(.tw-rv.in) .meterFill {
+  transform: scaleX(var(--tw-meter-pct, 1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meterFill {
+    transition: none;
+    transform: scaleX(var(--tw-meter-pct, 1));
   }
+}
 
-  @media (min-width: 1280px) {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+:global([data-tw-reduced-motion='true']) .meterFill {
+  transition: none;
+  transform: scaleX(var(--tw-meter-pct, 1));
+}
+
+/* ===== Links out ===== */
+
+.viewAll {
+  margin-top: 32px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 26px;
+  flex-wrap: wrap;
+
+  a {
+    font-family: var(--tw-font);
+    font-weight: 700;
+    font-size: 0.90625rem;
+    color: var(--tw-accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s var(--tw-motion-ease), color 0.2s var(--tw-motion-ease);
+
+    @include focus-ring;
+
+    &:hover {
+      gap: 11px;
+      color: var(--tw-accent-hover);
+    }
+
+    @include motion-safe-only;
+  }
+}
+
+/* ===== Closing band ===== */
+
+.closing {
+  padding-block: 88px;
+  background: var(--tw-bg-page);
+
+  @include until('mobile-lg') {
+    padding-block: 56px;
   }
 }

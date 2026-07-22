@@ -1,0 +1,98 @@
+@use 'abstracts' as *;
+
+.formCard {
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  padding: 32px;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: block;
+}
+
+.fieldLabel {
+  display: block;
+  font-family: var(--tw-font);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  margin-bottom: 6px;
+}
+
+.field {
+  width: 100%;
+  background: var(--tw-surface-input);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  padding: 12px 14px;
+  color: var(--tw-text-bright);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s var(--tw-motion-ease);
+
+  &:focus {
+    outline: none;
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-glow-accent);
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--tw-error-border);
+  }
+}
+
+textarea.field {
+  resize: vertical;
+}
+
+.fieldError,
+.submitError {
+  display: block;
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  color: var(--tw-error);
+  margin: 6px 0 0;
+}
+
+.submitError {
+  margin: 0;
+}
+
+.contactFormActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sentState {
+  text-align: center;
+  padding: 32px 8px;
+}
+
+.sentTitle {
+  font-family: var(--tw-font);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin-bottom: 10px;
+}
+
+.sentBody {
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--tw-text-body);
+  margin: 0;
+}

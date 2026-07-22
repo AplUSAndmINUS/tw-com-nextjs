@@ -1,6 +1,10 @@
 /**
  * About page skills data
- * Displays as animated percentage bullets
+ *
+ * Rendered as the proficiency meters in the About page's Credentials section.
+ * Names are stored in display case — the meters print them verbatim rather
+ * than leaning on a CSS transform, which used to turn "it strategy" into
+ * "It Strategy".
  */
 
 export interface AboutSkill {
@@ -10,75 +14,75 @@ export interface AboutSkill {
 
 export const ABOUT_SKILLS: AboutSkill[] = [
   {
-    name: 'design thinking',
+    name: 'Design thinking',
     percentage: 100,
   },
   {
-    name: 'figma prototyping',
+    name: 'Figma prototyping',
     percentage: 100,
   },
   {
-    name: 'relational brand design',
+    name: 'Relational brand design',
     percentage: 99,
   },
   {
-    name: 'creative direction',
+    name: 'Creative direction',
     percentage: 99,
   },
   {
-    name: 'oral/written communication',
+    name: 'Oral & written communication',
     percentage: 99,
   },
   {
-    name: 'personal & business coaching',
+    name: 'Personal & business coaching',
     percentage: 98,
   },
   {
-    name: 'experience strategy',
+    name: 'Experience strategy',
     percentage: 98,
   },
   {
-    name: 'frontend development',
+    name: 'Front-end development',
     percentage: 98,
   },
   {
-    name: 'cloud & hybrid solutions',
+    name: 'Cloud & hybrid solutions',
     percentage: 97,
   },
   {
-    name: 'cross-functional team leadership',
+    name: 'Cross-functional leadership',
     percentage: 96,
   },
   {
-    name: 'systems architecture',
+    name: 'Systems architecture',
     percentage: 95,
   },
   {
-    name: 'it strategy & consulting',
+    name: 'IT strategy & consulting',
     percentage: 95,
   },
   {
-    name: 'project management',
+    name: 'Project management',
     percentage: 95,
   },
   {
-    name: 'backend development',
+    name: 'Back-end development',
     percentage: 94,
   },
   {
-    name: 'business structuring',
+    name: 'Business structuring',
     percentage: 94,
   },
   {
-    name: 'qa & automation',
+    name: 'QA & automation',
     percentage: 92,
   },
   {
-    name: 'ai integration',
+    name: 'AI integration',
     percentage: 91,
   },
   {
-    name: 'motion design',
+    name: 'Motion design',
     percentage: 89,
   },
 ];

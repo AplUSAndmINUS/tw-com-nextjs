@@ -7,10 +7,12 @@ import { getAllContent } from '@/lib/content';
  *
  * Priority guide (for AI/SEO ranking):
  *   1.0 — Homepage + key identity pages (About)
- *   0.9 — Services, Contact
- *   0.8 — Blog posts, Portfolio projects, Case studies (authority content)
- *   0.7 — Content hub, Coaching
- *   0.6 — Videos, Podcasts, Archive
+ *   0.8 — Blog posts, Portfolio projects (authority content)
+ *   0.7 — Content hub
+ *   0.6 — Blog, Portfolio, Videos, Podcasts, GitHub
+ *
+ * Services and contact are sections of the homepage now (and, for services, of
+ * fluxline.pro), so they have no URLs of their own to list.
  *
  * Environment behavior:
  * - DEV/TEST: Returns minimal stub to prevent indexing
@@ -65,27 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
 
-    // Priority 0.9 — Services and conversion
-    {
-      url: `${SITE_URL}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-
     // Priority 0.7 — Supporting pages
-    {
-      url: `${SITE_URL}/coaching`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
     {
       url: `${SITE_URL}/content-hub`,
       lastModified: new Date(),
@@ -119,10 +101,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${SITE_URL}/archive`,
+      url: `${SITE_URL}/github`,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.5,
+      changeFrequency: 'weekly',
+      priority: 0.6,
     },
   ];
 

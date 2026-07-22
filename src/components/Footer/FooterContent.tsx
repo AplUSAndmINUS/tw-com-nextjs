@@ -23,14 +23,17 @@ const footerLinks = {
   ],
   work: [
     { href: '/podcasts/theresonantid', label: 'The Resonant Identity Podcast', },
-    { href: '/services/resonance-core', label: 'Resonance Core Framework' },
+    {
+      href: 'https://fluxline.pro/services/resonance-core',
+      label: 'Resonance Core Framework',
+    },
     { href: '/portfolio', label: 'Portfolio' },
     { href: 'https://fluxline.pro/case-studies', label: 'Case Studies' },
   ],
   connect: [
     { href: '/about', label: 'About' },
-    { href: '/contact', label: 'Contact' },
-    { href: '/archive', label: 'Archive' },
+    { href: '/#contact', label: 'Contact' },
+    { href: '/#newsletter', label: 'Newsletter' },
   ],
 };
 

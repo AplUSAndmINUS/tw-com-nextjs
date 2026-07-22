@@ -7,12 +7,10 @@ import { Footer } from '@/components/Footer';
 import { FooterOverlay } from '@/components/FooterOverlay';
 import {
   useIsMobileLandscape,
-  useIsTablet,
   useIsShortLandscape,
   useIsSquare,
   useIsLargePortrait,
 } from '@/hooks/useMediaQuery';
-import { usePathname } from 'next/navigation';
 import {
   useFeatureImageLayout,
   type FeatureImageLayoutOptions,
@@ -78,22 +76,18 @@ export function StandardPageLayout({
     useState(false);
   const contentPaneRef = useRef<HTMLDivElement | null>(null);
   const contentInnerRef = useRef<HTMLDivElement | null>(null);
-  const pathname = usePathname();
   const isMobileLandscapeHook = useIsMobileLandscape();
-  const isTabletHook = useIsTablet();
   const isShortLandscapeHook = useIsShortLandscape();
   const isSquareHook = useIsSquare();
   const isLargePortraitHook = useIsLargePortrait();
 
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobileLandscape = isMounted ? isMobileLandscapeHook : false;
-  const isTablet = isMounted ? isTabletHook : false;
   const isShortLandscape = isMounted ? isShortLandscapeHook : false;
   const isSquare = isMounted ? isSquareHook : false;
   const isLargePortrait = isMounted ? isLargePortraitHook : false;
   // Square and large-portrait viewports use a wider 33% image pane
   const useWiderPane = isSquare || isLargePortrait;
-  const hideFooterToggleButton = pathname === '/contact' && isTablet;
   const usesMediaPaneLayout =
     hasMediaPane || Boolean(featureImage || mediaPane);
   const { containerClasses, contentPaneClasses, imagePaneClasses } =
@@ -228,7 +222,7 @@ export function StandardPageLayout({
         </div>
 
         <div className={styles.showAtLg}>
-          <FooterOverlay hideButton={hideFooterToggleButton} />
+          <FooterOverlay />
         </div>
       </SiteLayout>
     );
