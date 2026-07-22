@@ -10,10 +10,12 @@ import {
   TwFilterChips,
   TwReveal,
   TwButton,
-  TwSwitch,
 } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
+import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import { HomeNav } from './home/HomeNav';
+import { HomeContactForm } from './home/HomeContactForm';
+import { HomeNewsletterForm } from './home/HomeNewsletterForm';
 import { ServiceDrawer } from './home/ServiceDrawer';
 import { SocialRow } from './home/SocialRow';
 import {
@@ -50,6 +52,25 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ];
 
+/**
+ * The "who this is for" trio, lifted up from /about so the homepage answers the
+ * question without a click. The full version still lives on the About page.
+ */
+const AUDIENCES = [
+  {
+    label: 'For individuals',
+    text: 'Understand your identity architecture, clear the noise, and rebuild the internal systems you actually run on.',
+  },
+  {
+    label: 'For founders & creators',
+    text: 'Brands, platforms, and workflows that feel like you — not the version the internet told you to be.',
+  },
+  {
+    label: 'For teams',
+    text: 'Modular systems and strategic frameworks that make complexity navigable and growth possible.',
+  },
+];
+
 const CONTENT_FILTERS = [
   { label: 'Writing', value: 'Writing' },
   { label: 'Podcast', value: 'Podcast' },
@@ -77,18 +98,6 @@ export default function HomePageClient({
 }: HomePageClientProps) {
   const [contentFilter, setContentFilter] = useState<string | null>(null);
   const [activeService, setActiveService] = useState<HomeService | null>(null);
-
-  // Newsletter + contact are representative local-state forms, matching the
-  // prototype. Real submission wiring (newsletterStore, contact API) can be
-  // connected later.
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-  const [notify, setNotify] = useState(true);
-
-  const [cName, setCName] = useState('');
-  const [cEmail, setCEmail] = useState('');
-  const [cMsg, setCMsg] = useState('');
-  const [sent, setSent] = useState(false);
 
   const filteredContent =
     contentFilter === null
@@ -165,6 +174,21 @@ export default function HomePageClient({
                   <TwStatCard value='3' label='Companies in the ecosystem' />
                   <TwStatCard value='8' label='Accessible theme modes' />
                 </div>
+
+                <div className={styles.audienceGrid}>
+                  {AUDIENCES.map((item, i) => (
+                    <TwReveal key={item.label} delay={i * 90}>
+                      <div className={styles.audience}>
+                        <div className={styles.audienceLabel}>{item.label}</div>
+                        <p className={styles.audienceText}>{item.text}</p>
+                      </div>
+                    </TwReveal>
+                  ))}
+                </div>
+
+                <div className={styles.viewAll}>
+                  <a href='/about'>Learn more about me &#8594;</a>
+                </div>
               </TwReveal>
             </div>
           </div>
@@ -198,7 +222,7 @@ export default function HomePageClient({
                 <TwSectionHeading
                   kicker='My Work'
                   title='Design, architecture, and coaching'
-                  lede='I deliver this work through Fluxline Resonance Group. Tap any service to explore it in depth on fluxline.pro — no need to repeat it here.'
+                  lede='I deliver this work through Fluxline Resonance Group. Tap any service for what it covers and what is included — the full engagement details live on fluxline.pro.'
                 />
               </TwReveal>
 
@@ -378,40 +402,7 @@ export default function HomePageClient({
                 />
               </div>
               <div>
-                {subscribed ? (
-                  <div className={styles.successNote}>
-                    You&apos;re in. Thanks for subscribing — I&apos;ll be in
-                    touch.
-                  </div>
-                ) : (
-                  <>
-                    <form
-                      className={styles.inlineForm}
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (email.includes('@')) setSubscribed(true);
-                      }}
-                    >
-                      <input
-                        type='email'
-                        className={styles.field}
-                        placeholder='you@example.com'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        aria-label='Email address'
-                        required
-                      />
-                      <TwButton type='submit'>Subscribe</TwButton>
-                    </form>
-                    <div className={styles.notifyRow}>
-                      <TwSwitch
-                        label='Email me when I publish new posts'
-                        checked={notify}
-                        onChange={setNotify}
-                      />
-                    </div>
-                  </>
-                )}
+                <HomeNewsletterForm />
                 <SocialRow
                   items={wideSocials}
                   size={24}
@@ -455,66 +446,12 @@ export default function HomePageClient({
             </TwReveal>
 
             <TwReveal>
-              <div className={styles.formCard}>
-                {sent ? (
-                  <div className={styles.sentState}>
-                    <div className={styles.sentTitle}>Message sent</div>
-                    <p className={styles.sentBody}>
-                      Thanks for reaching out — I&apos;ll get back to you soon.
-                    </p>
-                  </div>
-                ) : (
-                  <form
-                    className={styles.contactForm}
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (cName && cEmail.includes('@') && cMsg) setSent(true);
-                    }}
-                  >
-                    <label className={styles.fieldGroup}>
-                      <span className={styles.fieldLabel}>Name</span>
-                      <input
-                        className={styles.field}
-                        placeholder='Your name'
-                        value={cName}
-                        onChange={(e) => setCName(e.target.value)}
-                        required
-                      />
-                    </label>
-                    <label className={styles.fieldGroup}>
-                      <span className={styles.fieldLabel}>Email</span>
-                      <input
-                        className={styles.field}
-                        type='email'
-                        placeholder='you@example.com'
-                        value={cEmail}
-                        onChange={(e) => setCEmail(e.target.value)}
-                        required
-                      />
-                    </label>
-                    <label className={styles.fieldGroup}>
-                      <span className={styles.fieldLabel}>Message</span>
-                      <textarea
-                        className={styles.field}
-                        rows={5}
-                        placeholder='What are you working on?'
-                        value={cMsg}
-                        onChange={(e) => setCMsg(e.target.value)}
-                        required
-                      />
-                    </label>
-                    <div className={styles.contactFormActions}>
-                      <TwButton type='submit'>Send message</TwButton>
-                      <TwButton
-                        variant='outline'
-                        href='https://tidycal.com/terencewaters'
-                      >
-                        Book a consultation
-                      </TwButton>
-                    </div>
-                  </form>
-                )}
-              </div>
+              {/* The provider is scoped to the contact section rather than the
+                  whole page so the reCAPTCHA script is not pulled in for
+                  visitors who never scroll this far. */}
+              <ReCaptchaProvider>
+                <HomeContactForm />
+              </ReCaptchaProvider>
             </TwReveal>
           </div>
         </div>

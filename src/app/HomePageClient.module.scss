@@ -201,6 +201,37 @@
   }
 }
 
+/* "Who this is for" trio, under the About stats. Rules rather than cards — the
+   card grid immediately below in Work needs to stay the louder element. */
+.audienceGrid {
+  display: grid;
+  gap: 22px;
+  margin-top: 34px;
+}
+
+.audience {
+  border-left: 2px solid var(--tw-border-strong);
+  padding-left: 18px;
+}
+
+.audienceLabel {
+  font-family: var(--tw-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-accent);
+  margin-bottom: 8px;
+}
+
+.audienceText {
+  font-family: var(--tw-font-body);
+  font-size: 0.96875rem;
+  line-height: 1.75;
+  color: var(--tw-text-body);
+  margin: 0;
+  max-width: 58ch;
+}
+
 /* ===== Card grids ===== */
 .cardGrid2 {
   display: grid;
@@ -299,57 +330,10 @@
   }
 }
 
-.inlineForm {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.notifyRow {
-  margin-top: 16px;
-}
-
-.successNote {
-  background: var(--tw-success-bg);
-  border: 1px solid var(--tw-success-border);
-  border-radius: var(--tw-radius-card-sm);
-  padding: 20px 22px;
-  font-family: var(--tw-font-body);
-  color: var(--tw-text-bright);
-  font-size: 0.9375rem;
-}
-
+/* The newsletter and contact forms own their own field/card styles — see
+   home/HomeNewsletterForm.module.scss and home/HomeContactForm.module.scss. */
 .newsletterSocials {
   margin-top: 24px;
-}
-
-/* ===== Fields ===== */
-.field {
-  width: 100%;
-  background: var(--tw-surface-input);
-  border: 1px solid var(--tw-border);
-  border-radius: var(--tw-radius-control);
-  padding: 12px 14px;
-  color: var(--tw-text-bright);
-  font-family: var(--tw-font-body);
-  font-size: 0.90625rem;
-  box-sizing: border-box;
-  transition: border-color 0.15s var(--tw-motion-ease);
-
-  &:focus {
-    outline: none;
-    border-color: var(--tw-border-hover);
-    box-shadow: var(--tw-glow-accent);
-  }
-
-  &::placeholder {
-    color: var(--tw-text-faint);
-  }
-}
-
-.inlineForm .field {
-  flex: 1;
-  min-width: 200px;
 }
 
 /* ===== Contact ===== */
@@ -381,63 +365,6 @@
 
 .contactSocials {
   margin-top: 22px;
-}
-
-.formCard {
-  background: var(--tw-surface-card);
-  border: 1px solid var(--tw-border);
-  border-radius: var(--tw-radius-card);
-  padding: 32px;
-}
-
-.contactForm {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.fieldGroup {
-  display: block;
-}
-
-.fieldLabel {
-  display: block;
-  font-family: var(--tw-font);
-  font-size: 0.78125rem;
-  font-weight: 600;
-  color: var(--tw-text-soft);
-  margin-bottom: 6px;
-}
-
-.contactForm textarea.field {
-  resize: vertical;
-}
-
-.contactFormActions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.sentState {
-  text-align: center;
-  padding: 32px 8px;
-}
-
-.sentTitle {
-  font-family: var(--tw-font);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--tw-text-heading);
-  margin-bottom: 10px;
-}
-
-.sentBody {
-  font-family: var(--tw-font-body);
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: var(--tw-text-body);
-  margin: 0;
 }
 
 /* ===== Identity watermark ===== */

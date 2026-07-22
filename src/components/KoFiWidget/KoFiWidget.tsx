@@ -42,7 +42,6 @@ const KOFI_WIDGET_OPTIONS: Record<string, string> = {
  * next.config.ts has trailingSlash: true.
  */
 const ALLOWED_PATHS = [
-  '/contact/',
   '/about/',
   '/github/',
   '/videos/',

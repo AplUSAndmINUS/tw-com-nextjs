@@ -1,0 +1,52 @@
+@use 'abstracts' as *;
+
+.inlineForm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.field {
+  flex: 1;
+  min-width: 200px;
+  background: var(--tw-surface-input);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  padding: 12px 14px;
+  color: var(--tw-text-bright);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s var(--tw-motion-ease);
+
+  &:focus {
+    outline: none;
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-glow-accent);
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--tw-error-border);
+  }
+}
+
+.error {
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  color: var(--tw-error);
+  margin: 10px 0 0;
+}
+
+.successNote {
+  background: var(--tw-success-bg);
+  border: 1px solid var(--tw-success-border);
+  border-radius: var(--tw-radius-card-sm);
+  padding: 20px 22px;
+  font-family: var(--tw-font-body);
+  color: var(--tw-text-bright);
+  font-size: 0.9375rem;
+}

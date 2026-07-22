@@ -122,6 +122,6 @@ I regularly review my AI usage policies and update them as tools, industry stand
 
 If you have questions about how I use AI, concerns about specific content, or ideas for how I can do better — reach out. I'm committed to making this an ongoing conversation, not a one-way declaration.
 
-**Contact Me Page:** [Contact Me](https://www.terencewaters.com/contact)
+**Contact Me:** [Get in touch](https://www.terencewaters.com/#contact)
 
 *To learn more about Fluxline Resonance Group and the values I implement as I work within my personal and business work, visit [Fluxline.pro](https://www.fluxline.pro).*`;

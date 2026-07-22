@@ -9,6 +9,10 @@
  * Services are delivered through Fluxline Resonance Group, so each links out to
  * fluxline.pro. The homepage opens a summary drawer first (so the visitor stays
  * on TW.com), with the drawer's CTA going to the full service page in a new tab.
+ *
+ * This catalogue is the whole of it — the standalone /services pages were
+ * retired and their copy folded into `blurb` and `points` here, so the drawer
+ * is now the canonical on-site description of each offering.
  */
 
 export interface HomeService {
@@ -33,11 +37,14 @@ export const homeServices: HomeService[] = [
     excerpt:
       'Brand systems, design systems, and product UX that make complexity feel calm.',
     blurb:
-      'From brand identity through production-ready design systems, I make complex products feel calm, coherent, and unmistakably yours.',
+      'Brand identities and digital experiences that look good and feel aligned with who you are. Every logo, layout, and interface is designed to carry your story — from first launch through legacy.',
     points: [
-      'Brand & visual identity',
-      'Design systems & tokens',
-      'Product & web UX',
+      'Visual identity & brand architecture',
+      'Digital experience design',
+      'Modular design systems & tokens',
+      'User-centered research and testing',
+      'Symbolic, emotionally resonant direction',
+      'Cross-platform consistency & responsiveness',
     ],
   },
   {
@@ -47,11 +54,13 @@ export const homeServices: HomeService[] = [
     excerpt:
       'Full-stack and enterprise platform architecture, from data model to deploy.',
     blurb:
-      'Full-stack engineering and platform architecture — the structural layer that makes everything above it possible and maintainable.',
+      'Websites and web apps built for the long run — from a simple site to a full platform. Modern frameworks, clear UX, and infrastructure that stays maintainable after launch.',
     points: [
-      'Front-end & full-stack build',
-      'Platform & cloud architecture',
-      'Performance & accessibility',
+      'Custom web applications & platforms',
+      'Full-stack build with long-term maintainability',
+      'Cloud architecture & CI/CD pipelines',
+      'API design and third-party integrations',
+      'Performance, scalability, and accessibility',
     ],
   },
   {
@@ -61,10 +70,13 @@ export const homeServices: HomeService[] = [
     excerpt:
       'ITSM, systems strategy, and the operating models teams actually keep.',
     blurb:
-      'Systems strategy and IT service management for organizations that need clarity across people, process, and technology.',
+      'The practical path forward: what to prioritize, what to simplify, and how to align execution with real business outcomes — across people, process, and technology.',
     points: [
-      'ITSM & service design',
-      'Systems & process strategy',
+      'Strategic systems design & operational optimization',
+      'ITSM and service design',
+      'Modular frameworks for scalable growth',
+      'Tech integration & infrastructure planning',
+      'Change management and transformation facilitation',
       'Technical due diligence',
     ],
   },
@@ -78,19 +90,27 @@ export const homeServices: HomeService[] = [
       'Facilitated workshops that align teams fast — turning ambiguity into a direction everyone can see and build toward.',
     points: [
       'Discovery & alignment workshops',
-      'Journey & service mapping',
+      'Journey and service mapping',
       'Roadmap facilitation',
+      'Design-thinking sessions and critiques',
     ],
   },
   {
-    title: 'Identity Coaching',
-    slug: 'coaching',
-    category: 'Service',
+    title: 'The Resonance Core Framework™',
+    slug: 'resonance-core',
+    category: 'Coaching',
     excerpt:
-      'One-on-one work rebuilding the internal systems that shape how you lead.',
+      'Identity work for creators and leaders building what they are becoming.',
     blurb:
-      'One-on-one coaching for founders and leaders — rebuilding the internal systems and narratives that shape how you show up.',
-    points: ['1:1 identity coaching', 'Narrative & values work', 'Founder support'],
+      'A guided, structured process for decoding your cues, reframing your narratives, and authoring the identity you choose to live from. Not generic coaching — identity work, narrative work, and embodiment work woven into one system.',
+    points: [
+      'Understand the signals your body and emotions send',
+      "Reveal the stories you've been living inside",
+      'Name the outdated identities shaping your choices',
+      'Update your internal predictions and interpretations',
+      "Choose the identity that supports who you're becoming",
+      'Take aligned action from that chosen identity',
+    ],
   },
   {
     title: 'Fractional Leadership',
@@ -103,7 +123,23 @@ export const homeServices: HomeService[] = [
     points: [
       'Fractional design lead',
       'Fractional CTO / architect',
-      'Team mentorship',
+      'Team mentorship and capability building',
+    ],
+  },
+  {
+    title: 'Personal Training & Wellness',
+    slug: 'personal-training',
+    category: 'Coaching',
+    excerpt:
+      'Embodied identity work — strength, mobility, and a practice you keep.',
+    blurb:
+      'Physical training with emotional intelligence. Whether you are returning to movement, working through chronic pain, or pushing your limits, the program is built around your schedule, your body, and your readiness.',
+    points: [
+      'Personalized fitness and wellness coaching',
+      'Adaptive training systems for all bodies',
+      'Movement patterns & chronic pain management',
+      'Mindset support and behavioral change',
+      'Flexible scheduling and remote options',
     ],
   },
 ];

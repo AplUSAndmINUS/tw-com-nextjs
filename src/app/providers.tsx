@@ -27,6 +27,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const path = pathname !== '/' ? pathname.replace(/\/$/, '') : pathname;
   const ownsNav =
     path === '/' ||
+    path === '/about' ||
     path === '/blog' ||
     path.startsWith('/blog/') ||
     path === '/content-hub' ||
