@@ -1,1 +1,0 @@
-export { AboutSectionWrapper } from './AboutSectionWrapper';

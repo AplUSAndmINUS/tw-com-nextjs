@@ -335,7 +335,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
           <Typography variant='body' style={{ margin: 0 }}>
             Something went wrong. Please try again or{' '}
             <a
-              href='/contact'
+              href='/#contact'
               style={{ color: theme.palette.redDark, fontWeight: 600 }}
             >
               Contact Us Directly
