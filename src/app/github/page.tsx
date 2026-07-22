@@ -5,6 +5,7 @@ import { TwPageNav, TwListingView, type TwListingItem } from '@/components/dsm';
 import type { TwPageNavLink } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { formatDotDate } from '@/app/home/contentFormat';
+import { GitHubActivity } from './GitHubActivity';
 
 export const metadata: Metadata = {
   title: 'GitHub',
@@ -42,6 +43,16 @@ const NAV_LINKS: TwPageNavLink[] = [
 export default async function GitHubPage() {
   const repos = await getGitHubRepos();
 
+  // Personal accounts (not orgs) have a contribution graph. Derive them from
+  // the repo owners so the activity charts track whatever accounts are loaded.
+  const userAccounts = [
+    ...new Set(
+      repos
+        .filter((repo) => repo.owner.type === 'User')
+        .map((repo) => repo.owner.login)
+    ),
+  ];
+
   const items: TwListingItem[] = repos.map((repo) => ({
     id: repo.full_name,
     title: repo.name,
@@ -62,6 +73,7 @@ export default async function GitHubPage() {
           title='On GitHub'
           lede='Open-source projects, experiments, and the code behind the work. Filter by language below — each card opens the repository on GitHub.'
           items={items}
+          banner={<GitHubActivity users={userAccounts} />}
           emptyMessage='Repositories are loading — visit github.com/AplUSAndmINUS in the meantime.'
         />
       </main>

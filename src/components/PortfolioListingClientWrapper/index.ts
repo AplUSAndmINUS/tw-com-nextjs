@@ -1,1 +1,0 @@
-export { PortfolioListingClientWrapper } from './PortfolioListingClientWrapper';

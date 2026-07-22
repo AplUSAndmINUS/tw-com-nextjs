@@ -41,6 +41,12 @@ export interface TwListingViewProps {
   /** Desktop column count. Default 3. */
   cols?: number;
   emptyMessage?: string;
+  /**
+   * Optional content rendered between the filter chips and the card grid — e.g.
+   * the GitHub contribution charts. Passed straight through, so a server page
+   * can hand in server-rendered markup.
+   */
+  banner?: React.ReactNode;
 }
 
 /**
@@ -60,6 +66,7 @@ export function TwListingView({
   allLabel = 'All',
   cols = 3,
   emptyMessage = 'Nothing here yet — check back soon.',
+  banner,
 }: TwListingViewProps) {
   const [active, setActive] = useState<string | null>(null);
 
@@ -105,6 +112,7 @@ export function TwListingView({
 
       <section className={styles.body}>
         <div className={styles.container}>
+          {banner ? <div className={styles.banner}>{banner}</div> : null}
           {shown.length === 0 ? (
             <p className={styles.empty}>{emptyMessage}</p>
           ) : (
