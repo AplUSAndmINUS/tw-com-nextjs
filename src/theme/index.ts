@@ -57,8 +57,6 @@ export {
 // Hooks
 export { useAppTheme } from './hooks/useAppTheme';
 export type { UseAppThemeReturn } from './hooks/useAppTheme';
-export { useFooterHeight } from './hooks/useFooterHeight';
-export { useHeaderHeight } from './hooks/useHeaderHeight';
 
 // Providers
 export { ExtendedThemeProvider } from './providers/ExtendedThemeProvider';
