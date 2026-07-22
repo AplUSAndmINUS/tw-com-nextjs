@@ -16,10 +16,9 @@
 ///    them through here would emit a fresh copy of ~120 custom properties into
 ///    every single module.
 ///
-/// 3. Do NOT use Tailwind's `@apply` in .module.scss. Tailwind v4 requires a
-///    `@reference` directive per file, which re-parses globals.css for every
-///    module — slow and brittle. Reference `var(--tw-*)` directly instead;
-///    that is what the token layer is for.
+/// 3. Reference the design-system tokens (`var(--tw-*)`) directly in modules.
+///    Tailwind has been removed from the project, so there is no `@apply` or
+///    utility layer to compose from — tokens are the single styling vocabulary.
 ///
 /// -----------------------------------------------------------------------
 /// Cascade layers — read this before debugging a specificity surprise

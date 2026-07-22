@@ -26,12 +26,10 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.33",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "prettier": "^3.8.1",
-    "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "5.9.3",
     "vitest": "^4.1.10"
