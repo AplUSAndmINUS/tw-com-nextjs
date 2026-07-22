@@ -1,0 +1,88 @@
+@use 'abstracts' as *;
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(6, 8, 11, 0.55);
+  animation: scrimIn 0.2s var(--tw-motion-ease);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes scrimIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(460px, 92vw);
+  z-index: 1201;
+  background: var(--tw-surface-card);
+  border-left: 1px solid var(--tw-border);
+  box-shadow: var(--tw-shadow-l);
+  padding: 34px 32px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  animation: drawerIn 0.32s var(--tw-motion-ease);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  :global([data-tw-reduced-motion='true']) & {
+    animation: none;
+  }
+}
+
+@keyframes drawerIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close {
+  background: none;
+  border: none;
+  color: var(--tw-text-faint);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: var(--tw-radius-control);
+  display: inline-flex;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+}
+
+.title {
+  font-family: var(--tw-font);
+  font-weight: 800;
+  font-size: 1.625rem;
+  color: var(--tw-text-heading);
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}

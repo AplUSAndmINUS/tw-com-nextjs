@@ -1,0 +1,221 @@
+@use 'abstracts' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  container-type: inline-size;
+
+  @include until('tablet') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card is used as both a Link and a button; reset both to a common surface. */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  padding: var(--tw-card-pad);
+  min-height: 210px;
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  text-decoration: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition:
+    transform var(--tw-hover-duration) var(--tw-motion-ease),
+    border-color var(--tw-hover-duration) var(--tw-motion-ease),
+    box-shadow var(--tw-hover-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px) scale(1.015);
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-shadow-m);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
+  }
+
+  :global([data-tw-reduced-motion='true']) &:hover,
+  :global([data-tw-reduced-motion='true']) &:focus-visible {
+    transform: none;
+  }
+}
+
+.cardButton {
+  width: 100%;
+}
+
+.badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.icon {
+  color: var(--tw-accent);
+  margin-bottom: 4px;
+}
+
+.cardTitle {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--tw-text-heading);
+}
+
+.cardBody {
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--tw-text-muted);
+  flex: 1;
+}
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 0.84375rem;
+  color: var(--tw-accent);
+  transition: gap var(--tw-hover-duration) var(--tw-motion-ease);
+
+  .card:hover & {
+    gap: 10px;
+    color: var(--tw-accent-hover);
+  }
+}
+
+/* ===== Drawer content ===== */
+.drawerBody {
+  font-family: var(--tw-font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--tw-text-body);
+  margin: 0 0 18px;
+}
+
+.episode {
+  background: var(--tw-surface-alt);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  padding: 16px 18px;
+  margin-bottom: 22px;
+}
+
+.episodeLabel {
+  font-family: var(--tw-font);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin-bottom: 6px;
+}
+
+.episodeTitle {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--tw-text-heading);
+  line-height: 1.35;
+}
+
+.episodeMeta {
+  font-family: var(--tw-font-mono);
+  font-size: 0.78125rem;
+  color: var(--tw-text-faint);
+  margin-top: 6px;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--tw-accent);
+  color: var(--tw-accent-ink);
+  border: none;
+  border-radius: var(--tw-radius-control);
+  font-family: var(--tw-font);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 13px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid var(--tw-line);
+  color: var(--tw-accent);
+  border-radius: var(--tw-radius-control);
+  font-family: var(--tw-font);
+  font-weight: 600;
+  font-size: 0.90625rem;
+  padding: 11px;
+  text-decoration: none;
+  transition: background var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    background: var(--tw-hover-fill);
+  }
+}
+
+.tertiaryAction {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-family: var(--tw-font);
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+}
+
+.drawerButtonRow {
+  margin-top: 14px;
+}

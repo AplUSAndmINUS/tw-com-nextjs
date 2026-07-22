@@ -1,16 +1,17 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
-import { PageLayout } from '@/layouts/PageLayout';
 import { getAllContent } from '@/lib/content';
-import { BlogListingClientWrapper } from '@/components/BlogListingClientWrapper';
-import BlogPostImage from '@/assets/images/Blog1280x1815.jpg';
+import { TwPageNav, TwListingView, type TwListingItem } from '@/components/dsm';
+import { Footer } from '@/components/Footer';
+import { formatDotDate } from '@/app/home/contentFormat';
+import { BLOG_NAV_LINKS } from './blogNav';
 
 export const metadata: Metadata = {
-  title: 'Blog',
+  title: 'The Blog',
   description: 'Thoughts on technology, creativity, and the human experience.',
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'Blog | Terence Waters',
+    title: 'The Blog | Terence Waters',
     description:
       'Thoughts on technology, creativity, and the human experience.',
     url: 'https://terencewaters.com/blog',
@@ -21,23 +22,35 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const allPosts = await getAllContent('blog');
-  // Strip the full markdown body — the listing page only needs metadata fields.
-  // This keeps the client-side JSON payload small.
-  const posts = allPosts.map(({ content: _content, ...rest }) => ({
-    ...rest,
-    content: '',
+  const posts = await getAllContent('blog');
+
+  const items: TwListingItem[] = posts.map((post) => ({
+    id: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    category: post.category,
+    date: formatDotDate(post.date),
+    image: post.imageUrl ?? post.featuredImage,
+    imageAlt: post.imageAlt ?? post.title,
+    href: `/blog/${post.slug}`,
   }));
 
   return (
-    <PageLayout
-      featureImage={{
-        src: BlogPostImage.src,
-        alt: 'Blog',
-        title: 'Blog',
-      }}
-    >
-      <BlogListingClientWrapper initialPosts={posts} />
-    </PageLayout>
+    <>
+      <TwPageNav
+        back={{ label: 'Back to Content Hub', href: '/content-hub' }}
+        links={BLOG_NAV_LINKS}
+      />
+      <main>
+        <TwListingView
+          kicker='Writing'
+          title='The Blog'
+          lede="Long-form thinking on resonance, identity architecture, and building a life that feels right. Filter by topic below."
+          items={items}
+          emptyMessage='No posts yet — the first one is coming soon.'
+        />
+      </main>
+      <Footer />
+    </>
   );
 }

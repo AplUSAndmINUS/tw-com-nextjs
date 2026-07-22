@@ -1,0 +1,44 @@
+@use 'abstracts' as *;
+
+.head {
+  position: relative;
+  overflow: hidden;
+  padding: 70px 0 40px;
+  background: var(--tw-bg-page);
+  border-bottom: 1px solid var(--tw-border-subtle);
+}
+
+.headGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    1000px 460px at 12% 0%,
+    color-mix(in srgb, var(--tw-glacier-cyan) 10%, transparent),
+    transparent 60%
+  );
+}
+
+.container {
+  position: relative;
+  max-width: var(--tw-container);
+  margin: 0 auto;
+  padding: 0 var(--tw-container-pad);
+}
+
+.filters {
+  margin-top: 26px;
+}
+
+.body {
+  padding: 56px 0 90px;
+  background: var(--tw-bg-page);
+}
+
+.empty {
+  font-family: var(--tw-font-body);
+  font-size: 1rem;
+  color: var(--tw-text-muted);
+  text-align: center;
+  padding: 40px 0;
+}

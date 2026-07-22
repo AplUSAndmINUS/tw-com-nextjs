@@ -19,10 +19,18 @@ import { useAccessControl } from '@/hooks';
 export function Providers({ children }: { children: React.ReactNode }) {
   const { authRequired, isAuthenticated } = useAccessControl();
   const pathname = usePathname();
-  // The rebuilt homepage renders its own DSM nav (with the appearance panel),
-  // so the global Header would double up there. Suppress it on "/" only; every
-  // other route keeps the existing Header until it is migrated.
-  const isHome = pathname === '/';
+  // Routes migrated to the design system render their own DSM nav (HomeNav or
+  // TwPageNav, both carrying the appearance panel), so the global Header would
+  // double up. Suppress it on those; every other route keeps the existing
+  // Header until it too is migrated. Extend this list as pages move over.
+  // Normalise the trailing slash (next.config sets trailingSlash: true).
+  const path = pathname !== '/' ? pathname.replace(/\/$/, '') : pathname;
+  const ownsNav =
+    path === '/' ||
+    path === '/blog' ||
+    path.startsWith('/blog/') ||
+    path === '/content-hub';
+  const isHome = ownsNav;
   return (
     <ExtendedThemeProvider>
       <StoreHydrator />

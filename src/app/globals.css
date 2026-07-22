@@ -11,6 +11,8 @@
 /* a11y-layers last: orthogonal data-tw-contrast / data-tw-cvd overrides that
    layer on top of any theme, so they must win on source order. */
 @import '../styles/tokens/a11y-layers.css';
+/* Long-form article body styling for rendered markdown/MDX. */
+@import '../styles/tw-prose.css';
 @import 'tailwindcss';
 
 /* Configure Tailwind to use class-based dark mode.
