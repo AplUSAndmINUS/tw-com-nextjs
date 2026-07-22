@@ -1,0 +1,141 @@
+@use 'abstracts' as *;
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  min-height: var(--tw-hero-height, 620px);
+  background: var(--tw-gradient-hero);
+  isolation: isolate;
+}
+
+.media {
+  position: absolute;
+  /* Overscans the box so the parallax drift never exposes an edge. */
+  inset: -8% 0;
+  z-index: -2;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--tw-hero-focal, center 30%);
+}
+
+/**
+ * Legibility scrim. The design system calls for "subtle darkening" over real
+ * photography — a two-stop diagonal keeps the copy side readable without
+ * flattening the whole image.
+ */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--tw-bg-deep) 82%, transparent) 0%,
+      color-mix(in srgb, var(--tw-bg-deep) 55%, transparent) 45%,
+      color-mix(in srgb, var(--tw-bg-deep) 25%, transparent) 100%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--tw-bg-page) 70%, transparent) 0%,
+      transparent 40%
+    );
+}
+
+.inner {
+  @include container-width;
+
+  position: relative;
+  z-index: 1;
+  padding-block: var(--tw-space-xxxxl);
+}
+
+/**
+ * Glass card holding the hero copy.
+ *
+ * Blur is normally reserved for the nav, but the design system specifically
+ * asks for a glass card here. It reads from the same reduced-transparency hook
+ * so the preference strips it consistently.
+ */
+.card {
+  max-width: 42rem;
+  padding: var(--tw-card-pad-lg);
+  border-radius: var(--tw-radius-card-lg);
+  border: 1px solid color-mix(in srgb, var(--tw-border) 60%, transparent);
+  background: color-mix(in srgb, var(--tw-bg-deep) 45%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  /* Container queries here so the eyebrow and title scale against the card,
+     not the window — the card is much narrower than the viewport. */
+  container-type: inline-size;
+}
+
+:global([data-tw-reduced-transparency='true']) .card {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: color-mix(in srgb, var(--tw-bg-deep) 92%, transparent);
+}
+
+/**
+ * The one deliberately informal typographic moment in the system: sentence
+ * case, no tracking, no uppercase — "Hi there 👋 I'm". Everywhere else kickers
+ * are uppercase and tracked.
+ */
+.eyebrow {
+  font-family: var(--tw-font);
+  font-size: var(--tw-eyebrow-card-size);
+  font-weight: 500;
+  color: var(--tw-text-soft);
+  margin: 0 0 var(--tw-space-xs);
+}
+
+.title {
+  font-family: var(--tw-font);
+  font-size: var(--tw-display-size);
+  font-weight: var(--tw-display-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.05;
+  color: var(--tw-text-heading-display);
+  margin: 0;
+}
+
+.body {
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-size);
+  line-height: var(--tw-body-leading);
+  color: var(--tw-text-body);
+  margin: var(--tw-space-m) 0 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s) var(--tw-space-m);
+  margin-top: var(--tw-space-m);
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-meta-size);
+  color: var(--tw-text-mist);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-l);
+}
+
+@include until('mobile-lg') {
+  .hero {
+    min-height: var(--tw-hero-height-mobile, 520px);
+  }
+
+  .card {
+    padding: var(--tw-card-pad);
+  }
+}

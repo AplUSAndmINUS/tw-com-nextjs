@@ -1,0 +1,124 @@
+@use 'abstracts' as *;
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-lg);
+  background: var(--tw-gradient-feature);
+  color: var(--tw-text-base);
+  /* Named so the side-by-side switch below responds to the card's own width —
+     this card appears both full-bleed and inside a rail. */
+  container: tw-featured-card / inline-size;
+}
+
+.interactive {
+  @include card-interactive;
+
+  &:focus-within {
+    border-color: var(--tw-border-hover);
+    box-shadow: var(--tw-shadow-m);
+  }
+}
+
+/* ===== Media ===== */
+
+.media {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--tw-surface-inset);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Past ~680px of its own width the card has room for a two-column split. */
+@include container('tw-featured-card', 680px) {
+  .hasMedia {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .hasMedia .media {
+    flex: 0 0 46%;
+    aspect-ratio: auto;
+  }
+
+  .hasMedia .content {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* ===== Content ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-s);
+  padding: var(--tw-card-pad-lg);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  flex-wrap: wrap;
+
+  /* Collapses to nothing when no chips or date were passed, rather than
+     leaving a gap-sized hole above the title. */
+  &:empty {
+    display: none;
+  }
+}
+
+.date {
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-meta-size);
+  line-height: var(--tw-mono-leading);
+  color: var(--tw-text-faint);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h2-size);
+  font-weight: var(--tw-h2-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.2;
+  color: var(--tw-text-heading);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-accent-hover);
+  }
+}
+
+.excerpt {
+  margin: 0;
+  max-width: var(--tw-article);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-size);
+  line-height: var(--tw-body-leading);
+  color: var(--tw-text-muted);
+}

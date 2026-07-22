@@ -1,0 +1,71 @@
+@use 'abstracts' as *;
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-xxs);
+}
+
+.label {
+  font-family: var(--tw-font);
+  font-size: var(--tw-meta-size);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tw-text-muted);
+}
+
+.control {
+  position: relative;
+  display: flex;
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+  /* Right padding clears the chevron: 15px gutter + 12px glyph + 10px gap. */
+  padding: 11px 37px 11px 14px;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-surface-input);
+  color: var(--tw-text-base);
+  font-family: var(--tw-font);
+  font-size: 15px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    border-color var(--tw-color-duration) var(--tw-motion-ease),
+    background-color var(--tw-color-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+  @include motion-safe-only;
+
+  &:hover:not(:disabled) {
+    border-color: var(--tw-border-hover);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    color: var(--tw-text-faint);
+  }
+
+  /* The dropdown list itself is OS-rendered, so it does not inherit the field's
+     colours in every browser. Setting them on the options is the only hook. */
+  option {
+    background: var(--tw-surface-card);
+    color: var(--tw-text-base);
+  }
+}
+
+.chevron {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--tw-text-muted);
+}
+
+.select:disabled + .chevron {
+  color: var(--tw-text-faint);
+}

@@ -1,0 +1,28 @@
+@use 'abstracts' as *;
+
+.container {
+  container-type: inline-size;
+}
+
+.default {
+  @include container-width;
+}
+
+/* Same gutters as `default`, narrower measure. The mixin's max-width is
+   overridden rather than the whole rule reimplemented, so the gutter and
+   centring stay in one place. */
+.article {
+  @include container-width;
+
+  max-width: var(--tw-article);
+}
+
+.full {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--tw-container-pad);
+}
+
+.section {
+  @include section-rhythm;
+}

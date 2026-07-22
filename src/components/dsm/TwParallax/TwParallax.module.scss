@@ -1,0 +1,20 @@
+.parallax {
+  /* Hints the compositor to promote this to its own layer before the first
+     scroll, so the initial frames are not janky. Deliberately not
+     `will-change: transform` — that stays on permanently and costs memory for
+     an effect that only runs while the hero is on screen. */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+/* The JS bails out under reduced motion, but this makes the guarantee
+   declarative — if the effect somehow ran, the transform is still neutralised. */
+@media (prefers-reduced-motion: reduce) {
+  .parallax {
+    transform: none !important;
+  }
+}
+
+:global([data-tw-reduced-motion='true']) .parallax {
+  transform: none !important;
+}

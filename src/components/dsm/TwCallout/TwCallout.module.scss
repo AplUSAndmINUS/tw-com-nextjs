@@ -1,0 +1,78 @@
+@use 'abstracts' as *;
+
+/* Each variant sets two locals and the shared rule consumes them, so a new
+   variant is two lines rather than a duplicated block. */
+
+.callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-xs);
+  padding: var(--tw-space-m) var(--tw-space-l);
+  border-left: 3px solid var(--tw-callout-bar);
+  border-radius: 0 var(--tw-radius-card-sm) var(--tw-radius-card-sm) 0;
+  background: var(--tw-callout-bg);
+  color: var(--tw-text-base);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-subhead-size);
+  font-weight: var(--tw-subhead-weight);
+  line-height: 1.35;
+  color: var(--tw-callout-bar);
+}
+
+.body {
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  line-height: var(--tw-body-sm-leading);
+  color: var(--tw-text-muted);
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* The accent has no dedicated -bg token, so it borrows --tw-info-bg — info is
+   mapped to the same glacier cyan the accent comes from, in both families. */
+.accent {
+  --tw-callout-bar: var(--tw-accent);
+  --tw-callout-bg: var(--tw-info-bg);
+}
+
+.subtle {
+  --tw-callout-bar: var(--tw-border-strong);
+  --tw-callout-bg: var(--tw-surface-alt);
+}
+
+.neutral {
+  --tw-callout-bar: var(--tw-gray-5);
+  --tw-callout-bg: var(--tw-surface-inset);
+}
+
+.success {
+  --tw-callout-bar: var(--tw-success);
+  --tw-callout-bg: var(--tw-success-bg);
+}
+
+.warning {
+  --tw-callout-bar: var(--tw-warning);
+  --tw-callout-bg: var(--tw-warning-bg);
+}
+
+.error {
+  --tw-callout-bar: var(--tw-error);
+  --tw-callout-bg: var(--tw-error-bg);
+}
+
+/* Subtle and neutral are surfaces rather than statements, so the title falls
+   back to the heading colour instead of the near-invisible bar colour. */
+.subtle .title,
+.neutral .title {
+  color: var(--tw-text-bright);
+}

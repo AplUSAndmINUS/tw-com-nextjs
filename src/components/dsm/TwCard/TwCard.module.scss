@@ -1,0 +1,23 @@
+@use 'abstracts' as *;
+
+.card {
+  @include card-surface;
+
+  position: relative;
+  color: var(--tw-text-base);
+}
+
+.compact {
+  border-radius: var(--tw-radius-card-sm);
+}
+
+.padded {
+  padding: var(--tw-card-pad);
+}
+
+.interactive {
+  @include card-interactive;
+  @include focus-ring;
+
+  cursor: pointer;
+}

@@ -1,0 +1,41 @@
+@use 'abstracts' as *;
+
+.stat {
+  @include card-surface(var(--tw-radius-card-sm));
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-xxs);
+  margin: 0;
+  padding: var(--tw-space-l);
+  container-type: inline-size;
+}
+
+.value {
+  order: 1;
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h1-size);
+  font-weight: var(--tw-h1-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.05;
+  color: var(--tw-text-heading);
+}
+
+.label {
+  order: 2;
+  font-family: var(--tw-font);
+  font-size: var(--tw-meta-size);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--tw-text-muted);
+}
+
+.note {
+  order: 3;
+  margin: 0;
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-mono-size);
+  line-height: var(--tw-mono-leading);
+  color: var(--tw-text-faint);
+}
