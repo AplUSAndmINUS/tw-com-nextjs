@@ -10,6 +10,7 @@ import {
   useIsShortLandscape,
 } from '@/hooks/useMediaQuery';
 import { resolveIconName } from '@/utils/iconResolver';
+import { accentWash } from '@/utils/color';
 import { SocialLinks } from '@/components/SocialLinks/SocialLinks';
 
 export interface HeroProps {
@@ -133,7 +134,7 @@ export const Hero: React.FC<HeroProps> = ({
             : 'none',
           borderTop: `4px solid ${accentColor}`,
           backgroundColor: heroSurfaceColor,
-          backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+          backgroundImage: accentWash(accentColor, 8),
           padding: isMobile
             ? `${theme.spacing.l}`
             : isCompact

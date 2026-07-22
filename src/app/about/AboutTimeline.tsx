@@ -5,6 +5,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { useCardState } from '@/hooks/useCardState';
+import { withAlpha } from '@/utils/color';
 
 export interface TimelineEntry {
   period: string;
@@ -104,7 +105,7 @@ function TimelineCard({ entry, index, isLast }: TimelineCardProps) {
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
-            boxShadow: `0 0 0 4px ${accentColor}28`,
+            boxShadow: `0 0 0 4px ${withAlpha(accentColor, 16)}`,
             zIndex: 1,
           }}
         >
@@ -129,7 +130,7 @@ function TimelineCard({ entry, index, isLast }: TimelineCardProps) {
             flex: 1,
             minHeight: '2rem',
             background: isHovered
-              ? `linear-gradient(180deg, ${accentColor}60, ${theme.palette.themeSecondary}30)`
+              ? `linear-gradient(180deg, ${withAlpha(accentColor, 37.6)}, ${withAlpha(theme.palette.themeSecondary, 18.8)})`
               : restStateColor,
             borderRadius: '1px',
             marginTop: '0.25rem',

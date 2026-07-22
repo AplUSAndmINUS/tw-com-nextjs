@@ -4,6 +4,7 @@ import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
+import { accentWash } from '@/utils/color';
 
 export const ConsultationCTA: React.FC = () => {
   const { theme } = useAppTheme();
@@ -26,7 +27,7 @@ export const ConsultationCTA: React.FC = () => {
       <section
         style={{
           backgroundColor: cardSurfaceColor,
-          backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+          backgroundImage: accentWash(accentColor, 8),
           border: `1px solid ${theme.semanticColors.border.default}`,
           borderTop: `4px solid ${accentColor}`,
           padding: theme.spacing.l,

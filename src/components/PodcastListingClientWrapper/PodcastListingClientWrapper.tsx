@@ -14,6 +14,7 @@ import { fetchPodcastsFromApi, PODCAST_PLATFORMS } from '@/lib/spreaker';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { TRI_LINKS } from '@/app/podcasts/theresonantid/constants';
+import { withAlpha } from '@/utils/color';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
@@ -304,7 +305,7 @@ export function PodcastListingClientWrapper({
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement;
                 el.style.backgroundColor = activeBrandColor
-                  ? `${activeBrandColor}22`
+                  ? withAlpha(activeBrandColor, 13.3)
                   : theme.palette.neutralLighter;
               }}
               onMouseLeave={(e) => {

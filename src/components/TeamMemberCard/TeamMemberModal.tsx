@@ -6,14 +6,14 @@
  */
 
 import React from 'react';
-import { ContactCard24Regular } from '@fluentui/react-icons';
 import { Modal } from '@/components/Modal';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMember } from './TeamMemberCard';
-import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
+import { withAlpha } from '@/utils/color';
+import { ContactCardIcon } from '@/components/icons';
 
 interface TeamMemberModalProps {
   isOpen: boolean;
@@ -27,7 +27,6 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
   member,
 }) => {
   const { theme } = useAppTheme();
-  const { filter } = useColorVisionFilter();
 
   const isDark =
     theme.themeMode === 'dark' ||
@@ -75,15 +74,15 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
               src={member.photo}
               alt={`${member.name} - ${member.role}`}
               fill
+              className='tw-media'
               style={{
                 objectFit: 'cover',
-                filter: filter,
               }}
               sizes='200px'
             />
           ) : (
             <FluentIcon
-              iconName={ContactCard24Regular}
+              iconName={ContactCardIcon}
               color={theme.palette.neutralTertiary}
             />
           )}
@@ -147,7 +146,7 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({
                     onPointerEnter={(e: React.PointerEvent<HTMLAnchorElement>) => {
                       if (e.pointerType !== 'mouse') return;
                       const el = e.currentTarget;
-                      el.style.backgroundColor = `${theme.palette.neutralQuaternary}90`;
+                      el.style.backgroundColor = withAlpha(theme.palette.neutralQuaternary, 56.5);
                       el.style.transform = 'translateY(-2px)';
                     }}
                     onPointerLeave={(e: React.PointerEvent<HTMLAnchorElement>) => {

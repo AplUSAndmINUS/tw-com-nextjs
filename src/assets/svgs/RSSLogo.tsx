@@ -24,7 +24,7 @@ export const RSSLogo: React.FC<RSSLogoProps> = ({
       fill='none'
     >
       {/* RSS logo - waves and dot */}
-      <circle cx='6' cy='18' r='2' fill={fillColor} />
+      <circle cx='6' cy='18' r='2' style={{ fill: fillColor }} />
       <path
         d='M4 12c4.42 0 8 3.58 8 8'
         stroke={fillColor}

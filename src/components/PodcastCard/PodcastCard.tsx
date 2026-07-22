@@ -9,6 +9,7 @@ import { LoadingImage } from '@/components/ui/LoadingImage';
 import { Typography } from '../Typography';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { accentWash } from '@/utils/color';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -71,7 +72,7 @@ export function PodcastCard({
         backgroundColor: isHovered(episode.slug)
           ? cardHoverSurfaceColor
           : cardSurfaceColor,
-        backgroundImage: `linear-gradient(160deg, ${accentColor}14 0%, transparent 42%)`,
+        backgroundImage: accentWash(accentColor, 8),
         border: `1px solid ${isHovered(episode.slug) ? accentColor : theme.semanticColors.border.default}`,
         transition: 'all 0.3s ease',
         transform: isHovered(episode.slug)
