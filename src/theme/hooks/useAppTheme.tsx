@@ -51,6 +51,14 @@ export interface UseAppThemeReturn {
   reducedTransparency: boolean;
   /** Set reduced transparency user preference */
   setReducedTransparency: (enabled: boolean) => void;
+  /** Whether the high-contrast layer is enabled (orthogonal to themeMode) */
+  highContrast: boolean;
+  /** Toggle the high-contrast layer */
+  setHighContrast: (enabled: boolean) => void;
+  /** Whether the colorblind-safe palette layer is enabled */
+  colorblindSafe: boolean;
+  /** Toggle the colorblind-safe palette layer */
+  setColorblindSafe: (enabled: boolean) => void;
 }
 
 /**
@@ -103,6 +111,8 @@ export function useAppTheme(): UseAppThemeReturn {
   const layoutPreference = resolvedPreferences.layoutPreference;
   const reducedMotion = resolvedPreferences.reducedMotion;
   const reducedTransparency = resolvedPreferences.reducedTransparency;
+  const highContrast = resolvedPreferences.highContrast;
+  const colorblindSafe = resolvedPreferences.colorblindSafe;
 
   const theme = themeMap[themeMode] as IExtendedTheme;
 
@@ -147,6 +157,20 @@ export function useAppTheme(): UseAppThemeReturn {
     [setPreference]
   );
 
+  const setHighContrast = useCallback(
+    (enabled: boolean) => {
+      setPreference('highContrast', enabled);
+    },
+    [setPreference]
+  );
+
+  const setColorblindSafe = useCallback(
+    (enabled: boolean) => {
+      setPreference('colorblindSafe', enabled);
+    },
+    [setPreference]
+  );
+
   /**
    * Mirror theme state onto <html> so CSS can style from it.
    *
@@ -184,7 +208,14 @@ export function useAppTheme(): UseAppThemeReturn {
       'data-tw-reduced-transparency',
       String(reducedTransparency)
     );
-  }, [reducedMotion, reducedTransparency]);
+    // Orthogonal a11y layers — the string values match the selectors in
+    // styles/tokens/a11y-layers.css. Attributes are removed when off so the
+    // selectors don't match at all, rather than matching an "off" value.
+    if (highContrast) root.setAttribute('data-tw-contrast', 'high');
+    else root.removeAttribute('data-tw-contrast');
+    if (colorblindSafe) root.setAttribute('data-tw-cvd', 'on');
+    else root.removeAttribute('data-tw-cvd');
+  }, [reducedMotion, reducedTransparency, highContrast, colorblindSafe]);
 
   return {
     isHydrated,
@@ -201,5 +232,9 @@ export function useAppTheme(): UseAppThemeReturn {
     setReducedMotion,
     reducedTransparency,
     setReducedTransparency,
+    highContrast,
+    setHighContrast,
+    colorblindSafe,
+    setColorblindSafe,
   };
 }

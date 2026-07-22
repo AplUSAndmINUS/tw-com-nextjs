@@ -8,6 +8,9 @@
 @import '../styles/tokens/spacing.css';
 @import '../styles/tokens/typography.css';
 @import '../styles/tokens/effects.css';
+/* a11y-layers last: orthogonal data-tw-contrast / data-tw-cvd overrides that
+   layer on top of any theme, so they must win on source order. */
+@import '../styles/tokens/a11y-layers.css';
 @import 'tailwindcss';
 
 /* Configure Tailwind to use class-based dark mode.

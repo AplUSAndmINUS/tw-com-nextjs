@@ -5,6 +5,9 @@
  * module, but re-exporting those here would collide on `default`.
  */
 
+export { TwAppearancePanel } from './TwAppearancePanel';
+export type { TwAppearancePanelProps } from './TwAppearancePanel';
+
 export { TwArticleCard } from './TwArticleCard';
 export type { TwArticleCardProps } from './TwArticleCard';
 
