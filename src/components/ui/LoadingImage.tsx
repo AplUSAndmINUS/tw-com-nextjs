@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image, { ImageProps } from 'next/image';
-import { Spinner } from '@fluentui/react-components';
+import { Spinner } from '@/components/ui/Spinner';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 
 type ImageLoadState = 'loading' | 'loaded' | 'error';

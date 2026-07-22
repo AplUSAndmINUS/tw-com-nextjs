@@ -30,14 +30,8 @@ import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { NavigationMenu } from './NavigationMenu';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
-import {
-  DismissSquare32Regular,
-  Navigation32Regular,
-  Settings32Regular,
-  WeatherMoon32Regular,
-  WeatherSunny32Regular,
-} from '@fluentui/react-icons';
 import { BookingsButton } from '../BookingsButton/BookingsButton';
+import { DismissSquareIcon, NavigationIcon, SettingsIcon, WeatherMoonIcon, WeatherSunnyIcon } from '@/components/icons';
 
 export interface BreadcrumbItem {
   label: string;
@@ -499,12 +493,12 @@ export function Header() {
                     >
                       {isDark ? (
                         <FluentIcon
-                          iconName={WeatherMoon32Regular}
+                          iconName={WeatherMoonIcon} size={32}
                           color={theme.palette.neutralPrimary}
                         />
                       ) : (
                         <FluentIcon
-                          iconName={WeatherSunny32Regular}
+                          iconName={WeatherSunnyIcon} size={32}
                           color={theme.palette.neutralPrimary}
                         />
                       )}
@@ -565,7 +559,7 @@ export function Header() {
                       aria-controls='settings-panel'
                     >
                       <FluentIcon
-                        iconName={DismissSquare32Regular}
+                        iconName={DismissSquareIcon} size={32}
                         color={theme.palette.neutralPrimary}
                       />
                     </button>
@@ -592,7 +586,7 @@ export function Header() {
                       aria-controls='settings-panel'
                     >
                       <FluentIcon
-                        iconName={Settings32Regular}
+                        iconName={SettingsIcon} size={32}
                         color={theme.palette.neutralPrimary}
                       />
                     </button>
@@ -654,7 +648,7 @@ export function Header() {
                     aria-controls='navigation-menu'
                   >
                     <FluentIcon
-                      iconName={DismissSquare32Regular}
+                      iconName={DismissSquareIcon} size={32}
                       color={theme.palette.neutralPrimary}
                     />
                   </button>
@@ -681,7 +675,7 @@ export function Header() {
                     aria-controls='navigation-menu'
                   >
                     <FluentIcon
-                      iconName={Navigation32Regular}
+                      iconName={NavigationIcon} size={32}
                       color={theme.palette.neutralPrimary}
                     />
                   </button>
@@ -753,7 +747,7 @@ export function Header() {
                 backgroundColor: isDark
                   ? theme.colorNeutralBackground2
                   : theme.colorNeutralBackground1,
-                boxShadow: theme.shadow64,
+                boxShadow: theme.shadows.modal,
                 overflowY: 'auto',
               }}
               onClick={(e: React.MouseEvent) => e.stopPropagation()}

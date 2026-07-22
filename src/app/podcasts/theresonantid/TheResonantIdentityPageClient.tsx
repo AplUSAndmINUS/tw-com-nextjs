@@ -22,14 +22,10 @@ import { Typography } from '@/components/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS, TRI_YOUTUBE_CHANNEL_HANDLES } from './constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import {
-  ArrowRight24Regular,
-  WindowNew24Regular,
-  Video24Regular,
-} from '@fluentui/react-icons';
 import { getApiBaseUrl } from '@/lib/environment';
 import { YouTubeVideo, formatDuration } from '@/app/videos/types';
 import { NativeLoadingImage } from '@/components/ui/LoadingImage';
+import { ArrowRightIcon, VideoIcon, WindowNewIcon } from '@/components/icons';
 
 interface TheResonantIdentityPageProps {
   episodes: PodcastEpisode[];
@@ -149,7 +145,7 @@ function TRIYouTubeVideos() {
           View all
           <FluentIcon
             color={theme.semanticColors.link.default}
-            iconName={WindowNew24Regular}
+            iconName={WindowNewIcon}
             style={{ marginLeft: theme.spacing.s2 }}
           />
         </ThemedLink>
@@ -187,7 +183,7 @@ function TRIYouTubeVideos() {
                     }}
                   >
                     <FluentIcon
-                      iconName={Video24Regular}
+                      iconName={VideoIcon}
                       style={{
                         fontSize: '2rem',
                         color: theme.semanticColors.text.muted,
@@ -427,7 +423,7 @@ export function TheResonantIdentityPageClient({
                   Play Now
                   <FluentIcon
                     color={playNowBaseTextColor}
-                    iconName={ArrowRight24Regular}
+                    iconName={ArrowRightIcon}
                     style={{ marginLeft: '0.5rem' }}
                   />
                 </button>
@@ -475,7 +471,7 @@ export function TheResonantIdentityPageClient({
             About The Resonant Identity
             <FluentIcon
               color={theme.semanticColors.link.default}
-              iconName={WindowNew24Regular}
+              iconName={WindowNewIcon}
               style={{
                 marginLeft: theme.spacing.s1,
               }}

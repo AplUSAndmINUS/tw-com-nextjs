@@ -5,8 +5,8 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { AiGeneratedIcon } from '@/assets/svgs/AiGeneratedIcon';
 import { Modal } from '@/components/Modal';
 import { FluentIcon } from '@/components/FluentIcon';
-import { WindowNew20Regular } from '@fluentui/react-icons';
 import { useIsMobile } from '@/hooks/useMediaQuery';
+import { WindowNewIcon } from '@/components/icons';
 
 export interface GeneratedWithAiBadgeProps {
   /**
@@ -239,7 +239,7 @@ export const GeneratedWithAiBadge: React.FC<GeneratedWithAiBadgeProps> = ({
               flexShrink: 0,
             }}
           >
-            <FluentIcon iconName={WindowNew20Regular} />
+            <FluentIcon iconName={WindowNewIcon} size={20} />
           </button>
 
           {/* Responsible AI Usage Modal which opens at maxWidth 800px */}

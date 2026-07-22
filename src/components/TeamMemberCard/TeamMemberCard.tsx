@@ -6,19 +6,15 @@
  */
 
 import React from 'react';
-import {
-  ArrowExpand28Regular,
-  ContactCard24Regular,
-} from '@fluentui/react-icons';
 import { Typography } from '@/components/Typography';
 import { FluentIcon } from '@/components/FluentIcon';
 import { LoadingImage } from '@/components/ui/LoadingImage';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TeamMemberModal } from './TeamMemberModal';
-import { useColorVisionFilter } from '@/hooks/useColorVisionFilter';
 import { type SocialIcon } from '@/components/SocialIcons/constants';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { useCardState } from '@/hooks/useCardState';
+import { ArrowExpandIcon, ContactCardIcon } from '@/components/icons';
 
 export interface TeamMember {
   id: string;
@@ -47,7 +43,6 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   // Only use actual hook values after mounting to avoid hydration mismatch
   const isMobile = isMounted ? isMobileHook : false;
   const isTablet = isMounted ? isTabletHook : false;
-  const { filter } = useColorVisionFilter();
   const {
     isHovered,
     backgroundColor,
@@ -104,16 +99,16 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
               src={member.photo}
               alt={`${member.name} - ${member.role}`}
               fill
+              className='tw-media'
               style={{
                 objectFit: 'cover',
                 objectPosition: 'top',
-                filter: filter,
               }}
               sizes={`(max-width: 768px) 100vw, ${maxWidth}`}
             />
           ) : (
             <FluentIcon
-              iconName={ContactCard24Regular}
+              iconName={ContactCardIcon}
               color={theme.palette.neutralTertiary}
             />
           )}
@@ -216,7 +211,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
           {/* Expand icon — signals the card is clickable (desktop only) */}
           {!isMobile && (
             <FluentIcon
-              iconName={ArrowExpand28Regular}
+              iconName={ArrowExpandIcon} size={28}
               color={theme.palette.themePrimary}
               style={{
                 opacity: isHovered ? 0.9 : 1,

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { getAllLanguages } from './githubLoader';
 import { GitHubRepo } from '../types';
 

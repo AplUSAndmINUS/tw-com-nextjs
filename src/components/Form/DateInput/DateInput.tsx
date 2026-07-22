@@ -3,7 +3,7 @@
 import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import { Calendar24Regular } from '@fluentui/react-icons';
+import { CalendarIcon } from '@/components/icons';
 
 export type DateInputSize = 'small' | 'medium' | 'large';
 export type DateInputVariant = 'default' | 'outlined' | 'filled';
@@ -217,7 +217,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
           {showIcon && (
             <div style={iconStyles}>
-              <FluentIcon iconName={Calendar24Regular} />
+              <FluentIcon iconName={CalendarIcon} />
             </div>
           )}
         </div>

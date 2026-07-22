@@ -10,7 +10,7 @@ import { Typography } from '@/components/Typography/Typography';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { TRI_LINKS } from './theresonantid/constants';
 import { FluentIcon } from '@/components/FluentIcon/FluentIcon';
-import { ArrowRight24Regular, WindowNew24Regular } from '@fluentui/react-icons';
+import { ArrowRightIcon, WindowNewIcon } from '@/components/icons';
 
 /**
  * PodcastsDirectoryClient
@@ -43,7 +43,7 @@ export function PodcastsDirectoryClient() {
                 ? theme.palette.themePrimary
                 : theme.semanticColors.border.default,
               transform: hovered ? 'translateY(-4px)' : 'none',
-              boxShadow: hovered ? theme.shadow16 : theme.shadow4,
+              boxShadow: hovered ? theme.shadows.cardElevated : theme.shadows.card,
               backgroundColor: theme.semanticColors.border.default,
             }}
           >
@@ -103,7 +103,7 @@ export function PodcastsDirectoryClient() {
                   View Episodes
                   <FluentIcon
                     color={theme.palette.white}
-                    iconName={ArrowRight24Regular}
+                    iconName={ArrowRightIcon}
                     style={{ marginLeft: '0.5rem' }}
                   />
                 </ThemedLink>
@@ -124,7 +124,7 @@ export function PodcastsDirectoryClient() {
                   About The Resonant Identity
                   <FluentIcon
                     color={theme.palette.neutralSecondary}
-                    iconName={WindowNew24Regular}
+                    iconName={WindowNewIcon}
                     style={{ marginLeft: '0.5rem' }}
                   />
                 </ThemedLink>

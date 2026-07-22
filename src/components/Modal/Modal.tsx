@@ -4,9 +4,9 @@ import React, { useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import { Dismiss32Regular } from '@fluentui/react-icons';
 import { createPortal } from 'react-dom';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { DismissIcon } from '@/components/icons';
 
 export interface ModalProps {
   /** Whether the modal is open */
@@ -216,7 +216,7 @@ export const Modal: React.FC<ModalProps> = ({
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  <FluentIcon iconName={Dismiss32Regular} />
+                  <FluentIcon iconName={DismissIcon} size={32} />
                 </button>
               )}
 

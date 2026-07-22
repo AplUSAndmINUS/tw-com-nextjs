@@ -5,10 +5,10 @@ import React from 'react';
 import { Button } from '@/components/Form';
 import { useDeviceOrientation } from '@/hooks';
 import { FluentIcon } from '../FluentIcon';
-import { CalendarLtr24Regular } from '@fluentui/react-icons';
 import { ConsultationStepper } from '../ConsultationStepper';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '../Typography';
+import { CalendarIcon } from '@/components/icons';
 
 interface BookingsButtonProps {
   animateSubHeader?: boolean;
@@ -118,7 +118,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
         >
           {isHomePage && (
             <FluentIcon
-              iconName={CalendarLtr24Regular}
+              iconName={CalendarIcon}
               style={{ marginRight: '0.5rem' }}
               color={theme.colorNeutralBackground1}
             />

@@ -11,19 +11,13 @@ import { Button } from '@/components/Form/Button/Button';
 import { FluentIcon } from '@/components/FluentIcon';
 import { Typography } from '@/components/Typography';
 import {
-  Video24Regular,
-  Play24Filled,
-  ErrorCircle24Regular,
-  LiveOff24Regular,
-  List24Regular,
-} from '@fluentui/react-icons';
-import {
   YouTubeVideo,
   VideoType,
   VIDEO_TABS,
   formatDuration,
 } from '@/app/videos/types';
 import { NativeLoadingImage } from '@/components/ui/LoadingImage';
+import { ErrorCircleIcon, ListIcon, LiveOffIcon, PlayFilledIcon, VideoIcon } from '@/components/icons';
 
 /**
  * VideoCard Component
@@ -95,7 +89,7 @@ function VideoCard({
             }}
           >
             <FluentIcon
-              iconName={Video24Regular}
+              iconName={VideoIcon}
               style={{
                 fontSize: '3rem',
                 color: theme.semanticColors.text.muted,
@@ -115,7 +109,7 @@ function VideoCard({
             }}
           >
             <FluentIcon
-              iconName={Play24Filled}
+              iconName={PlayFilledIcon}
               style={{
                 fontSize: '3rem',
                 color: theme.palette.white,
@@ -389,10 +383,10 @@ export function VideoListingClientWrapper() {
               <FluentIcon
                 iconName={
                   tab.key === 'videos'
-                    ? Video24Regular
+                    ? VideoIcon
                     : tab.key === 'live'
-                      ? LiveOff24Regular
-                      : List24Regular
+                      ? LiveOffIcon
+                      : ListIcon
                 }
               />
               {tab.label}
@@ -417,7 +411,7 @@ export function VideoListingClientWrapper() {
       {!loading && error && (
         <div className='flex justify-center items-center min-h-[300px] flex-col gap-4'>
           <FluentIcon
-            iconName={ErrorCircle24Regular}
+            iconName={ErrorCircleIcon}
             style={{
               fontSize: '3rem',
               color: theme.semanticColors.text.muted,
@@ -436,7 +430,7 @@ export function VideoListingClientWrapper() {
       {!loading && !error && videos.length === 0 && (
         <div className='flex justify-center items-center min-h-[300px] flex-col gap-4'>
           <FluentIcon
-            iconName={Video24Regular}
+            iconName={VideoIcon}
             style={{
               fontSize: '3rem',
               color: theme.semanticColors.text.muted,

@@ -3,7 +3,10 @@
 import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import type { FluentIcon as FluentIconType } from '@fluentui/react-icons';
+import type { IconProps } from '@/components/icons';
+
+/** Any icon from src/components/icons. */
+type IconComponent = React.ComponentType<IconProps>;
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputVariant = 'default' | 'outlined' | 'filled';
@@ -25,9 +28,9 @@ export interface InputProps extends Omit<
   /** Success message */
   success?: string;
   /** Icon before input */
-  iconBefore?: FluentIconType;
+  iconBefore?: IconComponent;
   /** Icon after input */
-  iconAfter?: FluentIconType;
+  iconAfter?: IconComponent;
   /** Full width input */
   fullWidth?: boolean;
   /** Required field indicator */

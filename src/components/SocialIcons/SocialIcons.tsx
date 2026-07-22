@@ -4,6 +4,7 @@ import React from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
 import { useCardState } from '@/hooks';
+import { HomeIcon } from '@/components/icons';
 
 export interface SocialIcon {
   iconName: React.ComponentType<any> | string;
@@ -22,10 +23,9 @@ interface SocialIconsProps {
  *
  * @example
  * ```tsx
- * import { HomeRegular } from '@fluentui/react-icons';
- *
+ *  *
  * const socialLinks = [
- *   { iconName: HomeRegular, url: 'https://example.com', tooltip: 'Home', isTagline: true }
+ *   { iconName: HomeIcon, url: 'https://example.com', tooltip: 'Home', isTagline: true }
  * ];
  *
  * <SocialIcons icons={socialLinks} />

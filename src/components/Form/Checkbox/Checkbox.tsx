@@ -3,7 +3,7 @@
 import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import { Checkmark24Regular, Subtract24Regular } from '@fluentui/react-icons';
+import { CheckmarkIcon, SubtractIcon } from '@/components/icons';
 
 export type CheckboxSize = 'small' | 'medium' | 'large';
 
@@ -191,12 +191,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             />
             {indeterminate ? (
               <FluentIcon
-                iconName={Subtract24Regular}
+                iconName={SubtractIcon}
                 color={theme.palette.white}
               />
             ) : checked ? (
               <FluentIcon
-                iconName={Checkmark24Regular}
+                iconName={CheckmarkIcon}
                 color={theme.palette.white}
               />
             ) : null}

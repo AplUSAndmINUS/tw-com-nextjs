@@ -13,9 +13,9 @@ import type { ThemeMode } from '@/store/userPreferencesStore';
 import { Typography } from '../Typography';
 import { Select } from '../Form/Select/Select';
 import { Input } from '../Form/Input/Input';
-import { Dismiss32Regular } from '@fluentui/react-icons';
 import { FluentIcon } from '../FluentIcon';
 import { useForceDarkDetection } from '@/hooks/useForceDarkDetection';
+import { DismissIcon } from '@/components/icons';
 
 interface SettingsPanelProps {
   onClose?: () => void;
@@ -168,7 +168,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               }}
             >
               <FluentIcon
-                iconName={Dismiss32Regular}
+                iconName={DismissIcon} size={32}
                 color={theme.palette.neutralTertiary}
               />
             </button>

@@ -3,7 +3,10 @@
 import React, { forwardRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { FluentIcon } from '@/components/FluentIcon';
-import type { FluentIcon as FluentIconType } from '@fluentui/react-icons';
+import type { IconProps } from '@/components/icons';
+
+/** Any icon from src/components/icons. */
+type IconComponent = React.ComponentType<IconProps>;
 
 export type ButtonVariant =
   | 'primary'
@@ -32,11 +35,11 @@ export interface ButtonProps extends Omit<
   /** Loading state */
   loading?: boolean;
   /** Icon before text */
-  iconBefore?: FluentIconType;
+  iconBefore?: IconComponent;
   /** Icon after text */
-  iconAfter?: FluentIconType;
+  iconAfter?: IconComponent;
   /** Icon only (no text) */
-  iconOnly?: FluentIconType;
+  iconOnly?: IconComponent;
   /** Button type */
   type?: 'button' | 'submit' | 'reset';
   /** Children */
