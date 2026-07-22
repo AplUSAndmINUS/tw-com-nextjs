@@ -11,6 +11,7 @@ import { TeamMemberCard, type TeamMember } from '@/components/TeamMemberCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
 import { getSocialIcons } from '@/components/SocialIcons/constants';
+import styles from './AboutPageClient.module.scss';
 
 interface AboutPageClientProps {
   children: React.ReactNode;
@@ -42,8 +43,8 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
   };
 
   const mediaPane = (
-    <div className='flex w-full items-center justify-center pt-4 md:pt-0'>
-      <div className='w-full max-w-xs px-4 md:max-w-md md:px-0 md:overflow-hidden md:pt-1 md:pb-1 lg:ml-6'>
+    <div className={styles.mediaPane}>
+      <div className={styles.mediaInner}>
         <TeamMemberCard member={teamMember} maxWidth='400px' />
       </div>
     </div>
@@ -54,9 +55,9 @@ export const AboutPageClient: React.FC<AboutPageClientProps> = ({
       mediaPane={mediaPane}
       hasMediaPane
       layoutOptions={{
-        paneSizeClasses: 'lg:w-1/4',
-        contentRightOffsetClasses: 'lg:mr-[25%]',
-        contentLeftOffsetClasses: 'lg:ml-[25%]',
+        paneSizeClasses: styles.paneSize,
+        contentRightOffsetClasses: styles.contentRightOffset,
+        contentLeftOffsetClasses: styles.contentLeftOffset,
       }}
     >
       {children}

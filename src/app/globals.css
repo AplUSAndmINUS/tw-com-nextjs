@@ -41,6 +41,8 @@
 body {
   background: var(--tw-bg-page);
   color: var(--tw-text-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   /* Body copy stays on the neutral sans stack for now. The design system calls
      for Merriweather (--tw-font-body) sitewide, but flipping it here would
      restyle every existing page at once; DSM components set it themselves, and

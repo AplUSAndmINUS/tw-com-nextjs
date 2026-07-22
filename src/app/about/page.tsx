@@ -16,6 +16,7 @@ import { AboutFeaturedProjects } from './AboutFeaturedProjects';
 import { AboutParagraph } from './AboutParagraph';
 import { AboutBulletList } from './AboutBulletList';
 import { getPersonSchema, getAboutPageSchema } from '@/utils/structuredData';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -83,19 +84,19 @@ export default function AboutPage() {
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
       />
-      <div className='max-width-content pt-0 xs:pb-0 md:py-8'>
+      <div className={`max-width-content ${styles.page}`}>
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <Hero
           title='About Me'
           iconName='Person24Regular'
           description='Come on in and stay awhile; I have some stories to share.'
         >
-          <div className='mt-2' />
+          <div className={styles.spacer} />
           <AboutHeroCTAs />
         </Hero>
 
         {/* ── Opening Statement ────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='accent' className='mt-10 space-y-6 p-6'>
+        <AboutSectionWrapper variant='accent' className={styles.sectionSpace6}>
           <SectionHeading isAccent>Hi! I'm Terence :)</SectionHeading>
           <AboutParagraph>
             I help people and organizations rebuild the parts of themselves they
@@ -122,7 +123,7 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── What I Believe ───────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='subtle' className='mt-10 space-y-4 p-6'>
+        <AboutSectionWrapper variant='subtle' className={styles.sectionSpace4}>
           <SectionHeading>What I Believe</SectionHeading>
           <AboutParagraph>
             Identity isn't a mask you wear —{' '}
@@ -156,14 +157,14 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── What I Do ────────────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='default' className='mt-10 space-y-4 p-6'>
+        <AboutSectionWrapper variant='default' className={styles.sectionSpace4}>
           <SectionHeading>What I Do</SectionHeading>
           <AboutParagraph>
             I build systems — technical, personal, and organizational — that
             help people operate with more clarity, coherence, and confidence.
           </AboutParagraph>
 
-          <AboutParagraph className='mt-6'>
+          <AboutParagraph className={styles.mt6}>
             Everything I build is designed to be:
           </AboutParagraph>
           <AboutBulletList>
@@ -174,7 +175,7 @@ export default function AboutPage() {
             <li>✨ Deeply resonant</li>
           </AboutBulletList>
 
-          <div className='space-y-4 mt-6'>
+          <div className={styles.stack4Mt6}>
             <div>
               <Typography
                 variant='h4'
@@ -220,7 +221,7 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── How I Work ───────────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='subtle' className='mt-10 space-y-4 p-6'>
+        <AboutSectionWrapper variant='subtle' className={styles.sectionSpace4}>
           <SectionHeading>How I Work</SectionHeading>
           <AboutParagraph>I'm a strange mix of:</AboutParagraph>
           <AboutBulletList>
@@ -255,7 +256,7 @@ export default function AboutPage() {
         </AboutSectionWrapper>
 
         {/* ── Why This Work Matters ────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='accent' className='mt-10 space-y-4 p-6'>
+        <AboutSectionWrapper variant='accent' className={styles.sectionSpace4}>
           <SectionHeading isAccent>Why This Work Matters to Me</SectionHeading>
           <AboutParagraph>
             Because I’ve rebuilt myself more than once — professionally,
@@ -289,47 +290,47 @@ export default function AboutPage() {
         </AboutSectionWrapper> */}
 
         {/* ── Work Experience ──────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='default' className={styles.sectionRounded}>
           <SectionHeading>Work Experience</SectionHeading>
           <AboutTimeline />
         </AboutSectionWrapper>
 
         {/* ── Featured Projects ────────────────────────────────────────────── */}
-        <section className='mt-10 md:p-6 rounded-lg'>
+        <section className={styles.sectionFeatured}>
           <SectionHeading>Featured Projects</SectionHeading>
           <AboutFeaturedProjects />
         </section>
 
         {/* ── Skills ───────────────────────────────────────────────────────── */}
-        <AboutSectionWrapper variant='default' className='mt-10 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='default' className={styles.sectionRounded}>
           <SectionHeading>Skills &amp; Expertise</SectionHeading>
           <AboutSkillsTable />
         </AboutSectionWrapper>
 
         {/* ── Education & Certifications ───────────────────────────────────── */}
-        <AboutSectionWrapper variant='subtle' className='mt-10 p-6 rounded-lg'>
+        <AboutSectionWrapper variant='subtle' className={styles.sectionRounded}>
           <SectionHeading>Education &amp; Certifications</SectionHeading>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+          <div className={styles.eduGrid}>
             <div>
               <Typography
                 variant='h4'
-                className='text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-200 mb-4'
+                className={styles.colHeading}
               >
                 Degrees
               </Typography>
-              <ul className='space-y-3'>
+              <ul className={styles.stack3}>
                 {EDUCATION.map((item) => (
-                  <li key={item.credential} className='flex flex-col'>
+                  <li key={item.credential} className={styles.col}>
                     <Typography
                       variant='body'
-                      className='font-semibold text-gray-900 dark:text-white text-sm'
+                      className={styles.degreeName}
                       style={{ lineHeight: 1.4 }}
                     >
                       {item.credential}
                     </Typography>
                     <Typography
                       variant='label'
-                      className='text-xs text-gray-500 dark:text-gray-400'
+                      className={styles.degreeMeta}
                     >
                       {item.school} · {item.year}
                     </Typography>
@@ -340,27 +341,27 @@ export default function AboutPage() {
             <div>
               <Typography
                 variant='h4'
-                className='text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-200 mb-4'
+                className={styles.colHeading}
               >
                 Certifications
               </Typography>
-              <ul className='space-y-2'>
+              <ul className={styles.stack2}>
                 {CERTIFICATIONS.map((cert) => {
                   const leftParenIndex = cert.indexOf('(');
                   if (leftParenIndex > 0) {
                     const name = cert.substring(0, leftParenIndex).trim();
                     const year = cert.substring(leftParenIndex);
                     return (
-                      <li key={cert} className='flex items-start gap-1 text-sm'>
+                      <li key={cert} className={styles.certItem}>
                         <Typography
                           variant='label'
-                          className='font-semibold text-gray-900 dark:text-white'
+                          className={styles.certName}
                         >
                           <strong>{name}</strong>
                         </Typography>
                         <Typography
                           variant='label'
-                          className='text-gray-600 dark:text-gray-400'
+                          className={styles.certYear}
                         >
                           {year}
                         </Typography>
@@ -370,7 +371,7 @@ export default function AboutPage() {
                   return (
                     <li
                       key={cert}
-                      className='text-sm text-gray-600 dark:text-gray-300'
+                      className={styles.certPlain}
                     >
                       {cert}
                     </li>
@@ -384,10 +385,10 @@ export default function AboutPage() {
         {/* ── Skills & Expertise Circles ───────────────────────────────────── */}
         <AboutSectionWrapper
           variant='skills'
-          className='mt-10 md:p-8 p-6 mb-10 rounded-lg'
+          className={styles.sectionPad8}
         >
           <SectionHeading>Proficiency Levels</SectionHeading>
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 items-start justify-items-baseline'>
+          <div className={styles.skillsGrid}>
             {ABOUT_SKILLS.map((skill) => (
               <PercentageBullet
                 key={skill.name}
@@ -401,7 +402,7 @@ export default function AboutPage() {
         {/* -- If You're here.... ───────────────────────────────────── */}
         <AboutSectionWrapper
           variant='accent'
-          className='mt-10 md:p-8 p-6 mb-10 rounded-lg'
+          className={styles.sectionPad8}
         >
           <SectionHeading isAccent>If You're here....</SectionHeading>
           <Typography

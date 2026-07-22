@@ -1,0 +1,18 @@
+@use 'abstracts' as *;
+
+/* Centres the header content column (was Tailwind `mx-auto`). The
+   `max-width-content-header` global class in globals.css still supplies the
+   max-width; only the auto-margin centring moves here. */
+.inner {
+  margin-inline: auto;
+}
+
+/* Theme-toggle cluster: bookings button + theme button (was
+   `flex flex-row items-center justify-center gap-2`). */
+.themeGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

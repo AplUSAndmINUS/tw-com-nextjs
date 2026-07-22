@@ -5,6 +5,7 @@ import { Hero } from '@/components/Hero';
 import { Typography } from '@/components/Typography';
 import EducationPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
 import { ConsultationCTA } from '@/app/services/ConsultationCTA';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'Coaching',
@@ -31,17 +32,17 @@ export default function CoachingPage() {
         title: 'Coaching & Offerings',
       }}
     >
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className={styles.page}>
         <Hero
           title='Resonance Core Coaching'
           iconName='Person24Regular'
           description='Identity-centered coaching for creators and leaders who want to align their work with who they are becoming.'
         />
 
-        <section className='mt-8 mb-12'>
+        <section className={styles.intro}>
           <Typography
             variant='body'
-            className='text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed'
+            className={styles.introText}
           >
             This coaching path is built for moments of reinvention. Whether
             you&apos;re shifting direction, clarifying your voice, or rebuilding

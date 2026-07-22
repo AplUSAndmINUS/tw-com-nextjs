@@ -11,6 +11,7 @@ import { Typography } from '@/components/Typography';
 import { Button, Input, Select, Textarea } from '@/components/Form';
 import { getQuestionSet } from './constants';
 import { ServiceKey, StepOneData, StepTwoData, Question } from './types';
+import styles from './StepContextualQuestions.module.scss';
 
 // Map service keys to readable labels for section headings
 const SERVICE_OPTIONS_LABELS: Partial<Record<ServiceKey, string>> = {
@@ -253,7 +254,7 @@ export const StepContextualQuestions: React.FC<
             </Typography>
           )}
 
-          <div className='flex flex-col gap-4'>
+          <div className={styles.fields}>
             {questionSet.questions.map((q) => (
               <div key={q.id}>
                 {renderQuestion(q)}
@@ -278,7 +279,7 @@ export const StepContextualQuestions: React.FC<
         </>
       )}
 
-      <div className='flex justify-between mt-6'>
+      <div className={styles.actions}>
         <Button
           variant='secondary'
           onClick={onBack}

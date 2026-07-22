@@ -28,6 +28,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAccessControl } from '@/hooks/useAccessControl';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import { NavigationMenu } from './NavigationMenu';
+import styles from './Header.module.scss';
 import { SettingsPanel } from '@/components/SettingsPanel';
 import { FluentIcon } from '../FluentIcon';
 import { BookingsButton } from '../BookingsButton/BookingsButton';
@@ -331,7 +332,7 @@ export function Header() {
         }}
       >
         <div
-          className='max-width-content-header mx-auto'
+          className={`max-width-content-header ${styles.inner}`}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -468,9 +469,7 @@ export function Header() {
             {isMounted &&
               !isHomePage &&
               (themeMode === 'light' || themeMode === 'dark') && (
-                <div
-                  className={'flex flex-row items-center justify-center gap-2'}
-                >
+                <div className={styles.themeGroup}>
                   {!isMobile && <BookingsButton isHeader />}
                   <div style={{ position: 'relative' }}>
                     <button

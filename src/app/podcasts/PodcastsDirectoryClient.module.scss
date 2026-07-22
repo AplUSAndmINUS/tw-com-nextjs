@@ -1,0 +1,95 @@
+@use 'abstracts' as *;
+
+.page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: var(--tw-space-m);
+  padding-block: 48px;
+}
+
+.grid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--tw-space-l);
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  border-radius: var(--tw-radius-control);
+  overflow: hidden;
+  border: 1px solid;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  position: relative;
+  height: 16rem;
+  overflow: hidden;
+}
+
+.body {
+  padding: var(--tw-space-l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-m);
+  flex: 1;
+}
+
+.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  transition:
+    color 0.15s,
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.625;
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-m);
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--tw-radius-control);
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    color 0.15s,
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--tw-radius-control);
+  border: 1px solid;
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}

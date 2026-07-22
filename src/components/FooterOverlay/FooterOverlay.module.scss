@@ -1,0 +1,38 @@
+@use 'abstracts' as *;
+
+/* Show-Footer button: desktop-only, centered floating pill. */
+.showButton {
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 8px 24px;
+  border-radius: var(--tw-radius-control);
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--tw-motion-ease);
+
+  @include from('mobile-lg') {
+    display: flex;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--tw-shadow-l);
+}

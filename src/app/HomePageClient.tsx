@@ -351,7 +351,13 @@ export default function HomePageClient({
               </div>
 
               <div className={styles.viewAll}>
-                <a href='/case-studies'>Case studies &#8594;</a>
+                <a
+                  href='https://fluxline.pro/case-studies'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Case studies &#8599;
+                </a>
                 <a href='/portfolio'>View the full Portfolio &#8594;</a>
               </div>
             </div>

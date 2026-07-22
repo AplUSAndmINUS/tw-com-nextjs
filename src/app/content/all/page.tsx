@@ -4,6 +4,7 @@ import { getAllContent } from '@/lib/content';
 import { PageLayout } from '@/layouts/PageLayout';
 import { AllContentClient } from './AllContentClient';
 import ContentPortrait from '@/assets/images/Content1280x1815.jpg';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'All Content',
@@ -28,13 +29,12 @@ export const metadata: Metadata = {
  * Uses the same ContentListingPage pattern as Blog, Portfolio, etc.
  */
 export default async function AllContentPage() {
-  // Fetch all content types
+  // Fetch all content types (case studies live on Fluxline.pro, not here).
   const blogPosts = await getAllContent('blog');
   const portfolioItems = await getAllContent('portfolio');
-  const caseStudies = await getAllContent('case-studies');
 
   // Combine all content
-  const allContent = [...blogPosts, ...portfolioItems, ...caseStudies];
+  const allContent = [...blogPosts, ...portfolioItems];
 
   return (
     <PageLayout
@@ -44,7 +44,7 @@ export default async function AllContentPage() {
         title: 'All Content',
       }}
     >
-      <div className='pt-0 pb-8 md:py-8'>
+      <div className={styles.wrap}>
         <AllContentClient allContent={allContent} />
       </div>
     </PageLayout>

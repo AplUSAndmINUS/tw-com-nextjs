@@ -1,0 +1,33 @@
+@use 'abstracts' as *;
+
+/* Menu header row (was `flex items-center justify-between`). */
+.menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Linktree logo wrapper (was
+   `flex items-end mt-8 transition-transform hover:scale-105`). This is a
+   framer-motion element — the CSS transform hover matches the original class
+   behaviour and framer's inline transform continues to win during animation. */
+.linktree {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 32px;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Left-handed alignment (was `justify-start`). */
+.linktreeStart {
+  justify-content: flex-start;
+}
+
+/* Default right alignment (was `justify-end`). */
+.linktreeEnd {
+  justify-content: flex-end;
+}

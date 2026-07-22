@@ -1,0 +1,154 @@
+@use 'abstracts' as *;
+
+.emptyState {
+  text-align: center;
+  padding-block: var(--tw-space-xxl);
+}
+
+.emptyText {
+  color: var(--tw-text-faint);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--tw-space-xl);
+
+  @include from('tablet') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.cardLink {
+  display: block;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+}
+
+.cardInner {
+  height: 100%;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: var(--tw-shadow-l);
+  }
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--tw-surface-inset);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.featuredBadge {
+  position: absolute;
+  top: var(--tw-space-m);
+  right: var(--tw-space-m);
+}
+
+.featuredLabel {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--tw-radius-pill);
+  box-shadow: var(--tw-shadow-m);
+}
+
+.content {
+  padding: var(--tw-space-xl);
+}
+
+.badgeRow {
+  margin-bottom: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--tw-radius-pill);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  transition: color 0.15s;
+
+  @include from('tablet') {
+    font-size: 1.875rem;
+  }
+}
+
+.excerpt {
+  font-size: 1rem;
+  color: var(--tw-text-muted);
+  margin-bottom: var(--tw-space-l);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+
+  @include from('tablet') {
+    font-size: 1.125rem;
+  }
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-m);
+  font-size: 0.875rem;
+  color: var(--tw-text-muted);
+  margin-bottom: var(--tw-space-m);
+}
+
+.metaEmphasis {
+  font-weight: 500;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  background: var(--tw-surface-inset);
+  color: var(--tw-text-muted);
+  font-weight: 500;
+}
+
+.galleryIndicator {
+  margin-top: var(--tw-space-m);
+  padding-top: var(--tw-space-m);
+  border-top: 1px solid var(--tw-border);
+}
+
+.galleryInner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--tw-text-muted);
+}
+
+.galleryIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}

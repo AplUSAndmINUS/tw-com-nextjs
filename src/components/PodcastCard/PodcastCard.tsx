@@ -10,6 +10,7 @@ import { Typography } from '../Typography';
 import { useMouseMultiHoverState } from '@/hooks/useHoverState';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { accentWash } from '@/utils/color';
+import styles from './PodcastCard.module.scss';
 
 interface PodcastCardProps {
   episode: PodcastEpisode;
@@ -240,7 +241,7 @@ export function PodcastCard({
             alt={episode.title}
             fill
             sizes='40px'
-            className='object-cover'
+            className={styles.objectCover}
           />
         ) : (
           <div
@@ -364,7 +365,7 @@ export function PodcastCard({
             alt={episode.title}
             fill
             sizes='80px'
-            className='object-cover'
+            className={styles.objectCover}
           />
         ) : (
           <div
@@ -530,7 +531,7 @@ export function PodcastCard({
           onKeyDown={handleKeyDown}
           role='button'
           tabIndex={0}
-          className='group block cursor-pointer'
+          className={styles.clickable}
           {...getHoverProps(episode.slug)}
         >
           {smallArticleContent}
@@ -541,7 +542,7 @@ export function PodcastCard({
     return (
       <Link
         href={`/podcasts/${episode.slug}`}
-        className='group block'
+        className={styles.linkBlock}
         {...getHoverProps(episode.slug)}
       >
         {smallArticleContent}
@@ -557,7 +558,7 @@ export function PodcastCard({
         onKeyDown={handleKeyDown}
         role='button'
         tabIndex={0}
-        className='group block cursor-pointer'
+        className={styles.clickable}
         {...getHoverProps(episode.slug)}
       >
         {largeArticleContent}
@@ -568,7 +569,7 @@ export function PodcastCard({
   return (
     <Link
       href={`/podcasts/${episode.slug}`}
-      className='group block'
+      className={styles.linkBlock}
       {...getHoverProps(episode.slug)}
     >
       {largeArticleContent}

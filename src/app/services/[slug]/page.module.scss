@@ -1,0 +1,55 @@
+@use 'abstracts' as *;
+
+.page {
+  padding-top: 0;
+  padding-bottom: var(--tw-space-xl);
+
+  @include from('mobile-lg') {
+    padding-top: var(--tw-space-xl);
+    padding-bottom: var(--tw-space-xl);
+  }
+}
+
+.blurbSection {
+  margin-top: var(--tw-space-xl);
+  margin-bottom: var(--tw-space-xxxl);
+}
+
+.paragraphs {
+  > * + * {
+    margin-top: var(--tw-space-m);
+  }
+}
+
+.paragraph {
+  line-height: 1.625;
+}
+
+.fluxlineLinkWrap {
+  margin-top: var(--tw-space-l);
+}
+
+.fluxlineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--tw-text-muted);
+  border: 1px solid var(--tw-border);
+  border-radius: 4px;
+  padding: 6px 12px;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+
+  &:hover {
+    color: var(--tw-text-faint);
+    border-color: var(--tw-border-subtle);
+  }
+}
+
+.offersSection {
+  margin-top: var(--tw-space-xxxl);
+  margin-bottom: var(--tw-space-xxxl);
+}

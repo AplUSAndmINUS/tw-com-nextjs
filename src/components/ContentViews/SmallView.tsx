@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ContentItem } from '@/content/types';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { LoadingImage } from '@/components/ui/LoadingImage';
+import styles from './SmallView.module.scss';
 
 interface SmallViewProps {
   items: ContentItem[];
@@ -16,14 +17,14 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   if (items.length === 0) {
     return (
-      <div className='text-center py-12'>
-        <p className='text-gray-500 dark:text-gray-400'>No content found.</p>
+      <div className={styles.emptyState}>
+        <p className={styles.emptyText}>No content found.</p>
       </div>
     );
   }
 
   return (
-    <div className='space-y-4'>
+    <div className={styles.list}>
       {items.map((item) => {
         const itemUrl = baseUrl
           ? `${baseUrl}/${item.slug}`
@@ -33,12 +34,12 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
           <Link
             key={item.slug}
             href={itemUrl}
-            className='group block'
+            className={styles.cardLink}
             onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(item.slug); }}
             onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(null); }}
           >
             <div
-              className='flex gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-md transition-all duration-200 bg-white dark:bg-gray-900'
+              className={styles.card}
               style={
                 hoveredSlug === item.slug
                   ? { borderColor: theme.semanticColors.link.default }
@@ -47,23 +48,23 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
             >
               {/* Thumbnail */}
               {item.imageUrl && (
-                <div className='relative w-24 h-24 flex-shrink-0 bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden'>
+                <div className={styles.thumb}>
                   <LoadingImage
                     src={item.imageUrl}
                     alt={item.imageAlt || item.title}
                     fill
-                    className='object-cover'
+                    className={styles.image}
                     sizes='96px'
                   />
                 </div>
               )}
 
-              <div className='flex-1 min-w-0'>
+              <div className={styles.body}>
                 {/* Header: Category and Featured */}
-                <div className='flex items-center gap-2 mb-1'>
+                <div className={styles.headerRow}>
                   {(item.category || item.type) && (
                     <span
-                      className='inline-block px-2 py-0.5 text-xs font-medium rounded'
+                      className={styles.category}
                       style={{
                         backgroundColor: theme.semanticColors.background.muted,
                         color: theme.semanticColors.link.default,
@@ -75,7 +76,7 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
 
                   {item.featured && (
                     <span
-                      className='inline-block px-2 py-0.5 text-xs font-semibold rounded'
+                      className={styles.featured}
                       style={{
                         backgroundColor: theme.semanticColors.link.default,
                         color: theme.semanticColors.background.base,
@@ -88,7 +89,7 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
 
                 {/* Title */}
                 <h3
-                  className='text-lg font-semibold mb-1 transition-colors truncate'
+                  className={styles.title}
                   style={{
                     color:
                       hoveredSlug === item.slug
@@ -101,13 +102,13 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
 
                 {/* Excerpt */}
                 {item.excerpt && (
-                  <p className='text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2'>
+                  <p className={styles.excerpt}>
                     {item.excerpt}
                   </p>
                 )}
 
                 {/* Meta and Tags */}
-                <div className='flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-500'>
+                <div className={styles.meta}>
                   {/* Date */}
                   {item.publishedDate && (
                     <time dateTime={item.publishedDate}>
@@ -134,9 +135,9 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
                   {item.gallery && item.gallery.length > 0 && (
                     <>
                       <span>•</span>
-                      <span className='flex items-center gap-1'>
+                      <span className={styles.galleryCount}>
                         <svg
-                          className='w-3 h-3'
+                          className={styles.galleryIcon}
                           fill='none'
                           stroke='currentColor'
                           viewBox='0 0 24 24'
@@ -157,17 +158,17 @@ export function SmallView({ items, baseUrl = '' }: SmallViewProps) {
                   {item.tags && item.tags.length > 0 && (
                     <>
                       <span>•</span>
-                      <div className='flex items-center gap-2'>
+                      <div className={styles.tagGroup}>
                         {item.tags.slice(0, 2).map((tag) => (
                           <span
                             key={tag}
-                            className='inline-block px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            className={styles.tag}
                           >
                             {tag}
                           </span>
                         ))}
                         {item.tags.length > 2 && (
-                          <span className='text-gray-400'>
+                          <span className={styles.tagMore}>
                             +{item.tags.length - 2}
                           </span>
                         )}

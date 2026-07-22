@@ -1,0 +1,24 @@
+@use 'abstracts' as *;
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-l);
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.actionsRight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-s);
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+}

@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { LoadingImage } from '@/components/ui/LoadingImage';
 import { ContentItem } from '@/content/types';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './GridView.module.scss';
 
 interface GridViewProps {
   items: ContentItem[];
@@ -17,14 +18,14 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   if (items.length === 0) {
     return (
-      <div className='text-center py-12'>
-        <p className='text-gray-500 dark:text-gray-400'>No content found.</p>
+      <div className={styles.emptyState}>
+        <p className={styles.emptyText}>No content found.</p>
       </div>
     );
   }
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+    <div className={styles.grid}>
       {items.map((item) => {
         const itemUrl = baseUrl
           ? `${baseUrl}/${item.slug}`
@@ -34,29 +35,29 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
           <Link
             key={item.slug}
             href={itemUrl}
-            className='group block transition-transform duration-200 hover:scale-[1.02]'
+            className={styles.cardLink}
             onPointerEnter={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(item.slug); }}
             onPointerLeave={(e: React.PointerEvent) => { if (e.pointerType === 'mouse') setHoveredSlug(null); }}
           >
-            <Card className='h-full flex flex-col overflow-hidden'>
+            <Card className={styles.cardInner}>
               {item.imageUrl && (
-                <div className='relative w-full aspect-video bg-gray-100 dark:bg-gray-800'>
+                <div className={styles.imageWrap}>
                   <LoadingImage
                     src={item.imageUrl}
                     alt={item.imageAlt || item.title}
                     fill
-                    className='object-cover'
+                    className={styles.image}
                     sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                   />
                 </div>
               )}
 
-              <div className='flex-1 p-6'>
+              <div className={styles.content}>
                 {/* Category/Type Badge */}
                 {(item.category || item.type) && (
-                  <div className='mb-2'>
+                  <div className={styles.badgeRow}>
                     <span
-                      className='inline-block px-3 py-1 text-xs font-medium rounded-full'
+                      className={styles.badge}
                       style={{
                         backgroundColor: theme.semanticColors.background.muted,
                         color: theme.semanticColors.link.default,
@@ -69,7 +70,7 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
 
                 {/* Title */}
                 <h3
-                  className='text-xl font-semibold mb-2 transition-colors'
+                  className={styles.title}
                   style={{
                     color:
                       hoveredSlug === item.slug
@@ -82,13 +83,13 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
 
                 {/* Excerpt */}
                 {item.excerpt && (
-                  <p className='text-gray-600 dark:text-gray-400 mb-4 line-clamp-3'>
+                  <p className={styles.excerpt}>
                     {item.excerpt}
                   </p>
                 )}
 
                 {/* Meta Information */}
-                <div className='flex items-center gap-4 text-sm text-gray-500 dark:text-gray-500 mt-auto'>
+                <div className={styles.meta}>
                   {item.publishedDate && (
                     <time dateTime={item.publishedDate}>
                       {new Date(item.publishedDate).toLocaleDateString(
@@ -112,17 +113,17 @@ export function GridView({ items, baseUrl = '' }: GridViewProps) {
 
                 {/* Tags */}
                 {item.tags && item.tags.length > 0 && (
-                  <div className='flex flex-wrap gap-2 mt-4'>
+                  <div className={styles.tags}>
                     {item.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className='inline-block px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        className={styles.tag}
                       >
                         {tag}
                       </span>
                     ))}
                     {item.tags.length > 3 && (
-                      <span className='inline-block px-2 py-1 text-xs text-gray-500'>
+                      <span className={styles.tagMore}>
                         +{item.tags.length - 3} more
                       </span>
                     )}

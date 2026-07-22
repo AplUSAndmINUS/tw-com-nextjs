@@ -16,6 +16,7 @@ import { Input } from '../Form/Input/Input';
 import { FluentIcon } from '../FluentIcon';
 import { useForceDarkDetection } from '@/hooks/useForceDarkDetection';
 import { DismissIcon } from '@/components/icons';
+import styles from './SettingsPanel.module.scss';
 
 interface SettingsPanelProps {
   onClose?: () => void;
@@ -32,26 +33,26 @@ function SettingRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className='flex items-center justify-between gap-4 py-3 border-t border-[rgba(128,128,128,0.15)] first:border-t-0'>
+    <div className={styles.row}>
       {label && description && (
-        <div className='flex min-w-0 flex-1 flex-col gap-[0.15rem]'>
+        <div className={styles.rowText}>
           <Typography
             variant='label'
-            className='text-[0.9375rem] font-medium leading-[1.3]'
+            className={styles.rowLabel}
           >
             {label}
           </Typography>
           {description && (
             <Typography
               variant='label'
-              className='text-[0.8125rem] leading-[1.4] opacity-80'
+              className={styles.rowDescription}
             >
               {description}
             </Typography>
           )}
         </div>
       )}
-      <div className='flex-shrink-0'>{children}</div>
+      <div className={styles.rowControl}>{children}</div>
     </div>
   );
 }
@@ -136,19 +137,19 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
   return (
     <div
-      className='h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden'
+      className={styles.panel}
       style={{ background: panelBg }}
       aria-label='Settings panel'
     >
       {/* Header */}
       <div
-        className='shrink-0 px-8 py-6'
+        className={styles.header}
         style={{ borderBottom: `1px solid ${headerBorderColor}` }}
       >
-        <div className='mb-1 flex items-center justify-between gap-2'>
+        <div className={styles.headerRow}>
           <Typography
             variant='h3'
-            className='m-0 text-[clamp(1.25rem,2.5vw,1.75rem)] font-bold leading-[1.2]'
+            className={styles.title}
             style={{ color: headingColor }}
           >
             Settings
@@ -156,7 +157,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
           {onClose && (
             <button
               type='button'
-              className='shrink-0 rounded bg-transparent px-2 py-1 text-lg leading-none transition-opacity duration-150 hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
+              className={styles.closeBtn}
               onClick={onClose}
               aria-label='Close settings'
               style={{
@@ -176,7 +177,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         </div>
         <Typography
           variant='body'
-          className='m-0'
+          className={styles.subtitle}
           style={{ color: labelColor }}
         >
           Customize your experience
@@ -185,14 +186,14 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
       {/* Settings Content */}
       <div
-        className='flex-1 overflow-x-hidden overflow-y-auto px-8 py-6'
+        className={styles.content}
         style={{ color: textColor }}
       >
         {/* Appearance Section */}
-        <section className='mb-8 last:mb-0'>
+        <section className={styles.section}>
           <Typography
             variant='h3'
-            className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
+            className={styles.sectionHeading}
             style={{ color: sectionHeadingColor, marginBottom: 0 }}
           >
             Appearance
@@ -206,7 +207,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               }))}
               value={themeMode}
               onChange={(e) => setThemeMode(e.target.value as ThemeMode)}
-              className='min-w-40 cursor-pointer rounded-md px-[0.6rem] py-[0.4rem] text-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
+              className={styles.select}
               style={{
                 background: isDark
                   ? theme.semanticColors.background.muted
@@ -220,7 +221,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
           {isForceDarkActive && (
             <div
-              className='mt-2 rounded-md px-3 py-2 text-[0.8125rem] leading-[1.5]'
+              className={styles.forceDarkNote}
               style={{
                 background: isDark
                   ? theme.semanticColors.background.muted
@@ -232,7 +233,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Chrome Auto Dark Mode notice'
             >
               <span
-                className='font-semibold'
+                className={styles.noteStrong}
                 style={{ color: theme.semanticColors.text.primary }}
               >
                 Chrome Auto Dark Mode detected.
@@ -247,9 +248,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             label='Font Size'
             description={`${Math.round(fontScale * 100)}%`}
           >
-            <div className='flex items-center gap-2'>
+            <div className={styles.fontRow}>
               <span
-                className='text-xs font-medium'
+                className={styles.fontSmall}
                 style={{ color: labelColor }}
               >
                 A
@@ -261,7 +262,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 step={0.05}
                 value={fontScale}
                 onChange={(e) => setFontScale(parseFloat(e.target.value))}
-                className='h-[6px] w-[120px] cursor-pointer appearance-none rounded'
+                className={styles.range}
                 style={
                   {
                     accentColor: theme.semanticColors.link.default,
@@ -270,7 +271,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 }
                 aria-label='Font size'
               />
-              <span className='text-lg font-bold' style={{ color: labelColor }}>
+              <span className={styles.fontLarge} style={{ color: labelColor }}>
                 A
               </span>
             </div>
@@ -278,10 +279,10 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         </section>
 
         {/* Layout Section */}
-        <section className='mb-8 last:mb-0'>
+        <section className={styles.section}>
           <Typography
             variant='h3'
-            className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
+            className={styles.sectionHeading}
             style={{ color: sectionHeadingColor }}
           >
             Layout
@@ -291,9 +292,9 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
             label='Navigation Side'
             description='Choose navigation panel position'
           >
-            <div className='flex flex-col gap-2'>
+            <div className={styles.layoutButtons}>
               <button
-                className='cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                className={styles.layoutBtn}
                 style={{
                   background:
                     layoutPreference === 'right-handed'
@@ -313,7 +314,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                 Right (Default)
               </button>
               <button
-                className='cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+                className={styles.layoutBtn}
                 style={{
                   background:
                     layoutPreference === 'left-handed'
@@ -337,10 +338,10 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
         </section>
 
         {/* Accessibility Section */}
-        <section className='mb-8 last:mb-0'>
+        <section className={styles.section}>
           <Typography
             variant='h3'
-            className='mb-4 text-[0.9375rem] font-semibold uppercase tracking-[0.05em]'
+            className={styles.sectionHeading}
             style={{ color: sectionHeadingColor }}
           >
             Accessibility
@@ -354,7 +355,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               type='button'
               role='switch'
               aria-checked={themeMode === 'high-contrast'}
-              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
+              className={styles.toggle}
               style={{
                 background:
                   themeMode === 'high-contrast'
@@ -372,7 +373,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Toggle high contrast'
             >
               <span
-                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${themeMode === 'high-contrast' ? 'translate-x-5' : ''}`}
+                className={`${styles.knob} ${themeMode === 'high-contrast' ? styles.knobOn : ''}`}
               />
             </button>
           </SettingRow>
@@ -385,7 +386,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               type='button'
               role='switch'
               aria-checked={reducedMotion}
-              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
+              className={styles.toggle}
               style={{
                 background: reducedMotion
                   ? theme.semanticColors.link.default
@@ -398,7 +399,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Toggle reduced motion'
             >
               <span
-                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${reducedMotion ? 'translate-x-5' : ''}`}
+                className={`${styles.knob} ${reducedMotion ? styles.knobOn : ''}`}
               />
             </button>
           </SettingRow>
@@ -411,7 +412,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               type='button'
               role='switch'
               aria-checked={reducedTransparency}
-              className='relative h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-0'
+              className={styles.toggle}
               style={{
                 background: reducedTransparency
                   ? theme.semanticColors.link.default
@@ -424,7 +425,7 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
               aria-label='Toggle reduced transparency'
             >
               <span
-                className={`pointer-events-none absolute left-[3px] top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200 ${reducedTransparency ? 'translate-x-5' : ''}`}
+                className={`${styles.knob} ${reducedTransparency ? styles.knobOn : ''}`}
               />
             </button>
           </SettingRow>
@@ -433,12 +434,12 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
 
       {/* Footer */}
       <div
-        className='shrink-0 px-8 py-5'
+        className={styles.footer}
         style={{ borderTop: `1px solid ${headerBorderColor}` }}
       >
         <button
           type='button'
-          className='w-full cursor-pointer rounded-lg bg-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 hover:opacity-80 hover:scale-[1.01] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+          className={styles.resetBtn}
           style={{
             color: theme.palette.redDark,
             border: `1px solid ${theme.palette.redDark}`,

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import styles from './AudioPlayer.module.scss';
 
 interface AudioPlayerProps {
   audioUrl: string;
@@ -55,7 +56,7 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className='w-full bg-gray-100 dark:bg-gray-800 rounded-xl p-4 flex flex-col gap-3'>
+    <div className={styles.player}>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio
         ref={audioRef}
@@ -66,21 +67,21 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
         preload='metadata'
       />
 
-      <div className='flex items-center gap-4'>
+      <div className={styles.row}>
         {/* Play/Pause */}
         <button
           onClick={togglePlay}
           aria-label={playing ? 'Pause' : 'Play'}
-          className='flex-shrink-0 w-12 h-12 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center transition-colors shadow'
+          className={styles.playBtn}
         >
           {playing ? '⏸' : '▶'}
         </button>
 
         {/* Track info */}
-        <div className='flex-1 min-w-0'>
-          <p className='text-sm font-medium truncate'>{title}</p>
-          <div className='flex items-center gap-2 mt-1'>
-            <span className='text-xs text-gray-500'>{formatTime(currentTime)}</span>
+        <div className={styles.info}>
+          <p className={styles.trackTitle}>{title}</p>
+          <div className={styles.seekRow}>
+            <span className={styles.time}>{formatTime(currentTime)}</span>
             <input
               type='range'
               min={0}
@@ -88,14 +89,14 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
               value={currentTime}
               onChange={handleSeek}
               aria-label='Seek'
-              className='flex-1 h-1 accent-purple-600'
+              className={styles.seek}
             />
-            <span className='text-xs text-gray-500'>{formatTime(duration)}</span>
+            <span className={styles.time}>{formatTime(duration)}</span>
           </div>
           {/* Progress bar visual */}
-          <div className='h-0.5 mt-1 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden'>
+          <div className={styles.progressTrack}>
             <div
-              className='h-full bg-purple-600 transition-all'
+              className={styles.progressFill}
               style={{ width: `${progress}%` }}
             />
           </div>

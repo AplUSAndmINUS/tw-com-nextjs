@@ -10,6 +10,7 @@ import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 import { accentWash } from '@/utils/color';
+import styles from './NewsletterSignupCTA.module.scss';
 
 export interface NewsletterSignupCTAProps {
   /** Optional heading override */
@@ -130,7 +131,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
         style={{ borderRadius: '1rem', overflow: 'clip' }}
       >
         <div
-          className='p-6'
+          className={styles.panel}
           style={{
             backgroundColor: surfaceColor,
             backgroundImage: heroGradient,
@@ -185,7 +186,7 @@ export const NewsletterSignupCTA: React.FC<NewsletterSignupCTAProps> = ({
       style={{ borderRadius: '1rem', overflow: 'clip' }}
     >
       <div
-        className='p-6'
+        className={styles.panel}
         style={{
           backgroundColor: surfaceColor,
           backgroundImage: heroGradient,

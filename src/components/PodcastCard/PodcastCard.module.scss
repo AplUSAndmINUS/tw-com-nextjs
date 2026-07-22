@@ -1,0 +1,14 @@
+@use 'abstracts' as *;
+
+.objectCover {
+  object-fit: cover;
+}
+
+.linkBlock {
+  display: block;
+}
+
+.clickable {
+  display: block;
+  cursor: pointer;
+}

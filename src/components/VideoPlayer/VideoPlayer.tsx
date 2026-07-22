@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import styles from './VideoPlayer.module.scss';
 
 /** YouTube video ID regex — 11 alphanumeric characters / hyphens / underscores */
 const YOUTUBE_ID_RE = /^[a-zA-Z0-9_-]{11}$/;
@@ -16,13 +17,13 @@ export function VideoPlayer({ youtubeId, videoUrl, title }: VideoPlayerProps) {
 
   if (safeYoutubeId) {
     return (
-      <div className='relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-lg'>
+      <div className={styles.frame}>
         <iframe
           src={`https://www.youtube.com/embed/${safeYoutubeId}?rel=0`}
           title={title}
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
           allowFullScreen
-          className='absolute inset-0 w-full h-full'
+          className={styles.media}
         />
       </div>
     );
@@ -30,12 +31,12 @@ export function VideoPlayer({ youtubeId, videoUrl, title }: VideoPlayerProps) {
 
   if (videoUrl) {
     return (
-      <div className='relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-lg'>
+      <div className={styles.frame}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           src={videoUrl}
           controls
-          className='absolute inset-0 w-full h-full'
+          className={styles.media}
           title={title}
         />
       </div>
@@ -43,8 +44,8 @@ export function VideoPlayer({ youtubeId, videoUrl, title }: VideoPlayerProps) {
   }
 
   return (
-    <div className='w-full aspect-video rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center'>
-      <p className='text-gray-500'>No video source available.</p>
+    <div className={styles.placeholder}>
+      <p className={styles.placeholderText}>No video source available.</p>
     </div>
   );
 }

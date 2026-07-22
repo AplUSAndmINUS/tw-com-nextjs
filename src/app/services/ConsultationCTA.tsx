@@ -5,6 +5,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { ThemedLink } from '@/components/ThemedLink/ThemedLink';
 import { BookingsButton } from '@/components/BookingsButton/BookingsButton';
 import { accentWash } from '@/utils/color';
+import styles from './ConsultationCTA.module.scss';
 
 export const ConsultationCTA: React.FC = () => {
   const { theme } = useAppTheme();
@@ -35,26 +36,23 @@ export const ConsultationCTA: React.FC = () => {
       >
         <Typography
           variant='h3'
-          className='text-2xl font-semibold mb-3'
+          className={styles.heading}
           style={{ color: theme.semanticColors.accent.yellow }}
         >
           Ready to get started?
         </Typography>
-        <Typography
-          variant='body'
-          className='text-gray-600 dark:text-gray-400 mb-6'
-        >
+        <Typography variant='body' className={styles.body}>
           If this service fits where you are right now, we can start with a
           focused consultation and define your next best move.
         </Typography>
-        <div className='flex flex-wrap gap-4'>
+        <div className={styles.actions}>
           <BookingsButton isHero />
           <ThemedLink
             href='https://fluxline.pro'
             target='_blank'
             rel='noopener noreferrer'
             hoverScale={1.05}
-            className='inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg'
+            className={styles.fluxlineLink}
             style={{
               border: `2px solid ${theme.semanticColors.border.emphasis}`,
               color: theme.semanticColors.text.primary,

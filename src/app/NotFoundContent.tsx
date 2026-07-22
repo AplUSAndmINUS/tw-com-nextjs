@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Typography } from '@/components/Typography';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './NotFoundContent.module.scss';
 
 export function NotFoundContent() {
   const { theme } = useAppTheme();
@@ -29,18 +30,18 @@ export function NotFoundContent() {
   };
 
   return (
-    <div className='mt-8 space-y-6'>
+    <div className={styles.root}>
       <Typography
         variant='body'
-        className='text-gray-600 dark:text-gray-400 text-center'
+        className={styles.intro}
       >
         Let&apos;s get you back on track:
       </Typography>
 
-      <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
+      <div className={styles.ctaRow}>
         <Link
           href='/'
-          className='inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-colors min-w-[200px]'
+          className={styles.primaryBtn}
           style={primaryBtnStyle}
           onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHomeBtnHovered(true); }}
           onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHomeBtnHovered(false); }}
@@ -49,7 +50,7 @@ export function NotFoundContent() {
         </Link>
         <Link
           href='/content-hub'
-          className='inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 font-semibold transition-colors min-w-[200px]'
+          className={styles.outlineBtn}
           style={outlineBtnStyle}
           onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setContentBtnHovered(true); }}
           onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setContentBtnHovered(false); }}
@@ -58,14 +59,14 @@ export function NotFoundContent() {
         </Link>
       </div>
 
-      <div className='mt-12 pt-8 border-t border-gray-200 dark:border-gray-700'>
+      <div className={styles.popularSection}>
         <Typography
           variant='h3'
-          className='text-xl font-semibold mb-4 text-center'
+          className={styles.popularHeading}
         >
           Popular Pages
         </Typography>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className={styles.cardGrid}>
           {[
             {
               href: '/blog',
@@ -82,7 +83,7 @@ export function NotFoundContent() {
             <Link
               key={href}
               href={href}
-              className='p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all'
+              className={styles.card}
               style={
                 hoveredCard === href
                   ? { borderColor: theme.semanticColors.link.default }
@@ -91,12 +92,12 @@ export function NotFoundContent() {
               onPointerEnter={(e) => { if (e.pointerType !== 'mouse') return; setHoveredCard(href); }}
               onPointerLeave={(e) => { if (e.pointerType !== 'mouse') return; setHoveredCard(null); }}
             >
-              <Typography variant='h4' className='font-semibold mb-1'>
+              <Typography variant='h4' className={styles.cardTitle}>
                 {label}
               </Typography>
               <Typography
                 variant='caption'
-                className='text-gray-600 dark:text-gray-400 text-sm'
+                className={styles.cardDesc}
               >
                 {desc}
               </Typography>

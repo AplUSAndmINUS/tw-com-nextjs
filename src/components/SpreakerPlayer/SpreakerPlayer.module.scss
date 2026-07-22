@@ -1,0 +1,22 @@
+@use 'abstracts' as *;
+
+.unavailable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--tw-space-xl);
+  border-radius: var(--tw-radius-control);
+}
+
+.unavailableText {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.link {
+  text-decoration: underline;
+}
+
+.player {
+  border-radius: var(--tw-radius-control);
+}

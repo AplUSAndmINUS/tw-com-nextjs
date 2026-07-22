@@ -1,0 +1,13 @@
+@use 'abstracts' as *;
+
+.page {
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-top: 0;
+  padding-bottom: var(--tw-space-xl);
+
+  @include from('mobile-lg') {
+    padding-top: var(--tw-space-xl);
+    padding-bottom: var(--tw-space-xl);
+  }
+}

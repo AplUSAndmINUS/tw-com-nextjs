@@ -107,12 +107,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${SITE_URL}/case-studies`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
       url: `${SITE_URL}/videos`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
@@ -134,10 +128,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic content pages (priority 0.8 — authority content)
   try {
-    const [blogPosts, portfolioItems, caseStudies] = await Promise.all([
+    const [blogPosts, portfolioItems] = await Promise.all([
       getAllContent('blog'),
       getAllContent('portfolio'),
-      getAllContent('case-studies'),
     ]);
 
     const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
@@ -158,15 +151,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
     );
 
-    const caseStudyPages: MetadataRoute.Sitemap = caseStudies.map((study) => ({
-      url: `${SITE_URL}/case-studies/${study.slug}`,
-      lastModified:
-        safeParseDate(study.publishedDate) || safeParseDate(study.date),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    }));
 
-    return [...staticPages, ...blogPages, ...portfolioPages, ...caseStudyPages];
+    return [...staticPages, ...blogPages, ...portfolioPages];
   } catch (error) {
     console.error('Error generating sitemap:', error);
     // Fallback to static pages only if content loading fails

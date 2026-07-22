@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { HomePageLayout } from './HomePageLayout';
 import { StandardPageLayout } from './StandardPageLayout';
 import { type FeatureImageLayoutOptions } from '@/hooks/useFeatureImageLayout';
 
@@ -20,7 +19,11 @@ interface PageLayoutProps {
   /** Optional layout overrides for the contained split-pane view. */
   layoutOptions?: FeatureImageLayoutOptions;
 
-  // If true, applies special layout/styling for the homepage (full-height contained view)
+  /**
+   * Retained for source compatibility. The bespoke homepage layout was removed
+   * when the homepage moved to the design system; every route now uses the
+   * standard shell, so this flag is a no-op.
+   */
   isHomePage?: boolean;
 }
 
@@ -75,11 +78,8 @@ export function PageLayout({
   mediaPane,
   hasMediaPane,
   layoutOptions,
-  isHomePage = false,
 }: PageLayoutProps) {
-  return isHomePage ? (
-    <HomePageLayout featureImage={featureImage}>{children}</HomePageLayout>
-  ) : (
+  return (
     <StandardPageLayout
       featureImage={featureImage}
       mediaPane={mediaPane}

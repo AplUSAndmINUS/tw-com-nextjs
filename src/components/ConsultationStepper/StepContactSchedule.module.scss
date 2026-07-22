@@ -1,0 +1,24 @@
+@use 'abstracts' as *;
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-m);
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-xs);
+  margin-top: var(--tw-space-xs);
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--tw-space-l);
+}

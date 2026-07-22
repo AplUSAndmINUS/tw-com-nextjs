@@ -1,0 +1,220 @@
+@use 'abstracts' as *;
+
+/**
+ * featureImageLayout.module.scss
+ *
+ * Split-pane feature-image layout used by legacy content pages. Reproduces the
+ * former Tailwind utility strings returned by `useFeatureImageLayout` as CSS
+ * Modules classes. Left/right-handed and md/lg breakpoint variants are distinct
+ * classes; the hook selects between them and space-joins the results.
+ *
+ * Breakpoint map:
+ *   md: = 768px  -> @include from('mobile-lg')
+ *   lg: = 1024px -> @include from('tablet')
+ *   xl: = 1280px -> raw media query (no abstract token exists for 1280)
+ *
+ * The global classes `max-width-content` and `hide-scrollbar` (globals.css) are
+ * kept alongside these module classes by the hook, not reimplemented here.
+ */
+
+/* Shared declaration block so the md and lg container variants stay identical. */
+@mixin split-container {
+  flex-direction: row;
+  height: calc(100vh - var(--site-header-height));
+  overflow: hidden;
+  position: relative;
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* ---------- Container ---------- */
+/* base: flex flex-col min-h-[calc(100vh-var(--site-header-height))]
+   split: <bp>:flex-row <bp>:h-[calc(...)] <bp>:overflow-hidden <bp>:relative
+          <bp>:mx-auto <bp>:w-full */
+.containerMd {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--site-header-height));
+
+  @include from('mobile-lg') {
+    @include split-container;
+  }
+}
+
+.containerLg {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--site-header-height));
+
+  @include from('tablet') {
+    @include split-container;
+  }
+}
+
+/* ---------- Image pane ---------- */
+/* base: flex items-center justify-center */
+.imagePaneBase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* <bp>:absolute <bp>:top-0 <bp>:bottom-0 */
+.splitAbsoluteMd {
+  @include from('mobile-lg') {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+}
+.splitAbsoluteLg {
+  @include from('tablet') {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+/* <bp>:left-0 (right-handed: image pane pinned left) */
+.paneLeftMd {
+  @include from('mobile-lg') {
+    left: 0;
+  }
+}
+.paneLeftLg {
+  @include from('tablet') {
+    left: 0;
+  }
+}
+/* <bp>:right-0 (left-handed: image pane pinned right) */
+.paneRightMd {
+  @include from('mobile-lg') {
+    right: 0;
+  }
+}
+.paneRightLg {
+  @include from('tablet') {
+    right: 0;
+  }
+}
+
+/* <bp>:w-1/4 (default pane size) */
+.paneSizeMd {
+  @include from('mobile-lg') {
+    width: 25%;
+  }
+}
+.paneSizeLg {
+  @include from('tablet') {
+    width: 25%;
+  }
+}
+
+/* <bp>:p-4 <bp>:overflow-hidden */
+.splitInnerMd {
+  @include from('mobile-lg') {
+    padding: 16px;
+    overflow: hidden;
+  }
+}
+.splitInnerLg {
+  @include from('tablet') {
+    padding: 16px;
+    overflow: hidden;
+  }
+}
+
+/* ---------- Content pane ---------- */
+/* base: flex-1 flex flex-col (the `hide-scrollbar` global is kept by the hook) */
+.contentPaneBase {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* <bp>:h-full <bp>:w-full <bp>:overflow-y-auto */
+.contentScrollMd {
+  @include from('mobile-lg') {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+  }
+}
+.contentScrollLg {
+  @include from('tablet') {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+  }
+}
+
+/* <bp>:mr-[25%] (default right offset, left-handed content) */
+.contentRightOffsetMd {
+  @include from('mobile-lg') {
+    margin-right: 25%;
+  }
+}
+.contentRightOffsetLg {
+  @include from('tablet') {
+    margin-right: 25%;
+  }
+}
+/* <bp>:ml-[25%] (default left offset, right-handed content) */
+.contentLeftOffsetMd {
+  @include from('mobile-lg') {
+    margin-left: 25%;
+  }
+}
+.contentLeftOffsetLg {
+  @include from('tablet') {
+    margin-left: 25%;
+  }
+}
+
+/* ---------- Override variants consumed by StandardPageLayout ---------- */
+/* Mobile-landscape pane: md:w-1/4 xl:w-1/3 */
+.paneSizeMdXl {
+  @include from('mobile-lg') {
+    width: 25%;
+  }
+  @media (min-width: 1280px) {
+    width: 33.333333%;
+  }
+}
+/* Square / large-portrait pane: lg:w-1/3 */
+.paneSizeLgWide {
+  @include from('tablet') {
+    width: 33.333333%;
+  }
+}
+
+/* Mobile-landscape offset: md:mr-[25%] xl:mr-[33.333333%] */
+.contentRightOffsetMdXl {
+  @include from('mobile-lg') {
+    margin-right: 25%;
+  }
+  @media (min-width: 1280px) {
+    margin-right: 33.333333%;
+  }
+}
+/* Square / large-portrait offset: lg:mr-[33.333333%] */
+.contentRightOffsetLgWide {
+  @include from('tablet') {
+    margin-right: 33.333333%;
+  }
+}
+/* Mobile-landscape offset: md:ml-[25%] xl:ml-[33.333333%] */
+.contentLeftOffsetMdXl {
+  @include from('mobile-lg') {
+    margin-left: 25%;
+  }
+  @media (min-width: 1280px) {
+    margin-left: 33.333333%;
+  }
+}
+/* Square / large-portrait offset: lg:ml-[33.333333%] */
+.contentLeftOffsetLgWide {
+  @include from('tablet') {
+    margin-left: 33.333333%;
+  }
+}

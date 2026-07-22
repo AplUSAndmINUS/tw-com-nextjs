@@ -1,0 +1,150 @@
+@use 'abstracts' as *;
+
+/**
+ * StandardPageLayout.module.scss
+ *
+ * Co-located classes for the static Tailwind utility strings that lived inline
+ * in StandardPageLayout.tsx. The dynamic split-pane geometry lives in
+ * featureImageLayout.module.scss (returned by useFeatureImageLayout).
+ *
+ * Breakpoint map:
+ *   sm: = 640px  -> raw media query (no abstract token exists for 640)
+ *   md: = 768px  -> @include from('mobile-lg')
+ *   lg: = 1024px -> @include from('tablet')
+ *
+ * The global class `max-width-content` (globals.css) is kept in the JSX
+ * alongside these module classes, not reimplemented here.
+ */
+
+/* Feature image wrapper:
+   w-full max-w-md h-[33.33vh] lg:h-auto px-4 py-6 lg:py-0 overflow-hidden */
+.featureImageWrap {
+  width: 100%;
+  max-width: 28rem;
+  height: 33.33vh;
+  padding-inline: 16px;
+  padding-block: 24px;
+  overflow: hidden;
+
+  @include from('tablet') {
+    height: auto;
+    padding-block: 0;
+  }
+}
+
+/* Content inner column:
+   flex-1 px-4 sm:px-6 lg:px-8 pt-0 lg:min-h-full lg:flex lg:flex-col
+   (defined BEFORE the pad classes so their md padding-block wins over pt-0) */
+.contentInner {
+  flex: 1 1 0%;
+  padding-inline: 16px;
+  padding-top: 0;
+
+  @media (min-width: 640px) {
+    padding-inline: 24px;
+  }
+
+  @include from('tablet') {
+    padding-inline: 32px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Normal (no feature image) container:
+   mx-auto w-full px-4 sm:px-6 lg:px-8 pt-0
+   (also defined before the pad classes) */
+.normalContainer {
+  margin-inline: auto;
+  width: 100%;
+  padding-inline: 16px;
+  padding-top: 0;
+
+  @media (min-width: 640px) {
+    padding-inline: 24px;
+  }
+
+  @include from('tablet') {
+    padding-inline: 32px;
+  }
+}
+
+/* Conditional bottom padding, shared by contentInner and normalContainer.
+   Short landscape: pb-4 md:py-4. Default: pb-8 md:py-8.
+   Placed after the base classes so `padding-block` at md overrides pt-0. */
+.padShort {
+  padding-bottom: 16px;
+
+  @include from('mobile-lg') {
+    padding-block: 16px;
+  }
+}
+.padDefault {
+  padding-bottom: 32px;
+
+  @include from('mobile-lg') {
+    padding-block: 32px;
+  }
+}
+
+/* lg:justify-center / lg:justify-start on the (lg-only) flex content column */
+.justifyCenterLg {
+  @include from('tablet') {
+    justify-content: center;
+  }
+}
+.justifyStartLg {
+  @include from('tablet') {
+    justify-content: flex-start;
+  }
+}
+
+/* Inner content block: lg:w-full */
+.innerBlock {
+  @include from('tablet') {
+    width: 100%;
+  }
+}
+/* Conditional lg:pb-12 */
+.innerBlockPad {
+  @include from('tablet') {
+    padding-bottom: 48px;
+  }
+}
+
+/* Inner width wrapper for the no-feature-image path: w-full (margin via inline
+   style; max-width-content kept as a global class in the JSX) */
+.fullWidth {
+  width: 100%;
+}
+
+/* Responsive show/hide helpers */
+/* lg:hidden */
+.hideAtLg {
+  @include from('tablet') {
+    display: none;
+  }
+}
+/* hidden lg:block */
+.showAtLg {
+  display: none;
+
+  @include from('tablet') {
+    display: block;
+  }
+}
+/* md:hidden */
+.hideAtMd {
+  @include from('mobile-lg') {
+    display: none;
+  }
+}
+/* hidden md:block */
+.showAtMd {
+  display: none;
+
+  @include from('mobile-lg') {
+    display: block;
+  }
+}

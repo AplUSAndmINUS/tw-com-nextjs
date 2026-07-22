@@ -147,7 +147,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className='font-sans antialiased'>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

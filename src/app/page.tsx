@@ -43,10 +43,9 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const personSchema = getPersonSchema('https://terencewaters.com');
 
-  const [blog, portfolio, caseStudies] = await Promise.all([
+  const [blog, portfolio] = await Promise.all([
     getAllContent('blog'),
     getAllContent('portfolio'),
-    getAllContent('case-studies'),
   ]);
 
   // Content section: recent writing. Category is normalised to the homepage's
@@ -55,17 +54,14 @@ export default async function HomePage() {
     .slice(0, 6)
     .map((item) => ({ ...toCard(item, '/blog'), category: 'Writing' }));
 
-  // Portfolio section: newest case studies first, then portfolio pieces.
-  const portfolioCards: HomeCard[] = [
-    ...caseStudies.map((item) => ({
-      ...toCard(item, '/case-studies'),
-      category: 'Case Study',
-    })),
-    ...portfolio.map((item) => ({
+  // Portfolio section: portfolio pieces. (Case studies live on Fluxline.pro and
+  // are reached from the Content Hub drawer, not duplicated here.)
+  const portfolioCards: HomeCard[] = portfolio
+    .slice(0, 4)
+    .map((item) => ({
       ...toCard(item, '/portfolio'),
       category: item.category ?? 'Portfolio',
-    })),
-  ].slice(0, 4);
+    }));
 
   return (
     <>

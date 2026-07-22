@@ -15,6 +15,7 @@ import { type SocialIcon } from '@/components/SocialIcons/constants';
 import { useIsMobile, useIsTablet } from '@/hooks/useMediaQuery';
 import { useCardState } from '@/hooks/useCardState';
 import { ArrowExpandIcon, ContactCardIcon } from '@/components/icons';
+import styles from './TeamMemberCard.module.scss';
 
 export interface TeamMember {
   id: string;
@@ -187,7 +188,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
                   rel='noopener noreferrer'
                   aria-label={item.tooltip}
                   onClick={(e) => e.stopPropagation()}
-                  className='opacity-85 hover:opacity-100 transition-opacity duration-200'
+                  className={styles.socialLink}
                   style={{
                     display: 'flex',
                     alignItems: 'center',

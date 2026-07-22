@@ -15,6 +15,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useIsMobile } from '@/hooks/useMediaQuery';
 import { TRI_LINKS } from '@/app/podcasts/theresonantid/constants';
 import { withAlpha } from '@/utils/color';
+import styles from './PodcastListingClientWrapper.module.scss';
 
 interface PodcastListingClientWrapperProps {
   initialEpisodes: PodcastEpisode[];
@@ -254,7 +255,7 @@ export function PodcastListingClientWrapper({
         href={TRI_LINKS.about}
         target='_blank'
         rel='noopener noreferrer'
-        className='inline-flex mt-4 mb-1 items-center rounded-full px-4 py-2 text-xs font-semibold transition-colors'
+        className={styles.aboutPill}
         style={{
           border: `2px solid ${theme.semanticColors.link.default}`,
           color: theme.semanticColors.link.default,
@@ -265,7 +266,7 @@ export function PodcastListingClientWrapper({
         About The Resonant Identity
       </Link>
       <nav
-        className='flex flex-wrap gap-3 mt-2'
+        className={styles.platformNav}
         role='list'
         aria-label='Subscribe to the podcast on your preferred platform'
       >

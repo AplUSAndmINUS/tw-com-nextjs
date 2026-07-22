@@ -20,6 +20,7 @@ import { FluentIcon } from '@/components/FluentIcon';
 import { defaultUserPreferences } from '@/store/userPreferencesStore';
 import LinktreeLogo from '@/assets/svgs/LinktreeLogo';
 import { DismissIcon } from '@/components/icons';
+import styles from './NavigationMenu.module.scss';
 
 interface NavigationItemProps {
   item: NavItem;
@@ -135,7 +136,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
     >
       {/* Menu Header */}
       <div
-        className='flex items-center justify-between'
+        className={styles.menuHeader}
         style={{
           padding: isMobileLandscape ? '1rem 1.5rem' : '1.5rem 2rem',
           borderBottom: `1px solid ${theme.colorNeutralStroke2}`,
@@ -219,7 +220,7 @@ export function NavigationMenu({ onClose }: NavigationMenuProps) {
           </AnimatePresence>
         </ul>
         <motion.div
-          className={`flex items-end ${isLeftHanded ? 'justify-start' : 'justify-end'} mt-8 transition-transform hover:scale-105`}
+          className={`${styles.linktree} ${isLeftHanded ? styles.linktreeStart : styles.linktreeEnd}`}
           initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
