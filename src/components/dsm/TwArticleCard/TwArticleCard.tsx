@@ -23,6 +23,8 @@ export interface TwArticleCardProps {
   /** Machine-readable date for <time datetime>, e.g. '2026-07-21'. */
   dateTime?: string;
   href?: string;
+  /** When true, the card link opens in a new tab (used for external targets). */
+  external?: boolean;
   image?: string;
   imageAlt?: string;
   className?: string;
@@ -36,6 +38,7 @@ export function TwArticleCard({
   date,
   dateTime,
   href,
+  external,
   image,
   imageAlt,
   className,
@@ -80,7 +83,13 @@ export function TwArticleCard({
 
         <h3 className={styles.title}>
           {href ? (
-            <a className={styles.link} href={href}>
+            <a
+              className={styles.link}
+              href={href}
+              {...(external
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+            >
               {title}
             </a>
           ) : (

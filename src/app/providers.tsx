@@ -31,7 +31,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
     path.startsWith('/blog/') ||
     path === '/content-hub' ||
     path === '/portfolio' ||
-    path.startsWith('/portfolio/');
+    path.startsWith('/portfolio/') ||
+    path === '/github' ||
+    path === '/videos' ||
+    path.startsWith('/videos/');
   const isHome = ownsNav;
   return (
     <ExtendedThemeProvider>

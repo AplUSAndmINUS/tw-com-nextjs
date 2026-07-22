@@ -21,6 +21,8 @@ export interface TwListingItem {
   imageAlt?: string;
   /** Destination; when set the whole card is a link. */
   href?: string;
+  /** Open the link in a new tab (external targets, e.g. GitHub repos). */
+  external?: boolean;
 }
 
 export interface TwListingViewProps {
@@ -115,6 +117,7 @@ export function TwListingView({
                   category={item.category}
                   date={item.date}
                   href={item.href}
+                  external={item.external}
                   image={item.image}
                   imageAlt={item.imageAlt}
                 />
