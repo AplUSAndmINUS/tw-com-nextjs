@@ -132,7 +132,15 @@ function mapFrontmatter(
     type,
     date,
     publishedDate: data.publishedDate ? String(data.publishedDate) : undefined,
-    excerpt: (data.excerpt as string) ?? (data.description as string) ?? '',
+    // Portfolio frontmatter uses shortDescription/longDescription rather than
+    // excerpt/description, so include those in the fallback chain — otherwise
+    // portfolio cards render with empty descriptions.
+    excerpt:
+      (data.excerpt as string) ??
+      (data.description as string) ??
+      (data.shortDescription as string) ??
+      (data.longDescription as string) ??
+      '',
     tags: validateStringArray(data.tags),
     content,
     author: (data.author as string) ?? undefined,

@@ -19,6 +19,10 @@ import { useAccessControl } from '@/hooks';
 export function Providers({ children }: { children: React.ReactNode }) {
   const { authRequired, isAuthenticated } = useAccessControl();
   const pathname = usePathname();
+  // The rebuilt homepage renders its own DSM nav (with the appearance panel),
+  // so the global Header would double up there. Suppress it on "/" only; every
+  // other route keeps the existing Header until it is migrated.
+  const isHome = pathname === '/';
   return (
     <ExtendedThemeProvider>
       <StoreHydrator />
@@ -40,7 +44,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           their natural place and stay viewport-fixed.
         */}
         <FontScaleProvider>
-          <Header />
+          {!isHome && <Header />}
           <KoFiWidget pathname={pathname} />
           {/* Portals itself into document.body. */}
           <PodcastMiniPlayer />

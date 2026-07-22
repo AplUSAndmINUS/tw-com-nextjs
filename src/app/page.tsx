@@ -3,7 +3,25 @@ import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { getPersonSchema } from '@/utils/structuredData';
 import { safeJsonLd } from '@/utils/safeJsonLd';
-import HomePageClient from './HomePageClient';
+import { getAllContent } from '@/lib/content';
+import type { ContentItem } from '@/content/types';
+import HomePageClient, { type HomeCard } from './HomePageClient';
+
+/**
+ * Map a loaded ContentItem to the minimal card the homepage needs, dropping the
+ * full markdown body so it never ships to the client.
+ */
+function toCard(item: ContentItem, basePath: string): HomeCard {
+  return {
+    slug: item.slug,
+    title: item.title,
+    excerpt: item.excerpt,
+    category: item.category,
+    // Cards show a year for portfolio/case studies, a full date for writing.
+    date: item.date || undefined,
+    href: `${basePath}/${item.slug}`,
+  };
+}
 
 export const metadata: Metadata = {
   title: 'Terence Waters - Author, Technologist, Creative Thinker',
@@ -21,8 +39,33 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-export default function HomePage() {
+// Static export: content is read from disk at build time.
+export default async function HomePage() {
   const personSchema = getPersonSchema('https://terencewaters.com');
+
+  const [blog, portfolio, caseStudies] = await Promise.all([
+    getAllContent('blog'),
+    getAllContent('portfolio'),
+    getAllContent('case-studies'),
+  ]);
+
+  // Content section: recent writing. Category is normalised to the homepage's
+  // filter buckets (Writing / Podcast / Video); blog posts are all Writing.
+  const content: HomeCard[] = blog
+    .slice(0, 6)
+    .map((item) => ({ ...toCard(item, '/blog'), category: 'Writing' }));
+
+  // Portfolio section: newest case studies first, then portfolio pieces.
+  const portfolioCards: HomeCard[] = [
+    ...caseStudies.map((item) => ({
+      ...toCard(item, '/case-studies'),
+      category: 'Case Study',
+    })),
+    ...portfolio.map((item) => ({
+      ...toCard(item, '/portfolio'),
+      category: item.category ?? 'Portfolio',
+    })),
+  ].slice(0, 4);
 
   return (
     <>
@@ -31,7 +74,7 @@ export default function HomePage() {
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
       />
-      <HomePageClient />
+      <HomePageClient content={content} portfolio={portfolioCards} />
     </>
   );
 }
