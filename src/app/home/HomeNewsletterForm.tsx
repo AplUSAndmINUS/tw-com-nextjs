@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { TwButton, TwSwitch } from '@/components/dsm';
+import { TwButton } from '@/components/dsm';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 import { useNewsletterStore } from '@/store/newsletterStore';
@@ -24,7 +24,6 @@ export function HomeNewsletterForm() {
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
 
   const [email, setEmail] = useState('');
-  const [notify, setNotify] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -91,7 +90,7 @@ export function HomeNewsletterForm() {
           aria-invalid={!!error}
           required
         />
-        <TwButton type='submit' disabled={isLoading}>
+        <TwButton type='submit' disabled={isLoading || !canSubmit}>
           {isLoading ? 'Subscribing…' : 'Subscribe'}
         </TwButton>
       </form>
@@ -101,14 +100,6 @@ export function HomeNewsletterForm() {
           {error}
         </p>
       ) : null}
-
-      <div className={styles.notifyRow}>
-        <TwSwitch
-          label='Email me when I publish new posts'
-          checked={notify}
-          onChange={setNotify}
-        />
-      </div>
     </>
   );
 }
