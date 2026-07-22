@@ -2,185 +2,122 @@
 /**
  * Font Verification Script
  *
- * Verifies that all required fonts and weights are available in the Adobe Fonts project.
- * Runs before build and dev to catch configuration issues early.
+ * Runs before build and dev (see `prebuild` / `predev` in package.json).
+ *
+ * This used to fetch the Adobe Typekit stylesheet and parse its @font-face
+ * rules, confirming the hosted project still served every family and weight the
+ * site expected. Fonts are now self-hosted and vendored into the repo, so the
+ * failure it guarded against — a Typekit project changing out from under us —
+ * no longer exists.
+ *
+ * What can still go wrong is a font file being missing or truncated after a bad
+ * merge or an incomplete checkout, which would silently fall back to
+ * Georgia/Arial in production. So the gate is kept, pointed at the filesystem.
  */
 
-interface FontConfig {
-  family: string;
-  weights: number[];
-  styles?: ('normal' | 'italic')[];
-  displayName?: string;
+import { existsSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface FontFile {
+  /** Filename within the font directory. */
+  file: string;
+  displayName: string;
+  /** Smallest plausible size in KB — a truncated download trips this. */
+  minSizeKb: number;
 }
 
-const REQUIRED_FONTS: FontConfig[] = [
+const FONT_DIR = join('src', 'assets', 'fonts');
+
+const REQUIRED_FONTS: FontFile[] = [
   {
-    family: 'montserrat',
+    file: 'Montserrat-Variable.woff2',
     displayName: 'Montserrat',
-    weights: [300, 500, 600, 700, 800],
-    styles: ['normal', 'italic'],
+    minSizeKb: 100,
   },
   {
-    family: 'merriweather',
+    file: 'Montserrat-Italic-Variable.woff2',
+    displayName: 'Montserrat Italic',
+    minSizeKb: 100,
+  },
+  {
+    file: 'Merriweather-Variable.woff2',
     displayName: 'Merriweather',
-    weights: [400],
-    styles: ['normal', 'italic'],
+    minSizeKb: 300,
   },
   {
-    family: 'roboto-condensed',
-    displayName: 'Roboto Condensed',
-    weights: [300],
-    styles: ['normal'],
+    file: 'Merriweather-Italic-Variable.woff2',
+    displayName: 'Merriweather Italic',
+    minSizeKb: 150,
   },
   {
-    family: 'roboto-mono',
+    file: 'RobotoMono-Variable.woff2',
     displayName: 'Roboto Mono',
-    weights: [400],
-    styles: ['normal'],
+    minSizeKb: 30,
+  },
+  {
+    file: 'RobotoMono-Italic-Variable.woff2',
+    displayName: 'Roboto Mono Italic',
+    minSizeKb: 30,
   },
 ];
 
-const ADOBE_FONTS_PROJECT_ID = 'dqf8seo';
-const ADOBE_FONTS_URL = `https://use.typekit.net/${ADOBE_FONTS_PROJECT_ID}.css`;
-
-interface FontFaceRule {
-  family: string;
-  weight: number;
-  style: string;
+/** WOFF2 files begin with the ASCII signature "wOF2". */
+function hasWoff2Signature(absolutePath: string): boolean {
+  return readFileSync(absolutePath).subarray(0, 4).toString('ascii') === 'wOF2';
 }
 
-/**
- * Parse CSS content to extract @font-face rules
- */
-function parseFontFaces(cssContent: string): FontFaceRule[] {
-  const fontFaceRegex = /@font-face\s*\{([^}]+)\}/g;
-  const fontFaces: FontFaceRule[] = [];
+function main(): void {
+  console.log('Verifying self-hosted fonts...\n');
 
-  let match;
-  while ((match = fontFaceRegex.exec(cssContent)) !== null) {
-    const rules = match[1];
+  const problems: string[] = [];
+  let totalKb = 0;
 
-    // Extract font-family
-    const familyMatch = rules.match(/font-family:\s*["']?([^"';]+)["']?/i);
-    // Extract font-weight
-    const weightMatch = rules.match(/font-weight:\s*(\d+)/i);
-    // Extract font-style
-    const styleMatch = rules.match(/font-style:\s*(\w+)/i);
+  for (const font of REQUIRED_FONTS) {
+    const relativePath = join(FONT_DIR, font.file);
+    const absolutePath = join(process.cwd(), relativePath);
 
-    if (familyMatch && weightMatch) {
-      fontFaces.push({
-        family: familyMatch[1].toLowerCase().trim(),
-        weight: parseInt(weightMatch[1], 10),
-        style: styleMatch ? styleMatch[1].toLowerCase() : 'normal',
-      });
+    if (!existsSync(absolutePath)) {
+      problems.push(`${font.displayName}: missing at ${relativePath}`);
+      continue;
     }
+
+    const sizeKb = statSync(absolutePath).size / 1024;
+
+    if (sizeKb < font.minSizeKb) {
+      problems.push(
+        `${font.displayName}: only ${sizeKb.toFixed(0)} KB, expected at least ` +
+          `${font.minSizeKb} KB — likely truncated`
+      );
+      continue;
+    }
+
+    if (!hasWoff2Signature(absolutePath)) {
+      problems.push(
+        `${font.displayName}: not a valid WOFF2 file (bad signature)`
+      );
+      continue;
+    }
+
+    totalKb += sizeKb;
+    console.log(`  ok  ${font.displayName} (${sizeKb.toFixed(0)} KB)`);
   }
 
-  return fontFaces;
-}
-
-/**
- * Check if font-display: swap is configured
- */
-function checkFontDisplay(cssContent: string): boolean {
-  return /font-display:\s*swap/i.test(cssContent);
-}
-
-/**
- * Verify all required fonts are present
- */
-async function verifyAdobeFonts(): Promise<void> {
-  console.log('🔍 Verifying Adobe Fonts configuration...\n');
-  console.log(`📦 Project ID: ${ADOBE_FONTS_PROJECT_ID}`);
-  console.log(`🔗 URL: ${ADOBE_FONTS_URL}\n`);
-
-  try {
-    const response = await fetch(ADOBE_FONTS_URL);
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch Adobe Fonts CSS (${response.status} ${response.statusText})`
-      );
-    }
-
-    const cssContent = await response.text();
-    const fontFaces = parseFontFaces(cssContent);
-
-    console.log(`✓ Found ${fontFaces.length} font face declarations\n`);
-
-    // Check font-display: swap
-    const hasFontDisplay = checkFontDisplay(cssContent);
-    if (hasFontDisplay) {
-      console.log('✓ font-display: swap is configured\n');
-    } else {
-      console.warn('⚠️  font-display: swap is NOT configured');
-      console.warn(
-        '   This may cause Flash of Invisible Text (FOIT) on slow connections.'
-      );
-      console.warn(
-        '   See ADOBE-FONTS-SETUP.md for configuration instructions.\n'
-      );
-    }
-
-    // Verify each required font
-    const missingFonts: string[] = [];
-    const foundFonts: string[] = [];
-
-    for (const requiredFont of REQUIRED_FONTS) {
-      const styles = requiredFont.styles || ['normal'];
-
-      for (const weight of requiredFont.weights) {
-        for (const style of styles) {
-          const isPresent = fontFaces.some(
-            (face) =>
-              face.family === requiredFont.family &&
-              face.weight === weight &&
-              face.style === style
-          );
-
-          const fontDesc = `${requiredFont.displayName || requiredFont.family} ${weight}${style !== 'normal' ? ` ${style}` : ''}`;
-
-          if (isPresent) {
-            foundFonts.push(fontDesc);
-          } else {
-            missingFonts.push(fontDesc);
-          }
-        }
-      }
-    }
-
-    // Report results
-    if (missingFonts.length > 0) {
-      console.error('❌ Missing fonts from Adobe Fonts project:\n');
-      missingFonts.forEach((font) => console.error(`   - ${font}`));
-      console.error(
-        '\n📚 Check docs/ADOBE-FONTS-SETUP.md for required configuration.'
-      );
-      console.error(
-        '🔧 Update your Adobe Fonts project at: https://fonts.adobe.com/\n'
-      );
-      process.exit(1);
-    }
-
-    console.log('✅ All required fonts are configured:\n');
-    foundFonts.forEach((font) => console.log(`   ✓ ${font}`));
-    console.log('\n🎉 Font verification complete!\n');
-  } catch (error) {
-    console.error('❌ Font verification failed:\n');
-    if (error instanceof Error) {
-      console.error(`   ${error.message}\n`);
-    } else {
-      console.error(`   ${String(error)}\n`);
+  if (problems.length > 0) {
+    console.error('\nFont verification failed:\n');
+    for (const problem of problems) {
+      console.error(`  x  ${problem}`);
     }
     console.error(
-      '⚠️  Ensure you have internet access and the Adobe Fonts URL is correct.'
-    );
-    console.error(
-      '⚠️  If deploying to production, this check prevents font load failures.\n'
+      '\nFonts are vendored in this repo rather than fetched at build time. ' +
+        'If they are missing the checkout is incomplete — try ' +
+        '`git checkout -- src/assets/fonts`.\n'
     );
     process.exit(1);
   }
+
+  console.log(
+    `\nAll ${REQUIRED_FONTS.length} fonts present (${(totalKb / 1024).toFixed(2)} MB total).\n`
+  );
 }
 
-// Run verification
-verifyAdobeFonts();
+main();

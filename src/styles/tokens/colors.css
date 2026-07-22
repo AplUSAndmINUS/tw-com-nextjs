@@ -1,0 +1,319 @@
+/**
+ * TW.com DSM — color tokens
+ * Source: TW.com Design System, tokens/colors.css
+ *
+ * ---------------------------------------------------------------------------
+ * Structure
+ * ---------------------------------------------------------------------------
+ * Eight theme modes, split into two families:
+ *
+ *   dark family   dark, high-contrast, grayscale-dark
+ *   light family  light, grayscale, protanopia, deuteranopia, tritanopia
+ *
+ * Each family shares a full base block; the individual modes then override only
+ * what actually differs. The family split matches isDark in
+ * src/theme/hooks/useAppTheme.tsx and isLightFamilyMode in
+ * src/hooks/useCardState.ts — keep all three in step.
+ *
+ * `:root` carries the dark set so a first paint before the theme script runs is
+ * dark rather than white.
+ *
+ * ---------------------------------------------------------------------------
+ * On the accent
+ * ---------------------------------------------------------------------------
+ * The DSM readme describes an amber accent. That is out of date — the token
+ * source moved the accent to glacier cyan ("was honey gold — too bright for
+ * headings/buttons"). Amber survives as --tw-gold for "Featured" treatments
+ * only. Tokens are authoritative.
+ *
+ * ---------------------------------------------------------------------------
+ * On the colorblind modes
+ * ---------------------------------------------------------------------------
+ * These used to be a purpose-built palette run through a CSS hue-rotate filter,
+ * which scrambled the palette's own contrast decisions. The filter is gone; the
+ * palettes below are now the whole mechanism.
+ */
+
+/* ===========================================================================
+   DARK FAMILY — base
+   =========================================================================== */
+:root,
+[data-theme='dark'],
+[data-theme='high-contrast'],
+[data-theme='grayscale-dark'] {
+  /* ===== Backgrounds (warm midnight) ===== */
+  --tw-bg-page: #0e1116;
+  --tw-bg-deep: #0b0d11;
+  --tw-bg-hero-1: #0e1520;
+  --tw-bg-hero-2: #152530;
+  --tw-bg-hero-3: #1a2a3a;
+
+  /* ===== Neutral gray ladder ===== */
+  --tw-gray-1: #12161c;
+  --tw-gray-2: #1b222b;
+  --tw-gray-3: #262e38;
+  --tw-gray-4: #3a4552;
+  --tw-gray-5: #5c6b7a;
+
+  /* ===== Neutral white ladder (warm-white steps for on-dark text) ===== */
+  --tw-white-1: #f4f1ea;
+  --tw-white-2: #e8e4d9;
+  --tw-white-3: #d6d1c3;
+  --tw-white-4: #b8b2a0;
+  --tw-white-5: #8f8a7c;
+
+  /* ===== Gradients ===== */
+  --tw-gradient-hero: linear-gradient(
+    150deg,
+    var(--tw-bg-hero-1) 0%,
+    var(--tw-bg-hero-2) 50%,
+    #0f4c5c 100%
+  );
+  --tw-gradient-card: linear-gradient(160deg, #171b22, #12161c);
+  --tw-gradient-accent: linear-gradient(
+    120deg,
+    var(--tw-glacier-cyan),
+    var(--tw-sage-teal)
+  );
+  --tw-gradient-band: linear-gradient(140deg, #1a2a3a, #0f4c5c 65%, #14202a);
+  --tw-gradient-feature: linear-gradient(155deg, #17222c, #0f3a44);
+  --tw-gradient-warm: linear-gradient(120deg, #0f4c5c, #f2c57c);
+
+  /* ===== Surfaces (warm-gray, not pure black) ===== */
+  --tw-surface-card: #14181f;
+  --tw-surface-alt: #171b22;
+  --tw-hover-fill: #1b222b;
+  --tw-badge-bg: #1d2530;
+  --tw-surface-inset: #12161c;
+  --tw-surface-raised: #191f27;
+  --tw-surface-input: #12161c;
+
+  /* ===== Borders ===== */
+  --tw-border: #262e38;
+  --tw-border-subtle: #1e252d;
+  --tw-border-strong: #2e5560;
+  --tw-border-hover: #4a8a93;
+
+  /* ===== Text (warm white, not stark) ===== */
+  --tw-white: #f4f1ea;
+  --tw-text-heading-display: var(--tw-white);
+  --tw-text-heading: var(--tw-glacier-cyan-hover);
+  --tw-text-base: #e0ded8;
+  --tw-text-bright: #f4f1ea;
+  --tw-text-body: #e6e6e6;
+  --tw-text-muted: #a7b0b8;
+  --tw-text-faint: #7c868d;
+  --tw-text-soft: #7fc3cc;
+  --tw-text-mist: #9ab4b8;
+
+  /* ===== Palette — five named hues, each with state steps ===== */
+  --tw-slate-blue: #2c3e50;
+  --tw-slate-blue-hover: #34495e;
+  --tw-slate-blue-active: #253544;
+  --tw-slate-blue-disabled: #6c7a89;
+  --tw-slate-blue-soft: #1f2d3a;
+
+  --tw-glacier-cyan: #5fb8d1;
+  --tw-glacier-cyan-hover: #74c6dd;
+  --tw-glacier-cyan-active: #4aa5bd;
+  --tw-glacier-cyan-disabled: #a8d7e4;
+  --tw-glacier-cyan-soft: #539eb4;
+
+  --tw-sage-teal: #4f8f8a;
+  --tw-sage-teal-hover: #5fa09b;
+  --tw-sage-teal-active: #3f7470;
+  --tw-sage-teal-disabled: #9bb7b4;
+  --tw-sage-teal-soft: #457a76;
+
+  --tw-honey-gold: #f2c57c;
+  --tw-honey-gold-hover: #f6d08f;
+  --tw-honey-gold-active: #d9ac63;
+  --tw-honey-gold-disabled: #e8d9c0;
+  --tw-honey-gold-soft: #e6bb72;
+
+  --tw-slate-indigo: #547799;
+  --tw-slate-indigo-hover: #6386a8;
+  --tw-slate-indigo-active: #465f7d;
+  --tw-slate-indigo-disabled: #9fb0c0;
+  --tw-slate-indigo-soft: #4a6a8a;
+
+  /* ===== Accents — mapped from the named palette ===== */
+  --tw-accent: var(--tw-glacier-cyan-hover);
+  --tw-accent-ink: #0e1116;
+  --tw-accent-hover: #8ed4e8;
+  --tw-accent-active: var(--tw-glacier-cyan-active);
+  --tw-accent-disabled: var(--tw-glacier-cyan-disabled);
+
+  /* shared ecosystem accent — kickers, cross-links to The Resonant Identity */
+  --tw-teal: var(--tw-sage-teal);
+  --tw-teal-hover: var(--tw-sage-teal-hover);
+  --tw-teal-bg: rgba(79, 143, 138, 0.14);
+  --tw-teal-tint: #a9e4da;
+
+  /* shared "Featured" treatment across the Fluxline / TRI / TW ecosystem */
+  --tw-gold: var(--tw-honey-gold);
+  --tw-gold-border: var(--tw-honey-gold-active);
+  --tw-gold-bg: rgba(242, 197, 124, 0.08);
+
+  --tw-line: var(--tw-glacier-cyan);
+  --tw-indigo: var(--tw-slate-indigo);
+  --tw-indigo-hover: var(--tw-slate-indigo-hover);
+
+  /* ===== Semantic aliases ===== */
+  --tw-success: #3fae83;
+  --tw-success-border: #1f6b4c;
+  --tw-success-bg: rgba(63, 174, 131, 0.12);
+
+  --tw-featured: var(--tw-gold);
+
+  --tw-error: #c64a3e;
+  --tw-error-border: #8c2e24;
+  --tw-error-bg: rgba(198, 74, 62, 0.12);
+
+  --tw-warning: var(--tw-honey-gold-active);
+  --tw-warning-border: #8a5e14;
+  --tw-warning-bg: rgba(224, 168, 60, 0.12);
+
+  --tw-info: var(--tw-glacier-cyan);
+  --tw-info-border: var(--tw-glacier-cyan-active);
+  --tw-info-bg: rgba(95, 184, 209, 0.12);
+
+  /* ===== The Resonant Identity — shared sub-brand accent ===== */
+  --tri-teal: #00b4be;
+  --tri-teal-deep: #006e78;
+  --tri-teal-glow: #00c8d2;
+
+  color-scheme: dark;
+}
+
+/* ===========================================================================
+   LIGHT FAMILY — base (cream-tinted, not stark white)
+   =========================================================================== */
+[data-theme='light'],
+[data-theme='grayscale'],
+[data-theme='protanopia'],
+[data-theme='deuteranopia'],
+[data-theme='tritanopia'] {
+  --tw-bg-page: #faf6ee;
+  --tw-bg-deep: #ffffff;
+  --tw-bg-hero-1: #ffffff;
+  --tw-bg-hero-2: #f5eedd;
+  --tw-bg-hero-3: #eadfc4;
+
+  --tw-surface-card-light: #ffffff;
+  --tw-surface-alt-light: #f5eedd;
+  --tw-surface-inset-light: #f7f1e4;
+
+  --tw-gray-1: #f7f1e4;
+  --tw-gray-2: #efe6d2;
+  --tw-gray-3: #e3d7bc;
+  --tw-gray-4: #c9bc9d;
+  --tw-gray-5: #8a8272;
+
+  --tw-white-1: #ffffff;
+  --tw-white-2: #fcfaf4;
+  --tw-white-3: #f5eedd;
+  --tw-white-4: #eadfc4;
+  --tw-white-5: #d6c89f;
+
+  --tw-gradient-card: linear-gradient(160deg, #ffffff, #f5eedd);
+  --tw-gradient-accent: linear-gradient(
+    120deg,
+    var(--tw-glacier-cyan),
+    var(--tw-sage-teal)
+  );
+  --tw-gradient-band: linear-gradient(150deg, #eadfc4, #d8e6e4);
+  --tw-gradient-feature: linear-gradient(160deg, #f5eedd, #ffffff);
+
+  --tw-surface-card: #ffffff;
+  --tw-surface-alt: #f5eedd;
+  --tw-hover-fill: #efe6d2;
+  --tw-badge-bg: #efe6d2;
+  --tw-surface-inset: #f7f1e4;
+  --tw-surface-raised: #ffffff;
+  --tw-surface-input: #ffffff;
+
+  --tw-border: #e3d7bc;
+  --tw-border-subtle: #efe6d2;
+  --tw-border-strong: #b99b5e;
+  --tw-border-hover: #0f4c5c;
+
+  --tw-text-heading: var(--tw-slate-indigo);
+  --tw-text-heading-display: #14202a;
+  --tw-text-base: #2b2620;
+  --tw-text-bright: #14202a;
+  --tw-text-body: #33322c;
+  --tw-text-muted: #6b6558;
+  --tw-text-faint: #8a8272;
+  --tw-text-soft: #0f4c5c;
+  --tw-text-mist: #3a5a5f;
+
+  --tw-slate-blue: #2c3e50;
+  --tw-slate-blue-hover: #1f2d3a;
+  --tw-slate-blue-active: #16222e;
+  --tw-slate-blue-disabled: #aeb7c1;
+  --tw-slate-blue-soft: #3a4c5f;
+
+  --tw-glacier-cyan: #4aa5bd;
+  --tw-glacier-cyan-hover: #5fb8d1;
+  --tw-glacier-cyan-active: #3e8fa4;
+  --tw-glacier-cyan-disabled: #c9e4ec;
+  --tw-glacier-cyan-soft: #a8d7e4;
+
+  --tw-sage-teal: #4f8f8a;
+  --tw-sage-teal-hover: #5fa09b;
+  --tw-sage-teal-active: #3f7470;
+  --tw-sage-teal-disabled: #c3d1cf;
+  --tw-sage-teal-soft: #9bb7b4;
+
+  --tw-honey-gold: #d9ac63;
+  --tw-honey-gold-hover: #f2c57c;
+  --tw-honey-gold-active: #c89a55;
+  --tw-honey-gold-disabled: #f3e7d3;
+  --tw-honey-gold-soft: #e8d9c0;
+
+  --tw-slate-indigo: #465f7d;
+  --tw-slate-indigo-hover: #547799;
+  --tw-slate-indigo-active: #3a4e66;
+  --tw-slate-indigo-disabled: #c0cad4;
+  --tw-slate-indigo-soft: #9fb0c0;
+
+  --tw-accent: var(--tw-slate-indigo);
+  --tw-accent-ink: #faf6ee;
+  --tw-accent-hover: var(--tw-slate-indigo-hover);
+  --tw-accent-active: var(--tw-slate-indigo-active);
+  --tw-accent-disabled: var(--tw-slate-indigo-disabled);
+
+  --tw-teal: var(--tw-sage-teal);
+  --tw-teal-hover: var(--tw-sage-teal-hover);
+  --tw-teal-bg: rgba(79, 143, 138, 0.1);
+  --tw-teal-tint: #3f8f86;
+
+  --tw-gold: var(--tw-honey-gold);
+  --tw-gold-border: var(--tw-honey-gold-active);
+  --tw-gold-bg: rgba(217, 168, 87, 0.1);
+
+  --tw-line: var(--tw-glacier-cyan);
+  --tw-indigo: var(--tw-slate-indigo);
+  --tw-indigo-hover: var(--tw-slate-indigo-hover);
+
+  --tw-success: #2e8f63;
+  --tw-success-border: #8fcbb0;
+  --tw-success-bg: rgba(46, 143, 99, 0.08);
+
+  --tw-featured: #8a6a24;
+
+  --tw-error: #a83a30;
+  --tw-error-border: #e0ada6;
+  --tw-error-bg: rgba(168, 58, 48, 0.08);
+
+  --tw-warning: var(--tw-honey-gold-active);
+  --tw-warning-border: #dcc080;
+  --tw-warning-bg: rgba(184, 138, 16, 0.1);
+
+  --tw-info: var(--tw-glacier-cyan-active);
+  --tw-info-border: #a8cfd6;
+  --tw-info-bg: rgba(46, 122, 145, 0.08);
+
+  color-scheme: light;
+}

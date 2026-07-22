@@ -10,6 +10,8 @@ import { safeJsonLd } from '@/utils/safeJsonLd';
 
 import './globals.css';
 import { Providers } from './providers';
+import { fontVariables } from './fonts';
+import { buildThemeScript } from '@/theme/themeScript';
 
 // Environment-aware robots: only allow indexing in production
 const env = getEnvironment();
@@ -76,8 +78,22 @@ export default function RootLayout({
   const websiteSchema = getWebSiteSchema();
 
   return (
-    <html lang='en'>
+    <html lang='en' className={fontVariables} suppressHydrationWarning>
       <head>
+        {/*
+          Theme resolution — MUST be the first thing in <head>.
+
+          Stamps data-theme, the `dark` class and color-scheme onto <html> from
+          the persisted preference before the first paint. A plain inline
+          <script> rather than next/script, because `beforeInteractive` does not
+          reliably run this early in the App Router — same reasoning as the
+          Google Consent Mode block further down.
+
+          <html> carries suppressHydrationWarning because this script mutates
+          attributes that React did not render.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: buildThemeScript() }} />
+
         {/* Structured Data — Root schemas for AI/search visibility */}
         <Script
           id='schema-person'

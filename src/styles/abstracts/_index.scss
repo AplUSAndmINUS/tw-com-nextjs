@@ -1,0 +1,40 @@
+/// TW.com SCSS abstracts — logic only, no output.
+///
+/// Import in any module with:
+///   @use 'abstracts' as *;
+/// which resolves via sassOptions.loadPaths in next.config.ts.
+///
+/// -----------------------------------------------------------------------
+/// Rules for this layer
+/// -----------------------------------------------------------------------
+///
+/// 1. This file must never emit CSS. It forwards mixins and variables only.
+///    Anything that produces output belongs in a module or in globals.css.
+///
+/// 2. Do NOT pull design tokens through Sass. The tokens are CSS custom
+///    properties imported once in globals.css. `@use` is per-file, so routing
+///    them through here would emit a fresh copy of ~120 custom properties into
+///    every single module.
+///
+/// 3. Do NOT use Tailwind's `@apply` in .module.scss. Tailwind v4 requires a
+///    `@reference` directive per file, which re-parses globals.css for every
+///    module — slow and brittle. Reference `var(--tw-*)` directly instead;
+///    that is what the token layer is for.
+///
+/// -----------------------------------------------------------------------
+/// Cascade layers — read this before debugging a specificity surprise
+/// -----------------------------------------------------------------------
+///
+/// Tailwind v4 emits its utilities inside `@layer utilities`. CSS Modules
+/// output is unlayered, and unlayered rules beat layered ones regardless of
+/// specificity.
+///
+/// So a rule in a .module.scss file will win over a Tailwind utility on the
+/// same element, even a more specific-looking one. During this migration that
+/// is the intended mechanism — it lets DSM components take over styling from
+/// legacy Tailwind markup without !important or specificity hacks. But it is
+/// surprising if you are not expecting it, and it means you cannot "patch" a
+/// DSM component from the outside with a utility class.
+
+@forward 'breakpoints';
+@forward 'mixins';

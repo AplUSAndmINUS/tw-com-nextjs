@@ -13,7 +13,8 @@
  */
 
 import { useEffect, useCallback, useState } from 'react';
-import { IExtendedTheme, themeMap, ThemeMode } from '../fluentTheme';
+import { IExtendedTheme, themeMap } from '../fluentTheme';
+import { isDarkFamily, type ThemeMode } from '../modes';
 import {
   defaultUserPreferences,
   useUserPreferencesStore,
@@ -105,10 +106,7 @@ export function useAppTheme(): UseAppThemeReturn {
 
   const theme = themeMap[themeMode] as IExtendedTheme;
 
-  const isDark =
-    themeMode === 'dark' ||
-    themeMode === 'high-contrast' ||
-    themeMode === 'grayscale-dark';
+  const isDark = isDarkFamily(themeMode);
 
   const setThemeMode = useCallback(
     (mode: ThemeMode) => {
@@ -149,16 +147,44 @@ export function useAppTheme(): UseAppThemeReturn {
     [setPreference]
   );
 
-  // Sync dark mode with Tailwind by adding/removing 'dark' class on <html>
+  /**
+   * Mirror theme state onto <html> so CSS can style from it.
+   *
+   * Three separate signals, all on the same element:
+   *   data-theme  selects the token block in styles/tokens/colors.css
+   *   .dark       drives Tailwind's `dark:` variant
+   *   color-scheme makes native scrollbars and form controls match
+   *
+   * The pre-hydration script in theme/themeScript.ts sets exactly these before
+   * first paint; this effect keeps them current as the user changes modes.
+   * <html> is required rather than a wrapper: the token blocks are authored
+   * against :root, <body> needs them, and the Header mounts outside the
+   * provider tree.
+   */
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [isDark]);
+    root.setAttribute('data-theme', themeMode);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    root.classList.toggle('dark', isDark);
+  }, [themeMode, isDark]);
+
+  /**
+   * Expose the accessibility preferences to CSS.
+   *
+   * Lets stylesheets honour the in-app toggles the same way they honour
+   * prefers-reduced-motion, instead of every component threading the booleans
+   * through props. See the [data-tw-*] rules in styles/tokens/effects.css.
+   */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const root = document.documentElement;
+    root.setAttribute('data-tw-reduced-motion', String(reducedMotion));
+    root.setAttribute(
+      'data-tw-reduced-transparency',
+      String(reducedTransparency)
+    );
+  }, [reducedMotion, reducedTransparency]);
 
   return {
     isHydrated,

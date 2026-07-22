@@ -1,13 +1,22 @@
-@import url('https://use.typekit.net/dqf8seo.css');
+/* TW.com design system tokens.
+   These must come first so every downstream rule — Tailwind utilities, CSS
+   modules, component styles — can reference the custom properties.
+   colors-modes.css layers the six accessibility modes over the two family
+   base blocks in colors.css, so its order matters. */
+@import '../styles/tokens/colors.css';
+@import '../styles/tokens/colors-modes.css';
+@import '../styles/tokens/spacing.css';
+@import '../styles/tokens/typography.css';
+@import '../styles/tokens/effects.css';
 @import 'tailwindcss';
 
-/* Configure Tailwind to use class-based dark mode */
+/* Configure Tailwind to use class-based dark mode.
+   The `dark` class and the data-theme attribute are both stamped onto <html> by
+   the same pre-hydration script, so Tailwind's dark: variant and the token
+   system can never disagree. */
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Always use dark background to prevent white from showing through */
-  --background: #0f1419;
-  --foreground: #e4e4e7;
   --site-header-height: calc(4rem + env(safe-area-inset-top));
 }
 
@@ -17,17 +26,22 @@
   }
 }
 
+/* Keep Tailwind's bg-background / text-foreground utilities working by pointing
+   them at the design system tokens rather than a separate hardcoded pair. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--tw-bg-page);
+  --color-foreground: var(--tw-text-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--tw-bg-page);
+  color: var(--tw-text-body);
+  /* Body copy stays on the neutral sans stack for now. The design system calls
+     for Merriweather (--tw-font-body) sitewide, but flipping it here would
+     restyle every existing page at once; DSM components set it themselves, and
+     the global switch happens as pages migrate. Note <body> also carries
+     Tailwind's font-sans, which would win over this rule regardless. */
   font-family: ui-sans-serif, system-ui, sans-serif;
-  /* Ensure dark background always, even if theme changes */
-  background-color: #0f1419 !important;
 }
 
 /* Global scrollbar suppression.

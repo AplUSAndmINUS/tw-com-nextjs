@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { isLightFamily } from '@/theme/modes';
+import { accentWash } from '@/utils/color';
 
 export interface UseCardStateOptions {
   /** Whether hover/focus events change the card's visual state. Default: true */
@@ -82,12 +84,7 @@ export function useCardState({
   const accentColor = theme.semanticColors.accent.teal;
   const restStateColor = theme.palette.themePrimary;
 
-  const isLightFamilyMode =
-    themeMode === 'light' ||
-    themeMode === 'protanopia' ||
-    themeMode === 'deuteranopia' ||
-    themeMode === 'tritanopia' ||
-    themeMode === 'grayscale';
+  const isLightFamilyMode = isLightFamily(themeMode);
 
   const cardSurfaceColor = isLightFamilyMode
     ? theme.semanticColors.background.muted
@@ -113,11 +110,11 @@ export function useCardState({
    */
   const backgroundImage = isInteracting
     ? isLightFamilyMode
-      ? `linear-gradient(160deg, ${accentColor}40 0%, transparent 55%)`
-      : `linear-gradient(160deg, rgba(255,255,255,0.40) 0%, transparent 55%)`
+      ? accentWash(accentColor, 25, 55)
+      : accentWash('#fff', 40, 55)
     : isLightFamilyMode
-      ? `linear-gradient(160deg, ${accentColor}20 0%, transparent 42%)`
-      : `linear-gradient(160deg, rgba(255,255,255,0.26) 0%, transparent 42%)`;
+      ? accentWash(accentColor, 12.5)
+      : accentWash('#fff', 26);
 
   const backgroundColor = isInteracting
     ? cardHoverSurfaceColor
