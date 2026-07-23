@@ -47,6 +47,26 @@
     );
 }
 
+/**
+ * In the light family --tw-bg-deep/--tw-bg-page are near-white, so the same
+ * scrim strengths that read as a subtle dark vignette in dark themes wash the
+ * photo out almost entirely. Pull both stops back for light themes only.
+ */
+:global([data-theme='light']) .scrim {
+  background:
+    linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--tw-bg-deep) 58%, transparent) 0%,
+      color-mix(in srgb, var(--tw-bg-deep) 36%, transparent) 45%,
+      color-mix(in srgb, var(--tw-bg-deep) 12%, transparent) 100%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--tw-bg-page) 42%, transparent) 0%,
+      transparent 40%
+    );
+}
+
 .inner {
   @include container-width;
 

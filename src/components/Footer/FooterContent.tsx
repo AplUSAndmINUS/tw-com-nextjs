@@ -371,7 +371,7 @@ export function FooterContent({
               style={{ fontSize: '1.25rem', fontStyle: 'italic', marginTop: '0.25rem' }}
             >
               "Know who you are and what you stand for!" <br />
-              <em style={{ fontWeight: 100 }}>
+              <em style={{ fontWeight: 300 }}>
                 &mdash; Terence Waters &amp; The Resonant Identity
               </em>
             </Typography>
