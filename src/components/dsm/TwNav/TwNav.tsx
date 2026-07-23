@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useId, useRef, useState } from 'react';
+import Link from 'next/link';
 import { TwButton } from '../TwButton';
 import styles from './TwNav.module.scss';
 
@@ -118,16 +119,16 @@ export function TwNav({
       className={[styles.nav, className].filter(Boolean).join(' ')}
     >
       <div className={styles.inner}>
-        <a href={homeHref} className={styles.brand}>
+        <Link href={homeHref} className={styles.brand}>
           {logoMark ? (
             <img src={logoMark} alt='' className={styles.brandMark} />
           ) : null}
           <span className={styles.brandText}>{logoText}</span>
-        </a>
+        </Link>
 
         <nav className={styles.links} aria-label='Primary'>
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className={[
@@ -139,7 +140,7 @@ export function TwNav({
               aria-current={isActive(link.href) ? 'true' : undefined}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           {ctaLabel ? (
             <TwButton size='sm' href={ctaHref}>
@@ -185,7 +186,7 @@ export function TwNav({
       {menuOpen ? (
         <div id={menuId} className={styles.mobilePanel}>
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
@@ -198,7 +199,7 @@ export function TwNav({
               aria-current={isActive(link.href) ? 'true' : undefined}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           {ctaLabel ? (
             <TwButton size='sm' href={ctaHref} onClick={() => setMenuOpen(false)}>

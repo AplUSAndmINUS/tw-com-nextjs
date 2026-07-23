@@ -25,8 +25,13 @@
   grid-template-columns: 1fr;
 }
 
-/* Tablet */
-@container (min-width: 768px) {
+/* Tablet. Threshold is lower than the 768px viewport breakpoint it targets —
+   this container query measures the grid's own (already page-padded) width,
+   which runs ~80px narrower than the viewport once container padding and the
+   scrollbar are subtracted. Without the offset, a full-width page grid (e.g.
+   Blog, Portfolio) wouldn't flip to 2 columns until ~840px viewport, well
+   past where mobile-lg/tablet devices actually start. */
+@container (min-width: 688px) {
   .grid {
     grid-template-columns: repeat(var(--tw-grid-cols-tablet, 2), minmax(0, 1fr));
   }

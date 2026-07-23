@@ -263,6 +263,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: 24px;
 }
 
 /* ===== 04 Approach ===== */
@@ -277,6 +278,7 @@
 
 .approach {
   @include card-surface(var(--tw-radius-card-sm));
+  @include card-interactive;
   padding: 22px 24px;
 }
 
@@ -459,6 +461,7 @@
 
 .skillGroup {
   @include card-surface(var(--tw-radius-card-sm));
+  @include card-interactive;
   padding: 22px 24px;
 }
 

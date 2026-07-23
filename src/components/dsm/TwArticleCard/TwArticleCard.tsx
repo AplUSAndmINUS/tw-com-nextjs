@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { TwChip } from '../TwChip';
 import { CardImage } from './CardImage';
 import styles from './TwArticleCard.module.scss';
@@ -73,15 +74,20 @@ export function TwArticleCard({
 
         <h3 className={styles.title}>
           {href ? (
-            <a
-              className={styles.link}
-              href={href}
-              {...(external
-                ? { target: '_blank', rel: 'noopener noreferrer' }
-                : {})}
-            >
-              {title}
-            </a>
+            external ? (
+              <a
+                className={styles.link}
+                href={href}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {title}
+              </a>
+            ) : (
+              <Link className={styles.link} href={href}>
+                {title}
+              </Link>
+            )
           ) : (
             title
           )}

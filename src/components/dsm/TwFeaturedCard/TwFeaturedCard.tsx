@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { TwChip } from '../TwChip';
 import styles from './TwFeaturedCard.module.scss';
 
@@ -92,9 +93,9 @@ export function TwFeaturedCard({
 
         <h2 className={styles.title}>
           {href ? (
-            <a className={styles.link} href={href}>
+            <Link className={styles.link} href={href}>
               {title}
-            </a>
+            </Link>
           ) : (
             title
           )}

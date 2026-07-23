@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSlideInOut } from '@/hooks/useSlideInOut';
@@ -356,7 +357,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                         }}
                       >
                         Biweekly newsletter. Unsubscribe at any time from the{' '}
-                        <a
+                        <Link
                           href='/unsubscribe'
                           onClick={() => setIsOpen(false)}
                           style={{
@@ -365,7 +366,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
                           }}
                         >
                           unsubscribe page
-                        </a>
+                        </Link>
                         .
                       </Typography>
                     </div>
