@@ -1,13 +1,15 @@
 # tw-com-nextjs
 
 Next.js rewrite of TW.com
-Personal website for Terence Waters — built with Next.js, Tailwind CSS, and Fluent UI.
+Personal website for Terence Waters — built with Next.js and a custom design system (DSM).
 
 ## Stack
 
 - **Framework**: [Next.js](https://nextjs.org/) (App Router, static export)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [Fluent UI](https://fluent2.microsoft.design/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Design System**: 25 `Tw*` DSM components in `src/components/dsm/`
+- **Styling**: SCSS Modules + CSS custom property tokens (`--tw-*`)
+- **Themes**: 8 modes — dark (default), light, high-contrast, protanopia, deuteranopia, tritanopia, grayscale, grayscale-dark
+- **Animations**: CSS-based via DSM (`TwReveal`, `TwParallax`) + Framer Motion for legacy transitions
 - **Content**: File-based Markdown/MDX with [gray-matter](https://github.com/jonschlinkert/gray-matter)
 - **Hosting**: [Azure Static Web Apps](https://azure.microsoft.com/en-us/products/app-service/static)
 - **Package manager**: Yarn
@@ -74,7 +76,7 @@ src/
   layouts/      # Page layout wrappers
   hooks/        # Custom React hooks
   lib/          # Data loaders (content.ts)
-  theme/        # Fluent UI extended theme + design tokens
+  theme/        # Legacy theme hooks (useAppTheme) + design tokens
   store/        # Zustand state stores
   content/      # TypeScript types for content models
   utils/        # Utility helpers

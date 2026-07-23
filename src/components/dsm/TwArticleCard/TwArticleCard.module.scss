@@ -24,6 +24,7 @@
 /* ===== Media ===== */
 
 .media {
+  position: relative;
   margin: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
@@ -31,11 +32,51 @@
   border-bottom: 1px solid var(--tw-border);
 }
 
+@keyframes shimmerSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--tw-text-faint) 8%, transparent) 40%,
+      color-mix(in srgb, var(--tw-text-faint) 12%, transparent) 50%,
+      color-mix(in srgb, var(--tw-text-faint) 8%, transparent) 60%,
+      transparent 100%
+    );
+    animation: shimmerSlide 1.6s ease-in-out infinite;
+  }
+}
+
+.shimmerDone {
+  display: none;
+}
+
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 0.4s var(--tw-motion-ease);
+}
+
+.imageLoaded {
+  opacity: 1;
 }
 
 /* ===== Content ===== */

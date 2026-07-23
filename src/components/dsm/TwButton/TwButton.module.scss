@@ -54,14 +54,16 @@
 
 .primary {
   background: var(--tw-accent);
-  color: var(--tw-accent-ink);
+
+  &,
+  &:any-link {
+    color: var(--tw-accent-ink);
+  }
 
   &:hover {
     filter: brightness(1.08);
   }
 
-  /* No shrink on press. The press state is a colour step, so the control does
-     not move under the finger that is already on it. */
   &:active {
     background: var(--tw-accent-active);
     filter: none;
@@ -71,7 +73,11 @@
 .outline {
   background: transparent;
   border-color: var(--tw-line);
-  color: var(--tw-accent);
+
+  &,
+  &:any-link {
+    color: var(--tw-accent);
+  }
 
   &:hover {
     background: color-mix(in srgb, var(--tw-accent) 10%, transparent);
@@ -88,7 +94,11 @@
   padding: 0;
   background: transparent;
   border-color: transparent;
-  color: var(--tw-text-muted);
+
+  &,
+  &:any-link {
+    color: var(--tw-text-muted);
+  }
 
   &:hover {
     color: var(--tw-text-bright);

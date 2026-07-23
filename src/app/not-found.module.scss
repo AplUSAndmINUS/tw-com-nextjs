@@ -1,13 +1,122 @@
 @use 'abstracts' as *;
 
 .page {
-  max-width: 56rem;
-  margin-inline: auto;
-  padding-top: 0;
-  padding-bottom: var(--tw-space-xl);
+  min-height: 100vh;
+  background: var(--tw-bg-page);
+  display: flex;
+  flex-direction: column;
+}
 
-  @include from('mobile-lg') {
-    padding-top: var(--tw-space-xl);
-    padding-bottom: var(--tw-space-xl);
+.main {
+  flex: 1;
+  max-width: var(--tw-container);
+  margin: 0 auto;
+  padding: 0 var(--tw-container-pad);
+  width: 100%;
+}
+
+.hero {
+  text-align: center;
+  padding: 96px 0 64px;
+
+  @include until('mobile-lg') {
+    padding: 64px 0 48px;
   }
+}
+
+.code {
+  display: block;
+  font-family: var(--tw-font-mono);
+  font-size: 7rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--tw-accent);
+  margin-bottom: var(--tw-space-m);
+
+  @include until('mobile-lg') {
+    font-size: 5rem;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--tw-space-s);
+  flex-wrap: wrap;
+  margin-top: var(--tw-space-l);
+}
+
+.popular {
+  padding-bottom: 96px;
+  border-top: 1px solid var(--tw-border-subtle);
+  padding-top: var(--tw-space-xxl);
+}
+
+.popularHeading {
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  color: var(--tw-text-heading);
+  margin: 0 0 var(--tw-space-l);
+  text-align: center;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--tw-space-m);
+
+  @include until('tablet') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include until('mobile-sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--tw-radius-card);
+
+  @include focus-ring;
+}
+
+.card {
+  @include card-interactive;
+
+  padding: var(--tw-card-pad);
+  height: 100%;
+}
+
+.cardTitle {
+  margin: 0 0 var(--tw-space-xxs);
+  font-family: var(--tw-font);
+  font-size: var(--tw-h4-size);
+  font-weight: var(--tw-h4-weight);
+  color: var(--tw-text-heading);
+}
+
+.cardDesc {
+  margin: 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  color: var(--tw-text-muted);
+}
+
+.cardArrow {
+  display: block;
+  margin-top: var(--tw-space-s);
+  font-size: 1.125rem;
+  color: var(--tw-accent);
+  transition: transform 0.2s var(--tw-motion-ease);
+
+  @include motion-safe-only;
+}
+
+.cardLink:hover .cardArrow {
+  transform: translateX(4px);
 }

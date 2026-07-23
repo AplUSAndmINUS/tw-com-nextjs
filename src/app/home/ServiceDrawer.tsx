@@ -99,14 +99,25 @@ export function ServiceDrawer({ service, onClose }: ServiceDrawerProps) {
           ))}
         </ul>
 
-        <a
-          href={serviceHref(service.slug)}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={styles.cta}
-        >
-          Open on Fluxline.pro &#8599;
-        </a>
+        {service.slug === 'fractional' ? (
+          <a
+            href='https://tidycal.com/terencewaters'
+            target='_blank'
+            rel='noopener noreferrer'
+            className={styles.cta}
+          >
+            Book a consultation &#8594;
+          </a>
+        ) : (
+          <a
+            href={serviceHref(service.slug)}
+            target='_blank'
+            rel='noopener noreferrer'
+            className={styles.cta}
+          >
+            Open on Fluxline.pro &#8599;
+          </a>
+        )}
         <button type='button' className={styles.back} onClick={onClose}>
           Back to services
         </button>
