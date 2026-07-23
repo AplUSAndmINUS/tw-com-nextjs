@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { TwButton } from '../TwButton';
 import { TwParallax } from '../TwParallax';
 import styles from './TwHero.module.scss';
@@ -15,8 +15,7 @@ export interface TwHeroProps {
    */
   eyebrow?: string;
   title: string;
-  body?: string;
-  /** Short pull-quote rendered as a bordered blockquote above the CTAs. */
+  body?: JSX.Element | string;
   quote?: string;
   primaryCta?: TwHeroCta;
   secondaryCta?: TwHeroCta;
