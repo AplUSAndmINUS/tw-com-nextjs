@@ -33,6 +33,20 @@
 }
 
 [data-tw-contrast='high'][data-theme='light'] {
+  --tw-bg-page: #ffffff;
+  --tw-bg-deep: #ffffff;
+  --tw-bg-hero-1: #ffffff;
+  --tw-bg-hero-2: #ffffff;
+  --tw-bg-hero-3: #ffffff;
+
+  --tw-surface-card: #ffffff;
+  --tw-surface-alt: #ffffff;
+  --tw-hover-fill: #e6e6e6;
+  --tw-badge-bg: #ffffff;
+  --tw-surface-inset: #ffffff;
+  --tw-surface-raised: #ffffff;
+  --tw-surface-input: #ffffff;
+
   --tw-text-body: #000000;
   --tw-text-base: #000000;
   --tw-text-bright: #000000;
@@ -40,9 +54,39 @@
   --tw-text-faint: #333333;
   --tw-text-heading: #0a0a0a;
   --tw-text-heading-display: #0a0a0a;
+  --tw-text-soft: #003399;
+  --tw-text-mist: #1c1c1c;
   --tw-border: #333333;
   --tw-border-subtle: #555555;
   --tw-border-strong: #000000;
+  --tw-border-hover: #003399;
+
+  /* The base light theme's accent/link colors are pastel by design and were
+     inheriting through unchanged, which defeated the point of this mode —
+     replace them with a saturated, WCAG-AA+ blue/teal pair on white. */
+  --tw-accent: #003399;
+  --tw-accent-ink: #ffffff;
+  --tw-accent-hover: #0047b3;
+  --tw-accent-active: #002266;
+  --tw-accent-disabled: #666666;
+
+  --tw-line: #003399;
+  --tw-teal: #00625f;
+  --tw-teal-hover: #00847f;
+  --tw-teal-bg: rgba(0, 98, 95, 0.12);
+  --tw-teal-tint: #00625f;
+
+  --tw-gold: #7a5f00;
+  --tw-gold-border: #5c4700;
+  --tw-gold-bg: rgba(122, 95, 0, 0.14);
+  --tw-featured: #5c4700;
+
+  --tw-gradient-hero: linear-gradient(150deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
+  --tw-gradient-card: linear-gradient(160deg, #ffffff, #ffffff);
+  --tw-gradient-band: linear-gradient(150deg, #ffffff, #ffffff);
+  --tw-gradient-feature: linear-gradient(155deg, #ffffff, #ffffff);
+
+  --tw-noise-opacity: 0;
 }
 
 /* ===== Colorblind-safe palette =====
@@ -68,4 +112,15 @@
   --tw-accent-ink: #ffffff;
   --tw-text-heading: #8a6a24;
   --tw-line: #b8860b;
+}
+
+/* Palette tokens above only reach chrome the DSM draws itself — real
+   photography still carries its native reds/greens untouched. Nudging
+   saturation down and contrast up trades hue-based separation (what
+   dichromacy loses) for lightness-based separation (what it keeps), without
+   flattening images to full grayscale. */
+[data-tw-cvd='on'] img,
+[data-tw-cvd='on'] picture > img,
+[data-tw-cvd='on'] video {
+  filter: saturate(0.55) contrast(1.12) brightness(1.02);
 }
