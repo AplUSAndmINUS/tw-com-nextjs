@@ -33,7 +33,10 @@
 }
 
 .sectionAlt {
-  background: var(--tw-surface-alt);
+  /* Gradient rather than a flat surface fill — the two are close enough in
+     value (especially in light mode) that alternating bands read as nearly
+     identical; the gradient gives each band its own presence. */
+  background: var(--tw-gradient-feature);
   border-top: 1px solid var(--tw-border-subtle);
   border-bottom: 1px solid var(--tw-border-subtle);
 }

@@ -112,14 +112,22 @@ export default function HomePageClient({
     <div id='top' className={styles.page}>
       <HomeNav
         links={NAV_LINKS}
-        sectionIds={['hero', 'about', 'work', 'content', 'portfolio', 'contact']}
+        sectionIds={[
+          'hero',
+          'about',
+          'work',
+          'content',
+          'portfolio',
+          'contact',
+        ]}
       />
 
       <section id='hero' className='tw-snap'>
         <TwHero
           eyebrow="Hi there 👋 I'm"
           title='Terence Waters'
-          body='I help people and organizations rebuild the parts of themselves they thought were permanent. Systems thinker, designer, and coach — writing about resonance, identity, and building a life that feels right.'
+          body='I help people and organizations rebuild the parts of themselves they thought were permanent. Systems thinker, designer, and coach — writing about resonance, identity, and building a life that embodies it all.'
+          quote='Clarity, identity, and systems that make your life — and your work — feel like they finally fit.'
           primaryCta={{ label: 'Who am I?', href: '#about' }}
           secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -130,8 +138,43 @@ export default function HomePageClient({
         />
       </section>
 
+      {/* ===== Resonance Philosophy ===== */}
+      <section id='resonance' className={`tw-snap ${styles.resonanceSection}`}>
+        <div className={styles.container}>
+          <TwReveal>
+            <div className={styles.resonanceGrid}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.resonanceLogo}
+                src='/assets/images/RCF_logo.jpeg'
+                alt='Resonance Field'
+                loading='lazy'
+                decoding='async'
+              />
+              <div>
+                <TwSectionHeading
+                  kicker='Philosophy'
+                  title='Resonance Philosophy'
+                />
+                <p className={styles.prose}>
+                  Resonance is when your identity, your systems, and your
+                  actions finally operate on the same frequency.
+                </p>
+                <p className={styles.prose}>
+                  My work — whether architectural, creative, or personal — is
+                  about helping you build from that place.
+                </p>
+              </div>
+            </div>
+          </TwReveal>
+        </div>
+      </section>
+
       {/* ===== 01 About ===== */}
-      <section id='about' className={`tw-snap ${styles.section} ${styles.glowAbout}`}>
+      <section
+        id='about'
+        className={`tw-snap ${styles.section} ${styles.glowAbout}`}
+      >
         <div className={styles.container}>
           <div className={styles.railGrid}>
             <div className={styles.rail}>
@@ -161,19 +204,44 @@ export default function HomePageClient({
                   subhead="Most people don't need more information. We need clarity, structure, and a way back to ourselves."
                 />
                 <p className={styles.prose}>
+                  My work sits at the intersection of{' '}
+                  <strong>
+                    <em>architecture</em>
+                  </strong>
+                  ,{' '}
+                  <strong>
+                    <em>identity</em>
+                  </strong>
+                  , and{' '}
+                  <strong>
+                    <em>transformation</em>
+                  </strong>
+                  . I help people understand the systems they run on — and
+                  rebuild the ones that no longer serve them.
+                </p>
+                <p className={styles.prose}>
                   I&apos;m a systems architect by training, a designer by
                   instinct, and a coach by necessity. For 15+ years I&apos;ve
                   worked across IT architecture, full-stack development, brand
                   identity, and personal transformation — translating complexity
-                  into clarity for founders and mission-driven teams.
+                  into{' '}
+                  <strong>
+                    <em>clarity</em>
+                  </strong>{' '}
+                  for founders and mission-driven teams.
                 </p>
                 <p className={styles.prose}>
                   Structure. Clarity. A way to understand who I was becoming and
-                  why. That&apos;s the work — and it&apos;s why I build the way I
-                  do.
+                  why.
                 </p>
+                <blockquote className={styles.quote}>
+                  That&apos;s the work — and it&apos;s why I build the way I do.
+                </blockquote>
                 <div className={styles.statGrid}>
-                  <TwStatCard value='15+' label='Years bridging tech & design' />
+                  <TwStatCard
+                    value='15+'
+                    label='Years bridging tech & design'
+                  />
                   <TwStatCard value='3' label='Companies in the ecosystem' />
                   <TwStatCard value='8' label='Accessible theme modes' />
                 </div>
@@ -190,7 +258,7 @@ export default function HomePageClient({
                 </div>
 
                 <div className={styles.viewAll}>
-                  <a href='/about'>Learn more about me &#8594;</a>
+                  <a href='/about'>Learn more About Me &#8594;</a>
                 </div>
               </TwReveal>
             </div>
@@ -216,7 +284,7 @@ export default function HomePageClient({
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       className='tw-media'
-                      src='/assets/images/hero-landscape.jpg'
+                      src='/assets/images/Portfolio1280x1815.jpg'
                       alt='Work across the Fluxline ecosystem'
                     />
                   </TwParallax>
@@ -229,7 +297,7 @@ export default function HomePageClient({
                 <TwSectionHeading
                   kicker='My Work'
                   title='Design, architecture, and coaching'
-                  lede='I deliver this work through Fluxline Resonance Group. Tap any service for what it covers and what is included — the full engagement details live on fluxline.pro.'
+                  lede='I deliver this work through Fluxline Resonance Group — a modular systems practice for founders, creators, and teams building with clarity and resonance. More info is found on my business site Fluxline.pro, but here are a few highlights.'
                 />
               </TwReveal>
 
@@ -266,8 +334,12 @@ export default function HomePageClient({
               </div>
 
               <div className={styles.viewAll}>
-                <a href={serviceHref('')} target='_blank' rel='noopener noreferrer'>
-                  View all services &#8594;
+                <a
+                  href={serviceHref('')}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  View all services on Fluxline.pro &#8599;
                 </a>
               </div>
             </div>
@@ -293,7 +365,7 @@ export default function HomePageClient({
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       className='tw-media'
-                      src='/assets/images/portrait-about.jpg'
+                      src='/assets/images/APlusLogo_11052025.png'
                       alt='Writing, video, and the podcast'
                     />
                   </TwParallax>
@@ -306,7 +378,7 @@ export default function HomePageClient({
                 <TwSectionHeading
                   kicker='Content Hub'
                   title='Writing, video, and the podcast'
-                  lede='Long-form thinking on resonance, architecture, and building a life that feels right.'
+                  lede='Long-form thinking on resonance, architecture, and building a life that embodies it all.'
                 />
               </TwReveal>
 
@@ -358,7 +430,7 @@ export default function HomePageClient({
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       className='tw-media'
-                      src='/assets/images/hero-landscape.jpg'
+                      src='/assets/images/the-morning-resonance.jpg'
                       alt='Selected work and case studies'
                     />
                   </TwParallax>
@@ -395,19 +467,25 @@ export default function HomePageClient({
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  Case studies &#8599;
+                  Case studies on Fluxline.pro &#8599;
                 </a>
-                <a href='/portfolio'>View the full Portfolio &#8594;</a>
+                <a href='/portfolio'>View my full Portfolio &#8594;</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== Newsletter ===== */}
-      <section id='newsletter' className={`tw-snap ${styles.section}`}>
+      {/* ===== Contact (newsletter CTA lives inside, above the form) ===== */}
+      <section
+        id='contact'
+        className={`tw-snap ${styles.section} ${styles.sectionAlt}`}
+      >
         <div className={styles.container}>
-          <div className={`tw-grain ${styles.band}`}>
+          <div
+            id='newsletter'
+            className={`tw-grain ${styles.band} ${styles.newsletterBand}`}
+          >
             <div className={styles.bandGrid}>
               <div>
                 <TwSectionHeading
@@ -426,15 +504,7 @@ export default function HomePageClient({
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ===== Contact ===== */}
-      <section
-        id='contact'
-        className={`tw-snap ${styles.section} ${styles.sectionAlt}`}
-      >
-        <div className={styles.container}>
           <div className={styles.contactGrid}>
             <TwReveal variant='left'>
               <TwSectionHeading
@@ -457,7 +527,10 @@ export default function HomePageClient({
               <div className={styles.contactEmail}>
                 terence@terencewaters.com
               </div>
-              <SocialRow items={wideSocials} className={styles.contactSocials} />
+              <SocialRow
+                items={wideSocials}
+                className={styles.contactSocials}
+              />
             </TwReveal>
 
             <TwReveal>
@@ -474,8 +547,8 @@ export default function HomePageClient({
 
       <div className={styles.watermark}>
         <p>
-          &ldquo;Know who you are and what you stand for — in line with your true
-          and chosen identity.&rdquo;
+          &ldquo;Know who you are and what you stand for <br />— in line with
+          your <u>true</u> and <u>chosen</u> identity.&rdquo;
         </p>
       </div>
 

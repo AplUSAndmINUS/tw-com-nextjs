@@ -123,33 +123,28 @@ nav[role='banner'] {
   }
 }
 
-/* reCAPTCHA badge defaults to the nearest positioned container on larger screens. */
+/* reCAPTCHA badge: pinned to the viewport corner (not the page), dimmed until
+   hovered so it doesn't visually compete with the page content. */
 .grecaptcha-badge {
-  position: absolute !important;
-  bottom: 1rem !important;
-  right: 1rem !important;
+  position: fixed !important;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom)) !important;
+  right: calc(0.75rem + env(safe-area-inset-right)) !important;
+  left: auto !important;
+  top: auto !important;
   z-index: 20 !important;
-  opacity: 0.4 !important;
+  opacity: 0.35 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.grecaptcha-badge:hover,
+.grecaptcha-badge:focus-within {
+  opacity: 1 !important;
 }
 
 @media (max-width: 640px) {
   .grecaptcha-badge {
-    position: fixed !important;
-    bottom: calc(0.75rem + env(safe-area-inset-bottom)) !important;
-    right: calc(0.75rem + env(safe-area-inset-right)) !important;
-    left: auto !important;
-    opacity: 0.75 !important;
     scale: 0.7 !important;
     transform-origin: bottom right !important;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 970px) {
-  .grecaptcha-badge {
-    bottom: 1rem !important;
-    right: -0.5em !important;
-    opacity: 0.75 !important;
-    scale: 0.7 !important;
   }
 }
 

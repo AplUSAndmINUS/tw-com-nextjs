@@ -105,7 +105,7 @@ export default function AboutPage() {
           body='Founder, architect, and coach. Fifteen years turning complexity into something people can actually live and work inside.'
           primaryCta={{ label: 'How I work', href: '#how-i-work' }}
           secondaryCta={{ label: 'Start a conversation', href: '/#contact' }}
-          backgroundImage='/assets/images/portrait-about.jpg'
+          backgroundImage='/assets/images/hero-landscape.jpg'
           tagline='Founder, Fluxline Resonance Group'
           location='Salt Lake City, Utah'
           focalPoint='center 20%'
