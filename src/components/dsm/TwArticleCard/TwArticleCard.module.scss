@@ -59,6 +59,8 @@
       transparent 100%
     );
     animation: shimmerSlide 1.6s ease-in-out infinite;
+
+    @include motion-safe-only;
   }
 }
 
@@ -73,6 +75,8 @@
   display: block;
   opacity: 0;
   transition: opacity 0.4s var(--tw-motion-ease);
+
+  @include motion-safe-only;
 }
 
 .imageLoaded {
