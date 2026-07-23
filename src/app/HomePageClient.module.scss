@@ -31,9 +31,11 @@
   background: var(--tw-bg-page);
 }
 
-/* Alternating band for rhythm. */
+/* Alternating band for rhythm. A gradient rather than the flat --tw-surface-alt
+   fill — that surface sits too close in value to --tw-bg-page (especially in
+   light mode) to read as a distinct band on its own. */
 .sectionAlt {
-  background: var(--tw-surface-alt);
+  background: var(--tw-gradient-feature);
   border-top: 1px solid var(--tw-border-subtle);
   border-bottom: 1px solid var(--tw-border-subtle);
 }
@@ -330,6 +332,16 @@
   }
 }
 
+/* Spacing for the band now that it shares the Contact section with the
+   contact form below it, rather than sitting alone in its own section. */
+.newsletterBand {
+  margin-bottom: 64px;
+
+  @include until('mobile-lg') {
+    margin-bottom: 40px;
+  }
+}
+
 /* The newsletter and contact forms own their own field/card styles — see
    home/HomeNewsletterForm.module.scss and home/HomeContactForm.module.scss. */
 .newsletterSocials {
@@ -377,10 +389,11 @@
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
-    font-family: var(--tw-font-body);
+    font-family: var(--tw-font-heading);
     font-style: italic;
-    font-size: 1.1875rem;
-    line-height: 1.6;
+    font-weight: 600;
+    font-size: 1.75rem;
+    line-height: 1.3;
     color: var(--tw-text-muted);
   }
 }
