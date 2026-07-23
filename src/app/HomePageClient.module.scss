@@ -87,6 +87,40 @@
   padding: 0 var(--tw-container-pad);
 }
 
+/* ===== Resonance Philosophy micro-section ===== */
+.resonanceSection {
+  position: relative;
+  padding-block: 64px;
+  background: var(--tw-gradient-feature);
+  border-top: 1px solid var(--tw-border-subtle);
+  border-bottom: 1px solid var(--tw-border-subtle);
+}
+
+.resonanceGrid {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+.resonanceLogo {
+  width: 100%;
+  border-radius: var(--tw-radius-card);
+  border: 1px solid var(--tw-border);
+  display: block;
+
+  @include until('mobile-lg') {
+    max-width: 140px;
+  }
+}
+
 /* ===== Numbered rail sections ===== */
 .railGrid {
   display: grid;
@@ -260,6 +294,7 @@
   background: none;
   border: none;
   padding: 0;
+  box-shadow: var(--tw-shadow-l);
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -396,4 +431,15 @@
     line-height: 1.3;
     color: var(--tw-text-muted);
   }
+}
+
+.quote {
+  margin: var(--tw-space-l) 0 0;
+  padding: var(--tw-space-xs) var(--tw-space-m);
+  border-left: 3px solid var(--tw-accent);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-size);
+  font-style: italic;
+  line-height: var(--tw-body-leading);
+  color: var(--tw-text-heading-display);
 }

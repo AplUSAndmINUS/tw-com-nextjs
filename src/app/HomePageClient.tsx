@@ -127,6 +127,7 @@ export default function HomePageClient({
           eyebrow="Hi there 👋 I'm"
           title='Terence Waters'
           body='I help people and organizations rebuild the parts of themselves they thought were permanent. Systems thinker, designer, and coach — writing about resonance, identity, and building a life that embodies it all.'
+          quote='Clarity, identity, and systems that make your life — and your work — feel like they finally fit.'
           primaryCta={{ label: 'Who am I?', href: '#about' }}
           secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -135,6 +136,36 @@ export default function HomePageClient({
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
         />
+      </section>
+
+      {/* ===== Resonance Philosophy ===== */}
+      <section id='resonance' className={`tw-snap ${styles.resonanceSection}`}>
+        <div className={styles.container}>
+          <TwReveal>
+            <div className={styles.resonanceGrid}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.resonanceLogo}
+                src='/assets/images/RCF_logo.jpeg'
+                alt='Resonance Field'
+              />
+              <div>
+                <TwSectionHeading
+                  kicker='Philosophy'
+                  title='Resonance Philosophy'
+                />
+                <p className={styles.prose}>
+                  Resonance is when your identity, your systems, and your
+                  actions finally operate on the same frequency.
+                </p>
+                <p className={styles.prose}>
+                  My work — whether architectural, creative, or personal — is
+                  about helping you build from that place.
+                </p>
+              </div>
+            </div>
+          </TwReveal>
+        </div>
       </section>
 
       {/* ===== 01 About ===== */}
@@ -171,17 +202,39 @@ export default function HomePageClient({
                   subhead="Most people don't need more information. We need clarity, structure, and a way back to ourselves."
                 />
                 <p className={styles.prose}>
+                  My work sits at the intersection of{' '}
+                  <strong>
+                    <em>architecture</em>
+                  </strong>
+                  ,{' '}
+                  <strong>
+                    <em>identity</em>
+                  </strong>
+                  , and{' '}
+                  <strong>
+                    <em>transformation</em>
+                  </strong>
+                  . I help people understand the systems they run on — and
+                  rebuild the ones that no longer serve them.
+                </p>
+                <p className={styles.prose}>
                   I&apos;m a systems architect by training, a designer by
                   instinct, and a coach by necessity. For 15+ years I&apos;ve
                   worked across IT architecture, full-stack development, brand
                   identity, and personal transformation — translating complexity
-                  into clarity for founders and mission-driven teams.
+                  into{' '}
+                  <strong>
+                    <em>clarity</em>
+                  </strong>{' '}
+                  for founders and mission-driven teams.
                 </p>
                 <p className={styles.prose}>
                   Structure. Clarity. A way to understand who I was becoming and
-                  why. That&apos;s the work — and it&apos;s why I build the way
-                  I do.
+                  why.
                 </p>
+                <blockquote className={styles.quote}>
+                  That&apos;s the work — and it&apos;s why I build the way I do.
+                </blockquote>
                 <div className={styles.statGrid}>
                   <TwStatCard
                     value='15+'
@@ -242,7 +295,7 @@ export default function HomePageClient({
                 <TwSectionHeading
                   kicker='My Work'
                   title='Design, architecture, and coaching'
-                  lede='I deliver this work through Fluxline Resonance Group. Tap any service for what it covers and what is included — the full engagement details live on fluxline.pro.'
+                  lede='I deliver this work through Fluxline Resonance Group — a modular systems practice for founders, creators, and teams building with clarity and resonance. More info is found on my business site Fluxline.pro, but here are a few highlights.'
                 />
               </TwReveal>
 

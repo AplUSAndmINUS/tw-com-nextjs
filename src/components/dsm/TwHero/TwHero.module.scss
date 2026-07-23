@@ -123,6 +123,17 @@
   color: var(--tw-text-mist);
 }
 
+.quote {
+  margin: var(--tw-space-l) 0 0;
+  padding: var(--tw-space-xs) var(--tw-space-m);
+  border-left: 3px solid var(--tw-accent);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-size);
+  font-style: italic;
+  line-height: var(--tw-body-leading);
+  color: var(--tw-text-heading-display);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
