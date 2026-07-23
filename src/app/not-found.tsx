@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   TwButton,
   TwCard,
@@ -57,13 +58,13 @@ export default function NotFound() {
           <div className={styles.cardGrid}>
             {POPULAR.map((item, i) => (
               <TwReveal key={item.href} delay={i * 90}>
-                <a href={item.href} className={styles.cardLink}>
+                <Link href={item.href} className={styles.cardLink}>
                   <TwCard className={styles.card}>
                     <h3 className={styles.cardTitle}>{item.label}</h3>
                     <p className={styles.cardDesc}>{item.desc}</p>
                     <span className={styles.cardArrow}>&#8594;</span>
                   </TwCard>
-                </a>
+                </Link>
               </TwReveal>
             ))}
           </div>
