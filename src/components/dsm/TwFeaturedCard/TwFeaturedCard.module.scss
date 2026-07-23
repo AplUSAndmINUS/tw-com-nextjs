@@ -1,7 +1,6 @@
 @use 'abstracts' as *;
 
 .card {
-  @include card-interactive;
   position: relative;
   display: flex;
   flex-direction: column;
