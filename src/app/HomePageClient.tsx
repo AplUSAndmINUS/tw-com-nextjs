@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   TwHero,
   TwSectionHeading,
@@ -258,7 +259,7 @@ export default function HomePageClient({
                 </div>
 
                 <div className={styles.viewAll}>
-                  <a href='/about'>Learn more About Me &#8594;</a>
+                  <Link href='/about'>Learn more About Me &#8594;</Link>
                 </div>
               </TwReveal>
             </div>
@@ -405,7 +406,7 @@ export default function HomePageClient({
               </div>
 
               <div className={styles.viewAll}>
-                <a href='/blog'>Explore the full Content Hub &#8594;</a>
+                <Link href='/blog'>Explore the full Content Hub &#8594;</Link>
               </div>
             </div>
           </div>
@@ -469,7 +470,7 @@ export default function HomePageClient({
                 >
                   Case studies on Fluxline.pro &#8599;
                 </a>
-                <a href='/portfolio'>View my full Portfolio &#8594;</a>
+                <Link href='/portfolio'>View my full Portfolio &#8594;</Link>
               </div>
             </div>
           </div>

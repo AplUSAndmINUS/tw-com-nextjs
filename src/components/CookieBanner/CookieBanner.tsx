@@ -9,6 +9,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useConsentStore } from '@/store/consentStore';
 import { Typography } from '@/components/Typography';
 import { Button } from '@/components/Form/Button/Button';
+import { TwButton } from '../dsm';
 
 /** Delay before the banner auto-shows, giving the page time to render */
 const SHOW_DELAY_MS = 800;
@@ -133,7 +134,10 @@ export const CookieBanner: React.FC = () => {
                 >
                   Privacy Policy on Fluxline.pro
                 </a>{' '}
-                for details.
+                for details.{' '}
+                <strong>
+                  We <em>never</em> share your personal data with anyone.
+                </strong>
               </Typography>
             </div>
 
@@ -147,24 +151,23 @@ export const CookieBanner: React.FC = () => {
                 alignItems: 'center',
               }}
             >
-              <Button
+              <TwButton
+                size='md'
                 type='button'
-                variant='secondary'
-                size='small'
+                variant='outline'
                 onClick={handleRejectAll}
                 aria-label='Reject non-essential cookies'
               >
                 Reject Non-Essential
-              </Button>
-              <Button
+              </TwButton>
+              <TwButton
                 type='button'
                 variant='primary'
-                size='small'
                 onClick={handleAcceptAll}
                 aria-label='Accept all cookies'
               >
                 Accept All
-              </Button>
+              </TwButton>
             </div>
           </div>
         </motion.div>

@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { Button, Checkbox, Input, Radio, Select } from '@/components/Form';
@@ -334,12 +335,12 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
         >
           <Typography variant='body' style={{ margin: 0 }}>
             Something went wrong. Please try again or{' '}
-            <a
+            <Link
               href='/#contact'
               style={{ color: theme.palette.redDark, fontWeight: 600 }}
             >
               Contact Us Directly
-            </a>
+            </Link>
             .
           </Typography>
         </div>

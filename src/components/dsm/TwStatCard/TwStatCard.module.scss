@@ -2,6 +2,7 @@
 
 .stat {
   @include card-surface(var(--tw-radius-card-sm));
+  @include card-interactive;
 
   display: flex;
   flex-direction: column;

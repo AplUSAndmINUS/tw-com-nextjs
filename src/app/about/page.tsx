@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
@@ -96,7 +97,10 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
       />
 
-      <TwPageNav back={{ label: 'Back to Home', href: '/' }} links={NAV_LINKS} />
+      <TwPageNav
+        back={{ label: 'Back to Home', href: '/' }}
+        links={NAV_LINKS}
+      />
 
       <main>
         <TwHero
@@ -199,7 +203,7 @@ export default function AboutPage() {
             </div>
 
             <div className={styles.viewAll}>
-              <a href='/#work'>See the services &#8594;</a>
+              <Link href='/#work'>See the services &#8594;</Link>
             </div>
           </TwReveal>
         </AboutSection>
@@ -231,6 +235,13 @@ export default function AboutPage() {
               </TwReveal>
             ))}
           </ul>
+
+          <TwReveal>
+            <blockquote className={styles.pullQuote}>
+              Your job is to find your resonant identity. <br />My job is to help you
+              get there and <strong>express it</strong>.
+            </blockquote>
+          </TwReveal>
         </AboutSection>
 
         {/* ===== 05 Experience ===== */}
@@ -264,7 +275,7 @@ export default function AboutPage() {
 
           <TwReveal>
             <div className={styles.viewAll}>
-              <a href='/portfolio'>View the full portfolio &#8594;</a>
+              <Link href='/portfolio'>View the full portfolio &#8594;</Link>
             </div>
           </TwReveal>
         </AboutSection>

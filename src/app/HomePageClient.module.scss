@@ -98,7 +98,7 @@
 
 .resonanceGrid {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr);
+  grid-template-columns: 220px minmax(0, 1fr);
   gap: 40px;
   align-items: center;
 
@@ -290,6 +290,7 @@
 /* Buttons wrapping cards must not look like buttons. */
 .cardButton,
 .featuredButton {
+  @include card-interactive;
   display: block;
   width: 100%;
   text-align: left;
