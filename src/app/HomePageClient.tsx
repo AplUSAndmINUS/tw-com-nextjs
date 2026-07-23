@@ -127,7 +127,17 @@ export default function HomePageClient({
         <TwHero
           eyebrow="Hi there 👋 I'm"
           title='Terence Waters'
-          body='I help people and organizations rebuild the parts of themselves they thought were permanent. Systems thinker, designer, and coach — writing about resonance, identity, and building a life that embodies it all.'
+          body={
+            <>
+              I help people and organizations rebuild the parts of themselves
+              they thought were permanent. Systems thinker, designer, and coach
+              — writing about resonance, identity, and{' '}
+              <strong>
+                <em>building a life that embodies it all</em>
+              </strong>
+              .
+            </>
+          }
           quote='Clarity, identity, and systems that make your life — and your work — feel like they finally fit.'
           primaryCta={{ label: 'Who am I?', href: '#about' }}
           secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
@@ -201,8 +211,14 @@ export default function HomePageClient({
               <TwReveal>
                 <TwSectionHeading
                   kicker='About'
-                  title="Hi, I'm Terence"
-                  subhead="Most people don't need more information. We need clarity, structure, and a way back to ourselves."
+                  title="Hi! I'm Terence. :)"
+                  subhead={
+                    <>
+                      Most people don&apos;t need more information.
+                      <br />
+                      We need clarity, structure, and a way back to ourselves.
+                    </>
+                  }
                 />
                 <p className={styles.prose}>
                   My work sits at the intersection of{' '}
