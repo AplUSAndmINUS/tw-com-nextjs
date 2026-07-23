@@ -148,6 +148,8 @@ export default function HomePageClient({
                 className={styles.resonanceLogo}
                 src='/assets/images/RCF_logo.jpeg'
                 alt='Resonance Field'
+                loading='lazy'
+                decoding='async'
               />
               <div>
                 <TwSectionHeading
