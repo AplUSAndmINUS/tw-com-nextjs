@@ -8,12 +8,13 @@ TW.com uses:
 
 - Next.js App Router
 - Static Site Generation (SSG)
-- Tailwind CSS
-- Fluent UI theme integration (extended theme system)
-- Framer Motion for animations
+- A custom Design System (DSM) with 25 `Tw*` components in `src/components/dsm/`
+- CSS custom properties (`--tw-*`) token system for colors, spacing, typography, and effects
+- SCSS Modules for component-scoped styling (no Tailwind CSS)
+- CSS-based animations via DSM components (`TwReveal`, `TwParallax`) and Framer Motion for legacy transitions
 - Yarn as the package manager
 - A file-based content system (Markdown/MDX)
-- A layout-driven design architecture
+- 8 theme modes: dark (default), light, high-contrast, protanopia, deuteranopia, tritanopia, grayscale, grayscale-dark
 
 Copilot should follow these conventions at all times.
 
@@ -108,10 +109,11 @@ Components should include:
 
 - A named function component
 - Strongly typed props
-- Tailwind for layout - do not use Tailwind for colors or typography
-- Fluent UI theme tokens for color/typography
-- Optional SCSS modules for complex styling
+- SCSS Modules with CSS custom property tokens (`--tw-*`) for all styling
+- DSM components (`TwButton`, `TwCard`, `TwReveal`, etc.) for common patterns
 - Accessibility attributes
+
+Do **not** use Tailwind CSS classes — Tailwind has been fully removed from the project.
 
 ### 4.2 — File Organization
 
@@ -120,6 +122,35 @@ Each component should include:
 - `ComponentName.tsx`
 - `ComponentName.module.scss` (only if needed)
 - `index.ts` for barrel exports
+
+### 4.3 — DSM Components
+
+The design system lives in `src/components/dsm/` and is the preferred building block for all new UI. Import from the barrel:
+
+```tsx
+import { TwButton, TwCard, TwReveal, TwSectionHeading } from '@/components/dsm';
+```
+
+Key components:
+
+| Component           | Purpose                                         |
+| ------------------- | ----------------------------------------------- |
+| `TwButton`          | Primary, outline, and quiet button variants     |
+| `TwCard`            | Surface card with interactive hover states      |
+| `TwArticleCard`     | Blog/portfolio card with shimmer image loading  |
+| `TwHero`            | Full-bleed hero with background image           |
+| `TwPageNav`         | Sticky page navigation bar                      |
+| `TwReveal`          | Scroll-triggered fade-in animation              |
+| `TwParallax`        | Scroll-driven parallax transform                |
+| `TwSectionHeading`  | Section title + lede pair                       |
+| `TwListingView`     | Grid listing with filter chips and pagination   |
+| `TwAppearancePanel` | Theme/display settings panel                    |
+| `TwCTABand`         | Full-width call-to-action banner                |
+| `TwChip`            | Tag/label chip (teal, default variants)         |
+| `TwDrawer`          | Slide-over panel                                |
+| `TwFilterChips`     | Tag filter bar for listings                     |
+| `TwRailLayout`      | Numbered image-rail section layout              |
+| `TwStatCard`        | Stat display card (value + label)               |
 
 ---
 
@@ -173,54 +204,48 @@ Copilot should:
 
 ## 7. Theming
 
-### 7.1 — Fluent UI Theme
+### 7.1 — Design System Tokens
+
+TW.com uses a CSS custom property token system defined in `src/styles/tokens/`:
+
+| Token file         | Purpose                                              |
+| ------------------ | ---------------------------------------------------- |
+| `colors.css`       | Base palette and semantic color tokens (`--tw-*`)    |
+| `colors-modes.css` | Theme-mode overrides via `[data-theme]` selectors    |
+| `spacing.css`      | Spacing scale (`--tw-space-*`)                       |
+| `typography.css`   | Font families, sizes, weights (`--tw-font-*`, etc.)  |
+| `effects.css`      | Shadows, radius, motion, grain (`--tw-shadow-*`, etc.) |
+| `a11y-layers.css`  | Orthogonal a11y overlays for contrast and CVD modes  |
 
 Copilot should:
 
-- Use the `FluentProvider` in `src/app/providers.tsx` which wraps `FluentThemeProvider`
-- Use the custom TW.com brand theme from `src/theme/fluentTheme.ts`
-- Use the `useAppTheme()` hook for theme management and switching
-- Support all 8 theme variants for comprehensive accessibility:
-  - `light`: Default light mode with deep navy brand
-  - `dark`: Default dark mode with inverted palette
-  - `high-contrast`: High contrast mode for visual accessibility
-  - `protanopia`: Red-blind color mode (for users with red-color deficiency)
-  - `deuteranopia`: Green-blind color mode (for users with green-color deficiency)
-  - `tritanopia`: Blue-blind color mode (for users with blue-color deficiency)
-  - `grayscale`: Grayscale light mode
-  - `grayscale-dark`: Grayscale dark mode
-- Use the extended theme system with:
-  - `spacing`: Consistent rhythm system based on 1rem units
-  - `animations`: Smooth easing functions and duration presets
-  - `borderRadius`: Responsive container queries with clamp()
-  - `zIndices`: Layering system for UI elements
-  - `shadows`: Depth system for elevation
-  - `gradients`: Subtle visual depth for light/dark modes
-  - `breakpoints` & `mediaQueries`: Responsive design system
-  - `typography`: Comprehensive font system with Roboto Flex and Proxima Nova
-- Use Fluent UI theme tokens for colors and typography
-- Avoid hardcoded color values
-- Use the `ThemeSwitcher` component from `src/components/ThemeSwitcher` for theme selection UI
+- Use `--tw-*` CSS custom properties for all colors, spacing, and typography
+- Support all 8 theme modes via `[data-theme="<mode>"]` on `<html>`:
+  - `dark` (default), `light`, `high-contrast`, `protanopia`, `deuteranopia`, `tritanopia`, `grayscale`, `grayscale-dark`
+- Use the orthogonal a11y layers: `[data-tw-contrast='high']` and `[data-tw-cvd='on']`
+- Use `TwAppearancePanel` for theme selection UI (replaces legacy ThemeSwitcher)
+- Avoid hardcoded color values — always use token variables
+- Use the `useAppTheme()` hook for programmatic theme management in legacy components
 
 ### 7.2 — Animations
 
+New components should use the DSM animation primitives:
+
+- `TwReveal` — IntersectionObserver-based scroll reveal with `up` and `left` variants
+- `TwParallax` — rAF-based scroll parallax using `transform` only (compositor-friendly)
+- CSS transitions via `--tw-motion-ease` and `--tw-motion-duration` tokens
+- `@include motion-safe-only` SCSS mixin to respect `prefers-reduced-motion`
+
+Framer Motion is still used by legacy components (PageTransition, NewsletterDrawer) but should not be introduced into new code.
+
+### 7.3 — SCSS Modules & Mixins
+
 Copilot should:
 
-- Use Framer Motion for complex animations and transitions
-- Use the theme's `animations` object for easing and duration values
-- Follow animation best practices:
-  - Use `initial`, `animate`, and `exit` props for enter/exit animations
-  - Use `variants` for orchestrating complex animations
-  - Use `layout` prop for layout animations
-  - Respect user's motion preferences with `prefers-reduced-motion`
-
-### 7.3 — Tailwind
-
-Copilot should:
-
-- Use Tailwind for layout, spacing, and responsive behavior
-- Use `dark:` variants for dark mode support
-- Use custom utilities defined in `tailwind.config`
+- Use SCSS Modules (`.module.scss`) for component-scoped styling
+- Import shared abstracts via `@use 'abstracts' as *`
+- Use provided SCSS mixins: `until($breakpoint)`, `focus-ring`, `card-interactive`, `motion-safe-only`
+- Use CSS custom properties for all dynamic values — never hardcode colors or spacing
 
 ### 7.4 — Page Transitions
 
@@ -278,21 +303,27 @@ The `reducedTransparency` preference allows users to disable semi-transparent ba
 ```tsx
 'use client';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import styles from './MyComponent.module.scss';
 
 function MyComponent() {
   const { reducedTransparency } = useAppTheme();
 
   return (
-    <div
-      className={
-        reducedTransparency
-          ? 'bg-slate-100 dark:bg-slate-800' // Opaque
-          : 'backdrop-blur-md bg-slate-100/80 dark:bg-slate-800/80' // Transparent with blur
-      }
-    >
+    <div className={reducedTransparency ? styles.opaque : styles.transparent}>
       {/* Content */}
     </div>
   );
+}
+```
+
+```scss
+// MyComponent.module.scss
+.transparent {
+  background: rgba(var(--tw-surface-rgb), 0.8);
+  backdrop-filter: blur(12px);
+}
+.opaque {
+  background: var(--tw-surface);
 }
 ```
 
@@ -512,7 +543,7 @@ Copilot should proceed when:
 
 **Create a portfolio card**
 
-> "Create a reusable portfolio card component using Tailwind and Fluent UI theme tokens."
+> "Create a reusable portfolio card component using DSM tokens and SCSS modules."
 
 ---
 

@@ -1,4 +1,5 @@
 import { TwChip } from '../TwChip';
+import { CardImage } from './CardImage';
 import styles from './TwArticleCard.module.scss';
 
 /**
@@ -55,18 +56,7 @@ export function TwArticleCard({
   return (
     <article className={classes} style={style}>
       {image ? (
-        <figure className={styles.media}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- next/image
-              adds no value under `output: 'export'` with images.unoptimized,
-              and would force this server component to take a fixed size. */}
-          <img
-            className={`${styles.image} tw-media`}
-            src={image}
-            alt={imageAlt ?? ''}
-            loading='lazy'
-            decoding='async'
-          />
-        </figure>
+        <CardImage src={image} alt={imageAlt ?? ''} />
       ) : null}
 
       <div className={styles.content}>

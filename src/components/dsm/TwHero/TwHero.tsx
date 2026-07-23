@@ -32,6 +32,8 @@ export interface TwHeroProps {
   /** Short meta lines under the body — role, location. */
   tagline?: string;
   location?: string;
+  /** Shorter hero for interior pages so they don't look identical to the homepage. */
+  compact?: boolean;
   /** Anchor id, so the nav's brand link can target the top of the page. */
   id?: string;
   className?: string;
@@ -63,19 +65,21 @@ export function TwHero({
   focalPoint,
   tagline,
   location,
+  compact = false,
   id,
   className,
   children,
 }: TwHeroProps) {
-  const heroStyle = focalPoint
-    ? ({ '--tw-hero-focal': focalPoint } as React.CSSProperties)
-    : undefined;
+  const heroStyle = {
+    ...(focalPoint ? { '--tw-hero-focal': focalPoint } : {}),
+    ...(compact ? { '--tw-hero-height': '420px', '--tw-hero-height-mobile': '360px' } : {}),
+  } as React.CSSProperties;
 
   return (
     <section
       id={id}
       className={['tw-grain', styles.hero, className].filter(Boolean).join(' ')}
-      style={heroStyle}
+      style={Object.keys(heroStyle).length ? heroStyle : undefined}
     >
       {backgroundImage ? (
         <TwParallax strength={60} className={styles.media}>
