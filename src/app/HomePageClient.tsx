@@ -9,6 +9,7 @@ import {
   TwFeaturedCard,
   TwFilterChips,
   TwReveal,
+  TwParallax,
   TwButton,
 } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
@@ -138,12 +139,14 @@ export default function HomePageClient({
                 <span className={styles.secNum}>01</span>
                 <span className={styles.secLabel}>About</span>
               </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className={`tw-media ${styles.portrait}`}
-                src='/assets/images/portrait-about.jpg'
-                alt='Terence Waters'
-              />
+              <TwReveal variant='left'>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className={`tw-media ${styles.portrait}`}
+                  src='/assets/images/portrait-about.jpg'
+                  alt='Terence Waters'
+                />
+              </TwReveal>
               <div className={styles.socialBlock}>
                 <div className={styles.socialLabel}>Social Media</div>
                 <SocialRow items={aboutSocials} />
@@ -207,14 +210,18 @@ export default function HomePageClient({
                 <span className={styles.secNum}>02</span>
                 <span className={styles.secLabel}>Work</span>
               </div>
-              <div className={styles.railImage}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className='tw-media'
-                  src='/assets/images/hero-landscape.jpg'
-                  alt='Work across the Fluxline ecosystem'
-                />
-              </div>
+              <TwReveal variant='left'>
+                <div className={styles.railImage}>
+                  <TwParallax strength={30}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className='tw-media'
+                      src='/assets/images/hero-landscape.jpg'
+                      alt='Work across the Fluxline ecosystem'
+                    />
+                  </TwParallax>
+                </div>
+              </TwReveal>
             </div>
 
             <div>
@@ -280,14 +287,18 @@ export default function HomePageClient({
                 <span className={styles.secNum}>03</span>
                 <span className={styles.secLabel}>Content</span>
               </div>
-              <div className={styles.railImage}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className='tw-media'
-                  src='/assets/images/portrait-about.jpg'
-                  alt='Writing, video, and the podcast'
-                />
-              </div>
+              <TwReveal variant='left'>
+                <div className={styles.railImage}>
+                  <TwParallax strength={30}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className='tw-media'
+                      src='/assets/images/portrait-about.jpg'
+                      alt='Writing, video, and the podcast'
+                    />
+                  </TwParallax>
+                </div>
+              </TwReveal>
             </div>
 
             <div>
@@ -341,14 +352,18 @@ export default function HomePageClient({
                 <span className={styles.secNum}>04</span>
                 <span className={styles.secLabel}>Portfolio</span>
               </div>
-              <div className={styles.railImage}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className='tw-media'
-                  src='/assets/images/hero-landscape.jpg'
-                  alt='Selected work and case studies'
-                />
-              </div>
+              <TwReveal variant='left'>
+                <div className={styles.railImage}>
+                  <TwParallax strength={30}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className='tw-media'
+                      src='/assets/images/hero-landscape.jpg'
+                      alt='Selected work and case studies'
+                    />
+                  </TwParallax>
+                </div>
+              </TwReveal>
             </div>
 
             <div>

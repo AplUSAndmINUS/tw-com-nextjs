@@ -255,75 +255,75 @@
   --tw-bg-page: #000000;
   --tw-bg-deep: #000000;
   --tw-bg-hero-1: #000000;
-  --tw-bg-hero-2: #0a0a0a;
-  --tw-bg-hero-3: #121212;
+  --tw-bg-hero-2: #000000;
+  --tw-bg-hero-3: #0a0a0a;
 
   --tw-surface-card: #000000;
-  --tw-surface-alt: #0a0a0a;
+  --tw-surface-alt: #000000;
   --tw-hover-fill: #1a1a1a;
-  --tw-badge-bg: #121212;
+  --tw-badge-bg: #0a0a0a;
   --tw-surface-inset: #000000;
-  --tw-surface-raised: #121212;
+  --tw-surface-raised: #0a0a0a;
   --tw-surface-input: #000000;
 
   --tw-border: #ffffff;
-  --tw-border-subtle: #808080;
+  --tw-border-subtle: #ffffff;
   --tw-border-strong: #ffffff;
-  --tw-border-hover: #66b3ff;
+  --tw-border-hover: #ffff00;
 
   --tw-text-heading: #ffffff;
   --tw-text-heading-display: #ffffff;
   --tw-text-body: #ffffff;
   --tw-text-base: #ffffff;
   --tw-text-bright: #ffffff;
-  --tw-text-muted: #b3d9ff;
-  --tw-text-faint: #949494;
-  --tw-text-soft: #99ccff;
-  --tw-text-mist: #b3d9ff;
+  --tw-text-muted: #ffffff;
+  --tw-text-faint: #cccccc;
+  --tw-text-soft: #ffff00;
+  --tw-text-mist: #ffffff;
 
-  --tw-accent: #66b3ff;
+  --tw-accent: #ffff00;
   --tw-accent-ink: #000000;
-  --tw-accent-hover: #99ccff;
-  --tw-accent-active: #3399ff;
+  --tw-accent-hover: #ffffff;
+  --tw-accent-active: #cccc00;
   --tw-accent-disabled: #666666;
 
-  --tw-line: #66b3ff;
-  --tw-teal: #00ffee;
-  --tw-teal-hover: #66fff5;
-  --tw-teal-bg: rgba(0, 255, 238, 0.15);
-  --tw-teal-tint: #00ffee;
+  --tw-line: #ffff00;
+  --tw-teal: #00ffff;
+  --tw-teal-hover: #66ffff;
+  --tw-teal-bg: rgba(0, 255, 255, 0.2);
+  --tw-teal-tint: #00ffff;
 
-  --tw-gold: #ffdd00;
-  --tw-gold-border: #ffdd00;
-  --tw-gold-bg: rgba(255, 221, 0, 0.15);
-  --tw-featured: #ffdd00;
+  --tw-gold: #ffff00;
+  --tw-gold-border: #ffff00;
+  --tw-gold-bg: rgba(255, 255, 0, 0.2);
+  --tw-featured: #ffff00;
 
-  --tw-success: #00ff88;
-  --tw-success-border: #00ff88;
-  --tw-success-bg: rgba(0, 255, 136, 0.15);
+  --tw-success: #00ff00;
+  --tw-success-border: #00ff00;
+  --tw-success-bg: rgba(0, 255, 0, 0.2);
 
-  --tw-error: #ff6b6b;
-  --tw-error-border: #ff6b6b;
-  --tw-error-bg: rgba(255, 107, 107, 0.15);
+  --tw-error: #ff0000;
+  --tw-error-border: #ff0000;
+  --tw-error-bg: rgba(255, 0, 0, 0.2);
 
-  --tw-warning: #ffdd00;
-  --tw-warning-border: #ffdd00;
-  --tw-warning-bg: rgba(255, 221, 0, 0.15);
+  --tw-warning: #ffff00;
+  --tw-warning-border: #ffff00;
+  --tw-warning-bg: rgba(255, 255, 0, 0.2);
 
-  --tw-info: #66b3ff;
-  --tw-info-border: #66b3ff;
-  --tw-info-bg: rgba(102, 179, 255, 0.15);
+  --tw-info: #00ffff;
+  --tw-info-border: #00ffff;
+  --tw-info-bg: rgba(0, 255, 255, 0.2);
 
   --tw-gradient-hero: linear-gradient(
     150deg,
     #000000 0%,
-    #0a0a0a 50%,
-    #121212 100%
+    #000000 50%,
+    #0a0a0a 100%
   );
   --tw-gradient-card: linear-gradient(160deg, #000000, #000000);
-  --tw-gradient-accent: linear-gradient(120deg, #66b3ff, #00ffee);
-  --tw-gradient-band: linear-gradient(140deg, #000000, #121212);
-  --tw-gradient-feature: linear-gradient(155deg, #000000, #0a0a0a);
+  --tw-gradient-accent: linear-gradient(120deg, #ffff00, #00ffff);
+  --tw-gradient-band: linear-gradient(140deg, #000000, #0a0a0a);
+  --tw-gradient-feature: linear-gradient(155deg, #000000, #000000);
 
   --tw-noise-opacity: 0;
 }
