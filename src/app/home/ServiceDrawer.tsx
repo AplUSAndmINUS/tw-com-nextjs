@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { TwChip } from '@/components/dsm';
+import { TwButton, TwChip } from '@/components/dsm';
 import type { HomeService } from './homeData';
 import { serviceHref } from './homeData';
 import styles from './ServiceDrawer.module.scss';
@@ -100,23 +100,23 @@ export function ServiceDrawer({ service, onClose }: ServiceDrawerProps) {
         </ul>
 
         {service.slug === 'fractional' ? (
-          <a
+          <TwButton
             href='https://tidycal.com/terencewaters'
             target='_blank'
             rel='noopener noreferrer'
             className={styles.cta}
           >
             Book a consultation &#8594;
-          </a>
+          </TwButton>
         ) : (
-          <a
+          <TwButton
             href={serviceHref(service.slug)}
             target='_blank'
             rel='noopener noreferrer'
             className={styles.cta}
           >
             Open on Fluxline.pro &#8599;
-          </a>
+          </TwButton>
         )}
         <button type='button' className={styles.back} onClick={onClose}>
           Back to services

@@ -45,7 +45,7 @@ export default async function BlogPage() {
         <TwListingView
           kicker='Writing'
           title='The Blog'
-          lede="Long-form thinking on resonance, identity architecture, and building a life that feels right. Filter by topic below."
+          lede="Long-form thinking on resonance, identity architecture, and building a life that embodies it all. Filter by topic below."
           items={items}
           emptyMessage='No posts yet — the first one is coming soon.'
         />

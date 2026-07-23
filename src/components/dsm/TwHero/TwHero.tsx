@@ -16,6 +16,8 @@ export interface TwHeroProps {
   eyebrow?: string;
   title: string;
   body?: string;
+  /** Short pull-quote rendered as a bordered blockquote above the CTAs. */
+  quote?: string;
   primaryCta?: TwHeroCta;
   secondaryCta?: TwHeroCta;
   /** Landscape crop. Used at all sizes unless `backgroundImagePortrait` is set. */
@@ -57,6 +59,7 @@ export function TwHero({
   eyebrow,
   title,
   body,
+  quote,
   primaryCta,
   secondaryCta,
   backgroundImage,
@@ -121,6 +124,8 @@ export function TwHero({
               {location ? <span>{location}</span> : null}
             </div>
           ) : null}
+
+          {quote ? <blockquote className={styles.quote}>{quote}</blockquote> : null}
 
           {primaryCta || secondaryCta ? (
             <div className={styles.actions}>
