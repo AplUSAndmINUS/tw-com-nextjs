@@ -178,7 +178,7 @@ HAGS moves GPU scheduling into the kernel. On Ada, this can interact poorly with
 
 MPO is a Windows compositor feature that allows the GPU to composite layers independently. It can cause stutter on certain GPU/display combinations. Disable it via the registry:
 
-```
+```reg
 HKLM\SOFTWARE\Microsoft\Windows\Dwm
 DWORD: OverlayTestMode = 5
 ```
