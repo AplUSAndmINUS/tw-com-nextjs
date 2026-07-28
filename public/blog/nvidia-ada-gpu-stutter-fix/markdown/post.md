@@ -15,7 +15,7 @@ tags:
   - 'RTX 4090'
   - 'RTX 4080'
   - 'gaming'
-imageUrl: '/blog/nvidia-ada-gpu-stutter-fix/images/nvidia-ada-stutter-fix.png'
+imageUrl: '/blog/nvidia-ada-gpu-stutter-fix/images/nvidia-ada-gpu-stutter.jpg'
 imageAlt: 'NVIDIA Ada Lovelace GPU with performance power management setting highlighted'
 featured: false
 seoTitle: 'NVIDIA Ada GPU Stutter Fix: Prefer Maximum Performance | Terence Waters'
@@ -117,9 +117,9 @@ That is the smoking gun. A flicker fixing stutter is direct evidence of a wakeâ€
 
 ---
 
-## Why the 4070 SUPER Never Had This Problem
+## Why Ampere (RTX 30-Series) Never Had This Problem
 
-Ampere (the previous generation) was more forgiving:
+Ampere (the RTX 30-series, the previous generation) was more forgiving:
 
 - Shallower idle states
 - Simpler DSC behavior
@@ -176,11 +176,13 @@ HAGS moves GPU scheduling into the kernel. On Ada, this can interact poorly with
 
 ### Disable MPO (Multi-Plane Overlay)
 
-MPO is a Windows compositor feature that allows the GPU to composite layers independently. It can cause stutter on certain GPU/display combinations. Disable it via the registry:
+MPO is a Windows compositor feature that allows the GPU to composite layers independently. It can cause stutter on certain GPU/display combinations. Disable it by creating a DWORD value named `OverlayTestMode` and setting it to `5` under `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm`, or import this `.reg` snippet:
 
 ```reg
-HKLM\SOFTWARE\Microsoft\Windows\Dwm
-DWORD: OverlayTestMode = 5
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm]
+"OverlayTestMode"=dword:00000005
 ```
 
 ### Ensure C:\ Has Free Space
