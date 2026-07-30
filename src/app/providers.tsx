@@ -70,7 +70,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {(!authRequired || !isAuthenticated) && <NewsletterDrawerWrapper />}
           {/* Cookie consent banner — rendered for all users on first visit */}
           <CookieBanner />
-          {/* Google Analytics + AdSense — consent-gated via consentStore */}
+          {/* Google Analytics consent updates for GA + AdSense */}
           <GoogleAnalytics />
         </FontScaleProvider>
       </PodcastPlayerProvider>

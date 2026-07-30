@@ -12,6 +12,7 @@ import './globals.css';
 import { Providers } from './providers';
 import { fontVariables } from './fonts';
 import { buildThemeScript } from '@/theme/themeScript';
+import { AdSenseScript } from '@/components/GoogleAnalytics';
 
 // Environment-aware robots: only allow indexing in production
 const env = getEnvironment();
@@ -113,9 +114,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }}
         />
 
-        {/* Google AdSense publisher verification (meta tag only).
-            The actual AdSense script is consent-gated and loaded client-side
-            by the GoogleAnalytics component when ads consent is granted. */}
+        {/* Google AdSense publisher verification and shared site-wide loader. */}
         <meta name='google-adsense-account' content='ca-pub-7691902367885014' />
 
         {/*
@@ -146,6 +145,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <AdSenseScript />
       </head>
       <body>
         <Providers>{children}</Providers>
