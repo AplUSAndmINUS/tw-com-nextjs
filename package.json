@@ -8,7 +8,8 @@
     "start": "next start",
     "migrate:blog": "node scripts/migrate-blog.js",
     "verify:fonts": "tsx scripts/verify-fonts.ts",
-    "prebuild": "yarn verify:fonts",
+    "verify:ads-txt": "node scripts/verify-ads-txt.js",
+    "prebuild": "yarn verify:fonts && yarn verify:ads-txt",
     "predev": "yarn verify:fonts",
     "test": "vitest run",
     "test:watch": "vitest"
