@@ -7,7 +7,8 @@ describe('AdSenseScript', () => {
   it('renders the shared adsense loader attributes for every page head', () => {
     const markup = renderToStaticMarkup(<AdSenseScript />);
 
-    expect(markup).toContain(`<script async="" crossorigin="anonymous"`);
+    expect(markup).toMatch(/<script[^>]*\sasync(="")?[^>]*>/);
+    expect(markup).toMatch(/<script[^>]*\scrossorigin="anonymous"[^>]*>/);
     expect(markup).toContain(`data-ad-client="${ADSENSE_PUB_ID}"`);
     expect(markup).toContain(`src="${ADSENSE_SCRIPT_SRC}"`);
   });
