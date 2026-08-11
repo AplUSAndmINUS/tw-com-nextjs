@@ -116,6 +116,14 @@ function newsletterRequest(ip) {
   };
 }
 
+function isEntraTokenUrl(url) {
+  try {
+    return new URL(String(url)).hostname === 'login.microsoftonline.com';
+  } catch {
+    return false;
+  }
+}
+
 test.beforeEach(() => {
   resetNewsletterRateLimitStore();
 });
@@ -221,7 +229,7 @@ test('health returns ok when Graph and SharePoint are reachable', async () => {
     status: 200,
     headers: new Headers(),
     text: async () =>
-      String(url).includes('login.microsoftonline.com')
+      isEntraTokenUrl(url)
         ? JSON.stringify({ access_token: 'token' })
         : JSON.stringify({ id: 'list-id' }),
   });
@@ -242,10 +250,10 @@ test('health returns 503 when SharePoint is unreachable', async () => {
   const context = createContext();
 
   globalThis.fetch = async (url) => ({
-    status: String(url).includes('login.microsoftonline.com') ? 200 : 503,
+    status: isEntraTokenUrl(url) ? 200 : 503,
     headers: new Headers(),
     text: async () =>
-      String(url).includes('login.microsoftonline.com')
+      isEntraTokenUrl(url)
         ? JSON.stringify({ access_token: 'token' })
         : JSON.stringify({ error: { message: 'Service unavailable' } }),
   });
