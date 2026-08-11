@@ -14,7 +14,7 @@ tags:
   - 'samsung-fold8'
   - 'cloud strategy'
   - 'automation strategy'
-imageUrl: '/blog/ldevice-agnostic-workflows/images/device-agnostic-illustration.jpg'
+imageUrl: '/blog/device-agnostic-workflows/images/device-agnostic-illustration.jpg'
 imageAlt: 'A person standing between multiple devices, symbolizing flexibility and digital independence'
 featured: true
 seoTitle: 'How I Built a Device-Agnostic Workflow After 10+ Years in Apple’s Ecosystem'
@@ -28,7 +28,7 @@ seoKeywords:
   - 'android transition'
   - 'tech essay'
   - 'cross-platform tools'
-featuredImage: '/blog/ldevice-agnostic-workflows/images/device-agnostic-illustration.jpg'
+featuredImage: '/blog/device-agnostic-workflows/images/device-agnostic-illustration.jpg'
 generatedWithAI: true
 ---
 
