@@ -52,14 +52,6 @@ async function checkSharePointReachable(accessToken, siteId, listId, log) {
 }
 
 module.exports = async function (context, req) {
-  if (req.method !== 'GET') {
-    return {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Method not allowed' }),
-    };
-  }
-
   const tenantId = process.env.ENTRAID_TENANT_ID;
   const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
   const clientSecret = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET;

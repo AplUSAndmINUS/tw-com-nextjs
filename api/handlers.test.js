@@ -269,6 +269,10 @@ test('health does not retry token calls and surfaces a timeout as 503', async ()
     const res = await health(context, { method: 'GET', headers: {} });
     assert.equal(upstream.callCount(), 1, 'health checks should not retry');
     assert.equal(res.status, 503);
+    assert.ok(
+      context.logs.some((l) => /timed out/i.test(l)),
+      `expected timeout log, got: ${JSON.stringify(context.logs)}`
+    );
   } finally {
     upstream.restore();
     restoreEnv();
