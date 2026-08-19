@@ -47,7 +47,7 @@ And some simply don’t want to — not out of malice, but because your evolutio
 
 ---
 
-##The Sad Goodbyes
+## The Sad Goodbyes
 
 There’s a grief in realizing that someone who once felt central to your life now feels peripheral.  
 A softness in noticing that conversations don’t land the same way.  
