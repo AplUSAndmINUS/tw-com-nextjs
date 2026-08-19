@@ -47,7 +47,7 @@ And some simply don’t want to — not out of malice, but because your evolutio
 
 ---
 
-## 📛 The Sad Goodbyes
+##The Sad Goodbyes
 
 There’s a grief in realizing that someone who once felt central to your life now feels peripheral.  
 A softness in noticing that conversations don’t land the same way.  
@@ -60,12 +60,12 @@ But with respect for the role they played in your story.
 
 The RCF calls this **Threshold Drift** — the natural separation that occurs when two identities move through different thresholds of growth, meaning, or coherence. It’s not a rupture. It’s a divergence.
 
-And divergence hurts.  
-But it also frees.
+> And divergence hurts.  
+> But it also frees.
 
 ---
 
-## 🌟 The New Perspective
+## The New Perspective
 
 When people leave your life during transformation, space opens — space for relationships that match your new clarity, your new boundaries, your new resonance.
 
@@ -78,7 +78,7 @@ as you become more coherent, your relationships become more aligned.
 
 ---
 
-## 🛠️ Respecting the Process
+## Respecting the Process
 
 Identity transformation is not a clean process. It’s not linear. It’s not polite.  
 It’s a series of thresholds — each one asking you to choose who you are becoming over who you’ve been.
@@ -97,7 +97,7 @@ And coherence brings the relationships that match your becoming.
 
 ---
 
-## 🌅 A Final Reflection
+## A Final Reflection
 
 If you’re in a season where people are drifting away, don’t rush to fill the space.  
 Don’t cling to what’s fading.  
@@ -107,4 +107,4 @@ You are transforming.
 Your identity is resonating differently.  
 Your life is reorganizing around who you truly are.
 
-And the people meant for your next chapter will meet you there — not because you held onto them, but because you honored your transformation enough to let go.
+And the people meant for your next chapter will meet you there — not because you held onto them, but _because you honored your transformation enough to let go._
