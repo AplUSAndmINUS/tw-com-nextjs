@@ -17,7 +17,7 @@ import {
 } from '@/components/icons';
 import styles from './ContentHubClient.module.scss';
 
-type Drawer = 'podcasts' | 'case-studies' | null;
+type Drawer = 'podcasts' | 'case-studies' | 'books' | null;
 
 export interface ContentHubClientProps {
   /** Newest podcast episode, resolved at build time (may be null if offline). */
@@ -63,6 +63,7 @@ const NAV_CARDS = [
 
 const TRI_URL = 'https://theresonantidentity.com';
 const FLUXLINE_CASE_STUDIES = 'https://fluxline.pro/case-studies';
+const FLUXLINE_BOOKS = 'https://fluxline.pro/books';
 
 /**
  * Content Hub — the launcher for everything TW.com publishes.
@@ -141,6 +142,29 @@ export default function ContentHubClient({
           </span>
           <span className={styles.cardCta}>
             View on Fluxline <ArrowRightIcon size={16} />
+          </span>
+        </button>
+
+        {/* Books — Coming Soon */}
+        <button
+          type='button'
+          className={`${styles.card} ${styles.cardButton}`}
+          onClick={() => setDrawer('books')}
+          aria-haspopup='dialog'
+        >
+          <span className={styles.badge}>
+            <TwChip variant='teal' size='sm'>
+              Coming Soon
+            </TwChip>
+          </span>
+          <BookIcon size={40} className={styles.icon} />
+          <span className={styles.cardTitle}>Books</span>
+          <span className={styles.cardBody}>
+            The Resonance Core Framework — a practical guide to rebuilding your
+            internal systems with intention.
+          </span>
+          <span className={styles.cardCta}>
+            Learn more <ArrowRightIcon size={16} />
           </span>
         </button>
       </div>
@@ -235,6 +259,32 @@ export default function ContentHubClient({
             See the portfolio instead
           </TwButton>
         </div>
+      </TwDrawer>
+
+      {/* ===== Books drawer ===== */}
+      <TwDrawer
+        open={drawer === 'books'}
+        onClose={() => setDrawer(null)}
+        title='The Resonance Core Framework'
+        chipLabel='Coming Soon'
+      >
+        <p className={styles.drawerBody}>
+          A practical guide to rebuilding your internal systems with intention.
+          The Resonance Core Framework is the foundational methodology behind
+          everything I teach — distilled into a book.
+        </p>
+        <p className={styles.drawerBody}>
+          The full launch is coming soon on Fluxline.pro. Stay tuned for
+          updates on availability, pre-orders, and companion resources.
+        </p>
+        <a
+          href={FLUXLINE_BOOKS}
+          target='_blank'
+          rel='noopener noreferrer'
+          className={styles.primaryAction}
+        >
+          Preview on Fluxline.pro &#8599;
+        </a>
       </TwDrawer>
     </>
   );
