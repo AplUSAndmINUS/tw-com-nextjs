@@ -624,6 +624,7 @@ The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (d
 | ------------------------------------------------------------ | ------------------------------------------ |
 | `api/subscribe/index.js`                                     | Azure Function — subscribe                 |
 | `api/unsubscribe/index.js`                                   | Azure Function — unsubscribe               |
+| `api/health/index.js`                                        | Azure Function — anonymous health check for Graph + SharePoint |
 | `api/httpClient.js`                                          | Shared fetch client — timeout + backoff    |
 | `api/newsletterRateLimit.js`                                 | Server-side rate limiting (3/hour per IP)  |
 | `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting (3/hour, shared)   |
