@@ -28,7 +28,7 @@ import styles from './page.module.scss';
 
 const TITLE = 'The Resonance Core Framework™ | Terence Waters';
 const DESCRIPTION =
-  'The Resonance Core Framework™ — written by Terence Waters — is a 31-chapter identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol. Coming Fall 2026.';
+  'The Resonance Core Framework™ — written by Terence Waters — is a 31-chapter identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol. Coming Late Fall 2026.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -108,7 +108,7 @@ export default function ResonanceCoreFrameworkPage() {
         <TwHero
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'
-          body='A practical identity system for making change that holds — built on alignment rather than force. Publishing Fall 2026.'
+          body='A practical identity system for making change that holds — built on alignment rather than force. Publishing Late Fall 2026.'
           primaryCta={{ label: 'Be notified at launch', href: RCF_NOTIFY_HREF }}
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -175,7 +175,7 @@ export default function ResonanceCoreFrameworkPage() {
               <TwSectionHeading
                 kicker='Language for what you feel'
                 title='Core Concepts'
-                lede='The named ideas at the heart of the book, in a sentence each. Tap any one for its full definition.'
+                lede='The named ideas at the heart of the book, in a sentence each. Each one links to its full definition.'
               />
             </TwReveal>
             <div className={styles.conceptGrid}>
@@ -214,7 +214,10 @@ export default function ResonanceCoreFrameworkPage() {
                 />
               </TwReveal>
               <TwReveal>
-                <TwSectionHeading kicker='Coming Fall 2026' title='The Book' />
+                <TwSectionHeading
+                  kicker='Coming Late Fall 2026'
+                  title='The Book'
+                />
                 <dl className={styles.bookFacts}>
                   <div>
                     <dt>Title</dt>
@@ -238,10 +241,9 @@ export default function ResonanceCoreFrameworkPage() {
                   </div>
                 </dl>
                 <p className={styles.prose}>
-                  {RCF_BOOK.structure.charAt(0).toUpperCase() +
-                    RCF_BOOK.structure.slice(1)}{' '}
-                  on how identity shapes decisions — and how to make alignment
-                  something you can practice, measure, and return to. For
+                  Across {RCF_BOOK.structure}, the book explores how identity
+                  shapes decisions — and how to make alignment something you can
+                  practice, measure, and return to. It&apos;s written for
                   individuals, founders, and leaders who need more than
                   motivation.
                 </p>
@@ -263,7 +265,7 @@ export default function ResonanceCoreFrameworkPage() {
                 as='div'
                 kicker='Where to experience the framework'
                 title='Hear it, work with it, explore it'
-                body='The podcast explores the framework in conversation, Fluxline brings it into coaching and consulting, and The Resonant Identity site walks through every concept.'
+                body='The podcast explores the framework in conversation, and Fluxline brings it into coaching and consulting — and holds the complete framework reference.'
               >
                 <TwButton href={TRI_URL}>Listen to the Podcast</TwButton>
                 <TwButton variant='outline' href={FLUXLINE_RCF_URL}>

@@ -146,15 +146,16 @@ export default function AboutPage() {
             <p className={styles.prose}>
               As the author of{' '}
               <Link href={RCF_PATH}>The Resonance Core Framework™</Link>{' '}
-              (Fluxline Resonance Group, Fall 2026), Terence developed a
+              (Fluxline Resonance Group, Late Fall 2026), Terence developed a
               31-chapter identity system bridging somatic intelligence, decision
               science, and behavioral psychology. The framework&apos;s core
               concepts — Behavioral Gravity, Identity Coherence, the Window of
               Choice, Creative Truth, and the DII Protocol — emerged from over a
               decade of applied work at the intersection of systems design and
               human transformation. The RCF is the theoretical foundation of{' '}
-              <a href={TRI_URL}>The Resonant Identity podcast</a> and the coaching
-              practice at <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
+              <a href={TRI_URL}>The Resonant Identity podcast</a> and the
+              coaching practice at{' '}
+              <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
             </p>
 
             <div className={styles.statGrid}>
@@ -263,8 +264,8 @@ export default function AboutPage() {
 
           <TwReveal>
             <blockquote className={styles.pullQuote}>
-              Your job is to find your resonant identity. <br />My job is to help you
-              get there and <strong>express it</strong>.
+              Your job is to find your resonant identity. <br />
+              My job is to help you get there and <strong>express it</strong>.
             </blockquote>
           </TwReveal>
         </AboutSection>

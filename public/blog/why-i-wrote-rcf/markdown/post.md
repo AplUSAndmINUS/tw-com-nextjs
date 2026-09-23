@@ -1,6 +1,6 @@
 ---
 title: 'Why I Wrote The Resonance Core Framework™'
-excerpt: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™ — coming Fall 2026.'
+excerpt: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™ — coming Late Fall 2026.'
 author: 'Terence Waters'
 publishedDate: '2026-09-23'
 date: '2026-09-23'
@@ -12,13 +12,13 @@ tags:
   - 'author'
   - 'identity alignment'
 seoTitle: 'Why I Wrote The Resonance Core Framework™'
-seoDescription: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™ — coming Fall 2026.'
+seoDescription: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™ — coming Late Fall 2026.'
 seoKeywords:
   - 'Terence Waters author'
   - 'Resonance Core Framework book'
   - 'why I wrote the Resonance Core Framework'
   - 'Terence Waters'
-structuredSummary: 'Terence Waters explains why he wrote The Resonance Core Framework™: after leaving his job to build Fluxline, he found that most self-help says what to do but not how. He built and tested the framework in his own life through daily journaling, decision tracking, and alignment scorecards. The book publishes Fall 2026 through Fluxline Resonance Group.'
+structuredSummary: 'Terence Waters explains why he wrote The Resonance Core Framework™: after leaving his job to build Fluxline, he found that most self-help says what to do but not how. He built and tested the framework in his own life through daily journaling, decision tracking, and alignment scorecards. The book publishes Late Fall 2026 through Fluxline Resonance Group.'
 ---
 
 {/*

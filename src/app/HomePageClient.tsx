@@ -183,11 +183,13 @@ export default function HomePageClient({
               <div>
                 <TwSectionHeading
                   kicker='The Book'
-                  title='The Resonance Core Framework™ — Coming Fall 2026'
+                  title='The Resonance Core Framework™ — Coming Late Fall 2026'
                 />
                 <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
                 <div className={styles.bookCtas}>
-                  <TwButton href={RCF_NOTIFY_HREF}>Be Notified at Launch →</TwButton>
+                  <TwButton href={RCF_NOTIFY_HREF}>
+                    Be Notified at Launch →
+                  </TwButton>
                   <TwButton variant='outline' href={RCF_PATH}>
                     Preview the Framework →
                   </TwButton>
