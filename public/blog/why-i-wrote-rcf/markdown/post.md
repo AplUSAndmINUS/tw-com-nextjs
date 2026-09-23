@@ -5,7 +5,6 @@ author: 'Terence Waters'
 publishedDate: '2026-09-23'
 date: '2026-09-23'
 category: 'Resonance Core Framework'
-draft: true
 tags:
   - 'Resonance Core Framework'
   - 'Terence Waters'
@@ -20,14 +19,6 @@ seoKeywords:
   - 'Terence Waters'
 structuredSummary: 'Terence Waters explains why he wrote The Resonance Core Framework™: after leaving his job to build Fluxline, he found that most self-help says what to do but not how. He built and tested the framework in his own life through daily journaling, decision tracking, and alignment scorecards. The book publishes Late Fall 2026 through Fluxline Resonance Group.'
 ---
-
-{/*
-  DRAFT — FOR AUTHOR REVIEW BEFORE PUBLISHING.
-  Assembled from Terence's own published announcement post
-  (fluxline.pro/blog/announcement-resonance-core-book), lightly edited for
-  flow. Add or change anything that doesn't sound like you — especially the
-  closing. Remove `draft: true` once approved.
-*/}
 
 This framework didn't begin as a business initiative. It began as a necessity.
 
@@ -63,8 +54,6 @@ The book turns that lived process into something you can use: a practical, track
 It's for anyone who wants meaningful change that holds — who feels stuck or misaligned, senses potential but lacks direction, and wants a system they can actually apply.
 
 ## Where to Go From Here
-
-{/* AUTHOR: add a personal closing line or two here if you'd like. */}
 
 I hope it resonates with you. I hope it sparks something. And I hope it gives you a glimpse of what's possible when you build your life from alignment instead of fear.
 

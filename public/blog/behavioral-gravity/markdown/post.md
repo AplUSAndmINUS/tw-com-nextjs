@@ -5,7 +5,6 @@ author: 'Terence Waters'
 publishedDate: '2026-09-23'
 date: '2026-09-23'
 category: 'Resonance Core Framework'
-draft: true
 tags:
   - 'Resonance Core Framework'
   - 'Behavioral Gravity'
@@ -24,15 +23,6 @@ seoKeywords:
   - 'Terence Waters'
 structuredSummary: "Behavioral Gravity is the unconscious pull toward behaviors, environments, and relationships that feel identity-consistent — even when they no longer match who you're becoming. It is a core concept in The Resonance Core Framework™ by Terence Waters, closely tied to Identity Coherence and the Window of Choice."
 ---
-
-{/*
-  DRAFT — FOR AUTHOR REVIEW BEFORE PUBLISHING.
-  `draft: true` keeps this post off production (no page, listing, or sitemap
-  entry) while it can still be reviewed on dev/test. The mechanism section
-  draws on book concepts (homeostasis, autopilot, echoes); the example uses
-  Terence's own published story. Remaining briefs are marked. Target: 800+
-  words. Remove `draft: true` once approved.
-*/}
 
 Some choices don't feel like choices at all. You reach for the familiar habit, the familiar room, the familiar reaction — and only later notice you've been pulled somewhere you'd decided not to go. In The Resonance Core Framework™, that pull has a name: **Behavioral Gravity**.
 
@@ -54,22 +44,11 @@ A few forces work together to create that pull:
 
 Willpower alone rarely wins against all three at once. What works is noticing the pull as it happens and naming it for what it is.
 
-{/*
-  AUTHOR: confirm this mechanism matches the manuscript's framing, and adjust
-  any language as needed.
-*/}
-
 ## What It Looks Like in Real Life
 
 For years, I chased a version of love I thought I was supposed to want — the kind I grew up around. Relationship after relationship, something didn't align. Not because the people weren't amazing, but because, as I wrote in [my own story](/blog/polyamory-journey), *I kept trying to fit myself into a mold that wasn't mine.*
 
 That's Behavioral Gravity: a pull toward a structure that felt identity-consistent, because it was familiar, long after it stopped matching who I was becoming. The shift came when I stopped asking what was wrong with each relationship and started asking whether the structure fit me at all.
-
-{/*
-  BRIEF (≈100–150 words): 1–2 more short examples (e.g. a founder
-  over-functioning out of old habit, a health routine). Author-approved
-  examples only — no invented client stories.
-*/}
 
 ## Behavioral Gravity and Identity Coherence
 

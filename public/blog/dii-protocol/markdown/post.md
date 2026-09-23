@@ -5,7 +5,6 @@ author: 'Terence Waters'
 publishedDate: '2026-09-23'
 date: '2026-09-23'
 category: 'Resonance Core Framework'
-draft: true
 tags:
   - 'Resonance Core Framework'
   - 'DII Protocol'
@@ -32,13 +31,6 @@ faq:
   - question: 'Are DII scores a measure of success or self-worth?'
     answer: 'No. DII scores are personal markers, not achievements. They exist only to show trends, improvements, and clues for identity alignment — never to rank, judge, or compete.'
 ---
-
-{/*
-  DRAFT — FOR AUTHOR REVIEW BEFORE PUBLISHING.
-  Built from Chapter 5 (Journaling as Pattern Recognition, PASS6) and the
-  current marketing naming. SSI and Shadow Index wording is based on the
-  glossary; confirm against the manuscript. Remove `draft: true` once approved.
-*/}
 
 Most decisions get judged by how they turn out. The DII Protocol asks a different question first: *did this decision come from who I actually am?*
 
