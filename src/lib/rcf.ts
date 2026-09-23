@@ -2,10 +2,11 @@
  * The Resonance Core Framework™ — shared copy for TerenceWaters.com.
  *
  * The homepage book section, the About bio, and /resonance-core-framework all
- * describe the same framework, so the language lives here once. The same core
- * definitions appear on theresonantidentity.com/framework and
- * fluxline.pro/resonance-core-framework; keeping them consistent across the
- * three sites is what builds search and AI topical authority.
+ * describe the same framework, so the language lives here once.
+ *
+ * Source of truth: fluxline.pro/resonance-core-framework holds the complete,
+ * canonical framework reference. This site keeps the author/book angle and
+ * short summaries that link there for more.
  */
 
 export const RCF_PATH = '/resonance-core-framework';
@@ -37,51 +38,65 @@ export const RCF_CANONICAL_PARAGRAPH =
 export const RCF_BOOK_BLURB =
   'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system — 31 chapters across four parts — exploring how identity shapes decisions, how Behavioral Gravity creates invisible pull, how the Identity Distortion Loop erodes coherence, and how the DII Protocol gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
 
-/** Core concepts, briefly. `id` doubles as the on-page anchor. */
-export const RCF_CONCEPTS: { id: string; name: string; body: string }[] = [
+/**
+ * Core concepts — one-line summaries only. The full, canonical definitions
+ * live on fluxline.pro/resonance-core-framework (the RCF's single source of
+ * truth); `id` matches the anchor there, so each summary links to its
+ * definition.
+ */
+export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
   {
     id: 'behavioral-gravity',
     name: 'Behavioral Gravity',
-    body: "The unconscious pull toward behaviors, environments, and relationships that feel identity-consistent — even when they're no longer aligned with who you're becoming.",
+    summary:
+      "The unconscious pull toward what feels identity-consistent — even when it no longer fits who you're becoming.",
   },
   {
     id: 'identity-coherence',
     name: 'Identity Coherence',
-    body: 'The state in which your inner values, outer expression, and behavioral patterns are in agreement. Not perfection — alignment.',
+    summary:
+      'When your values, expression, and behavior agree. Not perfection — alignment.',
   },
   {
     id: 'window-of-choice',
     name: 'Window of Choice',
-    body: 'The range of choices you can actually see and act on in any moment. It widens with presence and clarity and narrows under stress — which matters most at threshold moments, when you can respond from who you are now rather than react from who you used to be.',
+    summary:
+      'The range of choices you can see and act on — wide when present, narrow under stress.',
   },
   {
     id: 'drive-system',
     name: 'The DRIVE System',
-    body: 'The motivation architecture of the RCF: how identity-rooted goals become self-sustaining rather than dependent on willpower.',
+    summary:
+      'How identity-rooted goals become self-sustaining instead of running on willpower.',
   },
   {
     id: 'identity-distortion-loop',
     name: 'Identity Distortion Loop',
-    body: 'The cycle that erodes identity coherence: Dissonance Spike → Reactance → Confirmation Bias → Distorted Alignment → Identity Erosion. In the book, this is The Judgment Loop.',
+    summary: 'The cycle that erodes coherence. In the book: The Judgment Loop.',
   },
   {
     id: 'identity-alignment-loop',
     name: 'Identity Alignment Loop',
-    body: 'The counterpart to the Distortion Loop: observe a cue, understand where it comes from, check whether it is valid, then decide from a wider Window of Choice. In the book, this is The Data Loop.',
+    summary: 'The cycle that rebuilds coherence. In the book: The Data Loop.',
   },
   {
     id: 'creative-truth',
     name: 'Creative Truth',
-    body: 'Expressing your inner truth without requiring others to receive or confirm it — the highest form of Identity Coherence in outward expression.',
+    summary:
+      'Expressing your truth without needing others to receive or confirm it.',
   },
   {
     id: 'dii-protocol',
     name: 'DII Protocol (Decision Integrity Index)',
-    body: 'A structured way to score how well a decision aligns with your identity, anchored to six core values: Embodied Awareness, Modular Precision, Resilient Alignment, Somatic Discipline, Creative Truth, and Strategic Innovation.',
+    summary: 'A 1–5 way to score how well a decision aligns with who you are.',
   },
   {
     id: 'decision-alignment-score',
     name: 'Decision Alignment Score (DAS)',
-    body: 'The composite result of the DII Protocol, drawing on three sub-scores — SSI (Self-State Integrity), EROI (Emotional Return on Investment), and the Shadow Index — for a single view of a decision’s alignment.',
+    summary:
+      'The DII’s composite view of a decision, from SSI, EROI, and the Shadow Index.',
   },
 ];
+
+/** Link to a concept's full definition on the source-of-truth page. */
+export const rcfConceptHref = (id: string) => `${FLUXLINE_RCF_URL}#${id}`;

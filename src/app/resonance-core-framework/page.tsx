@@ -22,6 +22,7 @@ import {
   RCF_PATH,
   TRI_FRAMEWORK_URL,
   TRI_URL,
+  rcfConceptHref,
 } from '@/lib/rcf';
 import styles from './page.module.scss';
 
@@ -126,6 +127,11 @@ export default function ResonanceCoreFrameworkPage() {
                 title='What the Framework Is'
               />
               <p className={styles.lead}>{RCF_CANONICAL_PARAGRAPH}</p>
+              <p className={styles.prose}>
+                <a href={FLUXLINE_RCF_URL}>
+                  The complete framework reference lives at Fluxline →
+                </a>
+              </p>
             </TwReveal>
           </div>
         </section>
@@ -169,16 +175,21 @@ export default function ResonanceCoreFrameworkPage() {
               <TwSectionHeading
                 kicker='Language for what you feel'
                 title='Core Concepts'
-                lede="Each concept names something you've likely already experienced — and gives you a way to work with it."
+                lede='The named ideas at the heart of the book, in a sentence each. Tap any one for its full definition.'
               />
             </TwReveal>
             <div className={styles.conceptGrid}>
               {RCF_CONCEPTS.map((c, i) => (
                 <TwReveal key={c.id} delay={i * 60}>
-                  <article id={c.id} className={styles.concept}>
+                  <a
+                    id={c.id}
+                    href={rcfConceptHref(c.id)}
+                    className={styles.concept}
+                  >
                     <h3 className={styles.conceptName}>{c.name}</h3>
-                    <p className={styles.conceptBody}>{c.body}</p>
-                  </article>
+                    <p className={styles.conceptBody}>{c.summary}</p>
+                    <span className={styles.conceptMore}>More info →</span>
+                  </a>
                 </TwReveal>
               ))}
             </div>
@@ -263,7 +274,7 @@ export default function ResonanceCoreFrameworkPage() {
             <ul className={styles.outbound}>
               <li>
                 <a href={TRI_FRAMEWORK_URL}>
-                  Explore the framework in the podcast →
+                  Hear the framework on the podcast →
                 </a>
               </li>
               <li>

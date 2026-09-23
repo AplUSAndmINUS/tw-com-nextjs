@@ -107,4 +107,4 @@ The book walks through the full scoring in Part III.
 
 You don't need the whole protocol to begin. Journal one decision today, give it a score from 1 to 5, and write one line on why. Do that for a week and you'll already see patterns you couldn't see before.
 
-Explore the DII alongside the rest of the framework on [The Resonant Identity framework overview](https://theresonantidentity.com/framework/#dii-protocol), hear it in practice in [TRI012: Guardrails, Journaling & the DII](https://theresonantidentity.com/library/tri-012-journaling-guardrails-dii/), or [work with the framework at Fluxline](https://www.fluxline.pro/resonance-core-framework).
+Read the DII's full definition in the [framework reference](https://www.fluxline.pro/resonance-core-framework#dii-protocol), hear it in practice in [TRI012: Guardrails, Journaling & the DII](https://theresonantidentity.com/library/tri-012-journaling-guardrails-dii/), or [work with the framework at Fluxline](https://www.fluxline.pro/resonance-core-framework).

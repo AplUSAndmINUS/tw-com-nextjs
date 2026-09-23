@@ -15,5 +15,5 @@ The Resonance Core Framework™ is a structured identity system built on the pri
 ## Related
 
 - [The Resonant Identity Podcast](https://theresonantidentity.com/): Terence's weekly podcast on identity alignment
-- [Framework overview](https://theresonantidentity.com/framework/): Every RCF concept, explained
-- [Fluxline Resonance Group](https://www.fluxline.pro/resonance-core-framework): Coaching and consulting through the framework
+- [The Resonance Core Framework™ — full reference](https://www.fluxline.pro/resonance-core-framework): The canonical definitions of every RCF concept
+- [Fluxline Resonance Group](https://www.fluxline.pro/): Coaching and consulting through the framework
