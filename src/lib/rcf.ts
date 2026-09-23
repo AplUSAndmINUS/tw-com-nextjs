@@ -52,7 +52,7 @@ export const RCF_CONCEPTS: { id: string; name: string; body: string }[] = [
   {
     id: 'window-of-choice',
     name: 'Window of Choice',
-    body: 'The often-brief moment within a threshold event where you have genuine agency to respond from your current identity rather than react from a previous one.',
+    body: 'The range of choices you can actually see and act on in any moment. It widens with presence and clarity and narrows under stress — which matters most at threshold moments, when you can respond from who you are now rather than react from who you used to be.',
   },
   {
     id: 'drive-system',
@@ -62,12 +62,12 @@ export const RCF_CONCEPTS: { id: string; name: string; body: string }[] = [
   {
     id: 'identity-distortion-loop',
     name: 'Identity Distortion Loop',
-    body: 'The cycle that erodes identity coherence: Dissonance Spike → Reactance → Confirmation Bias → Distorted Alignment → Identity Erosion.',
+    body: 'The cycle that erodes identity coherence: Dissonance Spike → Reactance → Confirmation Bias → Distorted Alignment → Identity Erosion. In the book, this is The Judgment Loop.',
   },
   {
     id: 'identity-alignment-loop',
     name: 'Identity Alignment Loop',
-    body: 'The counterpart to the Distortion Loop — the cycle that rebuilds coherence, where each honest, identity-rooted choice makes the next one easier.',
+    body: 'The counterpart to the Distortion Loop: observe a cue, understand where it comes from, check whether it is valid, then decide from a wider Window of Choice. In the book, this is The Data Loop.',
   },
   {
     id: 'creative-truth',
@@ -77,11 +77,11 @@ export const RCF_CONCEPTS: { id: string; name: string; body: string }[] = [
   {
     id: 'dii-protocol',
     name: 'DII Protocol (Decision Integrity Index)',
-    body: 'A structured way to score how well a decision aligns with your identity, anchored to six core values: Embodied Awareness, Modular Precision, Legacy Resonance, Somatic Discipline, Creative Truth, and Strategic Innovation.',
+    body: 'A structured way to score how well a decision aligns with your identity, anchored to six core values: Embodied Awareness, Modular Precision, Resilient Alignment, Somatic Discipline, Creative Truth, and Strategic Innovation.',
   },
   {
     id: 'decision-alignment-score',
     name: 'Decision Alignment Score (DAS)',
-    body: 'The composite result of the DII Protocol, drawing on three sub-scores — SSI, EROI (Emotional ROI), and the Shadow Index — for a single view of a decision’s alignment.',
+    body: 'The composite result of the DII Protocol, drawing on three sub-scores — SSI (Self-State Integrity), EROI (Emotional Return on Investment), and the Shadow Index — for a single view of a decision’s alignment.',
   },
 ];

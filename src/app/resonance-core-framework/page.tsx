@@ -141,15 +141,22 @@ export default function ResonanceCoreFrameworkPage() {
                 kicker='From the author'
                 title='Why I Wrote It'
               />
-              {/*
-                AUTHOR CONTENT REQUIRED — 2–4 sentences in Terence's voice on
-                the motivation behind the RCF. Replace the paragraph below; do
-                not ship generated first-person copy here.
-              */}
+              {/* Adapted from Terence's own announcement post (linked below). */}
               <p className={styles.prose}>
-                The story behind the framework is coming soon. In the meantime,
-                you can hear how it took shape on{' '}
-                <a href={TRI_URL}>The Resonant Identity podcast</a>.
+                This framework didn&apos;t begin as a business initiative — it
+                began as a necessity. When I left my six-figure job to build
+                Fluxline, I ran into the same misalignment, overwhelm, and
+                search for clarity so many founders and creators know. I read
+                everything I could find and kept hitting the same wall: most
+                self-help tells you what to do, but not how to do it. So I
+                journaled daily, tracked my decisions, built scorecards to
+                measure alignment, and refined the system until it changed me —
+                this book is how I share it with you.
+              </p>
+              <p className={styles.prose}>
+                <a href='https://www.fluxline.pro/blog/announcement-resonance-core-book'>
+                  Read the full origin story →
+                </a>
               </p>
             </TwReveal>
           </div>
