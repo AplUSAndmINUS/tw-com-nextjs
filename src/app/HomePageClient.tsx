@@ -27,6 +27,13 @@ import {
   wideSocials,
   type HomeService,
 } from './home/homeData';
+import {
+  RCF_BOOK_BLURB,
+  RCF_NOTIFY_HREF,
+  RCF_PATH,
+  RCF_TRADEMARK,
+  TRI_URL,
+} from '@/lib/rcf';
 import styles from './HomePageClient.module.scss';
 
 /** Minimal card shape the server hands down (content stripped for payload). */
@@ -127,6 +134,17 @@ export default function HomePageClient({
         <TwHero
           eyebrow="Hi there 👋 I'm"
           title='Terence Waters'
+          subtitle={
+            <>
+              <span>Author</span>
+              <span aria-hidden='true'>·</span>
+              <Link href={RCF_PATH}>{RCF_TRADEMARK}</Link>
+              <span aria-hidden='true'>·</span>
+              <span>Systems Architect</span>
+              <span aria-hidden='true'>·</span>
+              <span>Identity Coach</span>
+            </>
+          }
           body={
             <>
               I help people and organizations rebuild the parts of themselves
@@ -147,6 +165,40 @@ export default function HomePageClient({
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
         />
+      </section>
+
+      {/* ===== The book (pre-launch) ===== */}
+      <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
+        <div className={styles.container}>
+          <TwReveal>
+            <div className={styles.resonanceGrid}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.resonanceLogo}
+                src='/assets/images/RCF_logo.jpeg'
+                alt='The Resonance Core Framework™ logo'
+                loading='lazy'
+                decoding='async'
+              />
+              <div>
+                <TwSectionHeading
+                  kicker='The Book'
+                  title='The Resonance Core Framework™ — Coming Fall 2026'
+                />
+                <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
+                <div className={styles.bookCtas}>
+                  <TwButton href={RCF_NOTIFY_HREF}>Be Notified at Launch →</TwButton>
+                  <TwButton variant='outline' href={RCF_PATH}>
+                    Preview the Framework →
+                  </TwButton>
+                  <TwButton variant='outline' href={TRI_URL}>
+                    Listen to the Podcast →
+                  </TwButton>
+                </div>
+              </div>
+            </div>
+          </TwReveal>
+        </div>
       </section>
 
       {/* ===== Resonance Philosophy ===== */}

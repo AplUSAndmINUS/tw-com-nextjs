@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
 import { getPersonSchema, getAboutPageSchema } from '@/utils/structuredData';
@@ -32,20 +31,29 @@ import {
   SKILL_GROUPS,
   STATS,
 } from './aboutData';
+import { FLUXLINE_URL, RCF_PATH, TRI_URL } from '@/lib/rcf';
 import styles from './page.module.scss';
 
+const ABOUT_TITLE =
+  'About Terence Waters | Author, The Resonance Core Framework™ | Fluxline Resonance Group';
+const ABOUT_DESCRIPTION =
+  'Terence Waters is the author of The Resonance Core Framework™, founder of Fluxline Resonance Group, and host of The Resonant Identity podcast. Systems architect, identity coach, and creative technologist based in Salt Lake City.';
+
 export const metadata: Metadata = {
-  title: 'About',
-  description:
-    'Terence Waters is a founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
+  title: { absolute: ABOUT_TITLE },
+  description: ABOUT_DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'About | Terence Waters',
-    description:
-      'Terence Waters is a founder, architect, and senior technologist with 15+ years bridging technical precision with human-centered design.',
+    title: ABOUT_TITLE,
+    description: ABOUT_DESCRIPTION,
     url: 'https://terencewaters.com/about',
     siteName: 'Terence Waters',
     type: 'profile',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: ABOUT_TITLE,
+    description: ABOUT_DESCRIPTION,
   },
   robots: getRobotsConfig(),
   alternates: {
@@ -86,12 +94,12 @@ export default function AboutPage() {
 
   return (
     <div className={styles.page}>
-      <Script
+      <script
         id='about-person-schema'
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
       />
-      <Script
+      <script
         id='about-aboutpage-schema'
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
@@ -131,6 +139,23 @@ export default function AboutPage() {
                 {paragraph}
               </p>
             ))}
+
+            {/* RCF authorship — placed after the opening summary, before the
+                stats and credentials, so "who wrote the Resonance Core
+                Framework" has a direct answer high on the page. */}
+            <p className={styles.prose}>
+              As the author of{' '}
+              <Link href={RCF_PATH}>The Resonance Core Framework™</Link>{' '}
+              (Fluxline Resonance Group, Fall 2026), Terence developed a
+              31-chapter identity system bridging somatic intelligence, decision
+              science, and behavioral psychology. The framework&apos;s core
+              concepts — Behavioral Gravity, Identity Coherence, the Window of
+              Choice, Creative Truth, and the DII Protocol — emerged from over a
+              decade of applied work at the intersection of systems design and
+              human transformation. The RCF is the theoretical foundation of{' '}
+              <a href={TRI_URL}>The Resonant Identity podcast</a> and the coaching
+              practice at <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
+            </p>
 
             <div className={styles.statGrid}>
               {STATS.map((stat) => (

@@ -24,8 +24,8 @@ const footerLinks = {
   work: [
     { href: '/podcasts/theresonantid', label: 'The Resonant Identity Podcast', },
     {
-      href: 'https://fluxline.pro/services/resonance-core',
-      label: 'Resonance Core Framework',
+      href: '/resonance-core-framework',
+      label: 'The Resonance Core Framework™',
     },
     { href: '/portfolio', label: 'Portfolio' },
     { href: 'https://fluxline.pro/case-studies', label: 'Case Studies' },
@@ -407,6 +407,19 @@ export function FooterContent({
             <FooterNewsletterMini />
           </FooterLinkSection>
         </div>
+
+        {/* Cross-site links to the other owned properties. Plain same-tab
+            anchors with rel="me" so search engines tie the three sites to one
+            identity. */}
+        <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
+          <span className={styles.ecosystemTitle}>More from Terence Waters</span>
+          <a href='https://theresonantidentity.com' rel='me'>
+            The Resonant Identity Podcast
+          </a>
+          <a href='https://www.fluxline.pro' rel='me'>
+            Fluxline Resonance Group — Coaching &amp; Consulting
+          </a>
+        </nav>
 
         {/* Bottom bar */}
         <div

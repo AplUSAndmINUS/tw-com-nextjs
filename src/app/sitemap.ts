@@ -6,7 +6,7 @@ import { getAllContent } from '@/lib/content';
  * Dynamic sitemap generation for TerenceWaters.com
  *
  * Priority guide (for AI/SEO ranking):
- *   1.0 — Homepage + key identity pages (About)
+ *   1.0 — Homepage + key identity pages (About, Resonance Core Framework)
  *   0.8 — Blog posts, Portfolio projects (authority content)
  *   0.7 — Content hub
  *   0.6 — Blog, Portfolio, Videos, Podcasts, GitHub
@@ -62,6 +62,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${SITE_URL}/about`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
+      // Authorship reference for the RCF book (pre-publication).
+      url: `${SITE_URL}/resonance-core-framework`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1.0,
