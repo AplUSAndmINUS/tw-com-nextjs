@@ -321,6 +321,24 @@
   margin-top: 24px;
 }
 
+// Loading / empty state for the Podcast and Video filters.
+.contentStatus {
+  margin-top: 28px;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--tw-font);
+  color: var(--tw-text-soft);
+
+  a,
+  a:any-link {
+    color: var(--tw-accent);
+    font-weight: 700;
+  }
+}
+
 .viewAll {
   margin-top: 34px;
   display: flex;

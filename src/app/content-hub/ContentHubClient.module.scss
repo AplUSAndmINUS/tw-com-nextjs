@@ -155,7 +155,6 @@
   width: 100%;
   box-sizing: border-box;
   background: var(--tw-accent);
-  color: var(--tw-accent-ink);
   border: none;
   border-radius: var(--tw-radius-control);
   font-family: var(--tw-font);
@@ -165,6 +164,15 @@
   text-decoration: none;
   cursor: pointer;
   transition: filter var(--tw-color-duration) var(--tw-motion-ease);
+
+  // `&:any-link` outranks the global `a:link`/`a:visited { color: inherit }`
+  // reset, which otherwise paints anchor versions of this button (Case Studies,
+  // Books) in the drawer's light body text on the light accent fill.
+  &,
+  &:any-link {
+    color: var(--tw-accent-ink);
+    -webkit-text-fill-color: var(--tw-accent-ink);
+  }
 
   @include focus-ring;
 
@@ -183,7 +191,6 @@
   margin-top: 12px;
   background: transparent;
   border: 1px solid var(--tw-line);
-  color: var(--tw-accent);
   border-radius: var(--tw-radius-control);
   font-family: var(--tw-font);
   font-weight: 600;
@@ -191,6 +198,12 @@
   padding: 11px;
   text-decoration: none;
   transition: background var(--tw-color-duration) var(--tw-motion-ease);
+
+  &,
+  &:any-link {
+    color: var(--tw-accent);
+    -webkit-text-fill-color: var(--tw-accent);
+  }
 
   @include focus-ring;
 

@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
 import { getAllContent } from '@/lib/content';
+import { fetchSpreakerEpisodes } from '@/lib/spreaker';
 import type { ContentItem } from '@/content/types';
 import HomePageClient, { type HomeCard } from './HomePageClient';
+import { episodeToCard, HOME_MEDIA_LIMIT } from './home/contentCards';
 
 /**
  * Map a loaded ContentItem to the minimal card the homepage needs, dropping the
@@ -48,9 +50,10 @@ export const metadata: Metadata = {
 
 // Static export: content is read from disk at build time.
 export default async function HomePage() {
-  const [blog, portfolio] = await Promise.all([
+  const [blog, portfolio, podcastFeed] = await Promise.all([
     getAllContent('blog'),
     getAllContent('portfolio'),
+    fetchSpreakerEpisodes(),
   ]);
 
   // Content section: recent writing. Category is normalised to the homepage's
@@ -58,6 +61,14 @@ export default async function HomePage() {
   const content: HomeCard[] = blog
     .slice(0, 6)
     .map((item) => ({ ...toCard(item, '/blog'), category: 'Writing' }));
+
+  // Podcast filter: latest episodes of The Resonant Identity from Spreaker's
+  // RSS feed. Empty when the feed is unreachable at build time — the client
+  // then falls back to /api/podcasts. (Videos are client-fetched only; the
+  // YouTube feed is an Azure Function, same as /videos.)
+  const podcasts: HomeCard[] = podcastFeed.episodes
+    .slice(0, HOME_MEDIA_LIMIT)
+    .map(episodeToCard);
 
   // Portfolio section: portfolio pieces. (Case studies live on Fluxline.pro and
   // are reached from the Content Hub drawer, not duplicated here.)
@@ -69,6 +80,10 @@ export default async function HomePage() {
   return (
     // The Person schema (TW-4.1) is emitted once, site-wide, by the root
     // layout — repeating it here would duplicate the entity on this page.
-    <HomePageClient content={content} portfolio={portfolioCards} />
+    <HomePageClient
+      content={content}
+      podcasts={podcasts}
+      portfolio={portfolioCards}
+    />
   );
 }
