@@ -8,6 +8,12 @@ export interface TwRevealProps {
   variant?: 'up' | 'left';
   /** Delay in ms. TwContentGrid uses this to stagger a row of cards. */
   delay?: number;
+  /**
+   * Cascade the direct children instead of revealing the wrapper as one block:
+   * each child rises in 80ms after the previous one (heading, then copy, then
+   * CTAs), matching the Resonant Identity homepage treatment.
+   */
+  stagger?: boolean;
   /** Element to render. Defaults to a div. */
   as?: React.ElementType;
   children: React.ReactNode;
@@ -33,6 +39,7 @@ export interface TwRevealProps {
 export function TwReveal({
   variant = 'up',
   delay = 0,
+  stagger = false,
   as: Component = 'div',
   children,
   className,
@@ -51,8 +58,13 @@ export function TwReveal({
       return;
     }
 
+    // IntersectionObserver always delivers an initial entry right after
+    // observe(), in view or not. Seeing any callback proves it works here.
+    let observerAlive = false;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
+        observerAlive = true;
         if (entry.isIntersecting) {
           setVisible(true);
           observer.disconnect();
@@ -75,10 +87,13 @@ export function TwReveal({
      * happen if the element is inside a hidden ancestor when it mounts.
      *
      * A silent, unrecoverable blank section is far worse than a missed
-     * animation, so this reveals unconditionally after a grace period. Any
-     * genuine intersection fires long before this and clears the timer.
+     * animation, so this reveals after a grace period — but only when the
+     * observer never reported at all. Revealing unconditionally would play
+     * every below-the-fold animation off screen three seconds after load, so
+     * nothing would be left to animate by the time a visitor scrolled there.
      */
     const failsafe = window.setTimeout(() => {
+      if (observerAlive) return;
       setVisible(true);
       observer.disconnect();
     }, 3000);
@@ -89,7 +104,11 @@ export function TwReveal({
     };
   }, []);
 
-  const baseClass = variant === 'left' ? 'tw-rv-left' : 'tw-rv';
+  const baseClass = stagger
+    ? 'tw-stagger'
+    : variant === 'left'
+      ? 'tw-rv-left'
+      : 'tw-rv';
   const classes = [baseClass, visible ? 'in' : '', styles.reveal, className]
     .filter(Boolean)
     .join(' ');

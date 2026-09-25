@@ -236,11 +236,11 @@ export default function HomePageClient({
         />
       </section>
 
-      {/* ===== The book (pre-launch) ===== */}
+      {/* ===== The book (pre-launch) + resonance philosophy ===== */}
       <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
         <div className={styles.container}>
-          <TwReveal>
-            <div className={styles.resonanceGrid}>
+          <div className={styles.resonanceGrid}>
+            <TwReveal variant='left'>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className={styles.resonanceLogo}
@@ -249,58 +249,32 @@ export default function HomePageClient({
                 loading='lazy'
                 decoding='async'
               />
-              <div>
-                <TwSectionHeading
-                  kicker='The Book'
-                  title='The Resonance Core Framework™ — Coming Late Fall 2026'
-                />
-                <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
-                <div className={styles.bookCtas}>
-                  <TwButton href={RCF_NOTIFY_HREF}>
-                    Be Notified at Launch →
-                  </TwButton>
-                  <TwButton variant='outline' href={RCF_PATH}>
-                    Preview the Framework →
-                  </TwButton>
-                  <TwButton variant='outline' href={TRI_URL}>
-                    Listen to the Podcast →
-                  </TwButton>
-                </div>
-              </div>
-            </div>
-          </TwReveal>
-        </div>
-      </section>
-
-      {/* ===== Resonance Philosophy ===== */}
-      <section id='resonance' className={`tw-snap ${styles.resonanceSection}`}>
-        <div className={styles.container}>
-          <TwReveal>
-            <div className={styles.resonanceGrid}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className={styles.resonanceLogo}
-                src='/assets/images/RCF_logo.jpeg'
-                alt='Resonance Field'
-                loading='lazy'
-                decoding='async'
+            </TwReveal>
+            <TwReveal stagger>
+              <TwSectionHeading
+                kicker='The Book'
+                title='The Resonance Core Framework™ — Coming Late Fall 2026'
               />
-              <div>
-                <TwSectionHeading
-                  kicker='Philosophy'
-                  title='Resonance Philosophy'
-                />
-                <p className={styles.prose}>
-                  Resonance is when your identity, your systems, and your
-                  actions finally operate on the same frequency.
-                </p>
-                <p className={styles.prose}>
-                  My work — whether architectural, creative, or personal — is
-                  about helping you build from that place.
-                </p>
+              <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
+              <blockquote className={styles.quote}>
+                Resonance is when your identity, your systems, and your actions
+                finally operate on the same frequency. My work — architectural,
+                creative, or personal — is about helping you build from that
+                place.
+              </blockquote>
+              <div className={styles.bookCtas}>
+                <TwButton href={RCF_NOTIFY_HREF}>
+                  Be Notified at Launch →
+                </TwButton>
+                <TwButton variant='outline' href={RCF_PATH}>
+                  Preview the Framework →
+                </TwButton>
+                <TwButton variant='outline' href={TRI_URL}>
+                  Listen to the Podcast →
+                </TwButton>
               </div>
-            </div>
-          </TwReveal>
+            </TwReveal>
+          </div>
         </div>
       </section>
 
@@ -331,7 +305,7 @@ export default function HomePageClient({
             </div>
 
             <div>
-              <TwReveal>
+              <TwReveal stagger>
                 <TwSectionHeading
                   kicker='About'
                   title="Hi! I'm Terence. :)"
@@ -673,7 +647,7 @@ export default function HomePageClient({
           </div>
 
           <div className={styles.contactGrid}>
-            <TwReveal variant='left'>
+            <TwReveal stagger>
               <TwSectionHeading
                 kicker='Contact'
                 title="Let's build something that resonates"
