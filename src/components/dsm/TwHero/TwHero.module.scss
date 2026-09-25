@@ -125,6 +125,24 @@
   margin: 0;
 }
 
+.subtitle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: var(--tw-space-s) 0 0;
+  font-family: var(--tw-font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tw-text-mist);
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
 .body {
   font-family: var(--tw-font-body);
   font-size: var(--tw-body-size);

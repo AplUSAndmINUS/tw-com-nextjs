@@ -21,6 +21,7 @@ const assert = require('node:assert/strict');
 const subscribe = require('./subscribe');
 const unsubscribe = require('./unsubscribe');
 const contact = require('./contact');
+const health = require('./health');
 const { resetNewsletterRateLimitStore } = require('./newsletterRateLimit');
 
 /**
@@ -115,6 +116,14 @@ function newsletterRequest(ip) {
   };
 }
 
+function isEntraTokenUrl(url) {
+  try {
+    return new URL(String(url)).hostname === 'login.microsoftonline.com';
+  } catch {
+    return false;
+  }
+}
+
 test.beforeEach(() => {
   resetNewsletterRateLimitStore();
 });
@@ -205,6 +214,73 @@ test('contact returns 504 when SMTP2Go never responds', async () => {
 
     assert.equal(res.status, 504);
     assert.match(JSON.parse(res.body).error, /timed out/i);
+  } finally {
+    upstream.restore();
+    restoreEnv();
+  }
+});
+
+test('health returns ok when Graph and SharePoint are reachable', async () => {
+  const restoreEnv = withEnv(SHAREPOINT_ENV);
+  const original = globalThis.fetch;
+  const context = createContext();
+
+  globalThis.fetch = async (url) => ({
+    status: 200,
+    headers: new Headers(),
+    text: async () =>
+      isEntraTokenUrl(url)
+        ? JSON.stringify({ access_token: 'token' })
+        : JSON.stringify({ id: 'list-id' }),
+  });
+
+  try {
+    const res = await health(context, { method: 'GET', headers: {} });
+    assert.equal(res.status, 200);
+    assert.equal(JSON.parse(res.body).status, 'ok');
+  } finally {
+    globalThis.fetch = original;
+    restoreEnv();
+  }
+});
+
+test('health returns 503 when SharePoint is unreachable', async () => {
+  const restoreEnv = withEnv(SHAREPOINT_ENV);
+  const original = globalThis.fetch;
+  const context = createContext();
+
+  globalThis.fetch = async (url) => ({
+    status: isEntraTokenUrl(url) ? 200 : 503,
+    headers: new Headers(),
+    text: async () =>
+      isEntraTokenUrl(url)
+        ? JSON.stringify({ access_token: 'token' })
+        : JSON.stringify({ error: { message: 'Service unavailable' } }),
+  });
+
+  try {
+    const res = await health(context, { method: 'GET', headers: {} });
+    assert.equal(res.status, 503);
+    assert.equal(JSON.parse(res.body).error, 'SharePoint unreachable');
+  } finally {
+    globalThis.fetch = original;
+    restoreEnv();
+  }
+});
+
+test('health does not retry token calls and surfaces a timeout as 503', async () => {
+  const restoreEnv = withEnv(SHAREPOINT_ENV);
+  const upstream = stubHangingUpstream();
+  const context = createContext();
+
+  try {
+    const res = await health(context, { method: 'GET', headers: {} });
+    assert.equal(upstream.callCount(), 1, 'health checks should not retry');
+    assert.equal(res.status, 503);
+    assert.ok(
+      context.logs.some((l) => /timed out/i.test(l)),
+      `expected timeout log, got: ${JSON.stringify(context.logs)}`
+    );
   } finally {
     upstream.restore();
     restoreEnv();
