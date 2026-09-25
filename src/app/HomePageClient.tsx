@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   TwHero,
@@ -14,6 +14,7 @@ import {
   TwButton,
 } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
+import { Spinner } from '@/components/ui/Spinner';
 import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import { HomeNav } from './home/HomeNav';
 import { HomeContactForm } from './home/HomeContactForm';
@@ -27,6 +28,21 @@ import {
   wideSocials,
   type HomeService,
 } from './home/homeData';
+import {
+  RCF_BOOK_BLURB,
+  RCF_NOTIFY_HREF,
+  RCF_PATH,
+  RCF_TRADEMARK,
+  TRI_URL,
+} from '@/lib/rcf';
+import { getApiBaseUrl } from '@/lib/environment';
+import { fetchPodcastsFromApi } from '@/lib/spreaker';
+import type { YouTubeVideo } from './videos/types';
+import {
+  episodeToCard,
+  videoToCard,
+  HOME_MEDIA_LIMIT,
+} from './home/contentCards';
 import styles from './HomePageClient.module.scss';
 
 /** Minimal card shape the server hands down (content stripped for payload). */
@@ -37,11 +53,22 @@ export interface HomeCard {
   category?: string;
   date?: string;
   href: string;
+  /** Cover art / thumbnail — set for podcast and video cards. */
+  image?: string;
+  /** True when `href` leaves the site (YouTube). */
+  external?: boolean;
 }
+
+type MediaState = 'idle' | 'loading' | 'ready' | 'error';
 
 export interface HomePageClientProps {
   /** Recent Content Hub items (blog + related), newest first. */
   content: HomeCard[];
+  /**
+   * Latest podcast episodes, read from Spreaker at build time. Empty when the
+   * feed was unreachable; the client then retries via /api/podcasts.
+   */
+  podcasts: HomeCard[];
   /** Portfolio + case-study highlights. */
   portfolio: HomeCard[];
 }
@@ -96,15 +123,64 @@ const CONTENT_FILTERS = [
  */
 export default function HomePageClient({
   content,
+  podcasts: buildPodcasts,
   portfolio,
 }: HomePageClientProps) {
   const [contentFilter, setContentFilter] = useState<string | null>(null);
   const [activeService, setActiveService] = useState<HomeService | null>(null);
 
-  const filteredContent =
-    contentFilter === null
-      ? content
-      : content.filter((c) => c.category === contentFilter);
+  // Podcast and Video cards are fetched on first selection of their chip, so
+  // visitors who never open them don't pay for the requests.
+  const [podcasts, setPodcasts] = useState<HomeCard[]>(buildPodcasts);
+  const [podcastState, setPodcastState] = useState<MediaState>(
+    buildPodcasts.length > 0 ? 'ready' : 'idle'
+  );
+  const [videos, setVideos] = useState<HomeCard[]>([]);
+  const [videoState, setVideoState] = useState<MediaState>('idle');
+
+  useEffect(() => {
+    if (contentFilter !== 'Podcast' || podcastState !== 'idle') return;
+    setPodcastState('loading');
+    fetchPodcastsFromApi().then((feed) => {
+      setPodcasts(feed.episodes.slice(0, HOME_MEDIA_LIMIT).map(episodeToCard));
+      setPodcastState(feed.available ? 'ready' : 'error');
+    });
+  }, [contentFilter, podcastState]);
+
+  useEffect(() => {
+    if (contentFilter !== 'Video' || videoState !== 'idle') return;
+    setVideoState('loading');
+    (async () => {
+      try {
+        // Same endpoint the /videos page reads.
+        const res = await fetch(`${getApiBaseUrl()}/api/youtube?type=videos`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const list: YouTubeVideo[] = Array.isArray(data.videos)
+          ? data.videos
+          : [];
+        setVideos(list.slice(0, HOME_MEDIA_LIMIT).map(videoToCard));
+        setVideoState('ready');
+      } catch {
+        setVideoState('error');
+      }
+    })();
+  }, [contentFilter, videoState]);
+
+  let filteredContent: HomeCard[];
+  let mediaState: MediaState = 'ready';
+  let mediaFallback = { label: '', href: '' };
+  if (contentFilter === 'Podcast') {
+    filteredContent = podcasts;
+    mediaState = podcastState;
+    mediaFallback = { label: 'Browse all podcast episodes', href: '/podcasts' };
+  } else if (contentFilter === 'Video') {
+    filteredContent = videos;
+    mediaState = videoState;
+    mediaFallback = { label: 'Browse all videos', href: '/videos' };
+  } else {
+    filteredContent = content;
+  }
 
   const openFluxlineServices = () =>
     window.open('https://fluxline.pro/services', '_blank', 'noopener');
@@ -127,6 +203,17 @@ export default function HomePageClient({
         <TwHero
           eyebrow="Hi there 👋 I'm"
           title='Terence Waters'
+          subtitle={
+            <>
+              <span>Author</span>
+              <span aria-hidden='true'>·</span>
+              <Link href={RCF_PATH}>{RCF_TRADEMARK}</Link>
+              <span aria-hidden='true'>·</span>
+              <span>Systems Architect</span>
+              <span aria-hidden='true'>·</span>
+              <span>Identity Coach</span>
+            </>
+          }
           body={
             <>
               I help people and organizations rebuild the parts of themselves
@@ -147,6 +234,42 @@ export default function HomePageClient({
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
         />
+      </section>
+
+      {/* ===== The book (pre-launch) ===== */}
+      <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
+        <div className={styles.container}>
+          <TwReveal>
+            <div className={styles.resonanceGrid}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.resonanceLogo}
+                src='/assets/images/RCF_logo.jpeg'
+                alt='The Resonance Core Framework™ logo'
+                loading='lazy'
+                decoding='async'
+              />
+              <div>
+                <TwSectionHeading
+                  kicker='The Book'
+                  title='The Resonance Core Framework™ — Coming Late Fall 2026'
+                />
+                <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
+                <div className={styles.bookCtas}>
+                  <TwButton href={RCF_NOTIFY_HREF}>
+                    Be Notified at Launch →
+                  </TwButton>
+                  <TwButton variant='outline' href={RCF_PATH}>
+                    Preview the Framework →
+                  </TwButton>
+                  <TwButton variant='outline' href={TRI_URL}>
+                    Listen to the Podcast →
+                  </TwButton>
+                </div>
+              </div>
+            </div>
+          </TwReveal>
+        </div>
       </section>
 
       {/* ===== Resonance Philosophy ===== */}
@@ -407,22 +530,49 @@ export default function HomePageClient({
                 />
               </div>
 
-              <div className={styles.cardGrid2}>
-                {filteredContent.slice(0, 6).map((item, i) => (
-                  <TwReveal key={item.slug} delay={i * 90}>
-                    <TwArticleCard
-                      title={item.title}
-                      excerpt={item.excerpt}
-                      category={item.category}
-                      date={item.date}
-                      href={item.href}
-                    />
-                  </TwReveal>
-                ))}
-              </div>
+              {mediaState === 'idle' || mediaState === 'loading' ? (
+                <div className={styles.contentStatus}>
+                  <Spinner size='large' label={`Loading ${contentFilter}`} />
+                </div>
+              ) : filteredContent.length === 0 ? (
+                <div className={styles.contentStatus}>
+                  <p>
+                    Nothing to show here right now.{' '}
+                    {mediaFallback.href ? (
+                      <Link href={mediaFallback.href}>
+                        {mediaFallback.label} &#8594;
+                      </Link>
+                    ) : null}
+                  </p>
+                </div>
+              ) : (
+                <div className={styles.cardGrid2}>
+                  {filteredContent.slice(0, 6).map((item, i) => (
+                    <TwReveal key={item.slug} delay={i * 90}>
+                      <TwArticleCard
+                        title={item.title}
+                        excerpt={item.excerpt}
+                        category={item.category}
+                        date={item.date}
+                        href={item.href}
+                        external={item.external}
+                        image={item.image}
+                        imageAlt=''
+                      />
+                    </TwReveal>
+                  ))}
+                </div>
+              )}
 
               <div className={styles.viewAll}>
-                <Link href='/blog'>Explore the full Content Hub &#8594;</Link>
+                {mediaFallback.href && filteredContent.length > 0 ? (
+                  <Link href={mediaFallback.href}>
+                    {mediaFallback.label} &#8594;
+                  </Link>
+                ) : null}
+                <Link href='/content-hub'>
+                  Explore the full Content Hub &#8594;
+                </Link>
               </div>
             </div>
           </div>

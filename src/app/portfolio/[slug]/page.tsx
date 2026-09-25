@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
 import { getAllContent, getContentBySlug } from '@/lib/content';
@@ -59,7 +58,7 @@ export default async function PortfolioEntryPage({ params }: Props) {
         links={PORTFOLIO_NAV_LINKS}
       />
       <main className={styles.view}>
-        <Script
+        <script
           id={`portfolio-schema-${slug}`}
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: safeJsonLd(portfolioSchema) }}

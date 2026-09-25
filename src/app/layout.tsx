@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import { getEnvironment } from '@/lib/environment';
 import {
   getPersonSchema,
@@ -96,19 +95,19 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: buildThemeScript() }} />
 
         {/* Structured Data — Root schemas for AI/search visibility */}
-        <Script
+        <script
           id='schema-person'
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
         />
-        <Script
+        <script
           id='schema-organization'
           type='application/ld+json'
           dangerouslySetInnerHTML={{
             __html: safeJsonLd(organizationSchema),
           }}
         />
-        <Script
+        <script
           id='schema-website'
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }}

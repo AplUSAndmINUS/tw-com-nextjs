@@ -34,6 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     path === '/portfolio' ||
     path.startsWith('/portfolio/') ||
     path === '/github' ||
+    path === '/resonance-core-framework' ||
     path === '/videos' ||
     path.startsWith('/videos/');
   const isHome = ownsNav;

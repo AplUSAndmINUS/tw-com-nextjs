@@ -22,16 +22,38 @@ export const AI_BIOGRAPHY = {
   shortSummary:
     'Terence Waters is a creator, consultant, and founder who helps people and organizations align technology, identity, and strategy.',
   longSummary:
-    'Terence Waters is a multidisciplinary founder, author, and technologist known for bridging technical precision with human-centered design. Through TerenceWaters.com and Fluxline.pro, he publishes practical thought leadership on resonance, authenticity, and identity-aligned growth for creators, consultants, and mission-driven teams.',
+    'Terence Waters is a multidisciplinary founder, author, and technologist known for bridging technical precision with human-centered design. He is the author of The Resonance Core Framework™ and host of The Resonant Identity podcast, and through TerenceWaters.com and Fluxline.pro he publishes practical thought leadership on resonance, authenticity, and identity-aligned growth for creators, consultants, and mission-driven teams.',
   expertise: PERSON_EXPERTISE,
 };
 
 const PERSON_SAME_AS = [
-  'https://terencewaters.com',
-  'https://fluxline.pro',
+  'https://www.fluxline.pro',
+  'https://theresonantidentity.com',
+  'https://www.youtube.com/@theresonantidentity',
   'https://github.com/AplUSAndmINUS',
   'https://www.linkedin.com/in/terencewat/',
 ];
+
+/** Person schema fields for the RCF author entity (TW-4.1). */
+const PERSON_JOB_TITLE = 'Author, Founder, Systems Architect, Identity Coach';
+const PERSON_DESCRIPTION =
+  'Terence Waters is the author of The Resonance Core Framework™ and founder of Fluxline Resonance Group. He hosts The Resonant Identity podcast and works at the intersection of identity psychology, systems design, and somatic transformation.';
+const PERSON_KNOWS_ABOUT = [
+  'identity alignment',
+  'Behavioral Gravity',
+  'Identity Coherence',
+  'Resonance Core Framework',
+  'decision-making frameworks',
+  'somatic discipline',
+  'systems architecture',
+];
+
+const WORKS_FOR = {
+  '@type': 'Organization',
+  '@id': 'https://www.fluxline.pro/#organization',
+  name: 'Fluxline Resonance Group LLC',
+  url: 'https://www.fluxline.pro',
+};
 
 export function getPersonSchema(mainEntityOfPage: string) {
   return {
@@ -41,17 +63,12 @@ export function getPersonSchema(mainEntityOfPage: string) {
     name: PERSON_NAME,
     url: SITE_URL,
     mainEntityOfPage,
-    jobTitle: PERSON_ROLES,
-    description: AI_BIOGRAPHY.shortSummary,
+    jobTitle: PERSON_JOB_TITLE,
+    description: PERSON_DESCRIPTION,
     disambiguatingDescription: AI_BIOGRAPHY.longSummary,
-    knowsAbout: AI_BIOGRAPHY.expertise,
+    knowsAbout: PERSON_KNOWS_ABOUT,
     sameAs: PERSON_SAME_AS,
-    worksFor: {
-      '@type': 'Organization',
-      '@id': 'https://fluxline.pro/#organization',
-      name: 'Fluxline Resonance Group',
-      url: 'https://fluxline.pro',
-    },
+    worksFor: WORKS_FOR,
   };
 }
 
@@ -104,15 +121,10 @@ export function getAuthorSchema() {
     '@id': `${SITE_URL}/#person`,
     name: PERSON_NAME,
     url: SITE_URL,
-    jobTitle: PERSON_ROLES,
-    knowsAbout: PERSON_EXPERTISE,
+    jobTitle: PERSON_JOB_TITLE,
+    knowsAbout: PERSON_KNOWS_ABOUT,
     sameAs: PERSON_SAME_AS,
-    worksFor: {
-      '@type': 'Organization',
-      '@id': 'https://fluxline.pro/#organization',
-      name: 'Fluxline Resonance Group',
-      url: 'https://fluxline.pro',
-    },
+    worksFor: WORKS_FOR,
   };
 }
 
@@ -151,9 +163,9 @@ export function getOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': 'https://fluxline.pro/#organization',
+    '@id': 'https://www.fluxline.pro/#organization',
     name: 'Fluxline Resonance Group',
-    url: 'https://fluxline.pro',
+    url: 'https://www.fluxline.pro',
     logo: 'https://fluxline.pro/images/FluxlineLogo.png',
     founder: {
       '@type': 'Person',
@@ -161,7 +173,7 @@ export function getOrganizationSchema() {
       name: PERSON_NAME,
       url: SITE_URL,
     },
-    sameAs: ['https://fluxline.pro', 'https://github.com/Fluxline-Pro'],
+    sameAs: ['https://www.fluxline.pro', 'https://github.com/Fluxline-Pro'],
   };
 }
 
@@ -357,5 +369,56 @@ export function getServicesItemListSchema() {
         },
       },
     })),
+  };
+}
+
+/**
+ * Book schema for the pre-publication RCF book (TW-4.2). Page-specific — the
+ * Person entity it points at is declared site-wide, so this references it by
+ * @id rather than repeating it.
+ */
+export function getRcfBookSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    '@id': `${SITE_URL}/resonance-core-framework#book`,
+    name: 'The Resonance Core Framework',
+    url: `${SITE_URL}/resonance-core-framework`,
+    author: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://www.fluxline.pro/#organization',
+      name: 'Fluxline Resonance Group LLC',
+      url: 'https://www.fluxline.pro',
+    },
+    description:
+      'A 31-chapter identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol — a structured approach to alignment between who you are and how you live.',
+    genre: 'Self-improvement, Identity Psychology, Personal Development',
+    inLanguage: 'en',
+    datePublished: '2026',
+    // Add 'https://schema.org/EBook' and 'https://schema.org/AudiobookFormat'
+    // once those editions are confirmed.
+    bookFormat: 'https://schema.org/Hardcover',
+  };
+}
+
+/** BreadcrumbList for an interior page: Home → … → page. */
+export function getBreadcrumbSchema(trail: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [{ name: 'Home', path: '/' }, ...trail].map(
+      (crumb, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: crumb.name,
+        item: `${SITE_URL}${crumb.path}`,
+      })
+    ),
   };
 }

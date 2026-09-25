@@ -38,6 +38,12 @@ export interface ContentItem {
   structuredSummary?: string;
   keyInsights?: string[];
   faq?: FAQItem[];
+  /**
+   * Unpublished draft (e.g. awaiting author copy). Drafts build on dev/test
+   * for review but are left out of production pages, listings, and the
+   * sitemap. See isPublishable in lib/content.
+   */
+  draft?: boolean;
 }
 
 export interface VideoItem {

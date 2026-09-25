@@ -15,6 +15,8 @@ export interface TwHeroProps {
    */
   eyebrow?: string;
   title: string;
+  /** Line directly under the H1 — e.g. roles. Rendered in the initial HTML. */
+  subtitle?: React.ReactNode;
   body?: JSX.Element | string;
   quote?: string;
   primaryCta?: TwHeroCta;
@@ -57,6 +59,7 @@ export interface TwHeroProps {
 export function TwHero({
   eyebrow,
   title,
+  subtitle,
   body,
   quote,
   primaryCta,
@@ -115,6 +118,7 @@ export function TwHero({
         <div className={styles.card}>
           {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
           <h1 className={styles.title}>{title}</h1>
+          {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
           {body ? <p className={styles.body}>{body}</p> : null}
 
           {tagline || location ? (

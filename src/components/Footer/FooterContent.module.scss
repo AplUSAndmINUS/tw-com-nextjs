@@ -98,6 +98,33 @@
 }
 
 /* ===== Bottom bar ===== */
+.ecosystem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 20px;
+  padding: 12px 0;
+  font-size: 0.875rem;
+
+  a {
+    color: var(--tw-text-body);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--tw-accent);
+    text-decoration: underline;
+  }
+}
+
+.ecosystemTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tw-text-muted);
+}
+
 .bottomBar {
   display: flex;
   flex-direction: column;
