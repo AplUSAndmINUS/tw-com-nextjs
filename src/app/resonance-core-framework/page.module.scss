@@ -68,6 +68,9 @@
 .concept {
   display: flex;
   flex-direction: column;
+  // Fill the grid cell so cards in a row share a height; border-box keeps the
+  // padding and border inside that 100% instead of spilling into the next row.
+  box-sizing: border-box;
   height: 100%;
   text-decoration: none;
   color: inherit;
