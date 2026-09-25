@@ -19,7 +19,9 @@
  * visible instead — content availability beats the animation.
  */
 :global(html.no-js) .reveal,
-:global(noscript) ~ * .reveal {
+:global(noscript) ~ * .reveal,
+:global(html.no-js) .reveal > *,
+:global(noscript) ~ * .reveal > * {
   opacity: 1 !important;
   animation: none !important;
   transform: none !important;
