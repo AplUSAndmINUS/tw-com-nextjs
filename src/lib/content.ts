@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { ContentItem, FAQItem, GalleryItem, ContentType } from '@/content/types';
+import { getEnvironment } from '@/lib/environment';
 
 const CONTENT_DIR = path.join(process.cwd(), 'public');
 
@@ -160,7 +161,16 @@ function mapFrontmatter(
     structuredSummary: (data.structuredSummary as string) ?? undefined,
     keyInsights: validateStringArray(data.keyInsights),
     faq: validateFaqItems(data.faq),
+    draft: data.draft === true ? true : undefined,
   };
+}
+
+/**
+ * Drafts are visible on the gated dev/test builds so they can be reviewed, and
+ * never reach production — no page, no listing, no sitemap entry.
+ */
+function isPublishable(item: ContentItem): boolean {
+  return !item.draft || getEnvironment() !== 'prod';
 }
 
 /**
@@ -242,7 +252,9 @@ export async function getAllContent(type: string): Promise<ContentItem[]> {
     }
   }
 
-  return items.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return items
+    .filter(isPublishable)
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export async function getContentBySlug(
@@ -255,5 +267,6 @@ export async function getContentBySlug(
   const raw = fs.readFileSync(filePath, 'utf-8');
   const { data, content } = matter(raw);
   const contentType = type as ContentType;
-  return mapFrontmatter(slug, data, content, contentType);
+  const item = mapFrontmatter(slug, data, content, contentType);
+  return isPublishable(item) ? item : null;
 }

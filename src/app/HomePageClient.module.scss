@@ -96,6 +96,13 @@
   border-bottom: 1px solid var(--tw-border-subtle);
 }
 
+.bookCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
 .resonanceGrid {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
@@ -314,6 +321,24 @@
   margin-top: 24px;
 }
 
+// Loading / empty state for the Podcast and Video filters.
+.contentStatus {
+  margin-top: 28px;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--tw-font);
+  color: var(--tw-text-soft);
+
+  a,
+  a:any-link {
+    color: var(--tw-accent);
+    font-weight: 700;
+  }
+}
+
 .viewAll {
   margin-top: 34px;
   display: flex;
@@ -440,6 +465,7 @@
 
 .quote {
   margin: var(--tw-space-l) 0 0;
+  max-width: 60ch;
   padding: var(--tw-space-xs) var(--tw-space-m);
   border-left: 3px solid var(--tw-accent);
   font-family: var(--tw-font-body);
