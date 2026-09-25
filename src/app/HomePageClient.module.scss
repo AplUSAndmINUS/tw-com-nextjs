@@ -465,6 +465,7 @@
 
 .quote {
   margin: var(--tw-space-l) 0 0;
+  max-width: 60ch;
   padding: var(--tw-space-xs) var(--tw-space-m);
   border-left: 3px solid var(--tw-accent);
   font-family: var(--tw-font-body);
