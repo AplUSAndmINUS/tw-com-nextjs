@@ -140,6 +140,11 @@
   & + & {
     margin-top: 16px;
   }
+
+  a {
+    color: var(--tw-accent);
+    text-underline-offset: 3px;
+  }
 }
 
 .lead {

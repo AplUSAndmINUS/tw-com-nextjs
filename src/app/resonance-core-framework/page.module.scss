@@ -1,0 +1,184 @@
+@use 'abstracts' as *;
+
+/**
+ * /resonance-core-framework
+ * =========================
+ *
+ * Token-only styles (every value resolves through a --tw-* property) so the page
+ * follows all theme modes. Section rhythm mirrors the About page.
+ */
+
+.page {
+  min-height: 100vh;
+  background: var(--tw-bg-page);
+  scroll-padding-top: var(--tw-nav-height);
+}
+
+.section {
+  position: relative;
+  padding-block: 80px;
+  background: var(--tw-bg-page);
+  scroll-margin-top: var(--tw-nav-height);
+
+  @include until('mobile-lg') {
+    padding-block: 52px;
+  }
+}
+
+.sectionAlt {
+  background: var(--tw-gradient-feature);
+  border-top: 1px solid var(--tw-border-subtle);
+  border-bottom: 1px solid var(--tw-border-subtle);
+}
+
+.container {
+  position: relative;
+  max-width: var(--tw-container);
+  margin: 0 auto;
+  padding: 0 var(--tw-container-pad);
+}
+
+.prose,
+.lead {
+  font-family: var(--tw-font-body);
+  font-size: 1.03125rem;
+  line-height: 1.85;
+  color: var(--tw-text-body);
+  margin: 22px 0 0;
+  max-width: 68ch;
+
+  a {
+    color: var(--tw-accent);
+  }
+}
+
+.lead {
+  font-size: 1.125rem;
+  color: var(--tw-text-bright);
+  line-height: 1.75;
+}
+
+.conceptGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.concept {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding: 20px 22px;
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  scroll-margin-top: calc(var(--tw-nav-height) + 16px);
+}
+
+.concept:hover {
+  border-color: var(--tw-accent);
+}
+
+.conceptMore {
+  margin-top: auto;
+  padding-top: 10px;
+  font-family: var(--tw-font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--tw-accent);
+}
+
+.concept:target {
+  border-color: var(--tw-accent);
+}
+
+.conceptName {
+  margin: 0 0 8px;
+  font-family: var(--tw-font);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+}
+
+.conceptBody {
+  margin: 0;
+  font-family: var(--tw-font-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--tw-text-muted);
+}
+
+.bookGrid {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.bookImage {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: var(--tw-radius-card);
+  border: 1px solid var(--tw-border);
+  background: #000;
+}
+
+.bookFacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px 24px;
+  margin: 24px 0 0;
+
+  dt {
+    font-family: var(--tw-font-mono);
+    font-size: var(--tw-meta-size);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tw-text-mist);
+  }
+
+  dd {
+    margin: 4px 0 0;
+    font-family: var(--tw-font);
+    font-weight: 600;
+    color: var(--tw-text-heading);
+  }
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.outbound {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+
+  a {
+    font-family: var(--tw-font);
+    font-weight: 600;
+    color: var(--tw-accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}

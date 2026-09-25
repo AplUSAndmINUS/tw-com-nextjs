@@ -1,8 +1,5 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 import { getRobotsConfig } from '@/utils/metadata';
-import { getPersonSchema } from '@/utils/structuredData';
-import { safeJsonLd } from '@/utils/safeJsonLd';
 import { getAllContent } from '@/lib/content';
 import type { ContentItem } from '@/content/types';
 import HomePageClient, { type HomeCard } from './HomePageClient';
@@ -23,26 +20,34 @@ function toCard(item: ContentItem, basePath: string): HomeCard {
   };
 }
 
+const TITLE =
+  'Terence Waters — Author of The Resonance Core Framework™ | Founder, Fluxline Resonance Group';
+const DESCRIPTION =
+  'Terence Waters is the author of The Resonance Core Framework™ — a structured identity system for alignment, decision integrity, and embodied transformation. Founder of Fluxline Resonance Group.';
+
 export const metadata: Metadata = {
-  title: 'Terence Waters - Author, Technologist, Creative Thinker',
-  description:
-    'Welcome to the personal website of Terence Waters, an author, technologist, and creative thinker. Explore his blog, portfolio, and case studies.',
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
+  alternates: { canonical: '/' },
   openGraph: {
-    title: 'Terence Waters - Author, Technologist, Creative Thinker',
-    description:
-      'Welcome to the personal website of Terence Waters, an author, technologist, and creative thinker. Explore his blog, portfolio, and case studies.',
+    title: TITLE,
+    description: DESCRIPTION,
     url: 'https://terencewaters.com',
     siteName: 'Terence Waters',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: DESCRIPTION,
+    creator: '@TerenceWaters',
   },
   robots: getRobotsConfig(),
 };
 
 // Static export: content is read from disk at build time.
 export default async function HomePage() {
-  const personSchema = getPersonSchema('https://terencewaters.com');
-
   const [blog, portfolio] = await Promise.all([
     getAllContent('blog'),
     getAllContent('portfolio'),
@@ -56,21 +61,14 @@ export default async function HomePage() {
 
   // Portfolio section: portfolio pieces. (Case studies live on Fluxline.pro and
   // are reached from the Content Hub drawer, not duplicated here.)
-  const portfolioCards: HomeCard[] = portfolio
-    .slice(0, 4)
-    .map((item) => ({
-      ...toCard(item, '/portfolio'),
-      category: item.category ?? 'Portfolio',
-    }));
+  const portfolioCards: HomeCard[] = portfolio.slice(0, 4).map((item) => ({
+    ...toCard(item, '/portfolio'),
+    category: item.category ?? 'Portfolio',
+  }));
 
   return (
-    <>
-      <Script
-        id='homepage-person-schema'
-        type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
-      />
-      <HomePageClient content={content} portfolio={portfolioCards} />
-    </>
+    // The Person schema (TW-4.1) is emitted once, site-wide, by the root
+    // layout — repeating it here would duplicate the entity on this page.
+    <HomePageClient content={content} portfolio={portfolioCards} />
   );
 }
