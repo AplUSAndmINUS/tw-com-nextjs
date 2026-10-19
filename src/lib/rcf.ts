@@ -27,9 +27,14 @@ export const RCF_BOOK = {
   title: 'The Resonance Core Framework™',
   publisher: 'Fluxline Resonance Group',
   publicationDate: 'Targeted for Q1 2027',
+  preorders: 'Opening in early November 2026',
   formats: ['Hardcover', 'eBook', 'Audiobook'],
   structure: '31 chapters across four parts',
 };
+
+/** One-line book date for book-focused passages: launch plus preorders. */
+export const RCF_BOOK_DATE_LINE =
+  'The book is targeted for Q1 2027, with preorders opening in early November 2026.';
 
 /**
  * Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027).

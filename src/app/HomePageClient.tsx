@@ -30,6 +30,7 @@ import {
 } from './home/homeData';
 import {
   RCF_BOOK_BLURB,
+  RCF_BOOK_DATE_LINE,
   RCF_NOTIFY_HREF,
   RCF_PATH,
   RCF_TRADEMARK,
@@ -256,6 +257,7 @@ export default function HomePageClient({
                 title='The Resonance Core Framework™: Targeted for Q1 2027'
               />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
+              <p className={styles.prose}>{RCF_BOOK_DATE_LINE}</p>
               <blockquote className={styles.quote}>
                 Resonance is when your identity, your systems, and your actions
                 finally operate on the same frequency. My work — architectural,
