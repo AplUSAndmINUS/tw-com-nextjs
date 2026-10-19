@@ -253,7 +253,7 @@ export default function HomePageClient({
             <TwReveal stagger>
               <TwSectionHeading
                 kicker='The Book'
-                title='The Resonance Core Framework™ — Coming Late Fall 2026'
+                title='The Resonance Core Framework™: Targeted for Q1 2027'
               />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
               <blockquote className={styles.quote}>
