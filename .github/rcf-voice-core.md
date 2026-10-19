@@ -28,6 +28,7 @@ Owner: Terence Waters, Fluxline Resonance Group, LLC. Audit date: 2026-10-11. Au
 ### Owner decisions, 2026-10-19
 
 - **Creative Truth** is a Core Value only.
+- **The Decision Integrity Index (The DII):** always 'The Decision Integrity Index' / 'The DII', capitalized 'The'; 'DII Protocol' is retired (owner, 2026-10-19).
 - The consultation CTA reads **"Book a Free Consultation"**.
 - The Fluxline footer label is **"Fluxline Ecosystem"**.
 - **Universal Truths** wording: "The RCF's Universal Truths, which shape Fluxline's ethos and mission".
@@ -42,7 +43,7 @@ Owner: Terence Waters, Fluxline Resonance Group, LLC. Audit date: 2026-10-11. Au
 - Six core values: Embodied Awareness, Modular Precision, Resilient Alignment, Somatic Discipline, Creative Truth, Strategic Innovation. (Identity Alignment is a construct. Legacy Resonance, Systemic Coherence and Embodied Integration are Meta-Values. Never mix the three.)
 - DRIVE (Directional, Repeatable, Identity-Aligned Virtuous Expressions).
 - Judgment Loop, Data Loop, Behavioral Gravity, Identity Coherence, Window of Choice, Distortion, Truth, the First Gate, Cues (a synonym for Signals), Guardrails.
-- Decision Integrity Index (DII), Self-State Integrity (SSI), Emotional Return on Investment (EROI), System Impact / Shadow Index (SI), Decision Alignment Score (DAS), Resonance Integrity Score (RIS), Threshold Integrity Score (TIS). Always "Decision Integrity Index."
+- The Decision Integrity Index (The DII), Self-State Integrity (SSI), Emotional Return on Investment (EROI), System Impact / Shadow Index (SI), Decision Alignment Score (DAS), Resonance Integrity Score (RIS), Threshold Integrity Score (TIS). Always 'The Decision Integrity Index' / 'The DII', capitalized 'The'; 'DII Protocol' is retired (owner, 2026-10-19).
 - Fluxline, "Structure the Shift", "Modular by design. Resonant by nature.", "Resonance, not force."
 - Mission line approved for reuse: "Fluxline builds systems that work, brands that connect, and practices that last."
 - Fluxline Ecosystem: "a workflow of apps, services, and frameworks based off The Resonant Identity Podcast and The Resonance Core Framework™ to support human growth, transformation, and data-driven decision-making."
@@ -53,25 +54,25 @@ You may add a one-sentence gloss beside a locked term. You may not change the te
 
 Use these wording choices. Add one gloss at the **first use on each page**, then use the term normally. If a term is not in this table, **do not invent a gloss**; flag it.
 
-| Term                           | Gloss                                                                                                                                           |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| The Resonance Core Framework™  | A practical system for making change that holds, built on alignment rather than force.                                                          |
-| Resonance                      | Alignment between your identity, values, feelings, and actions.                                                                                 |
-| Behavioral Gravity             | The pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up.  |
-| Identity Coherence             | When your values, expression, and behavior agree.                                                                                               |
-| Window of Choice               | The space between a trigger and your response where a conscious, identity-aligned choice becomes possible.                                      |
-| DRIVE                          | Directional, Repeatable, Identity-Aligned Virtuous Expressions: repeatable actions that move you toward the person you are becoming.            |
-| DRIVE Model                    | Six stages (Spark, Coherence, Activation, Momentum, Endurance, Embodiment) that carry a DRIVE from first spark to lived identity.               |
-| Judgment Loop                  | The cycle where judgments about yourself and others reinforce a distorted view of identity.                                                     |
-| Data Loop                      | The practice of treating Cues as information: notice them, trace where they come from, test whether they are true, then decide.                 |
-| Cues                           | The thoughts, emotions, and body signals you read as information.                                                                               |
-| The First Gate                 | Your body and nervous system, where Cues start and reality gets formed.                                                                         |
-| Decision Integrity Index (DII) | The RCF's way of checking whether a decision lines up with your identity and values.                                                            |
-| Decision Alignment Score (DAS) | The score a single decision earns inside the DII.                                                                                               |
-| The Human Element              | The shared layer of emotion, sensation and intuition that shapes how people respond before they think or speak.                                 |
-| Attunement                     | Meeting another person's cues with presence and steadiness, staying rooted in your own resonance instead of absorbing or mirroring their state. |
-| Somatic Discipline             | Reading and regulating your Somatic and Emotional Cues in real time, so you respond from alignment instead of reactivity.                       |
-| Whole-Brain Listening          | Listening with cognitive clarity, emotional attunement and somatic awareness at once, so you hear what is meant as well as what is said.        |
+| Term                                   | Gloss                                                                                                                                           |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| The Resonance Core Framework™          | A practical system for making change that holds, built on alignment rather than force.                                                          |
+| Resonance                              | Alignment between your identity, values, feelings, and actions.                                                                                 |
+| Behavioral Gravity                     | The pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up.  |
+| Identity Coherence                     | When your values, expression, and behavior agree.                                                                                               |
+| Window of Choice                       | The space between a trigger and your response where a conscious, identity-aligned choice becomes possible.                                      |
+| DRIVE                                  | Directional, Repeatable, Identity-Aligned Virtuous Expressions: repeatable actions that move you toward the person you are becoming.            |
+| DRIVE Model                            | Six stages (Spark, Coherence, Activation, Momentum, Endurance, Embodiment) that carry a DRIVE from first spark to lived identity.               |
+| Judgment Loop                          | The cycle where judgments about yourself and others reinforce a distorted view of identity.                                                     |
+| Data Loop                              | The practice of treating Cues as information: notice them, trace where they come from, test whether they are true, then decide.                 |
+| Cues                                   | The thoughts, emotions, and body signals you read as information.                                                                               |
+| The First Gate                         | Your body and nervous system, where Cues start and reality gets formed.                                                                         |
+| The Decision Integrity Index (The DII) | The RCF's way of checking whether a decision lines up with your identity and values.                                                            |
+| Decision Alignment Score (DAS)         | The score a single decision earns inside The DII.                                                                                               |
+| The Human Element                      | The shared layer of emotion, sensation and intuition that shapes how people respond before they think or speak.                                 |
+| Attunement                             | Meeting another person's cues with presence and steadiness, staying rooted in your own resonance instead of absorbing or mirroring their state. |
+| Somatic Discipline                     | Reading and regulating your Somatic and Emotional Cues in real time, so you respond from alignment instead of reactivity.                       |
+| Whole-Brain Listening                  | Listening with cognitive clarity, emotional attunement and somatic awareness at once, so you hear what is meant as well as what is said.        |
 
 **Do not add** any DII scale, scoring formula, or number meaning. Existing mentions of "1 to 5" are Hold items.
 

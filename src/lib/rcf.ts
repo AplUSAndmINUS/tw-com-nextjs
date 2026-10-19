@@ -46,7 +46,7 @@ export const RCF_CANONICAL_PARAGRAPH =
 
 /** Homepage book section body (TW-1.3). */
 export const RCF_BOOK_BLURB =
-  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions. It covers Behavioral Gravity (the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up), the Judgment Loop (the cycle where judgments about yourself and others reinforce a distorted view of identity), and the Decision Integrity Index (DII), which gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
+  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions. It covers Behavioral Gravity (the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up), the Judgment Loop (the cycle where judgments about yourself and others reinforce a distorted view of identity), and The Decision Integrity Index (The DII), which gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
 
 /**
  * Core concepts — one-line summaries only. The full, canonical definitions
@@ -102,14 +102,14 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
   },
   {
     id: 'dii-protocol',
-    name: 'DII Protocol (Decision Integrity Index)',
+    name: 'The Decision Integrity Index (The DII)',
     summary: 'A 1–5 way to score how well a decision aligns with who you are.',
   },
   {
     id: 'decision-alignment-score',
     name: 'Decision Alignment Score (DAS)',
     summary:
-      'The score a single decision earns inside the DII, drawn from Self-State Integrity (SSI), Emotional Return on Investment (EROI), and System Impact / Shadow Index (SI).',
+      'The score a single decision earns inside The DII, drawn from Self-State Integrity (SSI), Emotional Return on Investment (EROI), and System Impact / Shadow Index (SI).',
   },
 ];
 

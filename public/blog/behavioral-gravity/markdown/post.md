@@ -62,7 +62,7 @@ The practice is simple, though not always easy: pause, notice your own state fir
 
 If you want the other half of the story, what it feels like when something *does* resonate, read [The Philosophy of Resonance](/blog/resonance-philosophy).
 
-Behavioral Gravity is one of the named concepts in [The Resonance Core Framework™](/resonance-core-framework), alongside Identity Coherence, the Window of Choice, the DRIVE Model (DRIVE stands for Directional, Repeatable, Identity-Aligned Virtuous Expressions), and the DII Protocol. You can read every concept's full definition in the [complete framework reference](https://www.fluxline.pro/resonance-core-framework#core-concepts).
+Behavioral Gravity is one of the named concepts in [The Resonance Core Framework™](/resonance-core-framework), alongside Identity Coherence, the Window of Choice, the DRIVE Model (DRIVE stands for Directional, Repeatable, Identity-Aligned Virtuous Expressions), and The Decision Integrity Index (The DII). You can read every concept's full definition in the [complete framework reference](https://www.fluxline.pro/resonance-core-framework#core-concepts).
 
 **Hear Behavioral Gravity in practice → [The Resonant Identity Podcast](https://theresonantidentity.com)**
 

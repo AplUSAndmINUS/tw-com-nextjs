@@ -151,8 +151,8 @@ export default function AboutPage() {
               book and identity system bridging somatic intelligence, decision
               science, and behavioral psychology. The framework&apos;s core
               concepts, including Behavioral Gravity, Identity Coherence, the
-              Window of Choice, Creative Truth, and the Decision Integrity Index
-              (DII), emerged from over a decade of applied work at the
+              Window of Choice, Creative Truth, and The Decision Integrity Index
+              (The DII), emerged from over a decade of applied work at the
               intersection of systems design and human transformation. The RCF
               is the theoretical foundation of{' '}
               <a href={TRI_URL}>The Resonant Identity podcast</a> and the
