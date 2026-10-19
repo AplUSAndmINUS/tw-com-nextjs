@@ -23,7 +23,7 @@ export const FLUXLINE_RCF_URL =
 export const RCF_NOTIFY_HREF = 'https://fluxline.pro/contact';
 
 export const RCF_BOOK = {
-  title: 'The Resonance Core Framework',
+  title: 'The Resonance Core Framework™',
   publisher: 'Fluxline Resonance Group',
   publicationDate: 'Targeted for Q1 2027',
   formats: ['Hardcover', 'eBook', 'Audiobook'],

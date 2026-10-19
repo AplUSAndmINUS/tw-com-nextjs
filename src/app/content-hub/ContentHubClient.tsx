@@ -162,7 +162,7 @@ export default function ContentHubClient({
           <BookIcon size={40} className={styles.icon} />
           <span className={styles.cardTitle}>Books</span>
           <span className={styles.cardBody}>
-            The Resonance Core Framework — a practical guide to rebuilding your
+            The Resonance Core Framework™: a practical guide to rebuilding your
             internal systems with intention.
           </span>
           <span className={styles.cardCta}>
