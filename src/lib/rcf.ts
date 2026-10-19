@@ -30,9 +30,13 @@ export const RCF_BOOK = {
   structure: '31 chapters across four parts',
 };
 
-/** Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027). */
+/**
+ * Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027).
+ * It opens the Overview on /resonance-core-framework, so it points to the Core
+ * Concepts section instead of naming concepts before they are glossed.
+ */
 export const RCF_CANONICAL_PARAGRAPH =
-  'The Resonance Core Framework™ is a structured identity system built on the principle that sustainable change requires alignment, not force. Written by Terence Waters and developed through Fluxline Resonance Group, the RCF maps three dimensions of identity (inner signal, outward expression, and systemic impact) and provides named conceptual tools: Behavioral Gravity, Identity Coherence, the Window of Choice, the DRIVE Model, Creative Truth, and the DII Protocol. It is the foundation of The Resonant Identity podcast and of the book, targeted for Q1 2027.';
+  'The Resonance Core Framework™ is a structured identity system built on the principle that sustainable change requires alignment, not force. Written by Terence Waters and developed through Fluxline Resonance Group, the RCF maps three dimensions of identity (inner signal, outward expression, and systemic impact) and provides named conceptual tools, each defined in one sentence under Core Concepts below. It is the foundation of The Resonant Identity podcast and of the book, targeted for Q1 2027.';
 
 /** Homepage book section body (TW-1.3). */
 export const RCF_BOOK_BLURB =
