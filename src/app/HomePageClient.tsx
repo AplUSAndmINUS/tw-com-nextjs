@@ -273,6 +273,13 @@ export default function HomePageClient({
                   Listen to the Podcast →
                 </TwButton>
               </div>
+              <p className={styles.prose}>
+                Want to see the Framework at work in a business? Fluxline builds
+                it into strategy, systems, brand, and body.{' '}
+                <a href='https://fluxline.pro/services/'>
+                  See how Fluxline works →
+                </a>
+              </p>
             </TwReveal>
           </div>
         </div>
