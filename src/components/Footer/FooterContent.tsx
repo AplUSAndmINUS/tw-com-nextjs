@@ -22,7 +22,7 @@ const footerLinks = {
     { href: '/content-hub', label: 'Content Hub' },
   ],
   work: [
-    { href: '/podcasts/theresonantid', label: 'The Resonant Identity Podcast', },
+    { href: '/podcasts/theresonantid', label: 'The Resonant Identity Podcast' },
     {
       href: '/resonance-core-framework',
       label: 'The Resonance Core Framework™',
@@ -82,7 +82,10 @@ function FooterLinkSection({
           }
         />
       ) : (
-        <ul className={`${styles.linkList} ${isCompact ? styles.linkListCompact : ''}`} role='list'>
+        <ul
+          className={`${styles.linkList} ${isCompact ? styles.linkListCompact : ''}`}
+          role='list'
+        >
           {links.map(({ href, label }) => (
             <li key={href}>
               <ThemedLink href={href} variant='small' isFooter>
@@ -347,10 +350,7 @@ export function FooterContent({
           {/* Brand */}
           <div>
             {/* Switched Typography and ThemedLink JSX so the link can be styled based on theme and compact mode -TW */}
-            <Typography
-              variant='h4'
-              className={styles.brandTitle}
-            >
+            <Typography variant='h4' className={styles.brandTitle}>
               <ThemedLink
                 href='/'
                 className={styles.brandLink}
@@ -368,7 +368,11 @@ export function FooterContent({
             <Typography
               variant='h3'
               className={styles.brandTagline}
-              style={{ fontSize: '1.25rem', fontStyle: 'italic', marginTop: '0.25rem' }}
+              style={{
+                fontSize: '1.25rem',
+                fontStyle: 'italic',
+                marginTop: '0.25rem',
+              }}
             >
               "Know who you are and what you stand for!" <br />
               <em style={{ fontWeight: 300 }}>
@@ -412,7 +416,9 @@ export function FooterContent({
             anchors with rel="me" so search engines tie the three sites to one
             identity. */}
         <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
-          <span className={styles.ecosystemTitle}>More from Terence Waters</span>
+          <span className={styles.ecosystemTitle}>
+            More from Terence Waters
+          </span>
           <a href='https://theresonantidentity.com' rel='me'>
             The Resonant Identity Podcast
           </a>

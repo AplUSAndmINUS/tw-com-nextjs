@@ -167,7 +167,10 @@ function TRIYouTubeVideos() {
               }}
               aria-label={video.title}
             >
-              <div className={styles.videoThumbWrap} style={{ paddingTop: '56.25%' }}>
+              <div
+                className={styles.videoThumbWrap}
+                style={{ paddingTop: '56.25%' }}
+              >
                 {video.thumbnailUrl ? (
                   <NativeLoadingImage
                     src={video.thumbnailUrl}
