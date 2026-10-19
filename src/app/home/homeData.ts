@@ -15,6 +15,8 @@
  * is now the canonical on-site description of each offering.
  */
 
+import { SOCIAL_URLS } from '@/lib/socials';
+
 export interface HomeService {
   title: string;
   slug: string;
@@ -160,22 +162,31 @@ export interface HomeSocial {
 
 /** The About-rail social set. */
 export const aboutSocials: HomeSocial[] = [
-  { name: 'Facebook', icon: 'facebook', href: '#' },
-  { name: 'Instagram', icon: 'instagram', href: '#' },
-  { name: 'TikTok', icon: 'tiktok', href: '#' },
-  { name: 'GitHub', icon: 'github', href: 'https://github.com/AplUSAndmINUS' },
-  { name: 'Threads', icon: 'threads', href: '#' },
-  { name: 'Email', icon: 'mail', href: 'mailto:terence@terencewaters.com' },
+  { name: 'Facebook', icon: 'facebook', href: SOCIAL_URLS.facebook },
+  { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
+  { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
+  { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
+  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
+  { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
+  { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
+  { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
 ];
 
 /** The wider set shown in the newsletter and contact sections. */
 export const wideSocials: HomeSocial[] = [
-  { name: 'LinkedIn', icon: 'linkedin', href: '#' },
-  { name: 'GitHub', icon: 'github', href: 'https://github.com/AplUSAndmINUS' },
-  { name: 'Instagram', icon: 'instagram', href: '#' },
-  { name: 'YouTube', icon: 'youtube', href: '#' },
-  { name: 'Spotify', icon: 'spotify', href: '#' },
-  { name: 'Apple Podcasts', icon: 'apple-podcasts', href: '#' },
-  { name: 'Threads', icon: 'threads', href: '#' },
-  { name: 'RSS', icon: 'rss', href: '#' },
+  { name: 'LinkedIn', icon: 'linkedin', href: SOCIAL_URLS.linkedin },
+  { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
+  { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
+  { name: 'YouTube', icon: 'youtube', href: SOCIAL_URLS.youtube },
+  { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
+  { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
+  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
+  { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
+  {
+    name: 'Apple Podcasts',
+    icon: 'apple-podcasts',
+    href: SOCIAL_URLS.applePodcasts,
+  },
+  { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
+  { name: 'Podcast RSS feed', icon: 'rss', href: SOCIAL_URLS.podcastRss },
 ];

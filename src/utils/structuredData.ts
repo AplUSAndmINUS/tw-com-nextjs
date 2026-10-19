@@ -1,4 +1,5 @@
 import { ContentItem, FAQItem } from '@/content/types';
+import { SOCIAL_URLS } from '@/lib/socials';
 
 const SITE_URL = 'https://terencewaters.com';
 
@@ -29,9 +30,9 @@ export const AI_BIOGRAPHY = {
 const PERSON_SAME_AS = [
   'https://www.fluxline.pro',
   'https://theresonantidentity.com',
-  'https://www.youtube.com/@theresonantidentity',
-  'https://github.com/AplUSAndmINUS',
-  'https://www.linkedin.com/in/terencewat/',
+  SOCIAL_URLS.youtube,
+  SOCIAL_URLS.github,
+  SOCIAL_URLS.linkedin,
 ];
 
 /** Person schema fields for the RCF author entity (TW-4.1). */

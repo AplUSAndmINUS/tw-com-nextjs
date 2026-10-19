@@ -8,6 +8,9 @@ import MicrosoftLogo from '@/assets/svgs/MicrosoftLogo';
 import YouTubeLogo from '@/assets/svgs/YouTubeLogo';
 import TiktokLogo from '@/assets/svgs/TiktokLogo';
 import GithubLogo from '@/assets/svgs/GitHubLogo';
+import TwitchLogo from '@/assets/svgs/TwitchLogo';
+import RedditLogo from '@/assets/svgs/RedditLogo';
+import { SOCIAL_URLS } from '@/lib/socials';
 
 export interface SocialIcon {
   iconName: React.ComponentType<{
@@ -22,49 +25,61 @@ export interface SocialIcon {
 export const getSocialIcons = (): SocialIcon[] => [
   {
     iconName: FacebookLogo,
-    url: 'https://www.facebook.com/aplusinflux',
+    url: SOCIAL_URLS.facebook,
     tooltip: 'Facebook',
     isTagline: true,
   },
   {
     iconName: InstagramLogo,
-    url: 'https://www.instagram.com/aplusinflux',
+    url: SOCIAL_URLS.instagram,
     tooltip: 'Instagram',
     isTagline: true,
   },
   {
     iconName: ThreadsLogo,
-    url: 'https://www.threads.com/@aplusinflux',
+    url: SOCIAL_URLS.threads,
     tooltip: 'Threads',
     isTagline: true,
   },
   {
     iconName: LinkedInLogo,
-    url: 'https://www.linkedin.com/in/terencewaters',
+    url: SOCIAL_URLS.linkedin,
     tooltip: 'LinkedIn',
     isTagline: true,
   },
   {
     iconName: GithubLogo,
-    url: 'https://github.com/aplusandminus',
+    url: SOCIAL_URLS.github,
     tooltip: 'GitHub',
     isTagline: true,
   },
   {
     iconName: YouTubeLogo,
-    url: 'https://www.youtube.com/@TerenceRWaters',
+    url: SOCIAL_URLS.youtube,
     tooltip: 'YouTube',
     isTagline: true,
   },
   {
     iconName: TiktokLogo,
-    url: 'https://www.tiktok.com/@aplusinflux',
+    url: SOCIAL_URLS.tiktok,
     tooltip: 'TikTok',
     isTagline: false,
   },
   {
+    iconName: TwitchLogo,
+    url: SOCIAL_URLS.twitch,
+    tooltip: 'Twitch',
+    isTagline: false,
+  },
+  {
+    iconName: RedditLogo,
+    url: SOCIAL_URLS.reddit,
+    tooltip: 'Reddit',
+    isTagline: false,
+  },
+  {
     iconName: MicrosoftLogo,
-    url: 'https://www.xbox.com/en-US/play/user/APlusInFLUX',
+    url: SOCIAL_URLS.xbox,
     tooltip: 'Xbox',
     isTagline: false,
   },
