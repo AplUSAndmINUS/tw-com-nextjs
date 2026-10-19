@@ -59,7 +59,7 @@ seoKeywords:
 
 ## Project Overview
 
-Built a comprehensive **The Decision Integrity Index (The DII) Dashboard** for Fluxline Resonance Group to transform strategic decision-making through emotional resonance analytics. The platform integrates **Notion API**, **Microsoft 365**, and **Power Automate** to create a unified decision management system that maps all company decisions to emotional archetypes, strategic indexes, and threshold frameworks—ensuring every business move aligns with core values and long-term vision.
+Built **The Decision Integrity Index (The DII) Dashboard**, a comprehensive platform for Fluxline Resonance Group, to transform strategic decision-making through emotional resonance analytics. The platform integrates **Notion API**, **Microsoft 365**, and **Power Automate** to create a unified decision management system that maps all company decisions to emotional archetypes, strategic indexes, and threshold frameworks—ensuring every business move aligns with core values and long-term vision.
 
 ## Business Context
 
