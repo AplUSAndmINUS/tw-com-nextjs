@@ -99,7 +99,7 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
     id: 'decision-alignment-score',
     name: 'Decision Alignment Score (DAS)',
     summary:
-      'The DII’s composite view of a decision, from SSI, EROI, and the Shadow Index.',
+      'The score a single decision earns inside the DII, drawn from Self-State Integrity (SSI), Emotional Return on Investment (EROI), and System Impact / Shadow Index (SI).',
   },
 ];
 
