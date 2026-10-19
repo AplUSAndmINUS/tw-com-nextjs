@@ -33,7 +33,7 @@ const FLUXLINE_SERVICES = 'https://fluxline.pro/services';
 
 export const homeServices: HomeService[] = [
   {
-    title: 'Design & Identity',
+    title: 'Brand & Experience Design',
     slug: 'design',
     category: 'Service',
     excerpt:
@@ -50,7 +50,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Architecture & Development',
+    title: 'Web Development & Digital Architecture',
     slug: 'development',
     category: 'Service',
     excerpt:
@@ -66,7 +66,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Enterprise Consulting',
+    title: 'Business Strategy & Systems Alignment',
     slug: 'consulting',
     category: 'Service',
     excerpt:
@@ -80,21 +80,6 @@ export const homeServices: HomeService[] = [
       'Tech integration & infrastructure planning',
       'Change management and transformation facilitation',
       'Technical due diligence',
-    ],
-  },
-  {
-    title: 'Design Facilitation',
-    slug: 'facilitation',
-    category: 'Service',
-    excerpt:
-      'Workshops that turn messy problems into shared, buildable direction.',
-    blurb:
-      'Facilitated workshops that align teams fast — turning ambiguity into a direction everyone can see and build toward.',
-    points: [
-      'Discovery & alignment workshops',
-      'Journey and service mapping',
-      'Roadmap facilitation',
-      'Design-thinking sessions and critiques',
     ],
   },
   {
