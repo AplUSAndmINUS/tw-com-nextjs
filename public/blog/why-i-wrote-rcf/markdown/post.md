@@ -49,7 +49,7 @@ The framework didn't just help me — it changed me.
 
 ## What the Book Does
 
-The book turns that lived process into something you can use: a practical, trackable, repeatable way to create change through **resonance, not force**. It draws on the RCF's Universal Truths, psychological research, behavioral patterns, systems thinking, and real-world application. It gives you named tools like [Behavioral Gravity](/blog/behavioral-gravity), Identity Coherence, the Window of Choice, the DRIVE Model (DRIVE stands for Directional, Repeatable, Identity-Aligned Virtuous Expressions), and the [DII Protocol](/blog/dii-protocol).
+The book turns that lived process into something you can use: a practical, trackable, repeatable way to create change through **resonance, not force**. It draws on the RCF's Universal Truths, psychological research, behavioral patterns, systems thinking, and real-world application. It gives you named tools like [Behavioral Gravity](/blog/behavioral-gravity), Identity Coherence, the Window of Choice, the DRIVE Model (DRIVE stands for Directional, Repeatable, Identity-Aligned Virtuous Expressions), and [The Decision Integrity Index (The DII)](/blog/dii-protocol).
 
 It's for anyone who wants meaningful change that holds — who feels stuck or misaligned, senses potential but lacks direction, and wants a system they can actually apply.
 
