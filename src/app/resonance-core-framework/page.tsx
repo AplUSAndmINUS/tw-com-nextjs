@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     'Behavioral Gravity',
     'Identity Coherence',
     'Window of Choice',
-    'DRIVE System',
+    'DRIVE Model',
     'Judgment Loop',
     'Data Loop',
     'Creative Truth',

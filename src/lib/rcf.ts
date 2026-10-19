@@ -32,11 +32,11 @@ export const RCF_BOOK = {
 
 /** Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027). */
 export const RCF_CANONICAL_PARAGRAPH =
-  'The Resonance Core Framework™ is a structured identity system built on the principle that sustainable change requires alignment, not force. Written by Terence Waters and developed through Fluxline Resonance Group, the RCF maps three dimensions of identity — inner signal, outward expression, and systemic impact — and provides named conceptual tools: Behavioral Gravity, Identity Coherence, the Window of Choice, the DRIVE System, Creative Truth, and the DII Protocol. It is the foundation of The Resonant Identity podcast and of the book, targeted for Q1 2027.';
+  'The Resonance Core Framework™ is a structured identity system built on the principle that sustainable change requires alignment, not force. Written by Terence Waters and developed through Fluxline Resonance Group, the RCF maps three dimensions of identity (inner signal, outward expression, and systemic impact) and provides named conceptual tools: Behavioral Gravity, Identity Coherence, the Window of Choice, the DRIVE Model, Creative Truth, and the DII Protocol. It is the foundation of The Resonant Identity podcast and of the book, targeted for Q1 2027.';
 
 /** Homepage book section body (TW-1.3). */
 export const RCF_BOOK_BLURB =
-  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions, how Behavioral Gravity creates invisible pull, how the Judgment Loop erodes coherence, and how the DII Protocol gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
+  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions. It covers Behavioral Gravity (the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up), the Judgment Loop (the cycle where judgments about yourself and others reinforce a distorted view of identity), and the DII Protocol, which gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
 
 /**
  * Core concepts — one-line summaries only. The full, canonical definitions
@@ -49,7 +49,7 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
     id: 'behavioral-gravity',
     name: 'Behavioral Gravity',
     summary:
-      "The unconscious pull toward what feels identity-consistent — even when it no longer fits who you're becoming.",
+      'The pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up.',
   },
   {
     id: 'identity-coherence',
@@ -63,11 +63,12 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
     summary:
       'The range of choices you can see and act on — wide when present, narrow under stress.',
   },
+  // Keeps the old "drive-system" slug: it is the anchor on fluxline.pro.
   {
     id: 'drive-system',
-    name: 'The DRIVE System',
+    name: 'The DRIVE Model',
     summary:
-      'How identity-rooted goals become self-sustaining instead of running on willpower.',
+      'DRIVE stands for Directional, Repeatable, Identity-Aligned Virtuous Expressions: repeatable actions that move you toward the person you are becoming. The model has six stages (Spark, Coherence, Activation, Momentum, Endurance, Embodiment) that carry a DRIVE from first spark to lived identity.',
   },
   // The two loop ids keep their old slugs because they are anchors on
   // fluxline.pro/resonance-core-framework. Change them when that page does.
