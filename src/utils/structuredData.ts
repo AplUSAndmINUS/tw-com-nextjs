@@ -398,7 +398,7 @@ export function getRcfBookSchema() {
       url: 'https://www.fluxline.pro',
     },
     description:
-      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
+      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
     genre: 'Self-improvement, Identity Psychology, Personal Development',
     inLanguage: 'en',
     // Add datePublished once the book is out (targeted for Q1 2027).

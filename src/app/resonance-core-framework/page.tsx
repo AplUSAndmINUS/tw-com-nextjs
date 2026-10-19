@@ -28,7 +28,7 @@ import styles from './page.module.scss';
 
 const TITLE = 'The Resonance Core Framework™ | Terence Waters';
 const DESCRIPTION =
-  'The Resonance Core Framework™, written by Terence Waters, is a 31-chapter book and identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and The Decision Integrity Index (The DII). The book is targeted for Q1 2027, with preorders opening in early November 2026.';
+  'The Resonance Core Framework™, written by Terence Waters, is a 31-chapter book and identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII). The book is targeted for Q1 2027, with preorders opening in early November 2026.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -44,7 +44,6 @@ export const metadata: Metadata = {
     'DRIVE Model',
     'Judgment Loop',
     'Data Loop',
-    'Creative Truth',
     'The Decision Integrity Index',
     'The DII',
     'Decision Alignment Score',

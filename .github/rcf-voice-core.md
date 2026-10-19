@@ -27,7 +27,7 @@ Owner: Terence Waters, Fluxline Resonance Group, LLC. Audit date: 2026-10-11. Au
 
 ### Owner decisions, 2026-10-19
 
-- **Creative Truth** is a Core Value only.
+- **Creative Truth** is a Core Value, not a framework concept (owner, 2026-10-19). Keep it in Core Values lists; remove it from lists of framework concepts or named tools.
 - **The Decision Integrity Index (The DII):** always 'The Decision Integrity Index' / 'The DII', capitalized 'The'; 'DII Protocol' is retired (owner, 2026-10-19).
 - The consultation CTA reads **"Book a Free Consultation"**.
 - The Fluxline footer label is **"Fluxline Ecosystem"**.

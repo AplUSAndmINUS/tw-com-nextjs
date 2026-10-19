@@ -95,12 +95,6 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
       'The practice of treating Cues as information: notice them, trace where they come from, test whether they are true, then decide.',
   },
   {
-    id: 'creative-truth',
-    name: 'Creative Truth',
-    summary:
-      'Expressing your truth without needing others to receive or confirm it.',
-  },
-  {
     id: 'dii-protocol',
     name: 'The Decision Integrity Index (The DII)',
     summary: 'A 1–5 way to score how well a decision aligns with who you are.',
@@ -115,12 +109,10 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
 
 /**
  * Concepts whose full definition lives under a different anchor on the
- * source-of-truth page. Creative Truth is defined there as one of the six
- * Core Values rather than as a concept card.
+ * source-of-truth page. Creative Truth is a Core Value, not a framework
+ * concept (owner, 2026-10-19), so it is not listed here or in RCF_CONCEPTS.
  */
-const RCF_CONCEPT_ANCHORS: Record<string, string> = {
-  'creative-truth': 'core-values',
-};
+const RCF_CONCEPT_ANCHORS: Record<string, string> = {};
 
 /** Link to a concept's full definition on the source-of-truth page. */
 export const rcfConceptHref = (id: string) =>
