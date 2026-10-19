@@ -19,8 +19,9 @@ export const FLUXLINE_URL = 'https://www.fluxline.pro';
 export const FLUXLINE_RCF_URL =
   'https://www.fluxline.pro/resonance-core-framework';
 
-/** Where every "Be notified at launch" CTA points: the Fluxline contact page. */
-export const RCF_NOTIFY_HREF = 'https://fluxline.pro/contact';
+/** Where every "Be notified at launch" CTA points: the launch sign-up on the RCF page. */
+export const RCF_NOTIFY_HREF =
+  'https://fluxline.pro/resonance-core-framework/#notify';
 
 export const RCF_BOOK = {
   title: 'The Resonance Core Framework™',
