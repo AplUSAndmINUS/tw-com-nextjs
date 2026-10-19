@@ -335,10 +335,10 @@ export default function HomePageClient({
                 </p>
                 <p className={styles.prose}>
                   I&apos;m a systems architect by training, a designer by
-                  instinct, and a coach by necessity. For 15+ years I&apos;ve
-                  worked across IT architecture, full-stack development, brand
-                  identity, and personal transformation — translating complexity
-                  into{' '}
+                  instinct, and a coach by necessity. For 20+ years I&apos;ve
+                  worked across design, development, architecture, and product
+                  management, and I&apos;ve been consulting for 3+ years,
+                  translating complexity into{' '}
                   <strong>
                     <em>clarity</em>
                   </strong>{' '}
@@ -353,8 +353,8 @@ export default function HomePageClient({
                 </blockquote>
                 <div className={styles.statGrid}>
                   <TwStatCard
-                    value='15+'
-                    label='Years bridging tech & design'
+                    value='20+'
+                    label='Years in design, development, architecture & product management'
                   />
                   <TwStatCard value='3' label='Companies in the ecosystem' />
                   <TwStatCard value='8' label='Accessible theme modes' />
