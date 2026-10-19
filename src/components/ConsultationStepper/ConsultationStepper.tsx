@@ -396,7 +396,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
     <Modal
       isOpen={isOpen}
       onDismiss={handleClose}
-      ariaLabel='Book a consultation'
+      ariaLabel='Book a free consultation'
       maxWidth={status === 'schedule' ? '960px' : '800px'}
       maxHeight={status === 'schedule' ? '92vh' : '90vh'}
     >

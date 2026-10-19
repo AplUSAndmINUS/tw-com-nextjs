@@ -88,7 +88,7 @@ export const STATS = [
     label: 'Years in design, development, architecture & product management',
   },
   { value: '4', label: 'Degrees & certifications tracks' },
-  { value: '3', label: 'Companies founded or led' },
+  { value: '2', label: 'Companies founded or led' },
 ];
 
 /* ── 02 What I believe ────────────────────────────────────────────────────── */
@@ -294,8 +294,9 @@ export const SKILL_GROUPS = [
 
 export const EDUCATION = [
   {
-    credential: 'Ph.D. — Technology Management, Information Systems',
-    school: 'Northcentral University',
+    credential:
+      'Ph.D. — Technology Information Management, Information Systems emphasis',
+    school: 'National University',
     year: '2026 — 2030 (in progress)',
   },
   {

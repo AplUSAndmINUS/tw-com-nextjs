@@ -363,7 +363,7 @@ export default function HomePageClient({
                     value='20+'
                     label='Years in design, development, architecture & product management'
                   />
-                  <TwStatCard value='3' label='Companies in the ecosystem' />
+                  <TwStatCard value='2' label='Companies in the ecosystem' />
                   <TwStatCard value='8' label='Accessible theme modes' />
                 </div>
 
@@ -669,7 +669,7 @@ export default function HomePageClient({
               </p>
               <div className={styles.contactCtaRow}>
                 <TwButton href='https://tidycal.com/terencewaters'>
-                  Book a consultation
+                  Book a free consultation
                 </TwButton>
               </div>
               <div className={styles.contactEmail}>
