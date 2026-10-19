@@ -36,7 +36,7 @@ export const RCF_CANONICAL_PARAGRAPH =
 
 /** Homepage book section body (TW-1.3). */
 export const RCF_BOOK_BLURB =
-  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system — 31 chapters across four parts — exploring how identity shapes decisions, how Behavioral Gravity creates invisible pull, how the Identity Distortion Loop erodes coherence, and how the DII Protocol gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
+  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions, how Behavioral Gravity creates invisible pull, how the Judgment Loop erodes coherence, and how the DII Protocol gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
 
 /**
  * Core concepts — one-line summaries only. The full, canonical definitions
@@ -69,15 +69,19 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
     summary:
       'How identity-rooted goals become self-sustaining instead of running on willpower.',
   },
+  // The two loop ids keep their old slugs because they are anchors on
+  // fluxline.pro/resonance-core-framework. Change them when that page does.
   {
     id: 'identity-distortion-loop',
-    name: 'Identity Distortion Loop',
-    summary: 'The cycle that erodes coherence. In the book: The Judgment Loop.',
+    name: 'Judgment Loop',
+    summary:
+      'The cycle where judgments about yourself and others reinforce a distorted view of identity.',
   },
   {
     id: 'identity-alignment-loop',
-    name: 'Identity Alignment Loop',
-    summary: 'The cycle that rebuilds coherence. In the book: The Data Loop.',
+    name: 'Data Loop',
+    summary:
+      'The practice of treating Cues as information: notice them, trace where they come from, test whether they are true, then decide.',
   },
   {
     id: 'creative-truth',
