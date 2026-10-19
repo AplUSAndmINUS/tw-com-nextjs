@@ -115,22 +115,6 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Fractional Leadership',
-    slug: 'fractional',
-    category: 'Service',
-    excerpt:
-      'Design and technology leadership, embedded with your team for a season.',
-    blurb:
-      'Embedded design and technology leadership for a season — senior direction without a full-time hire. You get the decision-making velocity of a CTO or design director, scoped to the work that actually needs it, without the overhead of a permanent executive.',
-    points: [
-      'Fractional CTO / architect — strategy, stack decisions, and technical direction',
-      'Fractional design lead — system vision, critique, and quality bar',
-      'Team mentorship and capability building',
-      'Stakeholder communication and roadmap facilitation',
-      'Audit and modernization of existing systems',
-    ],
-  },
-  {
     title: 'Personal Training & Wellness',
     slug: 'personal-training',
     category: 'Coaching',
