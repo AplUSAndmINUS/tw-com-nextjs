@@ -106,7 +106,7 @@ export function ServiceDrawer({ service, onClose }: ServiceDrawerProps) {
             rel='noopener noreferrer'
             className={styles.cta}
           >
-            Book a consultation &#8594;
+            Book a free consultation &#8594;
           </TwButton>
         ) : (
           <TwButton

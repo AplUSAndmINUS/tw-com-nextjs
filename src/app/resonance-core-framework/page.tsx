@@ -28,7 +28,7 @@ import styles from './page.module.scss';
 
 const TITLE = 'The Resonance Core Framework™ | Terence Waters';
 const DESCRIPTION =
-  'The Resonance Core Framework™ — written by Terence Waters — is a 31-chapter identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol. Coming Late Fall 2026.';
+  'The Resonance Core Framework™, written by Terence Waters, is a 31-chapter book and identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol. The book is targeted for Q1 2027, with preorders opening in early November 2026.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -41,8 +41,9 @@ export const metadata: Metadata = {
     'Behavioral Gravity',
     'Identity Coherence',
     'Window of Choice',
-    'DRIVE System',
-    'Identity Distortion Loop',
+    'DRIVE Model',
+    'Judgment Loop',
+    'Data Loop',
     'Creative Truth',
     'DII Protocol',
     'Decision Alignment Score',
@@ -108,7 +109,7 @@ export default function ResonanceCoreFrameworkPage() {
         <TwHero
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'
-          body='A practical identity system for making change that holds — built on alignment rather than force. Publishing Late Fall 2026.'
+          body='A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027, with preorders opening in early November 2026.'
           primaryCta={{ label: 'Be notified at launch', href: RCF_NOTIFY_HREF }}
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -215,7 +216,7 @@ export default function ResonanceCoreFrameworkPage() {
               </TwReveal>
               <TwReveal>
                 <TwSectionHeading
-                  kicker='Coming Late Fall 2026'
+                  kicker='Targeted for Q1 2027'
                   title='The Book'
                 />
                 <dl className={styles.bookFacts}>
@@ -234,6 +235,10 @@ export default function ResonanceCoreFrameworkPage() {
                   <div>
                     <dt>Publication</dt>
                     <dd>{RCF_BOOK.publicationDate}</dd>
+                  </div>
+                  <div>
+                    <dt>Preorders</dt>
+                    <dd>{RCF_BOOK.preorders}</dd>
                   </div>
                   <div>
                     <dt>Formats</dt>
