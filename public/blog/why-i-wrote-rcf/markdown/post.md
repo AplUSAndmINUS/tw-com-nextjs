@@ -1,6 +1,6 @@
 ---
 title: 'Why I Wrote The Resonance Core Framework™'
-excerpt: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™ — coming Late Fall 2026.'
+excerpt: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™, targeted for Q1 2027.'
 author: 'Terence Waters'
 publishedDate: '2026-09-23'
 date: '2026-09-23'
@@ -11,13 +11,13 @@ tags:
   - 'author'
   - 'identity alignment'
 seoTitle: 'Why I Wrote The Resonance Core Framework™'
-seoDescription: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™ — coming Late Fall 2026.'
+seoDescription: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™, targeted for Q1 2027.'
 seoKeywords:
   - 'Terence Waters author'
   - 'Resonance Core Framework book'
   - 'why I wrote the Resonance Core Framework'
   - 'Terence Waters'
-structuredSummary: 'Terence Waters explains why he wrote The Resonance Core Framework™: after leaving his job to build Fluxline, he found that most self-help says what to do but not how. He built and tested the framework in his own life through daily journaling, decision tracking, and alignment scorecards. The book publishes Late Fall 2026 through Fluxline Resonance Group.'
+structuredSummary: 'Terence Waters explains why he wrote The Resonance Core Framework™: after leaving his job to build Fluxline, he found that most self-help says what to do but not how. He built and tested the framework in his own life through daily journaling, decision tracking, and alignment scorecards. The book is targeted for Q1 2027 through Fluxline Resonance Group.'
 ---
 
 This framework didn't begin as a business initiative. It began as a necessity.
@@ -49,7 +49,7 @@ The framework didn't just help me — it changed me.
 
 ## What the Book Does
 
-The book turns that lived process into something you can use: a practical, trackable, repeatable way to create change through **resonance, not force**. It draws on universal human truths, psychological research, behavioral patterns, systems thinking, and real-world application — and gives you named tools like [Behavioral Gravity](/blog/behavioral-gravity), Identity Coherence, the Window of Choice, the DRIVE System, and the [DII Protocol](/blog/dii-protocol).
+The book turns that lived process into something you can use: a practical, trackable, repeatable way to create change through **resonance, not force**. It draws on universal human truths, psychological research, behavioral patterns, systems thinking, and real-world application — and gives you named tools like [Behavioral Gravity](/blog/behavioral-gravity), Identity Coherence, the Window of Choice, the DRIVE Model, and the [DII Protocol](/blog/dii-protocol).
 
 It's for anyone who wants meaningful change that holds — who feels stuck or misaligned, senses potential but lacks direction, and wants a system they can actually apply.
 
