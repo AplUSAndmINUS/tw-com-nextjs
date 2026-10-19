@@ -46,7 +46,7 @@ export const RCF_CANONICAL_PARAGRAPH =
 
 /** Homepage book section body (TW-1.3). */
 export const RCF_BOOK_BLURB =
-  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions. It covers Behavioral Gravity (the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up), the Judgment Loop (the cycle where judgments about yourself and others reinforce a distorted view of identity), and the DII Protocol, which gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
+  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions. It covers Behavioral Gravity (the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up), the Judgment Loop (the cycle where judgments about yourself and others reinforce a distorted view of identity), and the Decision Integrity Index (DII), which gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
 
 /**
  * Core concepts — one-line summaries only. The full, canonical definitions

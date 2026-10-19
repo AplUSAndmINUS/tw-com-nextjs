@@ -383,7 +383,7 @@ export function getRcfBookSchema() {
     '@context': 'https://schema.org',
     '@type': 'Book',
     '@id': `${SITE_URL}/resonance-core-framework#book`,
-    name: 'The Resonance Core Framework',
+    name: 'The Resonance Core Framework™',
     url: `${SITE_URL}/resonance-core-framework`,
     author: {
       '@type': 'Person',
@@ -398,7 +398,7 @@ export function getRcfBookSchema() {
       url: 'https://www.fluxline.pro',
     },
     description:
-      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol — a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
+      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol: a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
     genre: 'Self-improvement, Identity Psychology, Personal Development',
     inLanguage: 'en',
     // Targeted for Q1 2027; preorders open in early November 2026.

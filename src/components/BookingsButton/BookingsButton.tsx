@@ -131,7 +131,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
               color: theme.colorNeutralBackground1,
             }}
           >
-            Book a Free Consultation
+            Book a free consultation
           </Typography>
         </div>
       </Button>

@@ -16,7 +16,7 @@ Register: warm, first person, a little funny. Keep it. Do not make it sound like
 **A1. Experience (four places, exact replacements)**
 
 - Home stat "15+ / Years bridging tech & design" becomes "20+ / Years in design, development, architecture & product management".
-- About header "Founder, architect, and coach. Fifteen years turning complexity into something people can actually live and work inside." becomes "Founder, architect, and coach. Twenty years turning complexity into something people can actually live and work inside."
+- About header "Founder, architect, and coach. Fifteen years turning complexity into something people can actually live and work inside." becomes "Author, architect, and solopreneur. Twenty years turning complexity into something people can actually live and work inside." (author title per owner, 2026-10-19)
 - About bio sentence "For 15+ years I have worked across IT architecture, full-stack development, brand identity, curriculum design, and personal transformation." becomes "For 20+ years I have worked across design, development, architecture, and product management, and I have been consulting for 3+ years." Keep the sentences around it.
 - About stat "15+ / Years bridging tech & design" gets the same label as the home stat.
 - Do not touch the 2008 to present timeline, degrees or certifications.
@@ -45,7 +45,7 @@ Register: warm, first person, a little funny. Keep it. Do not make it sound like
 
 ## Hold (change nothing, list every occurrence in the PR)
 
-1. The blog post "Behavioral Gravity: The Pull You Don't Notice" and any other post that carries the old meaning. The owner decides whether to revise.
+1. Resolved (owner, 2026-10-19): the blog post "Behavioral Gravity: The Pull You Don't Notice" was revised to the book's meaning; keep it as revised. Any *other* post that carries the old meaning is still a Hold: list it, don't edit it.
 2. PhD wording: "Northcentral University, Technology Management, Information Systems, 2026 to 2030." The book bio says National University, Technology Information Management. Which is correct?
 3. "Companies founded or led: 3" and home "3 companies in the ecosystem": only two are named (Fluxline Resonance Group, Enteractive Studios).
 4. Service names. Work list: Design & Identity, Architecture & Development, Enterprise Consulting, Design Facilitation, The Resonance Core Framework™ (coaching), Personal Training & Wellness. The five Fluxline offerings are Brand & Experience Design, Web Development & Digital Architecture, Business Strategy & Systems Alignment, The Resonance Core Framework™, Personal Training & Wellness. Report where they differ; do not rename.
