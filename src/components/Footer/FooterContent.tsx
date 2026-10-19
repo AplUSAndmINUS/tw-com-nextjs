@@ -431,7 +431,7 @@ export function FooterContent({
             Work: Fluxline. Fluxline builds systems that work, brands that
             connect, and practices that last.
           </a>
-          <span>By Terence Waters.</span>
+          <span>By Terence Waters: author, architect, and solopreneur.</span>
         </nav>
 
         {/* Bottom bar */}
