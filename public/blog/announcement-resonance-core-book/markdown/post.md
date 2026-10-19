@@ -38,7 +38,7 @@ gallery:
   - url: '/blog/announcement-resonance-core-book/images/RCF_book_concept.jpg'
     alt: 'The Resonance Core Framework™ Book Concept'
     caption: 'The Resonance Core Framework™ Book Concept'
-  - url: '/blog/announcement-resonance-core-book/images/drive_model_framework.jpeg'
+  - url: '/blog/announcement-resonance-core-book/images/drive_model.jpg'
     alt: 'The DRIVE Model Framework: Aligning our identity with our goals'
     caption: 'The DRIVE Model Framework: Aligning our identity with our goals'
 ---
