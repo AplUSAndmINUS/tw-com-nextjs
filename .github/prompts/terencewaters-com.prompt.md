@@ -46,14 +46,14 @@ Register: warm, first person, a little funny. Keep it. Do not make it sound like
 ## Hold (change nothing, list every occurrence in the PR)
 
 1. Resolved (owner, 2026-10-19): the blog post "Behavioral Gravity: The Pull You Don't Notice" was revised to the book's meaning; keep it as revised. Any *other* post that carries the old meaning is still a Hold: list it, don't edit it.
-2. PhD wording: "Northcentral University, Technology Management, Information Systems, 2026 to 2030." The book bio says National University, Technology Information Management. Which is correct?
-3. "Companies founded or led: 3" and home "3 companies in the ecosystem": only two are named (Fluxline Resonance Group, Enteractive Studios).
-4. Service names. Work list: Design & Identity, Architecture & Development, Enterprise Consulting, Design Facilitation, The Resonance Core Framework™ (coaching), Personal Training & Wellness. The five Fluxline offerings are Brand & Experience Design, Web Development & Digital Architecture, Business Strategy & Systems Alignment, The Resonance Core Framework™, Personal Training & Wellness. Report where they differ; do not rename.
-5. Proficiency bars ("Design thinking 100%", "Personal & business coaching 98%").
-6. Footer line "© 2025-2026 Terence Waters and his awesomeness" (first and third person mix) and the footer tagline "Know who you are and what you stand for!" (the podcast closes without the "!").
-7. About text calling the RCF a "31-chapter identity system" without the word "book."
-8. Placeholder social links that point to `#`.
-9. Author title: "Founder, architect, and coach" vs "Author & Architect" on Fluxline.
+2. Resolved (owner, 2026-10-19): the PhD is National University, Technology Information Management, Information Systems emphasis, 2026 to 2030.
+3. Resolved (owner, 2026-10-19): the company count is 2 (Fluxline Resonance Group, Enteractive Studios).
+4. Resolved (owner, 2026-10-19): the Work list uses the five Fluxline offering names (Brand & Experience Design, Web Development & Digital Architecture, Business Strategy & Systems Alignment, The Resonance Core Framework™, Personal Training & Wellness); Design Facilitation is removed.
+5. Resolved (owner, 2026-10-19): keep the proficiency bars as they are.
+6. Resolved (owner, 2026-10-19): keep the footer line "© 2025-2026 Terence Waters and his awesomeness" and the tagline "Know who you are and what you stand for!" as they are.
+7. Resolved: the About text now says "31-chapter book and identity system."
+8. Resolved: the placeholder `#` social links were replaced with real profiles.
+9. Resolved (owner, 2026-10-19): the TW author title is "author, architect, and solopreneur".
 10. Glossary or terminology mismatches with core Section 4.
 
 ## Acceptance
