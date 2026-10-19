@@ -30,7 +30,7 @@ There’s a quiet truth inside every season of identity transformation — one t
 It’s not dramatic. It’s not a failure. It’s not even a sign that something went wrong.  
 It’s just what happens when your inner architecture shifts.
 
-Identity transformation, especially through the lens of **The Resonance Core Framework(TM)**, isn’t only about expansion. It’s about coherence — the alignment between your inner story, your chosen identity, your lived values, and the systems that shape your life. And when coherence deepens, your relational landscape changes with it.
+Identity transformation, especially through the lens of **The Resonance Core Framework™**, isn’t only about expansion. It’s about coherence — the alignment between your inner story, your chosen identity, your lived values, and the systems that shape your life. And when coherence deepens, your relational landscape changes with it.
 
 ---
 
