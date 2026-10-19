@@ -27,8 +27,8 @@ Owner: Terence Waters, Fluxline Resonance Group, LLC. Audit date: 2026-10-11. Au
 
 ### Owner decisions, 2026-10-19
 
-- **Creative Truth** is a Core Value, not a framework concept (owner, 2026-10-19). Keep it in Core Values lists; remove it from lists of framework concepts or named tools.
-- **The Decision Integrity Index (The DII):** always 'The Decision Integrity Index' / 'The DII', capitalized 'The'; 'DII Protocol' is retired (owner, 2026-10-19).
+- **Creative Truth** is a Core Value, not a framework concept (owner, 2026-10-19). Keep it in Core Values lists; remove it from lists of framework concepts or named tools. What it means (owner): standing up for your identity when you need to, or choosing not to. It brings clarity to why you made a decision, or to a situation, or it can stay unexpressed. Like assertion, but it does not require agreement or for anyone to change their point of view. A critical Core Value in The RCF; it is a value someone practises, so mentions of it as a lived practice in posts are correct.
+- **The Decision Integrity Index (The DII):** always 'The Decision Integrity Index' / 'The DII', capitalized 'The'; 'DII Protocol' is retired (owner, 2026-10-19). DII only ever stands for Decision Integrity Index; never expand it as anything else (e.g. not "Discover, Integrate, Impact" or "Desire-Integrity-Impact") (owner, 2026-10-19).
 - The consultation CTA reads **"Book a Free Consultation"**.
 - The Fluxline footer label is **"Fluxline Ecosystem"**.
 - **Universal Truths** wording: "The RCF's Universal Truths, which shape Fluxline's ethos and mission".
