@@ -46,7 +46,8 @@ const NAV_CARDS = [
   {
     key: 'github',
     title: 'GitHub',
-    description: 'Open-source projects, experiments, and the code behind the work.',
+    description:
+      'Open-source projects, experiments, and the code behind the work.',
     cta: 'Explore code',
     href: '/github',
     Icon: CodeIcon,
@@ -54,7 +55,8 @@ const NAV_CARDS = [
   {
     key: 'videos',
     title: 'Videos',
-    description: 'Talks, studio notes, and short films on building with intention.',
+    description:
+      'Talks, studio notes, and short films on building with intention.',
     cta: 'Watch videos',
     href: '/videos',
     Icon: VideoIcon,
@@ -160,7 +162,7 @@ export default function ContentHubClient({
           <BookIcon size={40} className={styles.icon} />
           <span className={styles.cardTitle}>Books</span>
           <span className={styles.cardBody}>
-            The Resonance Core Framework — a practical guide to rebuilding your
+            The Resonance Core Framework™: a practical guide to rebuilding your
             internal systems with intention.
           </span>
           <span className={styles.cardCta}>
@@ -202,7 +204,11 @@ export default function ContentHubClient({
         )}
 
         {latestEpisode ? (
-          <button type='button' className={styles.primaryAction} onClick={playLatest}>
+          <button
+            type='button'
+            className={styles.primaryAction}
+            onClick={playLatest}
+          >
             <svg
               width='18'
               height='18'
@@ -274,8 +280,8 @@ export default function ContentHubClient({
           everything I teach — distilled into a book.
         </p>
         <p className={styles.drawerBody}>
-          The full launch is coming soon on Fluxline.pro. Stay tuned for
-          updates on availability, pre-orders, and companion resources.
+          The full launch is coming soon on Fluxline.pro. Stay tuned for updates
+          on availability, pre-orders, and companion resources.
         </p>
         <a
           href={FLUXLINE_BOOKS}

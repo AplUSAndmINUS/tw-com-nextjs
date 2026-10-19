@@ -227,4 +227,4 @@ Change in the world happens from _The Self_ first—and radiates to others throu
 
 I just realized overall that my framework I've been applying to my life all along, and it works!
 
-And I cannot wait to share it with you this Fall 2026.
+And I cannot wait to share it with you in the book, targeted for Q1 2027.

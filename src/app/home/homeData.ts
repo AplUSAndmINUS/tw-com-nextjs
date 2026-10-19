@@ -33,7 +33,7 @@ const FLUXLINE_SERVICES = 'https://fluxline.pro/services';
 
 export const homeServices: HomeService[] = [
   {
-    title: 'Design & Identity',
+    title: 'Brand & Experience Design',
     slug: 'design',
     category: 'Service',
     excerpt:
@@ -50,7 +50,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Architecture & Development',
+    title: 'Web Development & Digital Architecture',
     slug: 'development',
     category: 'Service',
     excerpt:
@@ -66,7 +66,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Enterprise Consulting',
+    title: 'Business Strategy & Systems Alignment',
     slug: 'consulting',
     category: 'Service',
     excerpt:
@@ -80,21 +80,6 @@ export const homeServices: HomeService[] = [
       'Tech integration & infrastructure planning',
       'Change management and transformation facilitation',
       'Technical due diligence',
-    ],
-  },
-  {
-    title: 'Design Facilitation',
-    slug: 'facilitation',
-    category: 'Service',
-    excerpt:
-      'Workshops that turn messy problems into shared, buildable direction.',
-    blurb:
-      'Facilitated workshops that align teams fast — turning ambiguity into a direction everyone can see and build toward.',
-    points: [
-      'Discovery & alignment workshops',
-      'Journey and service mapping',
-      'Roadmap facilitation',
-      'Design-thinking sessions and critiques',
     ],
   },
   {
@@ -112,22 +97,6 @@ export const homeServices: HomeService[] = [
       'Update your internal predictions and interpretations',
       "Choose the identity that supports who you're becoming",
       'Take aligned action from that chosen identity',
-    ],
-  },
-  {
-    title: 'Fractional Leadership',
-    slug: 'fractional',
-    category: 'Service',
-    excerpt:
-      'Design and technology leadership, embedded with your team for a season.',
-    blurb:
-      'Embedded design and technology leadership for a season — senior direction without a full-time hire. You get the decision-making velocity of a CTO or design director, scoped to the work that actually needs it, without the overhead of a permanent executive.',
-    points: [
-      'Fractional CTO / architect — strategy, stack decisions, and technical direction',
-      'Fractional design lead — system vision, critique, and quality bar',
-      'Team mentorship and capability building',
-      'Stakeholder communication and roadmap facilitation',
-      'Audit and modernization of existing systems',
     ],
   },
   {

@@ -114,7 +114,7 @@ export default function AboutPage() {
         <TwHero
           eyebrow='About'
           title='Terence Waters'
-          body='Founder, architect, and coach. Fifteen years turning complexity into something people can actually live and work inside.'
+          body='Author, architect, and solopreneur. Twenty years turning complexity into something people can actually live and work inside.'
           primaryCta={{ label: 'How I work', href: '#how-i-work' }}
           secondaryCta={{ label: 'Start a conversation', href: '/#contact' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -146,13 +146,15 @@ export default function AboutPage() {
             <p className={styles.prose}>
               As the author of{' '}
               <Link href={RCF_PATH}>The Resonance Core Framework™</Link>{' '}
-              (Fluxline Resonance Group, Late Fall 2026), Terence developed a
-              31-chapter identity system bridging somatic intelligence, decision
+              (Fluxline Resonance Group, targeted for Q1 2027, with preorders
+              opening in early November 2026), Terence developed a 31-chapter
+              book and identity system bridging somatic intelligence, decision
               science, and behavioral psychology. The framework&apos;s core
-              concepts — Behavioral Gravity, Identity Coherence, the Window of
-              Choice, Creative Truth, and the DII Protocol — emerged from over a
-              decade of applied work at the intersection of systems design and
-              human transformation. The RCF is the theoretical foundation of{' '}
+              concepts, including Behavioral Gravity, Identity Coherence, the
+              Window of Choice, Creative Truth, and the Decision Integrity Index
+              (DII), emerged from over a decade of applied work at the
+              intersection of systems design and human transformation. The RCF
+              is the theoretical foundation of{' '}
               <a href={TRI_URL}>The Resonant Identity podcast</a> and the
               coaching practice at{' '}
               <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
@@ -400,7 +402,7 @@ export default function AboutPage() {
                 body="Personal, professional, creative, or internal. You don't need it figured out — you need somewhere to think and rebuild with intention. I'd be honored to walk with you."
               >
                 <TwButton href='https://tidycal.com/terencewaters'>
-                  Book a consultation
+                  Book a free consultation
                 </TwButton>
                 <TwButton variant='outline' href='/#contact'>
                   Send a message

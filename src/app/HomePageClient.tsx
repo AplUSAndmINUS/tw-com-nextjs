@@ -30,6 +30,7 @@ import {
 } from './home/homeData';
 import {
   RCF_BOOK_BLURB,
+  RCF_BOOK_DATE_LINE,
   RCF_NOTIFY_HREF,
   RCF_PATH,
   RCF_TRADEMARK,
@@ -253,9 +254,10 @@ export default function HomePageClient({
             <TwReveal stagger>
               <TwSectionHeading
                 kicker='The Book'
-                title='The Resonance Core Framework™ — Coming Late Fall 2026'
+                title='The Resonance Core Framework™: Targeted for Q1 2027'
               />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
+              <p className={styles.prose}>{RCF_BOOK_DATE_LINE}</p>
               <blockquote className={styles.quote}>
                 Resonance is when your identity, your systems, and your actions
                 finally operate on the same frequency. My work — architectural,
@@ -273,6 +275,13 @@ export default function HomePageClient({
                   Listen to the Podcast →
                 </TwButton>
               </div>
+              <p className={styles.prose}>
+                Want to see the Framework at work in a business? Fluxline builds
+                it into strategy, systems, brand, and body.{' '}
+                <a href='https://fluxline.pro/services/'>
+                  See how Fluxline works →
+                </a>
+              </p>
             </TwReveal>
           </div>
         </div>
@@ -335,10 +344,10 @@ export default function HomePageClient({
                 </p>
                 <p className={styles.prose}>
                   I&apos;m a systems architect by training, a designer by
-                  instinct, and a coach by necessity. For 15+ years I&apos;ve
-                  worked across IT architecture, full-stack development, brand
-                  identity, and personal transformation — translating complexity
-                  into{' '}
+                  instinct, and a coach by necessity. For 20+ years I&apos;ve
+                  worked across design, development, architecture, and product
+                  management, and I&apos;ve been consulting for 3+ years,
+                  translating complexity into{' '}
                   <strong>
                     <em>clarity</em>
                   </strong>{' '}
@@ -353,10 +362,10 @@ export default function HomePageClient({
                 </blockquote>
                 <div className={styles.statGrid}>
                   <TwStatCard
-                    value='15+'
-                    label='Years bridging tech & design'
+                    value='20+'
+                    label='Years in design, development, architecture & product management'
                   />
-                  <TwStatCard value='3' label='Companies in the ecosystem' />
+                  <TwStatCard value='2' label='Companies in the ecosystem' />
                   <TwStatCard value='8' label='Accessible theme modes' />
                 </div>
 
@@ -662,7 +671,7 @@ export default function HomePageClient({
               </p>
               <div className={styles.contactCtaRow}>
                 <TwButton href='https://tidycal.com/terencewaters'>
-                  Book a consultation
+                  Book a free consultation
                 </TwButton>
               </div>
               <div className={styles.contactEmail}>

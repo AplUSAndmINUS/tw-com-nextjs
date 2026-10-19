@@ -58,7 +58,7 @@ export const SECTIONS = {
     num: '05',
     id: 'experience',
     label: 'Experience',
-    image: { src: PortfolioPortrait.src, alt: 'Fifteen years of work' },
+    image: { src: PortfolioPortrait.src, alt: 'Twenty years of work' },
   },
   projects: {
     num: '06',
@@ -78,14 +78,17 @@ export const SECTIONS = {
 
 export const INTRO_PARAGRAPHS = [
   'I help people and organizations rebuild the parts of themselves they thought were permanent.',
-  'Systems architect by training, designer by instinct, coach by necessity. For 15+ years I have worked across IT architecture, full-stack development, brand identity, curriculum design, and personal transformation — translating complexity into clarity.',
+  'Systems architect by training, designer by instinct, coach by necessity. For 20+ years I have worked across design, development, architecture, and product management, and I have been consulting for 3+ years, translating complexity into clarity.',
   'If you are here, you are probably in a season of becoming. You are in the right place.',
 ];
 
 export const STATS = [
-  { value: '15+', label: 'Years bridging tech & design' },
+  {
+    value: '20+',
+    label: 'Years in design, development, architecture & product management',
+  },
   { value: '4', label: 'Degrees & certifications tracks' },
-  { value: '3', label: 'Companies founded or led' },
+  { value: '2', label: 'Companies founded or led' },
 ];
 
 /* ── 02 What I believe ────────────────────────────────────────────────────── */
@@ -291,8 +294,9 @@ export const SKILL_GROUPS = [
 
 export const EDUCATION = [
   {
-    credential: 'Ph.D. — Technology Management, Information Systems',
-    school: 'Northcentral University',
+    credential:
+      'Ph.D. — Technology Information Management, Information Systems emphasis',
+    school: 'National University',
     year: '2026 — 2030 (in progress)',
   },
   {
