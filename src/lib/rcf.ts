@@ -107,5 +107,15 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
   },
 ];
 
+/**
+ * Concepts whose full definition lives under a different anchor on the
+ * source-of-truth page. Creative Truth is defined there as one of the six
+ * Core Values rather than as a concept card.
+ */
+const RCF_CONCEPT_ANCHORS: Record<string, string> = {
+  'creative-truth': 'core-values',
+};
+
 /** Link to a concept's full definition on the source-of-truth page. */
-export const rcfConceptHref = (id: string) => `${FLUXLINE_RCF_URL}#${id}`;
+export const rcfConceptHref = (id: string) =>
+  `${FLUXLINE_RCF_URL}#${RCF_CONCEPT_ANCHORS[id] ?? id}`;
