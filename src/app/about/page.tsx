@@ -150,10 +150,11 @@ export default function AboutPage() {
               opening in early November 2026), Terence developed a 31-chapter
               book and identity system bridging somatic intelligence, decision
               science, and behavioral psychology. The framework&apos;s core
-              concepts — Behavioral Gravity, Identity Coherence, the Window of
-              Choice, Creative Truth, and the DII Protocol — emerged from over a
-              decade of applied work at the intersection of systems design and
-              human transformation. The RCF is the theoretical foundation of{' '}
+              concepts, including Behavioral Gravity, Identity Coherence, the
+              Window of Choice, Creative Truth, and the Decision Integrity Index
+              (DII), emerged from over a decade of applied work at the
+              intersection of systems design and human transformation. The RCF
+              is the theoretical foundation of{' '}
               <a href={TRI_URL}>The Resonant Identity podcast</a> and the
               coaching practice at{' '}
               <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
