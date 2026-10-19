@@ -23,7 +23,7 @@ Register: warm, first person, a little funny. Keep it. Do not make it sound like
 
 **A2. Book date.** Replace "Late Fall 2026" with the targeted-Q1-2027 wording on home (book heading), `/resonance-core-framework/` (hero line, section eyebrow "Coming Late Fall 2026", the details-table row "Publication: Late Fall 2026", meta description), About, and all metadata, JSON-LD and `llms.txt`.
 
-**A3. "Be notified at launch."** Both "Be notified at launch" / "Be Notified at Launch →" CTAs (home and `/resonance-core-framework/`) now link to `https://fluxline.pro/contact`. Leave the footer newsletter signup exactly as it is.
+**A3. "Be notified at launch."** Both "Be notified at launch" / "Be Notified at Launch →" CTAs (home and `/resonance-core-framework/`) now link to `https://fluxline.pro/resonance-core-framework/#notify` (owner, 2026-10-19), not `/contact`. Leave the footer newsletter signup exactly as it is.
 
 **A4. Framework page terms (`/resonance-core-framework/`)**
 
