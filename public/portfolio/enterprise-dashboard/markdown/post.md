@@ -1,5 +1,5 @@
 ---
-title: 'Decision Integrity Index (DII) Dashboard - Notion & M365 Integration'
+title: 'The Decision Integrity Index (The DII) Dashboard - Notion & M365 Integration'
 shortDescription: 'Strategic decision management system integrating Notion, Microsoft 365, and emotional resonance analytics'
 longDescription: 'A comprehensive decision management platform built for Fluxline Resonance Group, featuring emotional archetype mapping, automated workflows, and business intelligence integration. The system tracks all strategic decisions through emotional resonance scoring, threshold categorization, and automated reporting across Microsoft 365 and Notion ecosystems.'
 role: 'CEO & Solutions Architect'
@@ -26,12 +26,12 @@ technologies:
     'Decision Scoring',
   ]
 imageUrl: '/portfolio/enterprise-dashboard/images/dii-dashboard.png'
-imageAlt: 'Decision Integrity Index (DII) Dashboard showing 4.72 average composite score'
+imageAlt: 'The Decision Integrity Index (The DII) Dashboard showing 4.72 average composite score'
 featured: true
 gallery:
   - url: '/portfolio/enterprise-dashboard/images/dii-dashboard.png'
-    alt: 'Decision Integrity Index (DII) Dashboard showing 4.72 average composite score'
-    caption: 'Decision Integrity Index Dashboard - Real-time emotional resonance analytics with 4.72 average DII score across all strategic decisions'
+    alt: 'The Decision Integrity Index (The DII) Dashboard showing 4.72 average composite score'
+    caption: 'The Decision Integrity Index Dashboard - Real-time emotional resonance analytics with 4.72 average DII score across all strategic decisions'
   - url: '/portfolio/enterprise-dashboard/images/decision-table.png'
     alt: 'Notion decision logging table with emotional resonance scoring'
     caption: 'Decision Logging System - Comprehensive Notion table mapping decisions to emotional archetypes, strategic indexes, and threshold frameworks'
@@ -43,7 +43,7 @@ gallery:
     caption: 'Microsoft Planner swimlanes received from Decision Table for Teams & M365 integration'
 publishedDate: '2025-12-11'
 projectDate: '2025'
-seoTitle: 'Decision Integrity Index Dashboard - Notion & M365 Business Intelligence'
+seoTitle: 'The Decision Integrity Index Dashboard - Notion & M365 Business Intelligence'
 seoDescription: 'Strategic decision management system with emotional resonance analytics, Notion API integration, and automated Microsoft 365 workflows'
 seoKeywords:
   [
@@ -59,7 +59,7 @@ seoKeywords:
 
 ## Project Overview
 
-Built a comprehensive **Decision Integrity Index (DII) Dashboard** for Fluxline Resonance Group to transform strategic decision-making through emotional resonance analytics. The platform integrates **Notion API**, **Microsoft 365**, and **Power Automate** to create a unified decision management system that maps all company decisions to emotional archetypes, strategic indexes, and threshold frameworks—ensuring every business move aligns with core values and long-term vision.
+Built **The Decision Integrity Index (The DII) Dashboard**, a comprehensive platform for Fluxline Resonance Group, to transform strategic decision-making through emotional resonance analytics. The platform integrates **Notion API**, **Microsoft 365**, and **Power Automate** to create a unified decision management system that maps all company decisions to emotional archetypes, strategic indexes, and threshold frameworks—ensuring every business move aligns with core values and long-term vision.
 
 ## Business Context
 
@@ -69,7 +69,7 @@ Fluxline needed a systematic approach to track strategic decisions across multip
 - **Archetype Mapping**: Connecting decisions to psychological frameworks (The Guardian, The Warrior, The Mythmaker, etc.)
 - **Threshold Categorization**: Organizing decisions across Meta-System, Creative, Professional, Financial, Statistical/KPI, Somatic, and Emotional/Relational domains
 - **Automated Workflows**: Seamless integration between Notion decision logging and Microsoft 365 productivity tools
-- **Business Intelligence**: Real-time dashboards tracking Decision Integrity Index (DII) scores and strategic alignment
+- **Business Intelligence**: Real-time dashboards tracking DII scores and strategic alignment
 
 ## Technical Implementation
 
@@ -96,7 +96,7 @@ Built automated workflows connecting Notion to M365 ecosystem:
 
 ## Key Features
 
-### 1. Decision Integrity Index (DII) Dashboard
+### 1. The DII Dashboard
 
 Built comprehensive analytics dashboard visualizing:
 
@@ -174,7 +174,7 @@ Established repeatable frameworks:
 - Designed 7-threshold framework organizing decisions across operational domains
 - Mapped 24 emotional archetypes providing psychological decision alignment
 - Created reusable DRIVE justification template adopted across all strategic decisions
-- Achieved 4.72/5.0 average Decision Integrity Index score (94.4% decision quality)
+- Achieved 4.72/5.0 average DII Score (94.4% decision quality)
 
 ## Technologies Used
 
@@ -195,7 +195,7 @@ Established repeatable frameworks:
 **Decision Framework:**
 
 - Emotional Archetype Mapping (24 archetypes)
-- Decision Integrity Index (DII) scoring
+- DII scoring
 - Shadow Signal Index (SSI) analytics
 - DRIVE Justification Template
 - 7-Threshold Categorization System
