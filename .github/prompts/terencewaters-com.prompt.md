@@ -39,7 +39,7 @@ Register: warm, first person, a little funny. Keep it. Do not make it sound like
 
 **A7. Cross-sell and links**
 
-- Footer: add the **shared block** from core Section 7 without building a new component.
+- Footer: TW uses a shorter "More from Terence Waters" block instead of the shared block (owner, 2026-10-20): "The Resonant Identity Podcast" (→ theresonantidentity.com/start-here/) and "Fluxline Resonance Group — Coaching & Consulting" (→ fluxline.pro). Keep it to those two links.
 - Under the book section, after the launch-notify CTA, add: "Want to see the Framework at work in a business? Fluxline builds it into strategy, systems, brand, and body." with the link "See how Fluxline works →" to `https://fluxline.pro/services/`. (Do not say "finished the book"; it is not out yet.)
 - Unify the GitHub link to `https://github.com/AplUSAndmINUS` in hero, contact and footer.
 
