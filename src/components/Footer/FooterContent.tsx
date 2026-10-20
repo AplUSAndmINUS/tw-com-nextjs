@@ -412,6 +412,22 @@ export function FooterContent({
           </FooterLinkSection>
         </div>
 
+        {/* Ecosystem links. TW uses this shorter block rather than the shared
+            Listen / Read / Work lines (owner, 2026-10-20). Plain same-tab
+            anchors with rel="me" so search engines tie the sites to one
+            identity. */}
+        <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
+          <span className={styles.ecosystemTitle}>
+            More from Terence Waters
+          </span>
+          <a href='https://theresonantidentity.com/start-here/' rel='me'>
+            The Resonant Identity Podcast
+          </a>
+          <a href='https://fluxline.pro/' rel='me'>
+            Fluxline Resonance Group — Coaching &amp; Consulting
+          </a>
+        </nav>
+
         {/* Bottom bar */}
         <div
           className={`${styles.bottomBar} ${isCompact ? styles.bottomBarCompact : ''}`}

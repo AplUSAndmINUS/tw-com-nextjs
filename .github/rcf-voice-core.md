@@ -106,6 +106,8 @@ Work: Fluxline. Fluxline builds systems that work, brands that connect, and prac
 By Terence Waters.                                                       -> https://terencewaters.com/about/
 ```
 
+**Exception, terencewaters.com (owner, 2026-10-20):** TW does not use this block. Its footer has a shorter "More from Terence Waters" list with two links: "The Resonant Identity Podcast" (-> https://theresonantidentity.com/start-here/) and "Fluxline Resonance Group — Coaching & Consulting" (-> https://fluxline.pro/). fluxline.pro and theresonantidentity.com keep the block above.
+
 ## 8. Repo and PR standards (FRG-ENG-STD-001)
 
 - Branch off `develop`: `docs/voice-congruence-pass`. Open the PR to `develop`. Never commit to `main`, `test` or `develop`.
