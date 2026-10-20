@@ -21,12 +21,12 @@ technologies:
   - Legacy Building Systems
   - Mission Alignment Tools
 imageUrl: '/portfolio/resonance-core-coaching-business/images/LifeCoachingResonanceCore.jpg'
-imageAlt: 'Life Coaching and The Resonance Core Framework'
+imageAlt: 'Life Coaching and The Resonance Core Framework™'
 featured: true
 gallery:
   - url: '/portfolio/resonance-core-coaching-business/images/LifeCoachingResonanceCore.jpg'
-    alt: 'Life Coaching and The Resonance Core Framework'
-    caption: 'Life Coaching and The Resonance Core Framework'
+    alt: 'Life Coaching and The Resonance Core Framework™'
+    caption: 'Life Coaching and The Resonance Core Framework™'
 publishedDate: '2025-09-08'
 projectDate: '2017-2025'
 seoTitle: 'Resonance Core Framework - Transformational Identity Coaching'
@@ -456,7 +456,7 @@ The Resonance Core Framework™ integrates multiple modalities and practices to 
 ## Related Resources
 
 - [From Recovery to Resonance Blog](/blog/from-recovery-to-resonance-personal-journey) — the founder's 8-year transformation story that created this methodology
-- [What is the Resonance Core Framework?](/blog/what-is-resonance-core-framework) — deep dive into archetypal mapping, emotional emergence, and symbolic integration
+- [What is the Resonance Core Framework™?](/blog/what-is-resonance-core-framework) — deep dive into archetypal mapping, emotional emergence, and symbolic integration
 - [Archetypal Leadership & Identity Work](/blog/archetypal-leadership-identity-work) — applying Resonance Core principles to leadership development
 - [Resonance Core Launch Press Release](/press-release/resonance-core-launch-2025) — official framework and coaching program announcement
 

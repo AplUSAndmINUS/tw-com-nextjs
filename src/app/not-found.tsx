@@ -57,7 +57,7 @@ export default function NotFound() {
           </TwReveal>
           <div className={styles.cardGrid}>
             {POPULAR.map((item, i) => (
-              <TwReveal key={item.href} delay={i * 90}>
+              <TwReveal fill key={item.href} delay={i * 90}>
                 <Link href={item.href} className={styles.cardLink}>
                   <TwCard className={styles.card}>
                     <h3 className={styles.cardTitle}>{item.label}</h3>

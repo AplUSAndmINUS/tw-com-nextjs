@@ -180,7 +180,7 @@ export default function AboutPage() {
         >
           <ul className={styles.beliefList}>
             {BELIEFS.map((belief, i) => (
-              <TwReveal as='li' key={belief.num} delay={i * 90}>
+              <TwReveal as='li' fill key={belief.num} delay={i * 90}>
                 <div className={styles.belief}>
                   <span className={styles.beliefNum} aria-hidden='true'>
                     {belief.num}
@@ -211,7 +211,7 @@ export default function AboutPage() {
         >
           <div className={styles.audienceGrid}>
             {AUDIENCES.map((item, i) => (
-              <TwReveal key={item.label} delay={i * 90}>
+              <TwReveal fill key={item.label} delay={i * 90}>
                 <div className={styles.audience}>
                   <div className={styles.audienceLabel}>{item.label}</div>
                   <p className={styles.audienceText}>{item.text}</p>
@@ -255,7 +255,7 @@ export default function AboutPage() {
 
           <ul className={styles.approachList}>
             {APPROACH.map((item, i) => (
-              <TwReveal as='li' key={item.title} delay={i * 90}>
+              <TwReveal as='li' fill key={item.title} delay={i * 90}>
                 <div className={styles.approach}>
                   <h3 className={styles.approachTitle}>{item.title}</h3>
                   <p className={styles.approachText}>{item.text}</p>
@@ -290,7 +290,7 @@ export default function AboutPage() {
         >
           <div className={styles.projectGrid}>
             {PROJECTS.map((project, i) => (
-              <TwReveal key={project.name} delay={i * 70}>
+              <TwReveal fill key={project.name} delay={i * 70}>
                 <article className={styles.project}>
                   <p className={styles.projectPeriod}>{project.period}</p>
                   <h3 className={styles.projectName}>{project.name}</h3>
@@ -316,7 +316,7 @@ export default function AboutPage() {
         >
           <div className={styles.skillGroups}>
             {SKILL_GROUPS.map((group, i) => (
-              <TwReveal key={group.title} delay={i * 90}>
+              <TwReveal fill key={group.title} delay={i * 90}>
                 <div className={styles.skillGroup}>
                   <h3 className={styles.skillGroupTitle}>{group.title}</h3>
                   <ul className={styles.skillList}>

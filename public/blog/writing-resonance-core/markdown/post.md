@@ -1,5 +1,6 @@
 ---
-title: 'Why I am Writing The Resonance Core Framework'
+title: 'Why I am Writing The Resonance Core Framework™'
+seoTitle: 'Why I am Writing The Resonance Core Framework'
 excerpt: 'I did not plan to write a book this year. But sometimes life hands you a pattern so persistent that ignoring it feels like betraying yourself. This is why I am sharing the framework that changed my life.'
 author: 'Terence Waters'
 publishedDate: '2026-02-04'
@@ -49,7 +50,7 @@ gallery:
     caption: 'The DRIVE Alignment Loop - Continuous Growth'
 ---
 
-# Why I'm Writing The Resonance Core Framework
+# Why I'm Writing The Resonance Core Framework™
 
 I didn't plan to write a book this year.
 
@@ -97,7 +98,7 @@ That question became the doorway to everything that followed.
 
 Because once I stopped looking for answers outside myself and started tracking what resonated with me—my body, my emotions, my decisions, my patterns—something clicked. Something shifted. Something aligned.
 
-And from that alignment, **The Resonance Core Framework** was born.
+And from that alignment, **The Resonance Core Framework™** was born.
 
 **Not as a theory.**
 

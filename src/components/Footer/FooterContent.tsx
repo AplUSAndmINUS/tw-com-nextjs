@@ -412,28 +412,6 @@ export function FooterContent({
           </FooterLinkSection>
         </div>
 
-        {/* Shared ecosystem block: the same Listen / Read / Work / By lines,
-            in the same order, on all three sites. Plain same-tab anchors with
-            rel="me" so search engines tie the sites to one identity. The "By"
-            line is plain text here because this is the site it points to. */}
-        <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
-          <span className={styles.ecosystemTitle}>
-            More from Terence Waters
-          </span>
-          <a href='https://theresonantidentity.com/start-here/' rel='me'>
-            Listen: The Resonant Identity Podcast. Where the Framework is
-            spoken.
-          </a>
-          <a href='https://fluxline.pro/resonance-core-framework/' rel='me'>
-            Read: The Resonance Core Framework™. Where the Framework is mapped.
-          </a>
-          <a href='https://fluxline.pro/' rel='me'>
-            Work: Fluxline. Fluxline builds systems that work, brands that
-            connect, and practices that last.
-          </a>
-          <span>By Terence Waters: author, architect, and solopreneur.</span>
-        </nav>
-
         {/* Bottom bar */}
         <div
           className={`${styles.bottomBar} ${isCompact ? styles.bottomBarCompact : ''}`}
