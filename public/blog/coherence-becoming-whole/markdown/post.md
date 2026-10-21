@@ -219,7 +219,7 @@ If I want to stream a game with friends, I do it.
 If I want to create videos, music, artwork, websites, I do it.
 If I want to be a Ph.D. student—_**I do!!**_—I do it.
 
-Because this is what The Resonance Core Framework teaches at its root—_**decisions from alignment with your identity resonate with others and have maximum impact**_.
+Because this is what The Resonance Core Framework™ teaches at its root—_**decisions from alignment with your identity resonate with others and have maximum impact**_.
 
 Resonance is meant to be _shared_.
 Decisions must align with _who you are_.

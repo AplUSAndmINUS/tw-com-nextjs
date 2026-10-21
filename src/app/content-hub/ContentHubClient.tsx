@@ -271,12 +271,12 @@ export default function ContentHubClient({
       <TwDrawer
         open={drawer === 'books'}
         onClose={() => setDrawer(null)}
-        title='The Resonance Core Framework'
+        title='The Resonance Core Framework™'
         chipLabel='Coming Soon'
       >
         <p className={styles.drawerBody}>
           A practical guide to rebuilding your internal systems with intention.
-          The Resonance Core Framework is the foundational methodology behind
+          The Resonance Core Framework™ is the foundational methodology behind
           everything I teach — distilled into a book.
         </p>
         <p className={styles.drawerBody}>

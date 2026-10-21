@@ -34,20 +34,28 @@ export function buildThemeScript(): string {
   // Read defensively: localStorage throws in some privacy modes, and the stored
   // JSON is user-writable. Any problem falls back to the default mode.
   //
+  // The in-app reduced-motion toggle is stamped here too. useAppTheme only sets
+  // data-tw-reduced-motion after hydration, by which point the first-paint
+  // page fade (.tw-route[data-route-init] in styles/tokens/effects.css) has
+  // already started. The OS preference needs nothing here: the
+  // prefers-reduced-motion rules already override that fade.
+  //
   // The pathname check mirrors the forced-dark effect in HomePageClient, which
   // sets dark on mount regardless of preference. Without it, a light-mode
   // visitor landing on the homepage would get a light-to-dark flash caused by
   // this very script. Remove both together when the homepage is rebuilt on the
   // design system and light mode becomes viable there.
   return `(function(){try{
-var MODES=${modes},DARK=${darkModes},m=${JSON.stringify(DEFAULT_THEME_MODE)};
+var MODES=${modes},DARK=${darkModes},m=${JSON.stringify(DEFAULT_THEME_MODE)},rm=false;
 try{var raw=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});
 if(raw){var s=JSON.parse(raw);var t=s&&s.state&&s.state.preferences&&s.state.preferences.themeMode;
-if(MODES.indexOf(t)!==-1){m=t;}}}catch(e){}
+if(MODES.indexOf(t)!==-1){m=t;}
+rm=!!(s&&s.state&&s.state.preferences&&s.state.preferences.reducedMotion===true);}}catch(e){}
 var p=location.pathname;if(p==='/'||p===''){m='dark';}
 var d=document.documentElement,isDark=DARK.indexOf(m)!==-1;
 d.setAttribute('data-theme',m);
 d.style.colorScheme=isDark?'dark':'light';
 d.classList[isDark?'add':'remove']('dark');
+if(rm){d.setAttribute('data-tw-reduced-motion','true');}
 }catch(e){}})();`;
 }

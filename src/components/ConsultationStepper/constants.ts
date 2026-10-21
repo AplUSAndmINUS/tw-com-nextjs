@@ -35,7 +35,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
   },
   {
     key: 'resonance_coaching',
-    label: 'Resonance Core Framework Coaching',
+    label: 'Resonance Core Framework™ Coaching',
     description:
       'Mindset alignment, life strategy, and personal resonance work.',
     icon: 'Heart28Filled',

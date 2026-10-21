@@ -236,7 +236,7 @@ New components should use the DSM animation primitives:
 - CSS transitions via `--tw-motion-ease` and `--tw-motion-duration` tokens
 - `@include motion-safe-only` SCSS mixin to respect `prefers-reduced-motion`
 
-Framer Motion is still used by legacy components (PageTransition, NewsletterDrawer) but should not be introduced into new code.
+Framer Motion is still used by legacy components (NewsletterDrawer, Modal, ImageCarousel) but should not be introduced into new code.
 
 ### 7.3 — SCSS Modules & Mixins
 
@@ -249,39 +249,31 @@ Copilot should:
 
 ### 7.4 — Page Transitions
 
-TW.com uses a `PageTransition` component (at `src/components/PageTransition/`) for smooth fade-in/out transitions between all pages. This mirrors the Fluxline.pro approach.
+TW.com uses one site-wide `PageTransition` component (at `src/components/PageTransition/`) for fade-out / fade-in transitions between all pages, DSM and legacy alike. It is CSS plus a small client component; no Framer Motion.
 
 **How it works:**
 
-- `PageTransition` wraps all page content inside `RootLayout` (via `SiteLayout`)
-- It uses Framer Motion's `AnimatePresence` with `mode='wait'` so the old page fully fades out before the new page fades in
-- `key={pathname}` ensures the animation re-runs on every route change
-- Initial page load also fades in from `opacity: 0`, giving every page (including the homepage) a consistent fade-in on first visit
-- Respects `prefers-reduced-motion` via the `useReducedMotion` hook — sets duration to `0` when the user prefers reduced motion
-
-**Usage pattern:**
-
-```tsx
-// Automatically applied via RootLayout — no manual wrapping needed per page
-// src/layouts/RootLayout/RootLayout.tsx
-<main id='main-content'>
-  <PageTransition duration={300}>{children}</PageTransition>
-</main>
-```
+- `PageTransition` is mounted once in `src/app/providers.tsx`, around the page segment, so it persists across client navigations and never remounts page content
+- **Leave:** a capturing click listener catches plain left clicks on in-app links (same origin, different path, not a file, no modifier keys, no `target`/`download`), fades the `.tw-route` wrapper out (180ms), then calls `router.push`. `next/link` skips its own navigation because the click is already `defaultPrevented`. Add `data-no-route-transition` to a link (or an ancestor) to opt out
+- **Enter:** on pathname change a layout effect fades the wrapper back in and cascades the page's top-level sections that are in view (`.tw-enter`, 90ms apart); sections and subsections below the fold fade up on scroll (`.tw-sr`, IntersectionObserver, fails open after 3s). Blocks already animated by `TwReveal` are left to it
+- **First load:** a CSS-only fade on `[data-route-init]` (server HTML) plus the below-fold scroll reveal. In-view content is never hidden after it has painted
+- Only `opacity` (wrapper) and `opacity` + a short `translateY` (sections) animate, every fill mode is `backwards`, and nothing is hidden by default: no layout shift, and with no JavaScript (or for crawlers) all content is visible
+- **Reduced motion** (OS setting or the in-app toggle): clicks navigate immediately, no classes are added, and `effects.css` forces `.tw-route`, `.tw-enter` and `.tw-sr` visible as a backstop
 
 **Key files:**
 
-| File                                               | Purpose                                                            |
-| -------------------------------------------------- | ------------------------------------------------------------------ |
-| `src/components/PageTransition/PageTransition.tsx` | Framer Motion `AnimatePresence` + `motion.div` wrapper             |
-| `src/hooks/useFadeInOut.ts`                        | Lower-level CSS-based fade hook (available for non-page use cases) |
-| `src/hooks/useReducedMotion.ts`                    | Detects OS `prefers-reduced-motion` preference                     |
+| File                                               | Purpose                                                          |
+| -------------------------------------------------- | ---------------------------------------------------------------- |
+| `src/components/PageTransition/PageTransition.tsx` | Wrapper, link interception, enter/leave state                    |
+| `src/components/PageTransition/routeTransition.ts` | Link eligibility, section discovery, stagger + scroll reveal     |
+| `src/styles/tokens/effects.css`                    | `.tw-route` / `.tw-enter` / `.tw-sr` animations + reduced motion |
+| `src/hooks/useReducedMotion.ts`                    | Detects OS `prefers-reduced-motion` preference                   |
 
 Copilot should:
 
-- Never add manual fade animations to individual page components — `RootLayout` handles this globally
-- Use `PageTransition` directly only when wrapping content outside of `RootLayout`
-- Always respect `useReducedMotion` when building custom animations
+- Never add manual page-level fade animations to individual page components; `PageTransition` handles this globally
+- Use `TwReveal` for in-page scroll reveals, and set `fill` on a `TwReveal` that wraps a card in a grid so cards in a row stay the same height (`TwContentGrid` does this for you)
+- Always respect reduced motion when building custom animations
 
 ### 7.5 — Accessibility Preferences
 

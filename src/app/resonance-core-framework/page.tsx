@@ -181,7 +181,7 @@ export default function ResonanceCoreFrameworkPage() {
             </TwReveal>
             <div className={styles.conceptGrid}>
               {RCF_CONCEPTS.map((c, i) => (
-                <TwReveal key={c.id} delay={i * 60}>
+                <TwReveal fill key={c.id} delay={i * 60}>
                   <a
                     id={c.id}
                     href={rcfConceptHref(c.id)}

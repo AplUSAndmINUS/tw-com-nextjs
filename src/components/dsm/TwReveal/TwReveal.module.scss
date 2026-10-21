@@ -14,6 +14,23 @@
 }
 
 /*
+ * Equal-height cards. A grid stretches each item to its row's height, but when
+ * the item is this wrapper the card inside it still sizes to its own content,
+ * so cards in one row end up different heights. As a flex column the wrapper
+ * hands its stretched height to the child. Flex sizing (rather than
+ * height: 100%) keeps padding and borders inside the row whatever the child's
+ * box-sizing.
+ */
+.fill {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex: 1 1 auto;
+  }
+}
+
+/*
  * Elements begin at opacity 0 and are revealed by JavaScript. If scripting is
  * unavailable that would hide the page's content permanently, so force it
  * visible instead — content availability beats the animation.
