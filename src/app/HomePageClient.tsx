@@ -237,7 +237,7 @@ export default function HomePageClient({
         />
       </section>
 
-      {/* ===== The book (pre-launch) + resonance philosophy ===== */}
+      {/* ===== The book (pre-launch): kept short, launch date quoted ===== */}
       <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
         <div className={styles.container}>
           <div className={styles.resonanceGrid}>
@@ -252,17 +252,10 @@ export default function HomePageClient({
               />
             </TwReveal>
             <TwReveal stagger>
-              <TwSectionHeading
-                kicker='The Book'
-                title='The Resonance Core Framework™: Targeted for Q1 2027'
-              />
+              <TwSectionHeading kicker='The Book' title={RCF_TRADEMARK} />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
-              <p className={styles.prose}>{RCF_BOOK_DATE_LINE}</p>
               <blockquote className={styles.quote}>
-                Resonance is when your identity, your systems, and your actions
-                finally operate on the same frequency. My work — architectural,
-                creative, or personal — is about helping you build from that
-                place.
+                {RCF_BOOK_DATE_LINE}
               </blockquote>
               <div className={styles.bookCtas}>
                 <TwButton href={RCF_NOTIFY_HREF}>
@@ -275,13 +268,6 @@ export default function HomePageClient({
                   Listen to the Podcast →
                 </TwButton>
               </div>
-              <p className={styles.prose}>
-                Want to see the Framework at work in a business? Fluxline builds
-                it into strategy, systems, brand, and body.{' '}
-                <a href='https://fluxline.pro/services/'>
-                  See how Fluxline works →
-                </a>
-              </p>
             </TwReveal>
           </div>
         </div>
@@ -371,7 +357,7 @@ export default function HomePageClient({
 
                 <div className={styles.audienceGrid}>
                   {AUDIENCES.map((item, i) => (
-                    <TwReveal key={item.label} delay={i * 90}>
+                    <TwReveal fill key={item.label} delay={i * 90}>
                       <div className={styles.audience}>
                         <div className={styles.audienceLabel}>{item.label}</div>
                         <p className={styles.audienceText}>{item.text}</p>
@@ -439,7 +425,7 @@ export default function HomePageClient({
 
               <div className={styles.cardGrid2}>
                 {homeServices.map((service, i) => (
-                  <TwReveal key={service.slug} delay={i * 90}>
+                  <TwReveal fill key={service.slug} delay={i * 90}>
                     <button
                       type='button'
                       className={styles.cardButton}
@@ -531,7 +517,7 @@ export default function HomePageClient({
               ) : (
                 <div className={styles.cardGrid2}>
                   {filteredContent.slice(0, 6).map((item, i) => (
-                    <TwReveal key={item.slug} delay={i * 90}>
+                    <TwReveal fill key={item.slug} delay={i * 90}>
                       <TwArticleCard
                         title={item.title}
                         excerpt={item.excerpt}
@@ -599,7 +585,7 @@ export default function HomePageClient({
 
               <div className={styles.cardGrid2}>
                 {portfolio.slice(0, 4).map((item, i) => (
-                  <TwReveal key={item.slug} delay={i * 90}>
+                  <TwReveal fill key={item.slug} delay={i * 90}>
                     <TwArticleCard
                       title={item.title}
                       excerpt={item.excerpt}

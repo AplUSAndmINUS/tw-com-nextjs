@@ -29,7 +29,7 @@ export const RCF_BOOK = {
   publicationDate: 'Targeted for Q1 2027',
   preorders: 'Opening in early November 2026',
   formats: ['Hardcover', 'eBook', 'Audiobook'],
-  structure: '31 chapters across four parts',
+  structure: '31 chapters and Three Mystic Phases',
 };
 
 /** One-line book date for book-focused passages: launch plus preorders. */
@@ -44,9 +44,14 @@ export const RCF_BOOK_DATE_LINE =
 export const RCF_CANONICAL_PARAGRAPH =
   'The Resonance Core Framework™ is a structured identity system built on the principle that sustainable change requires alignment, not force. Written by Terence Waters and developed through Fluxline Resonance Group, the RCF maps three dimensions of identity (inner signal, outward expression, and systemic impact) and provides named conceptual tools, each defined in one sentence under Core Concepts below. It is the foundation of The Resonant Identity podcast and of the book, targeted for Q1 2027.';
 
-/** Homepage book section body (TW-1.3). */
+/**
+ * Homepage book section body (TW-1.3). Kept to about three lines on purpose:
+ * the homepage teases the book, and the concepts are glossed on
+ * /resonance-core-framework. The launch date sits in the section's blockquote
+ * (RCF_BOOK_DATE_LINE), not here.
+ */
 export const RCF_BOOK_BLURB =
-  'The book that maps what the podcast has been building toward. The Resonance Core Framework is a structured identity system, 31 chapters across four parts, exploring how identity shapes decisions. It covers Behavioral Gravity (the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up), the Judgment Loop (the cycle where judgments about yourself and others reinforce a distorted view of identity), and The Decision Integrity Index (The DII), which gives you a repeatable way to score the alignment of any decision. For individuals, founders, and leaders who need more than motivation. They need architecture.';
+  'The book that maps what the podcast has been building toward: a structured identity system for individuals, founders, and leaders who need more than motivation. They need architecture.';
 
 /**
  * Core concepts — one-line summaries only. The full, canonical definitions

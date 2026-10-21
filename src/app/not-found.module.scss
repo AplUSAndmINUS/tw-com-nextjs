@@ -77,7 +77,9 @@
 }
 
 .cardLink {
-  display: block;
+  /* Pass the row height through the link to the card (equal-height rows). */
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
   border-radius: var(--tw-radius-card);
@@ -88,8 +90,8 @@
 .card {
   @include card-interactive;
 
+  flex: 1 1 auto;
   padding: var(--tw-card-pad);
-  height: 100%;
 }
 
 .cardTitle {
