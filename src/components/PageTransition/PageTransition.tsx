@@ -47,11 +47,13 @@ export function PageTransition({ children }: PageTransitionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const lastPathname = useRef<string | null>(null);
   const restoreTimer = useRef<number | undefined>(undefined);
+  // Pending router.push for a clicked link. Held in a ref so a newer
+  // navigation (back/forward, or a pathname change from elsewhere) can cancel
+  // it before it fires and overrides that navigation with a stale link.
+  const navigateTimer = useRef<number | undefined>(undefined);
 
   // ----- Leave -----
   useEffect(() => {
-    let navigateTimer: number | undefined;
-
     const onClick = (event: MouseEvent) => {
       const wrapper = ref.current;
       if (!wrapper) return;
@@ -64,10 +66,10 @@ export function PageTransition({ children }: PageTransitionProps) {
       event.preventDefault();
       router.prefetch(href);
       wrapper.dataset.route = 'leaving';
-      window.clearTimeout(navigateTimer);
+      window.clearTimeout(navigateTimer.current);
       window.clearTimeout(restoreTimer.current);
 
-      navigateTimer = window.setTimeout(() => {
+      navigateTimer.current = window.setTimeout(() => {
         router.push(href);
         // If the destination is slow (or never arrives), do not leave the
         // visitor staring at a blank page; the new page still fades in when
@@ -78,10 +80,19 @@ export function PageTransition({ children }: PageTransitionProps) {
       }, LEAVE_MS);
     };
 
+    // Back/forward during the leave fade wins over the clicked link.
+    const onPopState = () => {
+      window.clearTimeout(navigateTimer.current);
+      const wrapper = ref.current;
+      if (wrapper?.dataset.route === 'leaving') delete wrapper.dataset.route;
+    };
+
     document.addEventListener('click', onClick, true);
+    window.addEventListener('popstate', onPopState);
     return () => {
       document.removeEventListener('click', onClick, true);
-      window.clearTimeout(navigateTimer);
+      window.removeEventListener('popstate', onPopState);
+      window.clearTimeout(navigateTimer.current);
       window.clearTimeout(restoreTimer.current);
     };
   }, [router]);
@@ -91,6 +102,8 @@ export function PageTransition({ children }: PageTransitionProps) {
     const wrapper = ref.current;
     if (!wrapper) return;
     window.clearTimeout(restoreTimer.current);
+    // A navigation already landed; a pending push from an earlier click is stale.
+    window.clearTimeout(navigateTimer.current);
 
     // First load, or the same path again (React Strict Mode re-runs effects
     // in development): nothing to transition from.
