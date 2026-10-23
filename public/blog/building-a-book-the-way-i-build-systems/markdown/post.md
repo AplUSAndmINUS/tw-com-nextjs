@@ -27,6 +27,26 @@ seoKeywords:
   - 'self-narrated audiobook'
   - 'book preorder'
 structuredSummary: 'Terence Waters is building The Resonance Core Framework™ in public. Each chapter passes through gates: manuscript, editorial checks, design, eBook, print and Kindle builds, the audiobook, and a release checklist. In October 2026 the pipeline began generating the InDesign print files for each chapter and workbook exercise alongside the eBook, removing months of manual layout. Preorders open in early November 2026, and the book is targeted for Q1 2027.'
+generatedWithAI: true
+keyInsights:
+  - 'The Resonance Core Framework™ is a practical system for making change that holds, built on alignment rather than force. Preorders open in early November 2026, and the book is targeted for Q1 2027.'
+  - 'Each chapter passes through gates: manuscript, editorial checks, design, eBook, print and Kindle builds, the audiobook, and a release checklist.'
+  - 'The print layout was the slowest gate. The system now generates the print files alongside the eBook, and I verify them, which saves months.'
+  - 'AI drafts, builds and checks; it never decides. The book is AI-assisted, never written solely by AI, and fully human-reviewed.'
+  - "Structure isn't the opposite of heart. Good structure is what lets you write with it."
+faq:
+  - question: 'When can I preorder the book?'
+    answer: "Preorders open in early November 2026. The book is targeted for Q1 2027. Join the list at fluxline.pro/resonance-core-framework/#notify and you'll hear first."
+  - question: 'Is AI writing the book?'
+    answer: "No. Portions are AI-assisted, nothing is written solely by AI, and every line and figure is reviewed by me. The book's front matter says this too."
+  - question: 'What did the system automate?'
+    answer: 'The print layout. It builds the eBook first, then creates the InDesign files for each chapter and its workbook exercise. I open them, check them and finish them. The full write-up is in the Fluxline case study, and the code is on GitHub at github.com/Fluxline-pro/rcf-pipeline.'
+  - question: 'Who narrates the audiobook?'
+    answer: 'I do.'
+  - question: 'Where can I start with the framework now?'
+    answer: 'Read the free Introduction Preview on fluxline.pro, and listen to The Resonant Identity podcast. Episodes 003 and 004 cover the ideas in Chapter 1.'
+  - question: 'Where can I watch the build?'
+    answer: 'On Twitch and TikTok at aplusinflux, Tuesdays and Thursdays.'
 ---
 
 I've spent more than twenty years designing and architecting systems for other people. Websites, platforms, brands, the quiet infrastructure that makes a product feel effortless. This year I started building one for something much more personal: my own book.
@@ -68,7 +88,7 @@ The first one came back about 95% of the way there. I wrote down what the last 5
 
 It's saving me months. It's also the reason I can finally give you a date.
 
-If you want to see how it works, the pipeline is on GitHub: [Fluxline-pro/rcf-pipeline](https://github.com/Fluxline-pro/rcf-pipeline).
+If you want to see how it works, the full write-up is in the [Fluxline case study](https://fluxline.pro/case-studies/rcf-publishing-pipeline-alignment), and the pipeline itself is on GitHub: [Fluxline-pro/rcf-pipeline](https://github.com/Fluxline-pro/rcf-pipeline).
 
 ## Where AI fits, and where it doesn't
 
@@ -89,33 +109,3 @@ Every week I'll share one idea from the framework in plain language, one piece o
 This week's idea comes from Chapter 1: the Tunneled Lens, and the difference between the loud story we tell about ourselves and the quieter one underneath.
 
 If you want to follow along, or you want to know the moment preorders open, the newsletter is the best place. [Sign up here](https://fluxline.pro/resonance-core-framework/#notify). I'd love the company.
-
----
-
-## Key insights
-
-- _The Resonance Core Framework™_ is a practical system for making change that holds, built on alignment rather than force. Preorders open in early November 2026, and the book is targeted for Q1 2027.
-- Each chapter passes through gates: manuscript, editorial checks, design, eBook, print and Kindle builds, the audiobook, and a release checklist.
-- The print layout was the slowest gate. The system now generates the print files alongside the eBook, and I verify them, which saves months.
-- AI drafts, builds and checks; it never decides. The book is AI-assisted, never written solely by AI, and fully human-reviewed.
-- Structure isn't the opposite of heart. Good structure is what lets you write with it.
-
-## FAQ
-
-**When can I preorder the book?**
-Preorders open in early November 2026. The book is targeted for Q1 2027. [Join the list](https://fluxline.pro/resonance-core-framework/#notify) and you'll hear first.
-
-**Is AI writing the book?**
-No. Portions are AI-assisted, nothing is written solely by AI, and every line and figure is reviewed by me. The book's front matter says this too.
-
-**What did the system automate?**
-The print layout. It builds the eBook first, then creates the InDesign files for each chapter and its workbook exercise. I open them, check them and finish them. The full write-up is in the [Fluxline case study](https://fluxline.pro/case-studies/rcf-publishing-pipeline-alignment), and the code is on [GitHub](https://github.com/Fluxline-pro/rcf-pipeline).
-
-**Who narrates the audiobook?**
-I do.
-
-**Where can I start with the framework now?**
-Read the free Introduction Preview on [fluxline.pro](https://fluxline.pro/resonance-core-framework), and listen to The Resonant Identity podcast. Episodes 003 and 004 cover the ideas in Chapter 1.
-
-**Where can I watch the build?**
-On Twitch and TikTok at aplusinflux, Tuesdays and Thursdays.
