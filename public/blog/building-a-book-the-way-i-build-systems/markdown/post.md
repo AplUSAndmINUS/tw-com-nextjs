@@ -68,6 +68,8 @@ The first one came back about 95% of the way there. I wrote down what the last 5
 
 It's saving me months. It's also the reason I can finally give you a date.
 
+If you want to see how it works, the pipeline is on GitHub: [Fluxline-pro/rcf-pipeline](https://github.com/Fluxline-pro/rcf-pipeline).
+
 ## Where AI fits, and where it doesn't
 
 I use AI the way an architect uses drafting software. It drafts, checks, builds and organizes. It doesn't decide. Portions of the book are AI-assisted, nothing in it is written solely by AI, and every line, every figure and every print file gets my review. The book says so up front, and I'll say so here.
@@ -107,7 +109,7 @@ Preorders open in early November 2026. The book is targeted for Q1 2027. [Join t
 No. Portions are AI-assisted, nothing is written solely by AI, and every line and figure is reviewed by me. The book's front matter says this too.
 
 **What did the system automate?**
-The print layout. It builds the eBook first, then creates the InDesign files for each chapter and its workbook exercise. I open them, check them and finish them. The full write-up is in the [Fluxline case study](https://fluxline.pro/case-studies/rcf-publishing-pipeline-alignment).
+The print layout. It builds the eBook first, then creates the InDesign files for each chapter and its workbook exercise. I open them, check them and finish them. The full write-up is in the [Fluxline case study](https://fluxline.pro/case-studies/rcf-publishing-pipeline-alignment), and the code is on [GitHub](https://github.com/Fluxline-pro/rcf-pipeline).
 
 **Who narrates the audiobook?**
 I do.
