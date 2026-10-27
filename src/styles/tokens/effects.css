@@ -312,6 +312,20 @@ html {
   transform: none !important;
 }
 
+/* ===== Print — never print a section that has not been scrolled into view yet.
+   .tw-sr holds below-fold sections at opacity 0 until they reveal; without
+   this, printing a long page leaves those sections blank. */
+@media print {
+  .tw-route,
+  .tw-enter,
+  .tw-sr {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* ===== Reduced transparency — blur is reserved for the nav, so this is where
    it gets stripped. The nav falls back to an opaque surface. ===== */
 [data-tw-reduced-transparency='true'] {
