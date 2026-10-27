@@ -4,7 +4,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the site uses
 [Semantic Versioning](https://semver.org/).
 
-## [2.1.0] - Unreleased
+## [2.1.0] - 2026-10-27
 
 The release after the v2.0 site launch: a voice and congruence pass across
 copy, the book-launch updates, a site-wide UI pass, and a new blog post.
@@ -70,4 +70,4 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
-[2.1.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/master...test
+[2.1.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2.1.0
