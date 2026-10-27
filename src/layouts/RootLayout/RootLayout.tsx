@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Footer } from '@/components/Footer';
-import { PageTransition } from '@/components/PageTransition';
 import styles from './RootLayout.module.scss';
 
 interface RootLayoutProps {
@@ -63,10 +62,7 @@ export function RootLayout({
 
   return (
     <div className={containerClassName} suppressHydrationWarning>
-      <a
-        href='#main-content'
-        className={`hide-scrollbar ${styles.skipLink}`}
-      >
+      <a href='#main-content' className={`hide-scrollbar ${styles.skipLink}`}>
         Skip to main content
       </a>
       <main
@@ -74,9 +70,10 @@ export function RootLayout({
         className={mainClassName}
         suppressHydrationWarning
       >
-        <PageTransition duration={300} className={transitionClassName}>
-          {children}
-        </PageTransition>
+        {/* Page transitions are site-wide now (PageTransition in
+            app/providers.tsx), so this is a plain wrapper that only keeps the
+            contained view's flex column. */}
+        <div className={transitionClassName || undefined}>{children}</div>
       </main>
       {showFooter && (
         <div className={footerWrapperClassName}>

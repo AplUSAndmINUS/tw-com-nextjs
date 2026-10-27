@@ -15,6 +15,8 @@
  * is now the canonical on-site description of each offering.
  */
 
+import { SOCIAL_URLS } from '@/lib/socials';
+
 export interface HomeService {
   title: string;
   slug: string;
@@ -31,7 +33,7 @@ const FLUXLINE_SERVICES = 'https://fluxline.pro/services';
 
 export const homeServices: HomeService[] = [
   {
-    title: 'Design & Identity',
+    title: 'Brand & Experience Design',
     slug: 'design',
     category: 'Service',
     excerpt:
@@ -48,7 +50,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Architecture & Development',
+    title: 'Web Development & Digital Architecture',
     slug: 'development',
     category: 'Service',
     excerpt:
@@ -64,7 +66,7 @@ export const homeServices: HomeService[] = [
     ],
   },
   {
-    title: 'Enterprise Consulting',
+    title: 'Business Strategy & Systems Alignment',
     slug: 'consulting',
     category: 'Service',
     excerpt:
@@ -78,21 +80,6 @@ export const homeServices: HomeService[] = [
       'Tech integration & infrastructure planning',
       'Change management and transformation facilitation',
       'Technical due diligence',
-    ],
-  },
-  {
-    title: 'Design Facilitation',
-    slug: 'facilitation',
-    category: 'Service',
-    excerpt:
-      'Workshops that turn messy problems into shared, buildable direction.',
-    blurb:
-      'Facilitated workshops that align teams fast — turning ambiguity into a direction everyone can see and build toward.',
-    points: [
-      'Discovery & alignment workshops',
-      'Journey and service mapping',
-      'Roadmap facilitation',
-      'Design-thinking sessions and critiques',
     ],
   },
   {
@@ -110,22 +97,6 @@ export const homeServices: HomeService[] = [
       'Update your internal predictions and interpretations',
       "Choose the identity that supports who you're becoming",
       'Take aligned action from that chosen identity',
-    ],
-  },
-  {
-    title: 'Fractional Leadership',
-    slug: 'fractional',
-    category: 'Service',
-    excerpt:
-      'Design and technology leadership, embedded with your team for a season.',
-    blurb:
-      'Embedded design and technology leadership for a season — senior direction without a full-time hire. You get the decision-making velocity of a CTO or design director, scoped to the work that actually needs it, without the overhead of a permanent executive.',
-    points: [
-      'Fractional CTO / architect — strategy, stack decisions, and technical direction',
-      'Fractional design lead — system vision, critique, and quality bar',
-      'Team mentorship and capability building',
-      'Stakeholder communication and roadmap facilitation',
-      'Audit and modernization of existing systems',
     ],
   },
   {
@@ -160,22 +131,31 @@ export interface HomeSocial {
 
 /** The About-rail social set. */
 export const aboutSocials: HomeSocial[] = [
-  { name: 'Facebook', icon: 'facebook', href: '#' },
-  { name: 'Instagram', icon: 'instagram', href: '#' },
-  { name: 'TikTok', icon: 'tiktok', href: '#' },
-  { name: 'GitHub', icon: 'github', href: 'https://github.com/AplUSAndmINUS' },
-  { name: 'Threads', icon: 'threads', href: '#' },
-  { name: 'Email', icon: 'mail', href: 'mailto:terence@terencewaters.com' },
+  { name: 'Facebook', icon: 'facebook', href: SOCIAL_URLS.facebook },
+  { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
+  { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
+  { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
+  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
+  { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
+  { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
+  { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
 ];
 
 /** The wider set shown in the newsletter and contact sections. */
 export const wideSocials: HomeSocial[] = [
-  { name: 'LinkedIn', icon: 'linkedin', href: '#' },
-  { name: 'GitHub', icon: 'github', href: 'https://github.com/AplUSAndmINUS' },
-  { name: 'Instagram', icon: 'instagram', href: '#' },
-  { name: 'YouTube', icon: 'youtube', href: '#' },
-  { name: 'Spotify', icon: 'spotify', href: '#' },
-  { name: 'Apple Podcasts', icon: 'apple-podcasts', href: '#' },
-  { name: 'Threads', icon: 'threads', href: '#' },
-  { name: 'RSS', icon: 'rss', href: '#' },
+  { name: 'LinkedIn', icon: 'linkedin', href: SOCIAL_URLS.linkedin },
+  { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
+  { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
+  { name: 'YouTube', icon: 'youtube', href: SOCIAL_URLS.youtube },
+  { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
+  { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
+  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
+  { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
+  {
+    name: 'Apple Podcasts',
+    icon: 'apple-podcasts',
+    href: SOCIAL_URLS.applePodcasts,
+  },
+  { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
+  { name: 'Podcast RSS feed', icon: 'rss', href: SOCIAL_URLS.podcastRss },
 ];

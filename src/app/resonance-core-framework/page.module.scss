@@ -137,11 +137,24 @@
   background: #000;
 }
 
+/* A fixed 3-column grid on desktop (2 below it) rather than auto-fill, which
+   packed the facts into one long row of five with a lone orphan beneath. Each
+   fact sits under its own rule, so the rows read as a deliberate table even
+   when the last row is not full. */
 .bookFacts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px 24px;
-  margin: 24px 0 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--tw-space-l) var(--tw-space-l);
+  margin: var(--tw-space-l) 0 0;
+
+  @include until('tablet') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  > div {
+    padding-top: var(--tw-space-s);
+    border-top: 1px solid var(--tw-border);
+  }
 
   dt {
     font-family: var(--tw-font-mono);

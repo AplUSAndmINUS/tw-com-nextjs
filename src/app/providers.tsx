@@ -5,6 +5,7 @@ import { ExtendedThemeProvider } from '@/theme/providers/ExtendedThemeProvider';
 import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
+import { PageTransition } from '@/components/PageTransition';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
 import { NewsletterDrawerWrapper } from '@/components/NewsletterDrawer';
@@ -64,8 +65,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {/* Portals itself into document.body. */}
           <PodcastMiniPlayer />
           <AccessGate>
-            {/* Page content (includes main with PageTransition from RootLayout) */}
-            {children}
+            {/*
+              Page content. PageTransition sits above the page segment, so it
+              persists across client navigations and fades every route out and
+              in (see components/PageTransition).
+            */}
+            <PageTransition>{children}</PageTransition>
           </AccessGate>
           {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
           {(!authRequired || !isAuthenticated) && <NewsletterDrawerWrapper />}

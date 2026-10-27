@@ -186,6 +186,82 @@ html {
   animation-delay: 620ms;
 }
 
+/* ===== Page transitions =====================================================
+   Driven by components/PageTransition (mounted once in app/providers.tsx).
+
+   .tw-route wraps every page. It is the only element that fades on leave and
+   enter, and it only ever animates opacity, so fixed descendants (navs,
+   drawers) keep their viewport positioning and nothing shifts layout.
+
+   Every fill mode here is `backwards`, never `both`: once an animation ends it
+   stops contributing, so the element falls back to its normal (visible) style
+   and a finished animation can never pin something at opacity 0.
+
+   Nothing is hidden by default. [data-route-init] is in the server HTML and
+   plays a CSS-only fade on first paint that ends visible with or without
+   JavaScript; .tw-enter / .tw-sr are added by script, after render, and only
+   to sections that are animating in or still below the fold.
+   ========================================================================== */
+@keyframes twRouteFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes twRouteRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tw-route {
+  transition: opacity 180ms ease-out;
+}
+
+/* First paint of the very first page. */
+.tw-route[data-route-init]:not([data-route]) {
+  animation: twRouteFade 420ms ease-out backwards;
+}
+
+/* Clicked an in-app link: fade out, then the router navigates. */
+.tw-route[data-route='leaving'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* New page committed: fade back in while its sections cascade. */
+.tw-route[data-route='entering'] {
+  animation: twRouteFade 320ms ease-out backwards;
+}
+
+/* Sections in view on arrival rise in one after another (delay set inline). */
+.tw-enter {
+  animation: twRouteRise 650ms var(--tw-motion-ease) var(--tw-enter-delay, 0ms)
+    backwards;
+}
+
+/* Sections below the fold wait, then fade up as they scroll into view. */
+.tw-sr {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.tw-sr.tw-sr-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 900ms var(--tw-motion-ease),
+    transform 900ms var(--tw-motion-ease);
+}
+
 /* ===== Reduced motion — OS preference or in-app toggle ===== */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -202,8 +278,12 @@ html {
   .tw-rv-left,
   .tw-rv-left.in,
   .tw-stagger > *,
-  .tw-stagger.in > * {
+  .tw-stagger.in > *,
+  .tw-route,
+  .tw-enter,
+  .tw-sr {
     animation: none !important;
+    transition: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
@@ -221,6 +301,13 @@ html {
 [data-tw-reduced-motion='true']
   :is(.tw-rv, .tw-rv.in, .tw-rv-left, .tw-rv-left.in, .tw-stagger > *) {
   animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+[data-tw-reduced-motion='true'] :is(.tw-route, .tw-enter, .tw-sr) {
+  animation: none !important;
+  transition: none !important;
   opacity: 1 !important;
   transform: none !important;
 }

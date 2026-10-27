@@ -20,7 +20,8 @@ export interface TwContentGridProps extends TwGridProps {
  * TwGrid with staggered scroll reveals.
  *
  * Each direct child is wrapped in a TwReveal whose delay increases by
- * `stagger`. Wrapping happens here rather than at the call site so that a
+ * `stagger`. The wrapper uses `fill`, so every card in a row stretches to the
+ * row's height instead of stopping at its own content. Wrapping happens here rather than at the call site so that a
  * content grid is a drop-in for a plain grid.
  *
  * Children keep their own keys where they have them — React.Children.map
@@ -39,7 +40,7 @@ export function TwContentGrid({
           return child;
         }
         return (
-          <TwReveal delay={Math.min(index * stagger, maxStagger)}>
+          <TwReveal fill delay={Math.min(index * stagger, maxStagger)}>
             {child}
           </TwReveal>
         );

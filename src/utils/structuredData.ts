@@ -1,4 +1,5 @@
 import { ContentItem, FAQItem } from '@/content/types';
+import { SOCIAL_URLS } from '@/lib/socials';
 
 const SITE_URL = 'https://terencewaters.com';
 
@@ -29,9 +30,9 @@ export const AI_BIOGRAPHY = {
 const PERSON_SAME_AS = [
   'https://www.fluxline.pro',
   'https://theresonantidentity.com',
-  'https://www.youtube.com/@theresonantidentity',
-  'https://github.com/AplUSAndmINUS',
-  'https://www.linkedin.com/in/terencewat/',
+  SOCIAL_URLS.youtube,
+  SOCIAL_URLS.github,
+  SOCIAL_URLS.linkedin,
 ];
 
 /** Person schema fields for the RCF author entity (TW-4.1). */
@@ -382,7 +383,7 @@ export function getRcfBookSchema() {
     '@context': 'https://schema.org',
     '@type': 'Book',
     '@id': `${SITE_URL}/resonance-core-framework#book`,
-    name: 'The Resonance Core Framework',
+    name: 'The Resonance Core Framework™',
     url: `${SITE_URL}/resonance-core-framework`,
     author: {
       '@type': 'Person',
@@ -397,10 +398,10 @@ export function getRcfBookSchema() {
       url: 'https://www.fluxline.pro',
     },
     description:
-      'A 31-chapter identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, Creative Truth, and the DII Protocol — a structured approach to alignment between who you are and how you live.',
+      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
     genre: 'Self-improvement, Identity Psychology, Personal Development',
     inLanguage: 'en',
-    datePublished: '2026',
+    // Add datePublished once the book is out (targeted for Q1 2027).
     // Add 'https://schema.org/EBook' and 'https://schema.org/AudiobookFormat'
     // once those editions are confirmed.
     bookFormat: 'https://schema.org/Hardcover',

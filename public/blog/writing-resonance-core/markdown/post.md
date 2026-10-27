@@ -1,5 +1,6 @@
 ---
-title: 'Why I am Writing The Resonance Core Framework'
+title: 'Why I am Writing The Resonance Core Framework™'
+seoTitle: 'Why I am Writing The Resonance Core Framework'
 excerpt: 'I did not plan to write a book this year. But sometimes life hands you a pattern so persistent that ignoring it feels like betraying yourself. This is why I am sharing the framework that changed my life.'
 author: 'Terence Waters'
 publishedDate: '2026-02-04'
@@ -23,7 +24,7 @@ gallery:
   - url: '/blog/writing-resonance-core/images/RCF_book_concept.jpg'
     alt: 'The Resonance Core Framework™ Book Concept'
     caption: 'Book concept design showing the framework in action'
-  - url: '/blog/writing-resonance-core/images/drive_model_framework.jpeg'
+  - url: '/blog/writing-resonance-core/images/drive_model.jpg'
     alt: 'The DRIVE Model Framework circular diagram'
     caption: 'The DRIVE Model: Aligning identity with goals'
   - url: '/blog/writing-resonance-core/images/spark_step.jpeg'
@@ -32,9 +33,9 @@ gallery:
   - url: '/blog/writing-resonance-core/images/activation_step.jpeg'
     alt: 'Activation step - Smallest meaningful step from concept to behavior'
     caption: 'Activation: Micro-Action - Concept to Lived Behavior'
-  - url: '/blog/writing-resonance-core/images/expansion_step.jpeg'
-    alt: 'Expansion step - Identity evolution through repetition'
-    caption: 'Expansion: Identity Evolution - Meaningful Shifts'
+  - url: '/blog/writing-resonance-core/images/embodiment_step.jpg'
+    alt: 'Embodiment step - Identity evolution through repetition'
+    caption: 'Embodiment: Identity Evolution - Meaningful Shifts'
   - url: '/blog/writing-resonance-core/images/momentum_step.jpeg'
     alt: 'Momentum step - Compounding identity through repetition'
     caption: 'Momentum: Compounding Identity - Building Motivation'
@@ -49,7 +50,7 @@ gallery:
     caption: 'The DRIVE Alignment Loop - Continuous Growth'
 ---
 
-# Why I'm Writing The Resonance Core Framework
+# Why I'm Writing The Resonance Core Framework™
 
 I didn't plan to write a book this year.
 
@@ -97,7 +98,7 @@ That question became the doorway to everything that followed.
 
 Because once I stopped looking for answers outside myself and started tracking what resonated with me—my body, my emotions, my decisions, my patterns—something clicked. Something shifted. Something aligned.
 
-And from that alignment, **The Resonance Core Framework** was born.
+And from that alignment, **The Resonance Core Framework™** was born.
 
 **Not as a theory.**
 

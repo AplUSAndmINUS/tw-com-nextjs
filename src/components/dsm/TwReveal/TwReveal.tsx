@@ -14,6 +14,14 @@ export interface TwRevealProps {
    * CTAs), matching the Resonant Identity homepage treatment.
    */
   stagger?: boolean;
+  /**
+   * Stretch the single child to the wrapper's full height. Use whenever the
+   * reveal is a grid (or flex) item wrapping a card: the grid stretches the
+   * wrapper to the row height, and this passes that height on to the card so
+   * every card in a row ends up the same height. TwContentGrid sets it for
+   * every item.
+   */
+  fill?: boolean;
   /** Element to render. Defaults to a div. */
   as?: React.ElementType;
   children: React.ReactNode;
@@ -40,6 +48,7 @@ export function TwReveal({
   variant = 'up',
   delay = 0,
   stagger = false,
+  fill = false,
   as: Component = 'div',
   children,
   className,
@@ -109,7 +118,13 @@ export function TwReveal({
     : variant === 'left'
       ? 'tw-rv-left'
       : 'tw-rv';
-  const classes = [baseClass, visible ? 'in' : '', styles.reveal, className]
+  const classes = [
+    baseClass,
+    visible ? 'in' : '',
+    styles.reveal,
+    fill ? styles.fill : '',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

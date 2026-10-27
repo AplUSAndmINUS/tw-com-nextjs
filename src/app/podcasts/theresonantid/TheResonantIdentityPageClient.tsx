@@ -167,7 +167,10 @@ function TRIYouTubeVideos() {
               }}
               aria-label={video.title}
             >
-              <div className={styles.videoThumbWrap} style={{ paddingTop: '56.25%' }}>
+              <div
+                className={styles.videoThumbWrap}
+                style={{ paddingTop: '56.25%' }}
+              >
                 {video.thumbnailUrl ? (
                   <NativeLoadingImage
                     src={video.thumbnailUrl}
@@ -289,7 +292,7 @@ export function TheResonantIdentityPageClient({
         <Hero
           title='The Resonant Identity Podcast'
           iconName='MicRegular'
-          description='The Resonant Identity is a podcast blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention. It is a living extension of the Resonance Core Framework where identity becomes practice and is formed through coherence.'
+          description='The Resonant Identity is a podcast blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention. It is a living extension of the Resonance Core Framework™ where identity becomes practice and is formed through coherence.'
           backArrow={true}
           backArrowPath='/podcasts'
         >

@@ -114,7 +114,7 @@ export default function AboutPage() {
         <TwHero
           eyebrow='About'
           title='Terence Waters'
-          body='Founder, architect, and coach. Fifteen years turning complexity into something people can actually live and work inside.'
+          body='Author, architect, and solopreneur. Twenty years turning complexity into something people can actually live and work inside.'
           primaryCta={{ label: 'How I work', href: '#how-i-work' }}
           secondaryCta={{ label: 'Start a conversation', href: '/#contact' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -146,13 +146,15 @@ export default function AboutPage() {
             <p className={styles.prose}>
               As the author of{' '}
               <Link href={RCF_PATH}>The Resonance Core Framework™</Link>{' '}
-              (Fluxline Resonance Group, Late Fall 2026), Terence developed a
-              31-chapter identity system bridging somatic intelligence, decision
+              (Fluxline Resonance Group, targeted for Q1 2027, with preorders
+              opening in early November 2026), Terence developed a 31-chapter
+              book and identity system bridging somatic intelligence, decision
               science, and behavioral psychology. The framework&apos;s core
-              concepts — Behavioral Gravity, Identity Coherence, the Window of
-              Choice, Creative Truth, and the DII Protocol — emerged from over a
-              decade of applied work at the intersection of systems design and
-              human transformation. The RCF is the theoretical foundation of{' '}
+              concepts, including Behavioral Gravity, Identity Coherence, the
+              Window of Choice, and The Decision Integrity Index (The DII),
+              emerged from over a decade of applied work at the intersection of
+              systems design and human transformation. The RCF is the
+              theoretical foundation of{' '}
               <a href={TRI_URL}>The Resonant Identity podcast</a> and the
               coaching practice at{' '}
               <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
@@ -178,7 +180,7 @@ export default function AboutPage() {
         >
           <ul className={styles.beliefList}>
             {BELIEFS.map((belief, i) => (
-              <TwReveal as='li' key={belief.num} delay={i * 90}>
+              <TwReveal as='li' fill key={belief.num} delay={i * 90}>
                 <div className={styles.belief}>
                   <span className={styles.beliefNum} aria-hidden='true'>
                     {belief.num}
@@ -209,7 +211,7 @@ export default function AboutPage() {
         >
           <div className={styles.audienceGrid}>
             {AUDIENCES.map((item, i) => (
-              <TwReveal key={item.label} delay={i * 90}>
+              <TwReveal fill key={item.label} delay={i * 90}>
                 <div className={styles.audience}>
                   <div className={styles.audienceLabel}>{item.label}</div>
                   <p className={styles.audienceText}>{item.text}</p>
@@ -253,7 +255,7 @@ export default function AboutPage() {
 
           <ul className={styles.approachList}>
             {APPROACH.map((item, i) => (
-              <TwReveal as='li' key={item.title} delay={i * 90}>
+              <TwReveal as='li' fill key={item.title} delay={i * 90}>
                 <div className={styles.approach}>
                   <h3 className={styles.approachTitle}>{item.title}</h3>
                   <p className={styles.approachText}>{item.text}</p>
@@ -288,7 +290,7 @@ export default function AboutPage() {
         >
           <div className={styles.projectGrid}>
             {PROJECTS.map((project, i) => (
-              <TwReveal key={project.name} delay={i * 70}>
+              <TwReveal fill key={project.name} delay={i * 70}>
                 <article className={styles.project}>
                   <p className={styles.projectPeriod}>{project.period}</p>
                   <h3 className={styles.projectName}>{project.name}</h3>
@@ -314,7 +316,7 @@ export default function AboutPage() {
         >
           <div className={styles.skillGroups}>
             {SKILL_GROUPS.map((group, i) => (
-              <TwReveal key={group.title} delay={i * 90}>
+              <TwReveal fill key={group.title} delay={i * 90}>
                 <div className={styles.skillGroup}>
                   <h3 className={styles.skillGroupTitle}>{group.title}</h3>
                   <ul className={styles.skillList}>
@@ -400,7 +402,7 @@ export default function AboutPage() {
                 body="Personal, professional, creative, or internal. You don't need it figured out — you need somewhere to think and rebuild with intention. I'd be honored to walk with you."
               >
                 <TwButton href='https://tidycal.com/terencewaters'>
-                  Book a consultation
+                  Book a free consultation
                 </TwButton>
                 <TwButton variant='outline' href='/#contact'>
                   Send a message
