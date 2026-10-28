@@ -12,19 +12,22 @@ The contact form uses **Google reCAPTCHA v3** to prevent spam submissions. reCAP
 
 ## Setup Instructions
 
+> **Where the keys live now (October 2026):** Google moved every classic reCAPTCHA key into a Google Cloud project. Keys are created and edited in the **Google Cloud console → Security → reCAPTCHA**. The old [reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin) still opens and shows history, but it can no longer change key settings, and keys that never joined a Google Cloud project lose API access. Neither the code nor the `siteverify` endpoint changed; only where you manage the keys did.
+
 ### 1. Get reCAPTCHA Keys
 
-1. Go to [Google reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin)
-2. Click **+** to create a new site
+1. Open the [Google Cloud console](https://console.cloud.google.com/security/recaptcha) and select the project that holds the site's keys (or create one).
+2. Go to **Security → reCAPTCHA** and choose **Create key**.
 3. Configure:
-   - **Label**: TW.com Contact Form
-   - **reCAPTCHA type**: reCAPTCHA v3
+   - **Display name**: TW.com Contact Form
+   - **Application type**: Web
    - **Domains**:
-     - `terencewaters.com` (production)
+     - `terencewaters.com` and `www.terencewaters.com` (production)
+     - the TEST hostname
      - `localhost` (local development)
-     - Your Azure Static Web Apps domains (dev/test)
-4. Accept the terms and submit
-5. Copy the **Site Key** and **Secret Key**
+   - **Scoring**: score-based (the classic "v3" behaviour; no checkbox challenge)
+4. Create the key. The **key ID** is the **site key**.
+5. On the key's details page, open the legacy key option and copy the **secret key**. The contact function sends it to `siteverify` and never sends it to the browser.
 
 ### 2. Configure Environment Variables
 
@@ -75,7 +78,7 @@ Then add the secret to your GitHub repository:
 
 ## How It Works
 
-### Client-Side (ContactForm.tsx)
+### Client-Side (HomeContactForm.tsx)
 
 1. User fills out the contact form
 2. On submit, the form generates a reCAPTCHA token using `executeRecaptcha('contact_form_submit')`
@@ -103,11 +106,11 @@ This allows local development without reCAPTCHA if needed, but production should
 
 ### Local Testing
 
-1. Get test keys from the [reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin)
+1. Use a key from the Google Cloud console (Security → reCAPTCHA) with `localhost` in its domain list
 2. Add them to `.env.local`
 3. Start the dev server: `yarn dev`
 4. Start Azure Functions locally: `cd api && func start`
-5. Test the contact form at `http://localhost:3000/contact`
+5. Test the contact form on the home page at `http://localhost:3000`
 6. Check the Azure Functions console for reCAPTCHA verification logs
 
 ### Production Testing
@@ -123,15 +126,16 @@ This allows local development without reCAPTCHA if needed, but production should
 
 **Causes:**
 
-- Site key or secret key incorrect
-- Domain not whitelisted in reCAPTCHA admin
+- Site key or secret key incorrect, or the two come from different keys
+- Domain not on the key's domain list in the Google Cloud console
+- The key was never moved into a Google Cloud project, so its API access is locked
 - Score below threshold (0.5)
 - Network issues reaching Google's API
 
 **Solutions:**
 
 1. Verify keys are correct in environment variables
-2. Check domain is whitelisted in reCAPTCHA admin console
+2. In the Google Cloud console (Security → reCAPTCHA), check the key's domain list and that the key belongs to a project
 3. Check Azure Function logs for specific error message
 4. Try lowering `RECAPTCHA_MIN_SCORE` temporarily to test
 
@@ -151,7 +155,7 @@ This allows local development without reCAPTCHA if needed, but production should
 
 **Solution:**
 
-1. Review reCAPTCHA admin console analytics
+1. Review the key's metrics in the Google Cloud console (Security → reCAPTCHA)
 2. Consider lowering `RECAPTCHA_MIN_SCORE` in `api/contact/index.js`
 3. Default is 0.5 (recommended: 0.3 - 0.7)
 
@@ -159,29 +163,31 @@ This allows local development without reCAPTCHA if needed, but production should
 
 1. **Never commit secret keys** to version control
 2. **Rotate keys periodically** (every 6-12 months)
-3. **Monitor analytics** in reCAPTCHA admin console
+3. **Monitor metrics** in the Google Cloud console (Security → reCAPTCHA)
 4. **Set appropriate score threshold** (balance security vs. UX)
 5. **Use different keys** for dev/test/prod if concerned about abuse
-6. **Whitelist only necessary domains** in reCAPTCHA admin
+6. **List only necessary domains** on the key
 
 ## References
 
 - [Google reCAPTCHA v3 Documentation](https://developers.google.com/recaptcha/docs/v3)
 - [react-google-recaptcha-v3 NPM Package](https://www.npmjs.com/package/react-google-recaptcha-v3)
-- [reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin)
+- [reCAPTCHA in the Google Cloud console](https://console.cloud.google.com/security/recaptcha)
+- [reCAPTCHA Classic to Google Cloud migration overview](https://docs.cloud.google.com/recaptcha/docs/migration-overview)
+- [reCAPTCHA Admin Console (history only)](https://www.google.com/recaptcha/admin)
 
-## Files Modified
+## Files
 
-| File                                         | Purpose                                    |
-| -------------------------------------------- | ------------------------------------------ |
-| `src/components/ReCaptchaProvider/`          | Client-side reCAPTCHA provider wrapper     |
-| `src/app/providers.tsx`                      | Added ReCaptchaProvider to app             |
-| `src/components/ContactForm/ContactForm.tsx` | Generate and send reCAPTCHA token          |
-| `api/contact/index.js`                       | Server-side token verification             |
-| `.env.example`                               | Environment variable documentation         |
-| `package.json`                               | Added react-google-recaptcha-v3 dependency |
+| File                                | Purpose                                                     |
+| ----------------------------------- | ----------------------------------------------------------- |
+| `src/components/ReCaptchaProvider/` | Client-side reCAPTCHA provider wrapper                      |
+| `src/app/HomePageClient.tsx`        | Wraps the home contact section in `ReCaptchaProvider`       |
+| `src/app/home/HomeContactForm.tsx`  | Generates the `contact_form_submit` token and sends it      |
+| `api/contact/index.js`              | Server-side token verification                              |
+| `api/local.sample.settings.json`    | Local Functions settings, including `RECAPTCHA_SECRET_KEY`  |
+| `package.json`                      | `react-google-recaptcha-v3` dependency                      |
 
 ---
 
-**Last Updated**: March 4, 2026  
-**Version**: 1.0.0
+**Last Updated**: October 26, 2026  
+**Version**: 1.1.0 (keys moved to the Google Cloud console)
