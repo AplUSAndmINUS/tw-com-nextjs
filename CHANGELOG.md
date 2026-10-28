@@ -4,6 +4,16 @@ All notable changes to terencewaters.com are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the site uses
 [Semantic Versioning](https://semver.org/).
 
+## [2.1.1] - 2026-10-28
+
+### Added
+
+- `docs/RECAPTCHA-SETUP.md`: reCAPTCHA setup notes (docs only, already on test).
+
+### Changed
+
+- Retired the GitHub Copilot instructions file; project guidance now lives in `CLAUDE.md` (#219). Tag: `v2_1_1.PROD`.
+
 ## [2.1.0] - 2026-10-27
 
 The release after the v2.0 site launch: a voice and congruence pass across
