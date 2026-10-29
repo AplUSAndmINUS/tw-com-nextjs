@@ -733,6 +733,17 @@ The script **lists its test files explicitly**. That is deliberate, and both obv
 
 ---
 
-## 20. Final Rule
+## 20. Content-Only Deployment Rule
+
+Content-only changes — new or edited Markdown files in `public/blog/`, `public/portfolio/`, or `public/case-studies/`, with no changes to TypeScript, SCSS, configuration, Azure Functions, or component logic — do **not** require a release. Merge the PR into `develop` → `test` → `prod` through the normal branch flow. A release is only required when code changes ship alongside content.
+
+**Copilot rules:**
+
+- When the only changed files are Markdown posts under `public/`, note "content-only, no release required" in the PR body.
+- Do not block a content-only PR on a release tag or version bump.
+
+---
+
+## 21. Final Rule
 
 Copilot should prioritize clarity, consistency, and the authorial voice of TW.com.
