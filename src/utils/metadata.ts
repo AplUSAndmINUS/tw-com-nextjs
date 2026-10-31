@@ -3,7 +3,7 @@ import { getEnvironment } from '@/lib/environment';
 
 const BASE_URL = 'https://terencewaters.com';
 const DEFAULT_DESCRIPTION =
-  'Terence Waters: author of The Resonance Core Framework™, systems architect, and identity coach in Salt Lake City. Founder of Fluxline Resonance Group.';
+  'Terence Waters: author, architect, and solopreneur in Salt Lake City, writing The Resonance Core Framework™. Founder of Fluxline Resonance Group.';
 /**
  * Returns robots configuration based on environment.
  * DEV/TEST: Prevents search engine indexing

@@ -22,9 +22,9 @@ function toCard(item: ContentItem, basePath: string): HomeCard {
   };
 }
 
-const TITLE = 'Terence Waters: Author, Systems Architect, Identity Coach';
+const TITLE = 'Terence Waters: Author, Architect, and Solopreneur';
 const DESCRIPTION =
-  'Author of The Resonance Core Framework™, systems architect, and identity coach in Salt Lake City. Terence Waters writes about making change that holds.';
+  'Terence Waters is an author, architect, and solopreneur in Salt Lake City, writing The Resonance Core Framework™ and about making change that holds.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
