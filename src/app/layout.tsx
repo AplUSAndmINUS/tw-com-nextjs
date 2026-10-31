@@ -4,6 +4,7 @@ import {
   getPersonSchema,
   getOrganizationSchema,
   getWebSiteSchema,
+  SITE_KEYWORDS,
 } from '@/utils/structuredData';
 import { safeJsonLd } from '@/utils/safeJsonLd';
 
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     template: '%s | Terence Waters',
   },
   description: 'Author, technologist, and creative thinker.',
+  keywords: SITE_KEYWORDS,
   metadataBase: new URL('https://terencewaters.com'),
   robots: isProd
     ? {

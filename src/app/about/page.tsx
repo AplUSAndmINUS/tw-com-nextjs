@@ -42,6 +42,23 @@ const ABOUT_DESCRIPTION =
 export const metadata: Metadata = {
   title: { absolute: ABOUT_TITLE },
   description: ABOUT_DESCRIPTION,
+  keywords: [
+    'Terence Waters',
+    'about Terence Waters',
+    'Resonance Core Framework author',
+    'Fluxline Resonance Group founder',
+    'The Resonant Identity podcast host',
+    'systems architect',
+    'identity coach',
+    'creative technologist',
+    'Salt Lake City',
+    'IT architecture',
+    'full-stack web development',
+    'brand identity',
+    'curriculum design',
+    'personal transformation',
+    'NASM Certified Personal Trainer',
+  ],
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: ABOUT_TITLE,

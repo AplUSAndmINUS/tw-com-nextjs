@@ -9,6 +9,21 @@ import { BLOG_NAV_LINKS } from './blogNav';
 export const metadata: Metadata = {
   title: 'The Blog',
   description: 'Thoughts on technology, creativity, and the human experience.',
+  keywords: [
+    'Terence Waters blog',
+    'Resonance Core Framework',
+    'Behavioral Gravity',
+    'The Decision Integrity Index',
+    'identity alignment',
+    'identity transformation',
+    'personal growth',
+    'personal transformation',
+    'self-discovery',
+    'intentional living',
+    'decision-making framework',
+    'building a book in public',
+    'systems thinking',
+  ],
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'The Blog | Terence Waters',

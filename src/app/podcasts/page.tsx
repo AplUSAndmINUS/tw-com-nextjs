@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: 'Podcasts',
   description:
     'Long-form audio exploring identity, technology, and transformation. Discover The Resonant Identity podcast and more.',
+  keywords: [
+    'The Resonant Identity podcast',
+    'Terence Waters podcast',
+    'identity podcast',
+    'identity alignment',
+    'personal transformation podcast',
+    'Resonance Core Framework',
+    'long-form audio',
+  ],
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'Podcasts | Terence Waters',

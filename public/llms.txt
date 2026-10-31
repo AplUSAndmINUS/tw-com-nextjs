@@ -4,6 +4,8 @@
 
 The Resonance Core Framework™ is a structured identity system built on the principle that sustainable change requires alignment, not force. Written by Terence Waters, it maps three dimensions of identity (inner signal, outward expression, and systemic impact) and provides named conceptual tools: Behavioral Gravity, Identity Coherence, the Window of Choice, the DRIVE Model (DRIVE: Directional, Repeatable, Identity-Aligned Virtuous Expressions), and The Decision Integrity Index (The DII).
 
+TerenceWaters.com is Terence's personal site and the authorship reference for the RCF. It is written in the first person for individuals, founders, and leaders who want change that holds: people interested in identity alignment, decision-making, personal transformation, and how human-centered systems get built. It holds his writing, portfolio, podcast and video directories, and the book page.
+
 ## Core pages
 
 - [Home](https://terencewaters.com/): Who Terence is, the upcoming book, his work, and recent writing
@@ -11,6 +13,34 @@ The Resonance Core Framework™ is a structured identity system built on the pri
 - [About](https://terencewaters.com/about): Background, experience, credentials, and RCF authorship
 - [Blog](https://terencewaters.com/blog): Writing on resonance, identity, and building a life that fits
 - [Portfolio](https://terencewaters.com/portfolio): Selected platforms and projects
+- [Content Hub](https://terencewaters.com/content-hub): Everything Terence publishes: writing, the podcast, portfolio work, videos, and code
+- [Podcasts](https://terencewaters.com/podcasts): Long-form audio exploring identity, technology, and transformation, including The Resonant Identity podcast
+- [Videos](https://terencewaters.com/videos): Videos from the @TerenceRWaters and @theresonantidentity YouTube channels
+- [GitHub](https://terencewaters.com/github): Open-source projects, code samples, and technical resources
+
+## Key terms
+
+- The Resonance Core Framework™ (RCF): A practical system for making change that holds, built on alignment rather than force.
+- Behavioral Gravity: The pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up.
+- Identity Coherence: When your values, expression, and behavior agree.
+- Window of Choice: The range of choices you can see and act on, wide when present, narrow under stress.
+- DRIVE: Directional, Repeatable, Identity-Aligned Virtuous Expressions: repeatable actions that move you toward the person you are becoming.
+- The DRIVE Model: Six stages (Spark, Coherence, Activation, Momentum, Endurance, Embodiment) that carry a DRIVE from first spark to lived identity.
+- Judgment Loop: The cycle where judgments about yourself and others reinforce a distorted view of identity.
+- Data Loop: The practice of treating Cues as information: notice them, trace where they come from, test whether they are true, then decide.
+- The Decision Integrity Index (The DII): The RCF's way of checking whether a decision lines up with your identity and values.
+- Decision Alignment Score (DAS): The score a single decision earns inside The DII.
+- The Human Element: The shared layer of emotion, sensation and intuition that shapes how people respond before they think or speak.
+
+## Questions this site answers
+
+- Who is Terence Waters? See [About](https://terencewaters.com/about).
+- What is The Resonance Core Framework™, and when is the book coming? See [The Resonance Core Framework™](https://terencewaters.com/resonance-core-framework).
+- Why did Terence write the RCF? See [Why I Wrote The Resonance Core Framework™](https://terencewaters.com/blog/why-i-wrote-rcf).
+- What is Behavioral Gravity? See [Behavioral Gravity: The Pull You Don't Notice](https://terencewaters.com/blog/behavioral-gravity).
+- What is The Decision Integrity Index (The DII)? See [The Decision Integrity Index (The DII): Decision Integrity Built on Identity](https://terencewaters.com/blog/dii-protocol).
+- What is The Human Element, and why does it matter when building systems? See [The Human Element Is the Starting Point](https://terencewaters.com/blog/the-human-element-is-the-starting-point).
+- How is the book being built? See [Building a Book the Way I Build Systems](https://terencewaters.com/blog/building-a-book-the-way-i-build-systems).
 
 ## Related
 
