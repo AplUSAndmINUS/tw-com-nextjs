@@ -113,7 +113,7 @@ I needed a platform that could:
 
 - **Performance**: First Contentful Paint under 1.5s
 - **Development Speed**: Operational within two weeks
-- **Accessibility**: WCAG 2.1 AA compliance minimum
+- **Accessibility**: Accessibility built in from the start
 - **Infrastructure**: Multi-environment setup (DEV/TEST/PROD)
 - **Content Architecture**: Support blog, portfolio, case studies, videos, and podcasts
 - **Maintainability**: Clear component patterns and documentation
@@ -802,13 +802,13 @@ SEO: 100 (+29)
    - SVG sprite sheets for icons
    - Build-time CSS extraction and minification
 
-## Accessibility Achievements
+## Accessibility
 
-### WCAG 2.1 AA Compliance
+### Accessibility Practices
 
 ✅ **Perceivable**
 
-- Color contrast ratios exceed 4.5:1 (all themes)
+- Color contrast designed for readability in every theme
 - Text content readable without color alone
 - All images have alt text
 - Video content will include captions
@@ -1129,7 +1129,7 @@ The **two-week timeline** wasn't achieved by cutting corners—it was achieved b
 
 **Performance:** ✅ 1.2s First Contentful Paint (target: &lt;1.5s)  
 **Timeline:** ✅ 14 days (target: &lt;14 days)  
-**Accessibility:** ✅ WCAG 2.1 AA + colorblind modes (target: AA minimum)  
+**Accessibility:** ✅ Accessibility built in, plus colorblind modes  
 **Infrastructure:** ✅ DEV/TEST/PROD with zero incidents  
 **Content:** ✅ Blog, portfolio, case studies, videos, GitHub  
 **Maintainability:** ✅ Clear component patterns and comprehensive documentation

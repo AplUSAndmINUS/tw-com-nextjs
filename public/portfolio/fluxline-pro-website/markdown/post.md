@@ -170,7 +170,7 @@ Achieved excellent performance metrics through:
 ## Results
 
 - ✅ **Performance**: Fast load times with SSG
-- ✅ **Accessibility**: WCAG 2.1 AA compliant
+- ✅ **Accessibility**: Built with accessibility in mind
 - ✅ **SEO**: Comprehensive metadata and OpenGraph tags
 - ✅ **Maintainability**: Type-safe, well-documented codebase
 - ✅ **Scalability**: File-based content system that grows easily
