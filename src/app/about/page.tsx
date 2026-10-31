@@ -36,9 +36,9 @@ import { serviceHref } from '@/app/home/homeData';
 import styles from './page.module.scss';
 
 const ABOUT_TITLE =
-  'About Me: Identity Coach in Salt Lake City | Terence Waters';
+  'About Me: Author, Architect, Identity Coach | Terence Waters';
 const ABOUT_DESCRIPTION =
-  'Terence Waters, an identity coach in Salt Lake City, is an author, architect, and solopreneur who founded Fluxline Resonance Group. His story and work.';
+  'Terence Waters is an author, architect, and solopreneur in Salt Lake City who founded Fluxline Resonance Group, and an identity coach. His story and work.';
 
 export const metadata: Metadata = {
   title: { absolute: ABOUT_TITLE },
