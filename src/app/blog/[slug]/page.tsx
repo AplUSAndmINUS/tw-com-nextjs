@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords: post.seoKeywords,
     metadataBase: new URL('https://terencewaters.com'),
     openGraph: {
-      title: `${post.title} | Terence Waters`,
+      title: `${withoutBrandSuffix(post.seoTitle ?? post.title)} | Terence Waters`,
       description: post.seoDescription ?? post.excerpt,
       url: `https://terencewaters.com/blog/${slug}`,
       siteName: 'Terence Waters',
