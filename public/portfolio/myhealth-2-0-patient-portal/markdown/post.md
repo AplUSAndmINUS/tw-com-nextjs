@@ -38,8 +38,8 @@ gallery:
     caption: 'MyHealth 2.0 Patient Portal logo'
 publishedDate: '2025-12-08'
 projectDate: '2019-2020'
-seoTitle: 'MyHealth 2.0 Healthcare Portal - React.js/React Native Unified Enterprise Project'
-seoDescription: 'Led enterprise healthcare portal rebuild from Angular to React.js/React Native in 24 months for Intermountain Health, integrating HL7 systems and delivering cross-platform patient experience.'
+seoTitle: 'MyHealth 2.0: React & React Native Portal'
+seoDescription: 'Led the Intermountain Health patient portal rebuild from Angular to React.js and React Native in 24 months, integrating HL7 systems across platforms.'
 seoKeywords:
   - healthcare application
   - React Native

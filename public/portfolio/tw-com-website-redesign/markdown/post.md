@@ -16,7 +16,7 @@ tags:
 imageUrl: '/portfolio/tw-com-website-redesign/images/TW-com-2-homepage.png'
 imageAlt: 'TerenceWaters.com homepage redesigned with Next.js and Fluent UI theming'
 featured: true
-seoTitle: 'TerenceWaters.com Next.js Redesign | AI-Accelerated Development'
+seoTitle: 'TerenceWaters.com Next.js Redesign'
 seoDescription: 'Complete website redesign from React SPA to Next.js App Router using AI-assisted development with GitHub Copilot. Two-week timeline from concept to production.'
 gallery:
   - url: '/portfolio/tw-com-website-redesign/images/TW-com-2-homepage.png'

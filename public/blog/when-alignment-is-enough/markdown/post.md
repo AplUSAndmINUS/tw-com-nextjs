@@ -20,7 +20,7 @@ imageUrl: '/blog/when-alignment-is-enough/images/when-alignment-is-enough.jpg'
 imageAlt: 'A quiet moment of stillness representing alignment doing the work'
 featured: true
 seoTitle: 'When Alignment is Doing Enough | Terence Waters'
-seoDescription: 'A personal essay on nine months of building — Fluxline, a book, a coaching framework, a Ph.D. application — and the moment you realize alignment was always the action.'
+seoDescription: 'A personal essay on nine months of building Fluxline, a book, a coaching framework, and a Ph.D. application, and realizing alignment was always the action.'
 seoKeywords:
   - 'alignment'
   - 'self-employment'

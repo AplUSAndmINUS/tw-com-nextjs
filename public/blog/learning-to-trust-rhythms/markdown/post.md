@@ -15,7 +15,7 @@ tags:
 imageUrl: '/blog/learning-to-trust-rhythms/images/sleep-cycles-infographic.jpg'
 imageAlt: 'Sleep cycles and circadian rhythm infographic'
 featured: false
-seoTitle: 'When My Rhythms Broke - Learning to Trust My Circadian Rhythm Again'
+seoTitle: 'Learning to Trust My Circadian Rhythm Again'
 seoDescription: 'A personal essay on losing and rebuilding circadian rhythm. When rhythm breaks, everything wobbles. This is my journey back to alignment, one morning at a time.'
 seoKeywords:
   - 'circadian rhythm'

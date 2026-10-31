@@ -27,6 +27,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
   default description, a lightly extended Blog lede, descriptive alt on the
   home and About portraits, and the About "See the services" link now goes
   straight to the services on fluxline.pro.
+- Shorter search titles (about 50 to 60 characters with the brand) and meta
+  descriptions (120 to 160) on 20 blog posts and 7 portfolio entries, via
+  `seoTitle` / `seoDescription` frontmatter only; visible titles and excerpts
+  are unchanged.
 
 ## [2.1.1] - 2026-10-28
 

@@ -15,7 +15,7 @@ tags:
 imageUrl: '/blog/pathless-path/images/pathless-path.png'
 imageAlt: 'Walking the pathless path with only a torch to light the way'
 featured: false
-seoTitle: 'The Pathless Path Is Mine | Self-Employment & Living Authentically'
+seoTitle: 'The Pathless Path Is Mine: Self-Employment'
 seoDescription: 'Reflections on self-employment, faith, and walking a path that does not exist until you step onto it. The journey of becoming the torchbearer of your own myth.'
 seoKeywords:
   - 'pathless path'

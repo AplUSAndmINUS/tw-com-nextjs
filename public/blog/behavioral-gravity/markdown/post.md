@@ -11,8 +11,8 @@ tags:
   - 'Identity Coherence'
   - 'Window of Choice'
   - 'identity alignment'
-seoTitle: "What Is Behavioral Gravity? The Pull You Don't Notice"
-seoDescription: 'Behavioral Gravity is the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up. A concept from The Resonance Core Framework™.'
+seoTitle: "Behavioral Gravity: The Pull You Don't Notice"
+seoDescription: 'Behavioral Gravity is the pull a steady, regulated person has on the people around them, drawing others toward calm, presence, and clarity through how they show up.'
 seoKeywords:
   - 'Behavioral Gravity'
   - 'what is Behavioral Gravity'

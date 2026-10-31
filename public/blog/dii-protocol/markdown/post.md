@@ -12,8 +12,8 @@ tags:
   - 'Decision Alignment Score'
   - 'decision-making'
   - 'journaling'
-seoTitle: 'The Decision Integrity Index (The DII): A Decision-Making Framework Built on Identity'
-seoDescription: 'The Decision Integrity Index (The DII) is a structured scoring system from The Resonance Core Framework™ — built on six core values and a composite Decision Alignment Score (DAS). By Terence Waters.'
+seoTitle: 'The Decision Integrity Index (The DII)'
+seoDescription: 'The Decision Integrity Index (The DII) is a scoring system from The Resonance Core Framework™, built on six core values and a Decision Alignment Score (DAS).'
 seoKeywords:
   - 'The DII'
   - 'The Decision Integrity Index'

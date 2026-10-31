@@ -1,6 +1,7 @@
 ---
 title: 'Why I am Writing The Resonance Core Framework™'
 seoTitle: 'Why I am Writing The Resonance Core Framework'
+seoDescription: 'I did not plan to write a book this year. But some patterns are too persistent to ignore. This is why I am sharing the framework that changed my life.'
 excerpt: 'I did not plan to write a book this year. But sometimes life hands you a pattern so persistent that ignoring it feels like betraying yourself. This is why I am sharing the framework that changed my life.'
 author: 'Terence Waters'
 publishedDate: '2026-02-04'

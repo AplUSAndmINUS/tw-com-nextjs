@@ -1,6 +1,7 @@
 ---
 title: 'Part 1: The Philosophy of Resonance'
 excerpt: 'People make their best decisions when they act in alignment with who they are. That alignment is resonance—the emotional pull toward transformation. This is where it all begins.'
+seoDescription: 'People make their best decisions when they act in alignment with who they are. That alignment is resonance, the emotional pull toward transformation.'
 author: 'Terence Waters'
 publishedDate: '2025-08-04'
 date: '2025-08-04'
