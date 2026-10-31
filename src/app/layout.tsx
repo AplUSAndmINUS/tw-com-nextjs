@@ -23,7 +23,8 @@ export const metadata: Metadata = {
     default: 'Terence Waters',
     template: '%s | Terence Waters',
   },
-  description: 'Author, technologist, and creative thinker.',
+  description:
+    'Terence Waters: author of The Resonance Core Framework™, systems architect, and identity coach in Salt Lake City. Founder of Fluxline Resonance Group.',
   keywords: SITE_KEYWORDS,
   metadataBase: new URL('https://terencewaters.com'),
   robots: isProd

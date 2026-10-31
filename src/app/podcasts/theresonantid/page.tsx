@@ -4,15 +4,16 @@ import { fetchSpreakerEpisodes } from '@/lib/spreaker';
 import type { PodcastEpisode } from '@/content/types';
 import { TheResonantIdentityPageClient } from './TheResonantIdentityPageClient';
 
+const TRI_DESCRIPTION =
+  'The Resonant Identity, hosted by Terence Waters: identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity.';
+
 export const metadata: Metadata = {
   title: 'The Resonant Identity Podcast',
-  description:
-    'The Resonant Identity — a podcast blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
+  description: TRI_DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: 'The Resonant Identity Podcast | Terence Waters',
-    description:
-      'A podcast blending identity architecture, self-improvement, and practical frameworks for navigating transitions with clarity and intention.',
+    description: TRI_DESCRIPTION,
     url: 'https://terencewaters.com/podcasts/theresonantid',
     siteName: 'Terence Waters',
     images: [

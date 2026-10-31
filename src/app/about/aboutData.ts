@@ -34,7 +34,10 @@ export const SECTIONS = {
     num: '01',
     id: 'intro',
     label: 'The short version',
-    image: { src: AboutPortrait.src, alt: 'Terence Waters' },
+    image: {
+      src: AboutPortrait.src,
+      alt: 'Portrait of Terence Waters, author and identity coach',
+    },
   },
   believe: {
     num: '02',

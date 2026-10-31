@@ -22,10 +22,9 @@ function toCard(item: ContentItem, basePath: string): HomeCard {
   };
 }
 
-const TITLE =
-  'Terence Waters — Author of The Resonance Core Framework™ | Founder, Fluxline Resonance Group';
+const TITLE = 'Terence Waters: Author, Systems Architect, Identity Coach';
 const DESCRIPTION =
-  'Terence Waters is the author of The Resonance Core Framework™ — a structured identity system for alignment, decision integrity, and embodied transformation. Founder of Fluxline Resonance Group.';
+  'Author of The Resonance Core Framework™, systems architect, and identity coach in Salt Lake City. Terence Waters writes about making change that holds.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
