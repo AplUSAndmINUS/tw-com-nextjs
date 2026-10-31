@@ -463,13 +463,17 @@ export function getRcfBookSchema() {
 }
 
 /**
- * The DII's one-line summary on the page names a score range, which is an open
- * owner question (rcf-voice-core.md, Section 4), so structured data uses the
- * approved gloss instead of repeating the range.
+ * Structured data uses the approved glosses (rcf-voice-core.md, Section 4)
+ * where the page's one-line summary differs: The DII's summary names a score
+ * range, which is an open owner question, and the Window of Choice summary
+ * predates the approved gloss. Keeps the term set congruent with TRI and
+ * Fluxline.
  */
 const DEFINED_TERM_OVERRIDES: Record<string, string> = {
   'dii-protocol':
     "The RCF's way of checking whether a decision lines up with your identity and values.",
+  'window-of-choice':
+    'The space between a trigger and your response where a conscious, identity-aligned choice becomes possible.',
 };
 
 /**
