@@ -43,7 +43,7 @@ gallery:
     caption: 'Microsoft Planner swimlanes received from Decision Table for Teams & M365 integration'
 publishedDate: '2025-12-11'
 projectDate: '2025'
-seoTitle: 'The Decision Integrity Index Dashboard - Notion & M365 Business Intelligence'
+seoTitle: 'The DII Dashboard: Notion & Microsoft 365'
 seoDescription: 'Strategic decision management system with emotional resonance analytics, Notion API integration, and automated Microsoft 365 workflows'
 seoKeywords:
   [

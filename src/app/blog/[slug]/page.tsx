@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getRobotsConfig } from '@/utils/metadata';
+import { getRobotsConfig, withoutBrandSuffix } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -37,13 +37,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
 
   return {
-    title: post.seoTitle ?? post.title,
+    title: withoutBrandSuffix(post.seoTitle ?? post.title),
     description: post.seoDescription ?? post.excerpt,
     keywords: post.seoKeywords,
     metadataBase: new URL('https://terencewaters.com'),
     openGraph: {
-      title: `${post.title} | Terence Waters`,
-      description: post.excerpt,
+      title: `${withoutBrandSuffix(post.seoTitle ?? post.title)} | Terence Waters`,
+      description: post.seoDescription ?? post.excerpt,
       url: `https://terencewaters.com/blog/${slug}`,
       siteName: 'Terence Waters',
       type: 'article',

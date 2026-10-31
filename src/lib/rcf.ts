@@ -76,7 +76,7 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
     id: 'window-of-choice',
     name: 'Window of Choice',
     summary:
-      'The range of choices you can see and act on — wide when present, narrow under stress.',
+      'The space between a trigger and your response where a conscious, identity-aligned choice becomes possible.',
   },
   // Keeps the old "drive-system" slug: it is the anchor on fluxline.pro.
   {

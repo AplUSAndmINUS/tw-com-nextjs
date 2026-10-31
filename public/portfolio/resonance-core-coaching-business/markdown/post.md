@@ -29,7 +29,7 @@ gallery:
     caption: 'Life Coaching and The Resonance Core Framework™'
 publishedDate: '2025-09-08'
 projectDate: '2017-2025'
-seoTitle: 'Resonance Core Framework - Transformational Identity Coaching'
+seoTitle: 'The Resonance Core Framework™ Identity Coaching'
 seoDescription: 'Proprietary coaching framework integrating archetypal mapping, emotional emergence, symbolic rituals, and legacy building for deep personal transformation.'
 seoKeywords:
   [

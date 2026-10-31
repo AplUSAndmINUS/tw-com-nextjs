@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
-import { getBreadcrumbSchema, getRcfBookSchema } from '@/utils/structuredData';
+import {
+  getBreadcrumbSchema,
+  getRcfBookSchema,
+  getRcfDefinedTermSetSchema,
+} from '@/utils/structuredData';
 import {
   TwButton,
   TwCTABand,
@@ -26,9 +30,9 @@ import {
 } from '@/lib/rcf';
 import styles from './page.module.scss';
 
-const TITLE = 'The Resonance Core Framework™ | Terence Waters';
+const TITLE = 'The Resonance Core Framework™ Book by Terence Waters';
 const DESCRIPTION =
-  'The Resonance Core Framework™, written by Terence Waters, is a 31-chapter book and identity system built on Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII). The book is targeted for Q1 2027, with preorders opening in early November 2026.';
+  'The Resonance Core Framework™, a 31-chapter book and identity system by Terence Waters. Targeted for Q1 2027, with preorders opening in early November 2026.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -47,6 +51,11 @@ export const metadata: Metadata = {
     'The Decision Integrity Index',
     'The DII',
     'Decision Alignment Score',
+    'Resonance Core Framework Terence Waters',
+    'identity system',
+    'identity alignment',
+    'decision-making framework',
+    'sustainable change',
   ],
   metadataBase: new URL('https://terencewaters.com'),
   alternates: { canonical: RCF_PATH },
@@ -85,6 +94,7 @@ const NAV_LINKS: TwPageNavLink[] = [
  */
 export default function ResonanceCoreFrameworkPage() {
   const bookSchema = getRcfBookSchema();
+  const conceptsSchema = getRcfDefinedTermSetSchema();
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'The Resonance Core Framework™', path: RCF_PATH },
   ]);
@@ -94,6 +104,10 @@ export default function ResonanceCoreFrameworkPage() {
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: safeJsonLd(bookSchema) }}
+      />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(conceptsSchema) }}
       />
       <script
         type='application/ld+json'

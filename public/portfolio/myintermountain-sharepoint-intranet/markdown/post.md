@@ -38,8 +38,8 @@ gallery:
     caption: 'Unified employee experience with M365 services'
 publishedDate: '2025-12-08'
 projectDate: '2023-2024'
-seoTitle: 'MyIntermountain SharePoint Intranet - Azure Infrastructure Portfolio'
-seoDescription: 'Enterprise SharePoint Online intranet infrastructure for Intermountain Health with Azure backend, Power Automate, and automated provisioning delivered in 9 months.'
+seoTitle: 'MyIntermountain SharePoint Intranet'
+seoDescription: 'Enterprise SharePoint Online intranet for Intermountain Health with an Azure backend, Power Automate, and automated provisioning, delivered in 9 months.'
 seoKeywords:
   - SharePoint Online
   - Azure infrastructure

@@ -15,8 +15,8 @@ tags:
 imageUrl: '/blog/the-day-the-vault-awoke/images/vault-awoke-me.png'
 imageAlt: 'Core activation and the awakening of the muscular vault'
 featured: false
-seoTitle: 'The Day the Vault Awoke | Core Activation & Breathwork'
-seoDescription: 'A mythic threshold in core activation. Discover the moment when true core engagement goes beyond aesthetics to become a cylinder of sovereignty and embodied strength.'
+seoTitle: 'The Day the Vault Awoke: Core Activation'
+seoDescription: 'A mythic threshold in core activation: the moment true core engagement moves beyond aesthetics and becomes a cylinder of sovereignty and embodied strength.'
 seoKeywords:
   - 'core activation'
   - 'breathwork'

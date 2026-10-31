@@ -16,8 +16,8 @@ tags:
 imageUrl: '/blog/coherence-becoming-whole/images/coherence-becoming-whole.jpg'
 imageAlt: 'A person standing in quiet alignment, representing coherence and becoming whole'
 featured: false
-seoTitle: 'Coherence: Becoming a Unified Whole — A Personal Essay on Transformation'
-seoDescription: 'A personal essay on transformation and integration. When your nervous system, emotions, mind, and spirit finally operate on the same channel — this is what coherence feels like.'
+seoTitle: 'Coherence: Becoming a Unified Whole'
+seoDescription: 'A personal essay on transformation and integration: what coherence feels like when your nervous system, emotions, mind, and spirit run on the same channel.'
 seoKeywords:
   - 'coherence'
   - 'becoming whole'

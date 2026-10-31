@@ -18,7 +18,7 @@ tags:
 imageUrl: '/blog/nvidia-ada-gpu-stutter-fix/images/nvidia-ada-gpu-stutter.jpg'
 imageAlt: 'NVIDIA Ada Lovelace GPU with performance power management setting highlighted'
 featured: false
-seoTitle: 'NVIDIA Ada GPU Stutter Fix: Prefer Maximum Performance | Terence Waters'
+seoTitle: 'NVIDIA Ada GPU Stutter: The Real Fix'
 seoDescription: 'RTX 4070 Ti SUPER, 4080, and 4090 stutter on Windows 11? It is a GPU wake timing issue — not a driver bug. One NVIDIA Control Panel setting fixes it globally.'
 seoKeywords:
   - 'NVIDIA Ada GPU stutter fix'

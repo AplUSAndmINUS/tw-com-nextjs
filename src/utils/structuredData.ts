@@ -1,5 +1,6 @@
 import { ContentItem, FAQItem } from '@/content/types';
 import { SOCIAL_URLS } from '@/lib/socials';
+import { RCF_CONCEPTS, rcfConceptHref } from '@/lib/rcf';
 
 const SITE_URL = 'https://terencewaters.com';
 
@@ -40,13 +41,51 @@ const PERSON_JOB_TITLE = 'Author, Founder, Systems Architect, Identity Coach';
 const PERSON_DESCRIPTION =
   'Terence Waters is the author of The Resonance Core Framework™ and founder of Fluxline Resonance Group. He hosts The Resonant Identity podcast and works at the intersection of identity psychology, systems design, and somatic transformation.';
 const PERSON_KNOWS_ABOUT = [
+  'The Resonance Core Framework™',
   'identity alignment',
   'Behavioral Gravity',
   'Identity Coherence',
-  'Resonance Core Framework',
+  'Window of Choice',
+  'The DRIVE Model',
+  'Judgment Loop',
+  'Data Loop',
+  'The Decision Integrity Index (The DII)',
   'decision-making frameworks',
   'somatic discipline',
+  'identity coaching',
+  'personal transformation',
   'systems architecture',
+  'IT architecture and systems design',
+  'full-stack web development',
+  'brand identity',
+  'human-centered systems design',
+];
+
+/**
+ * Site-wide search phrases: the root layout's `metadata.keywords` and the
+ * WebSite schema's `keywords`. Every phrase is something the site already
+ * says; page-level metadata adds its own focused list on top.
+ */
+export const SITE_KEYWORDS = [
+  'Terence Waters',
+  'Terence Waters author',
+  'The Resonance Core Framework',
+  'Resonance Core Framework book',
+  'Fluxline Resonance Group',
+  'The Resonant Identity podcast',
+  'identity alignment',
+  'identity system',
+  'identity coach',
+  'systems architect',
+  'decision-making framework',
+  'decision integrity',
+  'Behavioral Gravity',
+  'Identity Coherence',
+  'The DRIVE Model',
+  'The Decision Integrity Index',
+  'personal transformation',
+  'personal growth',
+  'human-centered systems design',
 ];
 
 const WORKS_FOR = {
@@ -191,6 +230,7 @@ export function getWebSiteSchema() {
     name: 'Terence Waters',
     description:
       'Personal website of Terence Waters — author, technologist, and creative thinker exploring identity, resonance, and human-centered systems.',
+    keywords: SITE_KEYWORDS,
     publisher: {
       '@type': 'Person',
       '@id': `${SITE_URL}/#person`,
@@ -400,11 +440,56 @@ export function getRcfBookSchema() {
     description:
       'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
     genre: 'Self-improvement, Identity Psychology, Personal Development',
+    keywords: [
+      'Resonance Core Framework',
+      'identity system',
+      'identity alignment',
+      'Behavioral Gravity',
+      'Identity Coherence',
+      'Window of Choice',
+      'The DRIVE Model',
+      'Judgment Loop',
+      'Data Loop',
+      'The Decision Integrity Index',
+      'Decision Alignment Score',
+      'decision-making framework',
+    ],
     inLanguage: 'en',
     // Add datePublished once the book is out (targeted for Q1 2027).
     // Add 'https://schema.org/EBook' and 'https://schema.org/AudiobookFormat'
     // once those editions are confirmed.
     bookFormat: 'https://schema.org/Hardcover',
+  };
+}
+
+/**
+ * The DII's one-line summary on the page names a score range, which is an open
+ * owner question (rcf-voice-core.md, Section 4), so structured data uses the
+ * approved gloss instead of repeating the range.
+ */
+const DEFINED_TERM_OVERRIDES: Record<string, string> = {
+  'dii-protocol':
+    "The RCF's way of checking whether a decision lines up with your identity and values.",
+};
+
+/**
+ * DefinedTermSet for the RCF core concepts listed on /resonance-core-framework.
+ * Each term links to its full definition on fluxline.pro, the framework's
+ * source of truth.
+ */
+export function getRcfDefinedTermSetSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTermSet',
+    '@id': `${SITE_URL}/resonance-core-framework#concepts`,
+    name: 'The Resonance Core Framework™: Core Concepts',
+    url: `${SITE_URL}/resonance-core-framework`,
+    hasDefinedTerm: RCF_CONCEPTS.map((concept) => ({
+      '@type': 'DefinedTerm',
+      name: concept.name,
+      description: DEFINED_TERM_OVERRIDES[concept.id] ?? concept.summary,
+      url: rcfConceptHref(concept.id),
+    })),
   };
 }
 

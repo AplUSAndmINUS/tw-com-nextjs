@@ -17,8 +17,8 @@ tags:
 imageUrl: '/blog/device-agnostic-workflows/images/device-agnostic-illustration.jpg'
 imageAlt: 'A person standing between multiple devices, symbolizing flexibility and digital independence'
 featured: true
-seoTitle: 'How I Built a Device-Agnostic Workflow After 10+ Years in Apple’s Ecosystem'
-seoDescription: 'A personal and practical essay on transitioning from Apple’s ecosystem to a flexible, device-agnostic workflow using Samsung Fold8, OneDrive, Google Cloud, local backups, Alexa, Homebridge, and cross-platform tools.'
+seoTitle: 'How I Went Device-Agnostic After Apple'
+seoDescription: 'A personal, practical essay on moving from Apple’s ecosystem to a device-agnostic workflow with Samsung Fold8, OneDrive, Google Cloud, and Homebridge.'
 seoKeywords:
   - 'device-agnostic workflow'
   - 'leaving Apple ecosystem'

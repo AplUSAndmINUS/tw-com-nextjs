@@ -4,6 +4,34 @@ All notable changes to terencewaters.com are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the site uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- SEO and AI-crawler pass: `robots.txt` names the major search and AI crawlers
+  in one allow group and no longer blocks `/_next/` or `/static/`, so search
+  engines can render pages. `llms.txt` gains a site summary, a Key terms
+  glossary, questions the site answers, and the missing main pages. Focused
+  `keywords` on the root layout, home, About, RCF, Blog and Podcasts pages;
+  wider `knowsAbout` on the Person schema; `keywords` on the WebSite and Book
+  schemas; and a `DefinedTermSet` of the RCF core concepts on
+  `/resonance-core-framework`.
+- On-page search phrases: specific titles (about 50 to 60 characters) and
+  meta descriptions (about 140 to 160) on home, About, RCF, Blog, Portfolio,
+  Podcasts, The Resonant Identity, Videos, Content Hub and GitHub, mirrored
+  into Open Graph and Twitter. They target phrases about Terence himself
+  (author, systems architect, identity coach in Salt Lake City); service
+  phrases stay with fluxline.pro. Blog and portfolio posts use their
+  `seoDescription` for Open Graph too, and a `seoTitle` ending in
+  "| Terence Waters" no longer prints the brand twice. A clearer site-wide
+  default description, a lightly extended Blog lede, descriptive alt on the
+  home and About portraits, and the About "See the services" link now goes
+  straight to the services on fluxline.pro.
+- Shorter search titles (about 50 to 60 characters with the brand) and meta
+  descriptions (120 to 160) on 20 blog posts and 7 portfolio entries, via
+  `seoTitle` / `seoDescription` frontmatter only; visible titles and excerpts
+  are unchanged.
+
 ## [2.1.1] - 2026-10-28
 
 ### Added

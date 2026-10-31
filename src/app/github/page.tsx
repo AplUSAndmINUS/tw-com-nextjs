@@ -7,15 +7,17 @@ import { Footer } from '@/components/Footer';
 import { formatDotDate } from '@/app/home/contentFormat';
 import { GitHubActivity } from './GitHubActivity';
 
+const GITHUB_TITLE = 'GitHub Projects and Open-Source Code';
+const GITHUB_DESCRIPTION =
+  'Open-source projects, experiments, and the code behind the work, from systems architect Terence Waters on GitHub. Filter repositories by language.';
+
 export const metadata: Metadata = {
-  title: 'GitHub',
-  description:
-    'Explore open-source projects, code samples, and technical resources from Terence Waters on GitHub.',
+  title: GITHUB_TITLE,
+  description: GITHUB_DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'GitHub | Terence Waters',
-    description:
-      'Explore open-source projects, code samples, and technical resources from Terence Waters on GitHub.',
+    title: `${GITHUB_TITLE} | Terence Waters`,
+    description: GITHUB_DESCRIPTION,
     url: 'https://terencewaters.com/github',
     siteName: 'Terence Waters',
     type: 'website',

@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { getEnvironment } from '@/lib/environment';
 
 const BASE_URL = 'https://terencewaters.com';
-const DEFAULT_DESCRIPTION = 'Author, technologist, and creative thinker.';
+const DEFAULT_DESCRIPTION =
+  'Terence Waters: author, architect, and solopreneur in Salt Lake City, writing The Resonance Core Framework™. Founder of Fluxline Resonance Group.';
 /**
  * Returns robots configuration based on environment.
  * DEV/TEST: Prevents search engine indexing
@@ -23,6 +24,17 @@ export function getRobotsConfig() {
       'max-snippet': -1,
     },
   } as const;
+}
+
+const BRAND_SUFFIX = /\s*\|\s*Terence Waters\s*$/;
+
+/**
+ * Drops a trailing "| Terence Waters" from a frontmatter seoTitle. The root
+ * title template already appends the brand, so a post whose seoTitle carries
+ * it would otherwise render "… | Terence Waters | Terence Waters".
+ */
+export function withoutBrandSuffix(title: string): string {
+  return title.replace(BRAND_SUFFIX, '');
 }
 
 export function buildMetadata(overrides: Partial<Metadata> = {}): Metadata {
