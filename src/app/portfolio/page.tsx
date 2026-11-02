@@ -6,15 +6,17 @@ import { Footer } from '@/components/Footer';
 import { formatDotDate } from '@/app/home/contentFormat';
 import { PORTFOLIO_NAV_LINKS, portfolioCategoryLabel } from './portfolioMeta';
 
+const PORTFOLIO_TITLE = 'Portfolio: Enterprise Platforms & Brand Work';
+const PORTFOLIO_DESCRIPTION =
+  'Selected work by systems architect Terence Waters: enterprise healthcare platforms, design systems, websites, and brand identity, from concept through launch.';
+
 export const metadata: Metadata = {
-  title: 'Portfolio',
-  description:
-    'Selected product, platform, and brand work by Terence Waters — from concept through launch.',
+  title: PORTFOLIO_TITLE,
+  description: PORTFOLIO_DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'Portfolio | Terence Waters',
-    description:
-      'Selected product, platform, and brand work — from concept through launch.',
+    title: `${PORTFOLIO_TITLE} | Terence Waters`,
+    description: PORTFOLIO_DESCRIPTION,
     url: 'https://terencewaters.com/portfolio',
     siteName: 'Terence Waters',
     type: 'website',

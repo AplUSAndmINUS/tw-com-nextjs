@@ -41,8 +41,8 @@ metrics:
     value: '1.8s'
     description: 'Initial page load time'
   - label: 'Accessibility'
-    value: 'WCAG AA'
-    description: 'Full compliance achieved'
+    value: 'Built in'
+    description: 'Accessibility designed in from the start'
   - label: 'Development Time'
     value: '3 months'
     description: 'Concept to launch'
@@ -87,7 +87,7 @@ How do you create a brand identity that bridges technical clarity with mythic re
 **Platform Requirements:**
 
 - Enterprise-grade performance and security
-- WCAG 2.1 AA accessibility compliance
+- Accessibility built in from the start
 - Responsive design across all devices
 - Advanced theming system (8+ theme variants)
 - File-based content management
@@ -135,7 +135,7 @@ Built a comprehensive design system rooted in three pillars:
 3. **Theme Architecture**
    - Dark mode (default): Professional, focused
    - Light mode: Clean, accessible
-   - High-contrast: WCAG AAA compliance
+   - High-contrast: Stronger contrast for low-vision readers
    - Colorblind modes: Protanopia, deuteranopia, tritanopia
    - Grayscale: Pure information hierarchy
    - System preference detection and persistence
@@ -176,7 +176,7 @@ Implemented file-based CMS using markdown:
 - Blog and portfolio systems implementation
 - Contact form and lead capture integration
 - SEO optimization and meta tag implementation
-- Accessibility testing and compliance
+- Accessibility testing
 
 **Phase 3: Content & Launch (Month 3)**
 
@@ -195,7 +195,7 @@ Implemented file-based CMS using markdown:
 - **Lighthouse Score**: 94/100 (performance)
 - **Load Time**: 1.8s initial page load
 - **Bundle Size**: 800KB (optimized with code splitting)
-- **Accessibility**: WCAG 2.1 AA compliant across all pages
+- **Accessibility**: Designed with accessibility in mind across all pages
 - **SEO**: 100/100 on technical SEO audits
 
 **Technical Achievements:**
@@ -308,7 +308,7 @@ This platform development methodology is now available to clients:
 1. **Complexity Has Costs**: 8 theme variants required significant testing and maintenance
 2. **Content is King**: Technical excellence means nothing without compelling content
 3. **SEO Takes Time**: 6 months to see meaningful organic traffic growth
-4. **Accessibility Matters**: WCAG compliance opens doors with enterprise clients
+4. **Accessibility Matters**: Accessible design opens doors with enterprise clients
 5. **Brand Resonance**: Unique visual language creates memorable differentiation
 
 ### Critical Success Factors

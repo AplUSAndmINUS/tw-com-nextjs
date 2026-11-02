@@ -17,7 +17,7 @@ imageUrl: '/blog/building-a-book-the-way-i-build-systems/images/The-Resonance-Co
 imageAlt: 'The Resonance Core Framework™ book by Terence Waters'
 featured: true
 seoTitle: 'Building a Book the Way I Build Systems | Terence Waters'
-seoDescription: 'Terence Waters on building The Resonance Core Framework™ in public: the gated production system behind the book, the print bottleneck it just removed, and preorders opening in early November 2026.'
+seoDescription: 'How Terence Waters builds The Resonance Core Framework™ in public: the gated production system behind the book, and preorders opening in early November 2026.'
 seoKeywords:
   - 'Terence Waters'
   - 'Resonance Core Framework book'

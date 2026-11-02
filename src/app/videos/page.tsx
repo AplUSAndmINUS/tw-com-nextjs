@@ -6,15 +6,17 @@ import { Footer } from '@/components/Footer';
 import VideosClient from './VideosClient';
 import styles from './page.module.scss';
 
+const VIDEOS_TITLE = 'Videos: Talks, Live Streams and Studio Notes';
+const VIDEOS_DESCRIPTION =
+  'Talks, live streams, studio notes, and short films on building with intention, from the @TerenceRWaters and @theresonantidentity YouTube channels.';
+
 export const metadata: Metadata = {
-  title: 'Videos',
-  description:
-    'Watch videos from the @TerenceRWaters and @theresonantidentity YouTube channels — tutorials, live streams, playlists, and more.',
+  title: VIDEOS_TITLE,
+  description: VIDEOS_DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'Videos | Terence Waters',
-    description:
-      'Watch videos from the @TerenceRWaters and @theresonantidentity YouTube channels — tutorials, live streams, playlists, and more.',
+    title: `${VIDEOS_TITLE} | Terence Waters`,
+    description: VIDEOS_DESCRIPTION,
     url: 'https://terencewaters.com/videos',
     siteName: 'Terence Waters',
     type: 'website',

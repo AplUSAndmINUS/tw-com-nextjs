@@ -1,6 +1,8 @@
 ---
 title: 'When Identity Transforms, Not Everyone Comes With You'
 excerpt: 'Discover how identity transformation naturally creates distance in relationships. Learn to embrace the evolution of your inner architecture and the people who walk with you on the journey.'
+seoTitle: 'Identity Shifts: Not Everyone Comes Along'
+seoDescription: 'How identity transformation creates distance in relationships, and how to embrace the evolution of your inner architecture and the people who walk with you.'
 author: 'Terence Waters'
 publishedDate: '2025-08-19'
 date: '2025-08-19'

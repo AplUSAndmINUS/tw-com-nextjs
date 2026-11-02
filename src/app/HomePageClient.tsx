@@ -290,7 +290,7 @@ export default function HomePageClient({
                 <img
                   className={`tw-media ${styles.portrait}`}
                   src='/assets/images/portrait-about.jpg'
-                  alt='Terence Waters'
+                  alt='Portrait of Terence Waters, author and identity coach'
                 />
               </TwReveal>
               <div className={styles.socialBlock}>
