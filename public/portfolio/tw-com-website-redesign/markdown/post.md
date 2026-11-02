@@ -16,7 +16,7 @@ tags:
 imageUrl: '/portfolio/tw-com-website-redesign/images/TW-com-2-homepage.png'
 imageAlt: 'TerenceWaters.com homepage redesigned with Next.js and Fluent UI theming'
 featured: true
-seoTitle: 'TerenceWaters.com Next.js Redesign | AI-Accelerated Development'
+seoTitle: 'TerenceWaters.com Next.js Redesign'
 seoDescription: 'Complete website redesign from React SPA to Next.js App Router using AI-assisted development with GitHub Copilot. Two-week timeline from concept to production.'
 gallery:
   - url: '/portfolio/tw-com-website-redesign/images/TW-com-2-homepage.png'
@@ -245,7 +245,7 @@ File-based CMS with:
 
 ✅ **Page Load Speed**: First Contentful Paint under 1.2s (down from 3.5s)  
 ✅ **SEO**: Fully crawlable static pages with meta tags and structured data  
-✅ **Accessibility**: WCAG 2.1 AA compliant with multiple theme variants  
+✅ **Accessibility**: Built with accessibility in mind, with multiple theme variants  
 ✅ **Development Speed**: Two-week timeline (typical: 4-6 weeks)  
 ✅ **Maintainability**: Component-based architecture with clear separation of concerns  
 ✅ **Scalability**: Easy to add new content types and pages

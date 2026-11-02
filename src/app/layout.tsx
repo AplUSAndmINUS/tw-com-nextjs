@@ -4,6 +4,7 @@ import {
   getPersonSchema,
   getOrganizationSchema,
   getWebSiteSchema,
+  SITE_KEYWORDS,
 } from '@/utils/structuredData';
 import { safeJsonLd } from '@/utils/safeJsonLd';
 
@@ -22,7 +23,9 @@ export const metadata: Metadata = {
     default: 'Terence Waters',
     template: '%s | Terence Waters',
   },
-  description: 'Author, technologist, and creative thinker.',
+  description:
+    'Terence Waters: author, architect, and solopreneur in Salt Lake City, writing The Resonance Core Framework™. Founder of Fluxline Resonance Group.',
+  keywords: SITE_KEYWORDS,
   metadataBase: new URL('https://terencewaters.com'),
   robots: isProd
     ? {

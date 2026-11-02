@@ -22,14 +22,30 @@ function toCard(item: ContentItem, basePath: string): HomeCard {
   };
 }
 
-const TITLE =
-  'Terence Waters — Author of The Resonance Core Framework™ | Founder, Fluxline Resonance Group';
+const TITLE = 'Terence Waters: Author, Architect, and Solopreneur';
 const DESCRIPTION =
-  'Terence Waters is the author of The Resonance Core Framework™ — a structured identity system for alignment, decision integrity, and embodied transformation. Founder of Fluxline Resonance Group.';
+  'Terence Waters is an author, architect, and solopreneur in Salt Lake City, writing The Resonance Core Framework™ and about making change that holds.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
   description: DESCRIPTION,
+  keywords: [
+    'Terence Waters',
+    'Terence Waters author',
+    'Resonance Core Framework',
+    'Resonance Core Framework book',
+    'Fluxline Resonance Group founder',
+    'The Resonant Identity podcast',
+    'identity system',
+    'identity alignment',
+    'decision integrity',
+    'embodied transformation',
+    'Behavioral Gravity',
+    'The Decision Integrity Index',
+    'systems architect',
+    'identity coach',
+    'Salt Lake City',
+  ],
   metadataBase: new URL('https://terencewaters.com'),
   alternates: { canonical: '/' },
   openGraph: {

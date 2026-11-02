@@ -11,7 +11,7 @@ tags:
   - 'author'
   - 'identity alignment'
 seoTitle: 'Why I Wrote The Resonance Core Framework™'
-seoDescription: 'Terence Waters on the decade of applied work in systems design, identity coaching, and somatic practice that led to The Resonance Core Framework™, targeted for Q1 2027.'
+seoDescription: 'Terence Waters on the decade of work in systems design, identity coaching, and somatic practice behind The Resonance Core Framework™, targeted for Q1 2027.'
 seoKeywords:
   - 'Terence Waters author'
   - 'Resonance Core Framework book'
