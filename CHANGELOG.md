@@ -6,6 +6,8 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-11-02
+
 ### Changed
 
 - SEO and AI-crawler pass: `robots.txt` names the major search and AI crawlers
@@ -108,4 +110,5 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
+[2.2.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_1_1.PROD...v2_2_0.PROD
 [2.1.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2.1.0
