@@ -16,8 +16,8 @@ tags:
 imageUrl: '/blog/polyamory-journey/images/polyamory-journey.png'
 imageAlt: 'Journey to polyamory - embracing authentic love and relationships'
 featured: false
-seoTitle: 'My Journey to Solo Polyamory | Authentic Love & Self-Discovery'
-seoDescription: 'An honest account of discovering solo polyamory after years of searching for the "right" relationship structure. This is my truth about love, authenticity, and personal sovereignty.'
+seoTitle: 'My Journey to Solo Polyamory: Authentic Love'
+seoDescription: 'An honest account of finding solo polyamory after years of searching for the "right" relationship structure: my truth about love, authenticity, and sovereignty.'
 seoKeywords:
   - 'polyamory journey'
   - 'solo polyamory'

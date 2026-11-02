@@ -6,7 +6,13 @@ import { getEnvironment } from '@/lib/environment';
  *
  * Environment behavior:
  * - DEV/TEST: Disallow all crawlers to prevent staging content from entering AI knowledge bases
- * - PROD: Explicitly allow major AI crawlers (GPTBot, PerplexityBot, ClaudeBot, etc.) and provide sitemap URL
+ * - PROD: Allow every crawler, and name the major search and AI crawlers
+ *   (OpenAI, Anthropic, Perplexity, Google, Microsoft, Apple, Amazon, Meta,
+ *   DuckDuckGo, Mistral, Common Crawl, ByteDance) in one explicit allow group.
+ *   A bot that matches a named group ignores the `*` group, so the named group
+ *   repeats the same disallow list. `/_next/` and `/static/` stay crawlable:
+ *   search engines need the CSS and JS to render pages. The sitemap URL is
+ *   included for discovery.
  *
  * This replaces static public/robots.txt for environment-aware control.
  */
@@ -17,6 +23,47 @@ export const dynamic = 'force-static';
 const SITE_URL = process.env.SITE_URL || 'https://terencewaters.com';
 const env = getEnvironment();
 const isProd = env === 'prod';
+
+/** Paths no crawler needs. Shared by every group (see doc comment). */
+const DISALLOW = ['/api/'];
+
+/** Search and AI crawlers that are explicitly welcome. */
+const NAMED_CRAWLERS = [
+  // OpenAI
+  'GPTBot',
+  'OAI-SearchBot',
+  'ChatGPT-User',
+  // Anthropic
+  'ClaudeBot',
+  'Claude-SearchBot',
+  'Claude-User',
+  'Claude-Web',
+  'anthropic-ai',
+  // Perplexity
+  'PerplexityBot',
+  'Perplexity-User',
+  // Google (Search, Gemini)
+  'Googlebot',
+  'Google-Extended',
+  // Microsoft (Bing, Copilot)
+  'Bingbot',
+  // Apple (Search, Apple Intelligence)
+  'Applebot',
+  'Applebot-Extended',
+  // Amazon
+  'Amazonbot',
+  // Meta
+  'Meta-ExternalAgent',
+  // DuckDuckGo
+  'DuckDuckBot',
+  'DuckAssistBot',
+  // Mistral
+  'MistralAI-User',
+  // Common Crawl
+  'CCBot',
+  // ByteDance (TikTok)
+  'Bytespider',
+];
 
 export default function robots(): MetadataRoute.Robots {
   if (!isProd) {
@@ -35,22 +82,13 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/static/'],
+        disallow: DISALLOW,
       },
-      // Explicitly allow major AI crawlers
+      // Explicitly allow major search and AI crawlers
       {
-        userAgent: [
-          'GPTBot', // OpenAI
-          'ChatGPT-User', // OpenAI
-          'PerplexityBot', // Perplexity
-          'Claude-Web', // Anthropic
-          'ClaudeBot', // Anthropic
-          'Google-Extended', // Google Bard/Gemini
-          'Bytespider', // ByteDance (TikTok)
-          'Applebot-Extended', // Apple Intelligence
-        ],
+        userAgent: NAMED_CRAWLERS,
         allow: '/',
-        disallow: ['/api/', '/_next/', '/static/'],
+        disallow: DISALLOW,
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

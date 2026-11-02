@@ -7,15 +7,17 @@ import { Footer } from '@/components/Footer';
 import ContentHubClient from './ContentHubClient';
 import styles from './page.module.scss';
 
+const HUB_TITLE = 'Content Hub: Writing, Podcast, Videos and Code';
+const HUB_DESCRIPTION =
+  'Everything Terence Waters publishes in one place: essays, The Resonant Identity podcast, portfolio work, videos, and open-source code. Pick a format to start.';
+
 export const metadata: Metadata = {
-  title: 'Content Hub',
-  description:
-    'Everything Terence Waters publishes — writing, the podcast, portfolio work, videos, and code. Explore by format.',
+  title: HUB_TITLE,
+  description: HUB_DESCRIPTION,
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
-    title: 'Content Hub | Terence Waters',
-    description:
-      'Writing, the podcast, portfolio work, videos, and code — all in one place.',
+    title: `${HUB_TITLE} | Terence Waters`,
+    description: HUB_DESCRIPTION,
     url: 'https://terencewaters.com/content-hub',
     siteName: 'Terence Waters',
     type: 'website',

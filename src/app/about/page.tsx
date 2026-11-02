@@ -32,16 +32,34 @@ import {
   STATS,
 } from './aboutData';
 import { FLUXLINE_URL, RCF_PATH, TRI_URL } from '@/lib/rcf';
+import { serviceHref } from '@/app/home/homeData';
 import styles from './page.module.scss';
 
 const ABOUT_TITLE =
-  'About Terence Waters | Author, The Resonance Core Framework™ | Fluxline Resonance Group';
+  'About Me: Author, Architect, Identity Coach | Terence Waters';
 const ABOUT_DESCRIPTION =
-  'Terence Waters is the author of The Resonance Core Framework™, founder of Fluxline Resonance Group, and host of The Resonant Identity podcast. Systems architect, identity coach, and creative technologist based in Salt Lake City.';
+  'Terence Waters is an author, architect, and solopreneur in Salt Lake City who founded Fluxline Resonance Group, and an identity coach. His story and work.';
 
 export const metadata: Metadata = {
   title: { absolute: ABOUT_TITLE },
   description: ABOUT_DESCRIPTION,
+  keywords: [
+    'Terence Waters',
+    'about Terence Waters',
+    'Resonance Core Framework author',
+    'Fluxline Resonance Group founder',
+    'The Resonant Identity podcast host',
+    'systems architect',
+    'identity coach',
+    'creative technologist',
+    'Salt Lake City',
+    'IT architecture',
+    'full-stack web development',
+    'brand identity',
+    'curriculum design',
+    'personal transformation',
+    'NASM Certified Personal Trainer',
+  ],
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
     title: ABOUT_TITLE,
@@ -231,7 +249,9 @@ export default function AboutPage() {
             </div>
 
             <div className={styles.viewAll}>
-              <Link href='/#work'>See the services &#8594;</Link>
+              <a href={serviceHref('')}>
+                See the coaching and consulting services on Fluxline.pro &#8599;
+              </a>
             </div>
           </TwReveal>
         </AboutSection>

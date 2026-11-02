@@ -12,7 +12,7 @@ tags:
   - 'Leadership'
   - 'Systems Thinking'
 seoTitle: "The Human Element Is the Starting Point"
-seoDescription: "After 20+ years in design, development, and product management, one pattern is consistent: systems fail where the design forgot the human who has to run it. A perspective from The Resonance Core Framework™."
+seoDescription: "After 20+ years in design, development, and product management, one pattern holds: systems fail where the design forgot the human who has to run it."
 seoKeywords:
   - 'The Human Element'
   - 'human-centered systems design'
