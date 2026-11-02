@@ -744,6 +744,86 @@ Content-only changes — new or edited Markdown files in `public/blog/`, `public
 
 ---
 
-## 21. Final Rule
+## 21. Drafting Content
+
+Applies to blog posts, articles, episode companions, challenges, and other long-form content drafted for this site. The owner approves every draft before it merges. Drafts go in a PR to `develop`.
+
+**Write the topic, not a report about it.**
+
+- Lead with the subject: what it is, how it works, what to do with it. A reader should come away knowing the idea, not reading an account of someone explaining it.
+- Remove first-person ("I", "we", "our") and third-person narrative ("the host explains", "Terence describes", "the episode explores", "this article discusses") unless the context needs it.
+- Recounting what a source said is fine when it carries content. Restate its definitions, examples, and stories as content, and attribute only when the source itself matters (a book chapter, a quoted definition, Show Notes).
+- Necessary for context, so allowed: a one-line framing of a companion ("A companion to TRI024"), source attributions, example lines meant to be spoken aloud, self-prompts in journals and challenges, frontmatter, and forms that are third person by nature, such as press releases.
+
+- Instead of: "In this episode, the host explains that vulnerability is the raw data of a person's cues."
+- Write: "Vulnerability is raw data: the unfiltered signals of someone else's internal world."
+
+**TW register:** warm and first person by design. Personal essays and case-study narratives keep first person where the personal context is the point. Explanatory, framework, and technical posts are topic-first.
+
+---
+
+## 22. Capitalization of Constructs
+
+These terms are to _remain_ capitalized in the codebase and content, as they are part of the RCF's terminology.
+They also should remain exactly as shown here, with no added or removed punctuation, spacing, or pluralization.
+
+If the word "the" appears before this phrase, it also is to be capitalized. For example, "The Resonance Core Framework" is correct, while "the Resonance Core Framework" is not.
+
+If a list item has the word "The" in front of it, it is **always** to be used as part of the construct and should never be used without it. For example, the term "Human Element" is incorrect and should be displayed as "The Human Element".
+
+If any of these terms are used in URLs or subURLs, they may be lowercase and hyphenated.
+
+- **Resonance Core Framework**
+- **Embodied Awareness**
+- **Modular Precision**
+- **Resilient Alignment**
+- **Legacy Resonance**
+- **Somatic Discipline**
+- **Creative Truth**
+- **Strategic Innovation**
+- **Core Value**
+- **Meta-Value**
+- **The Resonant Identity**
+- **The Human Element**
+- **Identity Coherence**
+- **The Triad**
+- **Judgment Loop**
+- **Data Loop**
+- **DRIVE Alignment Loop**
+- **DRIVE Loop**
+- **Data-Driven Decision-Making**
+- **Interpretive Hygiene**
+- **Window of Choice**
+- **Somatic Cues**
+- **Emotional Cues**
+- **Mental Cues**
+- **Cues**
+- **RCF**
+- **DII**
+- **DRIVE**
+- **MVD**
+- **TRI**
+- **Value/Virtue/DRIVE System**
+- **Guardrails**
+
+### 22a. Variants on Some Words
+
+Some words like "Collapse," "Alignment," and "Distortion" are sometimes capitalized in the RCF's terminology, and sometimes not. When they are part of a construct, they are capitalized. When they are used in a general context, they are not. For example, "Identity Collapse" is capitalized because it is a construct, while "identity collapse" is not capitalized when used in a general context.
+
+Furthermore, sometimes these words have differing descriptions in front of them. Examples of this might be "Relational Collapse," "Team Dynamic Collapse," or "Identity Collapse." These follow the same rules regardless of their adjective in front of them: when these words are constructs, they are capitalized and are not capitalized when used in a general context.
+
+### 22b. Capitalization of Normalized Terms
+
+Psychological, philosophical, neurobiological, and/or scientific terms are to remain capitalized in their context as they are
+quoted from the source material. For example, "Cognitive Dissonance" is capitalized because it is a psychological term, while "cognitive dissonance" is not capitalized when used in a general context. Other terms that are lowercase should remain capitalized and may be _italicized_ for emphasis as necessary. For example, "aligned identity" is a normalized term that is not capitalized, but it may be italicized for emphasis in certain contexts.
+
+### 22c. Everyday Words Are Not Constructs
+
+General words like "empathy" and "attunement" were not adopted as RCF constructs, so they stay lowercase in running text. Capitalize them only where ordinary grammar does: the first word of a sentence, and titles and headings set in Title Case. A capital letter signals an RCF construct, so never capitalize a general word for emphasis.
+
+When unsure whether a word is a construct, check the list above and `.github/rcf-voice-core.md` (sections 3 and 4). If it is not listed, write it lowercase and flag it for the owner.
+---
+
+## 23. Final Rule
 
 Copilot should prioritize clarity, consistency, and the authorial voice of TW.com.
