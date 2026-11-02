@@ -746,22 +746,20 @@ Content-only changes — new or edited Markdown files in `public/blog/`, `public
 
 ## 21. Drafting Content
 
-Applies to blog posts, articles, episode companions, challenges, and other long-form content drafted for this site. The owner approves every draft before it merges. Drafts go in a PR to `develop`.
+Applies to blog posts, articles, essays, and other long-form content drafted for this site. The owner approves every draft before it merges. Drafts go in a PR to `develop`.
 
-**Write the topic, not a report about it.**
+**Write in the owner's voice, not an AI's.**
 
-- Lead with the subject: what it is, how it works, what to do with it. A reader should come away knowing the idea, not reading an account of someone explaining it.
-- Remove first-person ("I", "we", "our") and third-person narrative ("the host explains", "Terence describes", "the episode explores", "this article discusses") unless the context needs it.
-- Recounting what a source said is fine when it carries content. Restate its definitions, examples, and stories as content, and attribute only when the source itself matters (a book chapter, a quoted definition, Show Notes).
-- Necessary for context, so allowed: a one-line framing of a companion ("A companion to TRI024"), source attributions, example lines meant to be spoken aloud, self-prompts in journals and challenges, frontmatter, and forms that are third person by nature, such as press releases.
+TW.com is a person's site: warm, playful, and open. First person is natural here, and there is no rule against it. The goal is that a draft reads like Terence wrote it, not like a model produced it.
 
-**Test for context:** delete the sentence. If the reader loses no information about the topic, it was narration, so leave it out.
+- Write the way he talks: plain words, short sentences, a real opinion, an occasional joke or aside. Personal stories and "I" are welcome where they belong.
+- Ground drafts in his own material (transcripts, notes, earlier posts) and match their phrasing and rhythm. Do not invent anecdotes, quotes, or experiences. Mark any gap for him to fill instead.
+- Avoid the habits that make text feel machine-written: stock openers ("In today's fast-paced world"), tidy three-part lists everywhere, hedging filler, summary paragraphs that repeat what was just said, and every section ending on a neat moral.
+- Vary sentence length. Let a post be uneven where a person would be.
+- Technical and framework posts can be more direct, but they should still sound like him explaining it, not like documentation.
+- Leave the finishing to him. Drafts are a starting point he will read aloud and rework, so flag anything he has to verify.
 
-**Instead of:** "In this episode, the host explains that vulnerability is raw data, the unfiltered signals of someone's internal world."
-
-**Write:** "Vulnerability is raw data: the unfiltered signals of someone's internal world."
-
-**TW register:** warm and first person by design. Personal essays and case-study narratives keep first person where the personal context is the point. Explanatory, framework, and technical posts are topic-first.
+The topic-first, no-first-person drafting rule applies to TheResonantIdentity.com. Fluxline.pro is calm, structural, and technical-focused. TW.com does not use that rule.
 
 ---
 

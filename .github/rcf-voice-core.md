@@ -85,7 +85,7 @@ Use these wording choices. Add one gloss at the **first use on each page**, then
 - Mythic or architectural imagery (gates, structure, compass) is welcome sparingly in a framing line, never in place of a plain statement.
 - **No em dashes in anything you write.** Use a period, comma, or colon. Do not rewrite existing em dashes unless a Hold or Apply item touches that sentence.
 - Site register stays different on purpose: Fluxline is calm and structural, TerenceWaters.com is warm and first person, TheResonantIdentity.com is invitational and second person. Keep each. Do not homogenise them.
-- **Topic first.** Draft long-form content about the topic itself, not as a report on a source. Remove first-person and third-person narrative ("the host explains", "the episode explores", "this article discusses") unless the context needs it or the site register calls for it (TerenceWaters.com keeps first person for personal essays). Recounting what a source says is fine when it carries content. Full rules: `CLAUDE.md`, Drafting Content.
+- **Voice first on TerenceWaters.com.** Drafts there should read as Terence wrote them: warm, plain, first person where it fits, no stock AI phrasing, nothing invented. The topic-first rule (no first or third person narrative) does not apply on that site. Full rules: `CLAUDE.md`, Drafting Content.
 - **Capitalize constructs exactly as listed** in `CLAUDE.md` (Capitalization of Constructs). When "the" comes before a construct, capitalize it too (The Window of Choice). General words like empathy and attunement stay lowercase, including where section 4 glosses them.
 
 ## 6. Hard constraints
