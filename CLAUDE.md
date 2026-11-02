@@ -755,8 +755,11 @@ Applies to blog posts, articles, episode companions, challenges, and other long-
 - Recounting what a source said is fine when it carries content. Restate its definitions, examples, and stories as content, and attribute only when the source itself matters (a book chapter, a quoted definition, Show Notes).
 - Necessary for context, so allowed: a one-line framing of a companion ("A companion to TRI024"), source attributions, example lines meant to be spoken aloud, self-prompts in journals and challenges, frontmatter, and forms that are third person by nature, such as press releases.
 
-- Instead of: "In this episode, the host explains that vulnerability is the raw data of a person's cues."
-- Write: "Vulnerability is raw data: the unfiltered signals of someone else's internal world."
+**Test for context:** delete the sentence. If the reader loses no information about the topic, it was narration, so leave it out.
+
+**Instead of:** "In this episode, the host explains that vulnerability is raw data, the unfiltered signals of someone's internal world."
+
+**Write:** "Vulnerability is raw data: the unfiltered signals of someone's internal world."
 
 **TW register:** warm and first person by design. Personal essays and case-study narratives keep first person where the personal context is the point. Explanatory, framework, and technical posts are topic-first.
 
@@ -804,8 +807,10 @@ If any of these terms are used in URLs or subURLs, they may be lowercase and hyp
 - **MVD**
 - **TRI**
 - **Value/Virtue/DRIVE System**
-- **Value/Virtue System** (interchangeable with Value/Virtue/DRIVE System; either may be used)
+- **Value/Virtue System**
 - **Guardrails**
+
+"Value/Virtue System" and "Value/Virtue/DRIVE System" are the same construct. Either may be used.
 
 ### 22a. Variants on Some Words
 
@@ -820,9 +825,9 @@ quoted from the source material. For example, "Cognitive Dissonance" is capitali
 
 ### 22c. Everyday Words Are Not Constructs
 
-General words like "empathy" and "attunement" were not adopted as RCF constructs, so they stay lowercase in running text. Capitalize them only where ordinary grammar does: the first word of a sentence, and titles and headings set in Title Case. A capital letter signals an RCF construct, so never capitalize a general word for emphasis.
+General words like "empathy" and "attunement" were not adopted as RCF constructs, so they stay lowercase in running text. Capitalize them only where ordinary grammar or the page's heading style does: the first word of a sentence, and titles or headings that capitalize every major word. A capital letter signals an RCF construct, so never capitalize a general word for emphasis.
 
-When unsure whether a word is a construct, check the list above and `.github/rcf-voice-core.md` (sections 3 and 4). If it is not listed, write it lowercase and flag it for the owner.
+When unsure whether a word is a construct, check the list above and the locked terms in `.github/rcf-voice-core.md` (section 3). The gloss table in section 4 is not a capitalization authority: a word that has a gloss there, such as "attunement" or "resonance", still follows this section. If a word is not listed, write it lowercase and flag it for the owner.
 ---
 
 ## 23. Final Rule
