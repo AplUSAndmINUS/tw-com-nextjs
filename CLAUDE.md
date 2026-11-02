@@ -804,6 +804,7 @@ If any of these terms are used in URLs or subURLs, they may be lowercase and hyp
 - **MVD**
 - **TRI**
 - **Value/Virtue/DRIVE System**
+- **Value/Virtue System** (interchangeable with Value/Virtue/DRIVE System; either may be used)
 - **Guardrails**
 
 ### 22a. Variants on Some Words
