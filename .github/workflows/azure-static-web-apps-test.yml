@@ -38,6 +38,7 @@ jobs:
         env:
           NEXT_PUBLIC_ENVIRONMENT: test
           NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+          NEXT_PUBLIC_GTM_ID: 'GTM-P3QP35V2'
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
