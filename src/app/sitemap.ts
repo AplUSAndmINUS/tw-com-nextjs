@@ -67,6 +67,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
+      // Short, hook-first version of /about — the referral target other
+      // sites in the ecosystem point to.
+      url: `${SITE_URL}/about-me`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
       // Authorship reference for the RCF book (pre-publication).
       url: `${SITE_URL}/resonance-core-framework`,
       lastModified: new Date(),
