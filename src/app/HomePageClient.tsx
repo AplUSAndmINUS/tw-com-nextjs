@@ -32,6 +32,8 @@ import {
   RCF_BOOK_BLURB,
   RCF_BOOK_DATE_LINE,
   RCF_NOTIFY_HREF,
+  RCF_PREORDER_HREF,
+  FLUXLINE_PRICING_URL,
   RCF_PATH,
   RCF_TRADEMARK,
   TRI_URL,
@@ -184,7 +186,7 @@ export default function HomePageClient({
   }
 
   const openFluxlineServices = () =>
-    window.open('https://fluxline.pro/services', '_blank', 'noopener');
+    window.open('https://www.fluxline.pro/services/', '_blank', 'noopener');
 
   return (
     <div id='top' className={styles.page}>
@@ -258,7 +260,10 @@ export default function HomePageClient({
                 {RCF_BOOK_DATE_LINE}
               </blockquote>
               <div className={styles.bookCtas}>
-                <TwButton href={RCF_NOTIFY_HREF}>
+                <TwButton href={RCF_PREORDER_HREF}>
+                  Pre-order the Book →
+                </TwButton>
+                <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                   Be Notified at Launch →
                 </TwButton>
                 <TwButton variant='outline' href={RCF_PATH}>
@@ -406,7 +411,7 @@ export default function HomePageClient({
                 <TwSectionHeading
                   kicker='My Work'
                   title='Design, architecture, and coaching'
-                  lede='I deliver this work through Fluxline Resonance Group — a modular systems practice for founders, creators, and teams building with clarity and resonance. More info is found on my business site Fluxline.pro, but here are a few highlights.'
+                  lede='Through Fluxline Resonance Group, I help businesses, solopreneurs, and individuals get clear on who they are, then make informed decisions that fit. More info is on my business site, Fluxline.pro, but here are a few highlights.'
                 />
               </TwReveal>
 
@@ -449,6 +454,13 @@ export default function HomePageClient({
                   rel='noopener noreferrer'
                 >
                   View all services on Fluxline.pro &#8599;
+                </a>
+                <a
+                  href={FLUXLINE_PRICING_URL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  See pricing &#8599;
                 </a>
               </div>
             </div>
@@ -599,7 +611,7 @@ export default function HomePageClient({
 
               <div className={styles.viewAll}>
                 <a
-                  href='https://fluxline.pro/case-studies'
+                  href='https://www.fluxline.pro/case-studies'
                   target='_blank'
                   rel='noopener noreferrer'
                 >

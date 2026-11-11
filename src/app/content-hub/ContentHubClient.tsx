@@ -64,8 +64,8 @@ const NAV_CARDS = [
 ] as const;
 
 const TRI_URL = 'https://theresonantidentity.com';
-const FLUXLINE_CASE_STUDIES = 'https://fluxline.pro/case-studies';
-const FLUXLINE_BOOKS = 'https://fluxline.pro/books';
+const FLUXLINE_CASE_STUDIES = 'https://www.fluxline.pro/case-studies';
+const FLUXLINE_BOOKS = 'https://www.fluxline.pro/books';
 
 /**
  * Content Hub — the launcher for everything TW.com publishes.
@@ -280,8 +280,9 @@ export default function ContentHubClient({
           everything I teach — distilled into a book.
         </p>
         <p className={styles.drawerBody}>
-          The full launch is coming soon on Fluxline.pro. Stay tuned for updates
-          on availability, pre-orders, and companion resources.
+          The full launch is coming soon on Fluxline.pro, and pre-orders for the
+          digital editions are open on the{' '}
+          <a href='https://store.fluxline.pro/book'>Fluxline Store</a>.
         </p>
         <a
           href={FLUXLINE_BOOKS}

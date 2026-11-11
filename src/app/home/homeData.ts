@@ -29,7 +29,7 @@ export interface HomeService {
   points: string[];
 }
 
-const FLUXLINE_SERVICES = 'https://fluxline.pro/services';
+const FLUXLINE_SERVICES = 'https://www.fluxline.pro/services';
 
 export const homeServices: HomeService[] = [
   {
@@ -117,9 +117,9 @@ export const homeServices: HomeService[] = [
   },
 ];
 
-/** Full fluxline.pro URL for a service slug. */
+/** Full fluxline.pro URL for a service slug (trailing slash, as fluxline.pro serves it). */
 export function serviceHref(slug: string): string {
-  return `${FLUXLINE_SERVICES}/${slug}`;
+  return slug ? `${FLUXLINE_SERVICES}/${slug}/` : `${FLUXLINE_SERVICES}/`;
 }
 
 export interface HomeSocial {
