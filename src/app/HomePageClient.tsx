@@ -33,7 +33,6 @@ import {
   RCF_BOOK_DATE_LINE,
   RCF_NOTIFY_HREF,
   RCF_PREORDER_HREF,
-  FLUXLINE_PRICING_URL,
   RCF_PATH,
   RCF_TRADEMARK,
   TRI_URL,
@@ -260,9 +259,6 @@ export default function HomePageClient({
                 {RCF_BOOK_DATE_LINE}
               </blockquote>
               <div className={styles.bookCtas}>
-                <TwButton href={RCF_PREORDER_HREF}>
-                  Pre-order the Book →
-                </TwButton>
                 <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                   Be Notified at Launch →
                 </TwButton>
@@ -274,6 +270,32 @@ export default function HomePageClient({
                 </TwButton>
               </div>
             </TwReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Pre-order announcement. It carries the page's only pre-order button,
+          so the book section above keeps just its secondary links. */}
+      <section
+        aria-labelledby='preorder-heading'
+        className={styles.preorderSection}
+      >
+        <div className={styles.container}>
+          <div className={styles.preorderCard}>
+            <p className={styles.preorderLabel}>Now open for pre-order</p>
+            <h2 id='preorder-heading' className={styles.preorderHeading}>
+              The Resonance Core Framework™, my book
+            </h2>
+            <p className={styles.preorderBody}>
+              Pre-orders are open on the Fluxline Store. Release is targeted for
+              Q1 2027.
+            </p>
+            <TwButton
+              className={styles.preorderButton}
+              href={RCF_PREORDER_HREF}
+            >
+              Pre-order the book
+            </TwButton>
           </div>
         </div>
       </section>
@@ -454,13 +476,6 @@ export default function HomePageClient({
                   rel='noopener noreferrer'
                 >
                   View all services on Fluxline.pro &#8599;
-                </a>
-                <a
-                  href={FLUXLINE_PRICING_URL}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  See pricing &#8599;
                 </a>
               </div>
             </div>

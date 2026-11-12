@@ -155,6 +155,13 @@
   --tw-gold-border: var(--tw-honey-gold-active);
   --tw-gold-bg: rgba(242, 197, 124, 0.08);
 
+  /* Mythic Gold: the book pre-order announcement. Fill and border are the
+     brand gold; the text token is separate because gold text must clear 4.5:1
+     on the page, which the light-family gold only does when darkened. */
+  --tw-mythic-gold: #f5c85c;
+  --tw-mythic-gold-ink: #0e1116;
+  --tw-mythic-gold-text: var(--tw-mythic-gold);
+
   --tw-line: var(--tw-glacier-cyan);
   --tw-indigo: var(--tw-slate-indigo);
   --tw-indigo-hover: var(--tw-slate-indigo-hover);
@@ -295,6 +302,9 @@
   --tw-gold: var(--tw-honey-gold);
   --tw-gold-border: var(--tw-honey-gold-active);
   --tw-gold-bg: rgba(217, 168, 87, 0.1);
+  --tw-mythic-gold: #f5c85c;
+  --tw-mythic-gold-ink: #0e1116;
+  --tw-mythic-gold-text: #7a5f00;
 
   --tw-line: var(--tw-glacier-cyan);
   --tw-indigo: var(--tw-slate-indigo);

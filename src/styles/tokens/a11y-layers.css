@@ -79,6 +79,9 @@
   --tw-gold: #7a5f00;
   --tw-gold-border: #5c4700;
   --tw-gold-bg: rgba(122, 95, 0, 0.14);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-ink: #ffffff;
+  --tw-mythic-gold-text: var(--tw-gold-border);
   --tw-featured: #5c4700;
 
   --tw-gradient-hero: linear-gradient(150deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
