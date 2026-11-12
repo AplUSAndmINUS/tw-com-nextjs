@@ -6,6 +6,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Aligned with the fluxline.pro revamp (#235), copy and links only. Book pre-orders are now described as open, with a "Pre-order" call to action to the Fluxline Store (`store.fluxline.pro/book`) on the home book section, `/resonance-core-framework`, the footer, and `llms.txt`; "Be notified at launch" stays as the secondary link. The DII summary uses the approved gloss instead of a score range, and the book is described as three parts (The Self, The Outward Reach, Systemic Architecture & Legacy). The five services use their exact names (home cards, consultation stepper) and link to their fluxline.pro pages, with a "See pricing" link to `fluxline.pro/pricing`. The home Work intro says in first person what Fluxline does. Fluxline links use `https://www.fluxline.pro`, and the Organization schema is named "Fluxline Resonance Group, LLC" (display name as `alternateName`).
+
 ### Added
 
 - Google Tag Manager (`GTM-P3QP35V2`): the standard container snippet loads in `<head>` right after the existing Consent Mode v2 defaults, with the `<noscript>` fallback iframe as the first element in `<body>`, per Google's documented install. Gated by `NEXT_PUBLIC_GTM_ID` (empty disables it, same pattern as `NEXT_PUBLIC_GA_MEASUREMENT_ID`).

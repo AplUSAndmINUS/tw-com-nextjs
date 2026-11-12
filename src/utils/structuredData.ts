@@ -91,7 +91,7 @@ export const SITE_KEYWORDS = [
 const WORKS_FOR = {
   '@type': 'Organization',
   '@id': 'https://www.fluxline.pro/#organization',
-  name: 'Fluxline Resonance Group LLC',
+  name: 'Fluxline Resonance Group, LLC',
   url: 'https://www.fluxline.pro',
 };
 
@@ -204,9 +204,11 @@ export function getOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': 'https://www.fluxline.pro/#organization',
-    name: 'Fluxline Resonance Group',
+    name: 'Fluxline Resonance Group, LLC',
+    legalName: 'Fluxline Resonance Group, LLC',
+    alternateName: 'Fluxline Resonance Group',
     url: 'https://www.fluxline.pro',
-    logo: 'https://fluxline.pro/images/FluxlineLogo.png',
+    logo: 'https://www.fluxline.pro/images/FluxlineLogo.png',
     founder: {
       '@type': 'Person',
       '@id': 'https://terencewaters.com/#person',
@@ -349,71 +351,6 @@ export function getPortfolioSchema(portfolio: ContentItem, slug: string) {
 }
 
 /**
- * Services ItemList schema
- */
-export function getServicesItemListSchema() {
-  const services = [
-    {
-      name: 'Design',
-      description:
-        'Interface and experience design for products, content systems, and digital platforms that need clarity and momentum.',
-      url: `${SITE_URL}/services/design`,
-    },
-    {
-      name: 'Development',
-      description:
-        'Modern web development and implementation support focused on performance, maintainability, and long-term product growth.',
-      url: `${SITE_URL}/services/development`,
-    },
-    {
-      name: 'Consulting',
-      description:
-        'Strategic advisory for founders and teams navigating architecture decisions, product direction, and execution planning.',
-      url: `${SITE_URL}/services/consulting`,
-    },
-    {
-      name: 'Resonance Core',
-      description:
-        'Identity-centered coaching and guidance for creators and leaders building aligned work, voice, and long-term direction.',
-      url: `${SITE_URL}/services/resonance-core`,
-    },
-    {
-      name: 'Personal Training',
-      description:
-        "Personalized fitness coaching with emotional intelligence—build strength, reduce pain, and align your physical practice with who you're becoming.",
-      url: `${SITE_URL}/services/personal-training`,
-    },
-  ];
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    '@id': `${SITE_URL}/services#itemlist`,
-    name: 'Terence Waters Services',
-    description:
-      'Professional services across design, development, consulting, Resonance Core coaching, and personal training.',
-    url: `${SITE_URL}/services`,
-    numberOfItems: services.length,
-    itemListElement: services.map((service, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'Service',
-        '@id': service.url,
-        name: service.name,
-        description: service.description,
-        url: service.url,
-        provider: {
-          '@type': 'Person',
-          '@id': `${SITE_URL}/#person`,
-          name: PERSON_NAME,
-        },
-      },
-    })),
-  };
-}
-
-/**
  * Book schema for the pre-publication RCF book (TW-4.2). Page-specific — the
  * Person entity it points at is declared site-wide, so this references it by
  * @id rather than repeating it.
@@ -434,11 +371,11 @@ export function getRcfBookSchema() {
     publisher: {
       '@type': 'Organization',
       '@id': 'https://www.fluxline.pro/#organization',
-      name: 'Fluxline Resonance Group LLC',
+      name: 'Fluxline Resonance Group, LLC',
       url: 'https://www.fluxline.pro',
     },
     description:
-      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with preorders opening in early November 2026.',
+      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with pre-orders open on the Fluxline Store.',
     genre: 'Self-improvement, Identity Psychology, Personal Development',
     keywords: [
       'Resonance Core Framework',
@@ -463,16 +400,6 @@ export function getRcfBookSchema() {
 }
 
 /**
- * The DII's one-line summary on the page names a score range, which is an open
- * owner question (rcf-voice-core.md, Section 4), so structured data uses the
- * approved gloss instead of repeating the range.
- */
-const DEFINED_TERM_OVERRIDES: Record<string, string> = {
-  'dii-protocol':
-    "The RCF's way of checking whether a decision lines up with your identity and values.",
-};
-
-/**
  * DefinedTermSet for the RCF core concepts listed on /resonance-core-framework.
  * Each term links to its full definition on fluxline.pro, the framework's
  * source of truth.
@@ -487,7 +414,7 @@ export function getRcfDefinedTermSetSchema() {
     hasDefinedTerm: RCF_CONCEPTS.map((concept) => ({
       '@type': 'DefinedTerm',
       name: concept.name,
-      description: DEFINED_TERM_OVERRIDES[concept.id] ?? concept.summary,
+      description: concept.summary,
       url: rcfConceptHref(concept.id),
     })),
   };
