@@ -1,0 +1,89 @@
+@use 'abstracts' as *;
+
+/* The slim pre-order bar above the nav. Colours come from the mythic-gold
+   tokens, which every theme remaps. */
+.bar {
+  background: transparent;
+  border-bottom: 1px solid var(--tw-mythic-gold);
+  font-family: var(--tw-font);
+}
+
+/* Legacy-layout routes: sit directly under the fixed Header (the component
+   replaces this margin-top with the header's measured height). The negative
+   bottom margin hands the space back, because the legacy layout already pads
+   its content by the header height; the stacking context keeps the bar above
+   that layout's own background. Only valid where the next element is that
+   padded layout. */
+.belowFixedHeader {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--site-header-height);
+  margin-bottom: calc(-1 * var(--site-header-height));
+}
+
+.inner {
+  max-width: var(--tw-container);
+  margin: 0 auto;
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 14px;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  color: var(--tw-text-body);
+  text-align: center;
+
+  @include from('mobile-lg') {
+    padding: 9px var(--tw-container-pad);
+    font-size: 0.84375rem;
+  }
+}
+
+.label {
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tw-mythic-gold-text);
+
+  @include from('mobile-lg') {
+    font-size: 0.75rem;
+  }
+}
+
+/* The separator only reads well when label and text share a line. */
+.dot {
+  display: none;
+  color: var(--tw-mythic-gold-text);
+
+  @include from('tablet') {
+    display: inline;
+  }
+}
+
+.link {
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &,
+  &:any-link {
+    color: var(--tw-mythic-gold-text);
+  }
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* The text token, not the fill: plain gold is too pale to see as a ring on
+     the light theme. */
+  &:focus-visible {
+    outline: 2px solid var(--tw-mythic-gold-text);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+}
