@@ -14,6 +14,8 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 - Aligned with the fluxline.pro revamp (#235), copy and links only. Book pre-orders are now described as open, with a "Pre-order" call to action to the Fluxline Store (`store.fluxline.pro/book`) on the home page (the announcement card, #238), `/resonance-core-framework`, the footer, and `llms.txt`; "Be notified at launch" stays as the secondary link. The DII summary uses the approved gloss instead of a score range, and the book is described as three parts (The Self, The Outward Reach, Systemic Architecture & Legacy). The five services use their exact names (home cards, consultation stepper) and link to their fluxline.pro pages. The home Work intro says in first person what Fluxline does. Fluxline links use `https://www.fluxline.pro`, and the Organization schema is named "Fluxline Resonance Group, LLC" (display name as `alternateName`).
 
+- Home page (#246): the contact section no longer shows the email address as text; an Email icon leads the social row and links to it. The hero quote loses its em dashes ("...systems that make your life and work feel like they finally fit.").
+
 ### Added
 
 - Book pre-order announcement (#238, #241) on the home page, inside the book (Resonance Core Framework) section: a Mythic Gold callout with a label, heading, launch line, and the page's one "Pre-order the book" button to the Fluxline Store. The section's other links stay outline. New `--tw-mythic-gold`, `--tw-mythic-gold-ink`, and `--tw-mythic-gold-text` tokens follow each theme (the accessibility themes use that theme's own gold). No link to the fluxline.pro pricing page, which is not live yet.
