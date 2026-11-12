@@ -1,6 +1,6 @@
 ---
 title: 'Building a Book the Way I Build Systems'
-excerpt: 'I spent twenty years building systems for other people. This year I built one for my own book, and this week it took over the part that was going to cost me months. Preorders for The Resonance Core Framework™ open in early November.'
+excerpt: 'I spent twenty years building systems for other people. This year I built one for my own book, and this week it took over the part that was going to cost me months. Pre-orders for The Resonance Core Framework™ are open on the Fluxline Store.'
 author: 'Terence Waters'
 publishedDate: '2026-10-22'
 date: '2026-10-22'
@@ -17,7 +17,7 @@ imageUrl: '/blog/building-a-book-the-way-i-build-systems/images/The-Resonance-Co
 imageAlt: 'The Resonance Core Framework™ book by Terence Waters'
 featured: true
 seoTitle: 'Building a Book the Way I Build Systems | Terence Waters'
-seoDescription: 'How Terence Waters builds The Resonance Core Framework™ in public: the gated production system behind the book, and preorders opening in early November 2026.'
+seoDescription: 'How Terence Waters builds The Resonance Core Framework™ in public: the gated production system behind the book. Pre-orders are open on the Fluxline Store.'
 seoKeywords:
   - 'Terence Waters'
   - 'Resonance Core Framework book'
@@ -26,17 +26,17 @@ seoKeywords:
   - 'InDesign automation'
   - 'self-narrated audiobook'
   - 'book preorder'
-structuredSummary: 'Terence Waters is building The Resonance Core Framework™ in public. Each chapter passes through gates: manuscript, editorial checks, design, eBook, print and Kindle builds, the audiobook, and a release checklist. In October 2026 the pipeline began generating the InDesign print files for each chapter and workbook exercise alongside the eBook, removing months of manual layout. Preorders open in early November 2026, and the book is targeted for Q1 2027.'
+structuredSummary: 'Terence Waters is building The Resonance Core Framework™ in public. Each chapter passes through gates: manuscript, editorial checks, design, eBook, print and Kindle builds, the audiobook, and a release checklist. In October 2026 the pipeline began generating the InDesign print files for each chapter and workbook exercise alongside the eBook, removing months of manual layout. Pre-orders are open on the Fluxline Store, and the book is targeted for Q1 2027.'
 generatedWithAI: true
 keyInsights:
-  - 'The Resonance Core Framework™ is a practical system for making change that holds, built on alignment rather than force. Preorders open in early November 2026, and the book is targeted for Q1 2027.'
+  - 'The Resonance Core Framework™ is a practical system for making change that holds, built on alignment rather than force. Pre-orders are open on the Fluxline Store, and the book is targeted for Q1 2027.'
   - 'Each chapter passes through gates: manuscript, editorial checks, design, eBook, print and Kindle builds, the audiobook, and a release checklist.'
   - 'The print layout was the slowest gate. The system now generates the print files alongside the eBook, and I verify them, which saves months.'
   - 'AI drafts, builds and checks; it never decides. The book is AI-assisted, never written solely by AI, and fully human-reviewed.'
   - "Structure isn't the opposite of heart. Good structure is what lets you write with it."
 faq:
-  - question: 'When can I preorder the book?'
-    answer: "Preorders open in early November 2026. The book is targeted for Q1 2027. Join the list at fluxline.pro/resonance-core-framework/#notify and you'll hear first."
+  - question: 'When can I pre-order the book?'
+    answer: "Now. Pre-orders are open on the Fluxline Store at store.fluxline.pro/book. The book is targeted for Q1 2027."
   - question: 'Is AI writing the book?'
     answer: "No. Portions are AI-assisted, nothing is written solely by AI, and every line and figure is reviewed by me. The book's front matter says this too."
   - question: 'What did the system automate?'
@@ -51,7 +51,9 @@ faq:
 
 I've spent more than twenty years designing and architecting systems for other people. Websites, platforms, brands, the quiet infrastructure that makes a product feel effortless. This year I started building one for something much more personal: my own book.
 
-The book is _The Resonance Core Framework™_, a practical system for making change that holds, built on alignment rather than force. It has 31 chapters across four parts, a companion workbook, and an audiobook I'm narrating myself. It's targeted for Q1 2027, and **preorders open in early November 2026**.
+The book is _The Resonance Core Framework™_, a practical system for making change that holds, built on alignment rather than force. It has 31 chapters across three parts, a companion workbook, and an audiobook I'm narrating myself. It's targeted for Q1 2027, and **pre-orders are open on the [Fluxline Store](https://store.fluxline.pro/book)**.
+
+_Updated November 20, 2026. I first wrote that pre-orders would open in early November. They opened on November 20._
 
 Starting this week, I'm building the rest of it in public.
 
@@ -108,4 +110,4 @@ Every week I'll share one idea from the framework in plain language, one piece o
 
 This week's idea comes from Chapter 1: the Tunneled Lens, and the difference between the loud story we tell about ourselves and the quieter one underneath.
 
-If you want to follow along, or you want to know the moment preorders open, the newsletter is the best place. [Sign up here](https://fluxline.pro/resonance-core-framework/#notify). I'd love the company.
+If you want to follow along, the newsletter is the best place. [Sign up here](https://fluxline.pro/resonance-core-framework/#notify). I'd love the company.
