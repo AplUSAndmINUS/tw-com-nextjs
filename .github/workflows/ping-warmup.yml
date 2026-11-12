@@ -1,11 +1,18 @@
 name: Ping Warmup (PROD keep-alive)
 
-# Calls the /api/ping HTTP endpoint every 15 minutes to keep the PROD Azure
-# Functions host warm. This replicates the timerTrigger that SWA does not
-# support.
+# Calls the /api/ping HTTP endpoint every four hours as a PROD keep-alive.
+# This replicates the timerTrigger that SWA does not support.
+#
+# The interval was every 15 minutes until #256. At four hours the Functions
+# host may idle out between pings, so the first API call after a quiet spell
+# can be a cold start. The ping still confirms PROD answers.
+#
+# GitHub runs scheduled workflows from the default branch (develop), so a
+# change here takes effect when it merges into develop. Minute 23 keeps the
+# run off the top of the hour, when GitHub's scheduler is busiest.
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '23 */4 * * *'
   workflow_dispatch: # allow manual runs for testing
 
 jobs:
