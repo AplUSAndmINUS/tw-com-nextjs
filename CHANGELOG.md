@@ -12,6 +12,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Changed
 
+- "Building a Book the Way I Build Systems" corrected (#252): the post, its summary, and its FAQ no longer say pre-orders open in early November 2026 or that the book has four parts. They say pre-orders are open on the Fluxline Store, link to the store's book page, and give three parts. The post carries a dated update note.
 - Aligned with the fluxline.pro revamp (#235), copy and links only. Book pre-orders are now described as open, with a "Pre-order" call to action to the Fluxline Store (`store.fluxline.pro/book`) on the home page (the announcement card, #238), `/resonance-core-framework`, the footer, and `llms.txt`; "Be notified at launch" stays as the secondary link. The DII summary uses the approved gloss instead of a score range, and the book is described as three parts (The Self, The Outward Reach, Systemic Architecture & Legacy). The five services use their exact names (home cards, consultation stepper) and link to their fluxline.pro pages. The home Work intro says in first person what Fluxline does. Fluxline links use `https://www.fluxline.pro`, and the Organization schema is named "Fluxline Resonance Group, LLC" (display name as `alternateName`).
 
 - Home page (#246): the contact section no longer shows the email address as text; an Email icon leads the social row and links to it. The hero quote loses its em dashes ("...systems that make your life and work feel like they finally fit.").
