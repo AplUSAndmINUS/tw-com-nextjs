@@ -11,6 +11,7 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import { useRecaptchaToken } from '@/hooks/useRecaptchaToken';
 import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
 import styles from './FooterContent.module.scss';
 
@@ -114,6 +115,7 @@ function FooterNewsletterMini() {
   const [error, setError] = useState<string | null>(null);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+  const getRecaptchaToken = useRecaptchaToken();
 
   // Auto-reset the success confirmation after 5 seconds so the form returns to input state
   useEffect(() => {
@@ -138,10 +140,21 @@ function FooterNewsletterMini() {
       recordSubmit();
       setIsLoading(true);
       try {
+        const recaptchaToken = await getRecaptchaToken('newsletter_subscribe');
+        if (!recaptchaToken) {
+          setError(
+            'Spam protection didn’t finish loading. Refresh the page and try again.'
+          );
+          return;
+        }
+
         const response = await fetch(`${getApiBaseUrl()}/api/subscribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: trimmed.toLowerCase() }),
+          body: JSON.stringify({
+            email: trimmed.toLowerCase(),
+            recaptchaToken,
+          }),
         });
         const data = await response.json();
         if (!response.ok) {
@@ -156,7 +169,14 @@ function FooterNewsletterMini() {
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
+    [
+      email,
+      setNewsletterSubscribed,
+      canSubmit,
+      recordSubmit,
+      timeUntilReset,
+      getRecaptchaToken,
+    ]
   );
 
   // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag

@@ -15,7 +15,6 @@ import {
 } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { Spinner } from '@/components/ui/Spinner';
-import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import { HomeNav } from './home/HomeNav';
 import { HomeContactForm } from './home/HomeContactForm';
 import { HomeNewsletterForm } from './home/HomeNewsletterForm';
@@ -697,12 +696,10 @@ export default function HomePageClient({
             </TwReveal>
 
             <TwReveal>
-              {/* The provider is scoped to the contact section rather than the
-                  whole page so the reCAPTCHA script is not pulled in for
-                  visitors who never scroll this far. */}
-              <ReCaptchaProvider>
-                <HomeContactForm />
-              </ReCaptchaProvider>
+              {/* ReCaptchaProvider now wraps the whole app in providers.tsx
+                  (the newsletter forms need it sitewide), so this section
+                  no longer needs its own local provider. */}
+              <HomeContactForm />
             </TwReveal>
           </div>
         </div>

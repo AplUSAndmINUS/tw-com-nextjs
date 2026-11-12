@@ -11,15 +11,16 @@
  *   ENTRAID_TENANT_ID                      — Azure/Entra tenant ID
  *   SHAREPOINT_SITE_ID                     — SharePoint site ID (or use SHAREPOINT_SITE_URL)
  *   SHAREPOINT_LIST_ID                     — SharePoint list ID for the Email Distribution List
+ *   RECAPTCHA_SECRET_KEY                   — Google reCAPTCHA v3 secret key for spam protection
  *
  * Request body:
- *   { "email": "user@example.com" }
+ *   { "email": "user@example.com", "recaptchaToken": "..." }
  *
  * Response:
  *   200 { "message": "Subscribed successfully" }
  *   400 { "error": "..." }
  *   500 { "error": "..." }
- *   504 { "error": "..." }  Upstream (Entra ID or Graph) timed out.
+ *   504 { "error": "..." }  Upstream (Entra ID, Graph, or reCAPTCHA) timed out.
  */
 
 'use strict';
@@ -57,6 +58,8 @@ function getCorsHeaders(origin) {
 
 const LEAD_PLATFORM = 'TW.com';
 const GRAPH_BASE_URL = 'https://graph.microsoft.com/v1.0';
+const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+const RECAPTCHA_MIN_SCORE = 0.5; // Minimum score to accept (0.0 - 1.0)
 
 /**
  * Validates an email address format.
@@ -66,6 +69,55 @@ const GRAPH_BASE_URL = 'https://graph.microsoft.com/v1.0';
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
+}
+
+/**
+ * Verifies a reCAPTCHA v3 token with Google's API. Mirrors api/contact's
+ * verifyRecaptcha (success + score check) via the shared httpClient.
+ * @param {string} token
+ * @param {string} secretKey
+ * @param {(msg: string) => void} [log]
+ * @returns {Promise<{ success: boolean; score?: number; error?: string }>}
+ */
+async function verifyRecaptcha(token, secretKey, log) {
+  if (!token) {
+    return { success: false, error: 'reCAPTCHA token is required' };
+  }
+
+  if (!secretKey) {
+    return { success: false, error: 'reCAPTCHA secret key not configured' };
+  }
+
+  // maxRetries: 0 — a reCAPTCHA token is single-use; see api/contact's
+  // identical comment on its own httpPostForm for why a retry here would
+  // report a spent-token error instead of the upstream timeout it really is.
+  const result = await requestJson(RECAPTCHA_VERIFY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ secret: secretKey, response: token }).toString(),
+    maxRetries: 0,
+    label: 'reCAPTCHA verify',
+    log,
+  });
+
+  const { success, score, 'error-codes': errorCodes } = result.body;
+
+  if (!success) {
+    return {
+      success: false,
+      error: `reCAPTCHA verification failed: ${errorCodes?.join(', ') || 'unknown error'}`,
+    };
+  }
+
+  if (typeof score === 'number' && score < RECAPTCHA_MIN_SCORE) {
+    return {
+      success: false,
+      score,
+      error: `reCAPTCHA score too low: ${score} (minimum: ${RECAPTCHA_MIN_SCORE})`,
+    };
+  }
+
+  return { success: true, score };
 }
 
 /**
@@ -206,7 +258,8 @@ module.exports = async function (context, req) {
     };
   }
 
-  const { email } = req.body || {};
+  const { email, recaptchaToken } = req.body || {};
+  const log = (msg) => context.log(msg);
 
   if (!email || typeof email !== 'string') {
     return {
@@ -226,6 +279,57 @@ module.exports = async function (context, req) {
     };
   }
 
+  const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+  if (recaptchaSecretKey) {
+    try {
+      const recaptchaResult = await verifyRecaptcha(
+        recaptchaToken,
+        recaptchaSecretKey,
+        log
+      );
+
+      if (!recaptchaResult.success) {
+        context.log.warn(
+          'Newsletter subscribe: reCAPTCHA verification failed:',
+          recaptchaResult.error
+        );
+        return {
+          status: 400,
+          headers: corsHeaders,
+          body: JSON.stringify({
+            error: 'Failed to verify reCAPTCHA. Please try again.',
+          }),
+        };
+      }
+    } catch (err) {
+      if (isTimeoutError(err)) {
+        context.log.error(
+          `Newsletter subscribe timed out calling ${err.label} after ${err.timeoutMs} ms`
+        );
+        return {
+          status: 504,
+          headers: corsHeaders,
+          body: JSON.stringify({
+            error: 'The request timed out. Please try again.',
+          }),
+        };
+      }
+
+      context.log.error('Newsletter subscribe: reCAPTCHA verification error:', err);
+      return {
+        status: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: 'Failed to verify reCAPTCHA. Please try again.',
+        }),
+      };
+    }
+  } else {
+    context.log.warn(
+      'Newsletter subscribe: RECAPTCHA_SECRET_KEY not configured, skipping verification.'
+    );
+  }
+
   const tenantId = process.env.ENTRAID_TENANT_ID;
   const clientId = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_ID;
   const clientSecret = process.env.ENTRAID_SP_APP_REGISTRATION_CLIENT_SECRET;
@@ -242,8 +346,6 @@ module.exports = async function (context, req) {
       body: JSON.stringify({ error: 'Server configuration error' }),
     };
   }
-
-  const log = (msg) => context.log(msg);
 
   try {
     const accessToken = await getAccessToken(
