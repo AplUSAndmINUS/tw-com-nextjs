@@ -6,6 +6,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+### Security
+
+- Newsletter sign-up (`/api/subscribe`): bot submissions were reaching the SharePoint distribution list unfiltered — the endpoint had no bot check at all, only a loose email-format regex. Added reCAPTCHA v3 verification (success + score, matching `/api/contact`'s existing check via the shared `httpClient`). `ReCaptchaProvider` moves from scoped-to-the-homepage-contact-section to global in `providers.tsx`, since the newsletter forms it now protects (home, footer, drawer) render sitewide, not just on the homepage — the reCAPTCHA script now loads on every page rather than only when a visitor scrolls to Contact. New shared `useRecaptchaToken` hook (waits for the async script, up to 10s) used by all three forms.
+
 ### Changed
 
 - Aligned with the fluxline.pro revamp (#235), copy and links only. Book pre-orders are now described as open, with a "Pre-order" call to action to the Fluxline Store (`store.fluxline.pro/book`) on the home page (the announcement card, #238), `/resonance-core-framework`, the footer, and `llms.txt`; "Be notified at launch" stays as the secondary link. The DII summary uses the approved gloss instead of a score range, and the book is described as three parts (The Self, The Outward Reach, Systemic Architecture & Legacy). The five services use their exact names (home cards, consultation stepper) and link to their fluxline.pro pages. The home Work intro says in first person what Fluxline does. Fluxline links use `https://www.fluxline.pro`, and the Organization schema is named "Fluxline Resonance Group, LLC" (display name as `alternateName`).

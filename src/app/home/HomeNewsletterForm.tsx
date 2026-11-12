@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { TwButton } from '@/components/dsm';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import { useRecaptchaToken } from '@/hooks/useRecaptchaToken';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import styles from './HomeNewsletterForm.module.scss';
 
@@ -22,6 +23,7 @@ export function HomeNewsletterForm() {
   const { newsletterSubscribed, setNewsletterSubscribed } =
     useNewsletterStore();
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+  const getRecaptchaToken = useRecaptchaToken();
 
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -45,10 +47,21 @@ export function HomeNewsletterForm() {
     recordSubmit();
     setIsLoading(true);
     try {
+      const recaptchaToken = await getRecaptchaToken('newsletter_subscribe');
+      if (recaptchaToken === null) {
+        setError(
+          'Spam protection didn’t finish loading. Refresh the page and try again.'
+        );
+        return;
+      }
+
       const response = await fetch(`${getApiBaseUrl()}/api/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: trimmed.toLowerCase() }),
+        body: JSON.stringify({
+          email: trimmed.toLowerCase(),
+          recaptchaToken,
+        }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {

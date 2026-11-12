@@ -14,6 +14,7 @@ import { useNewsletterStore } from '@/store/newsletterStore';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
+import { useRecaptchaToken } from '@/hooks/useRecaptchaToken';
 import { DismissIcon } from '@/components/icons';
 
 /** Delay in ms before the drawer auto-shows on a non-home page */
@@ -56,6 +57,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
   const [isSuccess, setIsSuccess] = useState(false);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+  const getRecaptchaToken = useRecaptchaToken();
 
   // Ensure we're mounted before rendering portal
   useEffect(() => {
@@ -112,11 +114,22 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
       recordSubmit();
       setIsLoading(true);
       try {
+        const recaptchaToken = await getRecaptchaToken('newsletter_subscribe');
+        if (recaptchaToken === null) {
+          setSubmitError(
+            'Spam protection didn’t finish loading. Refresh the page and try again.'
+          );
+          return;
+        }
+
         const apiUrl = `${getApiBaseUrl()}/api/subscribe`;
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email.trim().toLowerCase() }),
+          body: JSON.stringify({
+            email: email.trim().toLowerCase(),
+            recaptchaToken,
+          }),
         });
 
         const data = await response.json();
@@ -139,7 +152,14 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
+    [
+      email,
+      setNewsletterSubscribed,
+      canSubmit,
+      recordSubmit,
+      timeUntilReset,
+      getRecaptchaToken,
+    ]
   );
 
   const animDuration = prefersReducedMotion ? 0 : 0.3;
