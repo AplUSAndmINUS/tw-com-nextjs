@@ -6,6 +6,7 @@ import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { PageTransition } from '@/components/PageTransition';
+import { PreorderBar } from '@/components/PreorderBar';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
 import { NewsletterDrawerWrapper } from '@/components/NewsletterDrawer';
@@ -41,6 +42,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
     path === '/videos' ||
     path.startsWith('/videos/');
   const isHome = ownsNav;
+  // Routes still on the legacy layout: a fixed Header over content padded by
+  // --site-header-height. The pre-order bar sits under that header there.
+  const usesLegacyLayout =
+    path === '/podcasts' ||
+    path.startsWith('/podcasts/') ||
+    path === '/unsubscribe';
   return (
     <ExtendedThemeProvider>
       {/*
@@ -77,6 +84,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
             {/* Portals itself into document.body. */}
             <PodcastMiniPlayer />
             <AccessGate>
+              {/* Site-wide book pre-order bar, above the page and its nav. */}
+              <PreorderBar belowFixedHeader={usesLegacyLayout} />
               {/*
                 Page content. PageTransition sits above the page segment, so it
                 persists across client navigations and fades every route out and

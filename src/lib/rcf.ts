@@ -22,6 +22,14 @@ export const FLUXLINE_RCF_URL =
 /** Fluxline Store page for the book: pre-orders for the digital editions are open. */
 export const RCF_PREORDER_HREF = 'https://store.fluxline.pro/book';
 
+/**
+ * The expected release, in the store's own words (owner, 2026-11-12). Used
+ * only by the site-wide pre-order bar, which mirrors the store's bar; other
+ * copy keeps "targeted for Q1 2027".
+ */
+export const RCF_EXPECTED_RELEASE =
+  'late February to mid-March 2027 (subject to change)';
+
 /** Where every "Be notified at launch" CTA points: the launch sign-up on the RCF page. */
 export const RCF_NOTIFY_HREF =
   'https://www.fluxline.pro/resonance-core-framework/#notify';
