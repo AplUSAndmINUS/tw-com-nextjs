@@ -141,7 +141,7 @@ function FooterNewsletterMini() {
       setIsLoading(true);
       try {
         const recaptchaToken = await getRecaptchaToken('newsletter_subscribe');
-        if (!recaptchaToken) {
+        if (recaptchaToken === null) {
           setError(
             'Spam protection didn’t finish loading. Refresh the page and try again.'
           );

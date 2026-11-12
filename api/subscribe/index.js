@@ -73,13 +73,15 @@ function isValidEmail(email) {
 
 /**
  * Verifies a reCAPTCHA v3 token with Google's API. Mirrors api/contact's
- * verifyRecaptcha (success + score check) via the shared httpClient.
+ * verifyRecaptcha (success + score check) via the shared httpClient, plus an
+ * action check so a token minted for a different form can't be replayed here.
  * @param {string} token
  * @param {string} secretKey
+ * @param {string} expectedAction
  * @param {(msg: string) => void} [log]
  * @returns {Promise<{ success: boolean; score?: number; error?: string }>}
  */
-async function verifyRecaptcha(token, secretKey, log) {
+async function verifyRecaptcha(token, secretKey, expectedAction, log) {
   if (!token) {
     return { success: false, error: 'reCAPTCHA token is required' };
   }
@@ -100,12 +102,19 @@ async function verifyRecaptcha(token, secretKey, log) {
     log,
   });
 
-  const { success, score, 'error-codes': errorCodes } = result.body;
+  const { success, score, action, 'error-codes': errorCodes } = result.body;
 
   if (!success) {
     return {
       success: false,
       error: `reCAPTCHA verification failed: ${errorCodes?.join(', ') || 'unknown error'}`,
+    };
+  }
+
+  if (action !== expectedAction) {
+    return {
+      success: false,
+      error: `reCAPTCHA action mismatch: expected ${expectedAction}, got ${action}`,
     };
   }
 
@@ -285,6 +294,7 @@ module.exports = async function (context, req) {
       const recaptchaResult = await verifyRecaptcha(
         recaptchaToken,
         recaptchaSecretKey,
+        'newsletter_subscribe',
         log
       );
 

@@ -115,7 +115,7 @@ export const NewsletterDrawer: React.FC<NewsletterDrawerProps> = ({
       setIsLoading(true);
       try {
         const recaptchaToken = await getRecaptchaToken('newsletter_subscribe');
-        if (!recaptchaToken) {
+        if (recaptchaToken === null) {
           setSubmitError(
             'Spam protection didn’t finish loading. Refresh the page and try again.'
           );
