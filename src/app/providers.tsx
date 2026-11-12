@@ -29,6 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const ownsNav =
     path === '/' ||
     path === '/about' ||
+    path === '/about-me' ||
     path === '/blog' ||
     path.startsWith('/blog/') ||
     path === '/content-hub' ||
