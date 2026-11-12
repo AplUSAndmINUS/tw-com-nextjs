@@ -39,7 +39,8 @@ function useFixedHeaderHeight(enabled: boolean): number | null {
 /**
  * The slim book pre-order bar at the top of every page. It sits in normal
  * flow above the sticky DSM nav, so it scrolls away and the nav takes the top.
- * Transparent, with Mythic Gold trim: the label, the link and the bottom rule.
+ * A faint Mythic Gold tint, with the same gold used for the label, the link
+ * and the bottom rule.
  */
 export function PreorderBar({ belowFixedHeader = false }: PreorderBarProps) {
   const headerHeight = useFixedHeaderHeight(belowFixedHeader);

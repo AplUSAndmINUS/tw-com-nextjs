@@ -3,7 +3,7 @@
 /* The slim pre-order bar above the nav. Colours come from the mythic-gold
    tokens, which every theme remaps. */
 .bar {
-  background: transparent;
+  background: var(--tw-mythic-gold-bg);
   border-bottom: 1px solid var(--tw-mythic-gold);
   font-family: var(--tw-font);
 }
