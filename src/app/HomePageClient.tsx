@@ -25,6 +25,7 @@ import {
   homeServices,
   serviceHref,
   aboutSocials,
+  contactSocials,
   wideSocials,
   type HomeService,
 } from './home/homeData';
@@ -226,7 +227,7 @@ export default function HomePageClient({
               .
             </>
           }
-          quote='Clarity, identity, and systems that make your life — and your work — feel like they finally fit.'
+          quote='Clarity, identity, and systems that make your life and work feel like they finally fit.'
           primaryCta={{ label: 'Who am I?', href: '#about' }}
           secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -671,11 +672,8 @@ export default function HomePageClient({
                   Book a free consultation
                 </TwButton>
               </div>
-              <div className={styles.contactEmail}>
-                terence@terencewaters.com
-              </div>
               <SocialRow
-                items={wideSocials}
+                items={contactSocials}
                 className={styles.contactSocials}
               />
             </TwReveal>
