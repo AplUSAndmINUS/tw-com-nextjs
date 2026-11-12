@@ -22,9 +22,6 @@ export const FLUXLINE_RCF_URL =
 /** Fluxline Store page for the book: pre-orders for the digital editions are open. */
 export const RCF_PREORDER_HREF = 'https://store.fluxline.pro/book';
 
-/** Starting prices for all five Fluxline services. */
-export const FLUXLINE_PRICING_URL = 'https://www.fluxline.pro/pricing/';
-
 /** Where every "Be notified at launch" CTA points: the launch sign-up on the RCF page. */
 export const RCF_NOTIFY_HREF =
   'https://www.fluxline.pro/resonance-core-framework/#notify';
@@ -39,9 +36,11 @@ export const RCF_BOOK = {
     '31 chapters in three parts (The Self, The Outward Reach, and Systemic Architecture & Legacy)',
 };
 
-/** One-line book date for book-focused passages: launch plus preorders. */
-export const RCF_BOOK_DATE_LINE =
-  'The book is targeted for Q1 2027, and pre-orders are open on the Fluxline Store (eBook $34.99 at pre-order).';
+/**
+ * One-line book date for the home book section. Launch only: the pre-order
+ * announcement directly below it carries the pre-order status and button.
+ */
+export const RCF_BOOK_DATE_LINE = 'The book is targeted for Q1 2027.';
 
 /**
  * Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027).
