@@ -12,7 +12,8 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Added
 
-- Book pre-order announcement (#238) on the home page, directly under the Resonance Core Framework section: a Mythic Gold card with a label, heading, short paragraph, and one "Pre-order the book" button to the Fluxline Store. New `--tw-mythic-gold`, `--tw-mythic-gold-ink`, and `--tw-mythic-gold-text` tokens follow each theme (the accessibility themes use that theme's own gold). The home book section keeps its secondary links and a launch-only date line, so the announcement carries the one pre-order call to action. No link to the fluxline.pro pricing page, which is not live yet.
+- Book pre-order announcement (#238, #241) on the home page, inside the book (Resonance Core Framework) section: a Mythic Gold callout with a label, heading, launch line, and the page's one "Pre-order the book" button to the Fluxline Store. The section's other links stay outline. New `--tw-mythic-gold`, `--tw-mythic-gold-ink`, and `--tw-mythic-gold-text` tokens follow each theme (the accessibility themes use that theme's own gold). No link to the fluxline.pro pricing page, which is not live yet.
+- `TwButton` has a `gold` variant (#241) built on those tokens, and `TwHero` call-to-action entries can name a variant. The pre-order buttons on `/resonance-core-framework` (hero and book section) use it in place of the standard accent.
 - Google Tag Manager (`GTM-P3QP35V2`): the standard container snippet loads in `<head>` right after the existing Consent Mode v2 defaults, with the `<noscript>` fallback iframe as the first element in `<body>`, per Google's documented install. Gated by `NEXT_PUBLIC_GTM_ID` (empty disables it, same pattern as `NEXT_PUBLIC_GA_MEASUREMENT_ID`).
 
 ## [2.2.0] - 2026-11-02

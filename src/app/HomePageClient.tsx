@@ -30,7 +30,6 @@ import {
 } from './home/homeData';
 import {
   RCF_BOOK_BLURB,
-  RCF_BOOK_DATE_LINE,
   RCF_NOTIFY_HREF,
   RCF_PREORDER_HREF,
   RCF_PATH,
@@ -238,7 +237,7 @@ export default function HomePageClient({
         />
       </section>
 
-      {/* ===== The book (pre-launch): kept short, launch date quoted ===== */}
+      {/* ===== The book (pre-launch): kept short, pre-order callout inside ===== */}
       <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
         <div className={styles.container}>
           <div className={styles.resonanceGrid}>
@@ -255,9 +254,20 @@ export default function HomePageClient({
             <TwReveal stagger>
               <TwSectionHeading kicker='The Book' title={RCF_TRADEMARK} />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
-              <blockquote className={styles.quote}>
-                {RCF_BOOK_DATE_LINE}
-              </blockquote>
+              {/* Pre-order callout, inside the book section. It carries the
+                  page's only pre-order button; the links below stay outline. */}
+              <div className={styles.preorderCard}>
+                <p className={styles.preorderLabel}>Now open for pre-order</p>
+                <h3 className={styles.preorderHeading}>
+                  Pre-order my book on the Fluxline Store.
+                </h3>
+                <p className={styles.preorderBody}>
+                  Release is targeted for Q1 2027.
+                </p>
+                <TwButton variant='gold' href={RCF_PREORDER_HREF}>
+                  Pre-order the book
+                </TwButton>
+              </div>
               <div className={styles.bookCtas}>
                 <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                   Be Notified at Launch →
@@ -270,32 +280,6 @@ export default function HomePageClient({
                 </TwButton>
               </div>
             </TwReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Pre-order announcement. It carries the page's only pre-order button,
-          so the book section above keeps just its secondary links. */}
-      <section
-        aria-labelledby='preorder-heading'
-        className={styles.preorderSection}
-      >
-        <div className={styles.container}>
-          <div className={styles.preorderCard}>
-            <p className={styles.preorderLabel}>Now open for pre-order</p>
-            <h2 id='preorder-heading' className={styles.preorderHeading}>
-              The Resonance Core Framework™, my book
-            </h2>
-            <p className={styles.preorderBody}>
-              Pre-orders are open on the Fluxline Store. Release is targeted for
-              Q1 2027.
-            </p>
-            <TwButton
-              className={styles.preorderButton}
-              href={RCF_PREORDER_HREF}
-            >
-              Pre-order the book
-            </TwButton>
           </div>
         </div>
       </section>

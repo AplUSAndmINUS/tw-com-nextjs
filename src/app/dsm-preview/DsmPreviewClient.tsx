@@ -156,6 +156,7 @@ export default function DsmPreviewClient() {
             <TwButton>Primary</TwButton>
             <TwButton variant='outline'>Outline</TwButton>
             <TwButton variant='quiet'>Quiet</TwButton>
+            <TwButton variant='gold'>Gold</TwButton>
             <TwButton disabled>Disabled</TwButton>
           </div>
           <div className={styles.row}>
