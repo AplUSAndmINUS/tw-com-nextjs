@@ -159,6 +159,7 @@
      brand gold; the text token is separate because gold text must clear 4.5:1
      on the page, which the light-family gold only does when darkened. */
   --tw-mythic-gold: #f5c85c;
+  --tw-mythic-gold-bg: rgba(245, 200, 92, 0.08);
   --tw-mythic-gold-ink: #0e1116;
   --tw-mythic-gold-text: var(--tw-mythic-gold);
 
@@ -303,6 +304,7 @@
   --tw-gold-border: var(--tw-honey-gold-active);
   --tw-gold-bg: rgba(217, 168, 87, 0.1);
   --tw-mythic-gold: #f5c85c;
+  --tw-mythic-gold-bg: rgba(245, 200, 92, 0.14);
   --tw-mythic-gold-ink: #0e1116;
   --tw-mythic-gold-text: #7a5f00;
 

@@ -80,6 +80,7 @@
   --tw-gold-border: #5c4700;
   --tw-gold-bg: rgba(122, 95, 0, 0.14);
   --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
   --tw-mythic-gold-ink: #ffffff;
   --tw-mythic-gold-text: var(--tw-gold-border);
   --tw-featured: #5c4700;
