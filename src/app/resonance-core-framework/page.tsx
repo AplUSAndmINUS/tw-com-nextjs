@@ -125,7 +125,11 @@ export default function ResonanceCoreFrameworkPage() {
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'
           body='A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027, and pre-orders are open on the Fluxline Store.'
-          primaryCta={{ label: 'Pre-order the book', href: RCF_PREORDER_HREF }}
+          primaryCta={{
+            label: 'Pre-order the book',
+            href: RCF_PREORDER_HREF,
+            variant: 'gold',
+          }}
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
           tagline='By Terence Waters'
@@ -270,7 +274,7 @@ export default function ResonanceCoreFrameworkPage() {
                   motivation.
                 </p>
                 <div className={styles.ctaRow}>
-                  <TwButton href={RCF_PREORDER_HREF}>
+                  <TwButton variant='gold' href={RCF_PREORDER_HREF}>
                     Pre-order the Book →
                   </TwButton>
                   <TwButton variant='outline' href={RCF_NOTIFY_HREF}>

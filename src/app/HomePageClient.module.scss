@@ -99,13 +99,9 @@
 /* ===== Pre-order announcement (Mythic Gold) =====
    Fill and border use --tw-mythic-gold; the label uses its own text token
    because gold text has to clear 4.5:1 on the page in every theme. */
-.preorderSection {
-  padding-block: var(--tw-space-xl) 0;
-}
-
 .preorderCard {
-  max-width: 760px;
-  margin: 0 auto;
+  max-width: 60ch;
+  margin-top: var(--tw-space-l);
   padding: var(--tw-space-l);
   border: 1px solid var(--tw-mythic-gold);
   border-top-width: 4px;
@@ -126,7 +122,7 @@
 .preorderHeading {
   margin: var(--tw-space-xs) 0 0;
   font-family: var(--tw-font);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1.25;
   color: var(--tw-text-heading-display);
 }
@@ -138,21 +134,6 @@
   font-size: 1.03125rem;
   line-height: 1.7;
   color: var(--tw-text-body);
-}
-
-/* Doubled class so these beat TwButton's .primary regardless of CSS order. */
-.preorderButton.preorderButton {
-  background: var(--tw-mythic-gold);
-  border-color: var(--tw-mythic-gold);
-
-  &,
-  &:any-link {
-    color: var(--tw-mythic-gold-ink);
-  }
-
-  &:active {
-    background: var(--tw-mythic-gold);
-  }
 }
 
 .bookCtas {
