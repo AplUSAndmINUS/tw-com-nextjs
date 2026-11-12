@@ -5,8 +5,8 @@
  * httpTrigger functions, so the previous timerTrigger has been replaced with
  * an HTTP GET endpoint.
  *
- * To replicate the 15-minute warm-up schedule, call this endpoint from a
- * scheduled GitHub Actions workflow (see .github/workflows/ping-warmup.yml).
+ * It is called on a schedule (every four hours) from a GitHub Actions
+ * workflow: see .github/workflows/ping-warmup.yml.
  *
  * Environment variables (all optional):
  *   ENVIRONMENT              — The current environment (dev, test, or prod)
