@@ -70,6 +70,27 @@
   }
 }
 
+/* Mythic Gold. Reserved for the one decision a page asks for (the book
+   pre-order), so it stays rare. Built on the mythic-gold tokens, which every
+   theme remaps, with an ink chosen per theme to clear 4.5:1 on the fill. */
+.gold {
+  background: var(--tw-mythic-gold);
+  border-color: var(--tw-mythic-gold);
+
+  &,
+  &:any-link {
+    color: var(--tw-mythic-gold-ink);
+  }
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+
+  &:active {
+    filter: none;
+  }
+}
+
 .outline {
   background: transparent;
   border-color: var(--tw-line);

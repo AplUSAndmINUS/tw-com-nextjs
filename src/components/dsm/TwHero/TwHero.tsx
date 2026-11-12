@@ -1,11 +1,14 @@
 import React, { JSX } from 'react';
 import { TwButton } from '../TwButton';
+import type { TwButtonVariant } from '../TwButton';
 import { TwParallax } from '../TwParallax';
 import styles from './TwHero.module.scss';
 
 export interface TwHeroCta {
   label: string;
   href: string;
+  /** Overrides the default (primary for the first CTA, outline for the second). */
+  variant?: TwButtonVariant;
 }
 
 export interface TwHeroProps {
@@ -133,12 +136,20 @@ export function TwHero({
           {primaryCta || secondaryCta ? (
             <div className={styles.actions}>
               {primaryCta ? (
-                <TwButton href={primaryCta.href} size='lg'>
+                <TwButton
+                  href={primaryCta.href}
+                  size='lg'
+                  variant={primaryCta.variant ?? 'primary'}
+                >
                   {primaryCta.label}
                 </TwButton>
               ) : null}
               {secondaryCta ? (
-                <TwButton href={secondaryCta.href} size='lg' variant='outline'>
+                <TwButton
+                  href={secondaryCta.href}
+                  size='lg'
+                  variant={secondaryCta.variant ?? 'outline'}
+                >
                   {secondaryCta.label}
                 </TwButton>
               ) : null}

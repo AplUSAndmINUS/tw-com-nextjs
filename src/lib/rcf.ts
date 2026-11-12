@@ -37,12 +37,6 @@ export const RCF_BOOK = {
 };
 
 /**
- * One-line book date for the home book section. Launch only: the pre-order
- * announcement directly below it carries the pre-order status and button.
- */
-export const RCF_BOOK_DATE_LINE = 'The book is targeted for Q1 2027.';
-
-/**
  * Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027).
  * It opens the Overview on /resonance-core-framework, so it points to the Core
  * Concepts section instead of naming concepts before they are glossed.
@@ -53,8 +47,8 @@ export const RCF_CANONICAL_PARAGRAPH =
 /**
  * Homepage book section body (TW-1.3). Kept to about three lines on purpose:
  * the homepage teases the book, and the concepts are glossed on
- * /resonance-core-framework. The launch date sits in the section's blockquote
- * (RCF_BOOK_DATE_LINE), not here.
+ * /resonance-core-framework. The launch date sits in the section's pre-order
+ * callout, not here.
  */
 export const RCF_BOOK_BLURB =
   'The book that maps what the podcast has been building toward: a structured identity system for individuals, founders, and leaders who need more than motivation. They need architecture.';
