@@ -266,6 +266,32 @@ export function getAboutPageSchema() {
   };
 }
 
+/**
+ * AboutPage schema for /about-me — the short, hook-first version other sites
+ * in the ecosystem link to. Mirrors getAboutPageSchema's shape with its own
+ * @id/url/name so the two pages resolve as distinct AboutPage entities.
+ */
+export function getAboutHookPageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${SITE_URL}/about-me#aboutpage`,
+    url: `${SITE_URL}/about-me`,
+    name: 'About Terence Waters — The Short Version',
+    description: AI_BIOGRAPHY.shortSummary,
+    mainEntity: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+    },
+    publisher: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+    },
+  };
+}
+
 export function getFaqSchema(post: ContentItem) {
   return {
     '@context': 'https://schema.org',
