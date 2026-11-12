@@ -19,22 +19,29 @@ export const FLUXLINE_URL = 'https://www.fluxline.pro';
 export const FLUXLINE_RCF_URL =
   'https://www.fluxline.pro/resonance-core-framework';
 
+/** Fluxline Store page for the book: pre-orders for the digital editions are open. */
+export const RCF_PREORDER_HREF = 'https://store.fluxline.pro/book';
+
+/** Starting prices for all five Fluxline services. */
+export const FLUXLINE_PRICING_URL = 'https://www.fluxline.pro/pricing/';
+
 /** Where every "Be notified at launch" CTA points: the launch sign-up on the RCF page. */
 export const RCF_NOTIFY_HREF =
-  'https://fluxline.pro/resonance-core-framework/#notify';
+  'https://www.fluxline.pro/resonance-core-framework/#notify';
 
 export const RCF_BOOK = {
   title: 'The Resonance Core Framework™',
   publisher: 'Fluxline Resonance Group',
   publicationDate: 'Targeted for Q1 2027',
-  preorders: 'Opening in early November 2026',
+  preorders: 'Open on the Fluxline Store (eBook $34.99 at pre-order)',
   formats: ['Hardcover', 'eBook', 'Audiobook'],
-  structure: '31 chapters and Three Mystic Phases',
+  structure:
+    '31 chapters in three parts (The Self, The Outward Reach, and Systemic Architecture & Legacy)',
 };
 
 /** One-line book date for book-focused passages: launch plus preorders. */
 export const RCF_BOOK_DATE_LINE =
-  'The book is targeted for Q1 2027, with preorders opening in early November 2026.';
+  'The book is targeted for Q1 2027, and pre-orders are open on the Fluxline Store (eBook $34.99 at pre-order).';
 
 /**
  * Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027).
@@ -102,7 +109,8 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
   {
     id: 'dii-protocol',
     name: 'The Decision Integrity Index (The DII)',
-    summary: 'A 1–5 way to score how well a decision aligns with who you are.',
+    summary:
+      "The RCF's way of checking whether a decision lines up with your identity and values.",
   },
   {
     id: 'decision-alignment-score',

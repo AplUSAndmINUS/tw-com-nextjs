@@ -28,7 +28,7 @@ const footerLinks = {
       label: 'The Resonance Core Framework™',
     },
     { href: '/portfolio', label: 'Portfolio' },
-    { href: 'https://fluxline.pro/case-studies', label: 'Case Studies' },
+    { href: 'https://www.fluxline.pro/case-studies', label: 'Case Studies' },
   ],
   connect: [
     { href: '/about', label: 'About' },
@@ -423,7 +423,10 @@ export function FooterContent({
           <a href='https://theresonantidentity.com/start-here/' rel='me'>
             The Resonant Identity Podcast
           </a>
-          <a href='https://fluxline.pro/' rel='me'>
+          <a href='https://store.fluxline.pro/book'>
+            Pre-order: The RCF book, on the Fluxline Store.
+          </a>
+          <a href='https://www.fluxline.pro/' rel='me'>
             Fluxline Resonance Group — Coaching &amp; Consulting
           </a>
         </nav>

@@ -24,6 +24,7 @@ import {
   RCF_CONCEPTS,
   RCF_NOTIFY_HREF,
   RCF_PATH,
+  RCF_PREORDER_HREF,
   TRI_FRAMEWORK_URL,
   TRI_URL,
   rcfConceptHref,
@@ -32,7 +33,7 @@ import styles from './page.module.scss';
 
 const TITLE = 'The Resonance Core Framework™ Book by Terence Waters';
 const DESCRIPTION =
-  'The Resonance Core Framework™, a 31-chapter book and identity system by Terence Waters. Targeted for Q1 2027, with preorders opening in early November 2026.';
+  'The Resonance Core Framework™, a 31-chapter book and identity system by Terence Waters. Targeted for Q1 2027, with pre-orders open on the Fluxline Store.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -123,8 +124,8 @@ export default function ResonanceCoreFrameworkPage() {
         <TwHero
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'
-          body='A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027, with preorders opening in early November 2026.'
-          primaryCta={{ label: 'Be notified at launch', href: RCF_NOTIFY_HREF }}
+          body='A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027, and pre-orders are open on the Fluxline Store.'
+          primaryCta={{ label: 'Pre-order the book', href: RCF_PREORDER_HREF }}
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
           tagline='By Terence Waters'
@@ -251,8 +252,10 @@ export default function ResonanceCoreFrameworkPage() {
                     <dd>{RCF_BOOK.publicationDate}</dd>
                   </div>
                   <div>
-                    <dt>Preorders</dt>
-                    <dd>{RCF_BOOK.preorders}</dd>
+                    <dt>Pre-orders</dt>
+                    <dd>
+                      <a href={RCF_PREORDER_HREF}>{RCF_BOOK.preorders}</a>
+                    </dd>
                   </div>
                   <div>
                     <dt>Formats</dt>
@@ -267,7 +270,10 @@ export default function ResonanceCoreFrameworkPage() {
                   motivation.
                 </p>
                 <div className={styles.ctaRow}>
-                  <TwButton href={RCF_NOTIFY_HREF}>
+                  <TwButton href={RCF_PREORDER_HREF}>
+                    Pre-order the Book →
+                  </TwButton>
+                  <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                     Be Notified at Launch →
                   </TwButton>
                 </div>
