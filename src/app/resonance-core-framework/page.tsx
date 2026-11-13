@@ -25,7 +25,6 @@ import {
   RCF_NOTIFY_HREF,
   RCF_PATH,
   RCF_PREORDER_HREF,
-  TRI_FRAMEWORK_URL,
   TRI_URL,
   rcfConceptHref,
 } from '@/lib/rcf';
@@ -304,9 +303,7 @@ export default function ResonanceCoreFrameworkPage() {
             </TwReveal>
             <ul className={styles.outbound}>
               <li>
-                <a href={TRI_FRAMEWORK_URL}>
-                  Hear the framework on the podcast →
-                </a>
+                <a href={TRI_URL}>Hear the framework on the podcast →</a>
               </li>
               <li>
                 <a href={FLUXLINE_RCF_URL}>

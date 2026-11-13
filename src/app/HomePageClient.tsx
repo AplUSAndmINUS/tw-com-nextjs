@@ -219,7 +219,7 @@ export default function HomePageClient({
             <>
               I help people and organizations rebuild the parts of themselves
               they thought were permanent. Systems thinker, designer, and coach
-              — writing about resonance, identity, and{' '}
+              who writes and talks about resonance, identity, and{' '}
               <strong>
                 <em>building a life that embodies it all</em>
               </strong>
@@ -269,14 +269,14 @@ export default function HomePageClient({
                 </TwButton>
               </div>
               <div className={styles.bookCtas}>
-                <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
+                {/* <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                   Be Notified at Launch →
-                </TwButton>
+                </TwButton> */}
                 <TwButton variant='outline' href={RCF_PATH}>
                   Preview the Framework →
                 </TwButton>
                 <TwButton variant='outline' href={TRI_URL}>
-                  Listen to the Podcast →
+                  Listen to the TRI Podcast →
                 </TwButton>
               </div>
             </TwReveal>

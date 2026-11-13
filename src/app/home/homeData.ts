@@ -135,7 +135,6 @@ export const aboutSocials: HomeSocial[] = [
   { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
   { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
   { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
-  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
   { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
   { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
   { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
@@ -149,7 +148,6 @@ export const wideSocials: HomeSocial[] = [
   { name: 'YouTube', icon: 'youtube', href: SOCIAL_URLS.youtube },
   { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
   { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
-  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
   { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
   {
     name: 'Apple Podcasts',
