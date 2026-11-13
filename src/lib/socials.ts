@@ -13,7 +13,6 @@ export const SOCIAL_URLS = {
   youtube: 'https://www.youtube.com/@theresonantidentity',
   tiktok: 'https://www.tiktok.com/@aplusinflux',
   twitch: 'https://www.twitch.tv/aplusinflux',
-  reddit: 'https://www.reddit.com/user/APlusInFLUX/',
   xbox: 'https://www.xbox.com/en-US/play/user/APlusInFLUX',
   spotify: PODCAST_PLATFORMS.spotify,
   applePodcasts: PODCAST_PLATFORMS.applePodcasts,

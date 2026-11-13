@@ -55,14 +55,14 @@ export function PreorderBar({ belowFixedHeader = false }: PreorderBarProps) {
     >
       <p className={styles.inner}>
         <strong className={styles.label}>
-          Pre-order for the RCF book now open
+          Pre-order for my book is now open!
         </strong>
         <span className={styles.dot} aria-hidden='true'>
           •
         </span>
         <span>Expected release: {RCF_EXPECTED_RELEASE}</span>
         <a href={RCF_PREORDER_HREF} className={styles.link}>
-          Go to Store <span aria-hidden='true'>→</span>
+          Go to My Store <span aria-hidden='true'>→</span>
         </a>
       </p>
     </aside>
