@@ -13,8 +13,7 @@ export const RCF_PATH = '/resonance-core-framework';
 export const RCF_TRADEMARK = 'The Resonance Core Framework™';
 
 /** Owned sister sites (linked with rel="me"). */
-export const TRI_URL = 'https://theresonantidentity.com';
-export const TRI_FRAMEWORK_URL = 'https://theresonantidentity.com/framework/';
+export const TRI_URL = 'https://theresonantidentity.com/start-here';
 export const FLUXLINE_URL = 'https://www.fluxline.pro';
 export const FLUXLINE_RCF_URL =
   'https://www.fluxline.pro/resonance-core-framework';

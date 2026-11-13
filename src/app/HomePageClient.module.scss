@@ -100,7 +100,7 @@
    Fill and border use --tw-mythic-gold; the label uses its own text token
    because gold text has to clear 4.5:1 on the page in every theme. */
 .preorderCard {
-  max-width: 60ch;
+  // max-width: 60ch;
   margin-top: var(--tw-space-l);
   padding: var(--tw-space-l);
   border: 1px solid var(--tw-mythic-gold);
