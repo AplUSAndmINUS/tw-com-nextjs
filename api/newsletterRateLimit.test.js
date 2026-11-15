@@ -140,8 +140,14 @@ test('subscribe returns 429 and logs when the IP exceeds the limit', async () =>
       retryAfterHeader > 0 && retryAfterHeader <= DEFAULT_RETRY_AFTER_SECONDS,
       `Retry-After header should be between 1 and ${DEFAULT_RETRY_AFTER_SECONDS}, got ${retryAfterHeader}`
     );
-    assert.match(warnings[0], /Newsletter subscribe rate limit exceeded/);
-    assert.match(warnings[0], /Violation #1/);
+    // Other warnings can come first (e.g. "RECAPTCHA_SECRET_KEY not
+    // configured" on each allowed request when the key is unset), so find
+    // the rate-limit warning rather than assuming it is the first one logged.
+    const rateLimitWarnings = warnings.filter((warning) =>
+      /Newsletter subscribe rate limit exceeded/.test(warning)
+    );
+    assert.equal(rateLimitWarnings.length, 1);
+    assert.match(rateLimitWarnings[0], /Violation #1/);
   });
 });
 

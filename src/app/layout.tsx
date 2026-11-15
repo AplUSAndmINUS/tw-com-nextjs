@@ -96,16 +96,32 @@ export default function RootLayout({
 
           <html> carries suppressHydrationWarning because this script mutates
           attributes that React did not render.
+
+          Every <script> React renders in <head> also carries
+          suppressHydrationWarning. Google's loaders (the AdSense loader below,
+          and GTM's snippet when it is enabled) insert their next script before
+          the document's first <script>, often before React hydrates, and
+          without an `async` attribute. React 19 only skips foreign <head>
+          scripts that have one, so it pairs the injected script with the first
+          script here and each later one shifts by one. These scripts are
+          static and never updated, so the pairing is harmless, but it logs a
+          hydration mismatch. This silences that warning without changing load
+          order, which Consent Mode depends on.
         */}
-        <script dangerouslySetInnerHTML={{ __html: buildThemeScript() }} />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: buildThemeScript() }}
+        />
 
         {/* Structured Data — Root schemas for AI/search visibility */}
         <script
+          suppressHydrationWarning
           id='schema-person'
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: safeJsonLd(personSchema) }}
         />
         <script
+          suppressHydrationWarning
           id='schema-organization'
           type='application/ld+json'
           dangerouslySetInnerHTML={{
@@ -113,6 +129,7 @@ export default function RootLayout({
           }}
         />
         <script
+          suppressHydrationWarning
           id='schema-website'
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }}
@@ -135,6 +152,7 @@ export default function RootLayout({
           with the CookieBanner (which appears after SHOW_DELAY_MS = 800ms).
         */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -152,6 +170,7 @@ export default function RootLayout({
         {/* Google Tag Manager — loaded after Consent Mode defaults are set above */}
         {GTM_ID && (
           <script
+            suppressHydrationWarning
             id='gtm-script'
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
