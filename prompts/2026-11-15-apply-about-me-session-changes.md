@@ -13,3 +13,13 @@ work, and PR up the chain into `test` for the 11/20 release. The attached
 - Verified: `yarn install --frozen-lockfile`, `tsc --noEmit`, `yarn test`
   (14 files, 68 tests), `api` tests (46), `yarn build`, and a browser smoke
   test of `/` and `/about-me` at mobile and desktop widths.
+
+**Follow-ups (same session)**
+
+- Reviewed `CODE_REVIEW.md` finding by finding with the owner. Applied: F1, F2,
+  F4, F7, F8, F9, F10, F11, F13, O4, O7. Declined: F3, F5, F6, F12, O1, O2.
+  O8 (Safari/iOS) to be checked by the owner on a real iPhone in TEST.
+- Added three bullets to the podcast card on `/about-me` (`PODCAST_FACTS`),
+  worded from the podcast page's own hero description and platform list, to
+  fill the empty space beside the book card on desktop.
+- Removed `CODE_REVIEW.md` from the branch once its findings were triaged.

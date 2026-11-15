@@ -209,6 +209,20 @@ export const ABOUT_ME_SOCIALS: HomeSocial[] = [
 ];
 
 /** Where to listen: the subset shown on the podcast card. */
+/**
+ * Short facts under the podcast blurb, mirroring the book card's fact list so
+ * the two cards balance on desktop. Each is the podcast page's own wording:
+ * the first two come from its hero description ("a living extension of the
+ * Resonance Core Framework™ where identity becomes practice and is formed
+ * through coherence"), the third from the platforms in PODCAST_PLATFORMS
+ * (lib/spreaker.ts).
+ */
+export const PODCAST_FACTS = [
+  'A living extension of The Resonance Core Framework™',
+  'Where identity becomes practice and is formed through coherence',
+  'On Spotify, Apple Podcasts, Amazon Music, and more',
+] as const;
+
 export const PODCAST_SOCIALS: HomeSocial[] = [
   { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
   {

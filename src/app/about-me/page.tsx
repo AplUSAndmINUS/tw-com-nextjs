@@ -50,6 +50,7 @@ import {
   EMAIL_ADDRESS,
   HERO_BODY,
   HOOK_QUOTE,
+  PODCAST_FACTS,
   PODCAST_SOCIALS,
   POST_LIMIT,
   ROLES,
@@ -392,6 +393,11 @@ export default async function AboutMePage() {
                     The Resonance Core Framework™, for people in a season of
                     becoming.
                   </p>
+                  <ul className={styles.factList}>
+                    {PODCAST_FACTS.map((fact) => (
+                      <li key={fact}>{fact}</li>
+                    ))}
+                  </ul>
                   <p className={styles.chipLabel}>Listen on</p>
                   <SocialRow items={PODCAST_SOCIALS} size={26} />
                   <div className={styles.featureActions}>

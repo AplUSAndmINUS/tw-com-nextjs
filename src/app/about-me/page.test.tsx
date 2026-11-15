@@ -10,6 +10,7 @@ import AboutMePage from './page';
 import {
   ABOUT_ME_SOCIALS,
   POST_LIMIT,
+  PODCAST_FACTS,
   PROJECT_SLUGS,
   TALENT_SKILL_NAMES,
 } from './aboutMeData';
@@ -84,6 +85,14 @@ describe('/about-me book and podcast cards', () => {
       ['Listen to the podcast', TRI_URL, 'primary'],
       ['Browse episodes →', '/podcasts/theresonantid', 'outline'],
     ]);
+  });
+
+  it('gives the podcast card three facts, like the book card', () => {
+    const facts = Array.from($('#podcast').querySelectorAll('ul li')).map(
+      (li) => li.textContent
+    );
+    expect(facts).toEqual([...PODCAST_FACTS]);
+    expect(facts).toHaveLength(3);
   });
 
   it('opens the external buttons in a new tab, safely', () => {
