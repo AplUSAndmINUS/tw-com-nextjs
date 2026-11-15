@@ -9,6 +9,7 @@ import {
   PODCAST_SOCIALS,
   PROJECT_SLUGS,
   TALENT_SKILL_NAMES,
+  formatPostMeta,
   pickProjects,
   pickSkills,
 } from './aboutMeData';
@@ -40,9 +41,9 @@ describe('talent bars', () => {
   });
 
   it('skips names that are not in the list', () => {
-    expect(pickSkills(['Not a skill', 'Design thinking'])).toEqual([
-      { name: 'Design thinking', percentage: 100 },
-    ]);
+    expect(pickSkills(['Not a skill', 'Design thinking'])).toEqual(
+      ABOUT_SKILLS.filter((s) => s.name === 'Design thinking')
+    );
   });
 });
 
@@ -81,4 +82,19 @@ describe('social icons', () => {
       expect(social.href).toMatch(/^(https:\/\/|mailto:)/);
     }
   });
+});
+
+describe('formatPostMeta', () => {
+  it('joins the date and read time', () => {
+    expect(formatPostMeta('2026-11-14', '6 min read')).toBe(
+      '2026.11.14 · 6 min read'
+    );
+  });
+
+  it.each([undefined, '', 'not a date'])(
+    'drops a missing or invalid date (%s) instead of leaving a stray separator',
+    (date) => {
+      expect(formatPostMeta(date, '6 min read')).toBe('6 min read');
+    }
+  );
 });

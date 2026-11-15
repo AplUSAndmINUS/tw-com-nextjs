@@ -202,7 +202,10 @@
 .stacked {
   @include until('tablet') {
     /* The photo stage: most of a phone screen, capped on tall tablets. */
-    --tw-hero-stage: min(74svh, 680px);
+    --tw-hero-stage: min(74vh, 680px);
+    @supports (height: 1svh) {
+      --tw-hero-stage: min(74svh, 680px);
+    }
     /* How far the card's top edge rises into the photo at rest. */
     --tw-hero-overlap: 240px;
 

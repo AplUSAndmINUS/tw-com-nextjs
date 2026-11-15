@@ -25,9 +25,9 @@ describe('Footer "More from Terence Waters"', () => {
     expect(
       links.map((a) => [a.textContent?.trim(), a.getAttribute('href')])
     ).toEqual([
-      ['The Resonant Identity', 'https://theresonantidentity.com/start-here/'],
+      ['The Resonant Identity', 'https://theresonantidentity.com/start-here'],
       ['Pre-order the Book', 'https://store.fluxline.pro/book'],
-      ['Fluxline Resonance Group', 'https://www.fluxline.pro/'],
+      ['Fluxline Resonance Group', 'https://www.fluxline.pro'],
     ]);
   });
 

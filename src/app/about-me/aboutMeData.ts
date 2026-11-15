@@ -25,6 +25,7 @@ import type { ContentItem } from '@/content/types';
 import { ABOUT_SKILLS, type AboutSkill } from '@/content/aboutSkills';
 import { SOCIAL_URLS } from '@/lib/socials';
 import { serviceHref, type HomeSocial } from '@/app/home/homeData';
+import { formatDotDate } from '@/app/home/contentFormat';
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 
@@ -94,8 +95,8 @@ export const STATS = [
 
 /**
  * The skills that back up the three roles, picked by name from ABOUT_SKILLS so
- * the scores always match the meters on /about. Grouped loosely: podcasting
- * and coaching first, then architecture, then consulting.
+ * the scores always match the meters on /about. Listed in descending score,
+ * as /about orders them.
  *
  * The names must match aboutSkills.ts exactly. aboutMeData.test.ts fails if
  * one is renamed there, so a bar can't drop off this page unnoticed.
@@ -120,6 +121,17 @@ export function pickSkills(
     const skill = skills.find((s) => s.name === name);
     return skill ? [skill] : [];
   });
+}
+
+/* ── Writing ──────────────────────────────────────────────────────────────── */
+
+/**
+ * The meta line on a writing card: "2026.11.14 · 6 min read". Joins only the
+ * parts that exist, so a post with a missing or invalid date reads "6 min read"
+ * rather than " · 6 min read".
+ */
+export function formatPostMeta(date: string | undefined, read: string): string {
+  return [formatDotDate(date), read].filter(Boolean).join(' · ');
 }
 
 /* ── Projects ─────────────────────────────────────────────────────────────── */

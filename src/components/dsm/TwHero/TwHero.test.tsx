@@ -56,6 +56,20 @@ describe('TwHero mobile layouts', () => {
   });
 });
 
+describe('TwHero without a background photo', () => {
+  const noPhoto = { title: 'Terence Waters' };
+
+  it.each([
+    ['stackOnMobile', { stackOnMobile: true }],
+    ['scrollReveal', { scrollReveal: true }],
+  ])('%s is ignored, so the card is not pulled over the content above', (_, mode) => {
+    const hero = render(<TwHero {...noPhoto} {...mode} />);
+    expect(hero.classList.contains(styles.stacked)).toBe(false);
+    expect(hero.classList.contains(styles.scrollReveal)).toBe(false);
+    expect(hero.querySelector('h1')?.textContent).toBe('Terence Waters');
+  });
+});
+
 describe('TwHero actions', () => {
   it('renders no buttons or links when no CTAs are given', () => {
     const hero = render(<TwHero {...base} scrollReveal />);

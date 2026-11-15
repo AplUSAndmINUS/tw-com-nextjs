@@ -12,7 +12,8 @@ import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 import { useRecaptchaToken } from '@/hooks/useRecaptchaToken';
-import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
+import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon_192.png';
+import { FLUXLINE_URL, RCF_PREORDER_HREF, TRI_URL } from '@/lib/rcf';
 import styles from './FooterContent.module.scss';
 
 const footerLinks = {
@@ -408,9 +409,8 @@ export function FooterContent({
             isCompact={isCompact}
             className={styles.mdOnly}
           />
-          {/* Hidden on phones to keep the footer short; the same links are
-              in the page nav, and the ecosystem row below covers the book and
-              the podcast. */}
+          {/* Hidden on phones to keep the footer short; the podcast and book
+              stay reachable via "More from" below. */}
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}
@@ -447,27 +447,13 @@ export function FooterContent({
           </span>
           {/* ThemedLink, like the link lists above: Merriweather, footer
               colours and hover. rel="me" passes through. */}
-          <ThemedLink
-            href='https://theresonantidentity.com/start-here/'
-            rel='me'
-            variant='small'
-            isFooter
-          >
+          <ThemedLink href={TRI_URL} rel='me' variant='small' isFooter>
             The Resonant Identity
           </ThemedLink>
-          <ThemedLink
-            href='https://store.fluxline.pro/book'
-            variant='small'
-            isFooter
-          >
+          <ThemedLink href={RCF_PREORDER_HREF} variant='small' isFooter>
             Pre-order the Book
           </ThemedLink>
-          <ThemedLink
-            href='https://www.fluxline.pro/'
-            rel='me'
-            variant='small'
-            isFooter
-          >
+          <ThemedLink href={FLUXLINE_URL} rel='me' variant='small' isFooter>
             Fluxline Resonance Group
           </ThemedLink>
         </nav>

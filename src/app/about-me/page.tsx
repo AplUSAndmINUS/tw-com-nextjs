@@ -40,10 +40,10 @@ import {
   TRI_URL,
 } from '@/lib/rcf';
 import { SOCIAL_URLS } from '@/lib/socials';
-import { formatDotDate, readTime } from '@/app/home/contentFormat';
+import { readTime } from '@/app/home/contentFormat';
 import { SocialRow } from '@/app/home/SocialRow';
 import { portfolioCategoryLabel } from '@/app/portfolio/portfolioMeta';
-import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
+import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon_192.png';
 import {
   ABOUT_ME_SOCIALS,
   BOOKING_URL,
@@ -56,6 +56,7 @@ import {
   ROLES_LINE,
   STATS,
   TALENT_SKILL_NAMES,
+  formatPostMeta,
   pickProjects,
   pickSkills,
   type RoleIcon,
@@ -165,8 +166,10 @@ function ArrowLink({
  *   6. The actions: full story (/about), get in touch, the RCF page, then
  *      every social profile as an icon row.
  *
- * A server component throughout, loading its content at build time. The only
- * client pieces are TwReveal and the nav.
+ * A server component throughout, loading its content at build time. It embeds
+ * client components for the motion and interactivity: TwReveal, the hero's
+ * parallax and scroll reveal (TwHero / TwHeroScrollReveal), the article-card
+ * image loader, and the nav and footer.
  */
 export default async function AboutMePage() {
   const personSchema = getPersonSchema('https://terencewaters.com/about-me');
@@ -346,7 +349,7 @@ export default async function AboutMePage() {
                       href={RCF_PATH}
                       className={styles.featureButton}
                     >
-                      Explore the framework →
+                      Explore the framework <span aria-hidden='true'>→</span>
                     </TwButton>
                   </div>
                 </div>
@@ -404,7 +407,7 @@ export default async function AboutMePage() {
                       href='/podcasts/theresonantid'
                       className={styles.featureButton}
                     >
-                      Browse episodes →
+                      Browse episodes <span aria-hidden='true'>→</span>
                     </TwButton>
                   </div>
                 </div>
@@ -529,8 +532,8 @@ export default async function AboutMePage() {
                     title={post.title}
                     excerpt={post.excerpt}
                     category={post.category}
-                    date={`${formatDotDate(post.date)} · ${readTime(post.content)}`}
-                    dateTime={post.date}
+                    date={formatPostMeta(post.date, readTime(post.content))}
+                    dateTime={post.date || undefined}
                     href={`/blog/${post.slug}`}
                     className={styles.article}
                   />
