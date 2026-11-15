@@ -6,8 +6,36 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-20
+
+**Book pre-orders open.** _The Resonance Core Framework™_ is now available to
+pre-order on the Fluxline Store at https://store.fluxline.pro/book, with the
+store's expected release of late February to mid-March 2027 (subject to
+change). This release announces that across the site: a pre-order bar at the
+top of every page, a pre-order callout and gold buttons on the home page and
+`/resonance-core-framework`, a pre-order link in the footer, and corrected
+older copy. It also ships the rebuilt `/about-me` page, the newsletter
+reCAPTCHA protection, the Fluxline revamp alignment, and a handful of fixes.
+
+Notes for the release:
+
+- Tag after the merge to `master`: `v2_3_0.PROD`.
+- The pre-order copy points at the live store page and the date is the store's
+  own wording. If the store's date moves, update `RCF_EXPECTED_RELEASE` in
+  `src/lib/rcf.ts` (one constant feeds the bar and the page copy).
+- Newsletter sign-up now verifies reCAPTCHA v3 on the server. The site key is
+  already in the PROD workflow; the API also needs `RECAPTCHA_SECRET_KEY` in
+  the Azure Static Web App application settings. Without it the endpoint logs
+  "not configured" and accepts sign-ups unverified (still rate limited).
+- The PROD warm-up ping now runs every four hours instead of every 15 minutes,
+  so the first API call after a quiet spell can be slower.
+- No content-only shortcut applies here: this release carries code, so it
+  needs the tag and the version bump above.
+
 ### Fixed
 
+- Body margin reset (#262): `body { margin: 0 }` in `tw-prose.css`, so the browser's default 8px margin no longer shows around full-bleed pages.
+- Newsletter reCAPTCHA hardening: `useRecaptchaToken` returns immediately when no site key is configured (the form posts without a token, as the contact form does) instead of polling for 10 seconds and then blocking every sign-up with a false "spam protection didn't load" error. `/api/subscribe` also checks the reCAPTCHA action (`newsletter_subscribe`), so a token minted for another form on the same site key can't be replayed against it.
 - Code-review follow-ups on `/about-me` and the shared pieces it touches. `TwHero`'s `stackOnMobile` and `scrollReveal` now apply only when a `backgroundImage` is set, since the stacked layout pulls the card up over the photo and would otherwise drag it over the content above the hero. The photo stage height now has a `vh` fallback for browsers without `svh` (iOS before 15.4). The footer's "More from" links use the shared `TRI_URL`, `RCF_PREORDER_HREF` and `FLUXLINE_URL` constants, so two of them lose their trailing slash. Writing-card meta goes through `formatPostMeta()`, so a missing date no longer leaves a stray " · " or an empty `dateTime`. The arrows in the "Explore the framework" and "Browse episodes" buttons are hidden from screen readers. The Resonant Identity icon is a 192px copy (7 KB) instead of the 1024px original (271 KB) in the footer and on `/about-me`. Stale comments corrected, and one test no longer hard-codes a skill score.
 - The podcast card on `/about-me` has three short facts under its blurb, like the book card, so it no longer leaves an empty gap on desktop. They reuse the podcast page's own wording (`PODCAST_FACTS`).
 - API test `subscribe returns 429 and logs when the IP exceeds the limit` failed whenever `RECAPTCHA_SECRET_KEY` was unset. The handler logs "not configured" on each allowed request, so the rate-limit warning was no longer `warnings[0]`. The test now finds that warning wherever it falls and asserts there is exactly one. The handler is unchanged. API suite: 46/46.
@@ -29,14 +57,17 @@ All notable changes to terencewaters.com are recorded here. The format follows
 - Footer, site-wide: on phones the Work column is hidden (footer height 857px to 681px at 390px wide), the "More from Terence Waters" links have shorter names (The Resonant Identity, Pre-order the Book, Fluxline Resonance Group) and on phones stack below a hairline, spaced evenly from the Social icons, and the copyright no longer carries the blockquote indent.
 - PROD warm-up ping (#256): the scheduled `/api/ping` call runs every four hours instead of every 15 minutes (`.github/workflows/ping-warmup.yml`). At that interval the ping no longer keeps the Functions host warm.
 - "Building a Book the Way I Build Systems" corrected (#252): the post, its summary, and its FAQ no longer say pre-orders open in early November 2026 or that the book has four parts. They say pre-orders are open on the Fluxline Store, link to the store's book page, and give three parts. The post carries a dated update note.
-- Aligned with the fluxline.pro revamp (#235), copy and links only. Book pre-orders are now described as open, with a "Pre-order" call to action to the Fluxline Store (`store.fluxline.pro/book`) on the home page (the announcement card, #238), `/resonance-core-framework`, the footer, and `llms.txt`; "Be notified at launch" stays as the secondary link. The DII summary uses the approved gloss instead of a score range, and the book is described as three parts (The Self, The Outward Reach, Systemic Architecture & Legacy). The five services use their exact names (home cards, consultation stepper) and link to their fluxline.pro pages. The home Work intro says in first person what Fluxline does. Fluxline links use `https://www.fluxline.pro`, and the Organization schema is named "Fluxline Resonance Group, LLC" (display name as `alternateName`).
+- Aligned with the fluxline.pro revamp (#235), copy and links only. Book pre-orders are now described as open, with a "Pre-order" call to action to the Fluxline Store (`store.fluxline.pro/book`) on the home page (the announcement card, #238), `/resonance-core-framework`, the footer, and `llms.txt`; "Be notified at launch" stays as the secondary link on `/resonance-core-framework`; the home page no longer shows it (see #262 below). The DII summary uses the approved gloss instead of a score range, and the book is described as three parts (The Self, The Outward Reach, Systemic Architecture & Legacy). The five services use their exact names (home cards, consultation stepper) and link to their fluxline.pro pages. The home Work intro says in first person what Fluxline does. Fluxline links use `https://www.fluxline.pro`, and the Organization schema is named "Fluxline Resonance Group, LLC" (display name as `alternateName`).
 
+- UI and wording pass (#262): the home book section drops its "Be notified at launch" button (the pre-order button is the one call to action there) and reads "Listen to the TRI Podcast →"; the home hero line now says "who writes and talks about resonance, identity, and…". The pre-order bar reads "Pre-order for my book is now open!" with a "Go to My Store →" link. `TRI_URL` points at `theresonantidentity.com/start-here`, and the separate framework link is removed in favour of it, so "Hear the framework on the podcast →" and the other podcast links go to the same page. The home pre-order callout card is no longer capped at `60ch` wide.
+- Reddit is removed as a contact and social option (#262): it is no longer in the social row, the social icons, or `SOCIAL_URLS`.
 - Home page (#246): the contact section no longer shows the email address as text; an Email icon leads the social row and links to it. The hero quote loses its em dashes ("...systems that make your life and work feel like they finally fit.").
 
 ### Added
 
+- `--tw-mythic-gold-bg` token (#255): the pre-order bar's faint gold background tint, defined in all eight theme modes and the accessibility layer (aliased to `--tw-gold-bg` where the mode already aliases Mythic Gold to the base gold).
 - Unit tests (Vitest) for this work, 26 to 68 front-end tests: `/about-me` page requirements (no hero buttons, actions at the bottom, gold pre-order first, talent bars match `/about`, curated projects, latest posts, social icons), `TwHero` mobile modes, the scroll-reveal fade (extracted to a pure `scrollRevealProgress.ts`, including the tablet pin-release regression), the footer's short labels, `rel="me"` and styling, Work hidden on phones, the appearance panel's `inert`, the home hero's stacked layout, and `suppressHydrationWarning` on every head script (with and without GTM) without changing load order. Component tests server-render in Node and parse with `jsdom` (new dev dependency, with `@types/jsdom`), used only as a parser.
-- Site-wide pre-order bar (#249): a slim bar at the top of every page reads "Pre-order for the RCF book now open", gives the expected release (late February to mid-March 2027, subject to change, the store's wording), and links to the book's page on the Fluxline Store. Transparent, with Mythic Gold label, link and bottom rule; it wraps to a few centred lines on a phone. Pages still on the legacy header show it directly under that header.
+- Site-wide pre-order bar (#249): a slim bar at the top of every page reads "Pre-order for my book is now open!" (reworded in #262), gives the expected release (late February to mid-March 2027, subject to change, the store's wording), and links to the book's page on the Fluxline Store ("Go to My Store"). Transparent, with Mythic Gold label, link and bottom rule; it wraps to a few centred lines on a phone. Pages still on the legacy header show it directly under that header.
 - Book pre-order announcement (#238, #241) on the home page, inside the book (Resonance Core Framework) section: a Mythic Gold callout with a label, heading, launch line, and the page's one "Pre-order the book" button to the Fluxline Store. The section's other links stay outline. New `--tw-mythic-gold`, `--tw-mythic-gold-ink`, and `--tw-mythic-gold-text` tokens follow each theme (the accessibility themes use that theme's own gold). No link to the fluxline.pro pricing page, which is not live yet.
 - `TwButton` has a `gold` variant (#241) built on those tokens, and `TwHero` call-to-action entries can name a variant. The pre-order buttons on `/resonance-core-framework` (hero and book section) use it in place of the standard accent.
 - Google Tag Manager (`GTM-P3QP35V2`): the standard container snippet loads in `<head>` right after the existing Consent Mode v2 defaults, with the `<noscript>` fallback iframe as the first element in `<body>`, per Google's documented install. Gated by `NEXT_PUBLIC_GTM_ID` (empty disables it, same pattern as `NEXT_PUBLIC_GA_MEASUREMENT_ID`).
