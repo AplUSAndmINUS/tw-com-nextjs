@@ -115,8 +115,10 @@ export function TwAppearancePanel({ className }: TwAppearancePanelProps) {
         role='dialog'
         aria-label='Display and appearance'
         aria-hidden={!open}
-        // Keep it out of the tab order while closed.
-        {...(!open ? { inert: '' as unknown as boolean } : {})}
+        // Keep it out of the tab order while closed. React 19 treats `inert`
+        // as a real boolean, so the old `inert=''` workaround now logs a
+        // warning (and meant false).
+        inert={!open}
       >
         <div className={styles.header}>
           <span className={styles.title}>Display &amp; appearance</span>

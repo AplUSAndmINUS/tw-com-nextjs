@@ -2,6 +2,7 @@ import React, { JSX } from 'react';
 import { TwButton } from '../TwButton';
 import type { TwButtonVariant } from '../TwButton';
 import { TwParallax } from '../TwParallax';
+import { TwHeroScrollReveal } from './TwHeroScrollReveal';
 import styles from './TwHero.module.scss';
 
 export interface TwHeroCta {
@@ -40,6 +41,24 @@ export interface TwHeroProps {
   location?: string;
   /** Shorter hero for interior pages so they don't look identical to the homepage. */
   compact?: boolean;
+  /**
+   * Below tablet width, place the copy card under the photo instead of over
+   * it: the photo is seen first, and the card rises out of its faded lower
+   * edge. The photo scrolls normally, with no parallax. Use it where the card
+   * would otherwise cover the subject's face on a phone.
+   *
+   * Needs `backgroundImage`: the card is pulled up over the photo, so without
+   * one it would be dragged over the content above the hero. It is ignored
+   * when there is no photo.
+   */
+  stackOnMobile?: boolean;
+  /**
+   * Everything `stackOnMobile` does, plus the photo stays pinned under the
+   * nav while the card scrolls up over it and the photo fades into the page
+   * background. It is still under reduced motion. Like `stackOnMobile`, it
+   * needs `backgroundImage` and is ignored without one.
+   */
+  scrollReveal?: boolean;
   /** Anchor id, so the nav's brand link can target the top of the page. */
   id?: string;
   className?: string;
@@ -50,14 +69,17 @@ export interface TwHeroProps {
  * Full-bleed hero with real photography, a legibility scrim, and a glass copy
  * card.
  *
- * The photo drifts on scroll via TwParallax, which no-ops entirely under
- * reduced motion. Grain (`.tw-grain`) sits on the section for warmth — one of
+ * By default the photo drifts on scroll via TwParallax, which no-ops entirely
+ * under reduced motion. With `stackOnMobile` the card sits under the photo on
+ * phones (no parallax there); with `scrollReveal` the photo also stays pinned
+ * while the card scrolls over it and fades out, driven by TwHeroScrollReveal.
+ * Grain (`.tw-grain`) sits on the section for warmth — one of
  * the deliberate departures from Fluxline's flat surfaces.
  *
- * Rendered as a server component: the only interactive piece is TwParallax,
- * which is a client component of its own. Keeping the hero on the server means
- * the title and copy are in the initial HTML, which matters for both LCP and
- * search.
+ * Rendered as a server component. The only client pieces are TwParallax and,
+ * when `scrollReveal` is set, TwHeroScrollReveal (which wraps the card).
+ * Keeping the hero on the server means the title and copy are in the initial
+ * HTML, which matters for both LCP and search.
  */
 export function TwHero({
   eyebrow,
@@ -74,10 +96,20 @@ export function TwHero({
   tagline,
   location,
   compact = false,
+  stackOnMobile = false,
+  scrollReveal = false,
   id,
   className,
   children,
 }: TwHeroProps) {
+  // The stacked layouts pull the card up over the photo, so they only apply
+  // when there is a photo to pull it over.
+  const hasPhoto = Boolean(backgroundImage);
+  const stacked = hasPhoto && (stackOnMobile || scrollReveal);
+  // The reveal needs a client component to track scroll; the default hero
+  // stays entirely on the server.
+  const Inner = hasPhoto && scrollReveal ? TwHeroScrollReveal : 'div';
+
   const heroStyle = {
     ...(focalPoint ? { '--tw-hero-focal': focalPoint } : {}),
     ...(compact ? { '--tw-hero-height': '420px', '--tw-hero-height-mobile': '360px' } : {}),
@@ -86,7 +118,15 @@ export function TwHero({
   return (
     <section
       id={id}
-      className={['tw-grain', styles.hero, className].filter(Boolean).join(' ')}
+      className={[
+        'tw-grain',
+        styles.hero,
+        stacked ? styles.stacked : undefined,
+        hasPhoto && scrollReveal ? styles.scrollReveal : undefined,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       style={Object.keys(heroStyle).length ? heroStyle : undefined}
     >
       {backgroundImage ? (
@@ -117,7 +157,7 @@ export function TwHero({
 
       <div className={styles.scrim} aria-hidden='true' />
 
-      <div className={styles.inner}>
+      <Inner className={styles.inner}>
         <div className={styles.card}>
           {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
           <h1 className={styles.title}>{title}</h1>
@@ -158,7 +198,7 @@ export function TwHero({
 
           {children}
         </div>
-      </div>
+      </Inner>
     </section>
   );
 }

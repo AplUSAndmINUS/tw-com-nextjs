@@ -234,6 +234,7 @@ export default function HomePageClient({
           tagline='Founder, Fluxline Resonance Group'
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
+          stackOnMobile
         />
       </section>
 

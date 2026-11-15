@@ -104,16 +104,18 @@
   align-items: baseline;
   gap: 6px 20px;
   padding: 12px 0;
-  font-size: 0.875rem;
 
-  a {
-    color: var(--tw-text-body);
-    text-decoration: none;
-  }
+  /* Links are ThemedLink, which sets their type, colour and hover. */
 
-  a:hover {
-    color: var(--tw-accent);
-    text-decoration: underline;
+  /* Phones: a short stacked list, set off from the Social icons above by the
+     same rhythm as the sections, with a hairline between them. */
+  @include until('mobile-lg') {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: var(--tw-space-xl);
+    padding: var(--tw-space-l) 0;
+    border-top: 1px solid var(--tw-border-subtle);
   }
 }
 
@@ -148,6 +150,12 @@
 
 .copyright {
   color: var(--tw-text-muted);
+
+  /* It renders as a <blockquote>, whose default indent pushed it out of line
+     with everything else on a phone. */
+  @include until('mobile-lg') {
+    margin-inline: 0;
+  }
 }
 
 /* ===== Newsletter mini (tablet/desktop only) ===== */

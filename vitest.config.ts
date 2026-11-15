@@ -10,10 +10,13 @@ import { defineConfig } from 'vitest/config';
  *
  * Notes on the choices here:
  *
- * - `environment: 'node'` (the default) rather than jsdom. Everything under
- *   test today is pure data transformation with no DOM access, and jsdom is a
- *   meaningful startup cost per run. Component tests would need jsdom plus
- *   @vitejs/plugin-react; add those when the first one is written, not before.
+ * - `environment: 'node'` (the default) rather than jsdom. Component tests
+ *   render with `renderToStaticMarkup` in Node, exactly as the static export
+ *   does on the server, then parse the HTML with jsdom (`new JSDOM(markup)`)
+ *   so they can query it like a DOM. jsdom is only a parser here, not the
+ *   test environment. Tests that need interaction (clicks, effects) would
+ *   need the jsdom environment plus @vitejs/plugin-react; add those when the
+ *   first one is written, not before.
  *
  * - Globals are NOT enabled. Enabling them would mean adding
  *   `"types": ["vitest/globals"]` to tsconfig.json, and because that file

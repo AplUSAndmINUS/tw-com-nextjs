@@ -188,3 +188,93 @@
     padding: var(--tw-card-pad);
   }
 }
+
+/**
+ * Stacked mobile layout (opt-in via `stackOnMobile`, and part of `scrollReveal`).
+ *
+ * Below tablet width the glass card would sit right on top of the subject's
+ * face, so the hero stacks instead. The photo fills most of the first screen,
+ * its lower edge dissolves into the page background, and the card rises out
+ * of that fade, overlapping the photo by --tw-hero-overlap. The photo scrolls
+ * with the page; parallax drift is off, because the photo is in the page flow
+ * rather than an overscanned backdrop.
+ */
+.stacked {
+  @include until('tablet') {
+    /* The photo stage: most of a phone screen, capped on tall tablets. */
+    --tw-hero-stage: min(74vh, 680px);
+    @supports (height: 1svh) {
+      --tw-hero-stage: min(74svh, 680px);
+    }
+    /* How far the card's top edge rises into the photo at rest. */
+    --tw-hero-overlap: 240px;
+
+    display: block;
+    min-height: 0;
+    /* The photo fades into this, which is the colour the rest of the page
+       uses, not the hero gradient. */
+    background: var(--tw-bg-page);
+
+    .media {
+      position: relative;
+      inset: auto;
+      height: var(--tw-hero-stage);
+      /* No parallax drift (this overrides TwParallax's inline transform). */
+      transform: none !important;
+    }
+
+    .image {
+      /* Dissolve the lower edge into the page so the card rises out of the
+         background rather than over a hard photo edge. */
+      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+      mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    }
+
+    /* The mask does the scrim's job here. */
+    .scrim {
+      display: none;
+    }
+
+    .inner {
+      /* container-width sets width: 100% plus padding. Out of the flex row,
+         nothing shrinks it back, so count the padding inside the width. */
+      box-sizing: border-box;
+      margin-top: calc(-1 * var(--tw-hero-overlap));
+      padding-top: 0;
+      padding-bottom: var(--tw-space-xxl);
+    }
+  }
+}
+
+/**
+ * Scroll reveal (opt-in via `scrollReveal`; adds to the stacked layout above).
+ *
+ * The photo is pinned (sticky) just under the nav, and as the visitor scrolls
+ * the card glides up over it while the photo fades into the page background.
+ * TwHeroScrollReveal writes --tw-hero-reveal (0 to 1) for the fade and always
+ * finishes it by the time the pin releases (when the hero's bottom edge
+ * reaches the photo's). So the photo is never seen scrolling away, and
+ * scrolling back up re-pins it and fades it back in.
+ *
+ * Only opacity and transform are driven, so no layout runs per frame. With no
+ * variable set (no JavaScript, reduced motion) the photo stays in full behind
+ * the card and nothing animates. The pin is plain CSS and still applies.
+ */
+.scrollReveal {
+  @include until('tablet') {
+    /* clip, not hidden: a hidden overflow is a scroll container, and sticky
+       would pin to the hero instead of the page. */
+    overflow: clip;
+
+    .media {
+      position: sticky;
+      top: var(--tw-nav-height);
+    }
+
+    .image {
+      opacity: calc(1 - var(--tw-hero-reveal, 0));
+      transform: scale(calc(1 + var(--tw-hero-reveal, 0) * 0.06));
+      transform-origin: center 30%;
+    }
+  }
+}
