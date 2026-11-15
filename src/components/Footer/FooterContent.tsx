@@ -408,10 +408,14 @@ export function FooterContent({
             isCompact={isCompact}
             className={styles.mdOnly}
           />
+          {/* Hidden on phones to keep the footer short; the same links are
+              in the page nav, and the ecosystem row below covers the book and
+              the podcast. */}
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}
             isCompact={isCompact}
+            className={styles.mdOnly}
           />
           {windowWidth >= 1366 && (
             <FooterLinkSection
@@ -435,20 +439,37 @@ export function FooterContent({
         {/* Ecosystem links. TW uses this shorter block rather than the shared
             Listen / Read / Work lines (owner, 2026-10-20). Plain same-tab
             anchors with rel="me" so search engines tie the sites to one
-            identity. */}
+            identity. Short labels (owner, 2026-11-14); the nav's aria-label
+            gives them their context. */}
         <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
           <span className={styles.ecosystemTitle}>
             More from Terence Waters
           </span>
-          <a href='https://theresonantidentity.com/start-here/' rel='me'>
-            The Resonant Identity Podcast
-          </a>
-          <a href='https://store.fluxline.pro/book'>
-            Pre-order: The RCF book, on the Fluxline Store.
-          </a>
-          <a href='https://www.fluxline.pro/' rel='me'>
-            Fluxline Resonance Group — Coaching &amp; Consulting
-          </a>
+          {/* ThemedLink, like the link lists above: Merriweather, footer
+              colours and hover. rel="me" passes through. */}
+          <ThemedLink
+            href='https://theresonantidentity.com/start-here/'
+            rel='me'
+            variant='small'
+            isFooter
+          >
+            The Resonant Identity
+          </ThemedLink>
+          <ThemedLink
+            href='https://store.fluxline.pro/book'
+            variant='small'
+            isFooter
+          >
+            Pre-order the Book
+          </ThemedLink>
+          <ThemedLink
+            href='https://www.fluxline.pro/'
+            rel='me'
+            variant='small'
+            isFooter
+          >
+            Fluxline Resonance Group
+          </ThemedLink>
         </nav>
 
         {/* Bottom bar */}

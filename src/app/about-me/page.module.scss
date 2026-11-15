@@ -1,12 +1,16 @@
 @use 'abstracts' as *;
 
 /**
- * About Hook page
- * ================
+ * /about-me: Terence in 60 seconds
+ * ================================
  *
- * The short version of /about: no rail/image sections, just a page-wide
- * column. Borrows the prose / stat-grid / chip-row / closing shapes from
- * about/page.module.scss so the two pages read as siblings.
+ * A landing page, not a long read. Sections alternate between the page
+ * background and the feature gradient so each block reads as one "card" of
+ * the page. The grids are TwContentGrid (container-query columns, staggered
+ * reveals). This module styles only what goes inside the cards.
+ *
+ * Shapes borrowed from about/page.module.scss (the proficiency meters) so the
+ * two pages read as siblings.
  */
 
 .page {
@@ -19,6 +23,7 @@
   position: relative;
   padding-block: 72px;
   background: var(--tw-bg-page);
+  scroll-margin-top: var(--tw-nav-height);
 
   @include until('mobile-lg') {
     padding-block: 48px;
@@ -31,106 +36,104 @@
   border-bottom: 1px solid var(--tw-border-subtle);
 }
 
+/* Same column as /about. Not the container-width mixin: its width: 100% plus
+   padding overflows the viewport, because the project has no global
+   border-box rule. */
 .container {
   position: relative;
+  box-sizing: border-box;
   max-width: var(--tw-container);
   margin: 0 auto;
   padding: 0 var(--tw-container-pad);
-}
-
-.content {
-  max-width: 62ch;
-}
-
-/* ===== Prose ===== */
-
-.prose {
-  font-family: var(--tw-font-body);
-  font-size: 1.03125rem;
-  line-height: 1.85;
-  color: var(--tw-text-body);
-  margin: 26px 0 0;
-  max-width: 62ch;
-
-  & + & {
-    margin-top: 16px;
-  }
-
-  a {
-    color: var(--tw-accent);
-    text-underline-offset: 3px;
-  }
-}
-
-.statGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 34px;
 
   @include until('mobile-sm') {
-    grid-template-columns: 1fr;
+    padding-inline: 20px;
   }
 }
 
-/* ===== Pillars (Fluxline / RCF / The Resonant Identity) ===== */
-
-.pillarGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+.grid {
   margin-top: 32px;
 
   @include until('mobile-lg') {
-    grid-template-columns: 1fr;
+    margin-top: 24px;
   }
 }
 
-.pillar {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 100%;
-  box-sizing: border-box;
-}
+/* ===== Shared card typography ===== */
 
-.pillarLabel {
+.cardLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--tw-font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--tw-accent);
+  margin: 0;
 }
 
-.pillarTitle {
+.cardTitle {
   font-family: var(--tw-font);
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: var(--tw-heading-tracking);
   color: var(--tw-text-heading);
   margin: 0;
-  letter-spacing: -0.01em;
 }
 
-.pillarText {
+.cardText {
   font-family: var(--tw-font-body);
   font-size: 0.9375rem;
   line-height: 1.7;
   color: var(--tw-text-body);
   margin: 0;
-  flex-grow: 1;
 }
 
-.pillarLink {
+.chipLabel {
   font-family: var(--tw-font);
+  font-size: 0.6875rem;
   font-weight: 700;
-  font-size: 0.875rem;
+  letter-spacing: var(--tw-kicker-tracking);
+  text-transform: uppercase;
+  color: var(--tw-text-faint);
+  margin: 0;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* A round accent badge that holds one icon from components/icons. */
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--tw-radius-pill);
   color: var(--tw-accent);
-  text-decoration: none;
+  background: var(--tw-teal-bg);
+  border: 1px solid var(--tw-border-strong);
+}
+
+/* Text link with a trailing arrow. The gap widens on hover. */
+.arrowLink {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
-  transition: gap 0.2s var(--tw-motion-ease), color 0.2s var(--tw-motion-ease);
+  font-family: var(--tw-font);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--tw-accent);
+  text-decoration: none;
+  transition:
+    gap var(--tw-hover-duration) var(--tw-motion-ease),
+    color var(--tw-hover-duration) var(--tw-motion-ease);
 
   @include focus-ring;
 
@@ -142,77 +145,375 @@
   @include motion-safe-only;
 }
 
-/* ===== Chip row (what this is built on) ===== */
+.sectionLink {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
 
-.chipLabel {
+  @include until('mobile-sm') {
+    justify-content: flex-start;
+  }
+}
+
+/* ===== In 60 seconds: role cards ===== */
+
+.roleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.roleCard .cardText {
+  flex-grow: 1;
+}
+
+.cardLink {
+  margin-top: 4px;
+}
+
+.statGrid {
+  margin-top: 16px;
+}
+
+/* Phones: each stat becomes one compact row (figure, then caption) rather
+   than three tall cards stacked in a row. The value is TwStatCard's <dd>. */
+.statGrid .statItem {
+  @include until('mobile-sm') {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+
+    > dd {
+      min-width: 2.6ch;
+    }
+  }
+}
+
+/* ===== Book + podcast feature cards ===== */
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  scroll-margin-top: calc(var(--tw-nav-height) + 16px);
+}
+
+.featureHead {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: var(--tw-card-pad);
+  background: var(--tw-gradient-band);
+  border-bottom: 1px solid var(--tw-border-subtle);
+
+  @include until('mobile-sm') {
+    gap: 16px;
+  }
+}
+
+.featureArt {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  box-shadow: var(--tw-shadow-s);
+
+  @include until('mobile-sm') {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.featureTitle {
   font-family: var(--tw-font);
-  font-size: 0.71875rem;
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  line-height: 1.25;
+  letter-spacing: var(--tw-heading-tracking);
+  color: var(--tw-text-heading-display);
+  margin: 6px 0 0;
+}
+
+.featureMeta {
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-meta-size);
+  color: var(--tw-text-mist);
+  margin: 4px 0 0;
+}
+
+.featureBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-grow: 1;
+  padding: var(--tw-card-pad);
+}
+
+.factList {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: 18px;
+    font-family: var(--tw-font-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--tw-text-muted);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: var(--tw-radius-pill);
+      background: var(--tw-gradient-accent);
+    }
+  }
+}
+
+/* Mirrors the top pre-order bar: Mythic Gold label on a faint gold wash. */
+.preorderBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 4px 10px;
+  border: 1px solid var(--tw-mythic-gold);
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-mythic-gold-bg);
+  font-family: var(--tw-font);
+  font-size: var(--tw-chip-tag-size);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin: 34px 0 12px;
+  color: var(--tw-mythic-gold-text);
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: var(--tw-radius-pill);
+    background: var(--tw-mythic-gold);
+  }
 }
 
-.chipRow {
+/* The buttons sit at the foot of the card, whatever the copy length. Each
+   grows to fill its row, so on a phone they stack as full-width targets. */
+.featureActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 10px;
 }
 
-.viewAll {
-  margin-top: 28px;
-
-  a {
-    font-family: var(--tw-font);
-    font-weight: 700;
-    font-size: 0.90625rem;
-    color: var(--tw-accent);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: gap 0.2s var(--tw-motion-ease),
-      color 0.2s var(--tw-motion-ease);
-
-    @include focus-ring;
-
-    &:hover {
-      gap: 11px;
-      color: var(--tw-accent-hover);
-    }
-
-    @include motion-safe-only;
-  }
-}
-
-/* ===== Closing band ===== */
-
-.closing {
-  padding-block: 72px;
-  background: var(--tw-bg-page);
-
-  @include until('mobile-lg') {
-    padding-block: 48px;
-  }
-}
-
-.closingLink {
-  margin-top: 18px;
+.featureActions .featureButton {
+  flex: 1 1 auto;
+  justify-content: center;
   text-align: center;
 
-  a {
-    font-family: var(--tw-font);
-    font-weight: 600;
-    font-size: 0.90625rem;
-    color: var(--tw-text-faint);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  @include until('mobile-sm') {
+    flex-basis: 100%;
+    white-space: normal;
+  }
+}
 
-    @include focus-ring;
+/* ===== Talent bars ===== */
 
-    &:hover {
-      color: var(--tw-accent);
-    }
+.meterCard {
+  margin-top: 32px;
+
+  @include until('mobile-lg') {
+    margin-top: 24px;
+  }
+}
+
+.meterGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include until('mobile-lg') {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.meterHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.meterName {
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  color: var(--tw-text-body);
+}
+
+.meterValue {
+  flex-shrink: 0;
+  font-family: var(--tw-font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--tw-accent);
+}
+
+.meterMax {
+  font-weight: 400;
+  color: var(--tw-text-faint);
+}
+
+.meterTrack {
+  height: 8px;
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-surface-inset);
+  border: 1px solid var(--tw-border-subtle);
+  overflow: hidden;
+}
+
+/*
+ * The fill grows when the enclosing TwReveal flips to `.in`, so the bars
+ * animate as the section scrolls into view without a client component of
+ * their own. `--tw-meter-pct` is the only inline style, since it is per-item
+ * data. Same technique as the /about meters.
+ */
+.meterFill {
+  display: block;
+  height: 100%;
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-gradient-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms var(--tw-motion-ease);
+}
+
+:global(.tw-rv.in) .meterFill {
+  transform: scaleX(var(--tw-meter-pct, 1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meterFill {
+    transition: none;
+    transform: scaleX(var(--tw-meter-pct, 1));
+  }
+}
+
+:global([data-tw-reduced-motion='true']) .meterFill {
+  transition: none;
+  transform: scaleX(var(--tw-meter-pct, 1));
+}
+
+/* ===== Projects + writing ===== */
+
+/* Keep a row of article cards even when one excerpt runs long. */
+.article p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Closing: actions, contact details, socials ===== */
+
+.closing {
+  padding-block: 72px 88px;
+  background: var(--tw-bg-page);
+  scroll-margin-top: var(--tw-nav-height);
+
+  @include until('mobile-lg') {
+    padding-block: 48px 64px;
+  }
+}
+
+/* On phones the three actions stack full width, link-in-bio style, and long
+   labels may wrap instead of pushing past the band. */
+.closing .ctaButton {
+  @include until('mobile-sm') {
+    flex: 1 1 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--tw-grid-gap);
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+
+  /* Below desktop a third of the row is too narrow for the email address,
+     so the tiles stack as full-width link rows. */
+  @include until('tablet') {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.contactItem {
+  @include card-surface(var(--tw-radius-card-sm));
+  @include card-interactive;
+  @include focus-ring;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 16px 18px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.contactLabel {
+  display: block;
+  font-family: var(--tw-font);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+}
+
+.contactValue {
+  display: block;
+  font-family: var(--tw-font-body);
+  font-size: 0.84375rem;
+  color: var(--tw-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.socialBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+  text-align: center;
+}
+
+.socialRow {
+  justify-content: center;
+  gap: 20px 24px;
+  max-width: 40rem;
+
+  @include until('mobile-sm') {
+    gap: 18px 20px;
   }
 }

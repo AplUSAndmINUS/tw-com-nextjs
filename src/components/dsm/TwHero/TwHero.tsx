@@ -2,6 +2,7 @@ import React, { JSX } from 'react';
 import { TwButton } from '../TwButton';
 import type { TwButtonVariant } from '../TwButton';
 import { TwParallax } from '../TwParallax';
+import { TwHeroScrollReveal } from './TwHeroScrollReveal';
 import styles from './TwHero.module.scss';
 
 export interface TwHeroCta {
@@ -40,6 +41,19 @@ export interface TwHeroProps {
   location?: string;
   /** Shorter hero for interior pages so they don't look identical to the homepage. */
   compact?: boolean;
+  /**
+   * Below tablet width, place the copy card under the photo instead of over
+   * it: the photo is seen first, and the card rises out of its faded lower
+   * edge. The photo scrolls normally, with no parallax. Use it where the card
+   * would otherwise cover the subject's face on a phone.
+   */
+  stackOnMobile?: boolean;
+  /**
+   * Everything `stackOnMobile` does, plus the photo stays pinned under the
+   * nav while the card scrolls up over it and the photo fades into the page
+   * background. It is still under reduced motion.
+   */
+  scrollReveal?: boolean;
   /** Anchor id, so the nav's brand link can target the top of the page. */
   id?: string;
   className?: string;
@@ -74,10 +88,16 @@ export function TwHero({
   tagline,
   location,
   compact = false,
+  stackOnMobile = false,
+  scrollReveal = false,
   id,
   className,
   children,
 }: TwHeroProps) {
+  // The reveal needs a client component to track scroll; the default hero
+  // stays entirely on the server.
+  const Inner = scrollReveal ? TwHeroScrollReveal : 'div';
+
   const heroStyle = {
     ...(focalPoint ? { '--tw-hero-focal': focalPoint } : {}),
     ...(compact ? { '--tw-hero-height': '420px', '--tw-hero-height-mobile': '360px' } : {}),
@@ -86,7 +106,15 @@ export function TwHero({
   return (
     <section
       id={id}
-      className={['tw-grain', styles.hero, className].filter(Boolean).join(' ')}
+      className={[
+        'tw-grain',
+        styles.hero,
+        stackOnMobile || scrollReveal ? styles.stacked : undefined,
+        scrollReveal ? styles.scrollReveal : undefined,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       style={Object.keys(heroStyle).length ? heroStyle : undefined}
     >
       {backgroundImage ? (
@@ -117,7 +145,7 @@ export function TwHero({
 
       <div className={styles.scrim} aria-hidden='true' />
 
-      <div className={styles.inner}>
+      <Inner className={styles.inner}>
         <div className={styles.card}>
           {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
           <h1 className={styles.title}>{title}</h1>
@@ -158,7 +186,7 @@ export function TwHero({
 
           {children}
         </div>
-      </div>
+      </Inner>
     </section>
   );
 }

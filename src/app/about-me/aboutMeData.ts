@@ -1,77 +1,209 @@
 /**
- * About Hook page content
- * ========================
+ * /about-me content: the one-page, "link in bio" version of /about
+ * ================================================================
  *
- * The short, hook-first version of /about. It exists for one job: it's the
- * page other sites in the ecosystem (starting with
- * theresonantidentity.com/start-here) point to when they refer someone to
- * "more about Terence." So it leads with the hook, explains the three things
- * he's building (Fluxline, the RCF, The Resonant Identity) in one breath each,
- * and hands off to /about for anyone who wants the long version.
+ * A landing page you can read in about a minute. It says who Terence is
+ * (podcaster, systems architect, business consultant), shows what he's
+ * building (The Resonance Core Framework™ and The Resonant Identity), and
+ * offers proof (skills, projects, recent writing). Then it hands off to /about
+ * for the long version.
  *
- * Content is drawn from the existing /about copy (aboutData.ts) and from the
- * approved press-kit bio at wonderfish.app/terence-waters, converted to the
- * site's first-person voice. No facts invented here — see those two sources.
+ * Nothing here is new copy. Every line is drawn from content already in the
+ * repo, and cited per block:
+ *   - /about           → src/app/about/aboutData.ts
+ *   - skill scores     → src/content/aboutSkills.ts (the same meters /about shows)
+ *   - the book         → src/lib/rcf.ts
+ *   - the podcast      → src/lib/spreaker.ts + /podcasts/theresonantid
+ *   - social links     → src/lib/socials.ts
+ *
+ * Blog posts and portfolio entries are not listed here. page.tsx loads them
+ * from the content system at build time, so the page stays current without
+ * edits.
  */
 
+import type { ContentItem } from '@/content/types';
+import { ABOUT_SKILLS, type AboutSkill } from '@/content/aboutSkills';
+import { SOCIAL_URLS } from '@/lib/socials';
+import { serviceHref, type HomeSocial } from '@/app/home/homeData';
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+
+export const ROLES_LINE = 'Podcaster · Systems Architect · Business Consultant';
+
+/** From aboutData INTRO_PARAGRAPHS[0], prefixed with the authorship line. */
+export const HERO_BODY =
+  'Author of The Resonance Core Framework™. I help people and organizations rebuild the parts of themselves they thought were permanent.';
+
+/** Press-kit hook, unchanged from the previous version of this page. */
 export const HOOK_QUOTE =
   'I rejected the mission, marriage, children, and six-figure career expected of me in a town of 4,000 people.';
 
-export const HOOK_BODY =
-  'That choice looked rocky, and it was looked down upon. It also aligned me with who I am instead of who I was supposed to become. Now I help people in a season of becoming read their own nervous system as information, not instruction, and turn that information into decisions they can live inside.';
+/* ── In 60 seconds ────────────────────────────────────────────────────────── */
 
-export const INTRO_PARAGRAPHS = [
-  'I help people and organizations rebuild the parts of themselves they thought were permanent.',
-  "I'm a systems architect by training, a designer by instinct, and a coach by necessity. Twenty-plus years across design, development, architecture, and product management, the last few spent consulting full-time and translating complexity into clarity.",
-];
+export type RoleIcon = 'mic' | 'code' | 'people';
 
-/** Same figures as /about — accurate, not re-derived. */
-export const STATS = [
-  {
-    value: '20+',
-    label: 'Years in design, development, architecture & product management',
-  },
-  { value: '4', label: 'Degrees & certifications tracks' },
-  { value: '2', label: 'Companies founded or led' },
-];
-
-export interface Pillar {
+export interface Role {
+  icon: RoleIcon;
   label: string;
   title: string;
   text: string;
+  /** Two or three short proof points, rendered as chips. */
+  points: string[];
   href: string;
   linkLabel: string;
 }
 
-export const PILLARS: Pillar[] = [
+export const ROLES: Role[] = [
   {
-    label: 'The company',
-    title: 'Fluxline Resonance Group',
+    icon: 'mic',
+    label: 'The podcaster',
+    title: 'Host, The Resonant Identity',
+    text: 'Where the framework gets talked through out loud, episode by episode, for people in a season of becoming.',
+    points: ['Identity', 'Alignment', 'Transitions'],
+    href: '#podcast',
+    linkLabel: 'About the show',
+  },
+  {
+    icon: 'code',
+    label: 'The systems architect',
+    title: '20+ years building platforms',
+    text: 'Enterprise healthcare platforms, intranets, and cloud delivery on Azure, M365, and Next.js. Complexity turned into something people can run.',
+    points: ['IT architecture', 'Azure & M365', 'Design systems'],
+    href: '/portfolio',
+    linkLabel: 'See the portfolio',
+  },
+  {
+    icon: 'people',
+    label: 'The business consultant',
+    title: 'Founder, Fluxline Resonance Group',
     text: 'Consulting, systems architecture, and brand identity for founders and teams who need less noise and more structure.',
-    href: 'https://www.fluxline.pro',
-    linkLabel: 'Visit Fluxline.pro',
-  },
-  {
-    label: 'The book',
-    title: 'The Resonance Core Framework™',
-    text: 'A structured identity system built on alignment over force: Behavioral Gravity, Identity Coherence, the Window of Choice, The Decision Integrity Index. Targeted for Q1 2027.',
-    href: '/resonance-core-framework',
-    linkLabel: 'Read about the RCF',
-  },
-  {
-    label: 'The podcast',
-    title: 'The Resonant Identity',
-    text: "Where the framework gets talked through out loud, episode by episode, for people in a season of becoming.",
-    href: 'https://theresonantidentity.com',
-    linkLabel: 'Listen to The Resonant Identity',
+    points: ['Strategy', 'Systems alignment', 'Brand identity'],
+    href: serviceHref('consulting'),
+    linkLabel: 'Consulting on Fluxline.pro',
   },
 ];
 
-/** Core RCF ideas, as a quick-scan chip row — not the full glossary. */
-export const BUILT_ON = [
-  'Behavioral Gravity',
-  'Identity Coherence',
-  'Window of Choice',
-  'The Decision Integrity Index (The DII)',
-  'Somatic Discipline',
+/** Same figures as /about (aboutData STATS), kept short for the landing page. */
+export const STATS = [
+  { value: '20+', label: 'Years in design, development & architecture' },
+  { value: '4', label: 'Degrees & certification tracks' },
+  { value: '2', label: 'Companies founded or led' },
+];
+
+/* ── Talent bars ──────────────────────────────────────────────────────────── */
+
+/**
+ * The skills that back up the three roles, picked by name from ABOUT_SKILLS so
+ * the scores always match the meters on /about. Grouped loosely: podcasting
+ * and coaching first, then architecture, then consulting.
+ *
+ * The names must match aboutSkills.ts exactly. aboutMeData.test.ts fails if
+ * one is renamed there, so a bar can't drop off this page unnoticed.
+ */
+export const TALENT_SKILL_NAMES = [
+  'Design thinking',
+  'Oral & written communication',
+  'Personal & business coaching',
+  'Cloud & hybrid solutions',
+  'Cross-functional leadership',
+  'Systems architecture',
+  'IT strategy & consulting',
+  'Business structuring',
+] as const;
+
+/** Resolve the names above against ABOUT_SKILLS, keeping the order given. */
+export function pickSkills(
+  names: readonly string[],
+  skills: AboutSkill[] = ABOUT_SKILLS
+): AboutSkill[] {
+  return names.flatMap((name) => {
+    const skill = skills.find((s) => s.name === name);
+    return skill ? [skill] : [];
+  });
+}
+
+/* ── Projects ─────────────────────────────────────────────────────────────── */
+
+/**
+ * Portfolio entries to show, by slug, in display order: one for each side of
+ * the work (business platform, enterprise architecture, the RCF's decision
+ * tooling). If a slug goes missing, pickProjects tops the list back up from
+ * the newest featured entries.
+ */
+export const PROJECT_SLUGS = [
+  'fluxline-pro-website',
+  'myintermountain-sharepoint-intranet',
+  'enterprise-dashboard',
+] as const;
+
+export const PROJECT_LIMIT = 3;
+
+/**
+ * Curated slugs first, in order. Any gaps are then filled from featured
+ * entries (the input is already newest first from getAllContent), and last of
+ * all from anything else.
+ */
+export function pickProjects(
+  items: ContentItem[],
+  slugs: readonly string[] = PROJECT_SLUGS,
+  limit: number = PROJECT_LIMIT
+): ContentItem[] {
+  const picked: ContentItem[] = [];
+  const add = (item: ContentItem | undefined) => {
+    if (item && picked.length < limit && !picked.includes(item)) {
+      picked.push(item);
+    }
+  };
+
+  slugs.forEach((slug) => add(items.find((item) => item.slug === slug)));
+  items.filter((item) => item.featured).forEach(add);
+  items.forEach(add);
+  return picked;
+}
+
+/* ── Writing ──────────────────────────────────────────────────────────────── */
+
+export const POST_LIMIT = 3;
+
+/* ── Get in touch ─────────────────────────────────────────────────────────── */
+
+/** Free consultation booking, the same link /about's closing band uses. */
+export const BOOKING_URL = 'https://tidycal.com/terencewaters';
+export const EMAIL_ADDRESS = SOCIAL_URLS.email.replace(/^mailto:/, '');
+
+/**
+ * The icon row at the bottom of the page: every profile that has an icon in
+ * /assets/icons, grouped as contact, then professional, then social, then the
+ * podcast platforms. (Xbox is in SOCIAL_URLS but has no icon there, so it is
+ * left out.)
+ */
+export const ABOUT_ME_SOCIALS: HomeSocial[] = [
+  { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
+  { name: 'LinkedIn', icon: 'linkedin', href: SOCIAL_URLS.linkedin },
+  { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
+  { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
+  { name: 'Facebook', icon: 'facebook', href: SOCIAL_URLS.facebook },
+  { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
+  { name: 'YouTube', icon: 'youtube', href: SOCIAL_URLS.youtube },
+  { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
+  { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
+  { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
+  {
+    name: 'Apple Podcasts',
+    icon: 'apple-podcasts',
+    href: SOCIAL_URLS.applePodcasts,
+  },
+  { name: 'Podcast RSS feed', icon: 'rss', href: SOCIAL_URLS.podcastRss },
+];
+
+/** Where to listen: the subset shown on the podcast card. */
+export const PODCAST_SOCIALS: HomeSocial[] = [
+  { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
+  {
+    name: 'Apple Podcasts',
+    icon: 'apple-podcasts',
+    href: SOCIAL_URLS.applePodcasts,
+  },
+  { name: 'YouTube', icon: 'youtube', href: SOCIAL_URLS.youtube },
+  { name: 'Podcast RSS feed', icon: 'rss', href: SOCIAL_URLS.podcastRss },
 ];
