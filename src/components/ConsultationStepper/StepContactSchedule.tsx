@@ -303,7 +303,7 @@ export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
               I consent for Fluxline Resonance Group to contact me and store my
               information for the sole purpose of this consultation. See our{' '}
               <a
-                href='/legal/privacy-policy'
+                href='https://www.fluxline.pro/legal/privacy-policy/'
                 target='_blank'
                 rel='noopener noreferrer'
                 style={{ color: theme.palette.themePrimary }}
