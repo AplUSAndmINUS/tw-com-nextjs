@@ -12,6 +12,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Changed
 
+- `/resonance-core-framework`: the hero backdrop is the RCF banner (#309) instead of the portrait, with a new `scrim='card-side'` option on `TwHero` that keeps the banner's own lettering behind the card.
 - Home and booking polish (#306): the hook line now ends "…becoming the best version of your self and your chosen identity"; the timeline's last step, The launch, is Mythic Gold and highlighted (`TwShiftTrack` gains `highlight`, with a new `--tw-glow-gold-node` token); the booking dialog fades in (the panel rises, like `TwReveal`) and fades out before closing, with reduced motion turning both off, and focus lands on the page's main content when there is no opener; option titles in steps 1 and 3 are white and their descriptions a very light grey.
 
 - Book a Conversation opens full screen (#278): the redesign's `BookingFlow` (the same three steps, the same `/api/leads` POST and prefilled TidyCal page) in a new `BookingModal` (a labelled modal dialog: focus kept inside and returned on close, Escape, the X or a tap outside closes it, the page behind is locked). `BookingModalProvider` is mounted once in `providers.tsx`; `<BookingTrigger />` and `useBookingModal()` open it, and the header's "Book a free consultation" button now does. The folder's README explains how to move it to another Fluxline app. Brought in from the redesign with it: `ConsultationStepper/lead.ts` and its updated stepper files, `content/site/booking.ts`, `contact.ts`, `copy.ts`, the shared style tokens and mixins it uses (`_mixins.scss`, `spacing.css`, `typography.css`, `effects.css`; new tokens and mixins, some used only by the later home and nav work), its tests and test harness, and the `/api/leads` test. Vitest renders links with trailing slashes, as the static export does.
@@ -75,6 +76,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Removed
 
+- Case studies (#309): the Content Hub card and drawer that linked to Fluxline.pro, the unrouted `public/case-studies/` content (about 33 MB that shipped with every build), the unused `getCaseStudySchema()`, and the docs that listed them.
 - The /about numbered image-rail layout (`AboutSection`), its stats row, audience trio and role chips, replaced by the redesign's sections (#294).
 - Home sections the owner dropped (#285): the separate About ("Hi! I'm Terence"), Portfolio, and the large "Get new writing" band. Also removed: the content filter chips and their client fetches, and `HomeNewsletterForm`.
 - The per-page navs (`TwPageNav`, the home page's `HomeNav`, the blog and portfolio link lists) and the old Book a Conversation pop-up (`ConsultationStepper` and its step components), all replaced by the site nav and the booking dialog (#281). The stepper's data and helpers stay; the booking dialog uses them.

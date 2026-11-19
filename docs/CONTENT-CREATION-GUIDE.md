@@ -10,10 +10,9 @@ This guide explains how to create new content for **TerenceWaters.com**. The sit
 2. [Creating a Blog Post](#creating-a-blog-post)
 3. [Creating a Portfolio Entry](#creating-a-portfolio-entry)
 4. [Creating a Podcast Episode](#creating-a-podcast-episode)
-5. [Creating a Case Study](#creating-a-case-study)
-6. [Frontmatter Reference](#frontmatter-reference)
-7. [Adding Images](#adding-images)
-8. [Using the Gallery](#using-the-gallery)
+5. [Frontmatter Reference](#frontmatter-reference)
+6. [Adding Images](#adding-images)
+7. [Using the Gallery](#using-the-gallery)
 
 ---
 
@@ -28,9 +27,6 @@ content/                        ← Markdown files (processed at build time)
     {slug}/
       post.md                   ← Blog post in slug-folder format (preferred)
   portfolio/
-    {slug}/
-      post.md
-  case-studies/
     {slug}/
       post.md
 
@@ -192,47 +188,6 @@ Add an entry to the master episodes index file (`podcasts/episodes.json`):
 
 ---
 
-## Creating a Case Study
-
-### 1. Create the folder structure
-
-```bash
-mkdir -p content/case-studies/my-case-study
-mkdir -p public/case-studies/posts/my-case-study/images
-```
-
-### 2. Create `content/case-studies/my-case-study/post.md`
-
-```markdown
----
-title: 'Case Study Title'
-excerpt: 'What was the challenge and what was achieved?'
-author: 'Terence Waters'
-date: '2026-01-15'
-category: 'Digital Transformation'
-tags:
-  - 'Enterprise'
-  - 'Azure'
-imageUrl: '/case-studies/posts/my-case-study/images/hero.jpeg'
-imageAlt: 'Case study hero image'
-seoTitle: 'Case Study Title | Terence Waters'
-seoDescription: 'SEO description for the case study.'
----
-
-## The Challenge
-
-...
-
-## The Solution
-
-...
-
-## Results
-
-...
-```
-
----
 
 ## Frontmatter Reference
 
@@ -307,4 +262,3 @@ yarn build        # Build the static site
 Your content will be available at:
 - Blog post: `http://localhost:3000/blog/my-new-post`
 - Portfolio: `http://localhost:3000/portfolio/my-project`
-- Case study: `http://localhost:3000/case-studies/my-case-study`

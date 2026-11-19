@@ -67,6 +67,28 @@
     );
 }
 
+/* scrim='card-side': near-solid behind the card, clear toward the right. */
+.scrim.scrimCardSide,
+:global([data-theme='light']) .scrim.scrimCardSide {
+  background: linear-gradient(
+    90deg,
+    var(--tw-bg-deep) 0%,
+    var(--tw-bg-deep) 60%,
+    color-mix(in srgb, var(--tw-bg-deep) 30%, transparent) 72%,
+    transparent 84%
+  );
+
+  // Phones: the card spans almost the full width, so stay solid under it.
+  @include until('tablet') {
+    background: linear-gradient(
+      90deg,
+      var(--tw-bg-deep) 0%,
+      var(--tw-bg-deep) 92%,
+      color-mix(in srgb, var(--tw-bg-deep) 40%, transparent) 100%
+    );
+  }
+}
+
 .inner {
   @include container-width;
 
