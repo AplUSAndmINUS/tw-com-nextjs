@@ -1,0 +1,439 @@
+@use 'abstracts' as *;
+
+/*
+ * Book a Conversation, inline on /contact (redesign Slice 7). Design-system
+ * tokens and rem type (so the Text size setting reaches it), a card with the
+ * straight accent line like the message form, 44px targets, a real focus
+ * outline, and errors marked with "!" as well as colour.
+ */
+
+.flow {
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  padding: var(--tw-space-xl);
+  min-width: 0;
+  @include accent-line(top);
+
+  @include until('mobile-lg') {
+    padding: var(--tw-space-l);
+  }
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  line-height: 1.25;
+  color: var(--tw-text-heading-display);
+
+  /* Focus lands here by script when the step changes; no ring needed. */
+  &:focus {
+    outline: none;
+  }
+}
+
+.text {
+  margin: var(--tw-space-s) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+/* ===== Progress ===== */
+.progress {
+  @include label;
+  margin: 0 0 var(--tw-space-s);
+  color: var(--tw-accent);
+}
+
+.steps {
+  display: flex;
+  gap: var(--tw-space-s);
+  margin: 0 0 var(--tw-space-xl);
+  padding: 0;
+  list-style: none;
+}
+
+.stepItem {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  min-width: 0;
+  padding-top: var(--tw-space-s);
+  border-top: 2px solid var(--tw-border);
+  color: var(--tw-text-muted);
+  font-family: var(--tw-font);
+  font-size: 0.8125rem;
+}
+
+.stepDone {
+  border-top-color: var(--tw-line-strong);
+  color: var(--tw-text-soft);
+}
+
+.stepCurrent {
+  border-top-color: var(--tw-accent);
+  color: var(--tw-text-heading);
+  font-weight: 700;
+
+  /* Phones: the current step gets the room its label needs. */
+  @include until('mobile-sm') {
+    flex-grow: 2.4;
+  }
+}
+
+.stepDot {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  .stepCurrent & {
+    background: var(--tw-accent);
+    border-color: var(--tw-accent);
+    color: var(--tw-accent-ink);
+  }
+}
+
+.stepLabel {
+  min-width: 0;
+  overflow-wrap: break-word;
+
+  @include until('mobile-sm') {
+    /* Phones: the dots and "Step n of 3" carry it; labels would wrap badly. */
+    .stepItem:not(.stepCurrent) & {
+      @include visually-hidden;
+    }
+  }
+}
+
+/* ===== Choices (services, meeting length) ===== */
+.options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-s);
+  margin: var(--tw-space-l) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.option,
+.length {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tw-space-s);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--tw-space-m);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-surface-input);
+  cursor: pointer;
+  transition: border-color var(--tw-hover-duration) var(--tw-motion-ease);
+
+  &:hover {
+    border-color: var(--tw-border-hover);
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--tw-accent);
+    outline-offset: 2px;
+  }
+}
+
+.optionOn {
+  border-color: var(--tw-accent);
+  box-shadow: inset 0 0 0 1px var(--tw-accent);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0.2rem 0 0;
+  accent-color: var(--tw-accent);
+
+  /* The whole card shows focus (:focus-within above). */
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.optionIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--tw-accent);
+  margin-top: 0.05rem;
+}
+
+.optionText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.optionLabel {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--tw-text-heading);
+}
+
+.optionDesc {
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--tw-text-soft);
+}
+
+.lengths {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-s);
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ===== Fields ===== */
+.fields {
+  display: grid;
+  gap: var(--tw-space-m);
+  margin-top: var(--tw-space-l);
+}
+
+.fieldPair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-m);
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+
+  legend {
+    margin-bottom: 6px;
+    padding: 0;
+  }
+}
+
+.label {
+  font-family: var(--tw-font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--tw-text-soft);
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: var(--tw-tap-target);
+  padding: 10px 14px;
+  background: var(--tw-surface-input);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  color: var(--tw-text-bright);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  transition: border-color var(--tw-hover-duration) var(--tw-motion-ease);
+
+  &:focus {
+    border-color: var(--tw-border-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--tw-accent);
+    outline-offset: 2px;
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--tw-error-border);
+  }
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.file {
+  font-family: var(--tw-font-body);
+  font-size: 0.875rem;
+  color: var(--tw-text-body);
+  max-width: 100%;
+
+  &:focus-visible {
+    outline: 2px solid var(--tw-accent);
+    outline-offset: 2px;
+  }
+}
+
+.hint {
+  margin: 0;
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  color: var(--tw-text-soft);
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tw-space-s);
+  cursor: pointer;
+
+  &:focus-within .check {
+    outline: 2px solid var(--tw-accent);
+    outline-offset: 2px;
+  }
+}
+
+.consentText {
+  font-family: var(--tw-font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--tw-text-body);
+}
+
+.fieldError,
+.submitError p {
+  margin: 0;
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--tw-error);
+}
+
+.fieldError::before {
+  content: '! ';
+  content: '! ' / '';
+  font-weight: 700;
+}
+
+.submitError {
+  margin-top: var(--tw-space-l);
+  padding: var(--tw-space-m);
+  border: 1px solid var(--tw-error-border);
+  border-radius: var(--tw-radius-control);
+
+  p {
+    font-size: 0.875rem;
+  }
+}
+
+.textLink {
+  color: var(--tw-accent);
+  font-weight: 600;
+  text-underline-offset: 3px;
+
+  @include focus-ring;
+}
+
+/* ===== Actions ===== */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tw-space-s) var(--tw-space-m);
+}
+
+.actionsEnd {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--tw-space-l);
+}
+
+.actionsSplit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-l);
+}
+
+.busy:disabled {
+  opacity: 1;
+  cursor: progress;
+  background: var(--tw-accent);
+}
+
+/* ===== Schedule (TidyCal, click to load) ===== */
+.placeholder {
+  display: grid;
+  gap: var(--tw-space-m);
+  justify-items: start;
+  margin-top: var(--tw-space-l);
+  padding: var(--tw-space-xl);
+  border: 1px dashed var(--tw-border-hover);
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-surface-input);
+
+  .text {
+    margin: 0;
+  }
+}
+
+.frameWrap {
+  margin-top: var(--tw-space-l);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  overflow: hidden;
+  background: var(--tw-surface-input);
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  height: 40rem;
+  border: 0;
+}
+
+.success {
+  text-align: center;
+  padding: var(--tw-space-l) 0;
+
+  .text {
+    margin-inline: auto;
+  }
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+:global([data-theme='high-contrast']) .input::placeholder,
+:global([data-tw-contrast='high']) .input::placeholder {
+  font-style: italic;
+}

@@ -5,7 +5,7 @@ import React from 'react';
 import { Button } from '@/components/Form';
 import { useDeviceOrientation } from '@/hooks';
 import { FluentIcon } from '../FluentIcon';
-import { ConsultationStepper } from '../ConsultationStepper';
+import { useBookingModal } from '../BookingFlow';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '../Typography';
 import { CalendarIcon } from '@/components/icons';
@@ -30,7 +30,8 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
   isHero = false,
 }) => {
   const [isMounted, setIsMounted] = React.useState(false);
-  const [stepperOpen, setStepperOpen] = React.useState(false);
+  // Opens the full-screen Book a Conversation modal (#278).
+  const bookingModal = useBookingModal();
   const isOrientationHook = useDeviceOrientation();
   const orientation = isMounted ? isOrientationHook : '';
   const { theme } = useAppTheme();
@@ -105,7 +106,7 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
       <Button
         variant='primary'
         size={isHero || isHomePage ? 'medium' : 'small'}
-        onClick={() => setStepperOpen(true)}
+        onClick={() => bookingModal?.open()}
         style={buttonStyles}
         className={className}
       >
@@ -135,10 +136,6 @@ export const BookingsButton: React.FC<BookingsButtonProps> = ({
           </Typography>
         </div>
       </Button>
-      <ConsultationStepper
-        isOpen={stepperOpen}
-        onDismiss={() => setStepperOpen(false)}
-      />
     </>
   );
 };

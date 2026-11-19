@@ -1,0 +1,120 @@
+@use 'abstracts' as *;
+
+/*
+ * Book a Conversation, full screen (#278). The overlay covers the viewport;
+ * the panel is centred and scrolls on its own. Phones get the whole screen,
+ * with the close button pinned to the top of the panel. Tokens only, so it
+ * follows every theme mode; Reduced Transparency gets an opaque overlay.
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  /* Above the newsletter drawer (1200/1201) and the cookie banner (900). */
+  z-index: 1300;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--tw-space-xl) var(--tw-space-l);
+  background: color-mix(in srgb, var(--tw-bg-page) 82%, transparent);
+  backdrop-filter: blur(6px);
+
+  animation: bookingFade 160ms ease-out;
+  @include motion-safe-only;
+
+  @include until('mobile-lg') {
+    padding: 0;
+  }
+}
+
+/* Reduced Transparency (useAppTheme): an opaque overlay, no blur. */
+.overlayOpaque {
+  background: var(--tw-bg-page);
+  backdrop-filter: none;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  margin: auto 0;
+  background: var(--tw-bg-page);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+
+  @include until('mobile-lg') {
+    min-height: 100%;
+    max-width: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  padding: var(--tw-space-m) var(--tw-space-l);
+  background: var(--tw-bg-page);
+  border-bottom: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card) var(--tw-radius-card) 0 0;
+
+  @include until('mobile-lg') {
+    border-radius: 0;
+  }
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  color: var(--tw-text-heading-display);
+}
+
+.close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tw-tap-target);
+  height: var(--tw-tap-target);
+  border: 1px solid var(--tw-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tw-text-heading);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--tw-accent);
+    color: var(--tw-accent);
+  }
+
+  @include focus-ring;
+}
+
+.body {
+  padding: var(--tw-space-l);
+
+  @include until('mobile-lg') {
+    padding: var(--tw-space-m);
+  }
+}
+
+@keyframes bookingFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
