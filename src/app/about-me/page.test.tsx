@@ -3,7 +3,12 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import { getAllContent } from '@/lib/content';
-import { RCF_PATH, RCF_PREORDER_HREF, TRI_URL } from '@/lib/rcf';
+import {
+  RCF_PATH,
+  RCF_PREORDER_HREF,
+  RCF_PREORDERS_OPEN,
+  TRI_URL,
+} from '@/lib/rcf';
 import buttonStyles from '@/components/dsm/TwButton/TwButton.module.scss';
 import heroStyles from '@/components/dsm/TwHero/TwHero.module.scss';
 import AboutMePage from './page';
@@ -66,12 +71,20 @@ describe('/about-me hero callout', () => {
 });
 
 describe('/about-me book and podcast cards', () => {
-  it('leads the book card with a Mythic Gold pre-order button, then outline', () => {
-    expect(buttons($('#the-book'))).toEqual([
-      ['Pre-order the book', RCF_PREORDER_HREF, 'gold'],
-      ['Explore the framework →', RCF_PATH, 'outline'],
-    ]);
-    expect($('#the-book').textContent).toContain('Pre-orders open');
+  it('leads the book card with a Mythic Gold pre-order button once pre-orders are announced, then outline', () => {
+    if (RCF_PREORDERS_OPEN) {
+      expect(buttons($('#the-book'))).toEqual([
+        ['Pre-order the book', RCF_PREORDER_HREF, 'gold'],
+        ['Explore the framework →', RCF_PATH, 'outline'],
+      ]);
+      expect($('#the-book').textContent).toContain('Pre-orders open');
+    } else {
+      // Hidden until pre-orders are announced (#273).
+      expect(buttons($('#the-book'))).toEqual([
+        ['Explore the framework →', RCF_PATH, 'outline'],
+      ]);
+      expect($('#the-book').textContent).not.toMatch(/pre-?order/i);
+    }
   });
 
   it('shows the chapter line without the part names', () => {
@@ -96,7 +109,9 @@ describe('/about-me book and podcast cards', () => {
   });
 
   it('opens the external buttons in a new tab, safely', () => {
-    for (const href of [RCF_PREORDER_HREF, TRI_URL]) {
+    for (const href of RCF_PREORDERS_OPEN
+      ? [RCF_PREORDER_HREF, TRI_URL]
+      : [TRI_URL]) {
       const link = $(`main a[href="${href}"].${buttonStyles.button}`);
       expect(link.getAttribute('target')).toBe('_blank');
       expect(link.getAttribute('rel')).toBe('noopener noreferrer');

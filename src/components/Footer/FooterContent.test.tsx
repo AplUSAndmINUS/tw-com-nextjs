@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { FooterContent } from './FooterContent';
+import { RCF_PREORDERS_OPEN } from '@/lib/rcf';
 import styles from './FooterContent.module.scss';
 
 function renderFooter() {
@@ -26,7 +27,10 @@ describe('Footer "More from Terence Waters"', () => {
       links.map((a) => [a.textContent?.trim(), a.getAttribute('href')])
     ).toEqual([
       ['The Resonant Identity', 'https://theresonantidentity.com/start-here'],
-      ['Pre-order the Book', 'https://store.fluxline.pro/book'],
+      // The store link shows only once pre-orders are announced (#273).
+      ...(RCF_PREORDERS_OPEN
+        ? [['Pre-order the Book', 'https://store.fluxline.pro/book']]
+        : []),
       ['Fluxline Resonance Group', 'https://www.fluxline.pro'],
     ]);
   });
@@ -38,7 +42,7 @@ describe('Footer "More from Terence Waters"', () => {
         ?.getAttribute('rel');
     expect(rel('The Resonant Identity')).toBe('me');
     expect(rel('Fluxline Resonance Group')).toBe('me');
-    expect(rel('Pre-order the Book')).toBe(null);
+    if (RCF_PREORDERS_OPEN) expect(rel('Pre-order the Book')).toBe(null);
   });
 
   it('styles the links like the other footer links (ThemedLink, Merriweather)', () => {

@@ -16,6 +16,7 @@ import {
   ArrowRightIcon,
 } from '@/components/icons';
 import styles from './ContentHubClient.module.scss';
+import { RCF_PREORDERS_OPEN, RCF_PREORDER_HREF } from '@/lib/rcf';
 
 type Drawer = 'podcasts' | 'case-studies' | 'books' | null;
 
@@ -280,9 +281,18 @@ export default function ContentHubClient({
           everything I teach — distilled into a book.
         </p>
         <p className={styles.drawerBody}>
-          The full launch is coming soon on Fluxline.pro, and pre-orders for the
-          digital editions are open on the{' '}
-          <a href='https://store.fluxline.pro/book'>Fluxline Store</a>.
+          {RCF_PREORDERS_OPEN ? (
+            <>
+              The full launch is coming soon on Fluxline.pro, and pre-orders for
+              the digital editions are open on the{' '}
+              <a href={RCF_PREORDER_HREF}>Fluxline Store</a>.
+            </>
+          ) : (
+            <>
+              The full launch is coming soon on Fluxline.pro. Stay tuned for
+              updates on availability and companion resources.
+            </>
+          )}
         </p>
         <a
           href={FLUXLINE_BOOKS}

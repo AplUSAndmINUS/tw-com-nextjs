@@ -38,6 +38,7 @@ import {
   RCF_PATH,
   RCF_PREORDER_HREF,
   TRI_URL,
+  RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import { SOCIAL_URLS } from '@/lib/socials';
 import { readTime } from '@/app/home/contentFormat';
@@ -315,7 +316,9 @@ export default async function AboutMePage() {
                     <p className={styles.featureMeta}>
                       {RCF_BOOK.publicationDate}
                     </p>
-                    <p className={styles.preorderBadge}>Pre-orders open</p>
+                    {RCF_PREORDERS_OPEN && (
+                      <p className={styles.preorderBadge}>Pre-orders open</p>
+                    )}
                   </div>
                 </div>
                 <div className={styles.featureBody}>
@@ -337,14 +340,16 @@ export default async function AboutMePage() {
                       Gold replaces the primary because this one is the
                       pre-order. */}
                   <div className={styles.featureActions}>
-                    <TwButton
-                      variant='gold'
-                      href={RCF_PREORDER_HREF}
-                      target='_blank'
-                      className={styles.featureButton}
-                    >
-                      Pre-order the book
-                    </TwButton>
+                    {RCF_PREORDERS_OPEN && (
+                      <TwButton
+                        variant='gold'
+                        href={RCF_PREORDER_HREF}
+                        target='_blank'
+                        className={styles.featureButton}
+                      >
+                        Pre-order the book
+                      </TwButton>
+                    )}
                     <TwButton
                       variant='outline'
                       href={RCF_PATH}
