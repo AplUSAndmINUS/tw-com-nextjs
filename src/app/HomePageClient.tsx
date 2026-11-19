@@ -174,6 +174,7 @@ export default function HomePageClient({ content }: HomePageClientProps) {
             label: HOME.hero.preorder,
             href: RCF_PREORDER_HREF,
             variant: 'gold',
+            newTab: true,
           }}
           secondaryCta={{ label: HOME.hero.readStory, href: '/about/' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -219,7 +220,12 @@ export default function HomePageClient({ content }: HomePageClientProps) {
                       {HOME.hook.preorderBody}
                     </p>
                     <div className={styles.buttonRow}>
-                      <TwButton variant='gold' href={RCF_PREORDER_HREF}>
+                      <TwButton
+                        variant='gold'
+                        href={RCF_PREORDER_HREF}
+                        target='_blank'
+                        rel='noopener'
+                      >
                         {HOME.hero.preorder}
                       </TwButton>
                       <TwButton variant='outline' href={RCF_PATH + '/'}>

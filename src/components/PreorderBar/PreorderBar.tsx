@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { RCF_EXPECTED_RELEASE, RCF_PREORDER_HREF } from '@/lib/rcf';
+import { NewTabHint } from '@/components/NewTabHint';
 import styles from './PreorderBar.module.scss';
 
 export interface PreorderBarProps {
@@ -64,8 +65,14 @@ export function PreorderBar({ belowFixedHeader = false }: PreorderBarProps) {
           •
         </span>
         <span>Expected release: {RCF_EXPECTED_RELEASE}</span>
-        <a href={RCF_PREORDER_HREF} className={styles.link}>
-          Go to My Store <span aria-hidden='true'>→</span>
+        <a
+          href={RCF_PREORDER_HREF}
+          target='_blank'
+          rel='noopener'
+          className={styles.link}
+        >
+          Go to My Store <span aria-hidden='true'>↗</span>
+          <NewTabHint />
         </a>
       </p>
     </aside>

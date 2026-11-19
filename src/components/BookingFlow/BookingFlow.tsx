@@ -249,7 +249,7 @@ export function BookingFlow() {
   if (status === 'success') {
     return (
       <div className={styles.flow}>
-        <div className={styles.success} role='status'>
+        <div className={`${styles.success} ${styles.pane}`} role='status'>
           <h3 ref={headingRef} tabIndex={-1} className={styles.title}>
             {BOOKING_FLOW.success.title}
           </h3>
@@ -357,6 +357,7 @@ export function BookingFlow() {
 
       {step === 1 && (
         <div
+          className={styles.pane}
           role='group'
           aria-labelledby={id('title')}
           aria-describedby={describedBy('services')}
@@ -421,7 +422,7 @@ export function BookingFlow() {
       )}
 
       {step === 2 && (
-        <div>
+        <div className={styles.pane}>
           <h3 ref={headingRef} tabIndex={-1} className={styles.title}>
             {BOOKING_FLOW.step2.title}
           </h3>
@@ -459,7 +460,7 @@ export function BookingFlow() {
       )}
 
       {step === 3 && (
-        <div>
+        <div className={styles.pane}>
           <h3 ref={headingRef} tabIndex={-1} className={styles.title}>
             {BOOKING_FLOW.step3.title}
           </h3>

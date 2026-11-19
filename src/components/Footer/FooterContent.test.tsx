@@ -24,7 +24,10 @@ describe('Footer "More from Terence Waters"', () => {
   it('uses the short link names', () => {
     const links = Array.from(ecosystem()?.querySelectorAll('a') ?? []);
     expect(
-      links.map((a) => [a.textContent?.trim(), a.getAttribute('href')])
+      links.map((a) => [
+        a.textContent?.replace(' (opens in a new tab)', '').trim(),
+        a.getAttribute('href'),
+      ])
     ).toEqual([
       ['The Resonant Identity', 'https://theresonantidentity.com/start-here'],
       // The store link shows only once pre-orders are announced (#273).
@@ -38,11 +41,16 @@ describe('Footer "More from Terence Waters"', () => {
   it('keeps rel="me" on the owned sites (identity links for search)', () => {
     const rel = (label: string) =>
       Array.from(ecosystem()?.querySelectorAll('a') ?? [])
-        .find((a) => a.textContent?.trim() === label)
+        .find(
+          (a) =>
+            a.textContent?.replace(' (opens in a new tab)', '').trim() === label
+        )
         ?.getAttribute('rel');
     expect(rel('The Resonant Identity')).toBe('me');
     expect(rel('Fluxline Resonance Group')).toBe('me');
-    if (RCF_PREORDERS_OPEN) expect(rel('Pre-order the Book')).toBe(null);
+    // The store opens in a new tab (owner, 2026-11-19): noopener, and the
+    // referrer kept so the store sees where visitors came from.
+    if (RCF_PREORDERS_OPEN) expect(rel('Pre-order the Book')).toBe('noopener');
   });
 
   it('styles the links like the other footer links (ThemedLink, Merriweather)', () => {
@@ -95,7 +103,7 @@ describe('Footer newsletter and links (#285)', () => {
 
   it('no longer links to Case Studies', () => {
     const labels = Array.from(renderFooter().querySelectorAll('a')).map((a) =>
-      a.textContent?.trim()
+      a.textContent?.replace(' (opens in a new tab)', '').trim()
     );
     expect(labels).not.toContain('Case Studies');
   });

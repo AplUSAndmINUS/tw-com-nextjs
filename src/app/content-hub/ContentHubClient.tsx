@@ -1,5 +1,6 @@
 'use client';
 
+import { NewTabHint } from '@/components/NewTabHint';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { TwSectionHeading, TwChip, TwButton, TwDrawer } from '@/components/dsm';
@@ -209,7 +210,7 @@ export default function ContentHubClient({
         <a
           href={TRI_URL}
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noopener'
           className={styles.secondaryAction}
         >
           Visit The Resonant Identity &#8599;
@@ -236,7 +237,11 @@ export default function ContentHubClient({
             <>
               The full launch is coming soon on Fluxline.pro, and pre-orders for
               the digital editions are open on the{' '}
-              <a href={RCF_PREORDER_HREF}>Fluxline Store</a>.
+              <a href={RCF_PREORDER_HREF} target='_blank' rel='noopener'>
+                Fluxline Store
+                <NewTabHint />
+              </a>
+              .
             </>
           ) : (
             <>
@@ -248,7 +253,7 @@ export default function ContentHubClient({
         <a
           href={FLUXLINE_BOOKS}
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noopener'
           className={styles.primaryAction}
         >
           Preview on Fluxline.pro &#8599;

@@ -101,6 +101,32 @@ export function TwShiftTrack({
     };
   }, [steps.length]);
 
+  // Vertical layout: the line runs from the first node to the last one, not
+  // to the bottom of the last step (owner, 2026-11-19). Measured, because the
+  // last step's height depends on its text.
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const measure = () => {
+      const nodes = root.querySelectorAll<HTMLElement>('[data-track-node]');
+      if (nodes.length < 2) return;
+      const top = root.getBoundingClientRect().top;
+      const centre = (el: HTMLElement) => {
+        const r = el.getBoundingClientRect();
+        return r.top + r.height / 2 - top;
+      };
+      const start = centre(nodes[0]);
+      const end = centre(nodes[nodes.length - 1]);
+      root.style.setProperty('--tw-track-start', `${start}px`);
+      root.style.setProperty('--tw-track-length', `${end - start}px`);
+    };
+    measure();
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, [steps.length]);
+
   const progress =
     steps.length > 1 ? Math.max(0, reached) / (steps.length - 1) : 1;
   const rolesSoFar = steps.slice(0, reached + 1).flatMap((s) => s.roles);
@@ -125,7 +151,11 @@ export function TwShiftTrack({
             data-reached={i <= reached ? 'true' : 'false'}
             data-highlight={step.highlight ? 'true' : undefined}
           >
-            <span className={styles.node} aria-hidden='true' />
+            <span
+              className={styles.node}
+              aria-hidden='true'
+              data-track-node=''
+            />
             <div className={styles.body}>
               {step.number ? (
                 <p className={styles.number}>{step.number}</p>

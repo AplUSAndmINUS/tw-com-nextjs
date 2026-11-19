@@ -62,12 +62,15 @@ describe('TwHero without a background photo', () => {
   it.each([
     ['stackOnMobile', { stackOnMobile: true }],
     ['scrollReveal', { scrollReveal: true }],
-  ])('%s is ignored, so the card is not pulled over the content above', (_, mode) => {
-    const hero = render(<TwHero {...noPhoto} {...mode} />);
-    expect(hero.classList.contains(styles.stacked)).toBe(false);
-    expect(hero.classList.contains(styles.scrollReveal)).toBe(false);
-    expect(hero.querySelector('h1')?.textContent).toBe('Terence Waters');
-  });
+  ])(
+    '%s is ignored, so the card is not pulled over the content above',
+    (_, mode) => {
+      const hero = render(<TwHero {...noPhoto} {...mode} />);
+      expect(hero.classList.contains(styles.stacked)).toBe(false);
+      expect(hero.classList.contains(styles.scrollReveal)).toBe(false);
+      expect(hero.querySelector('h1')?.textContent).toBe('Terence Waters');
+    }
+  );
 });
 
 describe('TwHero actions', () => {
@@ -105,5 +108,42 @@ describe('TwHero scrim', () => {
   it("darkens the card side with scrim='card-side' (banner with lettering)", () => {
     const hero = render(<TwHero {...base} scrim='card-side' />);
     expect(scrimOf(hero).classList.contains(styles.scrimCardSide)).toBe(true);
+  });
+});
+
+describe('TwHero CTAs in a new tab', () => {
+  it('opens a newTab CTA in a new tab, keeping the referrer', () => {
+    const hero = render(
+      <TwHero
+        {...base}
+        primaryCta={{
+          label: 'Pre-order',
+          href: 'https://store.example/',
+          newTab: true,
+        }}
+        secondaryCta={{
+          label: 'More',
+          href: 'https://example.org/',
+          newTab: true,
+        }}
+      />
+    );
+    for (const name of ['Pre-order', 'More']) {
+      const link = Array.from(hero.querySelectorAll('a')).find((a) =>
+        a.textContent?.startsWith(name)
+      )!;
+      expect(link.getAttribute('target')).toBe('_blank');
+      expect(link.getAttribute('rel')).toBe('noopener');
+      expect(link.textContent).toContain('(opens in a new tab)');
+    }
+  });
+
+  it('keeps a CTA in the same tab without newTab', () => {
+    const hero = render(
+      <TwHero {...base} primaryCta={{ label: 'Read', href: '/about/' }} />
+    );
+    const link = hero.querySelector('a')!;
+    expect(link.hasAttribute('target')).toBe(false);
+    expect(link.hasAttribute('rel')).toBe(false);
   });
 });

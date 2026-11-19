@@ -37,8 +37,12 @@ const $ = (selector: string) => {
   if (!el) throw new Error(`Missing ${selector}`);
   return el;
 };
+/** Visible text: without the screen-reader-only "(opens in a new tab)". */
 const text = (el: Element | null | undefined) =>
-  el?.textContent?.replace(/\s+/g, ' ').trim();
+  el?.textContent
+    ?.replace(' (opens in a new tab)', '')
+    .replace(/\s+/g, ' ')
+    .trim();
 const hrefs = (root: Element) =>
   Array.from(root.querySelectorAll('a')).map((a) => a.getAttribute('href'));
 /** The TwButtons inside `root`, as [label, href, variant]. */
