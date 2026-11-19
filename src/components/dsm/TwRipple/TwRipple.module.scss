@@ -1,0 +1,45 @@
+@use 'abstracts' as *;
+
+.ripple {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--tw-line-strong);
+  stroke-width: 1;
+  /* Fainter with distance, like a ripple losing energy. */
+  opacity: calc(0.85 - var(--i) * 0.13);
+  animation: breathe var(--tw-pulse-duration) var(--tw-motion-ease) infinite
+    alternate;
+  animation-delay: calc(var(--i) * 220ms);
+  transform-origin: center;
+  transform-box: fill-box;
+
+  @include motion-safe-only;
+}
+
+.core {
+  fill: var(--tw-line-strong);
+  filter: drop-shadow(0 0 6px var(--tw-line-strong));
+}
+
+@keyframes breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.035);
+  }
+}
+
+:global([data-theme='high-contrast']) .core,
+:global([data-tw-contrast='high']) .core,
+:global([data-theme='grayscale']) .core,
+:global([data-theme='grayscale-dark']) .core,
+:global([data-tw-reduced-transparency='true']) .core {
+  filter: none;
+}

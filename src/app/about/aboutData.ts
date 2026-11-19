@@ -1,172 +1,19 @@
 /**
- * About page content
- * ==================
+ * /about factual lists
+ * ====================
  *
- * All of the page's copy in one place, so the components stay layout-only.
+ * The timeline, projects, skills, degrees and certifications: facts, kept as
+ * data so the page stays layout-only. The page's narrative copy lives in
+ * src/content/site/about.ts (with approval status).
  *
- * The previous version of this page ran ~1,800 words of prose with no scannable
- * structure. This pass keeps the same substance but cuts it to headline +
- * one-or-two lines per idea: someone skimming the section headers and the stat
- * numbers should come away with the whole picture, and the reader who wants
- * more goes to the drawer copy on the homepage or out to fluxline.pro.
+ * Redesign (2026-11) wording fixes, per CREATIVE_BRIEF.md §7.4 (no "CEO", no
+ * "stakeholders"): "CEO, Founder & Chief Architect" → "Founder & Chief
+ * Architect" (approved); Enteractive "Founder & CEO" → "Founder" and the
+ * project role "CEO" → "Founder" (Decision L, owner to confirm);
+ * "Stakeholder facilitation/Facilitation" → "Facilitation".
  */
 
-import AboutPortrait from '@/assets/images/AboutMePortrait.jpg';
-import BeliefImage from '@/assets/images/Content1280x1815.jpg';
-import ConsultingPortrait from '@/assets/images/ConsultingPortrait.jpg';
-import GitHubPortrait from '@/assets/images/GitHubPortrait.jpg';
-import PortfolioPortrait from '@/assets/images/Portfolio1280x1815.jpg';
-import CaseStudyImage from '@/assets/images/CaseStudy1400x1867.jpg';
-import EducationPortrait from '@/assets/images/EducationTrainingPortrait.jpg';
-
-export interface AboutSectionMeta {
-  /** Two-digit rail number — the page's counting motif. */
-  num: string;
-  /** Anchor id, also used by the page nav. */
-  id: string;
-  /** Uppercase rail label. */
-  label: string;
-  image: { src: string; alt: string };
-}
-
-export const SECTIONS = {
-  intro: {
-    num: '01',
-    id: 'intro',
-    label: 'The short version',
-    image: {
-      src: AboutPortrait.src,
-      alt: 'Portrait of Terence Waters, author and identity coach',
-    },
-  },
-  believe: {
-    num: '02',
-    id: 'believe',
-    label: 'What I believe',
-    image: { src: BeliefImage.src, alt: 'Writing and reflection' },
-  },
-  work: {
-    num: '03',
-    id: 'what-i-do',
-    label: 'What I do',
-    image: { src: ConsultingPortrait.src, alt: 'Consulting and facilitation' },
-  },
-  how: {
-    num: '04',
-    id: 'how-i-work',
-    label: 'How I work',
-    image: { src: GitHubPortrait.src, alt: 'Building and shipping' },
-  },
-  experience: {
-    num: '05',
-    id: 'experience',
-    label: 'Experience',
-    image: { src: PortfolioPortrait.src, alt: 'Twenty years of work' },
-  },
-  projects: {
-    num: '06',
-    id: 'projects',
-    label: 'Selected work',
-    image: { src: CaseStudyImage.src, alt: 'Selected projects' },
-  },
-  credentials: {
-    num: '07',
-    id: 'credentials',
-    label: 'Credentials',
-    image: { src: EducationPortrait.src, alt: 'Education and certifications' },
-  },
-} satisfies Record<string, AboutSectionMeta>;
-
-/* ── 01 The short version ─────────────────────────────────────────────────── */
-
-export const INTRO_PARAGRAPHS = [
-  'I help people and organizations rebuild the parts of themselves they thought were permanent.',
-  'Systems architect by training, designer by instinct, coach by necessity. For 20+ years I have worked across design, development, architecture, and product management, and I have been consulting for 3+ years, translating complexity into clarity.',
-  'If you are here, you are probably in a season of becoming. You are in the right place.',
-];
-
-export const STATS = [
-  {
-    value: '20+',
-    label: 'Years in design, development, architecture & product management',
-  },
-  { value: '4', label: 'Degrees & certifications tracks' },
-  { value: '2', label: 'Companies founded or led' },
-];
-
-/* ── 02 What I believe ────────────────────────────────────────────────────── */
-
-export const BELIEFS = [
-  {
-    num: '01',
-    title: 'Identity is a frequency, not a mask',
-    text: 'It is not something you perform. It is something you return to.',
-  },
-  {
-    num: '02',
-    title: 'Transformation is architectural',
-    text: 'Not force, not hustle — the slow re-alignment of the internal systems that shape how you think and move.',
-  },
-  {
-    num: '03',
-    title: 'The goal is resonance',
-    text: 'Not the version of you that you were taught to be. The version you actually are.',
-  },
-];
-
-/* ── 03 What I do ─────────────────────────────────────────────────────────── */
-
-export const AUDIENCES = [
-  {
-    label: 'For individuals',
-    text: 'Understand your identity architecture, clear the noise, and rebuild the internal systems you run on.',
-  },
-  {
-    label: 'For founders & creators',
-    text: 'Brands, platforms, and workflows that feel like you — not the version the internet told you to be.',
-  },
-  {
-    label: 'For teams & organizations',
-    text: 'Modular systems and strategic frameworks that make complexity navigable and growth possible.',
-  },
-];
-
-/** Non-negotiables for anything I ship. Rendered as chips. */
-export const BUILD_QUALITIES = [
-  'Human-centered',
-  'Emotionally intelligent',
-  'Technically sound',
-  'Scalable',
-  'Accessible',
-  'Deeply resonant',
-];
-
-/* ── 04 How I work ────────────────────────────────────────────────────────── */
-
-export const HATS = [
-  'Technologist',
-  'Designer',
-  'Strategist',
-  'Educator',
-  'Coach',
-];
-
-export const APPROACH = [
-  {
-    title: 'See the pattern first',
-    text: 'Before anything gets built, I map what is actually going on underneath the symptom.',
-  },
-  {
-    title: 'Translate, then simplify',
-    text: 'Complexity is fine. Confusion is not. The deliverable is always clarity someone can act on.',
-  },
-  {
-    title: 'Frameworks around people',
-    text: 'I do not force people into a method. The method gets designed around the person or team in front of me.',
-  },
-];
-
-/* ── 05 Experience ────────────────────────────────────────────────────────── */
+/* ── Experience ────────────────────────────────────────────────────────── */
 
 export interface TimelineEntry {
   period: string;
@@ -178,7 +25,7 @@ export interface TimelineEntry {
 export const TIMELINE: TimelineEntry[] = [
   {
     period: '2025 — Present',
-    title: 'CEO, Founder & Chief Architect',
+    title: 'Founder & Chief Architect',
     org: 'Fluxline Resonance Group, LLC',
     bullets: [
       'Modular systems joining IT consulting, brand identity, and personal transformation.',
@@ -207,7 +54,7 @@ export const TIMELINE: TimelineEntry[] = [
   },
   {
     period: '2008 — 2022',
-    title: 'Founder & CEO',
+    title: 'Founder',
     org: 'Enteractive Studios, LLC',
     bullets: [
       'Freelance web development, design, and creative services.',
@@ -216,13 +63,13 @@ export const TIMELINE: TimelineEntry[] = [
   },
 ];
 
-/* ── 06 Selected work ─────────────────────────────────────────────────────── */
+/* ── Selected projects ─────────────────────────────────────────────────────── */
 
 export const PROJECTS = [
   {
     name: 'Fluxline Resonance Group 2.0',
     period: 'Q3 2025 — Q1 2026',
-    role: 'CEO · Technical Lead · Architect',
+    role: 'Founder · Technical Lead · Architect',
     stack: 'Azure · Next.js · C# · CI/CD · Brand',
   },
   {
@@ -235,7 +82,7 @@ export const PROJECTS = [
     name: 'Affiliates iLogin Implementation',
     period: 'Q2 2022 — Q1 2025',
     role: 'Project Manager · Technical Lead',
-    stack: 'Delivery · Stakeholder Facilitation',
+    stack: 'Delivery · Facilitation',
   },
   {
     name: 'Employee Portal (.NET / SharePoint)',
@@ -257,7 +104,7 @@ export const PROJECTS = [
   },
 ];
 
-/* ── 07 Credentials ───────────────────────────────────────────────────────── */
+/* ── Credentials ───────────────────────────────────────────────────────── */
 
 export const SKILL_GROUPS = [
   {
@@ -277,7 +124,7 @@ export const SKILL_GROUPS = [
       'IT architecture & strategy',
       'Agile / Scrum (PSM I)',
       'Project management',
-      'Stakeholder facilitation',
+      'Facilitation',
       'Change management',
       'Curriculum design',
     ],

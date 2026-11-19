@@ -30,7 +30,7 @@ import { ABOUT_ME_PROJECT_SLUGS } from '@/content/site/aboutMe';
 
 export const ROLES_LINE = 'Podcaster · Systems Architect · Business Consultant';
 
-/** From aboutData INTRO_PARAGRAPHS[0], prefixed with the authorship line. */
+/** The /about introduction's first line, prefixed with the authorship line. */
 export const HERO_BODY =
   'Author of The Resonance Core Framework™. I help people and organizations rebuild the parts of themselves they thought were permanent.';
 
@@ -84,7 +84,7 @@ export const ROLES: Role[] = [
   },
 ];
 
-/** Same figures as /about (aboutData STATS), kept short for the landing page. */
+/** The headline figures (they were /about's stats row), kept short for the landing page. */
 export const STATS = [
   { value: '20+', label: 'Years in design, development & architecture' },
   { value: '4', label: 'Degrees & certification tracks' },
