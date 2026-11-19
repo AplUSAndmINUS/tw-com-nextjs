@@ -36,6 +36,7 @@ import {
   RCF_PATH,
   RCF_PREORDER_HREF,
   TRI_URL,
+  RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import { serviceHref } from '@/app/home/homeData';
 import styles from './page.module.scss';
@@ -169,17 +170,22 @@ export default function AboutPage() {
             <p className={styles.prose}>
               As the author of{' '}
               <Link href={RCF_PATH}>The Resonance Core Framework™</Link>{' '}
-              (Fluxline Resonance Group, targeted for Q1 2027, with{' '}
-              <a href={RCF_PREORDER_HREF}>pre-orders open</a> on
-              the Fluxline Store), Terence developed a 31-chapter book and
-              identity system bridging somatic intelligence, decision science,
-              and behavioral psychology. The framework&apos;s core concepts,
-              including Behavioral Gravity, Identity Coherence, the Window of
-              Choice, and The Decision Integrity Index (The DII), emerged from
-              over a decade of applied work at the intersection of systems
-              design and human transformation. The RCF is the theoretical
-              foundation of <a href={TRI_URL}>The Resonant Identity podcast</a>{' '}
-              and the coaching practice at{' '}
+              (Fluxline Resonance Group, targeted for Q1 2027
+              {RCF_PREORDERS_OPEN && (
+                <>
+                  , with <a href={RCF_PREORDER_HREF}>pre-orders open</a> on the
+                  Fluxline Store
+                </>
+              )}
+              ), Terence developed a 31-chapter book and identity system
+              bridging somatic intelligence, decision science, and behavioral
+              psychology. The framework&apos;s core concepts, including
+              Behavioral Gravity, Identity Coherence, the Window of Choice, and
+              The Decision Integrity Index (The DII), emerged from over a decade
+              of applied work at the intersection of systems design and human
+              transformation. The RCF is the theoretical foundation of{' '}
+              <a href={TRI_URL}>The Resonant Identity podcast</a> and the
+              coaching practice at{' '}
               <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
             </p>
 

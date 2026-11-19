@@ -7,6 +7,7 @@ import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { PageTransition } from '@/components/PageTransition';
 import { PreorderBar } from '@/components/PreorderBar';
+import { RCF_PREORDERS_OPEN } from '@/lib/rcf';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
 import { NewsletterDrawerWrapper } from '@/components/NewsletterDrawer';
@@ -84,8 +85,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
             {/* Portals itself into document.body. */}
             <PodcastMiniPlayer />
             <AccessGate>
-              {/* Site-wide book pre-order bar, above the page and its nav. */}
-              <PreorderBar belowFixedHeader={usesLegacyLayout} />
+              {/* Site-wide book pre-order bar, above the page and its nav.
+                  Hidden until pre-orders are announced (RCF_PREORDERS_OPEN). */}
+              {RCF_PREORDERS_OPEN && (
+                <PreorderBar belowFixedHeader={usesLegacyLayout} />
+              )}
               {/*
                 Page content. PageTransition sits above the page segment, so it
                 persists across client navigations and fades every route out and

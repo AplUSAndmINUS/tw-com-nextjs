@@ -13,7 +13,12 @@ import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
 import { useRecaptchaToken } from '@/hooks/useRecaptchaToken';
 import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon_192.png';
-import { FLUXLINE_URL, RCF_PREORDER_HREF, TRI_URL } from '@/lib/rcf';
+import {
+  FLUXLINE_URL,
+  RCF_PREORDER_HREF,
+  RCF_PREORDERS_OPEN,
+  TRI_URL,
+} from '@/lib/rcf';
 import styles from './FooterContent.module.scss';
 
 const footerLinks = {
@@ -450,9 +455,11 @@ export function FooterContent({
           <ThemedLink href={TRI_URL} rel='me' variant='small' isFooter>
             The Resonant Identity
           </ThemedLink>
-          <ThemedLink href={RCF_PREORDER_HREF} variant='small' isFooter>
-            Pre-order the Book
-          </ThemedLink>
+          {RCF_PREORDERS_OPEN && (
+            <ThemedLink href={RCF_PREORDER_HREF} variant='small' isFooter>
+              Pre-order the Book
+            </ThemedLink>
+          )}
           <ThemedLink href={FLUXLINE_URL} rel='me' variant='small' isFooter>
             Fluxline Resonance Group
           </ThemedLink>
