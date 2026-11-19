@@ -1,0 +1,238 @@
+@use 'abstracts' as *;
+
+/**
+ * Instagram grid
+ * ==============
+ *
+ * Portrait 3:4 tiles, the shape Instagram's own profile grid uses. 12 posts
+ * make a 3 x 4 grid on phones and tablets and 4 x 3 on desktop, so the last
+ * row is always full.
+ *
+ * Breakpoints are the project's shared ones (abstracts/_breakpoints.scss), so
+ * the grid changes at the same mobile / tablet / desktop widths as the rest
+ * of the site:
+ *   - below 1024px ('tablet', the desktop line): 3 columns (3 x 4)
+ *   - from 1024px: 4 columns (4 x 3)
+ *   - gaps and corner radius step up at 600px ('mobile-sm') and 768px
+ *     ('mobile-lg').
+ * They are window (media) queries, by the owner's preference, rather than the
+ * container queries TwGrid uses. The grid only appears full-width in the page
+ * column, so the two agree here.
+ *
+ * Not TwGrid: its mobile layout is one column, which would stack twelve
+ * full-width photos on a phone. A custom grid for this component was approved
+ * by the owner (2026-11-18) over extending TwGrid.
+ *
+ * Cropping (see docs/pr-evidence/instagram-grid/reels/): every image fills its
+ * tile (`object-fit: cover`). Square and 4:5 posts are wider than 3:4, so they
+ * lose a little from each side and keep their full height. Reels (9:16 covers)
+ * are taller than 3:4, so they lose a quarter of their height, and
+ * $focus-y puts that crop toward the top rather than the middle: the subject
+ * and any title at the top of the cover stay in, the bottom edge goes.
+ */
+
+/// Vertical focus of the crop for images taller than the tile (Reels).
+/// 0% = pin to the top edge, 50% = centre. 25% keeps the top in view with a
+/// little headroom above the subject.
+$focus-y: 25%;
+
+.root {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--tw-space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('mobile-sm') {
+    gap: var(--tw-space-s);
+  }
+
+  @include from('mobile-lg') {
+    gap: var(--tw-grid-gap);
+  }
+
+  /* 'tablet' is the codebase's desktop line (1024px): 4 x 3 from here. */
+  @include from('tablet') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ===== Tile ===== */
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4; /* portrait, like Instagram's profile grid */
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--tw-radius-control);
+  border: 1px solid var(--tw-border);
+  background: var(--tw-surface-inset);
+
+  @include card-interactive;
+  @include focus-ring;
+
+  @include from('mobile-lg') {
+    border-radius: var(--tw-radius-card-sm);
+  }
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% $focus-y;
+}
+
+/* Video marker, top right. A solid-ish chip so the icon reads on any photo;
+   the colours come from the theme, so it flips with light and dark modes. */
+.badge {
+  position: absolute;
+  top: var(--tw-space-xs);
+  right: var(--tw-space-xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Icon-chip sizes: the token set has no icon or control sizes to use. */
+  width: 26px;
+  height: 26px;
+  border-radius: var(--tw-radius-pill);
+  color: var(--tw-text-heading-display);
+  /* Opaque first, for browsers without color-mix() (Safari before 16.2),
+     which drop the next declaration and keep this one. */
+  background: var(--tw-bg-deep);
+  background: color-mix(in srgb, var(--tw-bg-deep) 72%, transparent);
+  pointer-events: none;
+
+  @include until('mobile-sm') {
+    top: var(--tw-space-xxs);
+    right: var(--tw-space-xxs);
+    width: 22px;
+    height: 22px;
+  }
+}
+
+:global([data-tw-reduced-transparency='true']) .badge {
+  background: var(--tw-bg-deep);
+}
+
+/* ===== Loading ===== */
+
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.skeleton {
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+
+  @include motion-safe-only;
+
+  /* Placeholders are not links: no lift, no pointer. */
+  &:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--tw-border);
+  }
+}
+
+/* ===== Unavailable ===== */
+
+.status {
+  margin: 0;
+  padding: var(--tw-space-m) var(--tw-space-l);
+  border: 1px dashed var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--tw-text-muted);
+  text-align: center;
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+/* ===== Feature layout (#288): one lead tile and four squares =====
+   The user-copy "Off the page" set: two columns on phones with the lead
+   across the top (4:5), four columns from tablet with the lead as a 2 x 2
+   tile. Every image fills its tile; Reels (taller than the tile) are pinned
+   to the top edge so the subject and any cover title stay in view. */
+.feature {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--tw-space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('tablet') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+  }
+}
+
+.featureTile,
+.featureLead {
+  aspect-ratio: 1;
+}
+
+.featureLead {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 5;
+
+  @include from('tablet') {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+}
+
+/* The link is the bordered, clipping box (like .tile), so its focus ring and
+   hover lift sit outside the clip and stay visible. */
+.featureLink {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  background: var(--tw-surface-inset);
+  @include card-interactive;
+  @include focus-ring;
+}
+
+/* Loading placeholders are the li itself: give them the tile's surface. */
+.featureTile.skeleton,
+.featureLead.skeleton {
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  background: var(--tw-surface-inset);
+}
+
+.featureImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* Reels: aligned to the top of each tile (owner, #288). */
+.featureLink[data-media-type='VIDEO'] .featureImage {
+  object-position: 50% 0%;
+}

@@ -12,7 +12,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 - One site nav on every page (#281): About, The Book, Content (a dropdown on desktop, a drawer in the phone menu; the Content link itself still goes to the Content Hub) and Contact, with Display and Book a Conversation at the top and a thumb-reach Book a Conversation pill on phones. It replaces each page's own nav; /podcasts and /unsubscribe, still on the older layout, get it in a fixed slot, and only the internal /dsm-preview keeps the old header. Book a Conversation opens the full-screen booking dialog from the bar, the phone menu and the pill. Contact goes to the home page's contact section until /contact/ is rebuilt. A "Skip to content" link comes first on every page, and blog, portfolio and video detail pages get a back link.
 - Text size in the Display panel (#281): 100%, 125% or 150%, applied before the page paints so it never flashes at 100% first.
 - The rebuilt home page (#285), in the owner's order:
-  - The hero photo stays pinned while the card scrolls up over it, as on /about-me. The hero card leads with Pre-order the book and Read my full story.
+  - The hero photo stays pinned while the card scrolls up over it, as on /about-me, at full height (the sub-pages use the compact hero, #288). The hero card leads with Pre-order the book and Read my full story.
   - The book section: "MY RCF BOOK", "Because I hate self-help books." and the pre-order card.
   - The Shifts, introduced by the old About paragraphs and a "Structure. Clarity…" quote.
   - Humans FIRST, with drifting light traces behind it and glacier-cyan periods.
@@ -22,6 +22,23 @@ All notable changes to terencewaters.com are recorded here. The format follows
   - Let's talk: Book a Conversation opens the booking dialog, beside the message form.
   - The closing quote.
 - New design-system pieces from the redesign (#285): `TwHook`, `TwCredo` (with an `animated` option) and `TwShiftTrack`, with their copy in `content/site/home.ts`, `shifts.ts` and `microcopy.ts`.
+
+- The rebuilt /about-me (#288), in the owner's order:
+  - The compact pinned-photo hero, without the "I rejected the mission…" quote.
+  - Five quick links on one row (gold icons; "Pre-order my book!" highlighted). They stack on phones, and Book a Conversation opens the booking dialog.
+  - In 60 seconds ("Three roles, one system"): the blurb and quick facts, then the role cards (Founder, Host, 20+ years, shortened) and the numbers.
+  - The user copy's book and podcast cards, "Everything I'm making", and "Some of the work".
+  - Off the page: the latest Instagram posts in a lead-plus-four layout.
+  - What I bring to the table, with the owner's new paragraph under "I still build".
+  - Find me online, and Want to go deeper?
+  - Recent writing is gone.
+- The Instagram feed behind Off the page (#288, from the Instagram build):
+  - An `/api/instagram` Azure Function. It reads NoCodeAPI through `INSTAGRAM_FEED_URL`, caches the result, and maps a timeout to 504.
+  - `src/lib/instagram.ts`, which normalises the feed and backfills posts whose image fails.
+  - The `InstagramGrid` component, with a new `feature` layout.
+  - A Faker mock mode for DEV/TEST builds (`NEXT_PUBLIC_INSTAGRAM_MOCK`). A postbuild check fails any production build that contains Faker.
+  - The setup guide is `docs/instagram/INSTAGRAM_README.md`.
+- `TwMeter`/`TwMeterGroup` and the Content Hub tile copy (`content/site/contentHub.ts`) from the redesign (#288).
 
 ### Changed
 

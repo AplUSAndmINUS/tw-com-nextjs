@@ -7,12 +7,11 @@ import { getAllContent } from '@/lib/content';
 import {
   ABOUT_ME_SOCIALS,
   PODCAST_SOCIALS,
-  PROJECT_SLUGS,
   TALENT_SKILL_NAMES,
-  formatPostMeta,
   pickProjects,
   pickSkills,
 } from './aboutMeData';
+import { ABOUT_ME_PROJECT_SLUGS } from '@/content/site/aboutMe';
 
 const item = (slug: string, featured?: boolean): ContentItem => ({
   slug,
@@ -70,7 +69,7 @@ describe('pickProjects', () => {
 
   it('finds every curated slug in the real portfolio', async () => {
     const slugs = (await getAllContent('portfolio')).map((p) => p.slug);
-    for (const slug of PROJECT_SLUGS) expect(slugs).toContain(slug);
+    for (const slug of ABOUT_ME_PROJECT_SLUGS) expect(slugs).toContain(slug);
   });
 });
 
@@ -82,19 +81,4 @@ describe('social icons', () => {
       expect(social.href).toMatch(/^(https:\/\/|mailto:)/);
     }
   });
-});
-
-describe('formatPostMeta', () => {
-  it('joins the date and read time', () => {
-    expect(formatPostMeta('2026-11-14', '6 min read')).toBe(
-      '2026.11.14 · 6 min read'
-    );
-  });
-
-  it.each([undefined, '', 'not a date'])(
-    'drops a missing or invalid date (%s) instead of leaving a stray separator',
-    (date) => {
-      expect(formatPostMeta(date, '6 min read')).toBe('6 min read');
-    }
-  );
 });
