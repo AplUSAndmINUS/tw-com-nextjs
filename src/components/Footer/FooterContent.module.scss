@@ -22,6 +22,11 @@
   grid-template-columns: 1fr;
   gap: var(--tw-space-l);
 
+  /* Phones: one even rhythm between the name, Social and More from. */
+  @include until('mobile-lg') {
+    gap: var(--tw-space-m);
+  }
+
   @include from('mobile-lg') {
     grid-template-columns: repeat(4, 1fr);
     margin-bottom: 0;
@@ -63,6 +68,11 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--tw-text-muted);
+
+  /* Phones: no heading margin on top of the grid's own gap. */
+  @include until('mobile-lg') {
+    margin-top: 0;
+  }
 }
 
 .linkList {
@@ -83,7 +93,8 @@
   color: var(--tw-text-muted);
 
   @include until('mobile-lg') {
-    margin-bottom: 0;
+    margin: 0;
+    line-height: 1.2;
   }
 }
 
@@ -118,7 +129,9 @@
   /* Phones: a short stacked list, set off from the Social icons above by the
      same rhythm as the sections, with a hairline between them. */
   @include until('mobile-lg') {
-    gap: 8px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
     margin-top: var(--tw-space-m);
     padding: var(--tw-space-m) 0;
     border-top: 1px solid var(--tw-border-subtle);
@@ -166,12 +179,16 @@
 
 /* ===== Newsletter: the footer's lead block (#285) =====
    Bigger than the old corner form and set in the heading font (Montserrat).
-   Copy left, form right from tablet up; stacked and tight on phones. */
+   A centred card, at most 640px wide (owner, 2026-11-19): copy above the
+   form at every width; tighter on phones. */
 .newsletter {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--tw-space-m);
   align-items: center;
+  box-sizing: border-box;
+  max-width: 640px;
+  margin-inline: auto;
   margin-bottom: var(--tw-space-xl);
   padding: var(--tw-space-l);
   border: 1px solid var(--tw-border);
@@ -181,8 +198,7 @@
   @include accent-line(top);
 
   @include from('tablet') {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: var(--tw-space-xl);
+    gap: var(--tw-space-l);
     padding: var(--tw-space-xl);
   }
 

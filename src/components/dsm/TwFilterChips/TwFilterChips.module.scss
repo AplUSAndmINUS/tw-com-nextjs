@@ -1,21 +1,18 @@
 @use 'abstracts' as *;
 
 .group {
+  /* Wraps onto more lines rather than scrolling sideways (owner,
+     2026-11-19): every topic stays visible, no scrollbar. */
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--tw-space-xs);
-  overflow-x: auto;
-  /* Vertical padding leaves room for the focus ring, which would otherwise be
-     clipped by the horizontal scroll container. */
+  max-width: 100%;
   padding-block: var(--tw-space-xxs);
-  scrollbar-width: thin;
-  scroll-snap-type: x var(--tw-snap-strength);
-  -webkit-overflow-scrolling: touch;
 }
 
 .chip {
   flex: 0 0 auto;
-  scroll-snap-align: start;
   padding: 7px 15px;
   border: 1px solid var(--tw-border);
   border-radius: var(--tw-radius-pill);

@@ -21,8 +21,12 @@ function render(content: HomeCard[] = []) {
   return new JSDOM(markup).window.document;
 }
 
+/** Visible text: without the screen-reader-only "(opens in a new tab)". */
 const text = (el: Element | null | undefined) =>
-  el?.textContent?.replace(/\s+/g, ' ').trim();
+  el?.textContent
+    ?.replace(' (opens in a new tab)', '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 describe('Home page (#285)', () => {
   it('has the sections in the owner’s order', () => {

@@ -43,6 +43,8 @@
 :root {
   /* Named --tw-motion-ease, not --tw-ease: see the namespace hazard above. */
   --tw-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+  /* Quick start, long gentle finish (the booking dialog's rise). */
+  --tw-motion-ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
   --tw-reveal-duration: 1.2s;
   --tw-hover-duration: 0.18s;
   --tw-color-duration: 0.15s;
@@ -62,7 +64,6 @@
 
   --tw-stagger-step: 90ms;
   --tw-micro-delay: 45ms;
-  --tw-snap-strength: proximity;
   --tw-noise-opacity: 0.035;
 
   --tw-glow-accent: 0 0 0 6px

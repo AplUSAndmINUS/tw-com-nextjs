@@ -55,7 +55,7 @@ export function useBookingModal(): BookingModalContextValue | null {
 }
 
 /** How long the closing fade runs (matches .overlayClosing in the SCSS). */
-export const BOOKING_EXIT_MS = 200;
+export const BOOKING_EXIT_MS = 260;
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';

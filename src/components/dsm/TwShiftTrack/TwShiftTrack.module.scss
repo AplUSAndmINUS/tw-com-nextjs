@@ -23,10 +23,19 @@
     content: '';
     position: absolute;
     left: calc(var(--node) / 2 - 1px);
-    top: calc(var(--node) / 2);
+    top: var(--tw-track-start, calc(var(--node) / 2));
     bottom: calc(var(--node) / 2);
     width: 2px;
     border-radius: var(--tw-radius-pill);
+  }
+
+  /* Once measured (TwShiftTrack.tsx), stop at the last node's centre. */
+  @include until('tablet') {
+    &::before,
+    &::after {
+      bottom: auto;
+      height: var(--tw-track-length, calc(100% - var(--node)));
+    }
   }
 
   &::before {

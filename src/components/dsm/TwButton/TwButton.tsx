@@ -1,3 +1,4 @@
+import { NewTabHint } from '@/components/NewTabHint';
 import styles from './TwButton.module.scss';
 
 /**
@@ -85,9 +86,7 @@ export function TwButton({
         style={style}
         href={disabled ? undefined : href}
         target={target}
-        rel={
-          rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)
-        }
+        rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
         aria-disabled={disabled || undefined}
         onClick={
           disabled
@@ -97,6 +96,7 @@ export function TwButton({
         {...rest}
       >
         {children}
+        {target === '_blank' ? <NewTabHint /> : null}
       </a>
     );
   }
