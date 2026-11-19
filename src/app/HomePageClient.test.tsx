@@ -44,6 +44,8 @@ describe('Home page (#285)', () => {
   it('pins the hero photo and scrolls the card over it, as on /about-me', () => {
     const hero = render().querySelector(`#hero.${heroStyles.hero}`);
     expect(hero?.classList.contains(heroStyles.scrollReveal)).toBe(true);
+    // Full height on Home; the sub-pages use the compact hero (#288).
+    expect(hero?.getAttribute('style') ?? '').not.toContain('--tw-hero-height');
   });
 
   it('gives the hero card the pre-order and full-story buttons', () => {

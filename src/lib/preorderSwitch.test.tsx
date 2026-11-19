@@ -45,3 +45,32 @@ describe('RCF_PREORDERS_OPEN (#273)', () => {
     );
   });
 });
+
+describe('RCF_PREORDERS_OPEN on /about-me (#288)', () => {
+  async function aboutMeHtml(open: boolean) {
+    vi.resetModules();
+    vi.doMock('@/lib/rcf', async (orig) => ({
+      ...(await orig<typeof import('@/lib/rcf')>()),
+      RCF_PREORDERS_OPEN: open,
+    }));
+    const { default: AboutMePage } = await import('@/app/about-me/page');
+    return renderToStaticMarkup(await AboutMePage());
+  }
+
+  it('off: no pre-order quick link, badge, button, fact or store link', async () => {
+    const html = await aboutMeHtml(false);
+    expect(html).not.toContain('Pre-order my book!');
+    expect(html).not.toContain('Pre-orders open');
+    expect(html).not.toMatch(/pre-orders open/i);
+    expect(html).not.toContain('store.fluxline.pro/book');
+    expect(html).toContain('release targeted for Q1 2027');
+  });
+
+  it('on: the quick link, badge and author fact come back', async () => {
+    const html = await aboutMeHtml(true);
+    expect(html).toContain('Pre-order my book!');
+    expect(html).toContain('Pre-orders open');
+    expect(html).toContain('pre-orders open; release targeted for Q1 2027');
+    expect(html).toContain('https://store.fluxline.pro/book');
+  });
+});

@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
-import { getAllContent } from '@/lib/content';
+import { ABOUT_ME, ABOUT_ME_PROJECT_SLUGS } from '@/content/site/aboutMe';
 import {
   RCF_PATH,
   RCF_PREORDER_HREF,
@@ -11,19 +11,19 @@ import {
 } from '@/lib/rcf';
 import buttonStyles from '@/components/dsm/TwButton/TwButton.module.scss';
 import heroStyles from '@/components/dsm/TwHero/TwHero.module.scss';
+import quickStyles from './QuickLinks.module.scss';
 import AboutMePage from './page';
 import {
   ABOUT_ME_SOCIALS,
-  POST_LIMIT,
   PODCAST_FACTS,
-  PROJECT_SLUGS,
+  ROLES,
   TALENT_SKILL_NAMES,
 } from './aboutMeData';
 
 /**
- * /about-me rendered the way the static export renders it (the page is an
- * async server component that reads the real blog and portfolio content),
- * then parsed so the owner's requirements can be checked section by section.
+ * /about-me rendered the way the static export renders it (an async server
+ * component reading the real portfolio content), then parsed so the owner's
+ * spec (#288) can be checked section by section.
  */
 let document: Document;
 
@@ -37,148 +37,178 @@ const $ = (selector: string) => {
   if (!el) throw new Error(`Missing ${selector}`);
   return el;
 };
+const text = (el: Element | null | undefined) =>
+  el?.textContent?.replace(/\s+/g, ' ').trim();
 const hrefs = (root: Element) =>
   Array.from(root.querySelectorAll('a')).map((a) => a.getAttribute('href'));
 /** The TwButtons inside `root`, as [label, href, variant]. */
 const buttons = (root: Element) =>
   Array.from(root.querySelectorAll(`a.${buttonStyles.button}`)).map((a) => [
-    a.textContent?.trim(),
+    text(a),
     a.getAttribute('href'),
     (['gold', 'primary', 'outline', 'quiet'] as const).find((v) =>
       a.classList.contains(buttonStyles[v])
     ),
   ]);
 
-describe('/about-me hero callout', () => {
-  const hero = () => $('main > section');
-
-  it('has no action buttons or links', () => {
-    expect(hero().querySelectorAll('a, button')).toHaveLength(0);
-  });
-
-  it('says who, in one line', () => {
-    expect(hero().querySelector('h1')?.textContent).toBe('Terence Waters');
-    expect(hero().textContent).toContain(
-      'Podcaster · Systems Architect · Business Consultant'
+describe('/about-me (#288)', () => {
+  it('has the sections in the owner’s order', () => {
+    const ids = Array.from(document.querySelectorAll('main > section[id]')).map(
+      (s) => s.id
     );
-    expect(hero().textContent).toContain('The Resonance Core Framework™');
+    expect(ids).toEqual([
+      'links',
+      'in-60-seconds',
+      'book-and-podcast',
+      'making',
+      'projects',
+      'instagram',
+      'skills',
+      'socials',
+      'connect',
+    ]);
+    // Recent writing is gone.
+    expect(document.getElementById('writing')).toBeNull();
   });
 
-  it('uses the sticky scroll-reveal layout on mobile', () => {
-    expect(hero().classList.contains(heroStyles.stacked)).toBe(true);
-    expect(hero().classList.contains(heroStyles.scrollReveal)).toBe(true);
+  it('keeps the compact pinned-photo hero, without the old blockquote', () => {
+    const hero = $('main > section');
+    // compact: the shorter sub-page hero (inline height variables).
+    expect(hero.getAttribute('style')).toContain('--tw-hero-height:420px');
+    expect(hero.classList.contains(heroStyles.scrollReveal)).toBe(true);
+    expect(hero.querySelector('h1')?.textContent).toBe('Terence Waters');
+    expect(hero.querySelector('blockquote')).toBeNull();
+    expect(text(document.body)).not.toContain('I rejected the mission');
   });
-});
 
-describe('/about-me book and podcast cards', () => {
-  it('leads the book card with a Mythic Gold pre-order button once pre-orders are announced, then outline', () => {
+  it('puts five quick links on one row, pre-order highlighted', () => {
+    const cards = Array.from($('#links nav').querySelectorAll('a'));
+    expect(cards.map((a) => text(a))).toEqual([
+      ...(RCF_PREORDERS_OPEN ? ['Pre-order my book!'] : []),
+      'Book a Conversation',
+      'Read my full story',
+      'Listen to the podcast',
+      'Instagram',
+    ]);
+    const highlighted = cards.filter((a) =>
+      a.classList.contains(quickStyles.highlight)
+    );
     if (RCF_PREORDERS_OPEN) {
-      expect(buttons($('#the-book'))).toEqual([
-        ['Pre-order the book', RCF_PREORDER_HREF, 'gold'],
-        ['Explore the framework →', RCF_PATH, 'outline'],
+      expect(highlighted.map((a) => a.getAttribute('href'))).toEqual([
+        RCF_PREORDER_HREF,
       ]);
-      expect($('#the-book').textContent).toContain('Pre-orders open');
     } else {
-      // Hidden until pre-orders are announced (#273).
-      expect(buttons($('#the-book'))).toEqual([
-        ['Explore the framework →', RCF_PATH, 'outline'],
+      expect(highlighted).toHaveLength(0);
+    }
+    // Book a Conversation opens the dialog, so it skips the route transition.
+    const book = cards.find((a) => text(a) === 'Book a Conversation');
+    expect(book?.hasAttribute('data-no-route-transition')).toBe(true);
+  });
+
+  it('swaps the In 60 seconds eyebrow and title, with the blurb and facts above the cards', () => {
+    const section = $('#in-60-seconds');
+    expect(text(section.querySelector('h2'))).toBe('In 60 seconds');
+    expect(text(section.querySelector('h2')?.previousElementSibling)).toBe(
+      'Three roles, one system'
+    );
+    expect(text(section)).toContain(ABOUT_ME.short.blurb);
+    expect(section.querySelectorAll('li').length).toBeGreaterThanOrEqual(
+      ABOUT_ME.short.facts.length
+    );
+    expect(text(section)).not.toContain('Everything I do traces back');
+    // The blurb comes before the role cards.
+    const blurb = Array.from(section.querySelectorAll('p')).find(
+      (p) => text(p) === ABOUT_ME.short.blurb
+    )!;
+    const firstCard = section.querySelector('h3')!;
+    expect(blurb.compareDocumentPosition(firstCard) & 4).toBeTruthy();
+  });
+
+  it('orders the role cards Founder, Host, 20+ years, each kept short', () => {
+    const titles = Array.from($('#in-60-seconds').querySelectorAll('h3')).map(
+      (h) => text(h)
+    );
+    expect(titles).toEqual([
+      'Founder, Fluxline Resonance Group',
+      'Host, The Resonant Identity',
+      '20+ years building platforms',
+    ]);
+    // Three lines at most at card width: about 100 characters.
+    for (const role of ROLES) expect(role.text.length).toBeLessThanOrEqual(100);
+  });
+
+  it('leads the book card with the pre-order button while pre-orders are open', () => {
+    const book = buttons($('#the-book'));
+    if (RCF_PREORDERS_OPEN) {
+      expect(book[0]).toEqual([
+        'Pre-order the book',
+        RCF_PREORDER_HREF,
+        'gold',
       ]);
-      expect($('#the-book').textContent).not.toMatch(/pre-?order/i);
+      expect(text($('#the-book'))).toContain('Pre-orders open');
+    } else {
+      expect(text($('#the-book'))).not.toContain('Pre-orders open');
     }
-  });
-
-  it('shows the chapter line without the part names', () => {
-    const book = $('#the-book').textContent ?? '';
-    expect(book).toContain('31 chapters in three parts');
-    expect(book).not.toContain('(The Self');
-  });
-
-  it('leads the podcast card with a primary listen button, then outline', () => {
-    expect(buttons($('#podcast'))).toEqual([
-      ['Listen to the podcast', TRI_URL, 'primary'],
-      ['Browse episodes →', '/podcasts/theresonantid', 'outline'],
+    expect(book.at(-1)).toEqual([
+      'Explore the framework →',
+      `${RCF_PATH}/`,
+      'outline',
     ]);
   });
 
-  it('gives the podcast card three facts, like the book card', () => {
-    const facts = Array.from($('#podcast').querySelectorAll('ul li')).map(
-      (li) => li.textContent
-    );
-    expect(facts).toEqual([...PODCAST_FACTS]);
-    expect(facts).toHaveLength(3);
+  it('lists the podcast facts and links out to the show', () => {
+    const podcast = $('#podcast');
+    for (const fact of PODCAST_FACTS) expect(text(podcast)).toContain(fact);
+    expect(hrefs(podcast)).toContain(TRI_URL);
   });
 
-  it('opens the external buttons in a new tab, safely', () => {
-    for (const href of RCF_PREORDERS_OPEN
-      ? [RCF_PREORDER_HREF, TRI_URL]
-      : [TRI_URL]) {
-      const link = $(`main a[href="${href}"].${buttonStyles.button}`);
-      expect(link.getAttribute('target')).toBe('_blank');
-      expect(link.getAttribute('rel')).toBe('noopener noreferrer');
-    }
-  });
-});
-
-describe('/about-me talent bars', () => {
-  it('shows each chosen skill scored out of 100, matching /about', () => {
-    const meters = Array.from($('#skills').querySelectorAll('[role="meter"]'));
-    expect(meters).toHaveLength(TALENT_SKILL_NAMES.length);
-    meters.forEach((meter, i) => {
-      const skill = ABOUT_SKILLS.find((s) => s.name === TALENT_SKILL_NAMES[i]);
-      expect(meter.getAttribute('aria-valuenow')).toBe(
-        String(skill?.percentage)
-      );
-      expect(meter.getAttribute('aria-valuemax')).toBe('100');
-    });
-    expect($('#skills').textContent).toContain('/ 100');
-  });
-});
-
-describe('/about-me projects and writing', () => {
-  it('links the curated portfolio projects', () => {
+  it('shows the user copy’s portfolio set under Some of the work', () => {
     const projectLinks = hrefs($('#projects')).filter((h) =>
-      h?.startsWith('/portfolio/') && h !== '/portfolio/'
+      /^\/portfolio\/.+\//.test(h ?? '')
     );
-    expect(projectLinks).toEqual(PROJECT_SLUGS.map((s) => `/portfolio/${s}/`));
-  });
-
-  it('links the latest blog posts, newest first', async () => {
-    const latest = (await getAllContent('blog')).slice(0, POST_LIMIT);
-    const postLinks = hrefs($('#writing')).filter((h) =>
-      h?.startsWith('/blog/') && h !== '/blog/'
+    expect(projectLinks).toEqual(
+      ABOUT_ME_PROJECT_SLUGS.map((s) => `/portfolio/${s}/`)
     );
-    expect(postLinks).toEqual(latest.map((p) => `/blog/${p.slug}/`));
-  });
-});
-
-describe('/about-me closing: actions, contact, socials', () => {
-  it('moves the actions to the bottom: full story, get in touch, the framework', () => {
-    expect(buttons($('#connect'))).toEqual([
-      ['Read my full story', '/about', 'primary'],
-      ['Get in touch', '/#contact', 'outline'],
-      ['The Resonance Core Framework™', RCF_PATH, 'outline'],
-    ]);
   });
 
-  it('lists ways to get in touch', () => {
-    const links = hrefs($('#connect'));
-    expect(links).toContain('mailto:terence@terencewaters.com');
-    expect(links).toContain('https://tidycal.com/terencewaters');
+  it('loads the Instagram feed into Off the page (loading state on the server)', () => {
+    const section = $('#instagram');
+    expect(text(section.querySelector('h2'))).toBe('Off the page');
+    // Five placeholder tiles hold the lead-plus-four shape until posts load.
+    expect(
+      section.querySelectorAll('[aria-busy="true"] ul[aria-hidden="true"] li')
+    ).toHaveLength(5);
   });
 
-  it('ends with every social icon, each labelled', () => {
-    const icons = Array.from($('#connect').querySelectorAll('a[aria-label]'));
-    for (const social of ABOUT_ME_SOCIALS) {
-      const icon = icons.find((a) => a.getAttribute('href') === social.href);
-      expect(icon?.getAttribute('aria-label')).toBe(social.name);
+  it('adds the owner’s paragraph under I still build, with its emphasis', () => {
+    const skills = $('#skills');
+    expect(text(skills)).toContain(
+      "I build, create, design, and architect because I love doing so! Seeing a unique identity unfold in story, build, design, and apps brings about a system's Identity Coherence into a tangible asset. That's what I do."
+    );
+    expect(
+      Array.from(skills.querySelectorAll('strong > em')).map((e) => text(e))
+    ).toEqual(['because I love doing so!', "That's what I do."]);
+    // One talent bar per chosen skill, scored from ABOUT_SKILLS.
+    const meters = Array.from(skills.querySelectorAll('[role="meter"]'));
+    expect(meters).toHaveLength(TALENT_SKILL_NAMES.length);
+    for (const meter of meters) {
+      const name = meter.getAttribute('aria-label') ?? '';
+      const skill = ABOUT_SKILLS.find((s) => name.startsWith(s.name));
+      expect(Number(meter.getAttribute('aria-valuenow'))).toBe(
+        skill?.percentage
+      );
     }
   });
-});
 
-describe('/about-me document structure', () => {
-  it('has one h1 and no duplicate ids', () => {
-    expect(document.querySelectorAll('h1')).toHaveLength(1);
-    const ids = Array.from(document.querySelectorAll('[id]')).map((e) => e.id);
-    expect(ids.filter((id, i) => ids.indexOf(id) !== i)).toEqual([]);
+  it('keeps Find me online and the closing band', () => {
+    expect($('#socials').querySelectorAll('a').length).toBeGreaterThanOrEqual(
+      ABOUT_ME_SOCIALS.length
+    );
+    const closing = $('#connect');
+    expect(text(closing)).toContain('Want to go deeper?');
+    const book = Array.from(closing.querySelectorAll('a')).find(
+      (a) => text(a) === 'Book a Conversation'
+    );
+    expect(book?.hasAttribute('data-no-route-transition')).toBe(true);
   });
 });
