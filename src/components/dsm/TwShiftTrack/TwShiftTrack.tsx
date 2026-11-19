@@ -14,6 +14,8 @@ export interface TwShiftTrackStep {
   roles: string[];
   /** Optional link to the full telling (e.g. `/about/#shift-build`). */
   href?: string;
+  /** Mythic Gold and highlighted (the step that is happening now). */
+  highlight?: boolean;
 }
 
 export interface TwShiftTrackProps {
@@ -121,6 +123,7 @@ export function TwShiftTrack({
             className={styles.step}
             data-step-index={i}
             data-reached={i <= reached ? 'true' : 'false'}
+            data-highlight={step.highlight ? 'true' : undefined}
           >
             <span className={styles.node} aria-hidden='true' />
             <div className={styles.body}>

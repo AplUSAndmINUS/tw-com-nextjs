@@ -382,6 +382,9 @@ html {
   --tw-glow-node: 0 0 0 4px color-mix(in srgb, var(--tw-accent) 20%, transparent),
     0 0 18px color-mix(in srgb, var(--tw-accent) 45%, transparent);
   --tw-glow-gold: 0 0 28px color-mix(in srgb, var(--tw-mythic-gold) 28%, transparent);
+  /* A Mythic Gold timeline node (the highlighted Shift). */
+  --tw-glow-gold-node: 0 0 0 4px color-mix(in srgb, var(--tw-mythic-gold) 22%, transparent),
+    0 0 18px color-mix(in srgb, var(--tw-mythic-gold) 45%, transparent);
   --tw-pulse-duration: 2.4s;
   /* Mythic Gold as a line (highlights, quote rules). Text and icons use
      --tw-mythic-gold-text, which is tuned for contrast in every theme. */
@@ -401,6 +404,7 @@ html {
   --tw-glow-soft: none;
   --tw-glow-node: 0 0 0 2px var(--tw-accent);
   --tw-glow-gold: none;
+  --tw-glow-gold-node: 0 0 0 2px var(--tw-gold-line);
 }
 
 /* Grayscale: keep the structure, drop the coloured halo. */
@@ -408,11 +412,13 @@ html {
 [data-theme='grayscale-dark'] {
   --tw-glow-soft: none;
   --tw-glow-gold: none;
+  --tw-glow-gold-node: none;
 }
 
 /* Reduced transparency: glows are translucent by nature, so flatten them. */
 [data-tw-reduced-transparency='true'] {
   --tw-glow-soft: none;
   --tw-glow-gold: none;
+  --tw-glow-gold-node: none;
   --tw-line-color: var(--tw-border-strong);
 }

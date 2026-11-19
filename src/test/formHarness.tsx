@@ -6,7 +6,24 @@ import type { ReactElement } from 'react';
  * A tiny harness for form tests in the jsdom environment (no Testing
  * Library in the repo): mount, type into React-controlled fields, submit.
  */
-(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+(
+  globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
+).IS_REACT_ACT_ENVIRONMENT = true;
+
+// jsdom has no matchMedia; useReducedMotion reads it (e.g. the booking
+// dialog's fade). Motion counts as allowed in these tests.
+if (!window.matchMedia) {
+  window.matchMedia = ((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
+}
 
 export interface Mounted {
   container: HTMLDivElement;
@@ -28,15 +45,23 @@ export function mount(element: ReactElement): Mounted {
   return {
     container,
     type(selector, value) {
-      const el = container.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)!;
-      Object.getOwnPropertyDescriptor(Object.getPrototypeOf(el), 'value')!.set!.call(el, value);
+      const el = container.querySelector<
+        HTMLInputElement | HTMLTextAreaElement
+      >(selector)!;
+      Object.getOwnPropertyDescriptor(
+        Object.getPrototypeOf(el),
+        'value'
+      )!.set!.call(el, value);
       act(() => {
         el.dispatchEvent(new Event('input', { bubbles: true }));
       });
     },
     choose(selector, value) {
       const el = container.querySelector<HTMLSelectElement>(selector)!;
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(el, value);
+      Object.getOwnPropertyDescriptor(
+        HTMLSelectElement.prototype,
+        'value'
+      )!.set!.call(el, value);
       act(() => {
         el.dispatchEvent(new Event('change', { bubbles: true }));
       });
@@ -54,7 +79,9 @@ export function mount(element: ReactElement): Mounted {
       await act(async () => {
         container
           .querySelector('form')!
-          .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+          .dispatchEvent(
+            new Event('submit', { bubbles: true, cancelable: true })
+          );
       });
     },
     unmount() {

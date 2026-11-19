@@ -6,9 +6,9 @@
  * "Book a free consultation" everywhere). Every button reads label and target
  * from here.
  *
- * Since Slice 7 the booking flow lives on the site, at /contact/#conversation
- * (the same steps and questions as before; TidyCal is the last step). The
- * TidyCal page stays the no-JavaScript fallback.
+ * The booking flow opens as a full-screen dialog from every button (#278).
+ * Without JavaScript the buttons go to /book/ (#306), which links to TidyCal.
+ * The steps and questions are the same as before; TidyCal is the last step.
  */
 
 import { approved, draft, existing } from './copy';
@@ -32,12 +32,52 @@ export const BOOK_A_CONVERSATION: BookingLink = {
     'D2 (SUGGESTED_CODE_MAPPING decisions log)'
   ),
   // Openers use the full-screen dialog (#278); without JavaScript the link
-  // goes to /contact/#conversation, which offers TidyCal directly (#295).
-  href: '/contact/#conversation',
+  // goes to /book/, which opens the dialog on load and offers TidyCal
+  // directly (owner, 2026-11-19, as on fluxline.pro/book).
+  href: '/book/',
   external: false,
 };
 
 const brief = 'CREATIVE_BRIEF §7.5 (/conversation microcopy draft)';
+const bookPage = 'Owner, 2026-11-19 (/book like fluxline.pro/book); draft';
+
+/** /book: the dialog opens on load; the page explains the steps. */
+export const BOOK_PAGE = {
+  metaTitle: draft(
+    'book.meta.title',
+    'Book a Conversation | Terence Waters',
+    bookPage
+  ),
+  metaDescription: draft(
+    'book.meta.description',
+    'Book a free conversation with Terence Waters. Tell me what you need, then pick a time on my calendar.',
+    bookPage
+  ),
+  kicker: draft('book.kicker', "Let's talk", bookPage),
+  lede: draft(
+    'book.lede',
+    'Tell me what you need and pick a time: three quick steps, then my calendar. (No sales pitch. Just a conversation.)',
+    bookPage
+  ),
+  stepsTitle: draft('book.steps.title', 'How it works', bookPage),
+  steps: [
+    draft(
+      'book.steps.1',
+      "Choose what you'd like to talk about, or pick “Help me choose”.",
+      bookPage
+    ),
+    draft(
+      'book.steps.2',
+      'Answer a few short questions so we can make the most of our time.',
+      bookPage
+    ),
+    draft(
+      'book.steps.3',
+      'Add your details and pick a time on my calendar.',
+      bookPage
+    ),
+  ],
+} as const;
 const stepper = 'Existing ConsultationStepper';
 
 /**

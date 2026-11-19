@@ -52,7 +52,8 @@ describe('/contact structure', () => {
     expect(section.querySelector('h2')?.textContent).toBe(
       BOOK_A_CONVERSATION.label
     );
-    expect(BOOK_A_CONVERSATION.href).toBe('/contact/#conversation');
+    // Without JavaScript, Book a Conversation links go to /book/.
+    expect(BOOK_A_CONVERSATION.href).toBe('/book/');
     expect(section.textContent).toContain(
       '(No sales pitch. Just a conversation.)'
     );
