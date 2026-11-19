@@ -118,3 +118,8 @@
     opacity: 1;
   }
 }
+
+/* The Ko-fi widget sets its own very high z-index; hide it behind the dialog. */
+:global(html[data-booking-open] [id^='kofi-widget-overlay']) {
+  visibility: hidden !important;
+}

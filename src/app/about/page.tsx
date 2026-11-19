@@ -8,11 +8,9 @@ import {
   TwCTABand,
   TwChip,
   TwHero,
-  TwPageNav,
   TwReveal,
   TwStatCard,
 } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import { AboutSection } from './AboutSection';
@@ -40,6 +38,7 @@ import {
 } from '@/lib/rcf';
 import { serviceHref } from '@/app/home/homeData';
 import styles from './page.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 const ABOUT_TITLE =
   'About Me: Author, Architect, Identity Coach | Terence Waters';
@@ -85,12 +84,6 @@ export const metadata: Metadata = {
   },
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub' },
-  { label: 'Portfolio', href: '/portfolio' },
-];
-
 /** The meters get crowded past a dozen rows; the tail is all 90%+ anyway. */
 const PROFICIENCY = ABOUT_SKILLS.slice(0, 12);
 
@@ -102,8 +95,8 @@ const PROFICIENCY = ABOUT_SKILLS.slice(0, 12);
  * PercentageBullet) with ~1,800 words of centred prose and no scannable
  * structure. This version:
  *
- *  - renders its own TwPageNav (see providers.tsx `ownsNav`) rather than the
- *    legacy Header, so the chrome matches Blog / Portfolio / GitHub / Videos;
+ *  - renders the site nav (SiteNav, #281) above its <main>, like every other
+ *    page on the design system;
  *  - uses the numbered image-rail section shape from the homepage and from
  *    fluxline.pro/services — image left, content right;
  *  - cuts each idea to a header plus one or two lines, with stats, chips,
@@ -129,12 +122,9 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
       />
 
-      <TwPageNav
-        back={{ label: 'Back to Home', href: '/' }}
-        links={NAV_LINKS}
-      />
+      <SiteNav />
 
-      <main>
+      <main id='main'>
         <TwHero
           eyebrow='About'
           title='Terence Waters'

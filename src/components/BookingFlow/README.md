@@ -17,14 +17,14 @@ button (`<BookingTrigger />`, inside `<BookingModalProvider>`).
 
 Copy these files as they are:
 
-| What | Files |
-| --- | --- |
-| The flow and the modal | `src/components/BookingFlow/` (`BookingFlow.tsx`, `BookingModal.tsx`, both `.module.scss`, `index.ts`, the tests) |
-| Stepper data and helpers | `src/components/ConsultationStepper/constants.ts`, `lead.ts`, `types.ts`, `useConsultationStorage.ts` |
-| Words | `src/content/site/booking.ts`, `contact.ts` (only `FORM_ERRORS` is used), `copy.ts` |
-| Helpers | `src/utils/iconResolver.ts` (service icons), `src/lib/environment.ts` (`getApiBaseUrl`) |
-| Styles | `src/styles/abstracts/_mixins.scss` and `_breakpoints.scss` (for `until()` / `from()`) |
-| Test harness | `src/test/formHarness.tsx` |
+| What                     | Files                                                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| The flow and the modal   | `src/components/BookingFlow/` (`BookingFlow.tsx`, `BookingModal.tsx`, both `.module.scss`, `index.ts`, the tests) |
+| Stepper data and helpers | `src/components/ConsultationStepper/constants.ts`, `lead.ts`, `types.ts`, `useConsultationStorage.ts`             |
+| Words                    | `src/content/site/booking.ts`, `contact.ts` (only `FORM_ERRORS` is used), `copy.ts`                               |
+| Helpers                  | `src/utils/iconResolver.ts` (service icons), `src/lib/environment.ts` (`getApiBaseUrl`)                           |
+| Styles                   | `src/styles/abstracts/_mixins.scss` and `_breakpoints.scss` (for `until()` / `from()`)                            |
+| Test harness             | `src/test/formHarness.tsx`                                                                                        |
 
 Then adapt four touch points:
 

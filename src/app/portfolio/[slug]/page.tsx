@@ -9,11 +9,13 @@ import { twMdxComponents, mdxComponents } from '@/components/MarkdownContent';
 import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
 import { content as responsibleAiContent } from '@/assets/fluxline-legal/responsible-ai-legal';
 import { getPortfolioSchema } from '@/utils/structuredData';
-import { TwPageNav, TwArticleView } from '@/components/dsm';
+import { TwArticleView } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { formatDotDate, readTime } from '@/app/home/contentFormat';
-import { PORTFOLIO_NAV_LINKS, portfolioCategoryLabel } from '../portfolioMeta';
+import { portfolioCategoryLabel } from '../portfolioMeta';
 import styles from './PortfolioEntry.module.scss';
+import { SiteNav } from '@/components/SiteNav';
+import { BackLink } from '@/components/BackLink';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -53,11 +55,9 @@ export default async function PortfolioEntryPage({ params }: Props) {
 
   return (
     <>
-      <TwPageNav
-        back={{ label: 'Back to Portfolio', href: '/portfolio' }}
-        links={PORTFOLIO_NAV_LINKS}
-      />
-      <main className={styles.view}>
+      <SiteNav />
+      <main id='main' className={styles.view}>
+        <BackLink href='/portfolio/' label='Back to Portfolio' />
         <script
           id={`portfolio-schema-${slug}`}
           type='application/ld+json'

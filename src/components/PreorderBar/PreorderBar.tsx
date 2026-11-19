@@ -14,9 +14,11 @@ export interface PreorderBarProps {
 }
 
 /**
- * Height of the fixed legacy Header. It is taller than --site-header-height
- * on desktop and settles after hydration, so it is observed rather than read
- * from the variable. Until it is known the CSS falls back to the variable.
+ * Height of the fixed legacy Header (only /dsm-preview has it now). It is
+ * taller than --site-header-height on desktop and settles after hydration, so
+ * it is observed rather than read from the variable. Where there is no legacy
+ * Header (the fixed-nav routes, #281) the CSS uses the variable, which
+ * FixedSiteNav keeps current.
  */
 function useFixedHeaderHeight(enabled: boolean): number | null {
   const [height, setHeight] = React.useState<number | null>(null);

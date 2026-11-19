@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getRobotsConfig } from '@/utils/metadata';
 import { VideoPlayer } from '@/components/VideoPlayer';
-import { TwPageNav } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import styles from './VideoDetail.module.scss';
+import { SiteNav } from '@/components/SiteNav';
+import { BackLink } from '@/components/BackLink';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -27,20 +27,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub', active: true },
-  { label: 'Portfolio', href: '/portfolio' },
-];
-
 export default async function VideoPlayerPage({ params }: Props) {
   const { id } = await params;
   if (!id) notFound();
 
   return (
     <>
-      <TwPageNav back={{ label: 'Back to Videos', href: '/videos' }} links={NAV_LINKS} />
-      <main className={styles.main}>
+      <SiteNav />
+      <main id='main' className={styles.main}>
+        <BackLink href='/videos/' label='Back to Videos' />
         <div className={styles.frame}>
           <VideoPlayer youtubeId={id} title={`Video ${id}`} />
         </div>

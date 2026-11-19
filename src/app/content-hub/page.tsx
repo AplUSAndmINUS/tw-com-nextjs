@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
 import { fetchSpreakerEpisodes } from '@/lib/spreaker';
-import { TwPageNav, TwSectionHeading } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
+import { TwSectionHeading } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import ContentHubClient from './ContentHubClient';
 import styles from './page.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 const HUB_TITLE = 'Content Hub: Writing, Podcast, Videos and Code';
 const HUB_DESCRIPTION =
@@ -25,12 +25,6 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub', active: true },
-  { label: 'Portfolio', href: '/portfolio' },
-];
-
 // Static export: the latest episode is resolved from the Spreaker feed at build
 // time. If the feed is unavailable the page still renders; the podcast drawer
 // links out instead of offering in-page playback.
@@ -41,8 +35,8 @@ export default async function ContentHubPage() {
 
   return (
     <>
-      <TwPageNav back={{ label: 'Back to Home', href: '/' }} links={NAV_LINKS} />
-      <main>
+      <SiteNav />
+      <main id='main'>
         <section className={styles.head}>
           <div className={styles.headGlow} aria-hidden='true' />
           <div className={styles.container}>
