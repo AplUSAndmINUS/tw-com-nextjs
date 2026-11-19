@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { FooterContent } from './FooterContent';
@@ -87,8 +87,10 @@ describe('Footer link sections on mobile', () => {
 });
 
 describe('Footer newsletter and links (#285)', () => {
-  it('leads with a labelled newsletter block, the /#newsletter target', () => {
-    const block = renderFooter().getElementById('newsletter');
+  it('leads with a labelled newsletter block (the overlay copy, no anchor)', () => {
+    const doc = renderFooter();
+    expect(doc.getElementById('newsletter')).toBeNull();
+    const block = doc.querySelector('section');
     expect(block?.tagName).toBe('SECTION');
     expect(block?.querySelector('h2')?.textContent).toBe(
       'Get new writing in your inbox'
@@ -109,19 +111,12 @@ describe('Footer newsletter and links (#285)', () => {
   });
 });
 
-describe('Footer #newsletter anchor (#295)', () => {
-  afterEach(() => {
-    vi.doUnmock('next/navigation');
-    vi.resetModules();
-  });
-
-  it('is only on Home; other pages (and /contact) have their own or none', async () => {
-    vi.resetModules();
-    vi.doMock('next/navigation', () => ({ usePathname: () => '/blog/' }));
-    const { FooterContent: OffHome } = await import('./FooterContent');
-    const doc = new JSDOM(renderToStaticMarkup(<OffHome />)).window.document;
-    expect(doc.getElementById('newsletter')).toBeNull();
-    // The block itself is still there, just without the anchor.
-    expect(doc.querySelector('input[type="email"]')).not.toBeNull();
+describe('showNewsletter (#315)', () => {
+  it('leaves the card out when it is drawn above the footer', () => {
+    const doc = new JSDOM(
+      renderToStaticMarkup(<FooterContent showNewsletter={false} />)
+    ).window.document;
+    expect(doc.querySelector('input[type="email"]')).toBeNull();
+    expect(doc.body.textContent).not.toContain('Get new writing in your inbox');
   });
 });

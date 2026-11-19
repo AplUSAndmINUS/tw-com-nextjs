@@ -126,7 +126,7 @@ export function FooterOverlay({
               }}
             >
               {/* The page's own footer keeps the #newsletter anchor. */}
-              <FooterContent isCompact={false} isNewsletterAnchor={false} />
+              <FooterContent isCompact={false} />
             </motion.footer>
           </>
         )}
