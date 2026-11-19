@@ -1,0 +1,28 @@
+@use 'abstracts' as *;
+
+.row {
+  @include container-width;
+  width: auto;
+  padding-top: var(--tw-space-l);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tw-tap-target);
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-link-size);
+  color: var(--tw-accent);
+  text-decoration: none;
+  transition: gap var(--tw-hover-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    gap: 10px;
+  }
+
+  @include motion-safe-only;
+}

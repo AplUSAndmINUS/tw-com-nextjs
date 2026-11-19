@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
 import { getAllContent } from '@/lib/content';
-import { TwPageNav, TwListingView, type TwListingItem } from '@/components/dsm';
+import { TwListingView, type TwListingItem } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { formatDotDate } from '@/app/home/contentFormat';
-import { PORTFOLIO_NAV_LINKS, portfolioCategoryLabel } from './portfolioMeta';
+import { portfolioCategoryLabel } from './portfolioMeta';
+import { SiteNav } from '@/components/SiteNav';
 
 const PORTFOLIO_TITLE = 'Portfolio: Enterprise Platforms & Brand Work';
 const PORTFOLIO_DESCRIPTION =
@@ -50,11 +51,8 @@ export default async function PortfolioPage() {
 
   return (
     <>
-      <TwPageNav
-        back={{ label: 'Back to Content Hub', href: '/content-hub' }}
-        links={PORTFOLIO_NAV_LINKS}
-      />
-      <main>
+      <SiteNav />
+      <main id='main'>
         <TwListingView
           kicker='Portfolio'
           title='Selected work'

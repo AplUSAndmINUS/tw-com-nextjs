@@ -58,6 +58,10 @@
 .normalContainer {
   margin-inline: auto;
   width: 100%;
+  /* Tailwind's preflight used to make this border-box; without it the padding
+     pushed /podcasts and /unsubscribe wider than the screen (redesign
+     Slice 6). */
+  box-sizing: border-box;
   padding-inline: 16px;
   padding-top: 0;
 

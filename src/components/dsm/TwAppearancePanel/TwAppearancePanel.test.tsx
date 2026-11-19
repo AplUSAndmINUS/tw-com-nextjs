@@ -18,3 +18,28 @@ describe('TwAppearancePanel (closed)', () => {
     expect(panel?.getAttribute('aria-hidden')).toBe('true');
   });
 });
+
+describe('TwAppearancePanel text size', () => {
+  const { document } = new JSDOM(renderToStaticMarkup(<TwAppearancePanel />))
+    .window;
+
+  it('offers 100% to 150% as a labelled group of toggle buttons', () => {
+    const group = Array.from(document.querySelectorAll('[role="group"]')).find(
+      (g) => g.getAttribute('aria-labelledby')?.endsWith('-size')
+    );
+    expect(group).toBeTruthy();
+    const label = document.getElementById(
+      group!.getAttribute('aria-labelledby')!
+    );
+    expect(label?.textContent?.trim()).toBe('Text size');
+    const buttons = Array.from(group!.querySelectorAll('button'));
+    expect(buttons.map((b) => b.textContent)).toEqual(['100%', '125%', '150%']);
+  });
+
+  it('marks 100% as the current size by default', () => {
+    const pressed = Array.from(
+      document.querySelectorAll('button[aria-pressed="true"]')
+    ).map((b) => b.textContent);
+    expect(pressed).toContain('100%');
+  });
+});

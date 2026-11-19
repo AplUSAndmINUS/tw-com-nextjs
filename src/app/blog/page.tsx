@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
 import { getAllContent } from '@/lib/content';
-import { TwPageNav, TwListingView, type TwListingItem } from '@/components/dsm';
+import { TwListingView, type TwListingItem } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { formatDotDate } from '@/app/home/contentFormat';
-import { BLOG_NAV_LINKS } from './blogNav';
+import { SiteNav } from '@/components/SiteNav';
 
 const BLOG_TITLE = 'Blog on Identity and Personal Transformation';
 const BLOG_DESCRIPTION =
@@ -55,11 +55,8 @@ export default async function BlogPage() {
 
   return (
     <>
-      <TwPageNav
-        back={{ label: 'Back to Content Hub', href: '/content-hub' }}
-        links={BLOG_NAV_LINKS}
-      />
-      <main>
+      <SiteNav />
+      <main id='main'>
         <TwListingView
           kicker='Writing'
           title='The Blog'

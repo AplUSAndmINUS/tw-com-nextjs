@@ -1,0 +1,8 @@
+/* The legacy Header's slot: fixed to the top, above the page. No transform,
+   filter or backdrop here, so the nav's own fixed parts (menu, phone button)
+   still position against the viewport. */
+.fixed {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1000;
+}

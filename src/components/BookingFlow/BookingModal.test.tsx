@@ -42,6 +42,9 @@ describe('BookingModal (#278)', () => {
     // The stepper's first step is inside the dialog.
     expect(d.querySelectorAll('button').length).toBeGreaterThan(1);
     expect(document.documentElement.style.overflow).toBe('hidden');
+    expect(document.documentElement.hasAttribute('data-booking-open')).toBe(
+      true
+    );
     expect(document.activeElement?.getAttribute('aria-label')).toBe('Close');
   });
 
@@ -52,6 +55,9 @@ describe('BookingModal (#278)', () => {
     await press('Escape');
     expect(dialog()).toBeNull();
     expect(document.documentElement.style.overflow).toBe('');
+    expect(document.documentElement.hasAttribute('data-booking-open')).toBe(
+      false
+    );
     await nextFrame();
     expect(document.activeElement).toBe(trigger());
   });

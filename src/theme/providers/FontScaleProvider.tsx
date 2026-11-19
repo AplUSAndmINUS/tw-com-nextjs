@@ -1,21 +1,31 @@
 'use client';
 
 import React from 'react';
-import { useUserPreferencesStore } from '@/store/userPreferencesStore';
+import {
+  clampFontScale,
+  useUserPreferencesStore,
+} from '@/store/userPreferencesStore';
 
 interface FontScaleProviderProps {
   children: React.ReactNode;
 }
 
 const BASE_FONT_SIZE = 16;
-const MIN_FONT_SIZE_PX = BASE_FONT_SIZE * 0.8; // corresponds to minFontScale
-const MAX_FONT_SIZE_PX = BASE_FONT_SIZE * 1.5; // corresponds to maxFontScale
+
+/**
+ * The root font-size for a text-size preference, in px. Out-of-range values
+ * are clamped to 80%–150% rather than ignored.
+ */
+export function rootFontSizeFor(scale: unknown): number {
+  return BASE_FONT_SIZE * clampFontScale(scale);
+}
 
 /**
  * FontScaleProvider
  *
  * Scales the root font size so every rem value in the app follows the user's
- * font-scale preference.
+ * font-scale preference (80% to 150%). Only rem-based sizes follow it, which is
+ * why the redesigned pages and DSM use rem tokens rather than px.
  *
  * This provider used to do a second job: apply a colour-vision CSS filter
  * (grayscale / hue-rotate) through a wrapper <div>. That is gone. The
@@ -36,17 +46,22 @@ const MAX_FONT_SIZE_PX = BASE_FONT_SIZE * 1.5; // corresponds to maxFontScale
  */
 export function FontScaleProvider({ children }: FontScaleProviderProps) {
   const { preferences } = useUserPreferencesStore();
+  const persistApi = useUserPreferencesStore.persist;
+  const [hydrated, setHydrated] = React.useState(false);
+
+  // The store skips hydration (CLAUDE.md §7.6), so until StoreHydrator runs,
+  // `preferences` holds the defaults. The pre-paint theme script has already
+  // set the stored size on <html>; applying the default here first would snap
+  // the page back to 100% and then jump again. Wait for the real value.
+  React.useEffect(() => {
+    const unsub = persistApi.onFinishHydration(() => setHydrated(true));
+    setHydrated(persistApi.hasHydrated());
+    return unsub;
+  }, [persistApi]);
 
   React.useEffect(() => {
-    const fontScale =
-      typeof preferences.fontScale === 'number' ? preferences.fontScale : 1;
-    const newFontSize = BASE_FONT_SIZE * fontScale;
-    if (
-      isNaN(newFontSize) ||
-      newFontSize < MIN_FONT_SIZE_PX ||
-      newFontSize > MAX_FONT_SIZE_PX
-    )
-      return;
+    if (!hydrated) return;
+    const newFontSize = rootFontSizeFor(preferences.fontScale);
 
     // Capture the original inline style to restore later
     const originalFontSize = document.documentElement.style.fontSize;
@@ -56,7 +71,7 @@ export function FontScaleProvider({ children }: FontScaleProviderProps) {
       // Restore original inline style (or clear if none existed)
       document.documentElement.style.fontSize = originalFontSize;
     };
-  }, [preferences.fontScale]);
+  }, [hydrated, preferences.fontScale]);
 
   return <>{children}</>;
 }

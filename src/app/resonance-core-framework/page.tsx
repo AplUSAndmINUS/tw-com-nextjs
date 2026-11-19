@@ -11,11 +11,9 @@ import {
   TwButton,
   TwCTABand,
   TwHero,
-  TwPageNav,
   TwReveal,
   TwSectionHeading,
 } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import {
   FLUXLINE_RCF_URL,
@@ -30,6 +28,7 @@ import {
   RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import styles from './page.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 const TITLE = 'The Resonance Core Framework™ Book by Terence Waters';
 const DESCRIPTION = RCF_PREORDERS_OPEN
@@ -82,12 +81,6 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Content Hub', href: '/content-hub' },
-];
-
 /**
  * /resonance-core-framework — the framework from its author's side: what it
  * is, why it was written, its core concepts, and the book. TerenceWaters.com
@@ -116,12 +109,9 @@ export default function ResonanceCoreFrameworkPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
 
-      <TwPageNav
-        back={{ label: 'Back to Home', href: '/' }}
-        links={NAV_LINKS}
-      />
+      <SiteNav />
 
-      <main>
+      <main id='main'>
         <TwHero
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'

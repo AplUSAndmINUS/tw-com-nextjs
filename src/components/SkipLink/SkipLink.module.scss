@@ -1,0 +1,31 @@
+@use 'abstracts' as *;
+
+/* Visually hidden until it receives keyboard focus, then pinned top-left
+   above everything (the pre-order bar and the sticky nav included). */
+.skip {
+  @include visually-hidden;
+
+  &:focus,
+  &:focus-visible {
+    position: fixed;
+    left: var(--tw-space-m);
+    top: var(--tw-space-m);
+    z-index: 2000;
+    width: auto;
+    height: auto;
+    margin: 0;
+    clip-path: none;
+    white-space: nowrap;
+    padding: var(--tw-space-s) var(--tw-space-l);
+    border-radius: var(--tw-radius-control);
+    background: var(--tw-accent);
+    color: var(--tw-accent-ink);
+    font-family: var(--tw-font);
+    font-weight: 700;
+    font-size: var(--tw-link-size);
+    text-decoration: none;
+    outline: 2px solid var(--tw-text-heading-display);
+    outline-offset: 2px;
+    box-shadow: var(--tw-shadow-m);
+  }
+}

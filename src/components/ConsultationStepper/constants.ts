@@ -400,8 +400,8 @@ export const LOCAL_STORAGE_KEY = 'fluxline_consultation_draft';
 export const LOCAL_STORAGE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 /**
- * Step 3's fields, as worded in StepContactSchedule (moved here unchanged in
- * redesign Slice 7 so the inline flow on /contact uses the same words).
+ * Step 3's fields, worded as in the old stepper's contact step (moved here in
+ * redesign Slice 7; BookingFlow uses them).
  */
 export const MEETING_LENGTHS: Array<{
   value: MeetingLength;
@@ -423,7 +423,10 @@ export const CONTACT_STEP_TEXT = {
   },
   meetingLength: 'Preferred Meeting Length',
   referral: 'How did you hear about us?',
-  referralOther: { label: 'Please specify', placeholder: 'Tell us how you found us…' },
+  referralOther: {
+    label: 'Please specify',
+    placeholder: 'Tell us how you found us…',
+  },
   selectPlaceholder: 'Select an option…',
   consentBefore:
     'I consent for Fluxline Resonance Group to contact me and store my information for the sole purpose of this consultation. See our',
