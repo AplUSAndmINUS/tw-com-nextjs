@@ -165,7 +165,6 @@ TW.com uses a layout-driven architecture. Copilot should use or extend:
 | `ContentLayout`   | Long-form content (i.e., articles)     |
 | `ArticleLayout`   | Blog posts with header/byline          |
 | `PortfolioLayout` | Portfolio entries                      |
-| `CaseStudyLayout` | In-depth case studies                  |
 
 Layouts handle: structure, spacing, typography, navigation, metadata, and theming. Components should not duplicate layout responsibilities.
 
@@ -188,7 +187,6 @@ Copilot should:
 | ----------------- | ---------------------- |
 | Blog posts        | `public/blog/`         |
 | Portfolio entries | `public/portfolio/`    |
-| Case studies      | `public/case-studies/` |
 
 All content follows the structure: `public/{type}/{slug}/markdown/post.md`
 
@@ -416,7 +414,6 @@ TW.com uses structured data (JSON-LD) for SEO and AI discoverability. Schema fun
 - `getAboutPageSchema()` — About page metadata
 - `getBlogPostingSchema()` — Blog posts with author, dates, keywords
 - `getFaqSchema()` — FAQ structured data for blog posts
-- `getCaseStudySchema()` — Case study articles
 - `getPortfolioSchema()` — Portfolio creative works
 - `getServicesItemListSchema()` — Services listing
 
@@ -735,7 +732,7 @@ The script **lists its test files explicitly**. That is deliberate, and both obv
 
 ## 20. Content-Only Deployment Rule
 
-Content-only changes — new or edited Markdown files in `public/blog/`, `public/portfolio/`, or `public/case-studies/`, with no changes to TypeScript, SCSS, configuration, Azure Functions, or component logic — do **not** require a release. Merge the PR into `develop` → `test` → `prod` through the normal branch flow. A release is only required when code changes ship alongside content.
+Content-only changes — new or edited Markdown files in `public/blog/` or `public/portfolio/`, with no changes to TypeScript, SCSS, configuration, Azure Functions, or component logic — do **not** require a release. Merge the PR into `develop` → `test` → `prod` through the normal branch flow. A release is only required when code changes ship alongside content.
 
 **Copilot rules:**
 

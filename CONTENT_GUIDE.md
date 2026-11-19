@@ -1,6 +1,6 @@
 # Content Creation Guide for TW.com
 
-This guide explains how to create and manage content (Blog posts, Portfolio entries, Case Studies, and Podcast episodes) for the TW.com Next.js site.
+This guide explains how to create and manage content (Blog posts, Portfolio entries, and Podcast episodes) for the TW.com Next.js site.
 
 ## Table of Contents
 
@@ -8,7 +8,6 @@ This guide explains how to create and manage content (Blog posts, Portfolio entr
 - [Content Types](#content-types)
   - [Blog Posts](#blog-posts)
   - [Portfolio Entries](#portfolio-entries)
-  - [Case Studies](#case-studies)
   - [Podcasts](#podcasts)
 - [Frontmatter Reference](#frontmatter-reference)
 - [Working with Images](#working-with-images)
@@ -35,10 +34,6 @@ content/
       images/
         hero.jpg
         screenshot1.png
-  case-studies/
-    case-study-slug/
-      post.md
-      images/
   podcasts/
     (managed via Azure Function)
 ```
@@ -191,67 +186,6 @@ Describe your project, the problem it solves, your role, and key achievements.
 
 ---
 
-### Case Studies
-
-**Location:** `/public/case-studies/`
-
-**Example:** `public/case-studies/ecommerce-migration/markdown/post.md`
-
-```yaml
----
-title: 'E-Commerce Platform Migration'
-excerpt: 'How we migrated a legacy e-commerce system to modern architecture while maintaining 99.9% uptime.'
-publishedDate: '2026-02-01'
-category: 'Case Study'
-tags:
-  - 'Migration'
-  - 'E-Commerce'
-  - 'Cloud'
-imageUrl: '/case-studies/ecommerce-migration/images/before-after.jpg'
-imageAlt: 'System architecture comparison'
-gallery:
-  - url: '/case-studies/ecommerce-migration/images/old-architecture.png'
-    alt: 'Legacy architecture diagram'
-    caption: 'Original monolithic architecture'
-  - url: '/case-studies/ecommerce-migration/images/new-architecture.png'
-    alt: 'Modern microservices architecture'
-    caption: 'New cloud-native architecture'
-  - url: '/case-studies/ecommerce-migration/images/performance.png'
-    alt: 'Performance improvements graph'
-    caption: '3x performance improvement'
-seoTitle: 'E-Commerce Migration Case Study | Zero-Downtime Cloud Migration'
-seoDescription: 'Detailed case study on migrating a legacy e-commerce platform to modern cloud infrastructure.'
----
-
-## Background
-
-Describe the client, their challenge, and why they needed your help.
-
-## The Challenge
-
-What specific problems needed solving?
-
-## Our Approach
-
-Step-by-step breakdown of your methodology.
-
-## Results
-
-Quantifiable outcomes, metrics, and impact.
-
-## Lessons Learned
-
-Key takeaways and insights.
-```
-
-**Case Study Best Practices:**
-
-- Focus on the problem-solution narrative
-- Include measurable results (metrics, KPIs)
-- Use `gallery` to show before/after comparisons
-- Detail your specific approach and decision-making process
-
----
 
 ### Podcasts
 

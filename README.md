@@ -83,7 +83,6 @@ src/
 public/
   blog/           # Blog posts (Markdown/MDX in {slug}/markdown/post.md)
   portfolio/      # Portfolio entries
-  case-studies/   # Case studies
   images/         # Static assets
 docs/             # Developer documentation
 prompts/        # AI prompt logs

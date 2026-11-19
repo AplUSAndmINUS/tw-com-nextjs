@@ -92,3 +92,18 @@ describe('TwHero actions', () => {
     ]);
   });
 });
+
+describe('TwHero scrim', () => {
+  const scrimOf = (hero: Element) =>
+    hero.querySelector(`.${styles.scrim}`) as Element;
+
+  it('uses the photo scrim by default', () => {
+    const hero = render(<TwHero {...base} />);
+    expect(scrimOf(hero).classList.contains(styles.scrimCardSide)).toBe(false);
+  });
+
+  it("darkens the card side with scrim='card-side' (banner with lettering)", () => {
+    const hero = render(<TwHero {...base} scrim='card-side' />);
+    expect(scrimOf(hero).classList.contains(styles.scrimCardSide)).toBe(true);
+  });
+});

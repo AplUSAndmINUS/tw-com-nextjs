@@ -14,7 +14,7 @@ const POPULAR = [
   {
     href: '/portfolio',
     label: 'Portfolio',
-    desc: 'View work and case studies',
+    desc: 'View my work',
   },
   { href: '/about', label: 'About', desc: 'Learn more about Terence' },
 ];
