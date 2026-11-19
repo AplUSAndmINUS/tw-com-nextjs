@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { NewTabHint } from '@/components/NewTabHint';
 import { TwChip } from '../TwChip';
 import { CardImage } from './CardImage';
 import styles from './TwArticleCard.module.scss';
@@ -29,6 +30,11 @@ export interface TwArticleCardProps {
   external?: boolean;
   image?: string;
   imageAlt?: string;
+  /**
+   * Controls under the excerpt, e.g. an episode's play button. They sit above
+   * the stretched title link, so they stay clickable on a linked card.
+   */
+  actions?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -43,6 +49,7 @@ export function TwArticleCard({
   external,
   image,
   imageAlt,
+  actions,
   className,
   style,
 }: TwArticleCardProps) {
@@ -82,6 +89,7 @@ export function TwArticleCard({
                 rel='noopener noreferrer'
               >
                 {title}
+                <NewTabHint />
               </a>
             ) : (
               <Link className={styles.link} href={href}>
@@ -94,6 +102,8 @@ export function TwArticleCard({
         </h3>
 
         {excerpt ? <p className={styles.excerpt}>{excerpt}</p> : null}
+
+        {actions ? <div className={styles.actions}>{actions}</div> : null}
       </div>
     </article>
   );

@@ -67,6 +67,44 @@ function slugify(text: string): string {
     .slice(0, 80);
 }
 
+/** Decode the HTML entities RSS text carries (&amp;, &#39;, &#x2019; …). */
+export function decodeEntities(text: string): string {
+  const named: Record<string, string> = {
+    lt: '<',
+    gt: '>',
+    quot: '"',
+    apos: "'",
+    nbsp: ' ',
+  };
+  // An out-of-range code point would throw and drop the whole episode, so
+  // leave such an entity as it is.
+  const fromCode = (code: number, raw: string) =>
+    code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : raw;
+  return text
+    .replace(/&#(\d+);/g, (raw, n) => fromCode(Number(n), raw))
+    .replace(/&#x([0-9a-f]+);/gi, (raw, n) => fromCode(parseInt(n, 16), raw))
+    .replace(/&(lt|gt|quot|apos|nbsp);/g, (_, name: string) => named[name])
+    .replace(/&amp;/g, '&');
+}
+
+/**
+ * Turn an episode's HTML show notes into plain text, one line per paragraph,
+ * line break or list item (list items keep a bullet). Stripping the tags
+ * alone ran sentences together ("speech.What listeners…").
+ */
+export function htmlToText(html: string): string {
+  const text = html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<li[^>]*>/gi, '\n• ')
+    .replace(/<\/(p|div|li|ul|ol|h[1-6])>/gi, '\n')
+    .replace(/<[^>]+>/g, '');
+  return decodeEntities(text)
+    .split('\n')
+    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .filter((line) => line && line !== '•')
+    .join('\n');
+}
+
 /** Extract the numeric Spreaker episode ID from a Spreaker episode URL. */
 function extractSpreakerEpisodeId(url: string): string | undefined {
   const m = url.match(/\/(\d{6,})(?:[/?#]|$)/);
@@ -95,6 +133,8 @@ function parseRssItem(itemXml: string): PodcastEpisode | null {
     const spreakerEpisodeId =
       extractSpreakerEpisodeId(guid) || extractSpreakerEpisodeId(link);
 
+    // The slug comes from the raw title so episode URLs stay as they were
+    // (an "&amp;" in a title slugs to "-amp-").
     const titleSlug = slugify(title);
     const slug = spreakerEpisodeId
       ? `${titleSlug}--${spreakerEpisodeId}`
@@ -110,8 +150,8 @@ function parseRssItem(itemXml: string): PodcastEpisode | null {
 
     return {
       slug,
-      title,
-      description: description.replace(/<[^>]+>/g, '').trim(),
+      title: decodeEntities(title),
+      description: htmlToText(description),
       audioUrl,
       publishedDate,
       duration: duration || undefined,
