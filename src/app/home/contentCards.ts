@@ -1,16 +1,17 @@
 /**
- * Mappers from the podcast and video feeds to the homepage's Content Hub card.
+ * Mapper from the podcast feed to the homepage's Content Hub card.
  *
- * Kept free of server-only imports so the same mapping serves both the
- * build-time Spreaker read in page.tsx and the client-side fallbacks in
- * HomePageClient (the /api/podcasts and /api/youtube Azure Functions).
+ * Used by page.tsx at build time.
  */
 import type { PodcastEpisode } from '@/content/types';
-import type { YouTubeVideo } from '@/app/videos/types';
 import type { HomeCard } from '@/app/HomePageClient';
 
-/** How many podcast / video cards the homepage shows per filter. */
-export const HOME_MEDIA_LIMIT = 4;
+/**
+ * How many Content Hub cards the home page shows (owner, #285). Here rather
+ * than in HomePageClient: a server module that imports a value from a
+ * 'use client' file gets a client reference, not the number.
+ */
+export const HOME_CONTENT_CARDS = 3;
 
 const EXCERPT_MAX = 180;
 
@@ -33,17 +34,21 @@ export function episodeToCard(episode: PodcastEpisode): HomeCard {
   };
 }
 
-export function videoToCard(video: YouTubeVideo): HomeCard {
-  return {
-    slug: `video-${video.id}`,
-    title: video.title,
-    excerpt: toExcerpt(video.description),
-    category: 'Video',
-    date: video.publishedAt ? video.publishedAt.slice(0, 10) : undefined,
-    // /videos/[id] only pre-renders a placeholder in the static export, so
-    // deep-link straight to YouTube instead.
-    href: `https://www.youtube.com/watch?v=${video.id}`,
-    image: video.thumbnailUrl,
-    external: true,
-  };
+const time = (card: HomeCard) => {
+  const t = card.date ? Date.parse(card.date) : NaN;
+  return Number.isNaN(t) ? 0 : t;
+};
+
+/**
+ * The home page's Content Hub cards: writing and podcast episodes together,
+ * newest first, HOME_CONTENT_CARDS in all. Undated (or unparseable) items
+ * sort last; with no podcast feed the cards are writing only.
+ */
+export function mergeHomeCards(
+  posts: HomeCard[],
+  episodes: HomeCard[]
+): HomeCard[] {
+  return [...posts, ...episodes]
+    .sort((a, b) => time(b) - time(a))
+    .slice(0, HOME_CONTENT_CARDS);
 }

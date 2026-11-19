@@ -125,7 +125,8 @@ export function FooterOverlay({
                 WebkitBackdropFilter: footerBackdropFilter,
               }}
             >
-              <FooterContent isCompact={false} />
+              {/* The page's own footer keeps the #newsletter anchor. */}
+              <FooterContent isCompact={false} isNewsletterAnchor={false} />
             </motion.footer>
           </>
         )}
