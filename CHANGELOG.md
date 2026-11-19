@@ -41,6 +41,20 @@ All notable changes to terencewaters.com are recorded here. The format follows
   - The setup guide is `docs/instagram/INSTAGRAM_README.md`.
 - `TwMeter`/`TwMeterGroup` and the Content Hub tile copy (`content/site/contentHub.ts`) from the redesign (#288).
 
+- The rebuilt /about (#294), from the redesign with the owner's changes:
+  - Nine numbered sections, each with a gold number, a one-word category and a title.
+  - The hero's two sentences on separate lines.
+  - The short version as one paragraph.
+  - The Shifts in depth.
+  - Learning to play by feel, without the "back seat" line, and The body as its own section with the owner's personal-training photo.
+  - What I stand for, with the combined needs sentence and without "Accepting people…".
+  - How I work, led by a gold "Humans First. AI Second." callout, with the pull quote on two lines and glowing approach cards.
+  - I still build and what I do now; experience.
+  - Skills, degrees, and certifications in the previous design at full width.
+  - The closing band, whose Book a Conversation opens the booking dialog.
+  - Motifs throughout: the ripple, the sound wave, gold rules, and slow gold light traces.
+- `TwRipple`, `TwWave` and `TwAside`, plus the /about and services copy (`content/site/about.ts`, `services.ts`), from the redesign (#294).
+
 ### Changed
 
 - The footer (#285): the newsletter signup is its own larger block at the top, in the heading font, and shows on phones too (it is the `/#newsletter` target). "Case Studies" is gone from the links. On phones the tagline is hidden and the "More from" links wrap, so the footer is shorter.
@@ -51,6 +65,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Removed
 
+- The /about numbered image-rail layout (`AboutSection`), its stats row, audience trio and role chips, replaced by the redesign's sections (#294).
 - Home sections the owner dropped (#285): the separate About ("Hi! I'm Terence"), Portfolio, and the large "Get new writing" band. Also removed: the content filter chips and their client fetches, and `HomeNewsletterForm`.
 - The per-page navs (`TwPageNav`, the home page's `HomeNav`, the blog and portfolio link lists) and the old Book a Conversation pop-up (`ConsultationStepper` and its step components), all replaced by the site nav and the booking dialog (#281). The stepper's data and helpers stay; the booking dialog uses them.
 

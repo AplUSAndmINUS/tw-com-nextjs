@@ -5,6 +5,9 @@ import styles from './page.module.scss';
 /**
  * Career timeline.
  *
+ * Redesign (2026-11): the "01, 02…" markers (the retired numbered-rail motif)
+ * are glowing nodes on a light line, matching the Shift Track.
+ *
  * Rewritten off the old inline-styled, theme-hook version: it is now a plain
  * server component built on DSM tokens, with the connecting line drawn by a
  * border on the list rather than a per-entry flex spacer. That drops a client
@@ -17,9 +20,7 @@ export function AboutTimeline() {
       {TIMELINE.map((entry, i) => (
         <TwReveal as='li' key={`${entry.org}-${entry.period}`} delay={i * 90}>
           <div className={styles.timelineItem}>
-            <span className={styles.timelineMarker} aria-hidden='true'>
-              {String(i + 1).padStart(2, '0')}
-            </span>
+            <span className={styles.timelineNode} aria-hidden='true' />
             <p className={styles.timelinePeriod}>{entry.period}</p>
             <h3 className={styles.timelineTitle}>{entry.title}</h3>
             <p className={styles.timelineOrg}>{entry.org}</p>
