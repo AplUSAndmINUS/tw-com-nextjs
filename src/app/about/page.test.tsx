@@ -86,7 +86,7 @@ describe('/about (#294)', () => {
     ).toEqual([
       'In 2012 I weighed 120 pounds. Today I am almost 195, built through heavy lifting.',
       'I argue in my book that every decision starts in the body, and my next one, The Resonant Body, is about exactly that. Because the body is what gives us life, breath, warmth, and blood to sustain our lives every day. And as such, it is to be respected, cultivated, and listened to as we move forward every day.',
-      'I also instill this not just my book but my personal training clients, helping them understand the importance of breathwork, feeling lifts in the body, and experiencing the sudden shifts as they run a treadmill, work toward resonance, and literally feel the transformation in their body.',
+      'I also instill this not just in my book but in my personal training clients, helping them understand the importance of breathwork, feeling lifts in the body, and experiencing the sudden shifts as they run a treadmill, work toward resonance, and literally feel the transformation in their body.',
     ]);
     const training = Array.from(body.querySelectorAll('a')).find((a) =>
       text(a)?.startsWith('See what I offer as a personal trainer')

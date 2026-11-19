@@ -282,7 +282,7 @@ export const ABOUT = {
       ),
       approved(
         'about.byFeel.body.3',
-        'I also instill this not just my book but my personal training clients, helping them understand the importance of breathwork, feeling lifts in the body, and experiencing the sudden shifts as they run a treadmill, work toward resonance, and literally feel the transformation in their body.',
+        'I also instill this not just in my book but in my personal training clients, helping them understand the importance of breathwork, feeling lifts in the body, and experiencing the sudden shifts as they run a treadmill, work toward resonance, and literally feel the transformation in their body.',
         'Owner, 2026-11-19 (/about The body, #324)'
       ),
     ],
