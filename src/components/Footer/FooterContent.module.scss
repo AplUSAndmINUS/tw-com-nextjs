@@ -177,6 +177,15 @@
   }
 }
 
+/* Above the footer line (HomePageFooter): page gutters around the card. */
+.newsletterAbove {
+  padding: var(--tw-space-xl) 24px 0;
+
+  @include from('tablet') {
+    padding-inline: 48px 32px;
+  }
+}
+
 /* ===== Newsletter: the footer's lead block (#285) =====
    Bigger than the old corner form and set in the heading font (Montserrat).
    A centred card, at most 640px wide (owner, 2026-11-19): copy above the

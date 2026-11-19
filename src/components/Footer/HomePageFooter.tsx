@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
-import { FooterContent } from './FooterContent';
+import { usePathname } from 'next/navigation';
+import { FooterContent, FooterNewsletter } from './FooterContent';
+import styles from './FooterContent.module.scss';
 
 /**
  * HomePageFooter — Footer with glassmorphism styling, always visible inline on all breakpoints.
@@ -14,6 +16,7 @@ import { FooterContent } from './FooterContent';
  */
 export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
   const { theme, themeMode, reducedTransparency } = useAppTheme();
+  const pathname = usePathname() ?? '/';
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -45,18 +48,31 @@ export function HomePageFooter({ isCompact = false }: { isCompact?: boolean }) {
     : 'blur(24px) saturate(180%)';
 
   return (
-    <footer
-      role='contentinfo'
-      style={{
-        borderTop: footerBorderTop,
-        backgroundColor: footerBg,
-        backdropFilter: footerBackdropFilter,
-        WebkitBackdropFilter: footerBackdropFilter,
-        opacity: isMounted ? 1 : 0,
-        transition: 'opacity 0.2s ease-in',
-      }}
-    >
-      <FooterContent isCompact={isCompact} />
-    </footer>
+    <>
+      {/* The newsletter card sits above the footer's top line, on the page
+          (owner, 2026-11-19). Only Home keeps the #newsletter anchor. */}
+      <div
+        className={styles.newsletterAbove}
+        style={{
+          opacity: isMounted ? 1 : 0,
+          transition: 'opacity 0.2s ease-in',
+        }}
+      >
+        <FooterNewsletter isAnchor={pathname === '/'} />
+      </div>
+      <footer
+        role='contentinfo'
+        style={{
+          borderTop: footerBorderTop,
+          backgroundColor: footerBg,
+          backdropFilter: footerBackdropFilter,
+          WebkitBackdropFilter: footerBackdropFilter,
+          opacity: isMounted ? 1 : 0,
+          transition: 'opacity 0.2s ease-in',
+        }}
+      >
+        <FooterContent isCompact={isCompact} showNewsletter={false} />
+      </footer>
+    </>
   );
 }

@@ -114,7 +114,7 @@ function FooterLinkSection({
  * home page's #newsletter anchor (older links); the site's newsletter links
  * now go to /contact/#newsletter (#295).
  */
-function FooterNewsletter({ isAnchor = true }: { isAnchor?: boolean }) {
+export function FooterNewsletter({ isAnchor = true }: { isAnchor?: boolean }) {
   const uid = useId();
   const titleId = `${uid}-title`;
   const errorId = `${uid}-error`;
@@ -298,10 +298,10 @@ interface FooterContentProps {
   /** Optional additional content to prepend (e.g., hide button on mobile) */
   headerContent?: React.ReactNode;
   /**
-   * False for a second copy on the page (the footer overlay). Only Home's
-   * footer carries the #newsletter anchor id (#295).
+   * False where the newsletter card is drawn above the footer instead
+   * (HomePageFooter, owner 2026-11-19); the overlay copy keeps it inside.
    */
-  isNewsletterAnchor?: boolean;
+  showNewsletter?: boolean;
 }
 
 /**
@@ -310,7 +310,7 @@ interface FooterContentProps {
 export function FooterContent({
   isCompact = false,
   headerContent,
-  isNewsletterAnchor = true,
+  showNewsletter = true,
 }: FooterContentProps) {
   const pathname = usePathname() ?? '/';
   const year = new Date().getFullYear();
@@ -327,9 +327,9 @@ export function FooterContent({
       <div
         className={`${styles.container} max-width-content-footer ${isCompact ? styles.containerCompact : ''}`}
       >
-        {/* Only Home keeps the #newsletter anchor on the footer; /contact has
-            its own #newsletter section (#295). */}
-        <FooterNewsletter isAnchor={isNewsletterAnchor && pathname === '/'} />
+        {/* Only the overlay copy draws the card in here; HomePageFooter draws
+            it above the footer line and owns Home's #newsletter anchor. */}
+        {showNewsletter ? <FooterNewsletter isAnchor={false} /> : null}
 
         <div
           className={`${styles.grid} ${isCompact ? styles.gridCompact : ''}`}
