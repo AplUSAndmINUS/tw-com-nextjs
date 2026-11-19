@@ -14,6 +14,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Changed
 
+- Book pre-orders are announced on the site (#285): `RCF_PREORDERS_OPEN` is on, so the site-wide pre-order bar, the home callout, the /about-me badge and button, the /about sentence, the book page's pre-order row and button, the footer link, the content hub note and the book's structured data are back. The "Building a Book the Way I Build Systems" post and `llms.txt` say pre-orders are open again (restoring what #273 removed).
 - The home page follows the chosen theme from the first paint (#281): the pre-paint script no longer forces it dark, which had caused a dark-to-light flash for light-mode visitors.
 - The Ko-fi "Tip Me" button is hidden while the booking dialog is open (#281); on phones it sat on top of the dialog.
 
