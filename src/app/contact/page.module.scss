@@ -1,0 +1,154 @@
+@use 'abstracts' as *;
+
+/*
+ * /contact (redesign, Slice 5): one place to talk to Terence. Built from the
+ * shared page mixins and tokens, rem-based for the Text size setting, with
+ * shrinkable grids so nothing overflows at large text sizes. A calm page:
+ * each way in is its own band, words on the left, the action on the right
+ * (stacked on phones).
+ */
+
+.page {
+  min-height: 100vh;
+  background: var(--tw-bg-page);
+  overflow-wrap: break-word;
+
+  :is(h1, h2, h3) {
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+}
+
+.container {
+  @include container-width;
+  width: auto;
+  container-type: inline-size;
+}
+
+.section {
+  @include page-section;
+}
+
+.sectionAlt {
+  @include page-section('alt');
+}
+
+/* ===== Intro =====
+   The deepest surface with one soft teal glow behind the heading (Warm
+   Futurism: teal as light, not a fill). Plain in high contrast and with
+   reduced transparency. */
+.intro {
+  @include page-section('deep');
+  background:
+    radial-gradient(
+      ellipse 55% 70% at 12% 30%,
+      color-mix(in srgb, var(--tw-sage-teal) 18%, transparent),
+      transparent 70%
+    ),
+    var(--tw-bg-deep);
+}
+
+:global([data-theme='high-contrast']) .intro,
+:global([data-tw-contrast='high']) .intro,
+:global([data-tw-reduced-transparency='true']) .intro {
+  background: var(--tw-bg-deep);
+}
+
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xl);
+  align-items: center;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: var(--tw-space-xxl);
+  }
+}
+
+.kicker {
+  @include label;
+  margin: 0 0 var(--tw-space-s);
+  color: var(--tw-accent);
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-display-size);
+  font-weight: var(--tw-h1-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.05;
+  color: var(--tw-text-heading-display);
+}
+
+.lede {
+  margin: var(--tw-space-m) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-body);
+}
+
+/* ===== The three ways in ===== */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xl);
+  align-items: start;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: var(--tw-space-xxl);
+  }
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h2-size);
+  font-weight: var(--tw-h2-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.15;
+  color: var(--tw-text-heading-display);
+}
+
+.text {
+  @include prose;
+  margin-top: var(--tw-space-m);
+}
+
+.action {
+  min-width: 0;
+
+  @include from('tablet') {
+    padding-top: var(--tw-space-s);
+  }
+}
+
+/* Book a Conversation: the words, then the booking steps under them, at a
+   comfortable width for a form. */
+.stack {
+  display: grid;
+  gap: var(--tw-space-xl);
+
+  > * {
+    min-width: 0;
+    max-width: 52rem;
+  }
+}
+
+/* ===== Find me online: centred, like /about-me ===== */
+.socials {
+  text-align: center;
+
+  .socialRow {
+    justify-content: center;
+    margin-inline: 0;
+  }
+}
+
+.socialRow {
+  margin-top: var(--tw-space-l);
+}
