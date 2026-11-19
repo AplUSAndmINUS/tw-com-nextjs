@@ -87,6 +87,7 @@
 
 .content {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   gap: var(--tw-space-xs);
   padding: var(--tw-card-pad);
@@ -142,4 +143,18 @@
   font-size: var(--tw-body-sm-size);
   line-height: var(--tw-body-sm-leading);
   color: var(--tw-text-muted);
+}
+
+/* Card controls (e.g. an episode's play button). Raised above the stretched
+   link's ::after so they take their own clicks; margin-top: auto keeps them on
+   the card's bottom edge when cards in a row share a height. */
+.actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tw-space-xs);
+  margin-top: auto;
+  padding-top: var(--tw-space-s);
 }

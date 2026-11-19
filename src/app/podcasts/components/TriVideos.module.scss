@@ -1,0 +1,37 @@
+@use 'abstracts' as *;
+
+.section {
+  @include page-section;
+}
+
+.container {
+  @include container-width;
+  width: auto;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  margin-bottom: var(--tw-space-xl);
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tw-tap-target);
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-link-size);
+  color: var(--tw-accent);
+  text-decoration: none;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-accent-hover);
+  }
+}

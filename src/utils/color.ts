@@ -32,9 +32,10 @@ export function withAlpha(color: string, percent: number): string {
 /**
  * The diagonal shimmer wash used on interactive card surfaces.
  *
- * This exact gradient was duplicated across Hero, PodcastCard, AdaptiveCardGrid
- * (three times), ConsultationCTA and NewsletterSignupCTA. Changing the angle or
- * falloff meant finding all seven copies, so it lives here now.
+ * This exact gradient was duplicated across Hero, AdaptiveCardGrid (three
+ * times), ConsultationCTA, NewsletterSignupCTA and the since-retired
+ * PodcastCard. Changing the angle or falloff meant finding every copy, so it
+ * lives here now.
  *
  * @param color   Wash color — usually the theme accent.
  * @param percent Opacity of the wash at its origin, 0–100.

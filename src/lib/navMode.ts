@@ -21,7 +21,7 @@ const clean = (pathname: string) =>
   pathname.split(/[?#]/)[0].replace(/\/+$/, '') || '/';
 
 /** Routes on the legacy PageLayout (fixed header + padded content). */
-export const FIXED_NAV_PREFIXES = ['/podcasts', '/unsubscribe'];
+export const FIXED_NAV_PREFIXES = ['/unsubscribe'];
 
 export function navModeFor(pathname: string): NavMode {
   const path = clean(pathname);

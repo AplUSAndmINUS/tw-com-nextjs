@@ -1,0 +1,53 @@
+@use 'abstracts' as *;
+
+.player {
+  @include card-surface;
+
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-l);
+  padding: var(--tw-card-pad);
+  margin: 0 0 var(--tw-space-xl);
+
+  @include until('mobile-lg') {
+    align-items: flex-start;
+    gap: var(--tw-space-m);
+  }
+}
+
+/* Nested under .player so these beat the article's global .tw-prose img and
+   .tw-prose p rules (which set margins, height: auto and a border). */
+.player .art {
+  flex: 0 0 auto;
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  margin: 0;
+
+  @include until('mobile-lg') {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.player .show {
+  @include label;
+  margin: 0 0 var(--tw-space-s);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-xs);
+}
+
+.scrubber {
+  margin-top: var(--tw-space-m);
+}
