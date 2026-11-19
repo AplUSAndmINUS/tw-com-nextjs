@@ -41,22 +41,12 @@
 }
 
 /* Corner glows — a soft radial per section, in that section's accent hue. */
-.glowAbout::before,
 .glowWork::before,
-.glowContent::before,
-.glowPortfolio::before {
+.glowContent::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-}
-
-.glowAbout::before {
-  background: radial-gradient(
-    900px 460px at 8% 0%,
-    color-mix(in srgb, var(--tw-glacier-cyan) 12%, transparent),
-    transparent 60%
-  );
 }
 .glowWork::before {
   background: radial-gradient(
@@ -72,28 +62,12 @@
     transparent 58%
   );
 }
-.glowPortfolio::before {
-  background: radial-gradient(
-    1100px 520px at 90% 100%,
-    color-mix(in srgb, var(--tw-slate-indigo) 16%, transparent),
-    transparent 60%
-  );
-}
 
 .container {
   position: relative;
   max-width: var(--tw-container);
   margin: 0 auto;
   padding: 0 var(--tw-container-pad);
-}
-
-/* ===== Resonance Philosophy micro-section ===== */
-.resonanceSection {
-  position: relative;
-  padding-block: 64px;
-  background: var(--tw-gradient-feature);
-  border-top: 1px solid var(--tw-border-subtle);
-  border-bottom: 1px solid var(--tw-border-subtle);
 }
 
 /* ===== Pre-order announcement (Mythic Gold) =====
@@ -134,38 +108,6 @@
   font-size: 1.03125rem;
   line-height: 1.7;
   color: var(--tw-text-body);
-}
-
-.bookCtas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
-}
-
-.resonanceGrid {
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 40px;
-  align-items: center;
-
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    justify-items: center;
-    text-align: left;
-  }
-}
-
-.resonanceLogo {
-  width: 100%;
-  border-radius: var(--tw-radius-card);
-  border: 1px solid var(--tw-border);
-  display: block;
-
-  @include until('mobile-lg') {
-    max-width: 240px;
-  }
 }
 
 /* ===== Numbered rail sections ===== */
@@ -213,19 +155,6 @@
   color: var(--tw-text-faint);
 }
 
-.portrait {
-  width: 100%;
-  border-radius: var(--tw-radius-card);
-  border: 1px solid var(--tw-border);
-  display: block;
-
-  @include until('mobile-lg') {
-    max-height: 400px;
-    object-fit: cover;
-    object-position: center 20%;
-  }
-}
-
 .railImage {
   position: relative;
   width: 100%;
@@ -245,19 +174,6 @@
   }
 }
 
-.socialBlock {
-  margin-top: 18px;
-}
-
-.socialLabel {
-  font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin-bottom: 11px;
-}
-
 /* ===== Prose + stats ===== */
 .prose {
   font-family: var(--tw-font-body);
@@ -270,48 +186,6 @@
   & + & {
     margin-top: 16px;
   }
-}
-
-.statGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 34px;
-
-  @include until('mobile-sm') {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* "Who this is for" trio, under the About stats. Rules rather than cards — the
-   card grid immediately below in Work needs to stay the louder element. */
-.audienceGrid {
-  display: grid;
-  gap: 22px;
-  margin-top: 34px;
-}
-
-.audience {
-  border-left: 2px solid var(--tw-border-strong);
-  padding-left: 18px;
-}
-
-.audienceLabel {
-  font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--tw-accent);
-  margin-bottom: 8px;
-}
-
-.audienceText {
-  font-family: var(--tw-font-body);
-  font-size: 0.96875rem;
-  line-height: 1.75;
-  color: var(--tw-text-body);
-  margin: 0;
-  max-width: 58ch;
 }
 
 /* ===== Card grids ===== */
@@ -365,28 +239,6 @@
   margin-top: 32px;
 }
 
-.filterRow {
-  margin-top: 24px;
-}
-
-// Loading / empty state for the Podcast and Video filters.
-.contentStatus {
-  margin-top: 28px;
-  min-height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-family: var(--tw-font);
-  color: var(--tw-text-soft);
-
-  a,
-  a:any-link {
-    color: var(--tw-accent);
-    font-weight: 700;
-  }
-}
-
 .viewAll {
   margin-top: 34px;
   display: flex;
@@ -418,73 +270,6 @@
   }
 }
 
-/* ===== Newsletter band ===== */
-.band {
-  position: relative;
-  overflow: hidden;
-  background: var(--tw-gradient-band);
-  border: 1px solid var(--tw-border-strong);
-  border-radius: var(--tw-radius-band);
-  padding: 52px 48px;
-
-  @include until('mobile-lg') {
-    padding: 36px 26px;
-  }
-}
-
-.bandGrid {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 44px;
-  align-items: center;
-  position: relative;
-
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-}
-
-/* Spacing for the band now that it shares the Contact section with the
-   contact form below it, rather than sitting alone in its own section. */
-.newsletterBand {
-  margin-bottom: 64px;
-
-  @include until('mobile-lg') {
-    margin-bottom: 40px;
-  }
-}
-
-/* The newsletter and contact forms own their own field/card styles — see
-   home/HomeNewsletterForm.module.scss and home/HomeContactForm.module.scss. */
-.newsletterSocials {
-  margin-top: 24px;
-}
-
-/* ===== Contact ===== */
-.contactGrid {
-  display: grid;
-  grid-template-columns: 1fr 1.05fr;
-  gap: 64px;
-  align-items: start;
-
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-}
-
-.contactCtaRow {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 26px;
-}
-
-.contactSocials {
-  margin-top: 26px;
-}
-
 /* ===== Identity watermark ===== */
 .watermark {
   background: var(--tw-bg-deep);
@@ -504,14 +289,218 @@
   }
 }
 
-.quote {
-  margin: var(--tw-space-l) 0 0;
-  max-width: 60ch;
-  padding: var(--tw-space-xs) var(--tw-space-m);
-  border-left: 3px solid var(--tw-accent);
-  font-family: var(--tw-font-body);
-  font-size: var(--tw-body-size);
-  font-style: italic;
-  line-height: var(--tw-body-leading);
+/* =====================================================================
+   Sections from the user copy (#285): the book hook, the Shifts, Humans
+   FIRST, what I stand for, the Content Hub cards and Let's talk. Tokens
+   and the shared page mixins only.
+   ===================================================================== */
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h2-size);
+  font-weight: var(--tw-h2-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.15;
   color: var(--tw-text-heading-display);
+}
+
+.lede {
+  margin: var(--tw-space-m) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-body);
+}
+
+.linkRow {
+  @include link-row;
+  margin-top: var(--tw-space-l);
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-l);
+}
+
+/* ===== The book: a "drive" beat, deep canvas, big type ===== */
+.hookSection {
+  @include page-section('deep');
+  padding-block: calc(var(--tw-section-pad) * 1.2);
+}
+
+/* Copy left, the book right (tablet and up); the cover hides on phones,
+   where the copy already fills the screen. */
+.hookGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: center;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+}
+
+.hookCover {
+  display: none;
+
+  @include from('tablet') {
+    display: block;
+  }
+
+  a {
+    display: block;
+    max-width: 26rem;
+    margin-inline: auto;
+    border-radius: var(--tw-radius-card);
+    overflow: clip;
+    box-shadow: var(--tw-shadow-l), var(--tw-glow-soft);
+    border: 1px solid var(--tw-line-color);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* The pre-order card inside the hook keeps its glow and button row. */
+.hookSection .preorderCard {
+  margin-top: var(--tw-space-xl);
+  max-width: 36rem;
+  background: color-mix(in srgb, var(--tw-mythic-gold) 8%, var(--tw-bg-deep));
+  box-shadow: var(--tw-glow-gold);
+}
+
+.hookSection .preorderBody {
+  margin-bottom: 0;
+}
+
+/* ===== The Shifts ===== */
+.sectionIntro {
+  margin-bottom: var(--tw-space-xxxl);
+}
+
+.pullQuote {
+  margin: var(--tw-space-l) 0 0;
+  padding-left: var(--tw-space-m);
+  max-width: var(--tw-measure);
+  border-left: var(--tw-line-width) solid var(--tw-line-color);
+  font-family: var(--tw-font-body);
+  font-style: italic;
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-muted);
+}
+
+/* ===== Humans FIRST: glacier-cyan periods (owner, 2026-11-18) =====
+   --tw-line is glacier cyan in light and dark and is remapped by the
+   high-contrast, colour-blind and grayscale modes. */
+.period {
+  color: var(--tw-line);
+}
+
+/* ===== What I stand for ===== */
+.valuesSection {
+  padding-top: var(--tw-space-xxxl);
+}
+
+.humanElement {
+  margin: 0;
+  max-width: var(--tw-measure-wide);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-body);
+}
+
+.afterHeading {
+  margin-top: var(--tw-space-m);
+}
+
+.values {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xl);
+  margin: var(--tw-space-xxl) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.value {
+  padding-top: var(--tw-space-m);
+  border-top: var(--tw-line-width) solid var(--tw-line-color);
+}
+
+.valueName {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: 700;
+  color: var(--tw-text-heading);
+}
+
+.valueText {
+  margin: var(--tw-space-s) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+.accepting {
+  margin: var(--tw-space-xxl) 0 0;
+  max-width: 32ch;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: 600;
+  color: var(--tw-text-heading-display);
+}
+
+/* ===== Content Hub: three cards across the container ===== */
+.hubGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-grid-gap);
+  margin-top: var(--tw-space-xxl);
+
+  /* Three across only where three cards have room; stacked below. */
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.hubCta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--tw-space-xl);
+}
+
+/* ===== Let's talk ===== */
+.talkGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: start;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  }
+}
+
+.socials {
+  margin-top: var(--tw-space-l);
 }

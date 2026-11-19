@@ -622,7 +622,7 @@ The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (d
 | `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting (3/hour, shared)   |
 | `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer with subscribe form        |
 | `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA                       |
-| `src/components/Footer/FooterContent.tsx`                    | `FooterNewsletterMini` compact form        |
+| `src/components/Footer/FooterContent.tsx`                    | `FooterNewsletter` lead block (#newsletter) |
 | `src/app/unsubscribe/UnsubscribePageClient.tsx`              | Unsubscribe page form                      |
 | `src/store/newsletterStore.ts`                               | Zustand store — dismissed/subscribed state |
 

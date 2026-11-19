@@ -1,0 +1,234 @@
+@use 'abstracts' as *;
+
+.credo {
+  position: relative;
+  overflow: hidden;
+  padding-block: calc(var(--tw-section-pad) * 1.1);
+  background: var(--tw-bg-deep);
+  scroll-margin-top: var(--tw-nav-height);
+
+  /* Glowing rules top and bottom. */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    @include light-line;
+  }
+  &::before {
+    top: 0;
+  }
+  &::after {
+    bottom: 0;
+  }
+
+  @include until('mobile-lg') {
+    padding-block: var(--tw-section-pad-sm);
+  }
+}
+
+/* The faint light-grid, masked so it fades toward the edges. */
+.inner {
+  position: relative;
+  @include container-width;
+  width: auto;
+  container-type: inline-size;
+  text-align: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -40% -10%;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--tw-line-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--tw-line-color) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.12;
+    mask-image: radial-gradient(ellipse at center, #000 10%, transparent 65%);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+:global([data-theme='high-contrast']) .inner::before,
+:global([data-tw-contrast='high']) .inner::before,
+:global([data-tw-reduced-transparency='true']) .inner::before,
+:global([data-theme='high-contrast']) .lines,
+:global([data-tw-contrast='high']) .lines,
+:global([data-tw-reduced-transparency='true']) .lines {
+  display: none;
+}
+
+/*
+ * Animated light traces (#285): thin lines that slide across the band like
+ * signals on a circuit. Only transform and opacity animate. Under reduced
+ * motion they rest where they are, faint.
+ */
+.lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 80%);
+
+  span {
+    position: absolute;
+    display: block;
+    opacity: 0.45;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--tw-accent) 60%, transparent);
+    will-change: transform, opacity;
+  }
+}
+
+/* Horizontal traces: a short glowing segment that crosses the band. */
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+  left: 0;
+  width: 28%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--tw-line-color) 40%,
+    var(--tw-accent) 60%,
+    transparent
+  );
+  /* At rest (reduced motion) the trace sits still inside the band. */
+  transform: none;
+  animation: credoTraceX 9s linear infinite;
+  @include motion-safe-only;
+}
+
+.h1 {
+  top: 14%;
+  animation-duration: 11s;
+}
+.h2 {
+  top: 31%;
+  left: 20%;
+  animation-duration: 8s;
+  animation-delay: -3s;
+}
+.h3 {
+  top: 52%;
+  animation-duration: 13s;
+  animation-delay: -6s;
+}
+.h4 {
+  top: 70%;
+  left: 40%;
+  animation-duration: 10s;
+  animation-delay: -1.5s;
+  animation-direction: reverse;
+}
+.h5 {
+  top: 88%;
+  animation-duration: 12s;
+  animation-delay: -8s;
+}
+
+/* Vertical traces, slower, at the sides of the text. */
+.v1,
+.v2 {
+  top: 0;
+  width: 2px;
+  height: 40%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--tw-line-color) 40%,
+    var(--tw-accent) 60%,
+    transparent
+  );
+  transform: none;
+  animation: credoTraceY 10s linear infinite;
+  @include motion-safe-only;
+}
+
+.v1 {
+  left: 12%;
+}
+.v2 {
+  right: 12%;
+  animation-duration: 14s;
+  animation-delay: -5s;
+}
+
+@keyframes credoTraceX {
+  0% {
+    transform: translateX(-110%);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(380%);
+    opacity: 0;
+  }
+}
+
+@keyframes credoTraceY {
+  0% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(260%);
+    opacity: 0;
+  }
+}
+
+.statement {
+  margin: 0 auto;
+  max-width: 22ch;
+  font-family: var(--tw-font);
+  font-size: var(--tw-credo-size);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--tw-text-heading-display);
+  text-wrap: balance;
+}
+
+.body {
+  margin: var(--tw-space-l) auto 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-body);
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: var(--tw-space-s);
+  }
+
+  a {
+    color: var(--tw-accent);
+    font-family: var(--tw-font);
+    font-weight: 700;
+    font-size: var(--tw-link-size);
+    text-underline-offset: 3px;
+
+    @include focus-ring;
+  }
+}

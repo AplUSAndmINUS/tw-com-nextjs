@@ -184,9 +184,6 @@ export function HomeContactForm() {
           <TwButton type='submit' disabled={isLoading}>
             {isLoading ? 'Sending…' : 'Send message'}
           </TwButton>
-          <TwButton variant='outline' href='https://tidycal.com/terencewaters'>
-            Book a free consultation
-          </TwButton>
         </div>
       </form>
     </div>

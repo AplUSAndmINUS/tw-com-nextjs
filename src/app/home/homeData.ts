@@ -129,18 +129,7 @@ export interface HomeSocial {
   href: string;
 }
 
-/** The About-rail social set. */
-export const aboutSocials: HomeSocial[] = [
-  { name: 'Facebook', icon: 'facebook', href: SOCIAL_URLS.facebook },
-  { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
-  { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
-  { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
-  { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
-  { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
-  { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
-];
-
-/** The wider set shown in the newsletter section; `contactSocials` prefixes it with Email. */
+/** The wider social set; `contactSocials` prefixes it with Email. */
 export const wideSocials: HomeSocial[] = [
   { name: 'LinkedIn', icon: 'linkedin', href: SOCIAL_URLS.linkedin },
   { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
