@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { INSTAGRAM_FEED_ENABLED } from '@/lib/instagram';
 import { JSDOM } from 'jsdom';
 import { ABOUT_SKILLS } from '@/content/aboutSkills';
 import { ABOUT_ME, ABOUT_ME_PROJECT_SLUGS } from '@/content/site/aboutMe';
@@ -66,7 +67,7 @@ describe('/about-me (#288)', () => {
       'book-and-podcast',
       'making',
       'projects',
-      'instagram',
+      ...(INSTAGRAM_FEED_ENABLED ? ['instagram'] : []),
       'skills',
       'socials',
       'connect',
@@ -189,14 +190,38 @@ describe('/about-me (#288)', () => {
     );
   });
 
-  it('loads the Instagram feed into Off the page (loading state on the server)', () => {
-    const section = $('#instagram');
-    expect(text(section.querySelector('h2'))).toBe('Off the page');
-    // Five placeholder tiles hold the lead-plus-four shape until posts load.
-    expect(
-      section.querySelectorAll('[aria-busy="true"] ul[aria-hidden="true"] li')
-    ).toHaveLength(5);
+  it.skipIf(INSTAGRAM_FEED_ENABLED)(
+    'hides Off the page while the Instagram feed is off (#321)',
+    () => {
+      expect(document.getElementById('instagram')).toBeNull();
+      expect(text(document.body)).not.toContain('Off the page');
+    }
+  );
+
+  it('keeps the bands alternating, with or without the Instagram feed', () => {
+    const ids = [
+      'projects',
+      ...(INSTAGRAM_FEED_ENABLED ? ['instagram'] : []),
+      'skills',
+      'socials',
+      'connect',
+    ];
+    const tones = ids.map((id) => $(`#${id}`).className);
+    for (let i = 1; i < tones.length; i++)
+      expect(tones[i]).not.toBe(tones[i - 1]);
   });
+
+  it.skipIf(!INSTAGRAM_FEED_ENABLED)(
+    'loads the Instagram feed into Off the page (loading state on the server)',
+    () => {
+      const section = $('#instagram');
+      expect(text(section.querySelector('h2'))).toBe('Off the page');
+      // Five placeholder tiles hold the lead-plus-four shape until posts load.
+      expect(
+        section.querySelectorAll('[aria-busy="true"] ul[aria-hidden="true"] li')
+      ).toHaveLength(5);
+    }
+  );
 
   it('adds the owner’s paragraph under I still build, with its emphasis', () => {
     const skills = $('#skills');

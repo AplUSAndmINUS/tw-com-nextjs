@@ -37,7 +37,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
   - Five quick links on one row (gold icons; "Pre-order my book!" highlighted). They stack on phones, and Book a Conversation opens the booking dialog.
   - In 60 seconds ("Three roles, one system"): the blurb and quick facts, then the role cards (Founder, Host, 20+ years, shortened) and the numbers.
   - The user copy's book and podcast cards, "Everything I'm making", and "Some of the work".
-  - Off the page: the latest Instagram posts in a lead-plus-four layout.
+  - Off the page: the latest Instagram posts in a lead-plus-four layout. Hidden for now behind `INSTAGRAM_FEED_ENABLED` (#321), until the account connects; the quick link to the profile stays.
   - What I bring to the table, with the owner's new paragraph under "I still build".
   - Find me online, and Want to go deeper?
   - Recent writing is gone.
