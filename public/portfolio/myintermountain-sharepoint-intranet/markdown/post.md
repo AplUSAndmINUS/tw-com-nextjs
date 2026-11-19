@@ -249,8 +249,8 @@ This project demonstrates **Fluxline's capability** to deliver:
 
 ## Related Resources
 
-- [MyIntermountain Enterprise Intranet Case Study](/case-studies/myintermountain-intranet) — full strategic context with Azure infrastructure and Agile transformation details
-- [Agile Transformation & Infrastructure Case Study](/case-studies/agile-transformation-consulting) — learn how we transformed the siloed team into a high-performing Agile unit
+- [MyIntermountain Enterprise Intranet Case Study](https://www.fluxline.pro/case-studies/myintermountain-intranet/) — full strategic context with Azure infrastructure and Agile transformation details
+- [Agile Transformation & Infrastructure Case Study](https://www.fluxline.pro/case-studies/agile-transformation-consulting/) — learn how we transformed the siloed team into a high-performing Agile unit
 - [Digital Transformation Strategies](/blog/digital-transformation-strategies-2025) — this project exemplifies enterprise transformation at scale
 
 ---

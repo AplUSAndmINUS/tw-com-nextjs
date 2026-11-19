@@ -18,7 +18,7 @@ import {
 import styles from './ContentHubClient.module.scss';
 import { RCF_PREORDERS_OPEN, RCF_PREORDER_HREF } from '@/lib/rcf';
 
-type Drawer = 'podcasts' | 'case-studies' | 'books' | null;
+type Drawer = 'podcasts' | 'books' | null;
 
 export interface ContentHubClientProps {
   /** Newest podcast episode, resolved at build time (may be null if offline). */
@@ -65,7 +65,6 @@ const NAV_CARDS = [
 ] as const;
 
 const TRI_URL = 'https://theresonantidentity.com';
-const FLUXLINE_CASE_STUDIES = 'https://www.fluxline.pro/case-studies';
 const FLUXLINE_BOOKS = 'https://www.fluxline.pro/books';
 
 /**
@@ -76,8 +75,9 @@ const FLUXLINE_BOOKS = 'https://www.fluxline.pro/books';
  *
  *   - Podcasts    — plays the most recent episode in the persistent mini-player
  *                   without leaving the site, or jumps to The Resonant Identity.
- *   - Case Studies — these live on Fluxline.pro (same content, not duplicated
- *                    here), so the drawer explains that and links out.
+ *   - Books       — coming soon, with a link to Fluxline.pro.
+ *
+ * Case studies are not part of this site (owner, 2026-11-19).
  */
 export default function ContentHubClient({
   latestEpisode,
@@ -130,23 +130,6 @@ export default function ContentHubClient({
             </span>
           </Link>
         ))}
-
-        {/* Case Studies — drawer trigger (content lives on Fluxline) */}
-        <button
-          type='button'
-          className={`${styles.card} ${styles.cardButton}`}
-          onClick={() => setDrawer('case-studies')}
-          aria-haspopup='dialog'
-        >
-          <BookIcon size={40} className={styles.icon} />
-          <span className={styles.cardTitle}>Case Studies</span>
-          <span className={styles.cardBody}>
-            In-depth project write-ups — hosted on Fluxline.pro.
-          </span>
-          <span className={styles.cardCta}>
-            View on Fluxline <ArrowRightIcon size={16} />
-          </span>
-        </button>
 
         {/* Books — Coming Soon */}
         <button
@@ -234,38 +217,6 @@ export default function ContentHubClient({
         <Link href='/podcasts' className={styles.tertiaryAction}>
           Browse all episodes on TW.com
         </Link>
-      </TwDrawer>
-
-      {/* ===== Case Studies drawer ===== */}
-      <TwDrawer
-        open={drawer === 'case-studies'}
-        onClose={() => setDrawer(null)}
-        title='Case Studies'
-        chipLabel='Fluxline'
-      >
-        <p className={styles.drawerBody}>
-          My in-depth project case studies live on Fluxline.pro, where the
-          client work is documented in full. Rather than duplicate them here,
-          I&apos;ll point you straight to the source.
-        </p>
-        <p className={styles.drawerBody}>
-          You&apos;ll find the enterprise platforms, design systems, and
-          transformation work — each written up with context, process, and
-          outcomes.
-        </p>
-        <a
-          href={FLUXLINE_CASE_STUDIES}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={styles.primaryAction}
-        >
-          View case studies on Fluxline.pro &#8599;
-        </a>
-        <div className={styles.drawerButtonRow}>
-          <TwButton variant='outline' href='/portfolio'>
-            See the portfolio instead
-          </TwButton>
-        </div>
       </TwDrawer>
 
       {/* ===== Books drawer ===== */}

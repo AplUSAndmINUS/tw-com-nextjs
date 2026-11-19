@@ -130,10 +130,12 @@ export default function ResonanceCoreFrameworkPage() {
               : { label: 'Be notified at launch', href: RCF_NOTIFY_HREF }
           }
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
-          backgroundImage='/assets/images/hero-landscape.jpg'
+          // The RCF banner (owner, 2026-11-19), in place of the portrait.
+          backgroundImage='/assets/images/RCF_banner_logo.jpg'
           tagline='By Terence Waters'
           location='Fluxline Resonance Group'
-          focalPoint='center 20%'
+          focalPoint='right center'
+          scrim='card-side'
           compact
         />
 
