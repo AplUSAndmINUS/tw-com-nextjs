@@ -1,102 +1,614 @@
 @use 'abstracts' as *;
 
-/**
- * About page
- * ==========
+/*
+ * /about (redesign, 2026-11): the full story, told in chapters.
  *
- * Rebuilt on the DSM token layer. Nothing here sets a literal colour, font,
- * radius, or shadow — every value resolves through a --tw-* custom property, so
- * the page follows all eight theme modes and the reduced-motion preference
- * without any per-mode branching.
- *
- * The section shape (sticky numbered rail on the left, content on the right)
- * deliberately mirrors HomePageClient.module.scss and fluxline.pro/services.
+ * Replaces the numbered image-rail layout (a Fluxline template, retired on
+ * TW.com by DESIGN_BRIEF.md §8.1). Built from the shared page mixins and
+ * tokens only, rem-based so the Text size setting scales it, with shrinkable
+ * grids so nothing overflows at 200% or on a 320px phone.
  */
 
 .page {
   min-height: 100vh;
   background: var(--tw-bg-page);
-  scroll-padding-top: var(--tw-nav-height);
-}
+  overflow-wrap: break-word;
 
-/* ===== Section shell ===== */
-
-.section {
-  position: relative;
-  overflow: hidden;
-  padding-block: 88px;
-  background: var(--tw-bg-page);
-
-  @include until('mobile-lg') {
-    padding-block: 56px;
+  :is(h1, h2, h3) {
+    hyphens: auto;
+    overflow-wrap: anywhere;
   }
-}
-
-.sectionAlt {
-  /* Gradient rather than a flat surface fill — the two are close enough in
-     value (especially in light mode) that alternating bands read as nearly
-     identical; the gradient gives each band its own presence. */
-  background: var(--tw-gradient-feature);
-  border-top: 1px solid var(--tw-border-subtle);
-  border-bottom: 1px solid var(--tw-border-subtle);
-}
-
-/* A single soft glow at the top of the page, echoing the homepage's About
-   section so the two feel continuous when you arrive from the callout. */
-.section:first-of-type::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    900px 460px at 8% 0%,
-    color-mix(in srgb, var(--tw-glacier-cyan) 12%, transparent),
-    transparent 60%
-  );
 }
 
 .container {
-  position: relative;
-  max-width: var(--tw-container);
-  margin: 0 auto;
-  padding: 0 var(--tw-container-pad);
+  @include container-width;
+  width: auto;
+  container-type: inline-size;
 }
 
-.railGrid {
+.section {
+  @include page-section;
+}
+
+.sectionAlt {
+  @include page-section('alt');
+}
+
+/* Bands alternate base / alt from 01 to the closing band (#294). */
+.closing {
+  @include page-section('alt');
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h2-size);
+  font-weight: var(--tw-h2-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.15;
+  color: var(--tw-text-heading-display);
+}
+
+.h3 {
+  margin: var(--tw-space-xxl) 0 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  color: var(--tw-text-heading-display);
+}
+
+.lede {
+  margin: var(--tw-space-m) 0 0;
+  max-width: var(--tw-measure-wide);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-body);
+}
+
+.prose {
+  @include prose;
+  margin-top: var(--tw-space-m);
+}
+
+.label {
+  @include label;
+  margin: var(--tw-space-l) 0 var(--tw-space-s);
+}
+
+.linkRow {
+  @include link-row;
+  margin-top: var(--tw-space-l);
+}
+
+.pullQuote {
+  margin: var(--tw-space-l) 0 0;
+  padding-left: var(--tw-space-m);
+  max-width: var(--tw-measure);
+  border-left: var(--tw-line-width) solid var(--tw-line-color);
+  font-family: var(--tw-font-body);
+  font-style: italic;
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-muted);
+}
+
+/* "Your job is to find your resonant identity…": a blockquote with a Mythic
+   Gold rule (owner, Checkpoint 3b), a touch larger than body text. */
+.goldQuote {
+  @include gold-quote;
+  margin-top: var(--tw-space-xl);
+  max-width: var(--tw-measure);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+}
+
+.twoCol {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  gap: 56px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: start;
 
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-    gap: 28px;
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+
+  > * > .h3:first-child {
+    margin-top: 0;
   }
 }
 
-.rail {
-  position: sticky;
-  top: calc(var(--tw-nav-height) + 28px);
-  align-self: start;
+/* ===== The short version ===== */
+/* Text left, the ripple right (tablet and up). */
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: center;
 
-  @include until('mobile-lg') {
-    position: static;
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
   }
 }
 
+.introRipple {
+  display: none;
+
+  @include from('tablet') {
+    display: block;
+    width: 100%;
+    max-width: 24rem;
+    justify-self: center;
+  }
+}
+
+/* ===== The Shifts: chapters on a light line ===== */
+.chapters {
+  position: relative;
+  margin: var(--tw-space-xxl) 0 0;
+  padding: 0 0 0 var(--tw-space-xl);
+  list-style: none;
+  display: grid;
+  gap: var(--tw-space-xxl);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    @include light-line(vertical);
+  }
+}
+
+.chapter {
+  position: relative;
+
+  /* The node on the line. */
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--tw-space-xl) + 1px);
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--tw-line-strong);
+    box-shadow: var(--tw-glow-node);
+  }
+
+  article {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--tw-space-s) var(--tw-space-xxl);
+    scroll-margin-top: calc(var(--tw-nav-height) + var(--tw-space-l));
+
+    @include from('tablet') {
+      grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    }
+  }
+}
+
+.chapterNumber {
+  @include label;
+  margin: 0 0 var(--tw-space-xxs);
+  color: var(--tw-accent);
+}
+
+.chapterTitle {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tw-text-heading-display);
+}
+
+.chapterBody > .prose:first-child {
+  margin-top: 0;
+}
+
+.chapterQuote {
+  margin: var(--tw-space-m) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font);
+  font-size: var(--tw-lede-size);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--tw-text-heading);
+}
+
+.roles,
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-xs);
+  margin: var(--tw-space-m) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ===== Learning to play by feel ===== */
+/* A sound wave under the heading: the musician, quietly. */
+.wave {
+  margin-top: var(--tw-space-m);
+}
+
+/* ===== What I stand for ===== */
+.values {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xl);
+  margin: var(--tw-space-xxl) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.value {
+  padding-top: var(--tw-space-m);
+  border-top: var(--tw-line-width) solid var(--tw-line-color);
+}
+
+.valueName {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: 700;
+  color: var(--tw-text-heading);
+}
+
+.valueText {
+  margin: var(--tw-space-s) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+.beliefs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-l);
+  margin: var(--tw-space-l) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.belief {
+  padding-left: var(--tw-space-m);
+  border-left: var(--tw-line-width) solid var(--tw-line-color);
+}
+
+.beliefTitle {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-body-size);
+  color: var(--tw-text-heading-display);
+}
+
+.beliefText {
+  margin: var(--tw-space-xs) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+/* ===== How I work ===== */
+.approach {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-l);
+  margin: var(--tw-space-xxl) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.approachItem {
+  padding: var(--tw-space-l);
+  border-radius: var(--tw-radius-card-sm);
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  @include accent-line(left, var(--tw-line-color), 2px);
+}
+
+.approachTitle {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--tw-text-heading-display);
+}
+
+.approachText {
+  margin: var(--tw-space-xs) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+/* ===== I still build / What I do now ===== */
+.growing,
+.services {
+  margin: var(--tw-space-l) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--tw-space-m);
+}
+
+/* An icon badge beside each item: makes the section scannable. */
+.iconItem {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--tw-space-m);
+  align-items: start;
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--tw-line-color);
+  background: color-mix(in srgb, var(--tw-accent) 8%, transparent);
+  color: var(--tw-accent);
+  box-shadow: var(--tw-glow-soft);
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.growingText {
+  display: block;
+  padding-top: 0.55rem;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-prose-size);
+  line-height: 1.5;
+  color: var(--tw-text-body);
+}
+
+.stillBuildQuote {
+  margin: var(--tw-space-s) 0 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-lede-size);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--tw-text-heading-display);
+}
+
+.services li {
+  padding-bottom: var(--tw-space-m);
+  border-bottom: 1px solid var(--tw-border-subtle);
+}
+
+.serviceName {
+  display: block;
+  margin: 0;
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-body-size);
+  color: var(--tw-text-heading);
+}
+
+.serviceText {
+  display: block;
+  margin: var(--tw-space-xxs) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+/* ===== Experience (timeline: AboutTimeline.tsx) ===== */
+.timeline {
+  position: relative;
+  margin: var(--tw-space-xxl) 0 0;
+  padding: 0 0 0 var(--tw-space-xl);
+  list-style: none;
+  display: grid;
+  gap: var(--tw-space-xl);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    @include light-line(vertical);
+  }
+}
+
+.timelineItem {
+  position: relative;
+}
+
+.timelineNode {
+  position: absolute;
+  left: calc(-1 * var(--tw-space-xl) + 1px);
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tw-bg-page);
+  border: 2px solid var(--tw-line-strong);
+}
+
+.timelinePeriod {
+  @include label;
+  margin: 0;
+  color: var(--tw-accent);
+}
+
+.timelineTitle {
+  margin: var(--tw-space-xxs) 0 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: 700;
+  color: var(--tw-text-heading-display);
+}
+
+.timelineOrg {
+  margin: var(--tw-space-xxs) 0 0;
+  font-family: var(--tw-font);
+  font-weight: 600;
+  font-size: var(--tw-body-size);
+  color: var(--tw-text-heading);
+}
+
+.timelineBullets {
+  margin: var(--tw-space-s) 0 0;
+  padding-left: var(--tw-space-l);
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+
+  li + li {
+    margin-top: var(--tw-space-xxs);
+  }
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-grid-gap);
+  margin: var(--tw-space-l) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('mobile-lg') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.project {
+  padding: var(--tw-space-l);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  background: var(--tw-surface-card);
+}
+
+.projectPeriod {
+  margin: 0;
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-meta-size);
+  color: var(--tw-text-muted);
+}
+
+.projectName {
+  margin: var(--tw-space-xs) 0 0;
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-body-size);
+  color: var(--tw-text-heading-display);
+}
+
+.projectMeta {
+  margin: var(--tw-space-xs) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  line-height: var(--tw-body-sm-leading);
+  color: var(--tw-text-muted);
+}
+
+/* ===== Highlights (owner, Checkpoint 3b) =====
+   Mythic Gold, used sparingly for emphasis: the "I still build" icons and
+   the three values and their lines (#294 adds more below). Text and
+   icons use --tw-mythic-gold-text (contrast-tuned per theme); lines use
+   --tw-gold-line. */
+.iconBadgeGold {
+  border-color: var(--tw-gold-line);
+  background: var(--tw-mythic-gold-bg);
+  color: var(--tw-mythic-gold-text);
+  box-shadow: var(--tw-glow-gold);
+}
+
+.valueGold {
+  border-top-color: var(--tw-gold-line);
+
+  .valueName {
+    color: var(--tw-mythic-gold-text);
+  }
+}
+
+/* Experience: a muted teal glow behind the timeline and projects, mostly the
+   base background (owner, Checkpoint 3b). */
+.experienceGlow {
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 88% 12%,
+      color-mix(in srgb, var(--tw-sage-teal) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 6% 88%,
+      color-mix(in srgb, var(--tw-sage-teal) 15%, transparent),
+      transparent 70%
+    ),
+    var(--tw-bg-page);
+}
+
+/* High contrast and reduced transparency: plain background. */
+:global([data-theme='high-contrast']) .experienceGlow,
+:global([data-tw-contrast='high']) .experienceGlow,
+:global([data-tw-reduced-transparency='true']) .experienceGlow {
+  background: var(--tw-bg-page);
+}
+
+/* =====================================================================
+   /about rebuild (#294): numbered sections, the body photo, the HCSA
+   callout and glowing approach cards. Mythic Gold for highlights: text in
+   --tw-mythic-gold-text (4.5:1), borders and rules in --tw-gold-line
+   (darker on light canvases), glows and tints in --tw-mythic-gold.
+   ===================================================================== */
+
+/* "01 ── Intro": the number in gold, a short gold rule, the category. */
 .numRow {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 18px;
+  align-items: center;
+  gap: var(--tw-space-s);
+  margin: 0 0 var(--tw-space-s);
 }
 
 .secNum {
   font-family: var(--tw-font-mono);
-  font-size: 2.125rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: var(--tw-accent);
   line-height: 1;
   letter-spacing: -0.02em;
+  color: var(--tw-mythic-gold-text);
+}
+
+.secRule {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--tw-gold-line), transparent);
 }
 
 .secLabel {
@@ -104,588 +616,228 @@
   font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--tw-text-faint);
+  color: var(--tw-text-muted);
 }
 
-.railImage {
-  position: relative;
-  width: 100%;
-  height: 380px;
-  border-radius: var(--tw-radius-card);
+/* The short version: one paragraph (owner, #294). */
+.statementOne {
+  margin: var(--tw-space-l) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: 1.8;
+  color: var(--tw-text-body);
+
+  strong {
+    color: var(--tw-text-heading-display);
+  }
+}
+
+/* 03 Music: the story left, the quote large on the right (owner: music and
+   the body as separate sections, #294). */
+.musicGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: center;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+}
+
+.musicQuote {
+  @include gold-quote;
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: clamp(1.375rem, 1rem + 1.4vw, 2rem);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--tw-text-heading-display);
+}
+
+/* 04 The body: the photo, gold-framed, beside its story. */
+.bodyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: center;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+}
+
+.bodyPhoto {
+  max-width: 28rem;
   overflow: hidden;
-  border: 1px solid var(--tw-border);
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--tw-gold-line);
+  border-radius: var(--tw-radius-card);
+  box-shadow: var(--tw-glow-gold);
 
   img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 25%;
+    object-position: 50% 12%;
+  }
+
+  @include until('tablet') {
+    max-width: none;
+  }
+}
+
+.bodyText {
+  @include prose;
+  margin-top: var(--tw-space-m);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+}
+
+/* Humans First. AI Second.: a gold-framed callout that leads How I work,
+   with slow light traces behind the text (transform and opacity only). */
+.hcsaCallout {
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--tw-space-xl);
+  padding: var(--tw-space-xl);
+  border: 1px solid var(--tw-gold-line);
+  border-radius: var(--tw-radius-card);
+  background:
+    radial-gradient(
+      ellipse 60% 80% at 100% 0%,
+      color-mix(in srgb, var(--tw-mythic-gold) 14%, transparent),
+      transparent 70%
+    ),
+    var(--tw-surface-card);
+  box-shadow: var(--tw-glow-gold);
+
+  > :not(.hcsaTraces) {
+    position: relative;
+    z-index: 1;
   }
 
   @include until('mobile-lg') {
-    height: 240px;
+    padding: var(--tw-space-l);
   }
 }
 
-/* ===== Prose ===== */
-
-.prose {
-  font-family: var(--tw-font-body);
-  font-size: 1.03125rem;
-  line-height: 1.85;
-  color: var(--tw-text-body);
-  margin: 26px 0 0;
-  max-width: 62ch;
-
-  & + & {
-    margin-top: 16px;
-  }
-
-  a {
-    color: var(--tw-accent);
-    text-underline-offset: 3px;
-  }
-}
-
-.lead {
-  font-size: 1.15rem;
-  color: var(--tw-text-bright);
-  line-height: 1.7;
-}
-
-.statGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 34px;
-
-  @include until('mobile-sm') {
-    grid-template-columns: 1fr;
-  }
-}
-
-.pullQuote {
-  margin: 34px 0 0;
-  padding-left: 22px;
-  border-left: 3px solid var(--tw-accent);
-  font-family: var(--tw-font-body);
-  font-style: italic;
-  font-size: 1.1875rem;
-  line-height: 1.6;
-  color: var(--tw-text-bright);
-  max-width: 52ch;
-}
-
-/* ===== 02 Beliefs ===== */
-
-.beliefList {
-  list-style: none;
-  padding: 0;
-  margin: 32px 0 0;
-  display: grid;
-  gap: 18px;
-}
-
-.belief {
-  @include card-surface;
-  padding: var(--tw-card-pad);
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 20px;
-  align-items: start;
-}
-
-.beliefNum {
-  font-family: var(--tw-font-mono);
-  font-size: 1.375rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--tw-accent);
-  padding-top: 2px;
-}
-
-.beliefTitle {
-  font-family: var(--tw-font);
-  font-size: 1.0625rem;
-  font-weight: 700;
-  color: var(--tw-text-heading);
-  margin: 0 0 8px;
-  letter-spacing: -0.01em;
-}
-
-.beliefText {
-  font-family: var(--tw-font-body);
-  font-size: 0.96875rem;
-  line-height: 1.7;
-  color: var(--tw-text-body);
+.hcsaTitle {
   margin: 0;
-}
-
-/* ===== 03 Audiences ===== */
-
-.audienceGrid {
-  display: grid;
-  gap: 22px;
-  margin-top: 32px;
-}
-
-.audience {
-  border-left: 2px solid var(--tw-border-strong);
-  padding-left: 18px;
-}
-
-.audienceLabel {
-  font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--tw-accent);
-  margin-bottom: 8px;
-}
-
-.audienceText {
-  font-family: var(--tw-font-body);
-  font-size: 0.96875rem;
-  line-height: 1.75;
-  color: var(--tw-text-body);
-  margin: 0;
-  max-width: 58ch;
-}
-
-/* ===== Chip rows (build qualities, hats) ===== */
-
-.chipLabel {
   font-family: var(--tw-font);
-  font-size: 0.71875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin: 34px 0 12px;
+  font-size: var(--tw-h2-size);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--tw-text-heading-display);
 }
 
-.chipRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-/* ===== 04 Approach ===== */
-
-.approachList {
-  list-style: none;
-  padding: 0;
-  margin: 32px 0 0;
-  display: grid;
-  gap: 18px;
-}
-
-.approach {
-  @include card-surface(var(--tw-radius-card-sm));
-  @include card-interactive;
-  padding: 22px 24px;
-}
-
-.approachTitle {
-  font-family: var(--tw-font);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--tw-text-heading);
-  margin: 0 0 8px;
-}
-
-.approachText {
+.hcsaBody {
+  margin: var(--tw-space-m) 0 0;
+  max-width: var(--tw-measure);
   font-family: var(--tw-font-body);
-  font-size: 0.9375rem;
-  line-height: 1.7;
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
   color: var(--tw-text-body);
-  margin: 0;
 }
 
-/* ===== 05 Timeline ===== */
+.hcsaTraces {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Only on the open right side, so a trace never runs behind the text and
+     reads as a strikethrough. */
+  mask-image: linear-gradient(90deg, transparent 0 58%, #000 80%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0 58%, #000 80%);
 
-.timeline {
-  list-style: none;
-  padding: 0;
-  margin: 34px 0 0;
-  display: grid;
-  gap: 26px;
+  span {
+    position: absolute;
+    left: 0;
+    width: 30%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--tw-mythic-gold),
+      transparent
+    );
+    opacity: 0.4;
+    animation: hcsaTrace 10s linear infinite;
+    @include motion-safe-only;
+  }
+
+  span:nth-child(1) {
+    top: 22%;
+  }
+  span:nth-child(2) {
+    top: 58%;
+    animation-duration: 13s;
+    animation-delay: -4s;
+  }
+  span:nth-child(3) {
+    top: 86%;
+    animation-duration: 9s;
+    animation-delay: -7s;
+  }
 }
 
-.timelineItem {
-  position: relative;
-  padding-left: 34px;
-  border-left: 2px solid var(--tw-border);
-  padding-bottom: 4px;
-  transition: border-color var(--tw-hover-duration) var(--tw-motion-ease);
+@keyframes hcsaTrace {
+  0% {
+    transform: translateX(-110%);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateX(360%);
+    opacity: 0;
+  }
+}
+
+/* Glow on hover for the approach cards. They are not links: no lift, no
+   pointer, just a warmer border and glow. */
+.glowCard {
+  transition:
+    border-color var(--tw-hover-duration) var(--tw-motion-ease),
+    box-shadow var(--tw-hover-duration) var(--tw-motion-ease);
 
   &:hover {
-    border-left-color: var(--tw-accent);
+    border-color: var(--tw-gold-line);
+    box-shadow:
+      var(--tw-glow-gold),
+      0 0 0 1px color-mix(in srgb, var(--tw-mythic-gold) 30%, transparent);
   }
 
   @include motion-safe-only;
 }
 
-.timelineMarker {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: var(--tw-radius-pill);
+/* High contrast and reduced transparency: no traces, plain surfaces. */
+:global([data-theme='high-contrast']) .hcsaTraces,
+:global([data-tw-contrast='high']) .hcsaTraces,
+:global([data-tw-reduced-transparency='true']) .hcsaTraces {
+  display: none;
+}
+
+:global([data-theme='high-contrast']) .hcsaCallout,
+:global([data-tw-contrast='high']) .hcsaCallout,
+:global([data-tw-reduced-transparency='true']) .hcsaCallout {
   background: var(--tw-surface-card);
-  border: 1px solid var(--tw-border-strong);
-  color: var(--tw-accent);
-  font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.timelinePeriod {
-  font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin: 6px 0 8px;
+/* The "(Yes, that includes this website…)" note: one line on desktop, with a
+   gold rule (two classes, so it wins over TwAside's 44ch measure). */
+.hcsaCallout .hcsaAside {
+  max-width: none;
+  border-left-color: var(--tw-gold-line);
 }
 
-.timelineTitle {
-  font-family: var(--tw-font);
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--tw-text-heading);
-  margin: 0 0 4px;
-  letter-spacing: -0.01em;
-}
-
-.timelineOrg {
-  font-family: var(--tw-font-body);
-  font-style: italic;
-  font-size: 0.875rem;
-  color: var(--tw-accent);
-  margin: 0 0 12px;
-}
-
-.timelineBullets {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 7px;
-
-  li {
-    position: relative;
-    padding-left: 18px;
-    font-family: var(--tw-font-body);
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--tw-text-muted);
-
-    &::before {
-      content: '\25C6';
-      position: absolute;
-      left: 0;
-      color: var(--tw-accent);
-      font-size: 0.625rem;
-      line-height: 1.7;
-    }
-  }
-}
-
-/* ===== 06 Projects ===== */
-
-.projectGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin-top: 32px;
-
-  @include until('mobile-sm') {
-    grid-template-columns: 1fr;
-  }
-}
-
-.project {
-  @include card-surface(var(--tw-radius-card-sm));
-  @include card-interactive;
-  padding: 22px 24px;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.projectPeriod {
-  font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin: 0 0 8px;
-}
-
-.projectName {
-  font-family: var(--tw-font);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--tw-text-heading);
-  margin: 0 0 8px;
-  line-height: 1.35;
-}
-
-.projectRole {
-  font-family: var(--tw-font-body);
-  font-size: 0.875rem;
-  color: var(--tw-text-body);
-  margin: 0 0 10px;
-}
-
-.projectStack {
-  font-family: var(--tw-font-mono);
-  font-size: 0.75rem;
-  color: var(--tw-accent);
-  margin: 0;
-}
-
-/* ===== 07 Credentials ===== */
-
-.skillGroups {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 32px;
-
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-  }
-}
-
-.skillGroup {
-  @include card-surface(var(--tw-radius-card-sm));
-  @include card-interactive;
-  padding: 22px 24px;
-}
-
-.skillGroupTitle {
-  font-family: var(--tw-font);
-  font-size: 0.71875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tw-accent);
-  margin: 0 0 14px;
-}
-
-.skillList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 8px;
-
-  li {
-    font-family: var(--tw-font-body);
-    font-size: 0.90625rem;
-    line-height: 1.5;
-    color: var(--tw-text-body);
-  }
-}
-
-.credGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px;
-  margin-top: 40px;
-
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-}
-
-.credHeading {
-  font-family: var(--tw-font);
-  font-size: 0.71875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin: 0 0 16px;
-}
-
-.credList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 16px;
-}
-
-.credName {
-  font-family: var(--tw-font);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--tw-text-heading);
-  margin: 0 0 4px;
-  line-height: 1.4;
-}
-
-.credMeta {
-  font-family: var(--tw-font-mono);
-  font-size: 0.75rem;
-  color: var(--tw-text-faint);
-  margin: 0;
-}
-
-.certList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
-}
-
-.certItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--tw-border-subtle);
-
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-}
-
-.certName {
-  font-family: var(--tw-font-body);
-  font-size: 0.90625rem;
-  color: var(--tw-text-body);
-}
-
-.certYear {
-  font-family: var(--tw-font-mono);
-  font-size: 0.71875rem;
-  color: var(--tw-text-faint);
-  white-space: nowrap;
-}
-
-/* ===== Proficiency meters ===== */
-
-.meterGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 36px;
-  margin-top: 24px;
-
-  @include until('mobile-sm') {
-    grid-template-columns: 1fr;
-  }
-}
-
-.meterHead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 7px;
-}
-
-.meterName {
-  font-family: var(--tw-font-body);
-  font-size: 0.84375rem;
-  color: var(--tw-text-body);
-}
-
-.meterValue {
-  font-family: var(--tw-font-mono);
-  font-size: 0.71875rem;
-  color: var(--tw-text-faint);
-}
-
-.meterTrack {
-  height: 6px;
-  border-radius: var(--tw-radius-pill);
-  background: var(--tw-surface-inset);
-  border: 1px solid var(--tw-border-subtle);
-  overflow: hidden;
-}
-
-/*
- * The fill grows when the enclosing TwReveal flips to `.in`, so the meters
- * animate as the section scrolls into view without a client component of their
- * own. `--tw-meter-pct` is the only inline style — it is per-item data.
- */
-.meterFill {
-  display: block;
-  height: 100%;
-  border-radius: var(--tw-radius-pill);
-  background: var(--tw-gradient-accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 900ms var(--tw-motion-ease);
-}
-
-:global(.tw-rv.in) .meterFill {
-  transform: scaleX(var(--tw-meter-pct, 1));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .meterFill {
-    transition: none;
-    transform: scaleX(var(--tw-meter-pct, 1));
-  }
-}
-
-:global([data-tw-reduced-motion='true']) .meterFill {
-  transition: none;
-  transform: scaleX(var(--tw-meter-pct, 1));
-}
-
-/* ===== Links out ===== */
-
-.viewAll {
-  margin-top: 32px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 26px;
-  flex-wrap: wrap;
-
-  a {
-    font-family: var(--tw-font);
-    font-weight: 700;
-    font-size: 0.90625rem;
-    color: var(--tw-accent);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: gap 0.2s var(--tw-motion-ease), color 0.2s var(--tw-motion-ease);
-
-    @include focus-ring;
-
-    &:hover {
-      gap: 11px;
-      color: var(--tw-accent-hover);
-    }
-
-    @include motion-safe-only;
-  }
-}
-
-/* ===== Closing band ===== */
-
-.closing {
-  padding-block: 88px;
-  background: var(--tw-bg-page);
-
-  @include until('mobile-lg') {
-    padding-block: 56px;
-  }
+:global([data-theme='high-contrast']) .glowCard:hover,
+:global([data-tw-contrast='high']) .glowCard:hover,
+:global([data-tw-reduced-transparency='true']) .glowCard:hover {
+  box-shadow: none;
 }
