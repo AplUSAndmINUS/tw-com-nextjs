@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { getRobotsConfig } from '@/utils/metadata';
-import { TwPageNav, TwSectionHeading } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
+import { TwSectionHeading } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import VideosClient from './VideosClient';
 import styles from './page.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 const VIDEOS_TITLE = 'Videos: Talks, Live Streams and Studio Notes';
 const VIDEOS_DESCRIPTION =
@@ -24,12 +24,6 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub', active: true },
-  { label: 'Portfolio', href: '/portfolio' },
-];
-
 /**
  * Videos — the list is client-fetched from YouTube (see VideosClient), so this
  * server component only supplies the chrome and heading.
@@ -37,8 +31,8 @@ const NAV_LINKS: TwPageNavLink[] = [
 export default function VideosPage() {
   return (
     <>
-      <TwPageNav back={{ label: 'Back to Content Hub', href: '/content-hub' }} links={NAV_LINKS} />
-      <main>
+      <SiteNav />
+      <main id='main'>
         <section className={styles.head}>
           <div className={styles.headGlow} aria-hidden='true' />
           <div className={styles.container}>

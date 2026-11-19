@@ -13,7 +13,8 @@
   font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
-  transition: color var(--tw-color-duration) var(--tw-motion-ease),
+  transition:
+    color var(--tw-color-duration) var(--tw-motion-ease),
     border-color var(--tw-color-duration) var(--tw-motion-ease);
 
   @include focus-ring;
@@ -36,8 +37,14 @@
   top: calc(var(--tw-nav-height) + 10px);
   right: 24px;
   z-index: 1100;
-  width: 308px;
+  /* rem, so the panel grows with the Text size setting. border-box so the
+     viewport cap includes the padding (22rem = the old 308px + 2 × 22px
+     padding at 100%). Scrolls if it outgrows the viewport at large sizes. */
+  box-sizing: border-box;
+  width: 22rem;
   max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - var(--tw-nav-height) - 20px);
+  overflow-y: auto;
   background: var(--tw-surface-card);
   border: 1px solid var(--tw-border);
   border-radius: var(--tw-radius-card);
@@ -51,8 +58,10 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px) scale(0.98);
-  transition: opacity 0.2s var(--tw-motion-ease),
-    transform 0.2s var(--tw-motion-ease), visibility 0.2s;
+  transition:
+    opacity 0.2s var(--tw-motion-ease),
+    transform 0.2s var(--tw-motion-ease),
+    visibility 0.2s;
 
   &.panelOpen {
     opacity: 1;
@@ -126,6 +135,18 @@
   &:hover {
     border-color: var(--tw-border-hover);
     color: var(--tw-text-heading);
+  }
+}
+
+/* Text size: three steps, wraps at large text sizes instead of overflowing. */
+.sizeRow {
+  flex-wrap: wrap;
+
+  .seg {
+    flex: 1 0 auto;
+    min-width: 2.75rem;
+    min-height: var(--tw-tap-target);
+    padding-inline: 4px;
   }
 }
 

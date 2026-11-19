@@ -119,6 +119,9 @@ function BookingDialog({ onClose }: { onClose: () => void }) {
     const root = document.documentElement;
     const previousOverflow = root.style.overflow;
     root.style.overflow = 'hidden';
+    // Third-party floaters (the Ko-fi "Tip Me" button) stack above any
+    // z-index we pick; this flag hides them while the dialog is open.
+    root.setAttribute('data-booking-open', '');
     closeRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -146,6 +149,7 @@ function BookingDialog({ onClose }: { onClose: () => void }) {
     return () => {
       document.removeEventListener('keydown', onKeyDown);
       root.style.overflow = previousOverflow;
+      root.removeAttribute('data-booking-open');
     };
   }, [onClose]);
 

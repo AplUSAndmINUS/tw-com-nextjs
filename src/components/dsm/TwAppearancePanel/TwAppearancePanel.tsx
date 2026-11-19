@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { SettingsIcon } from '@/components/icons';
 import { TwSwitch } from '../TwSwitch';
+import { FONT_SCALE_STEPS } from '@/theme/fontScale';
 import styles from './TwAppearancePanel.module.scss';
 
 export interface TwAppearancePanelProps {
@@ -14,8 +15,8 @@ export interface TwAppearancePanelProps {
  * Display & appearance panel.
  *
  * The gear button plus a fixed pop-over exposing the appearance controls the
- * redesign calls for: Dark/Light, reduce motion, reduce transparency, high
- * contrast, colorblind-safe palette.
+ * redesign calls for: Dark/Light, text size (100% to 150%), reduce motion,
+ * reduce transparency, high contrast, colorblind-safe palette.
  *
  * Every control writes to the shared preferences store through useAppTheme, so
  * the panel does not own any of this state — it persists, survives navigation,
@@ -40,6 +41,8 @@ export function TwAppearancePanel({ className }: TwAppearancePanelProps) {
     setHighContrast,
     colorblindSafe,
     setColorblindSafe,
+    fontScale,
+    setFontScale,
   } = useAppTheme();
 
   const [open, setOpen] = useState(false);
@@ -85,6 +88,7 @@ export function TwAppearancePanel({ className }: TwAppearancePanelProps) {
     setReducedTransparency(false);
     setHighContrast(false);
     setColorblindSafe(false);
+    setFontScale(1);
   };
 
   return (
@@ -105,11 +109,7 @@ export function TwAppearancePanel({ className }: TwAppearancePanelProps) {
       <div
         ref={panelRef}
         id={panelId}
-        className={[
-          'tw-blur',
-          styles.panel,
-          open ? styles.panelOpen : '',
-        ]
+        className={['tw-blur', styles.panel, open ? styles.panelOpen : '']
           .filter(Boolean)
           .join(' ')}
         role='dialog'
@@ -166,6 +166,32 @@ export function TwAppearancePanel({ className }: TwAppearancePanelProps) {
           >
             Light
           </button>
+        </div>
+
+        <div className={styles.groupLabel} id={`${panelId}-size`}>
+          Text size
+        </div>
+        <div
+          className={`${styles.segRow} ${styles.sizeRow}`}
+          role='group'
+          aria-labelledby={`${panelId}-size`}
+        >
+          {FONT_SCALE_STEPS.map((step) => {
+            const on = Math.abs(fontScale - step) < 0.001;
+            return (
+              <button
+                key={step}
+                type='button'
+                className={[styles.seg, on ? styles.segOn : '']
+                  .filter(Boolean)
+                  .join(' ')}
+                aria-pressed={on}
+                onClick={() => setFontScale(step)}
+              >
+                {Math.round(step * 100)}%
+              </button>
+            );
+          })}
         </div>
 
         <div className={styles.groupLabel}>Accessibility</div>

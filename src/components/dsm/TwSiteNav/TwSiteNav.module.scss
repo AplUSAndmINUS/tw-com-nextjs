@@ -1,0 +1,471 @@
+@use 'abstracts' as *;
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--tw-nav-bg);
+  -webkit-backdrop-filter: var(--tw-nav-blur);
+  backdrop-filter: var(--tw-nav-blur);
+  border-bottom: 1px solid var(--tw-border-subtle);
+}
+
+.inner {
+  @include container-width;
+  /* The mixin's width: 100% plus padding overflows (content-box); a block
+     element's auto width fills its parent minus the padding. */
+  width: auto;
+  min-height: var(--tw-nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  /* At large text sizes on narrow screens the bar wraps to a second row
+     rather than pushing controls off-screen (WCAG 1.4.10 Reflow). */
+  flex-wrap: wrap;
+  row-gap: 0;
+
+  @include until('mobile-sm') {
+    padding-inline: var(--tw-space-m);
+    gap: var(--tw-space-xs);
+  }
+}
+
+.brand {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--tw-text-heading);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+  min-height: var(--tw-tap-target);
+  display: inline-flex;
+  align-items: center;
+
+  @include focus-ring;
+
+  @include until('mobile-sm') {
+    font-size: 0.9375rem;
+  }
+}
+
+.links {
+  display: flex;
+  gap: var(--tw-space-l);
+  align-items: center;
+
+  /* Links fold into the menu below tablet width, so the bar never crowds the
+     main button. */
+  @include until('tablet') {
+    display: none;
+  }
+}
+
+.link {
+  position: relative;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+  font-size: var(--tw-nav-link-size);
+  font-weight: 500;
+  font-family: var(--tw-font);
+  padding: 6px 2px;
+  transition: color 0.2s var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: var(--tw-line-strong);
+    box-shadow: var(--tw-glow-soft);
+    border-radius: var(--tw-radius-pill);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--tw-motion-ease);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+
+  @include motion-safe-only;
+}
+
+.linkActive {
+  color: var(--tw-text-heading);
+
+  &::after {
+    transform: scaleX(1);
+  }
+}
+
+.pinned {
+  display: none;
+
+  @include until('tablet') {
+    display: flex;
+    align-items: center;
+    gap: var(--tw-space-m);
+    /* Sits right after the brand; the actions take the remaining space. */
+    margin-right: auto;
+    margin-left: var(--tw-space-xs);
+
+    @include until('mobile-sm') {
+      margin-left: 0;
+    }
+
+    .link {
+      min-height: var(--tw-tap-target);
+      display: inline-flex;
+      align-items: center;
+      &::after {
+        bottom: 6px;
+      }
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-s);
+
+  @include until('mobile-sm') {
+    gap: var(--tw-space-xs);
+  }
+}
+
+/* The main button in the bar: tablet and up. Phones get .mobileCta. */
+.cta {
+  white-space: nowrap;
+
+  @include until('mobile-lg') {
+    display: none !important;
+  }
+}
+
+/* a.mobileCta: element + class, so page-level `.page a { color }` rules
+   can't repaint the button text. */
+a.mobileCta {
+  display: none;
+
+  @include until('mobile-lg') {
+    position: fixed;
+    right: max(var(--tw-space-m), env(safe-area-inset-right));
+    bottom: max(var(--tw-space-m), env(safe-area-inset-bottom));
+    /* Under the cookie banner (900) and the podcast mini player. */
+    z-index: 850;
+    display: inline-flex;
+    align-items: center;
+    min-height: calc(var(--tw-tap-target) + 4px);
+    padding: 0 var(--tw-space-l);
+    border-radius: var(--tw-radius-pill);
+    background: var(--tw-accent);
+    color: var(--tw-accent-ink);
+    font-family: var(--tw-font);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    box-shadow: var(--tw-shadow-m), var(--tw-glow-soft);
+
+    @include focus-ring;
+  }
+}
+
+/* Keep the end of the page clear of the pinned button on phones. */
+:global(body):has(.mobileCta) {
+  @include until('mobile-lg') {
+    padding-bottom: calc(var(--tw-tap-target) + 36px);
+  }
+}
+
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tw-tap-target);
+  min-height: var(--tw-tap-target);
+  background: transparent;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  color: var(--tw-text-soft);
+  cursor: pointer;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--tw-text-heading);
+    border-color: var(--tw-border-hover);
+  }
+
+  @include until('tablet') {
+    display: inline-flex;
+  }
+}
+
+.mobileMenu {
+  display: none;
+
+  @include until('tablet') {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--tw-bg-deep);
+    border-top: 1px solid var(--tw-border-subtle);
+    box-shadow: var(--tw-shadow-l);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.25s var(--tw-motion-ease),
+      transform 0.25s var(--tw-motion-ease),
+      visibility 0.25s var(--tw-motion-ease);
+    pointer-events: none;
+    /* Scrolls inside itself when taller than the screen (drawer open, large
+       text sizes). */
+    max-height: calc(100dvh - var(--tw-nav-height));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    @include motion-safe-only;
+
+    &[data-open='true'] {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+}
+
+.mobileInner {
+  @include container-width;
+  width: auto;
+  padding-block: var(--tw-space-xxs) var(--tw-space-m);
+  display: grid;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--tw-tap-target);
+  padding: var(--tw-space-xs) var(--tw-space-xxs);
+  font-family: var(--tw-font);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--tw-border-subtle);
+
+  @include focus-ring;
+}
+
+a.mobileMenuCta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tw-tap-target);
+  padding: var(--tw-space-xs) var(--tw-space-xxs);
+  font-family: var(--tw-font);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--tw-accent);
+  text-decoration: none;
+
+  @include focus-ring;
+}
+
+.mobileLinkActive {
+  color: var(--tw-text-heading);
+  box-shadow: inset 3px 0 0 var(--tw-line-strong);
+  padding-left: var(--tw-space-s);
+}
+
+/* ===== Content dropdown (desktop) ===== */
+.dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+
+  /* Invisible bridge over the gap, so the pointer can travel from the link
+     to the menu without closing it. On the wrapper, not the menu, because
+     the menu clips its own overflow (accent-line). */
+  &[data-open='true']::after {
+    content: '';
+    position: absolute;
+    left: -14px;
+    right: -14px;
+    top: 100%;
+    height: 16px;
+  }
+}
+
+.caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--tw-radius-control);
+  background: transparent;
+  color: var(--tw-text-soft);
+  cursor: pointer;
+  transition:
+    color 0.2s var(--tw-motion-ease),
+    border-color 0.2s var(--tw-motion-ease);
+
+  svg {
+    transition: transform 0.25s var(--tw-motion-ease);
+  }
+
+  &:hover {
+    color: var(--tw-text-heading);
+    border-color: var(--tw-border);
+  }
+
+  @include focus-ring;
+  @include motion-safe-only;
+}
+
+.dropdown[data-open='true'] .caret svg {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: -14px;
+  z-index: 1010;
+  min-width: 12rem;
+  margin: 0;
+  padding: var(--tw-space-xs);
+  list-style: none;
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  box-shadow: var(--tw-shadow-l), var(--tw-glow-soft);
+  @include accent-line(top);
+  /* accent-line sets position: relative; the menu must stay absolute. */
+  position: absolute;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--tw-tap-target);
+  padding: 0 var(--tw-space-m);
+  border-radius: var(--tw-radius-control);
+  font-family: var(--tw-font);
+  font-size: var(--tw-nav-link-size);
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+  transition:
+    background-color var(--tw-hover-duration) var(--tw-motion-ease),
+    color var(--tw-hover-duration) var(--tw-motion-ease);
+
+  &:hover {
+    background: var(--tw-hover-fill);
+    color: var(--tw-text-heading);
+  }
+
+  @include focus-ring;
+  @include motion-safe-only;
+}
+
+.menuLinkActive {
+  color: var(--tw-text-heading);
+  @include accent-line(left, var(--tw-line-strong), 3px);
+}
+
+/* ===== Content drawer (inside the phone/tablet menu) ===== */
+.mobileGroup {
+  border-bottom: 1px solid var(--tw-border-subtle);
+
+  .mobileLink {
+    border-bottom: 0;
+    flex: 1;
+  }
+}
+
+.mobileGroupRow {
+  display: flex;
+  align-items: center;
+  gap: var(--tw-space-xs);
+}
+
+.drawerToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tw-tap-target);
+  min-height: var(--tw-tap-target);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  background: transparent;
+  color: var(--tw-text-soft);
+  cursor: pointer;
+
+  svg {
+    transition: transform 0.25s var(--tw-motion-ease);
+  }
+
+  &[aria-expanded='true'] {
+    color: var(--tw-text-heading);
+    border-color: var(--tw-line-strong);
+
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  @include focus-ring;
+  @include motion-safe-only;
+}
+
+.drawer {
+  margin: 0 0 var(--tw-space-s);
+  padding: 0 0 0 var(--tw-space-m);
+  list-style: none;
+  border-left: var(--tw-line-width) solid var(--tw-line-color);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+a.drawerLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--tw-tap-target);
+  padding: 0 var(--tw-space-s);
+  font-family: var(--tw-font);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--tw-text-heading);
+  }
+
+  @include focus-ring;
+}

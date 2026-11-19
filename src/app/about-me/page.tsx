@@ -14,12 +14,10 @@ import {
   TwChip,
   TwContentGrid,
   TwHero,
-  TwPageNav,
   TwReveal,
   TwSectionHeading,
   TwStatCard,
 } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import {
   BookIcon,
@@ -64,6 +62,7 @@ import {
   type RoleIcon,
 } from './aboutMeData';
 import styles from './page.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 const ABOUT_ME_TITLE =
   'Terence Waters in 60 Seconds | Podcaster, Systems Architect & Business Consultant';
@@ -101,12 +100,6 @@ export const metadata: Metadata = {
     canonical: '/about-me',
   },
 };
-
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Content Hub', href: '/content-hub' },
-];
 
 const ROLE_ICONS: Record<RoleIcon, React.ComponentType<IconProps>> = {
   mic: MicIcon,
@@ -197,12 +190,9 @@ export default async function AboutMePage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutHookPageSchema) }}
       />
 
-      <TwPageNav
-        back={{ label: 'Back to Home', href: '/' }}
-        links={NAV_LINKS}
-      />
+      <SiteNav />
 
-      <main>
+      <main id='main'>
         {/* ===== Hero callout: no actions here, they close the page ===== */}
         <TwHero
           eyebrow="Hi, I'm"

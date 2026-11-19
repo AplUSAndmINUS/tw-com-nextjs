@@ -8,10 +8,9 @@ import { twMdxComponents } from '@/components/MarkdownContent';
 import { GeneratedWithAiBadge } from '@/components/GeneratedWithAiBadge';
 import { mdxComponents } from '@/components/MarkdownContent';
 import { content as responsibleAiContent } from '@/assets/fluxline-legal/responsible-ai-legal';
-import { TwPageNav, TwArticleView } from '@/components/dsm';
+import { TwArticleView } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { formatDotDate, readTime } from '@/app/home/contentFormat';
-import { BLOG_NAV_LINKS } from '../blogNav';
 import {
   getAuthorSchema,
   getBlogFaqItems,
@@ -21,6 +20,8 @@ import {
   getFaqSchema,
 } from '@/utils/structuredData';
 import styles from './BlogPost.module.scss';
+import { SiteNav } from '@/components/SiteNav';
+import { BackLink } from '@/components/BackLink';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -66,11 +67,9 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
-      <TwPageNav
-        back={{ label: 'Back to the Blog', href: '/blog' }}
-        links={BLOG_NAV_LINKS}
-      />
-      <main className={styles.view}>
+      <SiteNav />
+      <main id='main' className={styles.view}>
+        <BackLink href='/blog/' label='Back to the Blog' />
         <script
           id={`blog-author-schema-${slug}`}
           type='application/ld+json'
@@ -114,7 +113,10 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* AI-discoverable structured content — kept for machine readers,
               styled as plain prose so it reads as an appendix. */}
-          <section className={styles.aiSection} aria-label='AI-discoverable content'>
+          <section
+            className={styles.aiSection}
+            aria-label='AI-discoverable content'
+          >
             <h2>Structured Summary</h2>
             <p>{structuredSummary}</p>
 

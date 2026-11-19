@@ -139,7 +139,7 @@ Key components:
 | `TwCard`            | Surface card with interactive hover states      |
 | `TwArticleCard`     | Blog/portfolio card with shimmer image loading  |
 | `TwHero`            | Full-bleed hero with background image           |
-| `TwPageNav`         | Sticky page navigation bar                      |
+| `TwSiteNav`         | The one site nav (via `SiteNav`) on every page  |
 | `TwReveal`          | Scroll-triggered fade-in animation              |
 | `TwParallax`        | Scroll-driven parallax transform                |
 | `TwSectionHeading`  | Section title + lede pair                       |

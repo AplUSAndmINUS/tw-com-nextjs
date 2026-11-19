@@ -9,6 +9,17 @@ All notable changes to terencewaters.com are recorded here. The format follows
 ### Added
 
 - Book a Conversation opens full screen (#278): the redesign's `BookingFlow` (the same three steps, the same `/api/leads` POST and prefilled TidyCal page) in a new `BookingModal` (a labelled modal dialog: focus kept inside and returned on close, Escape, the X or a tap outside closes it, the page behind is locked). `BookingModalProvider` is mounted once in `providers.tsx`; `<BookingTrigger />` and `useBookingModal()` open it, and the header's "Book a free consultation" button now does. The folder's README explains how to move it to another Fluxline app. Brought in from the redesign with it: `ConsultationStepper/lead.ts` and its updated stepper files, `content/site/booking.ts`, `contact.ts`, `copy.ts`, the shared style tokens and mixins it uses (`_mixins.scss`, `spacing.css`, `typography.css`, `effects.css`; new tokens and mixins, some used only by the later home and nav work), its tests and test harness, and the `/api/leads` test. Vitest renders links with trailing slashes, as the static export does.
+- One site nav on every page (#281): About, The Book, Content (a dropdown on desktop, a drawer in the phone menu; the Content link itself still goes to the Content Hub) and Contact, with Display and Book a Conversation at the top and a thumb-reach Book a Conversation pill on phones. It replaces each page's own nav; /podcasts and /unsubscribe, still on the older layout, get it in a fixed slot, and only the internal /dsm-preview keeps the old header. Book a Conversation opens the full-screen booking dialog from the bar, the phone menu and the pill. Contact goes to the home page's contact section until /contact/ is rebuilt. A "Skip to content" link comes first on every page, and blog, portfolio and video detail pages get a back link.
+- Text size in the Display panel (#281): 100%, 125% or 150%, applied before the page paints so it never flashes at 100% first.
+
+### Changed
+
+- The home page follows the chosen theme from the first paint (#281): the pre-paint script no longer forces it dark, which had caused a dark-to-light flash for light-mode visitors.
+- The Ko-fi "Tip Me" button is hidden while the booking dialog is open (#281); on phones it sat on top of the dialog.
+
+### Removed
+
+- The per-page navs (`TwPageNav`, the home page's `HomeNav`, the blog and portfolio link lists) and the old Book a Conversation pop-up (`ConsultationStepper` and its step components), all replaced by the site nav and the booking dialog (#281). The stepper's data and helpers stay; the booking dialog uses them.
 
 ### Fixed
 

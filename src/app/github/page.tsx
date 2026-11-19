@@ -1,11 +1,11 @@
 import { getRobotsConfig } from '@/utils/metadata';
 import type { Metadata } from 'next';
 import { getGitHubRepos } from './lib/githubLoader';
-import { TwPageNav, TwListingView, type TwListingItem } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
+import { TwListingView, type TwListingItem } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { formatDotDate } from '@/app/home/contentFormat';
 import { GitHubActivity } from './GitHubActivity';
+import { SiteNav } from '@/components/SiteNav';
 
 const GITHUB_TITLE = 'GitHub Projects and Open-Source Code';
 const GITHUB_DESCRIPTION =
@@ -27,12 +27,6 @@ export const metadata: Metadata = {
     canonical: '/github',
   },
 };
-
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub', active: true },
-  { label: 'Portfolio', href: '/portfolio' },
-];
 
 /**
  * GitHub — build-time fetch of repositories, rendered on the design system.
@@ -61,15 +55,17 @@ export default async function GitHubPage() {
     excerpt: repo.description ?? undefined,
     category: repo.language ?? 'Other',
     filter: repo.language ?? 'Other',
-    date: repo.updated_at ? `Updated ${formatDotDate(repo.updated_at)}` : undefined,
+    date: repo.updated_at
+      ? `Updated ${formatDotDate(repo.updated_at)}`
+      : undefined,
     href: repo.html_url,
     external: true,
   }));
 
   return (
     <>
-      <TwPageNav back={{ label: 'Back to Content Hub', href: '/content-hub' }} links={NAV_LINKS} />
-      <main>
+      <SiteNav />
+      <main id='main'>
         <TwListingView
           kicker='Open Source'
           title='On GitHub'
