@@ -10,8 +10,8 @@ import Link from 'next/link';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { Typography } from '@/components/Typography';
 import { Button, Checkbox, Input, Radio, Select } from '@/components/Form';
-import { REFERRAL_OPTIONS } from './constants';
-import { MeetingLength, StepThreeData, SubmitStatus } from './types';
+import { MEETING_LENGTHS, REFERRAL_OPTIONS } from './constants';
+import { StepThreeData, SubmitStatus } from './types';
 import styles from './StepContactSchedule.module.scss';
 
 interface StepContactScheduleProps {
@@ -21,16 +21,6 @@ interface StepContactScheduleProps {
   onSchedule: () => void;
   status: SubmitStatus;
 }
-
-const MEETING_LENGTHS: Array<{
-  value: MeetingLength;
-  label: string;
-  description: string;
-}> = [
-  { value: '20', label: '20 min', description: 'Quick intro & fit check' },
-  { value: '30', label: '30 min', description: 'Discovery & overview' },
-  { value: '45', label: '45 min', description: 'Deep-dive & planning' },
-];
 
 export const StepContactSchedule: React.FC<StepContactScheduleProps> = ({
   data,

@@ -69,6 +69,16 @@
     color-mix(in srgb, var(--tw-accent) 18%, transparent);
 }
 
+/* The light-family accessibility palettes had no nav colour of their own, so
+   they inherited the dark one above and the nav text (dark in those modes)
+   was unreadable. Each uses its own page colour (redesign Slice 6). */
+[data-theme='protanopia'],
+[data-theme='deuteranopia'],
+[data-theme='tritanopia'],
+[data-theme='grayscale'] {
+  --tw-nav-bg: color-mix(in srgb, var(--tw-bg-page) 88%, transparent);
+}
+
 [data-theme='light'] {
   --tw-nav-bg: rgba(250, 246, 238, 0.85);
   --tw-toast-bg: #ffffff;
@@ -350,4 +360,59 @@ html {
 [data-theme='grayscale'] .tw-media,
 [data-theme='grayscale-dark'] .tw-media {
   filter: grayscale(100%);
+}
+
+/* ===========================================================================
+   Warm Futurism: light lines and glows (redesign, 2026-11)
+   ---------------------------------------------------------------------------
+   Teal and gold act as light sources, not fills (DESIGN_BRIEF.md §8.2). Every
+   value derives from --tw-accent / --tw-mythic-gold, so it follows each theme
+   mode on its own: glacier cyan in dark, slate indigo in light, and each
+   accessibility palette's own accent. Glow is decoration only; it never sits
+   behind body text, so it can't lower text contrast.
+
+   Resolved on <html>, where data-theme and data-tw-contrast live, so the
+   var() references pick up the active mode.
+   =========================================================================== */
+:root {
+  --tw-line-width: 1px;
+  --tw-line-color: color-mix(in srgb, var(--tw-accent) 55%, transparent);
+  --tw-line-strong: var(--tw-accent);
+  --tw-glow-soft: 0 0 24px color-mix(in srgb, var(--tw-accent) 26%, transparent);
+  --tw-glow-node: 0 0 0 4px color-mix(in srgb, var(--tw-accent) 20%, transparent),
+    0 0 18px color-mix(in srgb, var(--tw-accent) 45%, transparent);
+  --tw-glow-gold: 0 0 28px color-mix(in srgb, var(--tw-mythic-gold) 28%, transparent);
+  --tw-pulse-duration: 2.4s;
+  /* Mythic Gold as a line (highlights, quote rules). Text and icons use
+     --tw-mythic-gold-text, which is tuned for contrast in every theme. */
+  --tw-gold-line: var(--tw-mythic-gold);
+}
+
+/* On light canvases pure Mythic Gold nearly disappears; deepen the line. */
+[data-theme='light'] {
+  --tw-gold-line: color-mix(in srgb, var(--tw-mythic-gold) 55%, var(--tw-mythic-gold-text));
+}
+
+/* High contrast (either mechanism): solid lines, no glow. */
+[data-theme='high-contrast'],
+[data-tw-contrast='high'] {
+  --tw-line-width: 2px;
+  --tw-line-color: var(--tw-accent);
+  --tw-glow-soft: none;
+  --tw-glow-node: 0 0 0 2px var(--tw-accent);
+  --tw-glow-gold: none;
+}
+
+/* Grayscale: keep the structure, drop the coloured halo. */
+[data-theme='grayscale'],
+[data-theme='grayscale-dark'] {
+  --tw-glow-soft: none;
+  --tw-glow-gold: none;
+}
+
+/* Reduced transparency: glows are translucent by nature, so flatten them. */
+[data-tw-reduced-transparency='true'] {
+  --tw-glow-soft: none;
+  --tw-glow-gold: none;
+  --tw-line-color: var(--tw-border-strong);
 }

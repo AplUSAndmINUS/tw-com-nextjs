@@ -31,6 +31,12 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    env: {
+      // next.config.ts sets trailingSlash: true. Next inlines this flag at
+      // build time; set it here so next/link renders hrefs ('/about/') in
+      // tests exactly as the static export does.
+      __NEXT_TRAILING_SLASH: 'true',
+    },
   },
   resolve: {
     alias: {

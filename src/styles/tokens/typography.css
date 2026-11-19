@@ -69,4 +69,21 @@
   --tw-fluid-body: clamp(1em, 3cqi, 1.25em);
   --tw-fluid-caption: clamp(0.75em, 2cqi, 1em);
   --tw-fluid-mono: clamp(0.875em, 2.5cqi, 1.125em);
+
+  /* ===== Redesign additions (2026-11) =====
+     rem-based so they follow the Text size setting (root font-size). */
+  --tw-prose-size: 1.03125rem;
+  --tw-prose-leading: 1.85;
+  --tw-lede-size: 1.125rem;
+  --tw-lede-leading: 1.7;
+  --tw-aside-size: 0.9375rem;
+  --tw-aside-leading: 1.65;
+  --tw-label-size: 0.8125rem;
+  --tw-link-size: 0.90625rem;
+  --tw-nav-link-size: 0.90625rem;
+  --tw-hook-size: clamp(2.5rem, 9cqi, 5.25rem);
+  --tw-hook-leading: 1.02;
+  --tw-credo-size: clamp(1.75rem, 6cqi, 3.25rem);
+  --tw-measure: 64ch;
+  --tw-measure-wide: 72ch;
 }

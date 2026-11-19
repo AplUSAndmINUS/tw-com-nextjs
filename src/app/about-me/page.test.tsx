@@ -137,17 +137,17 @@ describe('/about-me talent bars', () => {
 describe('/about-me projects and writing', () => {
   it('links the curated portfolio projects', () => {
     const projectLinks = hrefs($('#projects')).filter((h) =>
-      h?.startsWith('/portfolio/')
+      h?.startsWith('/portfolio/') && h !== '/portfolio/'
     );
-    expect(projectLinks).toEqual(PROJECT_SLUGS.map((s) => `/portfolio/${s}`));
+    expect(projectLinks).toEqual(PROJECT_SLUGS.map((s) => `/portfolio/${s}/`));
   });
 
   it('links the latest blog posts, newest first', async () => {
     const latest = (await getAllContent('blog')).slice(0, POST_LIMIT);
     const postLinks = hrefs($('#writing')).filter((h) =>
-      h?.startsWith('/blog/')
+      h?.startsWith('/blog/') && h !== '/blog/'
     );
-    expect(postLinks).toEqual(latest.map((p) => `/blog/${p.slug}`));
+    expect(postLinks).toEqual(latest.map((p) => `/blog/${p.slug}/`));
   });
 });
 
