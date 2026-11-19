@@ -3,7 +3,6 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import heroStyles from '@/components/dsm/TwHero/TwHero.module.scss';
 import { ABOUT } from '@/content/site/about';
-import { CANONICAL_STATEMENT_TEXT } from '@/content/site/identity';
 import styles from './page.module.scss';
 import AboutPage from './page';
 
@@ -52,12 +51,55 @@ describe('/about (#294)', () => {
     expect(body.querySelector('br')).not.toBeNull();
   });
 
-  it('tells the short version in one paragraph, statement then season line', () => {
-    const paragraphs = $('#intro').querySelectorAll(`.${styles.statementOne}`);
-    expect(paragraphs).toHaveLength(1);
-    expect(text(paragraphs[0])).toBe(
-      `${CANONICAL_STATEMENT_TEXT} ${ABOUT.intro.season}`.replace(/\s+/g, ' ')
+  it('tells the short version in the owner’s six paragraphs, key phrases in bold (#324)', () => {
+    const paragraphs = Array.from(
+      $('#intro').querySelectorAll(`.${styles.statementOne}`)
+    ).map((p) => text(p));
+    expect(paragraphs).toEqual([
+      'Terence Waters is a creator, researcher, author, and architect of human-centered systems who helps people make better decisions by aligning with their true and chosen identity.',
+      'Growing up in a small town of 4,000 people, his life seemed mapped out before it began. Twice, he walked away from paths someone else had written for him: first the expected one, then a six-figure career track. Each time, he rebuilt through creativity, music, learning, and physical transformation.',
+      'From that journey emerged The Resonance Core Framework™, a body of work that became a Ph.D., a book, a podcast, and a business. More than a collection of ideas, it is designed to help people take action and create meaningful change in their own lives.',
+      'Terence believes that humans come first. Systems and AI come second. Every decision begins in the body and with a human mind willing to think it through. Through that lens, identity is something you return to, not something you perform.',
+      'He is a peer, not a guru: nerdy, quirky, blunt, and warm. He still loves building things, whether that means helping someone develop an idea, build a business, or reconnect with who they are becoming.',
+      "If you're here, you're probably in a season of becoming. You're in the right place.",
+    ]);
+    expect(
+      Array.from($('#intro').querySelectorAll('strong')).map((b) => text(b))
+    ).toEqual([
+      'aligning with their true and chosen identity',
+      'Twice, he walked away from paths someone else had written for him',
+      'The Resonance Core Framework™',
+      'take action and create meaningful change',
+      'humans come first. Systems and AI come second.',
+      'identity is something you return to, not something you perform',
+      'a peer, not a guru',
+      "You're in the right place.",
+    ]);
+  });
+
+  it('tells the body in the owner’s words, with personal training and booking (#324)', () => {
+    const body = $('#body');
+    expect(
+      Array.from(body.querySelectorAll(`.${styles.bodyText}`)).map((p) =>
+        text(p)
+      )
+    ).toEqual([
+      'In 2012 I weighed 120 pounds. Today I am almost 195, built through heavy lifting.',
+      'I argue in my book that every decision starts in the body, and my next one, The Resonant Body, is about exactly that. Because the body is what gives us life, breath, warmth, and blood to sustain our lives every day. And as such, it is to be respected, cultivated, and listened to as we move forward every day.',
+      'I also instill this not just my book but my personal training clients, helping them understand the importance of breathwork, feeling lifts in the body, and experiencing the sudden shifts as they run a treadmill, work toward resonance, and literally feel the transformation in their body.',
+    ]);
+    const training = Array.from(body.querySelectorAll('a')).find((a) =>
+      text(a)?.startsWith('See what I offer as a personal trainer')
+    )!;
+    expect(training.getAttribute('href')).toBe(
+      'https://www.fluxline.pro/services/personal-training/'
     );
+    expect(training.getAttribute('target')).toBe('_blank');
+    expect(training.getAttribute('rel')).toBe('noopener');
+    const booking = Array.from(body.querySelectorAll('a')).find((a) =>
+      text(a)?.startsWith('Book a Conversation')
+    );
+    expect(booking?.getAttribute('href')).toBe('/book/');
   });
 
   it('drops the music "back seat" line and gives the music its own section', () => {

@@ -38,7 +38,6 @@ import {
   BUILD_QUALITIES,
 } from '@/content/site/about';
 import {
-  CANONICAL_STATEMENT,
   CORE_SELF,
   HUMAN_ELEMENT_HUMAN,
   LOCATION,
@@ -243,7 +242,7 @@ export default function AboutPage() {
           scrollReveal
         />
 
-        {/* ===== 01 The short version: one paragraph (owner, #294) ===== */}
+        {/* ===== 01 The short version: the owner's paragraphs (#324) ===== */}
         <section
           id='intro'
           className={styles.section}
@@ -254,12 +253,13 @@ export default function AboutPage() {
               <SectionHeading num='01' label={S.intro} id='about-intro'>
                 {ABOUT.intro.title}
               </SectionHeading>
-              <p className={styles.statementOne}>
-                {CANONICAL_STATEMENT.map((seg, i) => (
-                  <Segment key={i} seg={seg} />
-                ))}{' '}
-                {ABOUT.intro.season}
-              </p>
+              {ABOUT.intro.paragraphs.map((para, i) => (
+                <p key={i} className={styles.statementOne}>
+                  {para.map((seg, j) => (
+                    <Segment key={j} seg={seg} />
+                  ))}
+                </p>
+              ))}
             </TwReveal>
             {/* The ripple: one aligned decision spreading outward. */}
             <div className={styles.introRipple}>
@@ -383,6 +383,20 @@ export default function AboutPage() {
                   {p}
                 </p>
               ))}
+              {/* Personal training at Fluxline (new tab), then the booking
+                  dialog (owner, #324). */}
+              <div className={styles.bodyActions}>
+                <TwButton
+                  variant='outline'
+                  href={ABOUT.byFeel.trainingHref}
+                  target='_blank'
+                  rel='noopener'
+                >
+                  {ABOUT.byFeel.trainingLink}{' '}
+                  <span aria-hidden='true'>&#8599;</span>
+                </TwButton>
+                <BookingTrigger />
+              </div>
             </TwReveal>
           </div>
         </section>
