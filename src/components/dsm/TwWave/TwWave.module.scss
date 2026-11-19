@@ -1,0 +1,28 @@
+@use 'abstracts' as *;
+
+.wave {
+  display: block;
+  width: min(100%, 22rem);
+  height: 2.25rem;
+  overflow: visible;
+}
+
+.line {
+  fill: none;
+  stroke: var(--tw-line-strong);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(
+    0 0 4px color-mix(in srgb, var(--tw-accent) 45%, transparent)
+  );
+}
+
+:global([data-theme='high-contrast']) .line,
+:global([data-tw-contrast='high']) .line,
+:global([data-theme='grayscale']) .line,
+:global([data-theme='grayscale-dark']) .line,
+:global([data-tw-reduced-transparency='true']) .line {
+  filter: none;
+}

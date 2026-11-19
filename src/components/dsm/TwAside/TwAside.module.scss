@@ -1,0 +1,27 @@
+@use 'abstracts' as *;
+
+.aside {
+  margin: var(--tw-space-l) 0 0;
+  padding-left: var(--tw-space-m);
+  border-left: var(--tw-line-width) solid var(--tw-line-color);
+  max-width: 44ch;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  font-style: italic;
+  color: var(--tw-text-muted);
+
+  p {
+    margin: 0;
+  }
+}
+
+.margin {
+  @include from('desktop') {
+    float: right;
+    clear: right;
+    width: 15rem;
+    margin: 0 calc(-15rem - var(--tw-space-xxl)) var(--tw-space-m)
+      var(--tw-space-l);
+  }
+}
