@@ -84,13 +84,14 @@ export default function ContentHubClient({
   latestEpisode,
 }: ContentHubClientProps) {
   const [drawer, setDrawer] = useState<Drawer>(null);
-  const { load, toggle } = usePodcastPlayer();
+  const { play } = usePodcastPlayer();
 
   const playLatest = () => {
     if (!latestEpisode) return;
-    // One user gesture: load the episode into the shared player and start it.
-    load(latestEpisode);
-    toggle();
+    // One user gesture: load the episode into the shared player and start it
+    // once its source is in place (load + toggle played an element that had
+    // no source yet, so a cold start stayed paused).
+    play(latestEpisode);
     setDrawer(null);
   };
 

@@ -1,0 +1,81 @@
+@use 'abstracts' as *;
+
+/*
+ * /podcasts: the directory of shows. Token-only, on the shared page mixins.
+ */
+
+.page {
+  min-height: 100vh;
+  background: var(--tw-bg-page);
+}
+
+.section {
+  @include page-section;
+}
+
+.container {
+  @include container-width;
+  width: auto;
+}
+
+/* The show card: cover art beside the copy, stacked on phones. */
+.show {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  max-width: 64rem;
+
+  @include from('mobile-lg') {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+
+.art {
+  background: var(--tw-surface-inset);
+  border-bottom: 1px solid var(--tw-border);
+
+  @include from('mobile-lg') {
+    border-bottom: none;
+    border-right: 1px solid var(--tw-border);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    /* The logo sits on a wide black margin, so cover trims only that margin
+       when the copy makes the row taller than the art is wide. */
+    object-fit: cover;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--tw-space-s);
+  padding: var(--tw-card-pad-lg);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h2-size);
+  font-weight: var(--tw-h2-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.15;
+  color: var(--tw-text-heading-display);
+}
+
+.text {
+  @include prose;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-s);
+}

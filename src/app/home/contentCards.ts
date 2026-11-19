@@ -16,7 +16,7 @@ export const HOME_CONTENT_CARDS = 3;
 const EXCERPT_MAX = 180;
 
 /** Trim feed descriptions (often several paragraphs) to a card-sized excerpt. */
-function toExcerpt(text: string): string {
+export function toExcerpt(text: string): string {
   const flat = text.replace(/\s+/g, ' ').trim();
   if (flat.length <= EXCERPT_MAX) return flat;
   return `${flat.slice(0, EXCERPT_MAX).replace(/\s+\S*$/, '')}…`;

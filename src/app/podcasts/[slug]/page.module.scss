@@ -1,45 +1,8 @@
-@use 'abstracts' as *;
-
-.container {
-  width: 100%;
-  max-width: 48rem;
-  margin-inline: auto;
-  padding-inline: var(--tw-space-m);
-  padding-block: 48px;
-}
-
-.title {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  font-weight: 700;
-  margin-top: var(--tw-space-xs);
-  margin-bottom: var(--tw-space-xs);
-}
-
-.titlePlaceholder {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  font-weight: 700;
-  margin-top: var(--tw-space-xs);
-  margin-bottom: var(--tw-space-l);
-}
-
-.date {
-  display: block;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  margin-bottom: var(--tw-space-m);
-}
-
-.description {
-  margin-bottom: var(--tw-space-l);
-  line-height: 1.625;
-}
-
-.player {
-  margin-bottom: var(--tw-space-xl);
-}
-
-.unavailable {
-  margin-top: var(--tw-space-m);
+/*
+ * /podcasts/[slug]: the layout is TwArticleView's. Show notes carry long bare
+ * URLs (support links, socials), so let them wrap instead of widening the
+ * page on phones.
+ */
+.main {
+  overflow-wrap: anywhere;
 }

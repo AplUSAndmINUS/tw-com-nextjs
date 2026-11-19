@@ -28,7 +28,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const { authRequired, isAuthenticated } = useAccessControl();
   const pathname = usePathname();
   // One nav on every route (redesign Slice 6): design-system pages render
-  // SiteNav themselves; the legacy-layout routes (/podcasts, /unsubscribe)
+  // SiteNav themselves; the legacy-layout route (/unsubscribe)
   // get it in the fixed slot the old Header used; only /dsm-preview keeps the
   // old Header. See src/lib/navMode.ts.
   const navMode = navModeFor(pathname ?? '/');
