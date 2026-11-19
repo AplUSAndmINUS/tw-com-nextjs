@@ -1,0 +1,84 @@
+@use 'abstracts' as *;
+
+.inlineForm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.field {
+  flex: 1;
+  min-width: min(200px, 100%);
+  background: var(--tw-surface-input);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  padding: 12px 14px;
+  color: var(--tw-text-bright);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s var(--tw-motion-ease);
+
+  &:focus {
+    border-color: var(--tw-border-hover);
+  }
+
+  /* A real outline (redesign Slice 5b): the glow alone vanished in high
+     contrast. */
+  &:focus-visible {
+    outline: 2px solid var(--tw-accent);
+    outline-offset: 2px;
+    box-shadow: var(--tw-glow-accent);
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--tw-error-border);
+  }
+}
+
+.busy:disabled {
+  opacity: 1;
+  cursor: progress;
+  background: var(--tw-accent);
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+:global([data-theme='high-contrast']) .field::placeholder,
+:global([data-tw-contrast='high']) .field::placeholder {
+  font-style: italic;
+}
+
+.error {
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--tw-error);
+  margin: 10px 0 0;
+
+  &::before {
+    content: '! ';
+    content: '! ' / ''; /* decorative: screen readers skip it */
+    font-weight: 700;
+  }
+}
+
+.successNote {
+  &:focus {
+    outline: none;
+  }
+
+  background: var(--tw-success-bg);
+  border: 1px solid var(--tw-success-border);
+  border-radius: var(--tw-radius-card-sm);
+  padding: 20px 22px;
+  font-family: var(--tw-font-body);
+  color: var(--tw-text-bright);
+  font-size: 0.9375rem;
+}

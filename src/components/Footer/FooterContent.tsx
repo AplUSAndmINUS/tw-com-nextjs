@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useId } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
@@ -38,8 +39,8 @@ const footerLinks = {
   ],
   connect: [
     { href: '/about', label: 'About' },
-    { href: '/#contact', label: 'Contact' },
-    { href: '/#newsletter', label: 'Newsletter' },
+    { href: '/contact/', label: 'Contact' },
+    { href: '/contact/#newsletter', label: 'Newsletter' },
   ],
 };
 
@@ -110,7 +111,8 @@ function FooterLinkSection({
  * FooterNewsletter: The Resonant Identity newsletter signup, the footer's lead
  * block (#285). Bigger than the old corner form and set in the heading font;
  * on phones it is a single row of input and button. `id="newsletter"` is the
- * target of the site's /#newsletter links.
+ * home page's #newsletter anchor (older links); the site's newsletter links
+ * now go to /contact/#newsletter (#295).
  */
 function FooterNewsletter({ isAnchor = true }: { isAnchor?: boolean }) {
   const uid = useId();
@@ -296,8 +298,8 @@ interface FooterContentProps {
   /** Optional additional content to prepend (e.g., hide button on mobile) */
   headerContent?: React.ReactNode;
   /**
-   * False for a second copy on the page (the footer overlay), so only one
-   * element carries the /#newsletter anchor id.
+   * False for a second copy on the page (the footer overlay). Only Home's
+   * footer carries the #newsletter anchor id (#295).
    */
   isNewsletterAnchor?: boolean;
 }
@@ -310,6 +312,7 @@ export function FooterContent({
   headerContent,
   isNewsletterAnchor = true,
 }: FooterContentProps) {
+  const pathname = usePathname() ?? '/';
   const year = new Date().getFullYear();
   const { theme } = useAppTheme();
   const { windowWidth } = useWindowSize();
@@ -324,7 +327,9 @@ export function FooterContent({
       <div
         className={`${styles.container} max-width-content-footer ${isCompact ? styles.containerCompact : ''}`}
       >
-        <FooterNewsletter isAnchor={isNewsletterAnchor} />
+        {/* Only Home keeps the #newsletter anchor on the footer; /contact has
+            its own #newsletter section (#295). */}
+        <FooterNewsletter isAnchor={isNewsletterAnchor && pathname === '/'} />
 
         <div
           className={`${styles.grid} ${isCompact ? styles.gridCompact : ''}`}

@@ -43,7 +43,7 @@ export const navItems: NavItem[] = [
   },
   {
     label: 'Contact Me',
-    path: '/#contact',
+    path: '/contact/',
     description: 'Get in touch with Terence Waters',
   },
 ];

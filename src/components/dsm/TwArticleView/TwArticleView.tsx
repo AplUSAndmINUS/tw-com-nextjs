@@ -42,7 +42,7 @@ export function TwArticleView({
   imageAlt,
   backHref,
   backLabel = 'All posts',
-  newsletterHref = '/#newsletter',
+  newsletterHref = '/contact/#newsletter',
   children,
 }: TwArticleViewProps) {
   const meta = [date, readTime].filter(Boolean).join(' · ');

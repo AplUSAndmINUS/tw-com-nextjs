@@ -99,3 +99,5 @@ export { TwWave } from './TwWave';
 export type { TwWaveProps } from './TwWave';
 export { TwAside } from './TwAside';
 export type { TwAsideProps } from './TwAside';
+export { TwLinkStack } from './TwLinkStack';
+export type { TwLinkStackProps, TwLinkStackItem } from './TwLinkStack';

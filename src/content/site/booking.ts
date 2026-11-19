@@ -15,11 +15,8 @@ import { approved, draft, existing } from './copy';
 
 export const TIDYCAL_URL = 'https://tidycal.com/terencewaters';
 
-/**
- * Where "send me a message instead" goes when booking fails. /contact/ is not
- * rebuilt yet; until it is, the home page's contact section.
- */
-export const MESSAGE_FALLBACK_HREF = '/#contact';
+/** Where "send me a message instead" goes when booking fails (#295). */
+export const MESSAGE_FALLBACK_HREF = '/contact/#message';
 
 export interface BookingLink {
   label: string;
@@ -34,9 +31,9 @@ export const BOOK_A_CONVERSATION: BookingLink = {
     'Book a Conversation',
     'D2 (SUGGESTED_CODE_MAPPING decisions log)'
   ),
-  // /contact/ is not rebuilt yet; until it is, the no-JavaScript fallback is
-  // the home page's contact section. Openers use the modal (#278).
-  href: '/#contact',
+  // Openers use the full-screen dialog (#278); without JavaScript the link
+  // goes to /contact/#conversation, which offers TidyCal directly (#295).
+  href: '/contact/#conversation',
   external: false,
 };
 

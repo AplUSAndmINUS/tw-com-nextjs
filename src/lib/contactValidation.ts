@@ -26,7 +26,11 @@ export interface ContactFormTouched {
  * Validation constants
  */
 export const VALIDATION_RULES = {
-  NAME_MIN_LENGTH: 10,
+  /**
+   * Was 10, which turned away short names ("Ana Li"). The API only needs a
+   * name; reCAPTCHA handles spam (owner, Checkpoint 5a).
+   */
+  NAME_MIN_LENGTH: 2,
   MESSAGE_MIN_LENGTH: 15,
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 } as const;

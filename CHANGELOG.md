@@ -55,8 +55,12 @@ All notable changes to terencewaters.com are recorded here. The format follows
   - Motifs throughout: the ripple, the sound wave, gold rules, and slow gold light traces.
 - `TwRipple`, `TwWave` and `TwAside`, plus the /about and services copy (`content/site/about.ts`, `services.ts`), from the redesign (#294).
 
+- /contact (#295), as in the redesign: "Let's talk" with a jump list, Book a Conversation, Send a message (the contact form), Get new writing in your inbox (the newsletter form) and Find me online. Book a Conversation, in the jump list and in its section, opens the same full-screen booking dialog as the rest of the site. Without JavaScript the section offers TidyCal directly. Brought in from the redesign with it: `ContactForm`, `NewsletterForm`, `TwLinkStack` (now with an optional click handler), `lib/formErrors.ts` and the updated `contactValidation.ts`.
+
 ### Changed
 
+- The nav's Contact link, the footer's Contact and Newsletter links, the blog's newsletter button, /about's "Send a message" and the booking flow's "send me a message instead" now go to /contact (#295) instead of the home page's sections. The footer keeps its #newsletter anchor on Home only, so /contact has one.
+- Home's Let's talk band uses the same `ContactForm` as /contact (#295), replacing `HomeContactForm`. One set of rules: a name of 2+ characters, inline field errors, a clear message when the network or rate limit fails. /contact is in the sitemap.
 - The footer (#285): the newsletter signup is its own larger block at the top, in the heading font, and shows on phones too (it is the `/#newsletter` target). "Case Studies" is gone from the links. On phones the tagline is hidden and the "More from" links wrap, so the footer is shorter.
 - Every Book a Conversation opener on the home page uses the booking dialog (#285), including the Fractional service drawer. The direct TidyCal links are gone.
 - Book pre-orders are announced on the site (#285): `RCF_PREORDERS_OPEN` is on, so the site-wide pre-order bar, the home callout, the /about-me badge and button, the /about sentence, the book page's pre-order row and button, the footer link, the content hub note and the book's structured data are back. The "Building a Book the Way I Build Systems" post and `llms.txt` say pre-orders are open again (restoring what #273 removed).

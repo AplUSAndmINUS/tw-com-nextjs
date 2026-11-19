@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { FooterContent } from './FooterContent';
@@ -98,5 +98,22 @@ describe('Footer newsletter and links (#285)', () => {
       a.textContent?.trim()
     );
     expect(labels).not.toContain('Case Studies');
+  });
+});
+
+describe('Footer #newsletter anchor (#295)', () => {
+  afterEach(() => {
+    vi.doUnmock('next/navigation');
+    vi.resetModules();
+  });
+
+  it('is only on Home; other pages (and /contact) have their own or none', async () => {
+    vi.resetModules();
+    vi.doMock('next/navigation', () => ({ usePathname: () => '/blog/' }));
+    const { FooterContent: OffHome } = await import('./FooterContent');
+    const doc = new JSDOM(renderToStaticMarkup(<OffHome />)).window.document;
+    expect(doc.getElementById('newsletter')).toBeNull();
+    // The block itself is still there, just without the anchor.
+    expect(doc.querySelector('input[type="email"]')).not.toBeNull();
   });
 });
