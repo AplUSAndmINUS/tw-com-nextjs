@@ -160,8 +160,8 @@ export const ABOUT = {
     ),
     /**
      * "In the book…" and "In plain words…" as one (owner, #294). `strongEm`
-     * parts are bold italic. "intuition" stands where his message repeated
-     * "emotion", matching the book's gloss (emotion, sensation, intuition).
+     * parts are bold italic. "intuition" (the book's gloss: emotion,
+     * sensation, intuition) is the owner's confirmed wording.
      */
     humanNeeds: [
       {
@@ -180,10 +180,10 @@ export const ABOUT = {
         strongEm: true,
       },
       {
-        text: draft(
+        text: approved(
           'about.values.humanNeeds.3',
           " Shelter, food and water, being heard, feeling safe and trusted. And it's through that shared layer of emotion, sensation, and intuition that ",
-          'Owner, 2026-11-18 (#294), with "intuition" for his repeated "emotion" (the book\'s gloss); awaiting his OK'
+          'Owner, 2026-11-18 (#294); "intuition" confirmed by the owner (#300)'
         ),
       },
       {
