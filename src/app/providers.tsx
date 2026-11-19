@@ -7,6 +7,7 @@ import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
 import { PageTransition } from '@/components/PageTransition';
 import { PreorderBar } from '@/components/PreorderBar';
+import { BookingModalProvider } from '@/components/BookingFlow';
 import { RCF_PREORDERS_OPEN } from '@/lib/rcf';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
@@ -80,29 +81,35 @@ export function Providers({ children }: { children: React.ReactNode }) {
             their natural place and stay viewport-fixed.
           */}
           <FontScaleProvider>
-            {!isHome && <Header />}
-            <KoFiWidget pathname={pathname} />
-            {/* Portals itself into document.body. */}
-            <PodcastMiniPlayer />
-            <AccessGate>
-              {/* Site-wide book pre-order bar, above the page and its nav.
+            {/* One full-screen "Book a Conversation" dialog for every opener
+                on the site (#278). */}
+            <BookingModalProvider>
+              {!isHome && <Header />}
+              <KoFiWidget pathname={pathname} />
+              {/* Portals itself into document.body. */}
+              <PodcastMiniPlayer />
+              <AccessGate>
+                {/* Site-wide book pre-order bar, above the page and its nav.
                   Hidden until pre-orders are announced (RCF_PREORDERS_OPEN). */}
-              {RCF_PREORDERS_OPEN && (
-                <PreorderBar belowFixedHeader={usesLegacyLayout} />
-              )}
-              {/*
+                {RCF_PREORDERS_OPEN && (
+                  <PreorderBar belowFixedHeader={usesLegacyLayout} />
+                )}
+                {/*
                 Page content. PageTransition sits above the page segment, so it
                 persists across client navigations and fades every route out and
                 in (see components/PageTransition).
               */}
-              <PageTransition>{children}</PageTransition>
-            </AccessGate>
-            {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
-            {(!authRequired || !isAuthenticated) && <NewsletterDrawerWrapper />}
-            {/* Cookie consent banner — rendered for all users on first visit */}
-            <CookieBanner />
-            {/* Google Analytics consent updates for GA + AdSense */}
-            <GoogleAnalytics />
+                <PageTransition>{children}</PageTransition>
+              </AccessGate>
+              {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
+              {(!authRequired || !isAuthenticated) && (
+                <NewsletterDrawerWrapper />
+              )}
+              {/* Cookie consent banner — rendered for all users on first visit */}
+              <CookieBanner />
+              {/* Google Analytics consent updates for GA + AdSense */}
+              <GoogleAnalytics />
+            </BookingModalProvider>
           </FontScaleProvider>
         </PodcastPlayerProvider>
       </ReCaptchaProvider>

@@ -19,25 +19,17 @@ import { StepServiceSelection } from './StepServiceSelection';
 import { StepContextualQuestions } from './StepContextualQuestions';
 import { StepContactSchedule } from './StepContactSchedule';
 import { StepTidyCal } from './StepTidyCal';
-import { TIDYCAL_LINKS } from './constants';
+import {
+  buildLeadNote,
+  buildLeadPayload,
+  buildTidyCalUrl,
+  fireEvent,
+} from './lead';
 import { getApiBaseUrl } from '@/lib/environment';
-import { LeadPayload, MeetingLength, StepperStep, SubmitStatus } from './types';
+import { StepperStep, SubmitStatus } from './types';
 import { Button } from '@/components/Form';
 import { FluentIcon } from '../FluentIcon';
 import { CheckmarkIcon } from '@/components/icons';
-
-declare global {
-  interface Window {
-    gtag?: (
-      cmd: string,
-      event: string,
-      params?: Record<string, unknown>
-    ) => void;
-  }
-}
-
-/** Maximum character length for TidyCal prefill notes parameter */
-const TIDYCAL_MAX_NOTES_LENGTH = 500;
 
 export interface ConsultationStepperProps {
   /** Whether the modal is open */
@@ -235,33 +227,6 @@ function SuccessView({ onClose }: { onClose: () => void }) {
   );
 }
 
-/** Builds a TidyCal prefill URL with contact + summary data */
-function buildTidyCalUrl(
-  meetingLength: MeetingLength,
-  fullName: string,
-  email: string,
-  noteSummary: string
-): string {
-  const base = TIDYCAL_LINKS[meetingLength] ?? TIDYCAL_LINKS['30'];
-  const params = new URLSearchParams({
-    name: fullName,
-    email,
-    notes: noteSummary.slice(0, TIDYCAL_MAX_NOTES_LENGTH),
-  });
-  return `${base}?${params.toString()}`;
-}
-
-/** Fires an analytics event if window.gtag is available */
-function fireEvent(name: string, params?: Record<string, string | number>) {
-  try {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', name, params);
-    }
-  } catch {
-    // Ignore analytics errors
-  }
-}
-
 export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
   isOpen,
   onDismiss,
@@ -300,12 +265,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
     fireEvent('consultation_booking_initiated');
     setStatus('submitting');
 
-    // Build a brief note for TidyCal prefill
-    const answerLines = Object.entries(step2.answers)
-      .map(([k, v]) => `${k}: ${v}`)
-      .join('\n');
-    const services = step1.services.join(', ');
-    const note = `Services: ${services}\n${answerLines}`.trim();
+    const note = buildLeadNote(step1, step2);
 
     const tidyCalUrl = buildTidyCalUrl(
       step3.preferredMeetingLength,
@@ -317,33 +277,12 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
 
     // Post lead payload to backend
     try {
-      const utmParams = new URLSearchParams(window.location.search);
-      const answers = { ...step2.answers };
-
-      if (step2.fileUpload) {
-        answers._uploadedReferenceFile = `${step2.fileUpload.name} (${Math.round(
-          step2.fileUpload.size / 1024
-        )} KB)`;
-      }
-
-      const payload: LeadPayload = {
-        fullName: step3.fullName,
-        email: step3.email,
-        phone: step3.phone,
-        company: step3.company,
-        services: step1.services,
-        answers,
-        preferredMeetingLength: step3.preferredMeetingLength,
-        referralSource:
-          step3.referralSource === 'other'
-            ? step3.referralOther || 'Other'
-            : step3.referralSource,
-        consent: step3.consent,
-        submittedAt: new Date().toISOString(),
-        utmSource: utmParams.get('utm_source') ?? undefined,
-        utmMedium: utmParams.get('utm_medium') ?? undefined,
-        utmCampaign: utmParams.get('utm_campaign') ?? undefined,
-      };
+      const payload = buildLeadPayload(
+        step1,
+        step2,
+        step3,
+        window.location.search
+      );
 
       const response = await fetch(`${getApiBaseUrl()}/api/leads`, {
         method: 'POST',
@@ -396,7 +335,7 @@ export const ConsultationStepper: React.FC<ConsultationStepperProps> = ({
     <Modal
       isOpen={isOpen}
       onDismiss={handleClose}
-      ariaLabel='Book a free consultation'
+      ariaLabel='Book a Conversation'
       maxWidth={status === 'schedule' ? '960px' : '800px'}
       maxHeight={status === 'schedule' ? '92vh' : '90vh'}
     >

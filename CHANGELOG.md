@@ -6,6 +6,15 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Book a Conversation opens full screen (#278): the redesign's `BookingFlow` (the same three steps, the same `/api/leads` POST and prefilled TidyCal page) in a new `BookingModal` (a labelled modal dialog: focus kept inside and returned on close, Escape, the X or a tap outside closes it, the page behind is locked). `BookingModalProvider` is mounted once in `providers.tsx`; `<BookingTrigger />` and `useBookingModal()` open it, and the header's "Book a free consultation" button now does. The folder's README explains how to move it to another Fluxline app. Brought in from the redesign with it: `ConsultationStepper/lead.ts` and its updated stepper files, `content/site/booking.ts`, `contact.ts`, `copy.ts`, the shared style tokens and mixins it uses (`_mixins.scss`, `spacing.css`, `typography.css`, `effects.css`; new tokens and mixins, some used only by the later home and nav work), its tests and test harness, and the `/api/leads` test. Vitest renders links with trailing slashes, as the static export does.
+
+### Fixed
+
+- Nav background in the protanopia, deuteranopia, tritanopia and grayscale modes (#278, from the redesign's `effects.css`): those light-family palettes inherited the dark nav colour, so the nav text was unreadable; each now uses its own page colour.
+- Booking failure link (#278): "send me a message instead" in the old stepper had been changed to a `/contact/` page that does not exist yet; it and the new flow go to the home page's contact section (`MESSAGE_FALLBACK_HREF`).
+
 ## [2.3.0] - 2026-11-18
 
 **The rebuilt `/about-me` page, newsletter bot protection, and the Fluxline
