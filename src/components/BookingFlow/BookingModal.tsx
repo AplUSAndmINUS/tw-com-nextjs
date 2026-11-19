@@ -137,7 +137,12 @@ function BookingDialog({ onClose }: { onClose: () => void }) {
       if (items.length === 0) return;
       const first = items[0];
       const last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
+      // Focus outside the panel (a click on plain text sends it to <body>):
+      // bring it back in instead of letting Tab reach the page behind (#303).
+      if (!panelRef.current.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
       } else if (!event.shiftKey && document.activeElement === last) {

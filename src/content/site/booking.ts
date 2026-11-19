@@ -97,6 +97,11 @@ export const BOOKING_FLOW = {
     next: existing('booking.step2.next', 'Next: Contact & Schedule', stepper),
   },
   step3: {
+    nameShort: draft(
+      'booking.step3.nameShort',
+      'Please enter your full name (at least 2 characters).',
+      'Field error; api/leads needs 2+ characters (#303); draft'
+    ),
     title: draft(
       'booking.step3.title',
       'Where can I reach you?',
@@ -125,6 +130,16 @@ export const BOOKING_FLOW = {
       'booking.error.messageLink',
       'Send me a message',
       'Link in the booking error; draft'
+    ),
+    validation: draft(
+      'booking.error.validation',
+      "Something in the form didn't go through. Check your details and try again.",
+      'Booking error for a rejected form (400, #303); draft'
+    ),
+    tidyCalLink: draft(
+      'booking.error.tidyCalLink',
+      'Or pick a time on TidyCal',
+      'TidyCal fallback when saving the lead fails (#303); draft'
     ),
   },
   schedule: {

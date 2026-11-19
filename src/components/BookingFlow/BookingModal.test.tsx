@@ -166,6 +166,39 @@ describe('BookingModal (#278)', () => {
     expect(trigger().hasAttribute('data-no-route-transition')).toBe(true);
   });
 
+  it('brings Tab back inside when focus has left the panel (#303)', async () => {
+    renderWithProvider();
+    await page.click(trigger());
+    (document.activeElement as HTMLElement).blur();
+    expect(document.activeElement).toBe(document.body);
+    await act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Tab', bubbles: true })
+      );
+    });
+    expect(dialog()!.contains(document.activeElement)).toBe(true);
+    expect(document.activeElement?.getAttribute('aria-label')).toBe('Close');
+  });
+
+  it('Shift+Tab from outside the panel goes to its last item (#303)', async () => {
+    renderWithProvider();
+    await page.click(trigger());
+    const items = Array.from(
+      dialog()!.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+    );
+    (document.activeElement as HTMLElement).blur();
+    await act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Tab',
+          shiftKey: true,
+          bubbles: true,
+        })
+      );
+    });
+    expect(document.activeElement).toBe(items[items.length - 1]);
+  });
+
   it('is a plain link outside the provider (no JavaScript fallback)', async () => {
     page = mount(<BookingTrigger />);
     const link = trigger();
