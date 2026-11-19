@@ -156,6 +156,18 @@ describe('step 3: contact, then /api/leads (mocked)', () => {
     expect(text()).toContain(CONTACT_STEP_TEXT.consentBefore);
   });
 
+  it('asks for at least 2 characters of name (api/leads rejects 1)', async () => {
+    const fetchMock = vi.fn(async () => json(200, {}));
+    vi.stubGlobal('fetch', fetchMock);
+    await toStep3('help');
+    fillContact();
+    flow.type(`[id=\"${byLabel('Full Name').id}\"]`, 'A');
+    await consentAndSchedule();
+    expect(text()).toContain(BOOKING_FLOW.step3.nameShort);
+    expect(byLabel('Full Name').getAttribute('aria-invalid')).toBe('true');
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('requires name, email, how you heard, and consent', async () => {
     await toStep3('help');
     await flow.click(button(BOOKING_FLOW.step3.submit));
@@ -192,7 +204,8 @@ describe('step 3: contact, then /api/leads (mocked)', () => {
   });
 
   it.each([
-    [400, { error: 'Validation failed' }, BOOKING_FLOW.errors.generic],
+    [400, { error: 'Validation failed' }, BOOKING_FLOW.errors.validation],
+    [500, { error: 'Internal error' }, BOOKING_FLOW.errors.generic],
     [429, { error: 'Too Many Requests' }, FORM_ERRORS.rateLimited],
     [
       504,
@@ -214,6 +227,12 @@ describe('step 3: contact, then /api/leads (mocked)', () => {
       expect(alert.querySelector('a')?.getAttribute('href')).toBe(
         '/contact/#message'
       );
+      // Saving failed, but the visitor can still book on TidyCal (#303).
+      const tidy = alert.querySelector<HTMLAnchorElement>(
+        'a[target="_blank"][href*="tidycal"]'
+      )!;
+      expect(tidy.textContent).toContain(BOOKING_FLOW.errors.tidyCalLink);
+      expect(tidy.href).toContain(TIDYCAL_LINKS['30']);
       expect(byLabel('Full Name').value).toBe('Ana Li');
     }
   );

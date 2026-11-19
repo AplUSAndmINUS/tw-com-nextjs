@@ -53,6 +53,7 @@ const STEPS: StepperStep[] = [1, 2, 3];
 
 /** Errors from /api/leads, in words a visitor can act on. */
 async function leadErrorMessage(response: Response): Promise<string> {
+  if (response.status === 400) return BOOKING_FLOW.errors.validation;
   if (response.status === 429) return FORM_ERRORS.rateLimited;
   if (response.status === 504) {
     const data = await response.json().catch(() => ({}));
@@ -173,7 +174,10 @@ export function BookingFlow() {
   const validateStep3 = (): boolean => {
     const e = CONTACT_STEP_TEXT.errors;
     const found: Record<string, string> = {};
-    if (!step3.fullName.trim()) found.fullName = e.fullName;
+    const name = step3.fullName.trim();
+    // api/leads rejects names under 2 characters (#303).
+    if (!name) found.fullName = e.fullName;
+    else if (name.length < 2) found.fullName = BOOKING_FLOW.step3.nameShort;
     if (!step3.email.trim()) found.email = e.emailRequired;
     else if (!EMAIL_RE.test(step3.email)) found.email = e.emailInvalid;
     if (!step3.referralSource) found.referralSource = e.referral;
@@ -647,6 +651,24 @@ export function BookingFlow() {
                   {BOOKING_FLOW.errors.messageLink}
                 </a>
               </p>
+              {/* Saving the lead failed, but booking still works (#303). */}
+              {tidyCalUrl ? (
+                <p>
+                  <a
+                    className={styles.textLink}
+                    href={tidyCalUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {BOOKING_FLOW.errors.tidyCalLink}
+                    <span className={styles.srOnly}>
+                      {' '}
+                      (opens in new window)
+                    </span>
+                    <span aria-hidden='true'> &#8599;</span>
+                  </a>
+                </p>
+              ) : null}
             </div>
           ) : null}
 
