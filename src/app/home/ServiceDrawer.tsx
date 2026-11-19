@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { TwButton, TwChip } from '@/components/dsm';
+import { BookingTrigger } from '@/components/BookingFlow';
 import type { HomeService } from './homeData';
 import { serviceHref } from './homeData';
 import styles from './ServiceDrawer.module.scss';
@@ -32,6 +33,8 @@ export function ServiceDrawer({ service, onClose }: ServiceDrawerProps) {
     closeRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
+      // Escape belongs to the booking dialog while it is open over the drawer.
+      if (document.documentElement.hasAttribute('data-booking-open')) return;
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKeyDown);
@@ -100,14 +103,10 @@ export function ServiceDrawer({ service, onClose }: ServiceDrawerProps) {
         </ul>
 
         {service.slug === 'fractional' ? (
-          <TwButton
-            href='https://tidycal.com/terencewaters'
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.cta}
-          >
+          // The full-screen booking dialog (#278) opens over the drawer.
+          <BookingTrigger className={styles.cta}>
             Book a free consultation &#8594;
-          </TwButton>
+          </BookingTrigger>
         ) : (
           <TwButton
             href={serviceHref(service.slug)}

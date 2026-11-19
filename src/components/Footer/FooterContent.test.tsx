@@ -77,3 +77,26 @@ describe('Footer link sections on mobile', () => {
     expect(social?.classList.contains(styles.mdOnly)).toBe(false);
   });
 });
+
+describe('Footer newsletter and links (#285)', () => {
+  it('leads with a labelled newsletter block, the /#newsletter target', () => {
+    const block = renderFooter().getElementById('newsletter');
+    expect(block?.tagName).toBe('SECTION');
+    expect(block?.querySelector('h2')?.textContent).toBe(
+      'Get new writing in your inbox'
+    );
+    expect(
+      block?.querySelector('input[type="email"]')?.getAttribute('aria-label')
+    ).toBe('Newsletter email address');
+    expect(block?.querySelector('button[type="submit"]')?.textContent).toBe(
+      'Subscribe'
+    );
+  });
+
+  it('no longer links to Case Studies', () => {
+    const labels = Array.from(renderFooter().querySelectorAll('a')).map((a) =>
+      a.textContent?.trim()
+    );
+    expect(labels).not.toContain('Case Studies');
+  });
+});

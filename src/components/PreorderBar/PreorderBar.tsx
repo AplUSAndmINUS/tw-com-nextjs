@@ -14,18 +14,19 @@ export interface PreorderBarProps {
 }
 
 /**
- * Height of the fixed legacy Header (only /dsm-preview has it now). It is
- * taller than --site-header-height on desktop and settles after hydration, so
- * it is observed rather than read from the variable. Where there is no legacy
- * Header (the fixed-nav routes, #281) the CSS uses the variable, which
- * FixedSiteNav keeps current.
+ * Height of the fixed nav: FixedSiteNav on /podcasts and /unsubscribe (#281),
+ * or the legacy Header on /dsm-preview. It settles after hydration, so it is
+ * observed rather than read from --site-header-height; until it is known the
+ * CSS falls back to the variable.
  */
 function useFixedHeaderHeight(enabled: boolean): number | null {
   const [height, setHeight] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     if (!enabled) return;
-    const header = document.querySelector('nav[role="banner"]');
+    const header = document.querySelector(
+      '[data-fixed-nav], nav[role="banner"]'
+    );
     if (!header) return;
     const measure = () =>
       setHeight(Math.round(header.getBoundingClientRect().height));

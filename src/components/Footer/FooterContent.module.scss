@@ -81,6 +81,10 @@
 /* ===== Brand ===== */
 .brandTitle {
   color: var(--tw-text-muted);
+
+  @include until('mobile-lg') {
+    margin-bottom: 0;
+  }
 }
 
 .brandLink {
@@ -95,6 +99,10 @@
 
 .brandTagline {
   color: var(--tw-text-faint);
+
+  @include until('mobile-lg') {
+    display: none;
+  }
 }
 
 /* ===== Bottom bar ===== */
@@ -110,11 +118,9 @@
   /* Phones: a short stacked list, set off from the Social icons above by the
      same rhythm as the sections, with a hairline between them. */
   @include until('mobile-lg') {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin-top: var(--tw-space-xl);
-    padding: var(--tw-space-l) 0;
+    gap: 8px 16px;
+    margin-top: var(--tw-space-m);
+    padding: var(--tw-space-m) 0;
     border-top: 1px solid var(--tw-border-subtle);
   }
 }
@@ -158,35 +164,123 @@
   }
 }
 
-/* ===== Newsletter mini (tablet/desktop only) ===== */
-.newsletterMini {
-  display: none;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--tw-border-subtle);
+/* ===== Newsletter: the footer's lead block (#285) =====
+   Bigger than the old corner form and set in the heading font (Montserrat).
+   Copy left, form right from tablet up; stacked and tight on phones. */
+.newsletter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-m);
+  align-items: center;
+  margin-bottom: var(--tw-space-xl);
+  padding: var(--tw-space-l);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  background: var(--tw-surface-card);
+  scroll-margin-top: var(--tw-nav-height);
+  @include accent-line(top);
 
-  @include from('mobile-lg') {
-    display: block;
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--tw-space-xl);
+    padding: var(--tw-space-xl);
   }
+
+  @include until('mobile-lg') {
+    margin-bottom: var(--tw-space-l);
+    padding: var(--tw-space-m);
+  }
+}
+
+.newsletterIntro {
+  min-width: 0;
 }
 
 .newsletterHead {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: var(--tw-space-xs);
 }
 
-.newsletterForm {
+.newsletterIcon {
+  border-radius: 6px;
+
+  @include until('mobile-lg') {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.newsletterKicker {
+  @include label;
+  margin: 0;
+  color: var(--tw-text-muted);
+}
+
+.newsletterTitle {
+  margin: var(--tw-space-s) 0 0;
+  font-family: var(--tw-font);
+  font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--tw-text-heading-display);
+}
+
+.newsletterText {
+  margin: var(--tw-space-xs) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-size);
+  line-height: var(--tw-body-leading);
+  color: var(--tw-text-body);
+
+  /* Phones: the heading and the form say enough. */
+  @include until('mobile-lg') {
+    display: none;
+  }
+}
+
+.newsletterAction {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: var(--tw-space-xs);
+  min-width: 0;
+}
+
+.newsletterRow {
+  display: flex;
+  gap: var(--tw-space-xs);
+}
+
+.newsletterDone {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--tw-accent);
+}
+
+.newsletterError {
+  margin: 0;
+  font-family: var(--tw-font-body);
+  font-size: 0.875rem;
+  color: var(--tw-error);
+}
+
+.unsubscribe {
+  align-self: flex-start;
+  font-size: 0.8125rem;
+  text-decoration: underline;
 }
 
 .emailInput {
+  flex: 1 1 auto;
+  min-width: 0;
   width: 100%;
-  padding: 0.3rem 0.5rem;
-  font-size: 0.75rem;
+  min-height: 48px;
+  padding: 0.625rem 0.875rem;
+  font-size: 1rem;
   border-radius: var(--tw-radius-control);
   background: var(--tw-surface-input);
   color: var(--tw-text-bright);
@@ -209,9 +303,11 @@
 }
 
 .subscribeButton {
-  padding: 0.3rem 0.625rem;
-  font-size: 0.75rem;
-  font-weight: 600;
+  flex: 0 0 auto;
+  min-height: 48px;
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
   border-radius: var(--tw-radius-control);
   background: var(--tw-accent);
   color: var(--tw-accent-ink);

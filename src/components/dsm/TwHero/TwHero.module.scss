@@ -117,7 +117,9 @@
 
 .title {
   font-family: var(--tw-font);
-  font-size: var(--tw-display-size);
+  /* Capped to the viewport, so a single long word ("Terence") can't run
+     off a phone at large text sizes. No effect at 100% on any screen. */
+  font-size: min(var(--tw-display-size), 13vw);
   font-weight: var(--tw-display-weight);
   letter-spacing: var(--tw-heading-tracking);
   line-height: 1.05;
@@ -162,14 +164,8 @@
 }
 
 .quote {
-  margin: var(--tw-space-l) 0 0;
-  padding: var(--tw-space-xs) var(--tw-space-m);
-  border-left: 3px solid var(--tw-accent);
-  font-family: var(--tw-font-body);
-  font-size: var(--tw-body-size);
-  font-style: italic;
-  line-height: var(--tw-body-leading);
-  color: var(--tw-text-heading-display);
+  /* Gold rule (owner, 2026-11-18); same style as the /about pull quote. */
+  @include gold-quote;
 }
 
 .actions {
@@ -206,8 +202,14 @@
     @supports (height: 1svh) {
       --tw-hero-stage: min(74svh, 680px);
     }
-    /* How far the card's top edge rises into the photo at rest. */
-    --tw-hero-overlap: 240px;
+    /* How far the card's top edge rises into the photo at rest. Capped to a
+       share of the screen height (redesign, 2026-11): on a phone held
+       sideways the stage is short, and a fixed 240px left under 50px of the
+       photo showing. Portrait phones are unchanged (28% of 844px ≈ 236px). */
+    --tw-hero-overlap: min(240px, 28vh);
+    @supports (height: 1svh) {
+      --tw-hero-overlap: min(240px, 28svh);
+    }
 
     display: block;
     min-height: 0;
