@@ -12,6 +12,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ### Changed
 
+- The footer's newsletter card now sits above the footer's top line, on the page (#315), centred at 640px; the footer starts after it. Only Home's copy is the `/#newsletter` target.
 - `/resonance-core-framework`: the hero backdrop is the RCF banner (#309) instead of the portrait, with a new `scrim='card-side'` option on `TwHero` that keeps the banner's own lettering behind the card.
 - Home and booking polish (#306): the hook line now ends "…becoming the best version of your self and your chosen identity"; the timeline's last step, The launch, is Mythic Gold and highlighted (`TwShiftTrack` gains `highlight`, with a new `--tw-glow-gold-node` token); the booking dialog fades in (the panel rises, like `TwReveal`) and fades out before closing, with reduced motion turning both off, and focus lands on the page's main content when there is no opener; option titles in steps 1 and 3 are white and their descriptions a very light grey.
 
