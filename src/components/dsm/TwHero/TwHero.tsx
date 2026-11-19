@@ -10,6 +10,11 @@ export interface TwHeroCta {
   href: string;
   /** Overrides the default (primary for the first CTA, outline for the second). */
   variant?: TwButtonVariant;
+  /**
+   * Opens in a new tab (links out to our own sites, e.g. the Fluxline Store),
+   * with rel="noopener" so the destination still sees the referrer.
+   */
+  newTab?: boolean;
 }
 
 export interface TwHeroProps {
@@ -198,6 +203,8 @@ export function TwHero({
                   href={primaryCta.href}
                   size='lg'
                   variant={primaryCta.variant ?? 'primary'}
+                  target={primaryCta.newTab ? '_blank' : undefined}
+                  rel={primaryCta.newTab ? 'noopener' : undefined}
                 >
                   {primaryCta.label}
                 </TwButton>
@@ -207,6 +214,8 @@ export function TwHero({
                   href={secondaryCta.href}
                   size='lg'
                   variant={secondaryCta.variant ?? 'outline'}
+                  target={secondaryCta.newTab ? '_blank' : undefined}
+                  rel={secondaryCta.newTab ? 'noopener' : undefined}
                 >
                   {secondaryCta.label}
                 </TwButton>

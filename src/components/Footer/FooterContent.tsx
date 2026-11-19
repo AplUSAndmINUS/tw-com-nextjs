@@ -401,9 +401,9 @@ export function FooterContent({
         </div>
 
         {/* Ecosystem links. TW uses this shorter block rather than the shared
-            Listen / Read / Work lines (owner, 2026-10-20). Plain same-tab
-            anchors with rel="me" so search engines tie the sites to one
-            identity. Short labels (owner, 2026-11-14); the nav's aria-label
+            Listen / Read / Work lines (owner, 2026-10-20). The owned sites
+            carry rel="me" so search engines tie them to one identity; the
+            store link opens in a new tab (2026-11-19). Short labels (owner, 2026-11-14); the nav's aria-label
             gives them their context. */}
         <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
           <span className={styles.ecosystemTitle}>
@@ -415,7 +415,13 @@ export function FooterContent({
             The Resonant Identity
           </ThemedLink>
           {RCF_PREORDERS_OPEN && (
-            <ThemedLink href={RCF_PREORDER_HREF} variant='small' isFooter>
+            <ThemedLink
+              href={RCF_PREORDER_HREF}
+              target='_blank'
+              keepReferrer
+              variant='small'
+              isFooter
+            >
               Pre-order the Book
             </ThemedLink>
           )}

@@ -439,3 +439,20 @@ textarea.input {
 :global([data-tw-contrast='high']) .input::placeholder {
   font-style: italic;
 }
+
+/* Step to step: the new step slides in gently (off with reduced motion). */
+.pane {
+  animation: bookingStepIn 360ms var(--tw-motion-ease-settle) both;
+  @include motion-safe-only;
+}
+
+@keyframes bookingStepIn {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
