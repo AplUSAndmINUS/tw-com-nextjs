@@ -18,7 +18,21 @@ export const FLUXLINE_URL = 'https://www.fluxline.pro';
 export const FLUXLINE_RCF_URL =
   'https://www.fluxline.pro/resonance-core-framework';
 
-/** Fluxline Store page for the book: pre-orders for the digital editions are open. */
+/**
+ * The switch for every book pre-order element in the site's code (#273): the
+ * site-wide bar, the home callout, the /about-me badge and button, the /about
+ * sentence, the /resonance-core-framework description, hero, "Pre-orders" row
+ * and button, the footer link, the content hub note and the book's
+ * structured data. Off until pre-orders are announced here.
+ *
+ * Turning it on does NOT restore the Markdown and static text, which were
+ * edited by hand: the blog post "Building a book the way I build systems"
+ * (excerpt, SEO lines, tags, FAQ, body link) and `public/llms.txt` (two
+ * phrases and the store link line). Restore those in the same change.
+ */
+export const RCF_PREORDERS_OPEN: boolean = false;
+
+/** Fluxline Store page for the book (shown only while RCF_PREORDERS_OPEN). */
 export const RCF_PREORDER_HREF = 'https://store.fluxline.pro/book';
 
 /**

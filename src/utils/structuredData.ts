@@ -1,6 +1,6 @@
 import { ContentItem, FAQItem } from '@/content/types';
 import { SOCIAL_URLS } from '@/lib/socials';
-import { RCF_CONCEPTS, rcfConceptHref } from '@/lib/rcf';
+import { RCF_CONCEPTS, RCF_PREORDERS_OPEN, rcfConceptHref } from '@/lib/rcf';
 
 const SITE_URL = 'https://terencewaters.com';
 
@@ -400,8 +400,7 @@ export function getRcfBookSchema() {
       name: 'Fluxline Resonance Group, LLC',
       url: 'https://www.fluxline.pro',
     },
-    description:
-      'A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027, with pre-orders open on the Fluxline Store.',
+    description: `A 31-chapter book and identity system exploring Behavioral Gravity, Identity Coherence, the Window of Choice, and The Decision Integrity Index (The DII): a structured approach to alignment between who you are and how you live. Targeted for Q1 2027${RCF_PREORDERS_OPEN ? ', with pre-orders open on the Fluxline Store' : ''}.`,
     genre: 'Self-improvement, Identity Psychology, Personal Development',
     keywords: [
       'Resonance Core Framework',
