@@ -21,8 +21,8 @@ import { MICROCOPY } from '@/content/site/microcopy';
 import styles from './ContactForm.module.scss';
 
 /**
- * The site's contact form, on /contact/#message (moved from the homepage in
- * redesign Slice 5a; Decision B: the full form lives on /contact only).
+ * The site's contact form: /contact/#message, and Home's Let's talk band
+ * (#295), so the two can't drift apart.
  *
  * It carries the real integration the standalone page used to own: shared
  * validation rules from lib/contactValidation, a reCAPTCHA v3 token, and a POST
@@ -206,7 +206,9 @@ export function ContactForm() {
             onBlur={handleBlur}
             maxLength={254}
             aria-invalid={!!visibleErrors.email}
-            aria-describedby={visibleErrors.email ? errorId('email') : undefined}
+            aria-describedby={
+              visibleErrors.email ? errorId('email') : undefined
+            }
             required
           />
           {visibleErrors.email ? (
@@ -232,7 +234,9 @@ export function ContactForm() {
             onBlur={handleBlur}
             maxLength={5000}
             aria-invalid={!!visibleErrors.message}
-            aria-describedby={visibleErrors.message ? errorId('message') : undefined}
+            aria-describedby={
+              visibleErrors.message ? errorId('message') : undefined
+            }
             required
           />
           {visibleErrors.message ? (

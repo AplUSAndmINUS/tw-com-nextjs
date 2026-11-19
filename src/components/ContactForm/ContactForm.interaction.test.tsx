@@ -11,7 +11,9 @@ import { MICROCOPY } from '@/content/site/microcopy';
  * failed states (redesign Slice 5b). reCAPTCHA has no site key in tests, so
  * it is a no-op, as in local development.
  */
-(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+(
+  globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
+).IS_REACT_ACT_ENVIRONMENT = true;
 
 let container: HTMLDivElement;
 let root: Root;
@@ -30,7 +32,9 @@ afterEach(() => {
 });
 
 const field = (name: string) =>
-  container.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${name}"]`)!;
+  container.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+    `[name="${name}"]`
+  )!;
 
 /** Type into a React-controlled field. */
 function type(name: string, value: string) {
@@ -44,7 +48,9 @@ function type(name: string, value: string) {
 
 async function submit() {
   await act(async () => {
-    container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    container
+      .querySelector('form')!
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
   });
 }
 
@@ -61,7 +67,9 @@ describe('ContactForm states', () => {
     for (const name of ['name', 'email', 'message']) {
       const el = field(name);
       expect(el.getAttribute('aria-invalid')).toBe('true');
-      const error = document.getElementById(el.getAttribute('aria-describedby')!);
+      const error = document.getElementById(
+        el.getAttribute('aria-describedby')!
+      );
       expect(error?.textContent).toMatch(/required/);
     }
     expect(document.activeElement).toBe(field('name'));
@@ -87,13 +95,22 @@ describe('ContactForm states', () => {
 
   it('announces "Sending…" while the message is on its way', async () => {
     let release: (r: Response) => void = () => {};
-    vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>((r) => (release = r))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => new Promise<Response>((r) => (release = r)))
+    );
     type('name', 'Ana Li');
     type('email', 'ana@example.com');
     type('message', 'I would love to talk about the book.');
     await submit();
-    expect(container.querySelector('form')?.getAttribute('aria-busy')).toBe('true');
-    expect(Array.from(container.querySelectorAll('[role="status"]')).map((s) => s.textContent)).toContain('Sending…');
+    expect(container.querySelector('form')?.getAttribute('aria-busy')).toBe(
+      'true'
+    );
+    expect(
+      Array.from(container.querySelectorAll('[role="status"]')).map(
+        (s) => s.textContent
+      )
+    ).toContain('Sending…');
     await act(async () => release(new Response('{}', { status: 200 })));
   });
 
@@ -111,8 +128,14 @@ describe('ContactForm states', () => {
     type('email', 'ana@example.com');
     type('message', 'I would love to talk about the book.');
     await submit();
-    expect(fetchMock).toHaveBeenCalledWith('/api/contact', expect.objectContaining({ method: 'POST' }));
-    const body = JSON.parse((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].body as string);
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/contact',
+      expect.objectContaining({ method: 'POST' })
+    );
+    const body = JSON.parse(
+      (fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1]
+        .body as string
+    );
     expect(body).toMatchObject({ name: 'Ana Li', email: 'ana@example.com' });
     const heading = container.querySelector('h3');
     expect(heading?.textContent).toBe('Message sent');
@@ -121,13 +144,25 @@ describe('ContactForm states', () => {
   });
 
   it('keeps what was typed and says what went wrong when the send fails', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ error: 'Mail service unavailable' }), { status: 502 })));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ error: 'Mail service unavailable' }), {
+            status: 502,
+          })
+      )
+    );
     type('name', 'Ana Li');
     type('email', 'ana@example.com');
     type('message', 'I would love to talk about the book.');
     await submit();
-    expect(container.querySelector('[role="alert"]')?.textContent).toBe('Mail service unavailable');
+    expect(container.querySelector('[role="alert"]')?.textContent).toBe(
+      'Mail service unavailable'
+    );
     expect(field('message').value).toBe('I would love to talk about the book.');
-    expect(container.querySelector('form')?.getAttribute('aria-busy')).toBe(null);
+    expect(container.querySelector('form')?.getAttribute('aria-busy')).toBe(
+      null
+    );
   });
 });

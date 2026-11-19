@@ -131,7 +131,7 @@ describe('/about (#294)', () => {
       Array.from(closing.querySelectorAll('a'))
         .find((a) => text(a) === 'Send a message')
         ?.getAttribute('href')
-    ).toBe('/#contact');
+    ).toBe('/contact/#message');
     expect(document.querySelector('a[href*="tidycal.com"]')).toBeNull();
   });
 });

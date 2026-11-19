@@ -211,7 +211,9 @@ describe('step 3: contact, then /api/leads (mocked)', () => {
       await consentAndSchedule();
       const alert = flow.container.querySelector('[role="alert"]')!;
       expect(alert.textContent).toContain(shown);
-      expect(alert.querySelector('a')?.getAttribute('href')).toBe('/#contact');
+      expect(alert.querySelector('a')?.getAttribute('href')).toBe(
+        '/contact/#message'
+      );
       expect(byLabel('Full Name').value).toBe('Ana Li');
     }
   );

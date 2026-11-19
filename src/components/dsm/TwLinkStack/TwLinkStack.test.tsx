@@ -9,9 +9,22 @@ const doc = new JSDOM(
     <TwLinkStack
       label='Start here'
       items={[
-        { label: 'Pre-order the book', href: 'https://store.example/book', tone: 'gold', external: true },
-        { label: 'Book a Conversation', href: '/contact/#conversation', tone: 'primary' },
-        { label: 'Listen', href: '/podcasts/', description: 'The Resonant Identity' },
+        {
+          label: 'Pre-order the book',
+          href: 'https://store.example/book',
+          tone: 'gold',
+          external: true,
+        },
+        {
+          label: 'Book a Conversation',
+          href: '/contact/#conversation',
+          tone: 'primary',
+        },
+        {
+          label: 'Listen',
+          href: '/podcasts/',
+          description: 'The Resonant Identity',
+        },
       ]}
     />
   )
@@ -19,11 +32,17 @@ const doc = new JSDOM(
 
 describe('TwLinkStack', () => {
   it('is a labelled nav with one link per row, in the given order', () => {
-    expect(doc.querySelector('nav')?.getAttribute('aria-label')).toBe('Start here');
+    expect(doc.querySelector('nav')?.getAttribute('aria-label')).toBe(
+      'Start here'
+    );
     const labels = Array.from(doc.querySelectorAll('li a')).map(
       (a) => a.querySelector('span span')?.textContent
     );
-    expect(labels).toEqual(['Pre-order the book', 'Book a Conversation', 'Listen']);
+    expect(labels).toEqual([
+      'Pre-order the book',
+      'Book a Conversation',
+      'Listen',
+    ]);
   });
 
   it('keeps gold for the pre-order link only', () => {
@@ -44,11 +63,19 @@ describe('TwLinkStack', () => {
 describe('TwLinkStack columns', () => {
   it('adds the two-column layout only when asked', () => {
     const two = new JSDOM(
-      renderToStaticMarkup(<TwLinkStack label='x' columns={2} items={[{ label: 'a', href: '/a/' }]} />)
+      renderToStaticMarkup(
+        <TwLinkStack
+          label='x'
+          columns={2}
+          items={[{ label: 'a', href: '/a/' }]}
+        />
+      )
     ).window.document.querySelector('ul')!;
     expect(two.classList.contains(styles.stackTwo)).toBe(true);
     const one = new JSDOM(
-      renderToStaticMarkup(<TwLinkStack label='x' items={[{ label: 'a', href: '/a/' }]} />)
+      renderToStaticMarkup(
+        <TwLinkStack label='x' items={[{ label: 'a', href: '/a/' }]} />
+      )
     ).window.document.querySelector('ul')!;
     expect(one.classList.contains(styles.stackTwo)).toBe(false);
   });

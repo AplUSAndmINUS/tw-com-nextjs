@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import {
-  CONTACT_NAV_HREF,
   ROUTES,
   SITE_NAV_CTA,
   SITE_NAV_LINKS,
@@ -13,7 +12,7 @@ describe('site navigation', () => {
       'About /about/',
       'The Book /resonance-core-framework/',
       'Content /content-hub/',
-      'Contact /#contact',
+      'Contact /contact/',
     ]);
   });
 
@@ -35,14 +34,9 @@ describe('site navigation', () => {
     }
   });
 
-  it("sends Contact to the home page's contact section until /contact/ is rebuilt (#281)", () => {
-    expect(CONTACT_NAV_HREF).toBe('/#contact');
-    // Home has no nav link of its own, so /#contact marks nothing current.
+  it('sends Contact, the message form and the newsletter to /contact/ (#295)', () => {
+    expect(activeNavHref('/contact/')).toBe('/contact/');
     expect(activeNavHref('/')).toBeUndefined();
-    expect(activeNavHref('/#contact')).toBeUndefined();
-  });
-
-  it('keeps the /contact/ routes ready for the rebuilt page (Slice 5)', () => {
     expect(ROUTES.contact).toBe('/contact/');
     expect(ROUTES.conversation).toBe('/contact/#conversation');
     expect(ROUTES.message).toBe('/contact/#message');

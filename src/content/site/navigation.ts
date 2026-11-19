@@ -40,9 +40,6 @@ export const ROUTES = {
   newsletter: '/contact/#newsletter',
 } as const;
 
-/** Where the nav's Contact link goes until /contact/ is rebuilt (#281). */
-export const CONTACT_NAV_HREF = '/#contact';
-
 export interface SiteNavLink {
   label: string;
   href: string;
@@ -99,9 +96,7 @@ export const SITE_NAV_LINKS: SiteNavLink[] = [
       },
     ],
   },
-  // /contact/ is not rebuilt yet (#281): until it is, Contact goes to the home
-  // page's contact section. Switch back to ROUTES.contact when it ships.
-  { label: existing('nav.contact', 'Contact', navSrc), href: CONTACT_NAV_HREF },
+  { label: existing('nav.contact', 'Contact', navSrc), href: ROUTES.contact },
 ];
 
 /** The one persistent button in the nav (DESIGN_BRIEF §6.2–6.3). */

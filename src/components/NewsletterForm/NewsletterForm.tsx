@@ -17,8 +17,8 @@ import styles from './NewsletterForm.module.scss';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * The inline newsletter signup, on Home (#newsletter) and /contact/#newsletter
- * (moved from src/app/home in redesign Slice 5a). Never a pop-up.
+ * The inline newsletter signup on /contact/#newsletter (#295). Never a
+ * pop-up.
  *
  * Same integration as the footer's mini form: POST to /api/subscribe, the
  * shared localStorage rate limit (3 per hour across every newsletter form), and
@@ -82,7 +82,10 @@ export function NewsletterForm() {
       });
       if (!response.ok) {
         setError(
-          await apiErrorMessage(response, 'Failed to subscribe. Please try again.')
+          await apiErrorMessage(
+            response,
+            'Failed to subscribe. Please try again.'
+          )
         );
         return;
       }

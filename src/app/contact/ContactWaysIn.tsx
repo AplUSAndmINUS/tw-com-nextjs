@@ -18,12 +18,12 @@ export function ContactWaysIn() {
       label: BOOK_A_CONVERSATION.label,
       href: '#conversation',
       tone: 'primary',
-      onClick: booking
-        ? (event) => {
-            event.preventDefault();
-            booking.open();
-          }
-        : undefined,
+      // Outside the booking provider the link simply jumps to #conversation.
+      onClick: (event) => {
+        if (!booking) return;
+        event.preventDefault();
+        booking.open();
+      },
     },
     { label: CONTACT.message.title, href: '#message' },
     { label: CONTACT.newsletter.title, href: '#newsletter' },

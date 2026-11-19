@@ -46,7 +46,11 @@ export function TwLinkStack({
 }: TwLinkStackProps) {
   return (
     <nav aria-label={label} className={className}>
-      <ul className={[styles.stack, columns === 2 ? styles.stackTwo : ''].filter(Boolean).join(' ')}>
+      <ul
+        className={[styles.stack, columns === 2 ? styles.stackTwo : '']
+          .filter(Boolean)
+          .join(' ')}
+      >
         {items.map((item) => (
           <li key={item.href + item.label}>
             <a

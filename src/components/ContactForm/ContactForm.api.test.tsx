@@ -25,9 +25,12 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-const alertText = () => form.container.querySelector('[role="alert"]')?.textContent;
+const alertText = () =>
+  form.container.querySelector('[role="alert"]')?.textContent;
 const sentBody = (mock: ReturnType<typeof vi.fn>) =>
-  JSON.parse((mock.mock.calls[0] as unknown as [string, RequestInit])[1].body as string);
+  JSON.parse(
+    (mock.mock.calls[0] as unknown as [string, RequestInit])[1].body as string
+  );
 
 describe('contact form × /api/contact (mocked)', () => {
   it('200: sends name, email and message, then says "Message sent"', async () => {
@@ -39,25 +42,41 @@ describe('contact form × /api/contact (mocked)', () => {
       email: 'ana@example.com',
       message: 'I would love to talk about the book.',
     });
-    expect(form.container.querySelector('h3')?.textContent).toBe('Message sent');
+    expect(form.container.querySelector('h3')?.textContent).toBe(
+      'Message sent'
+    );
   });
 
   it.each([
     [400, { error: 'Invalid email address' }, 'Invalid email address'],
     [429, { error: 'Too Many Requests' }, FORM_ERRORS.rateLimited],
-    [504, { error: 'The request timed out. Please try again later.' }, 'The request timed out. Please try again later.'],
+    [
+      504,
+      { error: 'The request timed out. Please try again later.' },
+      'The request timed out. Please try again later.',
+    ],
     [500, {}, 'Failed to send message. Please try again.'],
-  ])('%i: shows a message and keeps what was typed', async (status, body, shown) => {
-    vi.stubGlobal('fetch', vi.fn(async () => json(status, body)));
-    await form.submit();
-    expect(alertText()).toBe(shown);
-    expect(form.container.querySelector<HTMLTextAreaElement>('[name="message"]')?.value).toBe(
-      'I would love to talk about the book.'
-    );
-  });
+  ])(
+    '%i: shows a message and keeps what was typed',
+    async (status, body, shown) => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async () => json(status, body))
+      );
+      await form.submit();
+      expect(alertText()).toBe(shown);
+      expect(
+        form.container.querySelector<HTMLTextAreaElement>('[name="message"]')
+          ?.value
+      ).toBe('I would love to talk about the book.');
+    }
+  );
 
   it('no network: says so in plain words, not "Failed to fetch"', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => Promise.reject(new TypeError('Failed to fetch'))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => Promise.reject(new TypeError('Failed to fetch')))
+    );
     await form.submit();
     expect(alertText()).toBe(FORM_ERRORS.network);
   });
@@ -71,9 +90,14 @@ describe('contact form × /api/contact (mocked)', () => {
 
   it('disables the button while sending', async () => {
     let release: (r: Response) => void = () => {};
-    vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>((r) => (release = r))));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => new Promise<Response>((r) => (release = r)))
+    );
     await form.submit();
-    const button = form.container.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const button = form.container.querySelector<HTMLButtonElement>(
+      'button[type="submit"]'
+    )!;
     expect(button.disabled).toBe(true);
     expect(button.textContent).toBe('Sending…');
     await act(async () => release(json(200, {})));
@@ -96,7 +120,9 @@ describe('payload contract with api/contact (6.2)', () => {
       CONTACT_TO_EMAIL: 'to@terencewaters.com',
       RECAPTCHA_SECRET_KEY: undefined,
     };
-    const saved = Object.fromEntries(Object.keys(env).map((k) => [k, process.env[k]]));
+    const saved = Object.fromEntries(
+      Object.keys(env).map((k) => [k, process.env[k]])
+    );
     for (const [k, v] of Object.entries(env)) {
       if (v === undefined) delete process.env[k];
       else process.env[k] = v;
@@ -105,11 +131,14 @@ describe('payload contract with api/contact (6.2)', () => {
     vi.stubGlobal('fetch', smtp);
     const log = Object.assign(() => {}, { warn: () => {}, error: () => {} });
     try {
-      const res = await contact({ log }, {
-        method: 'POST',
-        headers: { origin: 'https://terencewaters.com' },
-        body: JSON.stringify(payload),
-      });
+      const res = await contact(
+        { log },
+        {
+          method: 'POST',
+          headers: { origin: 'https://terencewaters.com' },
+          body: JSON.stringify(payload),
+        }
+      );
       expect(res.status).toBe(200);
       expect(smtp).toHaveBeenCalledTimes(1);
     } finally {

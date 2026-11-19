@@ -13,6 +13,8 @@ describe('NewsletterForm (moved from the homepage in Slice 5a)', () => {
     expect(input.getAttribute('aria-label')).toBe('Email address');
     expect(input.getAttribute('placeholder')).toBe('you@example.com');
     expect(input.getAttribute('maxlength')).toBe('254');
-    expect(doc.querySelector('button[type="submit"]')?.textContent).toBe('Subscribe');
+    expect(doc.querySelector('button[type="submit"]')?.textContent).toBe(
+      'Subscribe'
+    );
   });
 });

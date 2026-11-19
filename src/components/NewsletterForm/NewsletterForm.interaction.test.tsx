@@ -6,7 +6,9 @@ import { NewsletterForm } from './NewsletterForm';
 import { useNewsletterStore } from '@/store/newsletterStore';
 
 /** The signup's states with /api/subscribe mocked (redesign Slice 5b). */
-(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+(
+  globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
+).IS_REACT_ACT_ENVIRONMENT = true;
 
 let container: HTMLDivElement;
 let root: Root;
@@ -26,11 +28,15 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-const input = () => container.querySelector<HTMLInputElement>('input[type="email"]')!;
+const input = () =>
+  container.querySelector<HTMLInputElement>('input[type="email"]')!;
 
 function type(value: string) {
   const el = input();
-  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(el, value);
+  Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    'value'
+  )!.set!.call(el, value);
   act(() => {
     el.dispatchEvent(new Event('input', { bubbles: true }));
   });
@@ -38,7 +44,9 @@ function type(value: string) {
 
 async function submit() {
   await act(async () => {
-    container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    container
+      .querySelector('form')!
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
   });
 }
 
@@ -47,9 +55,10 @@ describe('NewsletterForm states', () => {
     type('not-an-email');
     await submit();
     expect(input().getAttribute('aria-invalid')).toBe('true');
-    expect(document.getElementById(input().getAttribute('aria-describedby')!)?.textContent).toBe(
-      'A valid email is required'
-    );
+    expect(
+      document.getElementById(input().getAttribute('aria-describedby')!)
+        ?.textContent
+    ).toBe('A valid email is required');
   });
 
   it('subscribes, then focuses the thank-you note', async () => {
@@ -57,8 +66,14 @@ describe('NewsletterForm states', () => {
     vi.stubGlobal('fetch', fetchMock);
     type('Reader@Example.com');
     await submit();
-    expect(fetchMock).toHaveBeenCalledWith('/api/subscribe', expect.objectContaining({ method: 'POST' }));
-    const body = JSON.parse((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].body as string);
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/subscribe',
+      expect.objectContaining({ method: 'POST' })
+    );
+    const body = JSON.parse(
+      (fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1]
+        .body as string
+    );
     expect(body.email).toBe('reader@example.com');
     const note = container.querySelector('[role="status"]');
     expect(note?.textContent).toContain("You're in.");
@@ -66,9 +81,19 @@ describe('NewsletterForm states', () => {
   });
 
   it('shows the API error when the signup fails', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ error: 'Try again later' }), { status: 500 })));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ error: 'Try again later' }), {
+            status: 500,
+          })
+      )
+    );
     type('reader@example.com');
     await submit();
-    expect(container.querySelector('[role="alert"]')?.textContent).toBe('Try again later');
+    expect(container.querySelector('[role="alert"]')?.textContent).toBe(
+      'Try again later'
+    );
   });
 });

@@ -12,7 +12,7 @@ import { ContactForm } from '@/components/ContactForm';
 import { NewsletterForm } from '@/components/NewsletterForm';
 import { SocialRow } from '@/app/home/SocialRow';
 import { contactSocials } from '@/app/home/homeData';
-import { BOOK_A_CONVERSATION } from '@/content/site/booking';
+import { BOOK_A_CONVERSATION, TIDYCAL_URL } from '@/content/site/booking';
 import { CONTACT } from '@/content/site/contact';
 import { MICROCOPY } from '@/content/site/microcopy';
 import { ContactWaysIn } from './ContactWaysIn';
@@ -110,6 +110,12 @@ export default function ContactPage() {
             </div>
             <div className={styles.action}>
               <BookingTrigger size='lg' />
+              {/* Without JavaScript the dialog can't open: book on TidyCal. */}
+              <noscript>
+                <p className={styles.text}>
+                  <a href={TIDYCAL_URL}>Book on TidyCal</a>
+                </p>
+              </noscript>
             </div>
           </div>
         </section>
@@ -160,7 +166,11 @@ export default function ContactPage() {
             <h2 id='contact-socials' className={styles.h2}>
               {CONTACT.socials.title}
             </h2>
-            <SocialRow items={contactSocials} size={26} className={styles.socialRow} />
+            <SocialRow
+              items={contactSocials}
+              size={26}
+              className={styles.socialRow}
+            />
           </div>
         </section>
       </main>
