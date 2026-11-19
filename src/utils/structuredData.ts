@@ -292,6 +292,27 @@ export function getAboutHookPageSchema() {
   };
 }
 
+/**
+ * /contact/: a ContactPage about the site-wide Person (referenced by @id, not
+ * repeated). The email is the one already linked on the page.
+ */
+export function getContactPageSchema(name: string, description: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${SITE_URL}/contact/#contactpage`,
+    url: `${SITE_URL}/contact/`,
+    name,
+    description,
+    mainEntity: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+      email: SOCIAL_URLS.email.replace(/^mailto:/, ''),
+    },
+  };
+}
+
 export function getFaqSchema(post: ContentItem) {
   return {
     '@context': 'https://schema.org',

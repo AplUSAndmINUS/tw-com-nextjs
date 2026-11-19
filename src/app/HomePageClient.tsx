@@ -17,7 +17,7 @@ import {
 import { BookingTrigger } from '@/components/BookingFlow';
 import { Footer } from '@/components/Footer';
 import { SiteNav } from '@/components/SiteNav';
-import { HomeContactForm } from './home/HomeContactForm';
+import { ContactForm } from '@/components/ContactForm';
 import { ServiceDrawer } from './home/ServiceDrawer';
 import { SocialRow } from './home/SocialRow';
 import { HOME_CONTENT_CARDS } from './home/contentCards';
@@ -483,9 +483,8 @@ export default function HomePageClient({ content }: HomePageClientProps) {
 
         {/* ===== Let's talk =====
             Book a Conversation opens the full-screen booking dialog. The
-            message form stays here until /contact/ is rebuilt: the nav's
-            Contact link and the booking flow's "send me a message instead"
-            both land on #contact. */}
+            message form is the same ContactForm as /contact/#message (#295),
+            and #contact stays for older links. */}
         <section
           id='contact'
           className={`${styles.section} ${styles.sectionAlt}`}
@@ -505,7 +504,7 @@ export default function HomePageClient({ content }: HomePageClientProps) {
               </TwReveal>
 
               <TwReveal>
-                <HomeContactForm />
+                <ContactForm />
               </TwReveal>
             </div>
           </div>

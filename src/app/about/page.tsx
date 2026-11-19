@@ -681,7 +681,7 @@ export default function AboutPage() {
                 body={ABOUT.closing.body}
               >
                 <BookingTrigger />
-                <TwButton variant='outline' href='/#contact'>
+                <TwButton variant='outline' href='/contact/#message'>
                   {ABOUT.closing.message}
                 </TwButton>
               </TwCTABand>
