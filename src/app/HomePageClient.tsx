@@ -182,6 +182,7 @@ export default function HomePageClient({ content }: HomePageClientProps) {
           tagline='Founder, Fluxline Resonance Group'
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
+          compact
           scrollReveal
         />
 
