@@ -138,8 +138,14 @@ program can read it but visitors can't see it.
 Type the name exactly as shown, in capitals with underscores. The value must
 start with `https://`.
 
-**No redeploy needed.** This is a server setting, and the `/api/instagram`
-program normally picks it up on its own within a few minutes. If Step 4 still
+**No redeploy needed for this setting.** It is a server setting, and the
+`/api/instagram` program normally picks it up on its own within a few minutes.
+
+**Then turn the section back on.** Since 2026-11-19 (#321) the /about-me
+"Off the page" section is hidden by `INSTAGRAM_FEED_ENABLED` in
+`src/lib/instagram.ts`, which is fixed at build time. Set it to `true` and
+ship that change through develop → test → prod; until then the page shows no
+feed even with the setting above in place. If Step 4 still
 says "not configured" after about 10 minutes, redeploy that environment once
 to be sure it's loaded.
 

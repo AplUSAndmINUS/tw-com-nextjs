@@ -54,6 +54,14 @@ export const INSTAGRAM_MAX_LIMIT = 24;
 export const INSTAGRAM_FEED_PATH = '/api/instagram';
 
 /**
+ * Whether /about-me shows the "Off the page" Instagram feed. Off for now
+ * (owner, 2026-11-19): connecting the account through Facebook/NoCodeAPI
+ * fails, so the section would only show its fallback. Set true once
+ * INSTAGRAM_FEED_URL is configured; the quick link to the profile stays.
+ */
+export const INSTAGRAM_FEED_ENABLED = false;
+
+/**
  * How long the browser waits for /api/instagram before showing the fallback
  * line. Above the function's own worst case (about 9 s: 4 s per attempt, one
  * retry), so the function's answer, including its cached fallback, normally
