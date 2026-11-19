@@ -112,6 +112,20 @@ describe('/about-me (#288)', () => {
       'Three roles, one system'
     );
     expect(text(section)).toContain(ABOUT_ME.short.blurb);
+    // The owner's second paragraph (#291), with his emphasis.
+    expect(text(section)).toContain(
+      'My goal is to help individuals, solopreneurs, and small- to medium-sized businesses find and establish why they do what they do so the decisions they make land with Maximum Impact with the people they serve every day. Because our goal is to Structure the Shift of our transformation and systemic impact.'
+    );
+    expect(
+      Array.from(section.querySelectorAll('p em')).map((e) => [
+        text(e),
+        e.parentElement?.tagName,
+      ])
+    ).toEqual([
+      ['why', 'P'],
+      ['land', 'P'],
+      ['Structure the Shift', 'STRONG'],
+    ]);
     expect(section.querySelectorAll('li').length).toBeGreaterThanOrEqual(
       ABOUT_ME.short.facts.length
     );
