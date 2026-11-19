@@ -35,6 +35,7 @@ import {
   RCF_PATH,
   RCF_TRADEMARK,
   TRI_URL,
+  RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import { getApiBaseUrl } from '@/lib/environment';
 import { fetchPodcastsFromApi } from '@/lib/spreaker';
@@ -256,19 +257,25 @@ export default function HomePageClient({
               <TwSectionHeading kicker='The Book' title={RCF_TRADEMARK} />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
               {/* Pre-order callout, inside the book section. It carries the
-                  page's only pre-order button; the links below stay outline. */}
-              <div className={styles.preorderCard}>
-                <p className={styles.preorderLabel}>Now open for pre-order</p>
-                <h3 className={styles.preorderHeading}>
-                  Pre-order my book on the Fluxline Store.
-                </h3>
-                <p className={styles.preorderBody}>
-                  Release is targeted for Q1 2027.
-                </p>
-                <TwButton variant='gold' href={RCF_PREORDER_HREF}>
-                  Pre-order the book
-                </TwButton>
-              </div>
+                  page's only pre-order button; the links below stay outline.
+                  Until pre-orders are announced, the release line stands alone. */}
+              {!RCF_PREORDERS_OPEN && (
+                <p className={styles.prose}>Release is targeted for Q1 2027.</p>
+              )}
+              {RCF_PREORDERS_OPEN && (
+                <div className={styles.preorderCard}>
+                  <p className={styles.preorderLabel}>Now open for pre-order</p>
+                  <h3 className={styles.preorderHeading}>
+                    Pre-order my book on the Fluxline Store.
+                  </h3>
+                  <p className={styles.preorderBody}>
+                    Release is targeted for Q1 2027.
+                  </p>
+                  <TwButton variant='gold' href={RCF_PREORDER_HREF}>
+                    Pre-order the book
+                  </TwButton>
+                </div>
+              )}
               <div className={styles.bookCtas}>
                 {/* <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                   Be Notified at Launch →
