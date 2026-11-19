@@ -23,6 +23,7 @@ import {
 import { BookingTrigger } from '@/components/BookingFlow';
 import { Footer } from '@/components/Footer';
 import { InstagramGrid } from '@/components/InstagramGrid';
+import { INSTAGRAM_FEED_ENABLED } from '@/lib/instagram';
 import { SiteNav } from '@/components/SiteNav';
 import {
   ArrowRightIcon,
@@ -204,13 +205,14 @@ function ArrowLink({
  * In the owner's order: hero (the compact pinned photo and scroll reveal) →
  * quick links → in 60 seconds (blurb, quick facts, the three roles, the
  * numbers) → the book and the podcast → everything I'm making → some of the
- * work → off the page (the latest Instagram posts) → what I bring to the
- * table → find me online → want to go deeper?
+ * work → off the page (the latest Instagram posts; hidden while
+ * INSTAGRAM_FEED_ENABLED is off, #321) → what I bring to the table → find me
+ * online → want to go deeper?
  *
  * A server component, loaded at build time, with small client islands:
  * TwReveal on every section, the hero's scroll reveal, the quick links (for
- * the booking dialog) and the Instagram feed, which loads at runtime because
- * Instagram's image URLs expire.
+ * the booking dialog) and, when enabled, the Instagram feed, which loads at
+ * runtime because Instagram's image URLs expire.
  */
 export default async function AboutMePage() {
   const personSchema = getPersonSchema('https://terencewaters.com/about-me');
@@ -565,37 +567,43 @@ export default async function AboutMePage() {
 
         {/* ===== Off the page: the latest Instagram posts =====
             The user-copy layout (one lead, four squares), filled at runtime
-            from /api/instagram (#288). */}
-        <section
-          id='instagram'
-          className={styles.sectionAlt}
-          aria-labelledby='about-me-photos'
-        >
-          <div className={styles.container}>
-            <TwReveal>
-              <h2 id='about-me-photos' className={styles.h2}>
-                {ABOUT_ME.photos.title}
-              </h2>
-            </TwReveal>
-            <TwReveal>
-              <InstagramGrid layout='feature' className={styles.photoFeed} />
-            </TwReveal>
-            <div className={styles.linkRow}>
-              <a
-                href={SOCIAL_URLS.instagram}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                {ABOUT_ME.photos.follow} <span aria-hidden='true'>&#8599;</span>
-              </a>
+            from /api/instagram (#288). Hidden while INSTAGRAM_FEED_ENABLED is
+            off (owner, 2026-11-19). */}
+        {INSTAGRAM_FEED_ENABLED ? (
+          <section
+            id='instagram'
+            className={styles.sectionAlt}
+            aria-labelledby='about-me-photos'
+          >
+            <div className={styles.container}>
+              <TwReveal>
+                <h2 id='about-me-photos' className={styles.h2}>
+                  {ABOUT_ME.photos.title}
+                </h2>
+              </TwReveal>
+              <TwReveal>
+                <InstagramGrid layout='feature' className={styles.photoFeed} />
+              </TwReveal>
+              <div className={styles.linkRow}>
+                <a
+                  href={SOCIAL_URLS.instagram}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {ABOUT_ME.photos.follow}{' '}
+                  <span aria-hidden='true'>&#8599;</span>
+                </a>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
         {/* ===== What I bring to the table: talent bars + I still build ===== */}
         <section
           id='skills'
-          className={styles.section}
+          className={
+            INSTAGRAM_FEED_ENABLED ? styles.section : styles.sectionAlt
+          }
           aria-labelledby='about-me-talents'
         >
           <div className={`${styles.container} ${styles.twoCol}`}>
@@ -656,7 +664,9 @@ export default async function AboutMePage() {
         {/* ===== Find me online ===== */}
         <section
           id='socials'
-          className={styles.sectionAlt}
+          className={
+            INSTAGRAM_FEED_ENABLED ? styles.sectionAlt : styles.section
+          }
           aria-labelledby='about-me-socials'
         >
           <div className={`${styles.container} ${styles.socials}`}>
@@ -676,7 +686,9 @@ export default async function AboutMePage() {
         {/* ===== Want to go deeper? ===== */}
         <section
           id='connect'
-          className={styles.section}
+          className={
+            INSTAGRAM_FEED_ENABLED ? styles.section : styles.sectionAlt
+          }
           aria-label={ABOUT_ME.closing.title}
         >
           <div className={styles.container}>
