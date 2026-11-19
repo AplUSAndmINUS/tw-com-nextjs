@@ -278,6 +278,21 @@ export default async function AboutMePage() {
             <div className={styles.shortGrid}>
               <TwReveal>
                 <p className={styles.blurb}>{ABOUT_ME.short.blurb}</p>
+                <p className={`${styles.blurb} ${styles.blurbMore}`}>
+                  {ABOUT_ME.short.goal.map((part) =>
+                    !('emphasis' in part) ? (
+                      <React.Fragment key={part.text}>
+                        {part.text}
+                      </React.Fragment>
+                    ) : part.emphasis === 'strongEm' ? (
+                      <strong key={part.text}>
+                        <em>{part.text}</em>
+                      </strong>
+                    ) : (
+                      <em key={part.text}>{part.text}</em>
+                    )
+                  )}
+                </p>
               </TwReveal>
               <TwReveal delay={90}>
                 <div className={styles.factsCard}>

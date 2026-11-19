@@ -63,6 +63,64 @@ export const ABOUT_ME = {
       "I'm a creator, researcher, author, and architect of human-centered systems, based in Salt Lake City. I've walked away from a life someone else scripted for me twice, and rebuilt each time through creativity, music, learning, and my own body. Everything I make now, from the book to the podcast to my Ph.D. research, is about helping people act on who they really are.",
       'USER_PERSONA_TERENCE §2 (Canonical Statement facts), first person; draft'
     ),
+    /**
+     * The second paragraph (owner, #291). `em` parts are italic, `strongEm`
+     * parts bold italic, as he wrote them.
+     */
+    goal: [
+      {
+        text: approved(
+          'aboutMe.short.goal.1',
+          'My goal is to help individuals, solopreneurs, and small- to medium-sized businesses find and establish ',
+          'Owner, 2026-11-18 (#291)'
+        ),
+      },
+      {
+        text: approved(
+          'aboutMe.short.goal.2',
+          'why',
+          'Owner, 2026-11-18 (#291)'
+        ),
+        emphasis: 'em',
+      },
+      {
+        text: approved(
+          'aboutMe.short.goal.3',
+          ' they do what they do so the decisions they make ',
+          'Owner, 2026-11-18 (#291)'
+        ),
+      },
+      {
+        text: approved(
+          'aboutMe.short.goal.4',
+          'land',
+          'Owner, 2026-11-18 (#291)'
+        ),
+        emphasis: 'em',
+      },
+      {
+        text: approved(
+          'aboutMe.short.goal.5',
+          ' with Maximum Impact with the people they serve every day. Because our goal is to ',
+          'Owner, 2026-11-18 (#291)'
+        ),
+      },
+      {
+        text: approved(
+          'aboutMe.short.goal.6',
+          'Structure the Shift',
+          'Owner, 2026-11-18 (#291)'
+        ),
+        emphasis: 'strongEm',
+      },
+      {
+        text: approved(
+          'aboutMe.short.goal.7',
+          ' of our transformation and systemic impact.',
+          'Owner, 2026-11-18 (#291)'
+        ),
+      },
+    ],
     factsLabel: draft(
       'aboutMe.short.factsLabel',
       'Quick facts',

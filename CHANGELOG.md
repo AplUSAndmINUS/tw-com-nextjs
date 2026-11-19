@@ -32,6 +32,7 @@ All notable changes to terencewaters.com are recorded here. The format follows
   - What I bring to the table, with the owner's new paragraph under "I still build".
   - Find me online, and Want to go deeper?
   - Recent writing is gone.
+- A second In 60 seconds paragraph on /about-me (#291), the owner's own wording: helping individuals, solopreneurs, and small- to medium-sized businesses find their _why_, so their decisions _land_, and **_Structure the Shift_**.
 - The Instagram feed behind Off the page (#288, from the Instagram build):
   - An `/api/instagram` Azure Function. It reads NoCodeAPI through `INSTAGRAM_FEED_URL`, caches the result, and maps a timeout to 504.
   - `src/lib/instagram.ts`, which normalises the feed and backfills posts whose image fails.

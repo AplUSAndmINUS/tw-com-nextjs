@@ -599,3 +599,14 @@
 .twoCol .meters {
   margin-top: var(--tw-space-l);
 }
+
+/* In 60 seconds: the second paragraph (owner, #291). Same specificity as
+   `.shortGrid .blurb` (which zeroes the blurb's margin); it wins by coming
+   later, so keep it below that rule. */
+.shortGrid .blurbMore {
+  margin-top: var(--tw-space-m);
+
+  strong {
+    color: var(--tw-text-heading-display);
+  }
+}
