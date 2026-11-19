@@ -18,6 +18,7 @@
  */
 
 import { approved, draft, existing } from './copy';
+import type { StatementSegment } from './identity';
 
 const brief = (s: string) => `DESIGN_BRIEF §7.2 (${s}); draft`;
 const aboutPage = 'Existing /about copy (aboutData.ts)';
@@ -88,10 +89,140 @@ export const ABOUT = {
       'The short version',
       'Existing /about section label'
     ),
-    season: existing(
-      'about.intro.season',
-      'If you are here, you are probably in a season of becoming. You are in the right place.',
-      keep
+    /**
+     * The short version, in the owner's words (2026-11-19, #324): six short
+     * paragraphs. The bold phrases were chosen in the build for the owner to
+     * confirm. /about no longer shows the Canonical Identity Statement; it
+     * stays in identity.ts as the registered source.
+     */
+    paragraphs: ((src: string): StatementSegment[][] => [
+      [
+        {
+          text: approved(
+            'about.intro.p1.1',
+            'Terence Waters is a creator, researcher, author, and architect of human-centered systems who helps people make better decisions by ',
+            src
+          ),
+        },
+        {
+          text: approved(
+            'about.intro.p1.2',
+            'aligning with their true and chosen identity',
+            src
+          ),
+          strong: true,
+        },
+        { text: approved('about.intro.p1.3', '.', src) },
+      ],
+      [
+        {
+          text: approved(
+            'about.intro.p2.1',
+            'Growing up in a small town of 4,000 people, his life seemed mapped out before it began. ',
+            src
+          ),
+        },
+        {
+          text: approved(
+            'about.intro.p2.2',
+            'Twice, he walked away from paths someone else had written for him',
+            src
+          ),
+          strong: true,
+        },
+        {
+          text: approved(
+            'about.intro.p2.3',
+            ': first the expected one, then a six-figure career track. Each time, he rebuilt through creativity, music, learning, and physical transformation.',
+            src
+          ),
+        },
+      ],
+      [
+        {
+          text: approved('about.intro.p3.1', 'From that journey emerged ', src),
+        },
+        {
+          text: approved(
+            'about.intro.p3.2',
+            'The Resonance Core Framework™',
+            src
+          ),
+          strong: true,
+        },
+        {
+          text: approved(
+            'about.intro.p3.3',
+            ', a body of work that became a Ph.D., a book, a podcast, and a business. More than a collection of ideas, it is designed to help people ',
+            src
+          ),
+        },
+        {
+          text: approved(
+            'about.intro.p3.4',
+            'take action and create meaningful change',
+            src
+          ),
+          strong: true,
+        },
+        { text: approved('about.intro.p3.5', ' in their own lives.', src) },
+      ],
+      [
+        { text: approved('about.intro.p4.1', 'Terence believes that ', src) },
+        {
+          text: approved(
+            'about.intro.p4.2',
+            'humans come first. Systems and AI come second.',
+            src
+          ),
+          strong: true,
+        },
+        {
+          text: approved(
+            'about.intro.p4.3',
+            ' Every decision begins in the body and with a human mind willing to think it through. Through that lens, ',
+            src
+          ),
+        },
+        {
+          text: approved(
+            'about.intro.p4.4',
+            'identity is something you return to, not something you perform',
+            src
+          ),
+          strong: true,
+        },
+        { text: approved('about.intro.p4.5', '.', src) },
+      ],
+      [
+        { text: approved('about.intro.p5.1', 'He is ', src) },
+        {
+          text: approved('about.intro.p5.2', 'a peer, not a guru', src),
+          strong: true,
+        },
+        {
+          text: approved(
+            'about.intro.p5.3',
+            ': nerdy, quirky, blunt, and warm. He still loves building things, whether that means helping someone develop an idea, build a business, or reconnect with who they are becoming.',
+            src
+          ),
+        },
+      ],
+      [
+        {
+          text: approved(
+            'about.intro.p6.1',
+            "If you're here, you're probably in a season of becoming. ",
+            src
+          ),
+        },
+        {
+          text: approved('about.intro.p6.2', "You're in the right place.", src),
+          strong: true,
+        },
+      ],
+    ])(
+      'Owner, 2026-11-19 (/about short version, #324); bold phrases chosen in the build, owner to confirm'
     ),
   },
 
@@ -139,17 +270,29 @@ export const ABOUT = {
       'Alt text for the personal-training portrait (from fluxline.pro /services/personal-training); draft'
     ),
     body: [
-      draft(
+      approved(
         'about.byFeel.body.1',
         'In 2012 I weighed 120 pounds. Today I am almost 195, built through heavy lifting.',
-        'Fact sheet (120 lbs in 2012 → almost 195 lbs in 2026)'
+        'Owner, 2026-11-19 (/about The body, #324)'
       ),
-      draft(
+      approved(
         'about.byFeel.body.2',
-        'I argue in my book that every decision starts in the body, and my next one, The Resonant Body, is about exactly that.',
-        'USER_PERSONA_TERENCE §4, §8 ("all decisions begin in the body"; The Resonant Body, 2027)'
+        'I argue in my book that every decision starts in the body, and my next one, The Resonant Body, is about exactly that. Because the body is what gives us life, breath, warmth, and blood to sustain our lives every day. And as such, it is to be respected, cultivated, and listened to as we move forward every day.',
+        'Owner, 2026-11-19 (/about The body, #324)'
+      ),
+      approved(
+        'about.byFeel.body.3',
+        'I also instill this not just my book but my personal training clients, helping them understand the importance of breathwork, feeling lifts in the body, and experiencing the sudden shifts as they run a treadmill, work toward resonance, and literally feel the transformation in their body.',
+        'Owner, 2026-11-19 (/about The body, #324)'
       ),
     ],
+    /** Under the body text (owner, #324): Fluxline's personal training. */
+    trainingLink: approved(
+      'about.byFeel.trainingLink',
+      'See what I offer as a personal trainer',
+      'Owner, 2026-11-19 (/about The body, #324)'
+    ),
+    trainingHref: 'https://www.fluxline.pro/services/personal-training/',
   },
 
   values: {

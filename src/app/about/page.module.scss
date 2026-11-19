@@ -619,7 +619,7 @@
   color: var(--tw-text-muted);
 }
 
-/* The short version: one paragraph (owner, #294). */
+/* The short version: the owner's paragraphs (#324). */
 .statementOne {
   margin: var(--tw-space-l) 0 0;
   max-width: var(--tw-measure);
@@ -627,6 +627,11 @@
   font-size: var(--tw-lede-size);
   line-height: 1.8;
   color: var(--tw-text-body);
+
+  /* Paragraphs after the first sit closer together. */
+  & + & {
+    margin-top: var(--tw-space-m);
+  }
 
   strong {
     color: var(--tw-text-heading-display);
@@ -695,6 +700,14 @@
   margin-top: var(--tw-space-m);
   font-size: var(--tw-lede-size);
   line-height: var(--tw-lede-leading);
+}
+
+/* Personal training at Fluxline, then Book a Conversation (#324). */
+.bodyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s);
+  margin-top: var(--tw-space-l);
 }
 
 /* Humans First. AI Second.: a gold-framed callout that leads How I work,
