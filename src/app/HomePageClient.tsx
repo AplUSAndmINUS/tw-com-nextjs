@@ -15,7 +15,6 @@ import {
 } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import { Spinner } from '@/components/ui/Spinner';
-import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import { HomeNav } from './home/HomeNav';
 import { HomeContactForm } from './home/HomeContactForm';
 import { HomeNewsletterForm } from './home/HomeNewsletterForm';
@@ -25,16 +24,18 @@ import {
   homeServices,
   serviceHref,
   aboutSocials,
+  contactSocials,
   wideSocials,
   type HomeService,
 } from './home/homeData';
 import {
   RCF_BOOK_BLURB,
-  RCF_BOOK_DATE_LINE,
   RCF_NOTIFY_HREF,
+  RCF_PREORDER_HREF,
   RCF_PATH,
   RCF_TRADEMARK,
   TRI_URL,
+  RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import { getApiBaseUrl } from '@/lib/environment';
 import { fetchPodcastsFromApi } from '@/lib/spreaker';
@@ -184,7 +185,7 @@ export default function HomePageClient({
   }
 
   const openFluxlineServices = () =>
-    window.open('https://fluxline.pro/services', '_blank', 'noopener');
+    window.open('https://www.fluxline.pro/services/', '_blank', 'noopener');
 
   return (
     <div id='top' className={styles.page}>
@@ -219,14 +220,14 @@ export default function HomePageClient({
             <>
               I help people and organizations rebuild the parts of themselves
               they thought were permanent. Systems thinker, designer, and coach
-              — writing about resonance, identity, and{' '}
+              who writes and talks about resonance, identity, and{' '}
               <strong>
                 <em>building a life that embodies it all</em>
               </strong>
               .
             </>
           }
-          quote='Clarity, identity, and systems that make your life — and your work — feel like they finally fit.'
+          quote='Clarity, identity, and systems that make your life and work feel like they finally fit.'
           primaryCta={{ label: 'Who am I?', href: '#about' }}
           secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
@@ -234,10 +235,11 @@ export default function HomePageClient({
           tagline='Founder, Fluxline Resonance Group'
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
+          stackOnMobile
         />
       </section>
 
-      {/* ===== The book (pre-launch): kept short, launch date quoted ===== */}
+      {/* ===== The book (pre-launch): kept short, pre-order callout inside ===== */}
       <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
         <div className={styles.container}>
           <div className={styles.resonanceGrid}>
@@ -254,18 +256,35 @@ export default function HomePageClient({
             <TwReveal stagger>
               <TwSectionHeading kicker='The Book' title={RCF_TRADEMARK} />
               <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
-              <blockquote className={styles.quote}>
-                {RCF_BOOK_DATE_LINE}
-              </blockquote>
+              {/* Pre-order callout, inside the book section. It carries the
+                  page's only pre-order button; the links below stay outline.
+                  Until pre-orders are announced, the release line stands alone. */}
+              {!RCF_PREORDERS_OPEN && (
+                <p className={styles.prose}>Release is targeted for Q1 2027.</p>
+              )}
+              {RCF_PREORDERS_OPEN && (
+                <div className={styles.preorderCard}>
+                  <p className={styles.preorderLabel}>Now open for pre-order</p>
+                  <h3 className={styles.preorderHeading}>
+                    Pre-order my book on the Fluxline Store.
+                  </h3>
+                  <p className={styles.preorderBody}>
+                    Release is targeted for Q1 2027.
+                  </p>
+                  <TwButton variant='gold' href={RCF_PREORDER_HREF}>
+                    Pre-order the book
+                  </TwButton>
+                </div>
+              )}
               <div className={styles.bookCtas}>
-                <TwButton href={RCF_NOTIFY_HREF}>
+                {/* <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                   Be Notified at Launch →
-                </TwButton>
+                </TwButton> */}
                 <TwButton variant='outline' href={RCF_PATH}>
                   Preview the Framework →
                 </TwButton>
                 <TwButton variant='outline' href={TRI_URL}>
-                  Listen to the Podcast →
+                  Listen to the TRI Podcast →
                 </TwButton>
               </div>
             </TwReveal>
@@ -406,7 +425,7 @@ export default function HomePageClient({
                 <TwSectionHeading
                   kicker='My Work'
                   title='Design, architecture, and coaching'
-                  lede='I deliver this work through Fluxline Resonance Group — a modular systems practice for founders, creators, and teams building with clarity and resonance. More info is found on my business site Fluxline.pro, but here are a few highlights.'
+                  lede='Through Fluxline Resonance Group, I help businesses, solopreneurs, and individuals get clear on who they are, then make informed decisions that fit. More info is on my business site, Fluxline.pro, but here are a few highlights.'
                 />
               </TwReveal>
 
@@ -599,7 +618,7 @@ export default function HomePageClient({
 
               <div className={styles.viewAll}>
                 <a
-                  href='https://fluxline.pro/case-studies'
+                  href='https://www.fluxline.pro/case-studies'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -660,22 +679,17 @@ export default function HomePageClient({
                   Book a free consultation
                 </TwButton>
               </div>
-              <div className={styles.contactEmail}>
-                terence@terencewaters.com
-              </div>
               <SocialRow
-                items={wideSocials}
+                items={contactSocials}
                 className={styles.contactSocials}
               />
             </TwReveal>
 
             <TwReveal>
-              {/* The provider is scoped to the contact section rather than the
-                  whole page so the reCAPTCHA script is not pulled in for
-                  visitors who never scroll this far. */}
-              <ReCaptchaProvider>
-                <HomeContactForm />
-              </ReCaptchaProvider>
+              {/* ReCaptchaProvider now wraps the whole app in providers.tsx
+                  (the newsletter forms need it sitewide), so this section
+                  no longer needs its own local provider. */}
+              <HomeContactForm />
             </TwReveal>
           </div>
         </div>

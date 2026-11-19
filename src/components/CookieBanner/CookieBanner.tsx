@@ -123,7 +123,7 @@ export const CookieBanner: React.FC = () => {
                 personalized advertising. You can also{' '}
                 <strong>Reject Non-Essential</strong> cookies. See our{' '}
                 <a
-                  href='https://fluxline.pro/legal/privacy-policy'
+                  href='https://www.fluxline.pro/legal/privacy-policy'
                   target='_blank'
                   rel='noopener noreferrer'
                   style={{

@@ -13,28 +13,49 @@ export const RCF_PATH = '/resonance-core-framework';
 export const RCF_TRADEMARK = 'The Resonance Core Framework™';
 
 /** Owned sister sites (linked with rel="me"). */
-export const TRI_URL = 'https://theresonantidentity.com';
-export const TRI_FRAMEWORK_URL = 'https://theresonantidentity.com/framework/';
+export const TRI_URL = 'https://theresonantidentity.com/start-here';
 export const FLUXLINE_URL = 'https://www.fluxline.pro';
 export const FLUXLINE_RCF_URL =
   'https://www.fluxline.pro/resonance-core-framework';
 
+/**
+ * The switch for every book pre-order element in the site's code (#273): the
+ * site-wide bar, the home callout, the /about-me badge and button, the /about
+ * sentence, the /resonance-core-framework description, hero, "Pre-orders" row
+ * and button, the footer link, the content hub note and the book's
+ * structured data. Off until pre-orders are announced here.
+ *
+ * Turning it on does NOT restore the Markdown and static text, which were
+ * edited by hand: the blog post "Building a book the way I build systems"
+ * (excerpt, SEO lines, tags, FAQ, body link) and `public/llms.txt` (two
+ * phrases and the store link line). Restore those in the same change.
+ */
+export const RCF_PREORDERS_OPEN: boolean = false;
+
+/** Fluxline Store page for the book (shown only while RCF_PREORDERS_OPEN). */
+export const RCF_PREORDER_HREF = 'https://store.fluxline.pro/book';
+
+/**
+ * The expected release, in the store's own words (owner, 2026-11-12). Used
+ * only by the site-wide pre-order bar, which mirrors the store's bar; other
+ * copy keeps "targeted for Q1 2027".
+ */
+export const RCF_EXPECTED_RELEASE =
+  'late February to mid-March 2027 (subject to change)';
+
 /** Where every "Be notified at launch" CTA points: the launch sign-up on the RCF page. */
 export const RCF_NOTIFY_HREF =
-  'https://fluxline.pro/resonance-core-framework/#notify';
+  'https://www.fluxline.pro/resonance-core-framework/#notify';
 
 export const RCF_BOOK = {
   title: 'The Resonance Core Framework™',
   publisher: 'Fluxline Resonance Group',
   publicationDate: 'Targeted for Q1 2027',
-  preorders: 'Opening in early November 2026',
+  preorders: 'Open on the Fluxline Store (eBook $34.99 at pre-order)',
   formats: ['Hardcover', 'eBook', 'Audiobook'],
-  structure: '31 chapters and Three Mystic Phases',
+  structure:
+    '31 chapters in three parts (The Self, The Outward Reach, and Systemic Architecture & Legacy)',
 };
-
-/** One-line book date for book-focused passages: launch plus preorders. */
-export const RCF_BOOK_DATE_LINE =
-  'The book is targeted for Q1 2027, with preorders opening in early November 2026.';
 
 /**
  * Canonical RCF paragraph, TW variant ("written by…", targeted for Q1 2027).
@@ -47,8 +68,8 @@ export const RCF_CANONICAL_PARAGRAPH =
 /**
  * Homepage book section body (TW-1.3). Kept to about three lines on purpose:
  * the homepage teases the book, and the concepts are glossed on
- * /resonance-core-framework. The launch date sits in the section's blockquote
- * (RCF_BOOK_DATE_LINE), not here.
+ * /resonance-core-framework. The launch date sits in the section's pre-order
+ * callout, not here.
  */
 export const RCF_BOOK_BLURB =
   'The book that maps what the podcast has been building toward: a structured identity system for individuals, founders, and leaders who need more than motivation. They need architecture.';
@@ -102,7 +123,8 @@ export const RCF_CONCEPTS: { id: string; name: string; summary: string }[] = [
   {
     id: 'dii-protocol',
     name: 'The Decision Integrity Index (The DII)',
-    summary: 'A 1–5 way to score how well a decision aligns with who you are.',
+    summary:
+      "The RCF's way of checking whether a decision lines up with your identity and values.",
   },
   {
     id: 'decision-alignment-score',

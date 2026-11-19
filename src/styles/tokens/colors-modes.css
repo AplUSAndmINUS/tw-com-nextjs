@@ -41,6 +41,10 @@
   --tw-gold: #927200;
   --tw-gold-border: #7a5f00;
   --tw-gold-bg: rgba(146, 114, 0, 0.1);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
+  --tw-mythic-gold-ink: #000000;
+  --tw-mythic-gold-text: var(--tw-gold-border);
   --tw-featured: #7a5f00;
 
   --tw-info: #005299;
@@ -75,6 +79,10 @@
   --tw-gold: #927200;
   --tw-gold-border: #7a5f00;
   --tw-gold-bg: rgba(146, 114, 0, 0.1);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
+  --tw-mythic-gold-ink: #000000;
+  --tw-mythic-gold-text: var(--tw-gold-border);
   --tw-featured: #7a5f00;
 
   --tw-info: #004578;
@@ -109,6 +117,10 @@
   --tw-gold: #ab7600;
   --tw-gold-border: #8a5e00;
   --tw-gold-bg: rgba(171, 118, 0, 0.1);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
+  --tw-mythic-gold-ink: #0e1116;
+  --tw-mythic-gold-text: var(--tw-gold-border);
   --tw-featured: #8a5e00;
 
   --tw-info: #8f1c28;
@@ -161,6 +173,10 @@
   --tw-gold: #666666;
   --tw-gold-border: #4d4d4d;
   --tw-gold-bg: rgba(102, 102, 102, 0.1);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
+  --tw-mythic-gold-ink: #ffffff;
+  --tw-mythic-gold-text: var(--tw-gold-border);
   --tw-featured: #4d4d4d;
 
   --tw-success: #4a4a4a;
@@ -222,6 +238,10 @@
   --tw-gold: #a6a6a6;
   --tw-gold-border: #787878;
   --tw-gold-bg: rgba(166, 166, 166, 0.1);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
+  --tw-mythic-gold-ink: #000000;
+  --tw-mythic-gold-text: var(--tw-gold);
   --tw-featured: #d9d9d9;
 
   --tw-success: #b3b3b3;
@@ -296,6 +316,10 @@
   --tw-gold: #ffff00;
   --tw-gold-border: #ffff00;
   --tw-gold-bg: rgba(255, 255, 0, 0.2);
+  --tw-mythic-gold: var(--tw-gold);
+  --tw-mythic-gold-bg: var(--tw-gold-bg);
+  --tw-mythic-gold-ink: #000000;
+  --tw-mythic-gold-text: var(--tw-gold);
   --tw-featured: #ffff00;
 
   --tw-success: #00ff00;

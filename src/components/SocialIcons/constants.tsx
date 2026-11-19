@@ -9,7 +9,6 @@ import YouTubeLogo from '@/assets/svgs/YouTubeLogo';
 import TiktokLogo from '@/assets/svgs/TiktokLogo';
 import GithubLogo from '@/assets/svgs/GitHubLogo';
 import TwitchLogo from '@/assets/svgs/TwitchLogo';
-import RedditLogo from '@/assets/svgs/RedditLogo';
 import { SOCIAL_URLS } from '@/lib/socials';
 
 export interface SocialIcon {
@@ -69,12 +68,6 @@ export const getSocialIcons = (): SocialIcon[] => [
     iconName: TwitchLogo,
     url: SOCIAL_URLS.twitch,
     tooltip: 'Twitch',
-    isTagline: false,
-  },
-  {
-    iconName: RedditLogo,
-    url: SOCIAL_URLS.reddit,
-    tooltip: 'Reddit',
     isTagline: false,
   },
   {

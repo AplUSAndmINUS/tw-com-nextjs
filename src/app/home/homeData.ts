@@ -29,7 +29,7 @@ export interface HomeService {
   points: string[];
 }
 
-const FLUXLINE_SERVICES = 'https://fluxline.pro/services';
+const FLUXLINE_SERVICES = 'https://www.fluxline.pro/services';
 
 export const homeServices: HomeService[] = [
   {
@@ -117,9 +117,9 @@ export const homeServices: HomeService[] = [
   },
 ];
 
-/** Full fluxline.pro URL for a service slug. */
+/** Full fluxline.pro URL for a service slug (trailing slash, as fluxline.pro serves it). */
 export function serviceHref(slug: string): string {
-  return `${FLUXLINE_SERVICES}/${slug}`;
+  return slug ? `${FLUXLINE_SERVICES}/${slug}/` : `${FLUXLINE_SERVICES}/`;
 }
 
 export interface HomeSocial {
@@ -135,13 +135,12 @@ export const aboutSocials: HomeSocial[] = [
   { name: 'Instagram', icon: 'instagram', href: SOCIAL_URLS.instagram },
   { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
   { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
-  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
   { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
   { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
   { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
 ];
 
-/** The wider set shown in the newsletter and contact sections. */
+/** The wider set shown in the newsletter section; `contactSocials` prefixes it with Email. */
 export const wideSocials: HomeSocial[] = [
   { name: 'LinkedIn', icon: 'linkedin', href: SOCIAL_URLS.linkedin },
   { name: 'GitHub', icon: 'github', href: SOCIAL_URLS.github },
@@ -149,7 +148,6 @@ export const wideSocials: HomeSocial[] = [
   { name: 'YouTube', icon: 'youtube', href: SOCIAL_URLS.youtube },
   { name: 'TikTok', icon: 'tiktok', href: SOCIAL_URLS.tiktok },
   { name: 'Twitch', icon: 'twitch', href: SOCIAL_URLS.twitch },
-  { name: 'Reddit', icon: 'reddit', href: SOCIAL_URLS.reddit },
   { name: 'Spotify', icon: 'spotify', href: SOCIAL_URLS.spotify },
   {
     name: 'Apple Podcasts',
@@ -158,4 +156,13 @@ export const wideSocials: HomeSocial[] = [
   },
   { name: 'Threads', icon: 'threads', href: SOCIAL_URLS.threads },
   { name: 'Podcast RSS feed', icon: 'rss', href: SOCIAL_URLS.podcastRss },
+];
+
+/**
+ * The contact section's row: an Email icon first, then the wider set. The
+ * address is the icon's link rather than visible text.
+ */
+export const contactSocials: HomeSocial[] = [
+  { name: 'Email', icon: 'mail', href: SOCIAL_URLS.email },
+  ...wideSocials,
 ];

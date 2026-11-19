@@ -96,6 +96,46 @@
   border-bottom: 1px solid var(--tw-border-subtle);
 }
 
+/* ===== Pre-order announcement (Mythic Gold) =====
+   Fill and border use --tw-mythic-gold; the label uses its own text token
+   because gold text has to clear 4.5:1 on the page in every theme. */
+.preorderCard {
+  // max-width: 60ch;
+  margin-top: var(--tw-space-l);
+  padding: var(--tw-space-l);
+  border: 1px solid var(--tw-mythic-gold);
+  border-top-width: 4px;
+  border-radius: var(--tw-radius-control);
+  background: color-mix(in srgb, var(--tw-mythic-gold) 10%, var(--tw-bg-page));
+}
+
+.preorderLabel {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tw-mythic-gold-text);
+}
+
+.preorderHeading {
+  margin: var(--tw-space-xs) 0 0;
+  font-family: var(--tw-font);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--tw-text-heading-display);
+}
+
+.preorderBody {
+  margin: var(--tw-space-s) 0 var(--tw-space-m);
+  max-width: 60ch;
+  font-family: var(--tw-font-body);
+  font-size: 1.03125rem;
+  line-height: 1.7;
+  color: var(--tw-text-body);
+}
+
 .bookCtas {
   display: flex;
   flex-wrap: wrap;
@@ -441,15 +481,8 @@
   margin-top: 26px;
 }
 
-.contactEmail {
-  margin-top: 26px;
-  font-family: var(--tw-font-mono);
-  font-size: 0.84375rem;
-  color: var(--tw-text-soft);
-}
-
 .contactSocials {
-  margin-top: 22px;
+  margin-top: 26px;
 }
 
 /* ===== Identity watermark ===== */

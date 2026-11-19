@@ -24,15 +24,17 @@ import {
   RCF_CONCEPTS,
   RCF_NOTIFY_HREF,
   RCF_PATH,
-  TRI_FRAMEWORK_URL,
+  RCF_PREORDER_HREF,
   TRI_URL,
   rcfConceptHref,
+  RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import styles from './page.module.scss';
 
 const TITLE = 'The Resonance Core Framework™ Book by Terence Waters';
-const DESCRIPTION =
-  'The Resonance Core Framework™, a 31-chapter book and identity system by Terence Waters. Targeted for Q1 2027, with preorders opening in early November 2026.';
+const DESCRIPTION = RCF_PREORDERS_OPEN
+  ? 'The Resonance Core Framework™, a 31-chapter book and identity system by Terence Waters. Targeted for Q1 2027, with pre-orders open on the Fluxline Store.'
+  : 'The Resonance Core Framework™, a 31-chapter book and identity system by Terence Waters. Targeted for Q1 2027.';
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -123,8 +125,20 @@ export default function ResonanceCoreFrameworkPage() {
         <TwHero
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'
-          body='A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027, with preorders opening in early November 2026.'
-          primaryCta={{ label: 'Be notified at launch', href: RCF_NOTIFY_HREF }}
+          body={
+            RCF_PREORDERS_OPEN
+              ? 'A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027, and pre-orders are open on the Fluxline Store.'
+              : 'A practical identity system for making change that holds, built on alignment rather than force. The book is targeted for Q1 2027.'
+          }
+          primaryCta={
+            RCF_PREORDERS_OPEN
+              ? {
+                  label: 'Pre-order the book',
+                  href: RCF_PREORDER_HREF,
+                  variant: 'gold',
+                }
+              : { label: 'Be notified at launch', href: RCF_NOTIFY_HREF }
+          }
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
           tagline='By Terence Waters'
@@ -250,10 +264,14 @@ export default function ResonanceCoreFrameworkPage() {
                     <dt>Publication</dt>
                     <dd>{RCF_BOOK.publicationDate}</dd>
                   </div>
-                  <div>
-                    <dt>Preorders</dt>
-                    <dd>{RCF_BOOK.preorders}</dd>
-                  </div>
+                  {RCF_PREORDERS_OPEN && (
+                    <div>
+                      <dt>Pre-orders</dt>
+                      <dd>
+                        <a href={RCF_PREORDER_HREF}>{RCF_BOOK.preorders}</a>
+                      </dd>
+                    </div>
+                  )}
                   <div>
                     <dt>Formats</dt>
                     <dd>{RCF_BOOK.formats.join(', ')}</dd>
@@ -267,7 +285,12 @@ export default function ResonanceCoreFrameworkPage() {
                   motivation.
                 </p>
                 <div className={styles.ctaRow}>
-                  <TwButton href={RCF_NOTIFY_HREF}>
+                  {RCF_PREORDERS_OPEN && (
+                    <TwButton variant='gold' href={RCF_PREORDER_HREF}>
+                      Pre-order the Book →
+                    </TwButton>
+                  )}
+                  <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
                     Be Notified at Launch →
                   </TwButton>
                 </div>
@@ -294,9 +317,7 @@ export default function ResonanceCoreFrameworkPage() {
             </TwReveal>
             <ul className={styles.outbound}>
               <li>
-                <a href={TRI_FRAMEWORK_URL}>
-                  Hear the framework on the podcast →
-                </a>
+                <a href={TRI_URL}>Hear the framework on the podcast →</a>
               </li>
               <li>
                 <a href={FLUXLINE_RCF_URL}>

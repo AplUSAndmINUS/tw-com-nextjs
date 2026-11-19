@@ -15,11 +15,11 @@ import styles from './StepContextualQuestions.module.scss';
 
 // Map service keys to readable labels for section headings
 const SERVICE_OPTIONS_LABELS: Partial<Record<ServiceKey, string>> = {
-  personal_training: 'Personal Training',
-  it_consulting: 'IT Consulting',
-  graphic_design: 'Graphic Design',
-  web_development: 'Web Development',
-  resonance_coaching: 'Resonance Coaching',
+  personal_training: 'Personal Training & Wellness',
+  it_consulting: 'Business Strategy & Systems Alignment',
+  graphic_design: 'Brand & Experience Design',
+  web_development: 'Web Development & Digital Architecture',
+  resonance_coaching: 'The Resonance Core Framework™',
 };
 
 interface StepContextualQuestionsProps {

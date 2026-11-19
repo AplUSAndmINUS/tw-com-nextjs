@@ -8,34 +8,34 @@ import { ServiceOption, QuestionSet, ServiceKey } from './types';
 export const SERVICE_OPTIONS: ServiceOption[] = [
   {
     key: 'personal_training',
-    label: 'Personal Training',
+    label: 'Personal Training & Wellness',
     description:
       'Fitness coaching, workout plans, and performance optimization.',
     icon: 'Accessibility28Regular',
   },
   {
     key: 'it_consulting',
-    label: 'IT Business Consulting',
+    label: 'Business Strategy & Systems Alignment',
     description:
       'Technology strategy, system audits, and digital transformation.',
     icon: 'PeopleCommunity28Regular',
   },
   {
     key: 'graphic_design',
-    label: 'Graphic Design',
+    label: 'Brand & Experience Design',
     description:
       'Brand identity, marketing materials, and visual storytelling.',
     icon: 'DesignIdeas28Filled',
   },
   {
     key: 'web_development',
-    label: 'Web Development',
+    label: 'Web Development & Digital Architecture',
     description: 'Custom websites, web apps, and modern digital experiences.',
     icon: 'Code24Filled',
   },
   {
     key: 'resonance_coaching',
-    label: 'Resonance Core Framework™ Coaching',
+    label: 'The Resonance Core Framework™',
     description:
       'Mindset alignment, life strategy, and personal resonance work.',
     icon: 'Heart28Filled',

@@ -12,6 +12,10 @@
  * the theme and the accessibility layers like everything else.
  */
 
+ body {
+  margin: 0;
+ }
+
 .tw-prose {
   font-family: var(--tw-font-body);
   color: var(--tw-text-body);

@@ -13,13 +13,14 @@ import styles from './TwButton.module.scss';
  * to do this.
  */
 
-export type TwButtonVariant = 'primary' | 'outline' | 'quiet';
+export type TwButtonVariant = 'primary' | 'outline' | 'quiet' | 'gold';
 export type TwButtonSize = 'sm' | 'md' | 'lg';
 
 const VARIANT_CLASS: Record<TwButtonVariant, string> = {
   primary: styles.primary,
   outline: styles.outline,
   quiet: styles.quiet,
+  gold: styles.gold,
 };
 
 const SIZE_CLASS: Record<TwButtonSize, string> = {

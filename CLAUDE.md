@@ -135,7 +135,7 @@ Key components:
 
 | Component           | Purpose                                         |
 | ------------------- | ----------------------------------------------- |
-| `TwButton`          | Primary, outline, and quiet button variants     |
+| `TwButton`          | Primary, outline, quiet, and gold (pre-order only) button variants |
 | `TwCard`            | Surface card with interactive hover states      |
 | `TwArticleCard`     | Blog/portfolio card with shimmer image loading  |
 | `TwHero`            | Full-bleed hero with background image           |

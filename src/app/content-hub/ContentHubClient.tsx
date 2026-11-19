@@ -16,6 +16,7 @@ import {
   ArrowRightIcon,
 } from '@/components/icons';
 import styles from './ContentHubClient.module.scss';
+import { RCF_PREORDERS_OPEN, RCF_PREORDER_HREF } from '@/lib/rcf';
 
 type Drawer = 'podcasts' | 'case-studies' | 'books' | null;
 
@@ -64,8 +65,8 @@ const NAV_CARDS = [
 ] as const;
 
 const TRI_URL = 'https://theresonantidentity.com';
-const FLUXLINE_CASE_STUDIES = 'https://fluxline.pro/case-studies';
-const FLUXLINE_BOOKS = 'https://fluxline.pro/books';
+const FLUXLINE_CASE_STUDIES = 'https://www.fluxline.pro/case-studies';
+const FLUXLINE_BOOKS = 'https://www.fluxline.pro/books';
 
 /**
  * Content Hub — the launcher for everything TW.com publishes.
@@ -280,8 +281,18 @@ export default function ContentHubClient({
           everything I teach — distilled into a book.
         </p>
         <p className={styles.drawerBody}>
-          The full launch is coming soon on Fluxline.pro. Stay tuned for updates
-          on availability, pre-orders, and companion resources.
+          {RCF_PREORDERS_OPEN ? (
+            <>
+              The full launch is coming soon on Fluxline.pro, and pre-orders for
+              the digital editions are open on the{' '}
+              <a href={RCF_PREORDER_HREF}>Fluxline Store</a>.
+            </>
+          ) : (
+            <>
+              The full launch is coming soon on Fluxline.pro. Stay tuned for
+              updates on availability and companion resources.
+            </>
+          )}
         </p>
         <a
           href={FLUXLINE_BOOKS}

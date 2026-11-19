@@ -11,7 +11,14 @@ import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { useNewsletterStore } from '@/store/newsletterStore';
 import { getApiBaseUrl } from '@/lib/environment';
 import { useNewsletterRateLimit } from '@/hooks/useNewsletterRateLimit';
-import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon.png';
+import { useRecaptchaToken } from '@/hooks/useRecaptchaToken';
+import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon_192.png';
+import {
+  FLUXLINE_URL,
+  RCF_PREORDER_HREF,
+  RCF_PREORDERS_OPEN,
+  TRI_URL,
+} from '@/lib/rcf';
 import styles from './FooterContent.module.scss';
 
 const footerLinks = {
@@ -28,7 +35,7 @@ const footerLinks = {
       label: 'The Resonance Core Framework™',
     },
     { href: '/portfolio', label: 'Portfolio' },
-    { href: 'https://fluxline.pro/case-studies', label: 'Case Studies' },
+    { href: 'https://www.fluxline.pro/case-studies', label: 'Case Studies' },
   ],
   connect: [
     { href: '/about', label: 'About' },
@@ -114,6 +121,7 @@ function FooterNewsletterMini() {
   const [error, setError] = useState<string | null>(null);
 
   const { canSubmit, recordSubmit, timeUntilReset } = useNewsletterRateLimit();
+  const getRecaptchaToken = useRecaptchaToken();
 
   // Auto-reset the success confirmation after 5 seconds so the form returns to input state
   useEffect(() => {
@@ -138,10 +146,21 @@ function FooterNewsletterMini() {
       recordSubmit();
       setIsLoading(true);
       try {
+        const recaptchaToken = await getRecaptchaToken('newsletter_subscribe');
+        if (recaptchaToken === null) {
+          setError(
+            'Spam protection didn’t finish loading. Refresh the page and try again.'
+          );
+          return;
+        }
+
         const response = await fetch(`${getApiBaseUrl()}/api/subscribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: trimmed.toLowerCase() }),
+          body: JSON.stringify({
+            email: trimmed.toLowerCase(),
+            recaptchaToken,
+          }),
         });
         const data = await response.json();
         if (!response.ok) {
@@ -156,7 +175,14 @@ function FooterNewsletterMini() {
         setIsLoading(false);
       }
     },
-    [email, setNewsletterSubscribed, canSubmit, recordSubmit, timeUntilReset]
+    [
+      email,
+      setNewsletterSubscribed,
+      canSubmit,
+      recordSubmit,
+      timeUntilReset,
+      getRecaptchaToken,
+    ]
   );
 
   // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
@@ -388,10 +414,13 @@ export function FooterContent({
             isCompact={isCompact}
             className={styles.mdOnly}
           />
+          {/* Hidden on phones to keep the footer short; the podcast and book
+              stay reachable via "More from" below. */}
           <FooterLinkSection
             title='Work'
             links={footerLinks.work}
             isCompact={isCompact}
+            className={styles.mdOnly}
           />
           {windowWidth >= 1366 && (
             <FooterLinkSection
@@ -415,17 +444,25 @@ export function FooterContent({
         {/* Ecosystem links. TW uses this shorter block rather than the shared
             Listen / Read / Work lines (owner, 2026-10-20). Plain same-tab
             anchors with rel="me" so search engines tie the sites to one
-            identity. */}
+            identity. Short labels (owner, 2026-11-14); the nav's aria-label
+            gives them their context. */}
         <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
           <span className={styles.ecosystemTitle}>
             More from Terence Waters
           </span>
-          <a href='https://theresonantidentity.com/start-here/' rel='me'>
-            The Resonant Identity Podcast
-          </a>
-          <a href='https://fluxline.pro/' rel='me'>
-            Fluxline Resonance Group — Coaching &amp; Consulting
-          </a>
+          {/* ThemedLink, like the link lists above: Merriweather, footer
+              colours and hover. rel="me" passes through. */}
+          <ThemedLink href={TRI_URL} rel='me' variant='small' isFooter>
+            The Resonant Identity
+          </ThemedLink>
+          {RCF_PREORDERS_OPEN && (
+            <ThemedLink href={RCF_PREORDER_HREF} variant='small' isFooter>
+              Pre-order the Book
+            </ThemedLink>
+          )}
+          <ThemedLink href={FLUXLINE_URL} rel='me' variant='small' isFooter>
+            Fluxline Resonance Group
+          </ThemedLink>
         </nav>
 
         {/* Bottom bar */}
