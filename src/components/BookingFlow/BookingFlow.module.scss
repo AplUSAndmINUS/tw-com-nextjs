@@ -186,18 +186,20 @@
   min-width: 0;
 }
 
+/* Step 1 services and step 3 meeting lengths: white title, very light grey
+   description (owner, 2026-11-19). */
 .optionLabel {
   font-family: var(--tw-font);
   font-weight: 700;
   font-size: 0.9375rem;
-  color: var(--tw-text-heading);
+  color: var(--tw-text-heading-display);
 }
 
 .optionDesc {
   font-family: var(--tw-font-body);
   font-size: 0.8125rem;
   line-height: 1.5;
-  color: var(--tw-text-soft);
+  color: color-mix(in srgb, var(--tw-text-body) 80%, var(--tw-text-muted));
 }
 
 .lengths {

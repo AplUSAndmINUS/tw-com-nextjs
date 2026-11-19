@@ -180,6 +180,49 @@
   @include focus-ring;
 }
 
+/*
+ * The highlighted step (The launch): Mythic Gold node, number, title and role
+ * chips on a soft gold panel. The panel's negative margin keeps the title
+ * aligned with the other steps. Gold lines and glows come from effects.css,
+ * so light, high-contrast, grayscale and reduced-transparency modes apply.
+ */
+.step[data-highlight='true'] {
+  .node {
+    border-color: var(--tw-gold-line);
+  }
+
+  .body {
+    margin: calc(-1 * var(--tw-space-m));
+    padding: var(--tw-space-m);
+    border: 1px solid var(--tw-gold-line);
+    border-radius: var(--tw-radius-card);
+    background: var(--tw-mythic-gold-bg);
+  }
+
+  .number,
+  .title {
+    color: var(--tw-mythic-gold-text);
+  }
+}
+
+.step[data-highlight='true'][data-reached='true'] {
+  .node {
+    background: var(--tw-gold-line);
+    border-color: var(--tw-gold-line);
+    box-shadow: var(--tw-glow-gold-node);
+  }
+
+  .body {
+    box-shadow: var(--tw-glow-gold);
+  }
+
+  .role {
+    color: var(--tw-mythic-gold-text);
+    border-color: var(--tw-gold-line);
+    box-shadow: var(--tw-glow-gold);
+  }
+}
+
 /* Running total: the roles collected so far. */
 .stack {
   display: flex;

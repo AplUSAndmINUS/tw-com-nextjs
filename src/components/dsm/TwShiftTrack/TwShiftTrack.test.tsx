@@ -25,6 +25,7 @@ const steps: TwShiftTrackStep[] = [
     short: 'Three.',
     roles: ['Author'],
     href: '/about/#c',
+    highlight: true,
   },
 ];
 
@@ -73,5 +74,15 @@ describe('TwShiftTrack', () => {
   it('links a step to its full telling when an href is given', () => {
     const links = Array.from(doc.querySelectorAll('ol a'));
     expect(links.map((a) => a.getAttribute('href'))).toEqual(['/about/#c']);
+  });
+
+  it('highlights only the flagged step (Mythic Gold)', () => {
+    const doc = new JSDOM(
+      renderToStaticMarkup(<TwShiftTrack steps={steps} rolesLabel='Roles' />)
+    ).window.document;
+    const flagged = Array.from(doc.querySelectorAll('[data-highlight]'));
+    expect(flagged).toHaveLength(1);
+    expect(flagged[0].getAttribute('data-highlight')).toBe('true');
+    expect(flagged[0].textContent).toContain('The launch');
   });
 });

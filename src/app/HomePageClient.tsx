@@ -278,6 +278,8 @@ export default function HomePageClient({ content }: HomePageClientProps) {
                 title: s.title,
                 short: s.short,
                 roles: s.roles,
+                // The launch is now: Mythic Gold (owner, 2026-11-19).
+                highlight: s.id === 'shift-launch',
               }))}
               rolesLabel={HOME.shifts.rolesLabel}
               stackLabel={HOME.shifts.stackLabel}

@@ -62,8 +62,8 @@ export const HOME = {
     ),
     why: approved(
       'home.hook.why',
-      'That\'s why I wrote The Resonance Core Framework™ to be a "self-action" book, not a "self no-help" one. Because I want you to succeed in making yourself the best version of yourself.',
-      'Owner, 2026-11-18 (home spec, #285)'
+      'That\'s why I wrote The Resonance Core Framework™ to be a "self-action" book, not a "self no-help" one. Because I want you to succeed in becoming the best version of your self and your chosen identity.',
+      'Owner, 2026-11-19 (home polish)'
     ),
     promise: approved(
       'home.hook.promise',
