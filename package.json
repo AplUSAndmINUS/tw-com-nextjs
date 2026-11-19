@@ -9,7 +9,9 @@
     "migrate:blog": "node scripts/migrate-blog.js",
     "verify:fonts": "tsx scripts/verify-fonts.ts",
     "verify:ads-txt": "node scripts/verify-ads-txt.js",
+    "verify:no-faker": "node scripts/verify-no-faker.js",
     "prebuild": "yarn verify:fonts && yarn verify:ads-txt",
+    "postbuild": "yarn verify:no-faker",
     "predev": "yarn verify:fonts",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -27,6 +29,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.19.33",
     "@types/react": "^19",

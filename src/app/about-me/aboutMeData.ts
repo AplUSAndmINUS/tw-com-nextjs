@@ -5,8 +5,8 @@
  * A landing page you can read in about a minute. It says who Terence is
  * (podcaster, systems architect, business consultant), shows what he's
  * building (The Resonance Core Framework™ and The Resonant Identity), and
- * offers proof (skills, projects, recent writing). Then it hands off to /about
- * for the long version.
+ * offers proof (skills, projects). Then it hands off to /about for the long
+ * version. Most of its words now live in src/content/site/aboutMe.ts (#288).
  *
  * Nothing here is new copy. Every line is drawn from content already in the
  * repo, and cited per block:
@@ -16,16 +16,15 @@
  *   - the podcast      → src/lib/spreaker.ts + /podcasts/theresonantid
  *   - social links     → src/lib/socials.ts
  *
- * Blog posts and portfolio entries are not listed here. page.tsx loads them
- * from the content system at build time, so the page stays current without
- * edits.
+ * Portfolio entries are not listed here. page.tsx loads them from the
+ * content system at build time, so the page stays current without edits.
  */
 
 import type { ContentItem } from '@/content/types';
 import { ABOUT_SKILLS, type AboutSkill } from '@/content/aboutSkills';
 import { SOCIAL_URLS } from '@/lib/socials';
 import { serviceHref, type HomeSocial } from '@/app/home/homeData';
-import { formatDotDate } from '@/app/home/contentFormat';
+import { ABOUT_ME_PROJECT_SLUGS } from '@/content/site/aboutMe';
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 
@@ -34,10 +33,6 @@ export const ROLES_LINE = 'Podcaster · Systems Architect · Business Consultant
 /** From aboutData INTRO_PARAGRAPHS[0], prefixed with the authorship line. */
 export const HERO_BODY =
   'Author of The Resonance Core Framework™. I help people and organizations rebuild the parts of themselves they thought were permanent.';
-
-/** Press-kit hook, unchanged from the previous version of this page. */
-export const HOOK_QUOTE =
-  'I rejected the mission, marriage, children, and six-figure career expected of me in a town of 4,000 people.';
 
 /* ── In 60 seconds ────────────────────────────────────────────────────────── */
 
@@ -54,12 +49,26 @@ export interface Role {
   linkLabel: string;
 }
 
+/**
+ * In the owner's order (#288): Founder, Host, 20+ years. Each card's text is
+ * shortened to three lines at most (draft wording, awaiting his approval);
+ * the cards also clamp at three lines as a backstop.
+ */
 export const ROLES: Role[] = [
+  {
+    icon: 'people',
+    label: 'The business consultant',
+    title: 'Founder, Fluxline Resonance Group',
+    text: 'Consulting, architecture, and brand identity for founders and teams who need more structure.',
+    points: ['Strategy', 'Systems alignment', 'Brand identity'],
+    href: serviceHref('consulting'),
+    linkLabel: 'Consulting on Fluxline.pro',
+  },
   {
     icon: 'mic',
     label: 'The podcaster',
     title: 'Host, The Resonant Identity',
-    text: 'Where the framework gets talked through out loud, episode by episode, for people in a season of becoming.',
+    text: 'The framework, talked through out loud, episode by episode, for people in a season of becoming.',
     points: ['Identity', 'Alignment', 'Transitions'],
     href: '#podcast',
     linkLabel: 'About the show',
@@ -68,19 +77,10 @@ export const ROLES: Role[] = [
     icon: 'code',
     label: 'The systems architect',
     title: '20+ years building platforms',
-    text: 'Enterprise healthcare platforms, intranets, and cloud delivery on Azure, M365, and Next.js. Complexity turned into something people can run.',
+    text: 'Enterprise healthcare platforms, intranets, and cloud delivery on Azure, M365, and Next.js.',
     points: ['IT architecture', 'Azure & M365', 'Design systems'],
     href: '/portfolio',
     linkLabel: 'See the portfolio',
-  },
-  {
-    icon: 'people',
-    label: 'The business consultant',
-    title: 'Founder, Fluxline Resonance Group',
-    text: 'Consulting, systems architecture, and brand identity for founders and teams who need less noise and more structure.',
-    points: ['Strategy', 'Systems alignment', 'Brand identity'],
-    href: serviceHref('consulting'),
-    linkLabel: 'Consulting on Fluxline.pro',
   },
 ];
 
@@ -123,41 +123,20 @@ export function pickSkills(
   });
 }
 
-/* ── Writing ──────────────────────────────────────────────────────────────── */
-
-/**
- * The meta line on a writing card: "2026.11.14 · 6 min read". Joins only the
- * parts that exist, so a post with a missing or invalid date reads "6 min read"
- * rather than " · 6 min read".
- */
-export function formatPostMeta(date: string | undefined, read: string): string {
-  return [formatDotDate(date), read].filter(Boolean).join(' · ');
-}
-
 /* ── Projects ─────────────────────────────────────────────────────────────── */
 
-/**
- * Portfolio entries to show, by slug, in display order: one for each side of
- * the work (business platform, enterprise architecture, the RCF's decision
- * tooling). If a slug goes missing, pickProjects tops the list back up from
- * the newest featured entries.
- */
-export const PROJECT_SLUGS = [
-  'fluxline-pro-website',
-  'myintermountain-sharepoint-intranet',
-  'enterprise-dashboard',
-] as const;
-
+/** "Some of the work" shows three entries (the user copy's set, #288). */
 export const PROJECT_LIMIT = 3;
 
 /**
- * Curated slugs first, in order. Any gaps are then filled from featured
+ * Curated slugs first (ABOUT_ME_PROJECT_SLUGS, the projects /about shows),
+ * in order. Any gaps are then filled from featured
  * entries (the input is already newest first from getAllContent), and last of
  * all from anything else.
  */
 export function pickProjects(
   items: ContentItem[],
-  slugs: readonly string[] = PROJECT_SLUGS,
+  slugs: readonly string[] = ABOUT_ME_PROJECT_SLUGS,
   limit: number = PROJECT_LIMIT
 ): ContentItem[] {
   const picked: ContentItem[] = [];
@@ -172,16 +151,6 @@ export function pickProjects(
   items.forEach(add);
   return picked;
 }
-
-/* ── Writing ──────────────────────────────────────────────────────────────── */
-
-export const POST_LIMIT = 3;
-
-/* ── Get in touch ─────────────────────────────────────────────────────────── */
-
-/** Free consultation booking, the same link /about's closing band uses. */
-export const BOOKING_URL = 'https://tidycal.com/terencewaters';
-export const EMAIL_ADDRESS = SOCIAL_URLS.email.replace(/^mailto:/, '');
 
 /**
  * The icon row at the bottom of the page: every profile that has an icon in
