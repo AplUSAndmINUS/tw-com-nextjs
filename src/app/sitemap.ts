@@ -90,6 +90,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      // Book a Conversation: opens the booking dialog on load.
+      url: `${SITE_URL}/book`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       // Book a Conversation, send a message, or get the newsletter (#295).
       url: `${SITE_URL}/contact`,
       lastModified: new Date(),

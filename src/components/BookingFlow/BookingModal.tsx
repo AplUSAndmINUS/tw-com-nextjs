@@ -14,6 +14,7 @@ import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import { TwButton } from '@/components/dsm';
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { TwButtonProps } from '@/components/dsm/TwButton/TwButton';
 import { BOOK_A_CONVERSATION } from '@/content/site/booking';
 import { BookingFlow } from './BookingFlow';
@@ -53,6 +54,9 @@ export function useBookingModal(): BookingModalContextValue | null {
   return useContext(BookingModalContext);
 }
 
+/** How long the closing fade runs (matches .overlayClosing in the SCSS). */
+export const BOOKING_EXIT_MS = 200;
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
 
@@ -62,28 +66,75 @@ export function BookingModalProvider({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  // True while the dialog fades out; it unmounts when the fade ends.
+  const [isClosing, setIsClosing] = useState(false);
   const openerRef = useRef<HTMLElement | null>(null);
+  const exitTimer = useRef<number | null>(null);
   const pathname = usePathname();
+  const { shouldReduceMotion } = useReducedMotion();
+
+  // close() reads this, so it never changes identity (the dialog's effect
+  // depends on it, and re-running that effect would pull focus to Close).
+  const reduceMotionRef = useRef(shouldReduceMotion);
+  useEffect(() => {
+    reduceMotionRef.current = shouldReduceMotion;
+  }, [shouldReduceMotion]);
 
   const open = useCallback(() => {
-    openerRef.current =
-      document.activeElement instanceof HTMLElement &&
-      document.activeElement !== document.body
-        ? document.activeElement
-        : null;
+    const fading = exitTimer.current !== null;
+    if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
+    exitTimer.current = null;
+    // Reopened during the fade-out: keep the original opener (focus is on
+    // the dialog's own Close button by then).
+    if (!fading) {
+      openerRef.current =
+        document.activeElement instanceof HTMLElement &&
+        document.activeElement !== document.body
+          ? document.activeElement
+          : null;
+    }
+    setIsClosing(false);
     setIsOpen(true);
   }, []);
 
   const close = useCallback(() => {
-    setIsOpen(false);
     // Back to whatever opened it, once the dialog is gone, if it is still on
     // the page (the opener may have unmounted, or Safari never focused it).
-    const opener = openerRef.current;
-    window.requestAnimationFrame(() => {
-      // preventScroll: a link inside the flow may have just moved the page.
-      if (opener?.isConnected) opener.focus({ preventScroll: true });
-    });
+    const finish = () => {
+      exitTimer.current = null;
+      setIsClosing(false);
+      setIsOpen(false);
+      const opener = openerRef.current;
+      window.requestAnimationFrame(() => {
+        // No opener (the /book page opens it on load) or it's gone: land on
+        // the page's main content rather than the top of the document.
+        const target = opener?.isConnected
+          ? opener
+          : document.querySelector<HTMLElement>('main');
+        if (!target) return;
+        if (target.tagName === 'MAIN' && !target.hasAttribute('tabindex')) {
+          target.setAttribute('tabindex', '-1');
+        }
+        // preventScroll: a link inside the flow may have just moved the page.
+        target.focus({ preventScroll: true });
+      });
+    };
+    if (reduceMotionRef.current) {
+      if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
+      finish();
+      return;
+    }
+    if (exitTimer.current !== null) return; // already fading out
+    setIsClosing(true);
+    exitTimer.current = window.setTimeout(finish, BOOKING_EXIT_MS);
   }, []);
+
+  useEffect(
+    () => () => {
+      if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
+    },
+    []
+  );
 
   // A page change (browser Back, a link inside the flow) closes the dialog,
   // so it never outlives the page that opened it.
@@ -91,6 +142,9 @@ export function BookingModalProvider({
   useEffect(() => {
     if (lastPath.current !== pathname) {
       lastPath.current = pathname;
+      if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
+      exitTimer.current = null;
+      setIsClosing(false);
       setIsOpen(false);
     }
   }, [pathname]);
@@ -100,12 +154,18 @@ export function BookingModalProvider({
   return (
     <BookingModalContext.Provider value={value}>
       {children}
-      {isOpen ? <BookingDialog onClose={close} /> : null}
+      {isOpen ? <BookingDialog onClose={close} closing={isClosing} /> : null}
     </BookingModalContext.Provider>
   );
 }
 
-function BookingDialog({ onClose }: { onClose: () => void }) {
+function BookingDialog({
+  onClose,
+  closing,
+}: {
+  onClose: () => void;
+  closing: boolean;
+}) {
   const titleId = useId();
   const { reducedTransparency } = useAppTheme();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -160,11 +220,14 @@ function BookingDialog({ onClose }: { onClose: () => void }) {
 
   const dialog = (
     <div
-      className={
-        reducedTransparency
-          ? `${styles.overlay} ${styles.overlayOpaque}`
-          : styles.overlay
-      }
+      className={[
+        styles.overlay,
+        reducedTransparency ? styles.overlayOpaque : '',
+        closing ? styles.overlayClosing : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      data-closing={closing ? 'true' : undefined}
       onMouseDown={(event) => {
         const el = event.currentTarget;
         // clientX past clientWidth is the overlay's own scrollbar.
