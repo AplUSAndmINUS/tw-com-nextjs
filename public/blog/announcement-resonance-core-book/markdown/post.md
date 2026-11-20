@@ -14,7 +14,7 @@ tags:
   - 'Transformation'
   - 'Decision Making'
   - 'Life Framework'
-imageUrl: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
+imageUrl: '/blog/announcement-resonance-core-book/images/RCF_logo.jpg'
 imageAlt: 'The Resonance Core Framework™ logo representing alignment and human transformation'
 featured: true
 seoTitle: 'Introducing The Resonance Core Framework™'
@@ -30,9 +30,9 @@ seoKeywords:
   - 'sustainable change'
   - 'human alignment'
   - 'life framework'
-featuredImage: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
+featuredImage: '/blog/announcement-resonance-core-book/images/RCF_logo.jpg'
 gallery:
-  - url: '/blog/announcement-resonance-core-book/images/RCF_logo.jpeg'
+  - url: '/blog/announcement-resonance-core-book/images/RCF_logo.jpg'
     alt: 'The Resonance Core Framework™ Logo'
     caption: 'The Resonance Core Framework™ Logo'
   - url: '/blog/announcement-resonance-core-book/images/RCF_book_concept.jpg'
