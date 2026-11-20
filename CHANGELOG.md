@@ -6,6 +6,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- `/about-me` and `/resonance-core-framework` (its page image and its social-share image) use the new square RCF logo, `RCF_logo.jpg`, like the home page (#343).
+
 ## [2.4.1] - 2026-11-20
 
 Launch-day fixes from the owner's smoke test. Tag: `v2_4_1.PROD`.
