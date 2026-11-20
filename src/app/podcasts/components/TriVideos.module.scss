@@ -16,6 +16,14 @@
   justify-content: space-between;
   gap: var(--tw-space-m);
   margin-bottom: var(--tw-space-xl);
+
+  /* TwSectionHeading is an inline-size container, so its content gives it
+     no width of its own: in this row it shrank to nothing and set one letter
+     per line (#334). It takes the row instead; the link wraps below on
+     narrow screens. */
+  > :first-child {
+    flex: 1 1 min(100%, 20rem);
+  }
 }
 
 .viewAll {
