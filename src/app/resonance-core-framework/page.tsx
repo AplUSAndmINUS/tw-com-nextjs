@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/assets/images/RCF_logo.jpeg',
+        url: '/assets/images/RCF_logo.jpg',
         alt: 'The Resonance Core Framework™',
       },
     ],
@@ -243,7 +243,7 @@ export default function ResonanceCoreFrameworkPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className={styles.bookImage}
-                  src='/assets/images/RCF_logo.jpeg'
+                  src='/assets/images/RCF_logo.jpg'
                   alt='The Resonance Core Framework™ logo'
                   loading='lazy'
                   decoding='async'

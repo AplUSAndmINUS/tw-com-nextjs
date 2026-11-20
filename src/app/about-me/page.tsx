@@ -378,7 +378,7 @@ export default async function AboutMePage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       className={styles.featureArt}
-                      src='/assets/images/RCF_logo.jpeg'
+                      src='/assets/images/RCF_logo.jpg'
                       alt='The Resonance Core Framework™ logo'
                       width={96}
                       height={96}
