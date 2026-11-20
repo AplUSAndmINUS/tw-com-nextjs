@@ -14,12 +14,12 @@ tags:
   - 'self-help'
   - 'alignment'
   - 'framework'
-imageUrl: '/blog/writing-resonance-core/images/RCF_logo.jpeg'
+imageUrl: '/blog/writing-resonance-core/images/RCF_logo.jpg'
 imageAlt: 'The Resonance Core Framework™ logo'
 featured: false
-featuredImage: '/blog/writing-resonance-core/images/RCF_logo.jpeg'
+featuredImage: '/blog/writing-resonance-core/images/RCF_logo.jpg'
 gallery:
-  - url: '/blog/writing-resonance-core/images/RCF_logo.jpeg'
+  - url: '/blog/writing-resonance-core/images/RCF_logo.jpg'
     alt: 'The Resonance Core Framework™ Logo'
     caption: 'The Resonance Core Framework™ Logo'
   - url: '/blog/writing-resonance-core/images/RCF_book_concept.jpg'
