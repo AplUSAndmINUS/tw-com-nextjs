@@ -6,6 +6,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-11-20
+
+The Resonance Core Framework™ book pre-order launch, with the rebuilt site: book pre-orders open (`RCF_PREORDERS_OPEN`), the Book a Conversation dialog and `/book`, the new `/about`, `/contact` and `/podcasts` pages, the RCF banner, and the footer newsletter above the footer line. The Instagram feed stays hidden. Tag: `v2_4_0.PROD`.
+
 ### Added
 
 - `/book` (#306): like fluxline.pro/book, it opens the Book a Conversation dialog on load, with a button to reopen it, the steps, and a TidyCal link without JavaScript. Every Book a Conversation button now falls back to `/book/` (was `/contact/#conversation`); with JavaScript they still open the dialog in place. Listed in the sitemap.
@@ -66,9 +70,6 @@ All notable changes to terencewaters.com are recorded here. The format follows
 - `TwRipple`, `TwWave` and `TwAside`, plus the /about and services copy (`content/site/about.ts`, `services.ts`), from the redesign (#294).
 
 - /contact (#295), as in the redesign: "Let's talk" with a jump list, Book a Conversation, Send a message (the contact form), Get new writing in your inbox (the newsletter form) and Find me online. Book a Conversation, in the jump list and in its section, opens the same full-screen booking dialog as the rest of the site. Without JavaScript the section offers TidyCal directly. Brought in from the redesign with it: `ContactForm`, `NewsletterForm`, `TwLinkStack` (now with an optional click handler), `lib/formErrors.ts` and the updated `contactValidation.ts`.
-
-### Changed
-
 - The nav's Contact link, the footer's Contact and Newsletter links, the blog's newsletter button, /about's "Send a message" and the booking flow's "send me a message instead" now go to /contact (#295) instead of the home page's sections. The footer keeps its #newsletter anchor on Home only, so /contact has one.
 - Home's Let's talk band uses the same `ContactForm` as /contact (#295), replacing `HomeContactForm`. One set of rules: a name of 2+ characters, inline field errors, a clear message when the network or rate limit fails. /contact is in the sitemap.
 - The footer (#285): the newsletter signup is its own larger block at the top, in the heading font, and shows on phones too (it is the `/#newsletter` target). "Case Studies" is gone from the links. On phones the tagline is hidden and the "More from" links wrap, so the footer is shorter.
@@ -265,5 +266,7 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
+[2.4.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_3_0.PROD...v2_4_0.PROD
+[2.3.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2_3_0.PROD
 [2.2.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_1_1.PROD...v2_2_0.PROD
 [2.1.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2.1.0
