@@ -241,7 +241,7 @@ export default function HomePageClient({ content }: HomePageClientProps) {
                 <Link href={RCF_PATH + '/'} tabIndex={-1} aria-hidden='true'>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src='/assets/images/RCF_logo.jpeg'
+                    src='/assets/images/RCF_logo.jpg'
                     alt=''
                     loading='lazy'
                     decoding='async'
