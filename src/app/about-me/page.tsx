@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import React from 'react';
 import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
@@ -14,61 +15,69 @@ import {
   TwChip,
   TwContentGrid,
   TwHero,
-  TwPageNav,
+  TwMeter,
+  TwMeterGroup,
   TwReveal,
-  TwSectionHeading,
   TwStatCard,
 } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
+import { BookingTrigger } from '@/components/BookingFlow';
 import { Footer } from '@/components/Footer';
+import { InstagramGrid } from '@/components/InstagramGrid';
+import { INSTAGRAM_FEED_ENABLED } from '@/lib/instagram';
+import { SiteNav } from '@/components/SiteNav';
 import {
+  ArrowRightIcon,
   BookIcon,
-  CalendarIcon,
   CodeIcon,
-  ContactCardIcon,
+  DesignIdeasIcon,
   MicIcon,
+  PenIcon,
   PeopleCommunityIcon,
+  VideoIcon,
 } from '@/components/icons';
 import type { IconProps } from '@/components/icons';
 import { getAllContent } from '@/lib/content';
 import {
   RCF_BOOK,
   RCF_BOOK_BLURB,
-  RCF_CONCEPTS,
   RCF_PATH,
   RCF_PREORDER_HREF,
-  TRI_URL,
   RCF_PREORDERS_OPEN,
+  TRI_URL,
 } from '@/lib/rcf';
 import { SOCIAL_URLS } from '@/lib/socials';
-import { readTime } from '@/app/home/contentFormat';
 import { SocialRow } from '@/app/home/SocialRow';
 import { portfolioCategoryLabel } from '@/app/portfolio/portfolioMeta';
 import ResonantIdentityIcon from '@/assets/images/ResonantIdentity_icon_192.png';
+import { BOOK_A_CONVERSATION } from '@/content/site/booking';
+import {
+  HUB_HEADING,
+  HUB_TILES,
+  type HubTileKey,
+} from '@/content/site/contentHub';
+import { ABOUT_ME } from '@/content/site/aboutMe';
+import { QUOTES } from '@/content/site/identity';
+import { MICROCOPY } from '@/content/site/microcopy';
 import {
   ABOUT_ME_SOCIALS,
-  BOOKING_URL,
-  EMAIL_ADDRESS,
   HERO_BODY,
-  HOOK_QUOTE,
   PODCAST_FACTS,
   PODCAST_SOCIALS,
-  POST_LIMIT,
   ROLES,
   ROLES_LINE,
   STATS,
   TALENT_SKILL_NAMES,
-  formatPostMeta,
   pickProjects,
   pickSkills,
   type RoleIcon,
 } from './aboutMeData';
+import { QuickLinks, type QuickLink } from './QuickLinks';
 import styles from './page.module.scss';
 
 const ABOUT_ME_TITLE =
   'Terence Waters in 60 Seconds | Podcaster, Systems Architect & Business Consultant';
 const ABOUT_ME_DESCRIPTION =
-  'Terence Waters: podcaster, systems architect, business consultant, and author of The Resonance Core Framework™. The book, the podcast, skills, projects, and writing on one page.';
+  'Terence Waters: podcaster, systems architect, business consultant, and author of The Resonance Core Framework™. The book, the podcast, what he is making, and where to find him, on one page.';
 
 export const metadata: Metadata = {
   title: { absolute: ABOUT_ME_TITLE },
@@ -76,6 +85,8 @@ export const metadata: Metadata = {
   keywords: [
     'Terence Waters',
     'about Terence Waters',
+    'Terence Waters in 60 seconds',
+    'Terence Waters Instagram',
     'The Resonant Identity podcast host',
     'podcaster',
     'systems architect',
@@ -102,25 +113,61 @@ export const metadata: Metadata = {
   },
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Content Hub', href: '/content-hub' },
-];
-
 const ROLE_ICONS: Record<RoleIcon, React.ComponentType<IconProps>> = {
   mic: MicIcon,
   code: CodeIcon,
   people: PeopleCommunityIcon,
 };
 
-/** The four concepts a newcomer meets first; the rest live on the RCF page. */
-const RCF_HIGHLIGHTS = RCF_CONCEPTS.slice(0, 4).map((concept) => concept.name);
+/** Icons for the Content Hub tiles (same as on /content-hub). */
+const HUB_ICONS: Record<HubTileKey, React.ComponentType<IconProps>> = {
+  podcasts: MicIcon,
+  blog: PenIcon,
+  portfolio: DesignIdeasIcon,
+  github: CodeIcon,
+  videos: VideoIcon,
+};
 
 /** "31 chapters in three parts", without the parenthetical part names. */
 const RCF_STRUCTURE = RCF_BOOK.structure.replace(/\s*\(.*\)\s*$/, '');
 
 const TALENTS = pickSkills(TALENT_SKILL_NAMES);
+
+/**
+ * The quick links (owner, #288): five, in the user copy's order. Pre-order
+ * leads, highlighted, while pre-orders are announced (#273).
+ */
+const QUICK_LINKS: QuickLink[] = [
+  ...(RCF_PREORDERS_OPEN
+    ? [
+        {
+          label: ABOUT_ME.links.preorder,
+          href: RCF_PREORDER_HREF,
+          icon: 'book',
+          external: true,
+          highlight: true,
+        } satisfies QuickLink,
+      ]
+    : []),
+  {
+    label: BOOK_A_CONVERSATION.label,
+    href: BOOK_A_CONVERSATION.href,
+    icon: 'calendar',
+    booking: true,
+  },
+  { label: ABOUT_ME.links.fullStory, href: '/about/', icon: 'person' },
+  {
+    label: ABOUT_ME.links.podcast,
+    href: '/podcasts/theresonantid/',
+    icon: 'mic',
+  },
+  {
+    label: ABOUT_ME.links.instagram,
+    href: SOCIAL_URLS.instagram,
+    icon: 'instagram',
+    external: true,
+  },
+];
 
 /** Text link with a trailing arrow: → for on-site, ↗ for off-site. */
 function ArrowLink({
@@ -153,36 +200,27 @@ function ArrowLink({
 }
 
 /**
- * /about-me: Terence in 60 seconds.
+ * /about-me: Terence in 60 seconds, the "link in bio" page (rebuild, #288).
  *
- * The "link in bio" page. Other sites in the ecosystem (starting with
- * theresonantidentity.com/start-here) point here when they refer someone to
- * "more about Terence". It reads top to bottom like a landing page:
+ * In the owner's order: hero (the compact pinned photo and scroll reveal) →
+ * quick links → in 60 seconds (blurb, quick facts, the three roles, the
+ * numbers) → the book and the podcast → everything I'm making → some of the
+ * work → off the page (the latest Instagram posts; hidden while
+ * INSTAGRAM_FEED_ENABLED is off, #321) → what I bring to the table → find me
+ * online → want to go deeper?
  *
- *   1. Hero callout: who, in one line. No buttons, so the page opens on the
- *      person rather than a choice.
- *   2. In 60 seconds: the three roles, plus the headline numbers.
- *   3. The book and the podcast, side by side.
- *   4. Talent bars: the skills behind the roles, scored out of 100.
- *   5. Selected projects and recent writing, loaded from the content system.
- *   6. The actions: full story (/about), get in touch, the RCF page, then
- *      every social profile as an icon row.
- *
- * A server component throughout, loading its content at build time. It embeds
- * client components for the motion and interactivity: TwReveal, the hero's
- * parallax and scroll reveal (TwHero / TwHeroScrollReveal), the article-card
- * image loader, and the nav and footer.
+ * A server component, loaded at build time, with small client islands:
+ * TwReveal on every section, the hero's scroll reveal, the quick links (for
+ * the booking dialog) and, when enabled, the Instagram feed, which loads at
+ * runtime because Instagram's image URLs expire.
  */
 export default async function AboutMePage() {
   const personSchema = getPersonSchema('https://terencewaters.com/about-me');
   const aboutHookPageSchema = getAboutHookPageSchema();
 
-  const [blog, portfolio] = await Promise.all([
-    getAllContent('blog'),
-    getAllContent('portfolio'),
-  ]);
-  const posts = blog.slice(0, POST_LIMIT);
-  const projects = pickProjects(portfolio);
+  // The portfolio entries that match /about's projects, in that order,
+  // topped up from featured entries if one goes missing.
+  const projects = pickProjects(await getAllContent('portfolio'));
 
   return (
     <div className={styles.page}>
@@ -197,19 +235,15 @@ export default async function AboutMePage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutHookPageSchema) }}
       />
 
-      <TwPageNav
-        back={{ label: 'Back to Home', href: '/' }}
-        links={NAV_LINKS}
-      />
+      <SiteNav />
 
-      <main>
-        {/* ===== Hero callout: no actions here, they close the page ===== */}
+      <main id='main'>
+        {/* ===== Hero: compact on a sub-page; no quote (owner, #288) ===== */}
         <TwHero
-          eyebrow="Hi, I'm"
+          eyebrow={ABOUT_ME.hero.eyebrow}
           title='Terence Waters'
           subtitle={ROLES_LINE}
           body={HERO_BODY}
-          quote={HOOK_QUOTE}
           backgroundImage='/assets/images/hero-landscape.jpg'
           backgroundImagePortrait='/assets/images/hero-portrait.jpg'
           backgroundAlt='Terence Waters'
@@ -220,16 +254,59 @@ export default async function AboutMePage() {
           scrollReveal
         />
 
-        {/* ===== In 60 seconds ===== */}
-        <section id='in-60-seconds' className={styles.section}>
+        {/* ===== Quick links: one row, under the hero ===== */}
+        <section id='links' className={styles.linksSection}>
           <div className={styles.container}>
             <TwReveal>
-              <TwSectionHeading
-                kicker='In 60 seconds'
-                title='Three roles, one system'
-                lede='Everything I do traces back to the same idea: sustainable change requires alignment, not force.'
-              />
+              <QuickLinks label={ABOUT_ME.links.label} items={QUICK_LINKS} />
             </TwReveal>
+          </div>
+        </section>
+
+        {/* ===== In 60 seconds ===== */}
+        <section
+          id='in-60-seconds'
+          className={styles.sectionAlt}
+          aria-labelledby='about-me-short'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <p className={styles.eyebrow}>{ABOUT_ME.short.eyebrow}</p>
+              <h2 id='about-me-short' className={styles.h2}>
+                {ABOUT_ME.short.title}
+              </h2>
+            </TwReveal>
+
+            <div className={styles.shortGrid}>
+              <TwReveal>
+                <p className={styles.blurb}>{ABOUT_ME.short.blurb}</p>
+                <p className={`${styles.blurb} ${styles.blurbMore}`}>
+                  {ABOUT_ME.short.goal.map((part) =>
+                    !('emphasis' in part) ? (
+                      <React.Fragment key={part.text}>
+                        {part.text}
+                      </React.Fragment>
+                    ) : part.emphasis === 'strongEm' ? (
+                      <strong key={part.text}>
+                        <em>{part.text}</em>
+                      </strong>
+                    ) : (
+                      <em key={part.text}>{part.text}</em>
+                    )
+                  )}
+                </p>
+              </TwReveal>
+              <TwReveal delay={90}>
+                <div className={styles.factsCard}>
+                  <p className={styles.label}>{ABOUT_ME.short.factsLabel}</p>
+                  <ul className={styles.facts}>
+                    {ABOUT_ME.short.facts.map((fact) => (
+                      <li key={fact}>{fact}</li>
+                    ))}
+                  </ul>
+                </div>
+              </TwReveal>
+            </div>
 
             <TwContentGrid cols={3} tabletCols={3} className={styles.grid}>
               {ROLES.map((role) => {
@@ -241,7 +318,9 @@ export default async function AboutMePage() {
                     </span>
                     <p className={styles.cardLabel}>{role.label}</p>
                     <h3 className={styles.cardTitle}>{role.title}</h3>
-                    <p className={styles.cardText}>{role.text}</p>
+                    <p className={`${styles.cardText} ${styles.roleText}`}>
+                      {role.text}
+                    </p>
                     <div className={styles.chipRow}>
                       {role.points.map((point) => (
                         <TwChip key={point} size='sm'>
@@ -274,383 +353,355 @@ export default async function AboutMePage() {
           </div>
         </section>
 
-        {/* ===== The book + the podcast ===== */}
+        {/* ===== The book and the podcast ===== */}
         <section
           id='book-and-podcast'
-          className={`${styles.section} ${styles.sectionAlt}`}
+          className={styles.section}
+          aria-labelledby='about-me-building'
         >
           <div className={styles.container}>
             <TwReveal>
-              <TwSectionHeading
-                kicker='What I’m building'
-                title='The book and the podcast'
-                lede='The framework is written down in the book and talked through on the podcast.'
-              />
+              <h2 id='about-me-building' className={styles.h2}>
+                {ABOUT_ME.buildingTitle}
+              </h2>
             </TwReveal>
 
-            <TwContentGrid cols={2} tabletCols={2} className={styles.grid}>
-              {/* The Resonance Core Framework™ */}
-              <TwCard
-                as='article'
-                id='the-book'
-                padded={false}
-                className={styles.feature}
-              >
-                <div className={styles.featureHead}>
-                  {/* eslint-disable-next-line @next/next/no-img-element --
-                      static export with images.unoptimized; see TwHero. */}
-                  <img
-                    className={styles.featureArt}
-                    src='/assets/images/RCF_logo.jpeg'
-                    alt='The Resonance Core Framework™ logo'
-                    width={96}
-                    height={96}
-                    loading='lazy'
-                    decoding='async'
-                  />
-                  <div>
-                    <p className={styles.cardLabel}>
-                      <BookIcon size={14} /> The book
-                    </p>
-                    <h3 className={styles.featureTitle}>{RCF_BOOK.title}</h3>
-                    <p className={styles.featureMeta}>
-                      {RCF_BOOK.publicationDate}
-                    </p>
-                    {RCF_PREORDERS_OPEN && (
-                      <p className={styles.preorderBadge}>Pre-orders open</p>
-                    )}
+            <div className={styles.features}>
+              <TwReveal fill>
+                <TwCard
+                  as='article'
+                  id='the-book'
+                  padded={false}
+                  className={styles.feature}
+                >
+                  <div className={styles.featureHead}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className={styles.featureArt}
+                      src='/assets/images/RCF_logo.jpeg'
+                      alt='The Resonance Core Framework™ logo'
+                      width={96}
+                      height={96}
+                      loading='lazy'
+                      decoding='async'
+                    />
+                    <div>
+                      <p className={styles.cardLabel}>
+                        <BookIcon size={14} /> {ABOUT_ME.book.label}
+                      </p>
+                      <h3 className={styles.featureTitle}>{RCF_BOOK.title}</h3>
+                      <p className={styles.featureMeta}>
+                        {RCF_BOOK.publicationDate}
+                      </p>
+                      {RCF_PREORDERS_OPEN ? (
+                        <p className={styles.preorderBadge}>
+                          {ABOUT_ME.book.badge}
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-                <div className={styles.featureBody}>
-                  <p className={styles.cardText}>{RCF_BOOK_BLURB}</p>
-                  <ul className={styles.factList}>
-                    <li>{RCF_STRUCTURE}</li>
-                    <li>{RCF_BOOK.formats.join(' · ')}</li>
-                    <li>Published by {RCF_BOOK.publisher}</li>
-                  </ul>
-                  <p className={styles.chipLabel}>Core concepts</p>
-                  <div className={styles.chipRow}>
-                    {RCF_HIGHLIGHTS.map((name) => (
-                      <TwChip key={name} variant='teal' size='sm'>
-                        {name}
-                      </TwChip>
-                    ))}
-                  </div>
-                  {/* Homepage cadence: the strong button first, outline second.
-                      Gold replaces the primary because this one is the
-                      pre-order. */}
-                  <div className={styles.featureActions}>
-                    {RCF_PREORDERS_OPEN && (
-                      <TwButton
-                        variant='gold'
-                        href={RCF_PREORDER_HREF}
-                        target='_blank'
-                        className={styles.featureButton}
-                      >
-                        Pre-order the book
+                  <div className={styles.featureBody}>
+                    <p className={`${styles.cardText} ${styles.clampOnPhone}`}>
+                      {RCF_BOOK_BLURB}
+                    </p>
+                    <ul className={styles.factList}>
+                      <li>{RCF_STRUCTURE}</li>
+                      <li>{RCF_BOOK.formats.join(' · ')}</li>
+                      <li>Published by {RCF_BOOK.publisher}</li>
+                    </ul>
+                    <div className={styles.featureActions}>
+                      {RCF_PREORDERS_OPEN ? (
+                        <TwButton
+                          variant='gold'
+                          href={RCF_PREORDER_HREF}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {ABOUT_ME.book.preorder}
+                        </TwButton>
+                      ) : null}
+                      <TwButton variant='outline' href={RCF_PATH + '/'}>
+                        {ABOUT_ME.book.explore}{' '}
+                        <span aria-hidden='true'>&#8594;</span>
                       </TwButton>
-                    )}
-                    <TwButton
-                      variant='outline'
-                      href={RCF_PATH}
-                      className={styles.featureButton}
-                    >
-                      Explore the framework <span aria-hidden='true'>→</span>
-                    </TwButton>
+                    </div>
                   </div>
-                </div>
-              </TwCard>
+                </TwCard>
+              </TwReveal>
 
-              {/* The Resonant Identity */}
-              <TwCard
-                as='article'
-                id='podcast'
-                padded={false}
-                className={styles.feature}
-              >
-                <div className={styles.featureHead}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    className={styles.featureArt}
-                    src={ResonantIdentityIcon.src}
-                    alt='The Resonant Identity podcast logo'
-                    width={96}
-                    height={96}
-                    loading='lazy'
-                    decoding='async'
-                  />
-                  <div>
-                    <p className={styles.cardLabel}>
-                      <MicIcon size={14} /> The podcast
-                    </p>
-                    <h3 className={styles.featureTitle}>
-                      The Resonant Identity
-                    </h3>
-                    <p className={styles.featureMeta}>
-                      Hosted by Terence Waters
-                    </p>
+              <TwReveal fill delay={90}>
+                <TwCard
+                  as='article'
+                  id='podcast'
+                  padded={false}
+                  className={styles.feature}
+                >
+                  <div className={styles.featureHead}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      className={styles.featureArt}
+                      src={ResonantIdentityIcon.src}
+                      alt='The Resonant Identity podcast logo'
+                      width={96}
+                      height={96}
+                      loading='lazy'
+                      decoding='async'
+                    />
+                    <div>
+                      <p className={styles.cardLabel}>
+                        <MicIcon size={14} /> {ABOUT_ME.podcast.label}
+                      </p>
+                      <h3 className={styles.featureTitle}>
+                        {ABOUT_ME.podcast.title}
+                      </h3>
+                      <p className={styles.featureMeta}>
+                        {ABOUT_ME.podcast.meta}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.featureBody}>
-                  <p className={styles.cardText}>
-                    Identity architecture, self-improvement, and practical
-                    frameworks for navigating transitions with clarity. Built on
-                    The Resonance Core Framework™, for people in a season of
-                    becoming.
-                  </p>
-                  <ul className={styles.factList}>
-                    {PODCAST_FACTS.map((fact) => (
-                      <li key={fact}>{fact}</li>
-                    ))}
-                  </ul>
-                  <p className={styles.chipLabel}>Listen on</p>
-                  <SocialRow items={PODCAST_SOCIALS} size={26} />
-                  <div className={styles.featureActions}>
-                    <TwButton
-                      href={TRI_URL}
-                      target='_blank'
-                      className={styles.featureButton}
-                    >
-                      Listen to the podcast
-                    </TwButton>
-                    <TwButton
-                      variant='outline'
-                      href='/podcasts/theresonantid'
-                      className={styles.featureButton}
-                    >
-                      Browse episodes <span aria-hidden='true'>→</span>
-                    </TwButton>
+                  <div className={styles.featureBody}>
+                    <p className={`${styles.cardText} ${styles.clampOnPhone}`}>
+                      {ABOUT_ME.podcast.text}
+                    </p>
+                    <ul className={styles.factList}>
+                      {PODCAST_FACTS.map((fact) => (
+                        <li key={fact}>{fact}</li>
+                      ))}
+                    </ul>
+                    <p className={styles.label}>{ABOUT_ME.podcast.listenOn}</p>
+                    <SocialRow items={PODCAST_SOCIALS} size={24} />
+                    <div className={styles.featureActions}>
+                      <TwButton
+                        href={TRI_URL}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        {ABOUT_ME.podcast.listen}
+                      </TwButton>
+                      <TwButton
+                        variant='outline'
+                        href='/podcasts/theresonantid/'
+                      >
+                        {ABOUT_ME.podcast.browse}{' '}
+                        <span aria-hidden='true'>&#8594;</span>
+                      </TwButton>
+                    </div>
                   </div>
-                </div>
-              </TwCard>
-            </TwContentGrid>
+                </TwCard>
+              </TwReveal>
+            </div>
           </div>
         </section>
 
-        {/* ===== Talent bars ===== */}
-        <section id='skills' className={styles.section}>
+        {/* ===== Everything I'm making: the Content Hub tiles ===== */}
+        <section
+          id='making'
+          className={styles.sectionAlt}
+          aria-labelledby='about-me-making'
+        >
           <div className={styles.container}>
             <TwReveal>
-              <TwSectionHeading
-                kicker='Talent bars'
-                title='What I bring to the table'
-                lede='The skills behind the three roles, scored out of 100.'
-              />
+              <h2 id='about-me-making' className={styles.h2}>
+                {HUB_HEADING}
+              </h2>
             </TwReveal>
+            <ul className={styles.hubTiles}>
+              {HUB_TILES.map((tile, i) => {
+                const Icon = HUB_ICONS[tile.key];
+                return (
+                  <TwReveal as='li' key={tile.key} delay={i * 60}>
+                    <Link href={tile.href} className={styles.hubTile}>
+                      <span className={styles.hubIcon}>
+                        <Icon className={styles.icon} />
+                      </span>
+                      <span className={styles.hubTitle}>{tile.title}</span>
+                      <span className={styles.hubText}>{tile.description}</span>
+                      <span className={styles.hubCta}>
+                        {tile.cta} <ArrowRightIcon size={16} />
+                      </span>
+                    </Link>
+                  </TwReveal>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
 
+        {/* ===== Some of the work: portfolio entries that match /about ===== */}
+        {projects.length > 0 ? (
+          <section
+            id='projects'
+            className={styles.section}
+            aria-labelledby='about-me-projects'
+          >
+            <div className={styles.container}>
+              <TwReveal>
+                <h2 id='about-me-projects' className={styles.h2}>
+                  {ABOUT_ME.projects.title}
+                </h2>
+                <p className={styles.lede}>{ABOUT_ME.projects.lede}</p>
+              </TwReveal>
+              <div className={styles.projectGrid}>
+                {projects.map((project, i) => (
+                  <TwReveal key={project.slug} fill delay={i * 90}>
+                    <TwArticleCard
+                      title={project.title}
+                      excerpt={project.excerpt}
+                      category={portfolioCategoryLabel(project.category)}
+                      image={project.imageUrl}
+                      imageAlt={project.imageAlt ?? project.title}
+                      href={`/portfolio/${project.slug}/`}
+                    />
+                  </TwReveal>
+                ))}
+              </div>
+              <div className={styles.linkRow}>
+                <Link href='/portfolio/'>
+                  {ABOUT_ME.projects.more}{' '}
+                  <span aria-hidden='true'>&#8594;</span>
+                </Link>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* ===== Off the page: the latest Instagram posts =====
+            The user-copy layout (one lead, four squares), filled at runtime
+            from /api/instagram (#288). Hidden while INSTAGRAM_FEED_ENABLED is
+            off (owner, 2026-11-19). */}
+        {INSTAGRAM_FEED_ENABLED ? (
+          <section
+            id='instagram'
+            className={styles.sectionAlt}
+            aria-labelledby='about-me-photos'
+          >
+            <div className={styles.container}>
+              <TwReveal>
+                <h2 id='about-me-photos' className={styles.h2}>
+                  {ABOUT_ME.photos.title}
+                </h2>
+              </TwReveal>
+              <TwReveal>
+                <InstagramGrid layout='feature' className={styles.photoFeed} />
+              </TwReveal>
+              <div className={styles.linkRow}>
+                <a
+                  href={SOCIAL_URLS.instagram}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {ABOUT_ME.photos.follow}{' '}
+                  <span aria-hidden='true'>&#8599;</span>
+                </a>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* ===== What I bring to the table: talent bars + I still build ===== */}
+        <section
+          id='skills'
+          className={
+            INSTAGRAM_FEED_ENABLED ? styles.section : styles.sectionAlt
+          }
+          aria-labelledby='about-me-talents'
+        >
+          <div className={`${styles.container} ${styles.twoCol}`}>
             <TwReveal>
-              <TwCard className={styles.meterCard}>
-                <ul className={styles.meterGrid}>
-                  {TALENTS.map((skill) => (
-                    <li key={skill.name}>
-                      <div className={styles.meterHead}>
-                        <span className={styles.meterName}>{skill.name}</span>
-                        <span className={styles.meterValue}>
-                          {skill.percentage}
-                          <span className={styles.meterMax}> / 100</span>
-                        </span>
-                      </div>
-                      <div
-                        className={styles.meterTrack}
-                        role='meter'
-                        aria-valuenow={skill.percentage}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label={`${skill.name}: ${skill.percentage} out of 100`}
-                      >
-                        <span
-                          className={styles.meterFill}
-                          style={
-                            {
-                              '--tw-meter-pct': skill.percentage / 100,
-                            } as React.CSSProperties
-                          }
-                        />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </TwCard>
+              <h2 id='about-me-talents' className={styles.h2}>
+                {ABOUT_ME.talents.title}
+              </h2>
+              <TwMeterGroup
+                caption={MICROCOPY.talentCaption}
+                columns={1}
+                className={styles.meters}
+              >
+                {TALENTS.map((skill) => (
+                  <TwMeter
+                    key={skill.name}
+                    label={skill.name}
+                    value={skill.percentage}
+                  />
+                ))}
+              </TwMeterGroup>
+              <div className={styles.linkRow}>
+                <Link href='/about#credentials'>
+                  {ABOUT_ME.talents.more}{' '}
+                  <span aria-hidden='true'>&#8594;</span>
+                </Link>
+              </div>
             </TwReveal>
-
-            <TwReveal>
-              <div className={styles.sectionLink}>
-                <ArrowLink href='/about#credentials'>
-                  All skills, degrees & certifications
-                </ArrowLink>
+            <TwReveal delay={90}>
+              <div className={styles.stillBuild}>
+                <h2 className={styles.h2}>{ABOUT_ME.stillBuild.title}</h2>
+                <p className={styles.stillBuildQuote}>
+                  &ldquo;{QUOTES.stillBuild}&rdquo;
+                </p>
+                <p className={styles.stillBuildMore}>
+                  {ABOUT_ME.stillBuild.more.map((part) =>
+                    'emphasis' in part && part.emphasis ? (
+                      <strong key={part.text}>
+                        <em>{part.text}</em>
+                      </strong>
+                    ) : (
+                      <React.Fragment key={part.text}>
+                        {part.text}
+                      </React.Fragment>
+                    )
+                  )}
+                </p>
+                <div className={styles.linkRow}>
+                  <Link href='/about/'>
+                    {ABOUT_ME.stillBuild.link}{' '}
+                    <span aria-hidden='true'>&#8594;</span>
+                  </Link>
+                </div>
               </div>
             </TwReveal>
           </div>
         </section>
 
-        {/* ===== Selected projects ===== */}
-        {projects.length > 0 ? (
-          <section
-            id='projects'
-            className={`${styles.section} ${styles.sectionAlt}`}
-          >
-            <div className={styles.container}>
-              <TwReveal>
-                <TwSectionHeading
-                  kicker='Selected projects'
-                  title='Some of the work'
-                  lede='Platforms and systems I architected, led, or built.'
-                />
-              </TwReveal>
+        {/* ===== Find me online ===== */}
+        <section
+          id='socials'
+          className={
+            INSTAGRAM_FEED_ENABLED ? styles.sectionAlt : styles.section
+          }
+          aria-labelledby='about-me-socials'
+        >
+          <div className={`${styles.container} ${styles.socials}`}>
+            <TwReveal>
+              <h2 id='about-me-socials' className={styles.h2}>
+                {ABOUT_ME.socials.title}
+              </h2>
+              <SocialRow
+                items={ABOUT_ME_SOCIALS}
+                size={26}
+                className={styles.socialRow}
+              />
+            </TwReveal>
+          </div>
+        </section>
 
-              <TwContentGrid cols={3} tabletCols={3} className={styles.grid}>
-                {projects.map((project) => (
-                  <TwArticleCard
-                    key={project.slug}
-                    title={project.title}
-                    excerpt={project.excerpt}
-                    category={portfolioCategoryLabel(project.category)}
-                    image={project.imageUrl ?? project.featuredImage}
-                    imageAlt={project.imageAlt ?? project.title}
-                    href={`/portfolio/${project.slug}`}
-                    className={styles.article}
-                  />
-                ))}
-              </TwContentGrid>
-
-              <TwReveal>
-                <div className={styles.sectionLink}>
-                  <ArrowLink href='/portfolio'>
-                    View the full portfolio
-                  </ArrowLink>
-                </div>
-              </TwReveal>
-            </div>
-          </section>
-        ) : null}
-
-        {/* ===== Recent writing ===== */}
-        {posts.length > 0 ? (
-          <section id='writing' className={styles.section}>
-            <div className={styles.container}>
-              <TwReveal>
-                <TwSectionHeading
-                  kicker='From the blog'
-                  title='Recent writing'
-                  lede='Identity, the framework, and building a book in public.'
-                />
-              </TwReveal>
-
-              <TwContentGrid cols={3} tabletCols={3} className={styles.grid}>
-                {posts.map((post) => (
-                  <TwArticleCard
-                    key={post.slug}
-                    title={post.title}
-                    excerpt={post.excerpt}
-                    category={post.category}
-                    date={formatPostMeta(post.date, readTime(post.content))}
-                    dateTime={post.date || undefined}
-                    href={`/blog/${post.slug}`}
-                    className={styles.article}
-                  />
-                ))}
-              </TwContentGrid>
-
-              <TwReveal>
-                <div className={styles.sectionLink}>
-                  <ArrowLink href='/blog'>Read the blog</ArrowLink>
-                </div>
-              </TwReveal>
-            </div>
-          </section>
-        ) : null}
-
-        {/* ===== Closing: the actions, contact details, and socials ===== */}
-        <section id='connect' className={styles.closing}>
+        {/* ===== Want to go deeper? ===== */}
+        <section
+          id='connect'
+          className={
+            INSTAGRAM_FEED_ENABLED ? styles.section : styles.sectionAlt
+          }
+          aria-label={ABOUT_ME.closing.title}
+        >
           <div className={styles.container}>
             <TwReveal>
               <TwCTABand
                 as='div'
-                kicker='That was the short version'
-                title='Want to go deeper?'
-                body='Read the full story, start a conversation, or dig into the framework behind all of it.'
+                kicker={ABOUT_ME.closing.kicker}
+                title={ABOUT_ME.closing.title}
+                body={ABOUT_ME.closing.body}
               >
-                <TwButton href='/about' className={styles.ctaButton}>
-                  Read my full story
-                </TwButton>
-                <TwButton
-                  variant='outline'
-                  href='/#contact'
-                  className={styles.ctaButton}
-                >
-                  Get in touch
-                </TwButton>
-                <TwButton
-                  variant='outline'
-                  href={RCF_PATH}
-                  className={styles.ctaButton}
-                >
-                  The Resonance Core Framework™
-                </TwButton>
+                <TwButton href='/about/'>{ABOUT_ME.links.fullStory}</TwButton>
+                <BookingTrigger variant='outline' />
               </TwCTABand>
-            </TwReveal>
-
-            <TwReveal>
-              <ul
-                className={styles.contactGrid}
-                aria-label='Ways to get in touch'
-              >
-                <li>
-                  <a href={SOCIAL_URLS.email} className={styles.contactItem}>
-                    <span className={styles.iconBadge}>
-                      <ContactCardIcon size={20} />
-                    </span>
-                    <span>
-                      <span className={styles.contactLabel}>Email</span>
-                      <span className={styles.contactValue}>
-                        {EMAIL_ADDRESS}
-                      </span>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={BOOKING_URL}
-                    className={styles.contactItem}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <span className={styles.iconBadge}>
-                      <CalendarIcon size={20} />
-                    </span>
-                    <span>
-                      <span className={styles.contactLabel}>Book a call</span>
-                      <span className={styles.contactValue}>
-                        Free consultation
-                      </span>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <Link href='/#contact' className={styles.contactItem}>
-                    <span className={styles.iconBadge}>
-                      <PeopleCommunityIcon size={20} />
-                    </span>
-                    <span>
-                      <span className={styles.contactLabel}>
-                        Send a message
-                      </span>
-                      <span className={styles.contactValue}>Contact form</span>
-                    </span>
-                  </Link>
-                </li>
-              </ul>
-            </TwReveal>
-
-            <TwReveal>
-              <div className={styles.socialBlock}>
-                <p className={styles.chipLabel}>Find me online</p>
-                <SocialRow
-                  items={ABOUT_ME_SOCIALS}
-                  size={26}
-                  className={styles.socialRow}
-                />
-              </div>
             </TwReveal>
           </div>
         </section>

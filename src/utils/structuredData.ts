@@ -292,6 +292,27 @@ export function getAboutHookPageSchema() {
   };
 }
 
+/**
+ * /contact/: a ContactPage about the site-wide Person (referenced by @id, not
+ * repeated). The email is the one already linked on the page.
+ */
+export function getContactPageSchema(name: string, description: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${SITE_URL}/contact/#contactpage`,
+    url: `${SITE_URL}/contact/`,
+    name,
+    description,
+    mainEntity: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: PERSON_NAME,
+      email: SOCIAL_URLS.email.replace(/^mailto:/, ''),
+    },
+  };
+}
+
 export function getFaqSchema(post: ContentItem) {
   return {
     '@context': 'https://schema.org',
@@ -304,47 +325,6 @@ export function getFaqSchema(post: ContentItem) {
         text: item.answer,
       },
     })),
-  };
-}
-
-/**
- * Case Study Article schema
- */
-export function getCaseStudySchema(caseStudy: ContentItem, slug: string) {
-  const datePublished = caseStudy.publishedDate ?? caseStudy.date;
-  const dateModified =
-    caseStudy.date &&
-    caseStudy.publishedDate &&
-    caseStudy.date !== caseStudy.publishedDate
-      ? caseStudy.date
-      : undefined;
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    '@id': `${SITE_URL}/case-studies/${slug}#article`,
-    headline: caseStudy.title,
-    description: caseStudy.excerpt,
-    url: `${SITE_URL}/case-studies/${slug}`,
-    mainEntityOfPage: `${SITE_URL}/case-studies/${slug}`,
-    datePublished,
-    dateModified,
-    image: caseStudy.imageUrl ? `${SITE_URL}${caseStudy.imageUrl}` : undefined,
-    keywords: caseStudy.seoKeywords?.length
-      ? caseStudy.seoKeywords
-      : caseStudy.tags,
-    author: getAuthorSchema(),
-    publisher: {
-      '@type': 'Person',
-      name: PERSON_NAME,
-      url: SITE_URL,
-    },
-    isPartOf: {
-      '@type': 'CollectionPage',
-      '@id': `${SITE_URL}/case-studies#collection`,
-      url: `${SITE_URL}/case-studies`,
-      name: 'Case Studies',
-    },
   };
 }
 

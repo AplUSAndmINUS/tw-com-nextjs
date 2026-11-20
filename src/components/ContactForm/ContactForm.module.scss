@@ -1,0 +1,142 @@
+@use 'abstracts' as *;
+
+/* Redesign Slice 5b: a visible focus outline (it was a glow only, which
+   disappears in high contrast), errors with a marker as well as colour, and
+   the same straight accent line as the other cards on the redesigned pages. */
+.formCard {
+  background: var(--tw-surface-card);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  padding: var(--tw-space-xl);
+  @include accent-line(top);
+
+  @include until('mobile-lg') {
+    padding: var(--tw-space-l);
+  }
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: block;
+}
+
+.fieldLabel {
+  display: block;
+  font-family: var(--tw-font);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  color: var(--tw-text-soft);
+  margin-bottom: 6px;
+}
+
+.field {
+  width: 100%;
+  background: var(--tw-surface-input);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-control);
+  padding: 12px 14px;
+  color: var(--tw-text-bright);
+  font-family: var(--tw-font-body);
+  font-size: 0.90625rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s var(--tw-motion-ease);
+
+  &:focus {
+    border-color: var(--tw-border-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--tw-accent);
+    outline-offset: 2px;
+    box-shadow: var(--tw-glow-accent);
+  }
+
+  &::placeholder {
+    color: var(--tw-text-faint);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--tw-error-border);
+  }
+}
+
+textarea.field {
+  resize: vertical;
+}
+
+.fieldError,
+.submitError {
+  display: block;
+  font-family: var(--tw-font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--tw-error);
+  margin: 6px 0 0;
+
+  /* Not colour alone (WCAG 1.4.1): a small marker before each message. */
+  &::before {
+    content: '! ';
+    content: '! ' / ''; /* decorative: screen readers skip it */
+    font-weight: 700;
+  }
+}
+
+.submitError {
+  margin: 0;
+}
+
+.contactFormActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* While sending, the button keeps its colour (the disabled look was too
+   faint to read "Sending…", in light mode especially). */
+.busy:disabled {
+  opacity: 1;
+  cursor: progress;
+  background: var(--tw-accent);
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+/* High contrast: placeholders are as bright as typed text there, so set
+   them in italics to tell them apart. */
+:global([data-theme='high-contrast']) .field::placeholder,
+:global([data-tw-contrast='high']) .field::placeholder {
+  font-style: italic;
+}
+
+.sentState {
+  text-align: center;
+  padding: 32px 8px;
+}
+
+.sentTitle {
+  font-family: var(--tw-font);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tw-text-heading);
+  margin: 0 0 10px;
+
+  /* Focus is moved here by script so the news is read out; no ring needed. */
+  &:focus {
+    outline: none;
+  }
+}
+
+.sentBody {
+  font-family: var(--tw-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--tw-text-body);
+  margin: 0;
+}

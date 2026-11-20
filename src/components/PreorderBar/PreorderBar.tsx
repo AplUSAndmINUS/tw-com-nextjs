@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { RCF_EXPECTED_RELEASE, RCF_PREORDER_HREF } from '@/lib/rcf';
+import { NewTabHint } from '@/components/NewTabHint';
 import styles from './PreorderBar.module.scss';
 
 export interface PreorderBarProps {
@@ -14,16 +15,19 @@ export interface PreorderBarProps {
 }
 
 /**
- * Height of the fixed legacy Header. It is taller than --site-header-height
- * on desktop and settles after hydration, so it is observed rather than read
- * from the variable. Until it is known the CSS falls back to the variable.
+ * Height of the fixed nav: FixedSiteNav on /podcasts and /unsubscribe (#281),
+ * or the legacy Header on /dsm-preview. It settles after hydration, so it is
+ * observed rather than read from --site-header-height; until it is known the
+ * CSS falls back to the variable.
  */
 function useFixedHeaderHeight(enabled: boolean): number | null {
   const [height, setHeight] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     if (!enabled) return;
-    const header = document.querySelector('nav[role="banner"]');
+    const header = document.querySelector(
+      '[data-fixed-nav], nav[role="banner"]'
+    );
     if (!header) return;
     const measure = () =>
       setHeight(Math.round(header.getBoundingClientRect().height));
@@ -61,8 +65,14 @@ export function PreorderBar({ belowFixedHeader = false }: PreorderBarProps) {
           •
         </span>
         <span>Expected release: {RCF_EXPECTED_RELEASE}</span>
-        <a href={RCF_PREORDER_HREF} className={styles.link}>
-          Go to My Store <span aria-hidden='true'>→</span>
+        <a
+          href={RCF_PREORDER_HREF}
+          target='_blank'
+          rel='noopener'
+          className={styles.link}
+        >
+          Go to My Store <span aria-hidden='true'>↗</span>
+          <NewTabHint />
         </a>
       </p>
     </aside>

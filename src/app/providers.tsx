@@ -5,8 +5,12 @@ import { ExtendedThemeProvider } from '@/theme/providers/ExtendedThemeProvider';
 import { FontScaleProvider } from '@/theme/providers/FontScaleProvider';
 import { StoreHydrator } from '@/components/StoreHydrator';
 import { AccessGate } from '@/components/AccessGate';
+import { SkipLink } from '@/components/SkipLink';
+import { mainIdFor, navModeFor } from '@/lib/navMode';
+import { FixedSiteNav } from '@/components/SiteNav';
 import { PageTransition } from '@/components/PageTransition';
 import { PreorderBar } from '@/components/PreorderBar';
+import { BookingModalProvider } from '@/components/BookingFlow';
 import { RCF_PREORDERS_OPEN } from '@/lib/rcf';
 import { Header } from '@/components/Navigation';
 import { KoFiWidget } from '@/components/KoFiWidget';
@@ -23,32 +27,15 @@ import { useAccessControl } from '@/hooks';
 export function Providers({ children }: { children: React.ReactNode }) {
   const { authRequired, isAuthenticated } = useAccessControl();
   const pathname = usePathname();
-  // Routes migrated to the design system render their own DSM nav (HomeNav or
-  // TwPageNav, both carrying the appearance panel), so the global Header would
-  // double up. Suppress it on those; every other route keeps the existing
-  // Header until it too is migrated. Extend this list as pages move over.
-  // Normalise the trailing slash (next.config sets trailingSlash: true).
-  const path = pathname !== '/' ? pathname.replace(/\/$/, '') : pathname;
-  const ownsNav =
-    path === '/' ||
-    path === '/about' ||
-    path === '/about-me' ||
-    path === '/blog' ||
-    path.startsWith('/blog/') ||
-    path === '/content-hub' ||
-    path === '/portfolio' ||
-    path.startsWith('/portfolio/') ||
-    path === '/github' ||
-    path === '/resonance-core-framework' ||
-    path === '/videos' ||
-    path.startsWith('/videos/');
-  const isHome = ownsNav;
-  // Routes still on the legacy layout: a fixed Header over content padded by
-  // --site-header-height. The pre-order bar sits under that header there.
-  const usesLegacyLayout =
-    path === '/podcasts' ||
-    path.startsWith('/podcasts/') ||
-    path === '/unsubscribe';
+  // One nav on every route (redesign Slice 6): design-system pages render
+  // SiteNav themselves; the legacy-layout route (/unsubscribe)
+  // get it in the fixed slot the old Header used; only /dsm-preview keeps the
+  // old Header. See src/lib/navMode.ts.
+  const navMode = navModeFor(pathname ?? '/');
+  const mainId = mainIdFor(pathname ?? '/');
+  // Legacy-layout routes pad their content by --site-header-height; the
+  // pre-order bar sits under the fixed nav there.
+  const usesLegacyLayout = navMode === 'fixed';
   return (
     <ExtendedThemeProvider>
       {/*
@@ -80,29 +67,39 @@ export function Providers({ children }: { children: React.ReactNode }) {
             their natural place and stay viewport-fixed.
           */}
           <FontScaleProvider>
-            {!isHome && <Header />}
-            <KoFiWidget pathname={pathname} />
-            {/* Portals itself into document.body. */}
-            <PodcastMiniPlayer />
-            <AccessGate>
-              {/* Site-wide book pre-order bar, above the page and its nav.
+            {/* One full-screen "Book a Conversation" dialog for every opener
+                on the site (#278). */}
+            <BookingModalProvider>
+              {/* First focusable element on every page except /dsm-preview,
+                  ahead of the nav and the pre-order bar (WCAG 2.4.1). */}
+              {mainId && <SkipLink targetId={mainId} />}
+              {navMode === 'legacy' && <Header />}
+              {navMode === 'fixed' && <FixedSiteNav />}
+              <KoFiWidget pathname={pathname} />
+              {/* Portals itself into document.body. */}
+              <PodcastMiniPlayer />
+              <AccessGate>
+                {/* Site-wide book pre-order bar, above the page and its nav.
                   Hidden until pre-orders are announced (RCF_PREORDERS_OPEN). */}
-              {RCF_PREORDERS_OPEN && (
-                <PreorderBar belowFixedHeader={usesLegacyLayout} />
-              )}
-              {/*
+                {RCF_PREORDERS_OPEN && (
+                  <PreorderBar belowFixedHeader={usesLegacyLayout} />
+                )}
+                {/*
                 Page content. PageTransition sits above the page segment, so it
                 persists across client navigations and fades every route out and
                 in (see components/PageTransition).
               */}
-              <PageTransition>{children}</PageTransition>
-            </AccessGate>
-            {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
-            {(!authRequired || !isAuthenticated) && <NewsletterDrawerWrapper />}
-            {/* Cookie consent banner — rendered for all users on first visit */}
-            <CookieBanner />
-            {/* Google Analytics consent updates for GA + AdSense */}
-            <GoogleAnalytics />
+                <PageTransition>{children}</PageTransition>
+              </AccessGate>
+              {/* Newsletter drawer — rendered outside AccessGate so it stays at root level */}
+              {(!authRequired || !isAuthenticated) && (
+                <NewsletterDrawerWrapper />
+              )}
+              {/* Cookie consent banner — rendered for all users on first visit */}
+              <CookieBanner />
+              {/* Google Analytics consent updates for GA + AdSense */}
+              <GoogleAnalytics />
+            </BookingModalProvider>
           </FontScaleProvider>
         </PodcastPlayerProvider>
       </ReCaptchaProvider>

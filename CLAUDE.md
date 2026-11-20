@@ -139,7 +139,7 @@ Key components:
 | `TwCard`            | Surface card with interactive hover states      |
 | `TwArticleCard`     | Blog/portfolio card with shimmer image loading  |
 | `TwHero`            | Full-bleed hero with background image           |
-| `TwPageNav`         | Sticky page navigation bar                      |
+| `TwSiteNav`         | The one site nav (via `SiteNav`) on every page  |
 | `TwReveal`          | Scroll-triggered fade-in animation              |
 | `TwParallax`        | Scroll-driven parallax transform                |
 | `TwSectionHeading`  | Section title + lede pair                       |
@@ -165,7 +165,6 @@ TW.com uses a layout-driven architecture. Copilot should use or extend:
 | `ContentLayout`   | Long-form content (i.e., articles)     |
 | `ArticleLayout`   | Blog posts with header/byline          |
 | `PortfolioLayout` | Portfolio entries                      |
-| `CaseStudyLayout` | In-depth case studies                  |
 
 Layouts handle: structure, spacing, typography, navigation, metadata, and theming. Components should not duplicate layout responsibilities.
 
@@ -188,7 +187,6 @@ Copilot should:
 | ----------------- | ---------------------- |
 | Blog posts        | `public/blog/`         |
 | Portfolio entries | `public/portfolio/`    |
-| Case studies      | `public/case-studies/` |
 
 All content follows the structure: `public/{type}/{slug}/markdown/post.md`
 
@@ -416,7 +414,6 @@ TW.com uses structured data (JSON-LD) for SEO and AI discoverability. Schema fun
 - `getAboutPageSchema()` — About page metadata
 - `getBlogPostingSchema()` — Blog posts with author, dates, keywords
 - `getFaqSchema()` — FAQ structured data for blog posts
-- `getCaseStudySchema()` — Case study articles
 - `getPortfolioSchema()` — Portfolio creative works
 - `getServicesItemListSchema()` — Services listing
 
@@ -622,7 +619,7 @@ The `NewsletterDrawer` uses Framer Motion `AnimatePresence` + `useSlideInOut` (d
 | `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting (3/hour, shared)   |
 | `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer with subscribe form        |
 | `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA                       |
-| `src/components/Footer/FooterContent.tsx`                    | `FooterNewsletterMini` compact form        |
+| `src/components/Footer/FooterContent.tsx`                    | `FooterNewsletter` lead block (#newsletter) |
 | `src/app/unsubscribe/UnsubscribePageClient.tsx`              | Unsubscribe page form                      |
 | `src/store/newsletterStore.ts`                               | Zustand store — dismissed/subscribed state |
 
@@ -735,7 +732,7 @@ The script **lists its test files explicitly**. That is deliberate, and both obv
 
 ## 20. Content-Only Deployment Rule
 
-Content-only changes — new or edited Markdown files in `public/blog/`, `public/portfolio/`, or `public/case-studies/`, with no changes to TypeScript, SCSS, configuration, Azure Functions, or component logic — do **not** require a release. Merge the PR into `develop` → `test` → `prod` through the normal branch flow. A release is only required when code changes ship alongside content.
+Content-only changes — new or edited Markdown files in `public/blog/` or `public/portfolio/`, with no changes to TypeScript, SCSS, configuration, Azure Functions, or component logic — do **not** require a release. Merge the PR into `develop` → `test` → `prod` through the normal branch flow. A release is only required when code changes ship alongside content.
 
 **Copilot rules:**
 

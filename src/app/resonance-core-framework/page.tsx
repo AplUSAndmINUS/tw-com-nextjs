@@ -1,3 +1,4 @@
+import { NewTabHint } from '@/components/NewTabHint';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
@@ -11,11 +12,9 @@ import {
   TwButton,
   TwCTABand,
   TwHero,
-  TwPageNav,
   TwReveal,
   TwSectionHeading,
 } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import {
   FLUXLINE_RCF_URL,
@@ -30,6 +29,7 @@ import {
   RCF_PREORDERS_OPEN,
 } from '@/lib/rcf';
 import styles from './page.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 const TITLE = 'The Resonance Core Framework™ Book by Terence Waters';
 const DESCRIPTION = RCF_PREORDERS_OPEN
@@ -82,12 +82,6 @@ export const metadata: Metadata = {
   robots: getRobotsConfig(),
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Content Hub', href: '/content-hub' },
-];
-
 /**
  * /resonance-core-framework — the framework from its author's side: what it
  * is, why it was written, its core concepts, and the book. TerenceWaters.com
@@ -116,12 +110,9 @@ export default function ResonanceCoreFrameworkPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
 
-      <TwPageNav
-        back={{ label: 'Back to Home', href: '/' }}
-        links={NAV_LINKS}
-      />
+      <SiteNav />
 
-      <main>
+      <main id='main'>
         <TwHero
           eyebrow='The framework & the book'
           title='The Resonance Core Framework™'
@@ -136,14 +127,21 @@ export default function ResonanceCoreFrameworkPage() {
                   label: 'Pre-order the book',
                   href: RCF_PREORDER_HREF,
                   variant: 'gold',
+                  newTab: true,
                 }
-              : { label: 'Be notified at launch', href: RCF_NOTIFY_HREF }
+              : {
+                  label: 'Be notified at launch',
+                  href: RCF_NOTIFY_HREF,
+                  newTab: true,
+                }
           }
           secondaryCta={{ label: 'Core concepts', href: '#core-concepts' }}
-          backgroundImage='/assets/images/hero-landscape.jpg'
+          // The RCF banner (owner, 2026-11-19), in place of the portrait.
+          backgroundImage='/assets/images/RCF_banner_logo.jpg'
           tagline='By Terence Waters'
           location='Fluxline Resonance Group'
-          focalPoint='center 20%'
+          focalPoint='right center'
+          scrim='card-side'
           compact
         />
 
@@ -157,8 +155,9 @@ export default function ResonanceCoreFrameworkPage() {
               />
               <p className={styles.lead}>{RCF_CANONICAL_PARAGRAPH}</p>
               <p className={styles.prose}>
-                <a href={FLUXLINE_RCF_URL}>
-                  The complete framework reference lives at Fluxline →
+                <a href={FLUXLINE_RCF_URL} target='_blank' rel='noopener'>
+                  The complete framework reference lives at Fluxline ↗
+                  <NewTabHint />
                 </a>
               </p>
             </TwReveal>
@@ -189,8 +188,13 @@ export default function ResonanceCoreFrameworkPage() {
                 this book is how I share it with you.
               </p>
               <p className={styles.prose}>
-                <a href='https://www.fluxline.pro/blog/announcement-resonance-core-book'>
-                  Read the full origin story →
+                <a
+                  href='https://www.fluxline.pro/blog/announcement-resonance-core-book'
+                  target='_blank'
+                  rel='noopener'
+                >
+                  Read the full origin story ↗
+                  <NewTabHint />
                 </a>
               </p>
             </TwReveal>
@@ -213,11 +217,14 @@ export default function ResonanceCoreFrameworkPage() {
                   <a
                     id={c.id}
                     href={rcfConceptHref(c.id)}
+                    target='_blank'
+                    rel='noopener'
                     className={styles.concept}
                   >
                     <h3 className={styles.conceptName}>{c.name}</h3>
                     <p className={styles.conceptBody}>{c.summary}</p>
-                    <span className={styles.conceptMore}>More info →</span>
+                    <span className={styles.conceptMore}>More info ↗</span>
+                    <NewTabHint />
                   </a>
                 </TwReveal>
               ))}
@@ -268,7 +275,14 @@ export default function ResonanceCoreFrameworkPage() {
                     <div>
                       <dt>Pre-orders</dt>
                       <dd>
-                        <a href={RCF_PREORDER_HREF}>{RCF_BOOK.preorders}</a>
+                        <a
+                          href={RCF_PREORDER_HREF}
+                          target='_blank'
+                          rel='noopener'
+                        >
+                          {RCF_BOOK.preorders}
+                          <NewTabHint />
+                        </a>
                       </dd>
                     </div>
                   )}
@@ -286,12 +300,22 @@ export default function ResonanceCoreFrameworkPage() {
                 </p>
                 <div className={styles.ctaRow}>
                   {RCF_PREORDERS_OPEN && (
-                    <TwButton variant='gold' href={RCF_PREORDER_HREF}>
-                      Pre-order the Book →
+                    <TwButton
+                      variant='gold'
+                      href={RCF_PREORDER_HREF}
+                      target='_blank'
+                      rel='noopener'
+                    >
+                      Pre-order the Book ↗
                     </TwButton>
                   )}
-                  <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
-                    Be Notified at Launch →
+                  <TwButton
+                    variant='outline'
+                    href={RCF_NOTIFY_HREF}
+                    target='_blank'
+                    rel='noopener'
+                  >
+                    Be Notified at Launch ↗
                   </TwButton>
                 </div>
               </TwReveal>
@@ -309,19 +333,30 @@ export default function ResonanceCoreFrameworkPage() {
                 title='Hear it, work with it, explore it'
                 body='The podcast explores the framework in conversation, and Fluxline brings it into coaching and consulting — and holds the complete framework reference.'
               >
-                <TwButton href={TRI_URL}>Listen to the Podcast</TwButton>
-                <TwButton variant='outline' href={FLUXLINE_RCF_URL}>
+                <TwButton href={TRI_URL} target='_blank' rel='noopener'>
+                  Listen to the Podcast
+                </TwButton>
+                <TwButton
+                  variant='outline'
+                  href={FLUXLINE_RCF_URL}
+                  target='_blank'
+                  rel='noopener'
+                >
                   Coaching at Fluxline
                 </TwButton>
               </TwCTABand>
             </TwReveal>
             <ul className={styles.outbound}>
               <li>
-                <a href={TRI_URL}>Hear the framework on the podcast →</a>
+                <a href={TRI_URL} target='_blank' rel='noopener'>
+                  Hear the framework on the podcast ↗
+                  <NewTabHint />
+                </a>
               </li>
               <li>
-                <a href={FLUXLINE_RCF_URL}>
-                  Work with the framework at Fluxline →
+                <a href={FLUXLINE_RCF_URL} target='_blank' rel='noopener'>
+                  Work with the framework at Fluxline ↗
+                  <NewTabHint />
                 </a>
               </li>
               <li>

@@ -1,50 +1,43 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-  TwHero,
-  TwSectionHeading,
-  TwStatCard,
   TwArticleCard,
-  TwFeaturedCard,
-  TwFilterChips,
-  TwReveal,
-  TwParallax,
   TwButton,
+  TwCredo,
+  TwFeaturedCard,
+  TwHero,
+  TwHook,
+  TwParallax,
+  TwReveal,
+  TwSectionHeading,
+  TwShiftTrack,
 } from '@/components/dsm';
+import { BookingTrigger } from '@/components/BookingFlow';
 import { Footer } from '@/components/Footer';
-import { Spinner } from '@/components/ui/Spinner';
-import { HomeNav } from './home/HomeNav';
-import { HomeContactForm } from './home/HomeContactForm';
-import { HomeNewsletterForm } from './home/HomeNewsletterForm';
+import { SiteNav } from '@/components/SiteNav';
+import { ContactForm } from '@/components/ContactForm';
 import { ServiceDrawer } from './home/ServiceDrawer';
 import { SocialRow } from './home/SocialRow';
+import { HOME_CONTENT_CARDS } from './home/contentCards';
 import {
+  contactSocials,
   homeServices,
   serviceHref,
-  aboutSocials,
-  contactSocials,
-  wideSocials,
   type HomeService,
 } from './home/homeData';
+import { HOME } from '@/content/site/home';
 import {
-  RCF_BOOK_BLURB,
-  RCF_NOTIFY_HREF,
-  RCF_PREORDER_HREF,
-  RCF_PATH,
-  RCF_TRADEMARK,
-  TRI_URL,
-  RCF_PREORDERS_OPEN,
-} from '@/lib/rcf';
-import { getApiBaseUrl } from '@/lib/environment';
-import { fetchPodcastsFromApi } from '@/lib/spreaker';
-import type { YouTubeVideo } from './videos/types';
-import {
-  episodeToCard,
-  videoToCard,
-  HOME_MEDIA_LIMIT,
-} from './home/contentCards';
+  ACCEPTING_LINE,
+  CREDO,
+  HUMAN_ELEMENT_GLOSS,
+  QUOTES,
+  VALUES,
+} from '@/content/site/identity';
+import { MICROCOPY } from '@/content/site/microcopy';
+import { SHIFTS } from '@/content/site/shifts';
+import { RCF_PATH, RCF_PREORDER_HREF, RCF_TRADEMARK } from '@/lib/rcf';
 import styles from './HomePageClient.module.scss';
 
 /** Minimal card shape the server hands down (content stripped for payload). */
@@ -55,155 +48,104 @@ export interface HomeCard {
   category?: string;
   date?: string;
   href: string;
-  /** Cover art / thumbnail — set for podcast and video cards. */
+  /** Preview image: a post's cover or an episode's art. */
   image?: string;
-  /** True when `href` leaves the site (YouTube). */
-  external?: boolean;
+  imageAlt?: string;
 }
-
-type MediaState = 'idle' | 'loading' | 'ready' | 'error';
 
 export interface HomePageClientProps {
-  /** Recent Content Hub items (blog + related), newest first. */
+  /** The newest Content Hub items (writing and podcast), newest first. */
   content: HomeCard[];
-  /**
-   * Latest podcast episodes, read from Spreaker at build time. Empty when the
-   * feed was unreachable; the client then retries via /api/podcasts.
-   */
-  podcasts: HomeCard[];
-  /** Portfolio + case-study highlights. */
-  portfolio: HomeCard[];
 }
 
-const NAV_LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'Work', href: '#work' },
-  { label: 'Content', href: '#content' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Contact', href: '#contact' },
-];
-
 /**
- * The "who this is for" trio, lifted up from /about so the homepage answers the
- * question without a click. The full version still lives on the About page.
+ * Typeset a sentence: "quoted terms" get curly quotes and stay on one line
+ * ("self-action" would otherwise break at its hyphen). The words are unchanged.
  */
-const AUDIENCES = [
-  {
-    label: 'For individuals',
-    text: 'Understand your identity architecture, clear the noise, and rebuild the internal systems you actually run on.',
-  },
-  {
-    label: 'For founders & creators',
-    text: 'Brands, platforms, and workflows that feel like you — not the version the internet told you to be.',
-  },
-  {
-    label: 'For teams',
-    text: 'Modular systems and strategic frameworks that make complexity navigable and growth possible.',
-  },
-];
-
-const CONTENT_FILTERS = [
-  { label: 'Writing', value: 'Writing' },
-  { label: 'Podcast', value: 'Podcast' },
-  { label: 'Video', value: 'Video' },
-];
-
-/**
- * Homepage — single-page scroll.
- *
- * Rebuilt on the design system from the redesign prototype: hero, then numbered
- * rail sections (About / Work / Content / Portfolio), newsletter, contact, and
- * the shared footer. The global Header is suppressed on "/" (see providers.tsx)
- * so this component owns the whole page shell.
- *
- * Content and portfolio cards are real, loaded at build time by page.tsx and
- * passed in. The service catalogue is static (homeData) and links out to
- * fluxline.pro via the slide-over drawer.
- *
- * The old forced-dark effect and 7-stage intro animation are gone — the token
- * layer makes light mode viable here, and TwReveal handles entrance motion.
- */
-export default function HomePageClient({
-  content,
-  podcasts: buildPodcasts,
-  portfolio,
-}: HomePageClientProps) {
-  const [contentFilter, setContentFilter] = useState<string | null>(null);
-  const [activeService, setActiveService] = useState<HomeService | null>(null);
-
-  // Podcast and Video cards are fetched on first selection of their chip, so
-  // visitors who never open them don't pay for the requests.
-  const [podcasts, setPodcasts] = useState<HomeCard[]>(buildPodcasts);
-  const [podcastState, setPodcastState] = useState<MediaState>(
-    buildPodcasts.length > 0 ? 'ready' : 'idle'
+function Typeset({ text }: { text: string }) {
+  const parts = text.split(/"([^"]+)"/);
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <span key={i} className={styles.nowrap}>
+            &ldquo;{part}&rdquo;
+          </span>
+        ) : (
+          part
+        )
+      )}
+    </>
   );
-  const [videos, setVideos] = useState<HomeCard[]>([]);
-  const [videoState, setVideoState] = useState<MediaState>('idle');
+}
 
-  useEffect(() => {
-    if (contentFilter !== 'Podcast' || podcastState !== 'idle') return;
-    setPodcastState('loading');
-    fetchPodcastsFromApi().then((feed) => {
-      setPodcasts(feed.episodes.slice(0, HOME_MEDIA_LIMIT).map(episodeToCard));
-      setPodcastState(feed.available ? 'ready' : 'error');
-    });
-  }, [contentFilter, podcastState]);
+/**
+ * The credo on two lines, a hard return after "Humans FIRST.", with each
+ * closing period in glacier cyan (--tw-line, remapped by the a11y modes; owner,
+ * 2026-11-18). The words are unchanged.
+ */
+function CredoLines() {
+  const sentences = CREDO.split(/(?<=\.)\s+/);
+  return (
+    <>
+      {sentences.map((sentence, i) => (
+        <React.Fragment key={sentence}>
+          {/* A space before the break, so it reads as two sentences. */}
+          {i > 0 ? (
+            <>
+              {' '}
+              <br />
+            </>
+          ) : null}
+          {sentence.replace(/\.$/, '')}
+          <span className={styles.period}>.</span>
+        </React.Fragment>
+      ))}
+    </>
+  );
+}
 
-  useEffect(() => {
-    if (contentFilter !== 'Video' || videoState !== 'idle') return;
-    setVideoState('loading');
-    (async () => {
-      try {
-        // Same endpoint the /videos page reads.
-        const res = await fetch(`${getApiBaseUrl()}/api/youtube?type=videos`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        const list: YouTubeVideo[] = Array.isArray(data.videos)
-          ? data.videos
-          : [];
-        setVideos(list.slice(0, HOME_MEDIA_LIMIT).map(videoToCard));
-        setVideoState('ready');
-      } catch {
-        setVideoState('error');
-      }
-    })();
-  }, [contentFilter, videoState]);
+/** The watermark line, with "true" and "chosen" underlined as before. */
+function KnowWho() {
+  const [lead, rest] = QUOTES.knowWho.split(' — ');
+  const parts = rest.split(/(true|chosen)/);
+  return (
+    <>
+      &ldquo;{lead} <br />—{' '}
+      {parts.map((part, i) =>
+        part === 'true' || part === 'chosen' ? <u key={i}>{part}</u> : part
+      )}
+      &rdquo;
+    </>
+  );
+}
 
-  let filteredContent: HomeCard[];
-  let mediaState: MediaState = 'ready';
-  let mediaFallback = { label: '', href: '' };
-  if (contentFilter === 'Podcast') {
-    filteredContent = podcasts;
-    mediaState = podcastState;
-    mediaFallback = { label: 'Browse all podcast episodes', href: '/podcasts' };
-  } else if (contentFilter === 'Video') {
-    filteredContent = videos;
-    mediaState = videoState;
-    mediaFallback = { label: 'Browse all videos', href: '/videos' };
-  } else {
-    filteredContent = content;
-  }
-
-  const openFluxlineServices = () =>
-    window.open('https://www.fluxline.pro/services/', '_blank', 'noopener');
+/**
+ * Home page (rebuild, #285): the user copy's sections in the owner's order.
+ *
+ * Hero (scroll parallax, as on /about-me) → the book → the Shifts → Humans
+ * FIRST → what I stand for → my work → the Content Hub → let's talk → the
+ * watermark quote. Words come from src/content/site; the old "Hi! I'm
+ * Terence" paragraphs now introduce the Shifts.
+ *
+ * A client component for the service drawer; the content cards are loaded at
+ * build time by page.tsx.
+ */
+export default function HomePageClient({ content }: HomePageClientProps) {
+  const [activeService, setActiveService] = useState<HomeService | null>(null);
+  // The book title inside the "why" paragraph links to the book page.
+  const [whyBefore, whyAfter] = HOME.hook.why.split(RCF_TRADEMARK);
+  const cards = content.slice(0, HOME_CONTENT_CARDS);
 
   return (
     <div id='top' className={styles.page}>
-      <HomeNav
-        links={NAV_LINKS}
-        sectionIds={[
-          'hero',
-          'about',
-          'work',
-          'content',
-          'portfolio',
-          'contact',
-        ]}
-      />
+      <SiteNav />
 
-      <section id='hero' className='tw-snap'>
+      <main id='main'>
+        {/* ===== Hero: the photo stays pinned while the card rises over it ===== */}
         <TwHero
-          eyebrow="Hi there 👋 I'm"
+          id='hero'
+          eyebrow={HOME.hero.eyebrow}
           title='Terence Waters'
           subtitle={
             <>
@@ -228,382 +170,302 @@ export default function HomePageClient({
             </>
           }
           quote='Clarity, identity, and systems that make your life and work feel like they finally fit.'
-          primaryCta={{ label: 'Who am I?', href: '#about' }}
-          secondaryCta={{ label: 'View portfolio', href: '#portfolio' }}
+          primaryCta={{
+            label: HOME.hero.preorder,
+            href: RCF_PREORDER_HREF,
+            variant: 'gold',
+            newTab: true,
+          }}
+          secondaryCta={{ label: HOME.hero.readStory, href: '/about/' }}
           backgroundImage='/assets/images/hero-landscape.jpg'
           backgroundImagePortrait='/assets/images/hero-portrait.jpg'
+          backgroundAlt=''
           tagline='Founder, Fluxline Resonance Group'
           location='Salt Lake City, Utah'
           focalPoint='center 30%'
-          stackOnMobile
+          scrollReveal
         />
-      </section>
 
-      {/* ===== The book (pre-launch): kept short, pre-order callout inside ===== */}
-      <section id='book' className={`tw-snap ${styles.resonanceSection}`}>
-        <div className={styles.container}>
-          <div className={styles.resonanceGrid}>
-            <TwReveal variant='left'>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className={styles.resonanceLogo}
-                src='/assets/images/RCF_logo.jpeg'
-                alt='The Resonance Core Framework™ logo'
-                loading='lazy'
-                decoding='async'
-              />
-            </TwReveal>
-            <TwReveal stagger>
-              <TwSectionHeading kicker='The Book' title={RCF_TRADEMARK} />
-              <p className={styles.prose}>{RCF_BOOK_BLURB}</p>
-              {/* Pre-order callout, inside the book section. It carries the
-                  page's only pre-order button; the links below stay outline.
-                  Until pre-orders are announced, the release line stands alone. */}
-              {!RCF_PREORDERS_OPEN && (
-                <p className={styles.prose}>Release is targeted for Q1 2027.</p>
-              )}
-              {RCF_PREORDERS_OPEN && (
-                <div className={styles.preorderCard}>
-                  <p className={styles.preorderLabel}>Now open for pre-order</p>
-                  <h3 className={styles.preorderHeading}>
-                    Pre-order my book on the Fluxline Store.
-                  </h3>
-                  <p className={styles.preorderBody}>
-                    Release is targeted for Q1 2027.
+        {/* ===== The book ===== */}
+        <section
+          id='book'
+          className={styles.hookSection}
+          aria-labelledby='home-hook'
+        >
+          <div className={styles.container}>
+            <div className={styles.hookGrid}>
+              <TwReveal>
+                <TwHook
+                  headingId='home-hook'
+                  kicker={HOME.hook.kicker}
+                  statement={HOME.hook.heading}
+                  size='lg'
+                  // Curly quotes, but free to wrap: the whole line is quoted.
+                  subtitle={HOME.hook.subtitle.replace(/"([^"]+)"/g, '“$1”')}
+                >
+                  <p className={styles.prose}>
+                    <Typeset text={whyBefore} />
+                    <Link href={RCF_PATH + '/'}>{RCF_TRADEMARK}</Link>
+                    <Typeset text={whyAfter} />
                   </p>
-                  <TwButton variant='gold' href={RCF_PREORDER_HREF}>
-                    Pre-order the book
-                  </TwButton>
-                </div>
-              )}
-              <div className={styles.bookCtas}>
-                {/* <TwButton variant='outline' href={RCF_NOTIFY_HREF}>
-                  Be Notified at Launch →
-                </TwButton> */}
-                <TwButton variant='outline' href={RCF_PATH}>
-                  Preview the Framework →
-                </TwButton>
-                <TwButton variant='outline' href={TRI_URL}>
-                  Listen to the TRI Podcast →
-                </TwButton>
+                  <p className={styles.prose}>{HOME.hook.promise}</p>
+                  <div className={styles.preorderCard}>
+                    <p className={styles.preorderLabel}>
+                      {HOME.hook.preorderLabel}
+                    </p>
+                    <h3 className={styles.preorderHeading}>
+                      {HOME.hook.preorderHeading}
+                    </h3>
+                    <p className={styles.preorderBody}>
+                      {HOME.hook.preorderBody}
+                    </p>
+                    <div className={styles.buttonRow}>
+                      <TwButton
+                        variant='gold'
+                        href={RCF_PREORDER_HREF}
+                        target='_blank'
+                        rel='noopener'
+                      >
+                        {HOME.hero.preorder}
+                      </TwButton>
+                      <TwButton variant='outline' href={RCF_PATH + '/'}>
+                        {HOME.hook.preview}{' '}
+                        <span aria-hidden='true'>&#8594;</span>
+                      </TwButton>
+                    </div>
+                  </div>
+                </TwHook>
+              </TwReveal>
+              {/* The book itself, from tablet width up. */}
+              <TwReveal variant='left' className={styles.hookCover}>
+                <Link href={RCF_PATH + '/'} tabIndex={-1} aria-hidden='true'>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src='/assets/images/RCF_logo.jpeg'
+                    alt=''
+                    loading='lazy'
+                    decoding='async'
+                    width={512}
+                    height={512}
+                  />
+                </Link>
+              </TwReveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== The Shifts ===== */}
+        <section
+          id='shifts'
+          className={styles.section}
+          aria-labelledby='home-shifts'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <div className={styles.sectionIntro}>
+                <h2 id='home-shifts' className={styles.h2}>
+                  {HOME.shifts.title}
+                </h2>
+                <p className={styles.lede}>{HOME.shifts.lede}</p>
+                {HOME.shifts.story.map((paragraph) => (
+                  <p key={paragraph} className={styles.prose}>
+                    {paragraph}
+                  </p>
+                ))}
+                <blockquote className={styles.pullQuote}>
+                  {HOME.shifts.quote}
+                </blockquote>
+              </div>
+            </TwReveal>
+            <TwShiftTrack
+              steps={SHIFTS.map((s) => ({
+                id: s.id,
+                number: s.number,
+                title: s.title,
+                short: s.short,
+                roles: s.roles,
+                // The launch is now: Mythic Gold (owner, 2026-11-19).
+                highlight: s.id === 'shift-launch',
+              }))}
+              rolesLabel={HOME.shifts.rolesLabel}
+              stackLabel={HOME.shifts.stackLabel}
+            />
+            <div className={styles.linkRow}>
+              <Link href='/about/'>
+                {HOME.shifts.more} <span aria-hidden='true'>&#8594;</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Humans FIRST ===== */}
+        <TwCredo
+          id='humans-first'
+          aria-label={CREDO}
+          statement={<CredoLines />}
+          animated
+        >
+          <p>{QUOTES.body}</p>
+        </TwCredo>
+
+        {/* ===== What I stand for ===== */}
+        <section
+          id='values'
+          className={`${styles.section} ${styles.valuesSection}`}
+          aria-labelledby='home-values'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <h2 id='home-values' className={styles.h2}>
+                {HOME.standFor.title}
+              </h2>
+              <p className={`${styles.humanElement} ${styles.afterHeading}`}>
+                {HOME.standFor.humanElementLead} {HUMAN_ELEMENT_GLOSS}.
+              </p>
+            </TwReveal>
+            <ul className={styles.values}>
+              {VALUES.map((value, i) => (
+                <TwReveal
+                  as='li'
+                  key={value.name}
+                  delay={i * 90}
+                  className={styles.value}
+                >
+                  <h3 className={styles.valueName}>{value.name}</h3>
+                  <p className={styles.valueText}>&ldquo;{value.text}&rdquo;</p>
+                </TwReveal>
+              ))}
+            </ul>
+            <TwReveal>
+              <p className={styles.accepting}>{ACCEPTING_LINE}</p>
+              <div className={styles.linkRow}>
+                <Link href='/about/'>
+                  {HOME.standFor.more} <span aria-hidden='true'>&#8594;</span>
+                </Link>
               </div>
             </TwReveal>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ===== 01 About ===== */}
-      <section
-        id='about'
-        className={`tw-snap ${styles.section} ${styles.glowAbout}`}
-      >
-        <div className={styles.container}>
-          <div className={styles.railGrid}>
-            <div className={styles.rail}>
-              <div className={styles.numRow}>
-                <span className={styles.secNum}>01</span>
-                <span className={styles.secLabel}>About</span>
-              </div>
-              <TwReveal variant='left'>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className={`tw-media ${styles.portrait}`}
-                  src='/assets/images/portrait-about.jpg'
-                  alt='Portrait of Terence Waters, author and identity coach'
-                />
-              </TwReveal>
-              <div className={styles.socialBlock}>
-                <div className={styles.socialLabel}>Social Media</div>
-                <SocialRow items={aboutSocials} />
-              </div>
-            </div>
-
-            <div>
-              <TwReveal stagger>
-                <TwSectionHeading
-                  kicker='About'
-                  title="Hi! I'm Terence. :)"
-                  subhead={
-                    <>
-                      Most people don&apos;t need more information.
-                      <br />
-                      We need clarity, structure, and a way back to ourselves.
-                    </>
-                  }
-                />
-                <p className={styles.prose}>
-                  My work sits at the intersection of{' '}
-                  <strong>
-                    <em>architecture</em>
-                  </strong>
-                  ,{' '}
-                  <strong>
-                    <em>identity</em>
-                  </strong>
-                  , and{' '}
-                  <strong>
-                    <em>transformation</em>
-                  </strong>
-                  . I help people understand the systems they run on — and
-                  rebuild the ones that no longer serve them.
-                </p>
-                <p className={styles.prose}>
-                  I&apos;m a systems architect by training, a designer by
-                  instinct, and a coach by necessity. For 20+ years I&apos;ve
-                  worked across design, development, architecture, and product
-                  management, and I&apos;ve been consulting for 3+ years,
-                  translating complexity into{' '}
-                  <strong>
-                    <em>clarity</em>
-                  </strong>{' '}
-                  for founders and mission-driven teams.
-                </p>
-                <p className={styles.prose}>
-                  Structure. Clarity. A way to understand who I was becoming and
-                  why.
-                </p>
-                <blockquote className={styles.quote}>
-                  That&apos;s the work — and it&apos;s why I build the way I do.
-                </blockquote>
-                <div className={styles.statGrid}>
-                  <TwStatCard
-                    value='20+'
-                    label='Years in design, development, architecture & product management'
-                  />
-                  <TwStatCard value='2' label='Companies in the ecosystem' />
-                  <TwStatCard value='8' label='Accessible theme modes' />
+        {/* ===== 01 Work ===== */}
+        <section
+          id='work'
+          className={`tw-snap ${styles.section} ${styles.sectionAlt} ${styles.glowWork}`}
+        >
+          <div className={styles.container}>
+            <div className={styles.railGrid}>
+              <div className={styles.rail}>
+                <div className={styles.numRow}>
+                  <span className={styles.secNum}>01</span>
+                  <span className={styles.secLabel}>Work</span>
                 </div>
+                <TwReveal variant='left'>
+                  <div className={styles.railImage}>
+                    <TwParallax strength={30}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        className='tw-media'
+                        src='/assets/images/Portfolio1280x1815.jpg'
+                        alt='Work across the Fluxline ecosystem'
+                      />
+                    </TwParallax>
+                  </div>
+                </TwReveal>
+              </div>
 
-                <div className={styles.audienceGrid}>
-                  {AUDIENCES.map((item, i) => (
-                    <TwReveal fill key={item.label} delay={i * 90}>
-                      <div className={styles.audience}>
-                        <div className={styles.audienceLabel}>{item.label}</div>
-                        <p className={styles.audienceText}>{item.text}</p>
-                      </div>
+              <div>
+                <TwReveal>
+                  <TwSectionHeading
+                    kicker='My Work'
+                    title='Design, architecture, and coaching'
+                    lede='Through Fluxline Resonance Group, I help businesses, solopreneurs, and individuals get clear on who they are, then make informed decisions that fit. More info is on my business site, Fluxline.pro, but here are a few highlights.'
+                  />
+                </TwReveal>
+
+                <button
+                  type='button'
+                  className={styles.featuredButton}
+                  onClick={() =>
+                    window.open(
+                      'https://www.fluxline.pro/services/',
+                      '_blank',
+                      'noopener'
+                    )
+                  }
+                  aria-label='Open Fluxline Resonance Group services'
+                >
+                  <TwFeaturedCard
+                    title='Fluxline Resonance Group'
+                    category='Company'
+                    excerpt='The modular systems company I founded — IT consulting, brand identity, and personal transformation under one architecture.'
+                  />
+                </button>
+
+                <div className={styles.cardGrid2}>
+                  {homeServices.map((service, i) => (
+                    <TwReveal fill key={service.slug} delay={i * 90}>
+                      <button
+                        type='button'
+                        className={styles.cardButton}
+                        onClick={() => setActiveService(service)}
+                        aria-haspopup='dialog'
+                      >
+                        <TwArticleCard
+                          title={service.title}
+                          excerpt={service.excerpt}
+                          category={service.category}
+                        />
+                      </button>
                     </TwReveal>
                   ))}
                 </div>
 
                 <div className={styles.viewAll}>
-                  <Link href='/about'>Learn more About Me &#8594;</Link>
+                  <a
+                    href={serviceHref('')}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    View all services on Fluxline.pro &#8599;
+                  </a>
                 </div>
-              </TwReveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== 02 Work ===== */}
-      <section
-        id='work'
-        className={`tw-snap ${styles.section} ${styles.sectionAlt} ${styles.glowWork}`}
-      >
-        <div className={styles.container}>
-          <div className={styles.railGrid}>
-            <div className={styles.rail}>
-              <div className={styles.numRow}>
-                <span className={styles.secNum}>02</span>
-                <span className={styles.secLabel}>Work</span>
-              </div>
-              <TwReveal variant='left'>
-                <div className={styles.railImage}>
-                  <TwParallax strength={30}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className='tw-media'
-                      src='/assets/images/Portfolio1280x1815.jpg'
-                      alt='Work across the Fluxline ecosystem'
-                    />
-                  </TwParallax>
-                </div>
-              </TwReveal>
-            </div>
-
-            <div>
-              <TwReveal>
-                <TwSectionHeading
-                  kicker='My Work'
-                  title='Design, architecture, and coaching'
-                  lede='Through Fluxline Resonance Group, I help businesses, solopreneurs, and individuals get clear on who they are, then make informed decisions that fit. More info is on my business site, Fluxline.pro, but here are a few highlights.'
-                />
-              </TwReveal>
-
-              <button
-                type='button'
-                className={styles.featuredButton}
-                onClick={openFluxlineServices}
-                aria-label='Open Fluxline Resonance Group services'
-              >
-                <TwFeaturedCard
-                  title='Fluxline Resonance Group'
-                  category='Company'
-                  excerpt='The modular systems company I founded — IT consulting, brand identity, and personal transformation under one architecture.'
-                />
-              </button>
-
-              <div className={styles.cardGrid2}>
-                {homeServices.map((service, i) => (
-                  <TwReveal fill key={service.slug} delay={i * 90}>
-                    <button
-                      type='button'
-                      className={styles.cardButton}
-                      onClick={() => setActiveService(service)}
-                      aria-haspopup='dialog'
-                    >
-                      <TwArticleCard
-                        title={service.title}
-                        excerpt={service.excerpt}
-                        category={service.category}
-                      />
-                    </button>
-                  </TwReveal>
-                ))}
-              </div>
-
-              <div className={styles.viewAll}>
-                <a
-                  href={serviceHref('')}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  View all services on Fluxline.pro &#8599;
-                </a>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ===== 03 Content ===== */}
-      <section
-        id='content'
-        className={`tw-snap ${styles.section} ${styles.glowContent}`}
-      >
-        <div className={styles.container}>
-          <div className={styles.railGrid}>
-            <div className={styles.rail}>
-              <div className={styles.numRow}>
-                <span className={styles.secNum}>03</span>
-                <span className={styles.secLabel}>Content</span>
-              </div>
-              <TwReveal variant='left'>
-                <div className={styles.railImage}>
-                  <TwParallax strength={30}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className='tw-media'
-                      src='/assets/images/APlusLogo_11052025.png'
-                      alt='Writing, video, and the podcast'
-                    />
-                  </TwParallax>
+        {/* ===== 02 Content Hub ===== */}
+        <section
+          id='content'
+          className={`tw-snap ${styles.section} ${styles.glowContent}`}
+        >
+          <div className={styles.container}>
+            <div className={styles.railGrid}>
+              <div className={styles.rail}>
+                <div className={styles.numRow}>
+                  <span className={styles.secNum}>02</span>
+                  <span className={styles.secLabel}>Content</span>
                 </div>
-              </TwReveal>
-            </div>
-
-            <div>
-              <TwReveal>
-                <TwSectionHeading
-                  kicker='Content Hub'
-                  title='Writing, video, and the podcast'
-                  lede='Long-form thinking on resonance, architecture, and building a life that embodies it all.'
-                />
-              </TwReveal>
-
-              <div className={styles.filterRow}>
-                <TwFilterChips
-                  options={CONTENT_FILTERS}
-                  value={contentFilter}
-                  onChange={setContentFilter}
-                />
               </div>
 
-              {mediaState === 'idle' || mediaState === 'loading' ? (
-                <div className={styles.contentStatus}>
-                  <Spinner size='large' label={`Loading ${contentFilter}`} />
-                </div>
-              ) : filteredContent.length === 0 ? (
-                <div className={styles.contentStatus}>
-                  <p>
-                    Nothing to show here right now.{' '}
-                    {mediaFallback.href ? (
-                      <Link href={mediaFallback.href}>
-                        {mediaFallback.label} &#8594;
-                      </Link>
-                    ) : null}
-                  </p>
-                </div>
-              ) : (
-                <div className={styles.cardGrid2}>
-                  {filteredContent.slice(0, 6).map((item, i) => (
-                    <TwReveal fill key={item.slug} delay={i * 90}>
-                      <TwArticleCard
-                        title={item.title}
-                        excerpt={item.excerpt}
-                        category={item.category}
-                        date={item.date}
-                        href={item.href}
-                        external={item.external}
-                        image={item.image}
-                        imageAlt=''
-                      />
-                    </TwReveal>
-                  ))}
-                </div>
-              )}
-
-              <div className={styles.viewAll}>
-                {mediaFallback.href && filteredContent.length > 0 ? (
-                  <Link href={mediaFallback.href}>
-                    {mediaFallback.label} &#8594;
-                  </Link>
-                ) : null}
-                <Link href='/content-hub'>
-                  Explore the full Content Hub &#8594;
-                </Link>
+              <div>
+                <TwReveal>
+                  <TwSectionHeading
+                    kicker='Content Hub'
+                    title='Writing, video, and the podcast'
+                    lede='Long-form thinking on resonance, architecture, and building a life that embodies it all.'
+                  />
+                </TwReveal>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ===== 04 Portfolio ===== */}
-      <section
-        id='portfolio'
-        className={`tw-snap ${styles.section} ${styles.sectionAlt} ${styles.glowPortfolio}`}
-      >
-        <div className={styles.container}>
-          <div className={styles.railGrid}>
-            <div className={styles.rail}>
-              <div className={styles.numRow}>
-                <span className={styles.secNum}>04</span>
-                <span className={styles.secLabel}>Portfolio</span>
-              </div>
-              <TwReveal variant='left'>
-                <div className={styles.railImage}>
-                  <TwParallax strength={30}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className='tw-media'
-                      src='/assets/images/the-morning-resonance.jpg'
-                      alt='Selected work and case studies'
-                    />
-                  </TwParallax>
-                </div>
-              </TwReveal>
-            </div>
-
-            <div>
-              <TwReveal>
-                <TwSectionHeading
-                  kicker='Portfolio'
-                  title='Selected work & case studies'
-                  lede='Enterprise platforms and brand systems, from concept through launch.'
-                />
-              </TwReveal>
-
-              <div className={styles.cardGrid2}>
-                {portfolio.slice(0, 4).map((item, i) => (
+            {/* Three cards across the full width (stacked on phones), so
+                they never squeeze into the rail's text column. */}
+            {cards.length === 0 ? (
+              <p className={styles.prose}>{MICROCOPY.emptyState}</p>
+            ) : (
+              <div className={styles.hubGrid}>
+                {cards.map((item, i) => (
                   <TwReveal fill key={item.slug} delay={i * 90}>
                     <TwArticleCard
                       title={item.title}
@@ -611,96 +473,57 @@ export default function HomePageClient({
                       category={item.category}
                       date={item.date}
                       href={item.href}
+                      image={item.image}
+                      imageAlt={item.imageAlt ?? ''}
                     />
                   </TwReveal>
                 ))}
               </div>
+            )}
 
-              <div className={styles.viewAll}>
-                <a
-                  href='https://www.fluxline.pro/case-studies'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Case studies on Fluxline.pro &#8599;
-                </a>
-                <Link href='/portfolio'>View my full Portfolio &#8594;</Link>
-              </div>
+            <div className={styles.hubCta}>
+              <TwButton variant='outline' href='/content-hub/'>
+                {HOME.contentHub.cta} <span aria-hidden='true'>&#8594;</span>
+              </TwButton>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ===== Contact (newsletter CTA lives inside, above the form) ===== */}
-      <section
-        id='contact'
-        className={`tw-snap ${styles.section} ${styles.sectionAlt}`}
-      >
-        <div className={styles.container}>
-          <div
-            id='newsletter'
-            className={`tw-grain ${styles.band} ${styles.newsletterBand}`}
-          >
-            <div className={styles.bandGrid}>
-              <div>
-                <TwSectionHeading
-                  kicker='Stay Connected'
-                  title='Get new writing in your inbox'
-                  lede='Occasional notes on resonance, systems, and the work in progress. No spam — unsubscribe anytime.'
-                />
-              </div>
-              <div>
-                <HomeNewsletterForm />
-                <SocialRow
-                  items={wideSocials}
-                  size={24}
-                  className={styles.newsletterSocials}
-                />
-              </div>
+        {/* ===== Let's talk =====
+            Book a Conversation opens the full-screen booking dialog. The
+            message form is the same ContactForm as /contact/#message (#295),
+            and #contact stays for older links. */}
+        <section
+          id='contact'
+          className={`${styles.section} ${styles.sectionAlt}`}
+          aria-labelledby='home-talk'
+        >
+          <div className={styles.container}>
+            <div className={styles.talkGrid}>
+              <TwReveal stagger>
+                <h2 id='home-talk' className={styles.h2}>
+                  {HOME.talk.title}
+                </h2>
+                <p className={styles.lede}>{MICROCOPY.readEveryMessage}</p>
+                <div className={styles.buttonRow}>
+                  <BookingTrigger />
+                </div>
+                <SocialRow items={contactSocials} className={styles.socials} />
+              </TwReveal>
+
+              <TwReveal>
+                <ContactForm />
+              </TwReveal>
             </div>
           </div>
+        </section>
 
-          <div className={styles.contactGrid}>
-            <TwReveal stagger>
-              <TwSectionHeading
-                kicker='Contact'
-                title="Let's build something that resonates"
-              />
-              <p className={styles.prose}>
-                Whether it&apos;s a platform to architect, an identity to
-                rebuild, or just a conversation about the work — I&apos;d
-                genuinely love to hear from you.
-              </p>
-              <p className={styles.prose}>
-                Tell me what you&apos;re working on. I read every message.
-              </p>
-              <div className={styles.contactCtaRow}>
-                <TwButton href='https://tidycal.com/terencewaters'>
-                  Book a free consultation
-                </TwButton>
-              </div>
-              <SocialRow
-                items={contactSocials}
-                className={styles.contactSocials}
-              />
-            </TwReveal>
-
-            <TwReveal>
-              {/* ReCaptchaProvider now wraps the whole app in providers.tsx
-                  (the newsletter forms need it sitewide), so this section
-                  no longer needs its own local provider. */}
-              <HomeContactForm />
-            </TwReveal>
-          </div>
+        <div className={styles.watermark}>
+          <p>
+            <KnowWho />
+          </p>
         </div>
-      </section>
-
-      <div className={styles.watermark}>
-        <p>
-          &ldquo;Know who you are and what you stand for <br />— in line with
-          your <u>true</u> and <u>chosen</u> identity.&rdquo;
-        </p>
-      </div>
+      </main>
 
       <Footer />
 

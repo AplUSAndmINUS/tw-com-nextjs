@@ -62,9 +62,7 @@ export function RootLayout({
 
   return (
     <div className={containerClassName} suppressHydrationWarning>
-      <a href='#main-content' className={`hide-scrollbar ${styles.skipLink}`}>
-        Skip to main content
-      </a>
+      {/* The skip link is providers.tsx's SkipLink (#281), ahead of the nav. */}
       <main
         id='main-content'
         className={mainClassName}

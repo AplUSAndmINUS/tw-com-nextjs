@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ThemeMode } from '@/theme/fluentTheme';
+import { FONT_SCALE_MAX, FONT_SCALE_MIN } from '@/theme/fontScale';
 
 export type { ThemeMode };
 
@@ -31,10 +32,17 @@ export interface UserPreferencesState {
   resetPreferences: () => void;
 }
 
+export {
+  FONT_SCALE_MAX,
+  FONT_SCALE_MIN,
+  FONT_SCALE_STEPS,
+  clampFontScale,
+} from '@/theme/fontScale';
+
 export const defaultUserPreferences: UserPreferences = {
   fontScale: 1.0,
-  minFontScale: 0.8,
-  maxFontScale: 1.5,
+  minFontScale: FONT_SCALE_MIN,
+  maxFontScale: FONT_SCALE_MAX,
   reducedMotion: false,
   reducedTransparency: false,
   highContrast: false,

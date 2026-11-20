@@ -18,6 +18,10 @@
   --tw-container-pad: 32px;
   --tw-article: 760px;
   --tw-section-pad: 88px;
+  /* Mobile section rhythm (below mobile-lg). Was 48–56px per page. */
+  --tw-section-pad-sm: 56px;
+  /* Minimum touch target (WCAG 2.5.5 / 2.5.8). */
+  --tw-tap-target: 44px;
   --tw-rail-width: 320px;
   --tw-rail-gap: 56px;
   --tw-nav-height: 76px;

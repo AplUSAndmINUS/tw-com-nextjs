@@ -1,110 +1,501 @@
 @use 'abstracts' as *;
 
-/**
- * /about-me: Terence in 60 seconds
- * ================================
- *
- * A landing page, not a long read. Sections alternate between the page
- * background and the feature gradient so each block reads as one "card" of
- * the page. The grids are TwContentGrid (container-query columns, staggered
- * reveals). This module styles only what goes inside the cards.
- *
- * Shapes borrowed from about/page.module.scss (the proficiency meters) so the
- * two pages read as siblings.
+/*
+ * /about-me (redesign, 2026-11): the link-in-bio page. Mobile-first, thumb
+ * friendly, built from the shared page mixins and tokens, rem-based for the
+ * Text size setting, with shrinkable grids so nothing overflows at 200%.
  */
 
 .page {
   min-height: 100vh;
   background: var(--tw-bg-page);
-  scroll-padding-top: var(--tw-nav-height);
+  overflow-wrap: break-word;
+
+  :is(h1, h2, h3) {
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+}
+
+.container {
+  @include container-width;
+  width: auto;
+  container-type: inline-size;
 }
 
 .section {
-  position: relative;
-  padding-block: 72px;
-  background: var(--tw-bg-page);
-  scroll-margin-top: var(--tw-nav-height);
-
-  @include until('mobile-lg') {
-    padding-block: 48px;
-  }
+  @include page-section;
 }
 
 .sectionAlt {
-  background: var(--tw-gradient-feature);
-  border-top: 1px solid var(--tw-border-subtle);
-  border-bottom: 1px solid var(--tw-border-subtle);
+  @include page-section('alt');
 }
 
-/* Same column as /about. Not the container-width mixin: its width: 100% plus
-   padding overflows the viewport, because the project has no global
-   border-box rule. */
-.container {
-  position: relative;
+/* Right under the hero: a little less top padding, so the stack is reachable
+   with one thumb-scroll on a phone. */
+.linksSection {
+  @include page-section;
+  padding-top: var(--tw-space-xl);
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h2-size);
+  font-weight: var(--tw-h2-weight);
+  letter-spacing: var(--tw-heading-tracking);
+  line-height: 1.15;
+  color: var(--tw-text-heading-display);
+}
+
+.label {
+  @include label;
+  margin: 0;
+}
+
+.linkRow {
+  @include link-row;
+  margin-top: var(--tw-space-l);
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xxl);
+  align-items: start;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+}
+
+/* ===== The book and the podcast ===== */
+.features {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-grid-gap);
+  margin-top: var(--tw-space-xl);
+
+  @include from('tablet') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   box-sizing: border-box;
-  max-width: var(--tw-container);
-  margin: 0 auto;
-  padding: 0 var(--tw-container-pad);
+  scroll-margin-top: calc(var(--tw-nav-height) + 16px);
+}
+
+.featureHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tw-space-l);
+  padding: var(--tw-card-pad);
+  background: var(--tw-gradient-band);
+  border-bottom: 1px solid var(--tw-border-subtle);
 
   @include until('mobile-sm') {
-    padding-inline: 20px;
+    gap: var(--tw-space-m);
   }
 }
 
-.grid {
-  margin-top: 32px;
+.featureHead > div {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
 
-  @include until('mobile-lg') {
-    margin-top: 24px;
+.featureArt {
+  flex-shrink: 0;
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  box-shadow: var(--tw-shadow-s);
+
+  @include until('mobile-sm') {
+    width: 4.5rem;
+    height: 4.5rem;
   }
 }
 
-/* ===== Shared card typography ===== */
+.featureTitle {
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: var(--tw-h3-weight);
+  line-height: 1.25;
+  letter-spacing: var(--tw-heading-tracking);
+  color: var(--tw-text-heading-display);
+  margin: 6px 0 0;
+}
+
+.featureMeta {
+  font-family: var(--tw-font-mono);
+  font-size: var(--tw-meta-size);
+  color: var(--tw-text-mist);
+  margin: 4px 0 0;
+}
+
+.preorderBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 4px 10px;
+  border: 1px solid var(--tw-mythic-gold);
+  border-radius: var(--tw-radius-pill);
+  background: var(--tw-mythic-gold-bg);
+  font-family: var(--tw-font);
+  font-size: var(--tw-chip-tag-size);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-mythic-gold-text);
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: var(--tw-radius-pill);
+    background: var(--tw-mythic-gold);
+  }
+}
+
+.featureBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-grow: 1;
+  padding: var(--tw-card-pad);
+}
 
 .cardLabel {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-family: var(--tw-font-mono);
-  font-size: 0.6875rem;
+  font-size: var(--tw-chip-tag-size);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--tw-accent);
   margin: 0;
 }
 
+.cardText {
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: 1.7;
+  color: var(--tw-text-body);
+  margin: 0;
+}
+
+.factList {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: 18px;
+    font-family: var(--tw-font-body);
+    font-size: var(--tw-body-sm-size);
+    line-height: 1.6;
+    color: var(--tw-text-muted);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: var(--tw-radius-pill);
+      background: var(--tw-gradient-accent);
+    }
+  }
+}
+
+.featureActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s);
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+/* ===== Talent bars + I still build ===== */
+.meters {
+  margin-top: var(--tw-space-l);
+}
+
+.stillBuild {
+  padding: var(--tw-space-xl);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  background: var(--tw-surface-card);
+  @include accent-line(top, var(--tw-gold-line), 3px);
+}
+
+.stillBuildQuote {
+  margin: var(--tw-space-m) 0 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-lede-size);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--tw-text-heading-display);
+}
+
+/* ===== Socials ===== */
+/* "Find me online": heading and icons centred (owner, Checkpoint 4). The row
+   drops SocialRow's negative edge margin, which only exists to line the first
+   icon up with left-aligned text. */
+.socials {
+  text-align: center;
+
+  .socialRow {
+    justify-content: center;
+    margin-inline: 0;
+  }
+}
+
+.socialRow {
+  margin-top: var(--tw-space-l);
+}
+
+/* The book and podcast descriptions: three lines on phones held upright, so
+   the two cards aren't so tall (owner, Checkpoint 4). The full text stays in
+   the page for screen readers and search; "Explore the framework" and "Browse
+   episodes" lead to the rest. Sideways phones, tablets and desktop are
+   unchanged. */
+.clampOnPhone {
+  @include until('mobile-sm') {
+    @media (orientation: portrait) {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+    }
+  }
+}
+
+.lede {
+  margin: var(--tw-space-m) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: var(--tw-lede-leading);
+  color: var(--tw-text-body);
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ===== In 60 seconds ===== */
+.shortGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-xl);
+  align-items: start;
+
+  @include from('tablet') {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: var(--tw-space-xxl);
+  }
+}
+
+.blurb {
+  margin: var(--tw-space-l) 0 0;
+  max-width: var(--tw-measure);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-lede-size);
+  line-height: 1.8;
+  color: var(--tw-text-body);
+}
+
+.factsCard {
+  padding: var(--tw-space-l);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card);
+  background: var(--tw-surface-card);
+  @include accent-line(top);
+}
+
+.facts {
+  display: grid;
+  gap: var(--tw-space-s);
+  margin: var(--tw-space-m) 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: var(--tw-space-l);
+    font-family: var(--tw-font-body);
+    font-size: var(--tw-aside-size);
+    line-height: 1.55;
+    color: var(--tw-text-body);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0.55em;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--tw-line-strong);
+      box-shadow: var(--tw-glow-soft);
+    }
+  }
+}
+
+/* ===== Everything I'm making (Content Hub tiles) ===== */
+.hubTiles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-grid-gap);
+  margin: var(--tw-space-xl) 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include from('mobile-sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include from('tablet') {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.hubTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tw-space-xs);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--tw-space-l);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  background: var(--tw-surface-card);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--tw-hover-duration) var(--tw-motion-ease),
+    box-shadow var(--tw-hover-duration) var(--tw-motion-ease),
+    transform var(--tw-hover-duration) var(--tw-motion-ease);
+
+  &:hover {
+    border-color: var(--tw-line-strong);
+    box-shadow: var(--tw-glow-soft);
+    transform: var(--tw-hover-lift-sm);
+  }
+
+  @include focus-ring;
+  @include motion-safe-only;
+}
+
+.hubIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--tw-line-color);
+  color: var(--tw-accent);
+  margin-bottom: var(--tw-space-xs);
+}
+
+.hubTitle {
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--tw-text-heading-display);
+}
+
+.hubText {
+  flex-grow: 1;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  line-height: 1.6;
+  color: var(--tw-text-muted);
+}
+
+.hubCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--tw-space-xs);
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-link-size);
+  color: var(--tw-accent);
+}
+
+/* ===== Some of the work ===== */
+.projectGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-grid-gap);
+  margin-top: var(--tw-space-xl);
+
+  @include from('tablet') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =====================================================================
+   /about-me rebuild (#288): the parts that are not in the user copy's
+   stylesheet. Tokens and the shared mixins only.
+   ===================================================================== */
+
+/* In 60 seconds: eyebrow above the title (owner: the two swapped). */
+.eyebrow {
+  @include label;
+  margin: 0 0 var(--tw-space-xs);
+  color: var(--tw-accent);
+}
+
+/* The blurb and quick facts sit between the title and the role cards. */
+.shortGrid {
+  margin-top: var(--tw-space-l);
+
+  .blurb {
+    margin-top: 0;
+  }
+}
+
+.grid {
+  margin-top: var(--tw-space-xl);
+
+  @include until('mobile-lg') {
+    margin-top: var(--tw-space-l);
+  }
+}
+
 .cardTitle {
+  margin: 0;
   font-family: var(--tw-font);
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: var(--tw-heading-tracking);
   color: var(--tw-text-heading);
-  margin: 0;
-}
-
-.cardText {
-  font-family: var(--tw-font-body);
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: var(--tw-text-body);
-  margin: 0;
-}
-
-.chipLabel {
-  font-family: var(--tw-font);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: var(--tw-kicker-tracking);
-  text-transform: uppercase;
-  color: var(--tw-text-faint);
-  margin: 0;
 }
 
 .chipRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--tw-space-xs);
 }
 
 /* A round accent badge that holds one icon from components/icons. */
@@ -145,27 +536,21 @@
   @include motion-safe-only;
 }
 
-.sectionLink {
-  margin-top: 24px;
-  display: flex;
-  justify-content: flex-end;
-
-  @include until('mobile-sm') {
-    justify-content: flex-start;
-  }
-}
-
-/* ===== In 60 seconds: role cards ===== */
-
+/* Role cards: smaller, with the text held to three lines (owner, #288). */
 .roleCard {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--tw-space-s);
   box-sizing: border-box;
 }
 
-.roleCard .cardText {
+.roleText {
+  display: -webkit-box;
   flex-grow: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .cardLink {
@@ -173,7 +558,7 @@
 }
 
 .statGrid {
-  margin-top: 16px;
+  margin-top: var(--tw-space-m);
 }
 
 /* Phones: each stat becomes one compact row (figure, then caption) rather
@@ -191,329 +576,37 @@
   }
 }
 
-/* ===== Book + podcast feature cards ===== */
-
-.feature {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-sizing: border-box;
-  scroll-margin-top: calc(var(--tw-nav-height) + 16px);
+/* Off the page: the Instagram feed, spaced like the user copy's photos. */
+.photoFeed {
+  margin-top: var(--tw-space-xl);
 }
 
-.featureHead {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: var(--tw-card-pad);
-  background: var(--tw-gradient-band);
-  border-bottom: 1px solid var(--tw-border-subtle);
-
-  @include until('mobile-sm') {
-    gap: 16px;
-  }
-}
-
-.featureArt {
-  flex-shrink: 0;
-  width: 96px;
-  height: 96px;
-  object-fit: cover;
-  border-radius: var(--tw-radius-card-sm);
-  border: 1px solid var(--tw-border);
-  box-shadow: var(--tw-shadow-s);
-
-  @include until('mobile-sm') {
-    width: 72px;
-    height: 72px;
-  }
-}
-
-.featureTitle {
-  font-family: var(--tw-font);
-  font-size: var(--tw-h3-size);
-  font-weight: var(--tw-h3-weight);
-  line-height: 1.25;
-  letter-spacing: var(--tw-heading-tracking);
-  color: var(--tw-text-heading-display);
-  margin: 6px 0 0;
-}
-
-.featureMeta {
-  font-family: var(--tw-font-mono);
-  font-size: var(--tw-meta-size);
-  color: var(--tw-text-mist);
-  margin: 4px 0 0;
-}
-
-.featureBody {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  flex-grow: 1;
-  padding: var(--tw-card-pad);
-}
-
-.factList {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  li {
-    position: relative;
-    padding-left: 18px;
-    font-family: var(--tw-font-body);
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--tw-text-muted);
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 2px;
-      top: 0.62em;
-      width: 6px;
-      height: 6px;
-      border-radius: var(--tw-radius-pill);
-      background: var(--tw-gradient-accent);
-    }
-  }
-}
-
-/* Mirrors the top pre-order bar: Mythic Gold label on a faint gold wash. */
-.preorderBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 10px 0 0;
-  padding: 4px 10px;
-  border: 1px solid var(--tw-mythic-gold);
-  border-radius: var(--tw-radius-pill);
-  background: var(--tw-mythic-gold-bg);
-  font-family: var(--tw-font);
-  font-size: var(--tw-chip-tag-size);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tw-mythic-gold-text);
-
-  &::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: var(--tw-radius-pill);
-    background: var(--tw-mythic-gold);
-  }
-}
-
-/* The buttons sit at the foot of the card, whatever the copy length. Each
-   grows to fill its row, so on a phone they stack as full-width targets. */
-.featureActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: auto;
-  padding-top: 10px;
-}
-
-.featureActions .featureButton {
-  flex: 1 1 auto;
-  justify-content: center;
-  text-align: center;
-
-  @include until('mobile-sm') {
-    flex-basis: 100%;
-    white-space: normal;
-  }
-}
-
-/* ===== Talent bars ===== */
-
-.meterCard {
-  margin-top: 32px;
-
-  @include until('mobile-lg') {
-    margin-top: 24px;
-  }
-}
-
-.meterGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px 40px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  @include until('mobile-lg') {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-.meterHead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.meterName {
+/* I still build: the owner's paragraph under the callout (#288). */
+.stillBuildMore {
+  margin: var(--tw-space-m) 0 0;
   font-family: var(--tw-font-body);
-  font-size: 0.9375rem;
+  font-size: var(--tw-body-size);
+  line-height: var(--tw-body-leading);
   color: var(--tw-text-body);
-}
 
-.meterValue {
-  flex-shrink: 0;
-  font-family: var(--tw-font-mono);
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--tw-accent);
-}
-
-.meterMax {
-  font-weight: 400;
-  color: var(--tw-text-faint);
-}
-
-.meterTrack {
-  height: 8px;
-  border-radius: var(--tw-radius-pill);
-  background: var(--tw-surface-inset);
-  border: 1px solid var(--tw-border-subtle);
-  overflow: hidden;
-}
-
-/*
- * The fill grows when the enclosing TwReveal flips to `.in`, so the bars
- * animate as the section scrolls into view without a client component of
- * their own. `--tw-meter-pct` is the only inline style, since it is per-item
- * data. Same technique as the /about meters.
- */
-.meterFill {
-  display: block;
-  height: 100%;
-  border-radius: var(--tw-radius-pill);
-  background: var(--tw-gradient-accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 900ms var(--tw-motion-ease);
-}
-
-:global(.tw-rv.in) .meterFill {
-  transform: scaleX(var(--tw-meter-pct, 1));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .meterFill {
-    transition: none;
-    transform: scaleX(var(--tw-meter-pct, 1));
+  strong {
+    color: var(--tw-text-heading-display);
   }
 }
 
-:global([data-tw-reduced-motion='true']) .meterFill {
-  transition: none;
-  transform: scaleX(var(--tw-meter-pct, 1));
+/* TwMeterGroup's own `margin: 0` loads after this file and would win over
+   `.meters`; the extra class keeps the gap under the heading. */
+.twoCol .meters {
+  margin-top: var(--tw-space-l);
 }
 
-/* ===== Projects + writing ===== */
+/* In 60 seconds: the second paragraph (owner, #291). Same specificity as
+   `.shortGrid .blurb` (which zeroes the blurb's margin); it wins by coming
+   later, so keep it below that rule. */
+.shortGrid .blurbMore {
+  margin-top: var(--tw-space-m);
 
-/* Keep a row of article cards even when one excerpt runs long. */
-.article p {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ===== Closing: actions, contact details, socials ===== */
-
-.closing {
-  padding-block: 72px 88px;
-  background: var(--tw-bg-page);
-  scroll-margin-top: var(--tw-nav-height);
-
-  @include until('mobile-lg') {
-    padding-block: 48px 64px;
-  }
-}
-
-/* On phones the three actions stack full width, link-in-bio style, and long
-   labels may wrap instead of pushing past the band. */
-.closing .ctaButton {
-  @include until('mobile-sm') {
-    flex: 1 1 100%;
-    white-space: normal;
-    text-align: center;
-  }
-}
-
-.contactGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--tw-grid-gap);
-  margin: 24px 0 0;
-  padding: 0;
-  list-style: none;
-
-  /* Below desktop a third of the row is too narrow for the email address,
-     so the tiles stack as full-width link rows. */
-  @include until('tablet') {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
-
-.contactItem {
-  @include card-surface(var(--tw-radius-card-sm));
-  @include card-interactive;
-  @include focus-ring;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 16px 18px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.contactLabel {
-  display: block;
-  font-family: var(--tw-font);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--tw-text-heading);
-}
-
-.contactValue {
-  display: block;
-  font-family: var(--tw-font-body);
-  font-size: 0.84375rem;
-  color: var(--tw-text-muted);
-  overflow-wrap: anywhere;
-}
-
-.socialBlock {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-top: 48px;
-  text-align: center;
-}
-
-.socialRow {
-  justify-content: center;
-  gap: 20px 24px;
-  max-width: 40rem;
-
-  @include until('mobile-sm') {
-    gap: 18px 20px;
+  strong {
+    color: var(--tw-text-heading-display);
   }
 }

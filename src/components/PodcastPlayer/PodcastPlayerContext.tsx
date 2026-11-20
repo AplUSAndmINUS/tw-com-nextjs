@@ -5,10 +5,11 @@
  * Owns the single <audio> element used for all podcast playback on the site.
  *
  * The element is mounted once at the root, outside the page content, so it
- * survives client-side navigation and playback is never interrupted. Both the
- * episode detail modal and the persistent mini-player drive this one element
- * rather than rendering <audio> tags of their own — two elements would mean
- * playback restarting whenever the modal closed.
+ * survives client-side navigation and playback is never interrupted. The play
+ * buttons on the podcast pages, the episode page's player and the persistent
+ * mini-player all drive this one element rather than rendering <audio> tags
+ * of their own — two elements would mean two episodes playing at once, or
+ * playback restarting on navigation.
  *
  * Playback position deliberately lives outside this context: `timeupdate` fires
  * several times a second, and every consumer of this context would re-render
@@ -24,14 +25,25 @@ export interface PodcastPlayerContextValue {
   isPlaying: boolean;
   /** True once the loaded episode has actually begun playing. Gates the mini-player. */
   hasStarted: boolean;
-  /** True while the detail modal is open; the mini-player stays hidden behind it. */
+  /**
+   * True while an in-page player shows the loaded episode's controls (the
+   * episode page's player); the mini-player stays hidden so there are never
+   * two sets of controls on screen. (Named for the episode modal that used to
+   * set it.)
+   */
   isModalOpen: boolean;
   audioRef: React.RefObject<HTMLAudioElement | null>;
-  /** Load an episode. A no-op if it is already loaded, so re-opening never restarts it. */
-  load: (episode: PodcastEpisode) => void;
+  /**
+   * Load an episode and start it in one user gesture. It waits for the new
+   * source to reach the audio element before calling play(), so a cold start
+   * never plays an element that has no source yet. On the episode that is
+   * already loaded it resumes without reloading.
+   */
+  play: (episode: PodcastEpisode) => void;
   toggle: () => void;
   /** Stop playback and tear the player down. */
   close: () => void;
+  /** Set by an in-page player while it owns the loaded episode. */
   setModalOpen: (open: boolean) => void;
 }
 
@@ -104,16 +116,19 @@ export const PodcastPlayerProvider = ({
   const [hasStarted, setHasStarted] = React.useState(false);
   const [isModalOpen, setModalOpen] = React.useState(false);
 
-  // Set when a switch should carry playback over to the incoming episode.
+  // Set by play() until the incoming episode's src lands, then consumed.
   const autoPlayRef = React.useRef(false);
 
-  const load = React.useCallback(
+  const play = React.useCallback(
     (next: PodcastEpisode) => {
-      if (episode?.slug === next.slug) return;
       const audio = audioRef.current;
-      // Swapping episodes mid-listen should keep playing rather than silently
-      // parking the new one; a cold start still waits for an explicit play.
-      autoPlayRef.current = Boolean(audio && !audio.paused);
+      if (!audio || !next.audioUrl) return;
+      if (episode?.slug === next.slug) {
+        void audio.play().catch(() => {});
+        return;
+      }
+      // The audioUrl effect below starts playback once the new src lands.
+      autoPlayRef.current = true;
       setEpisode(next);
       setHasStarted(false);
     },
@@ -164,12 +179,12 @@ export const PodcastPlayerProvider = ({
       hasStarted,
       isModalOpen,
       audioRef,
-      load,
+      play,
       toggle,
       close,
       setModalOpen,
     }),
-    [episode, isPlaying, hasStarted, isModalOpen, load, toggle, close]
+    [episode, isPlaying, hasStarted, isModalOpen, play, toggle, close]
   );
 
   return (

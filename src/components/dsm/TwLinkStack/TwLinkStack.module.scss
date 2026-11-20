@@ -1,0 +1,98 @@
+@use 'abstracts' as *;
+
+.stack {
+  display: grid;
+  /* Shrinkable, so long labels wrap at large text sizes. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--tw-space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stackTwo {
+  @include from('tablet') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    > li:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tw-space-m);
+  min-height: calc(var(--tw-tap-target) + 12px);
+  padding: var(--tw-space-s) var(--tw-space-l);
+  border-radius: var(--tw-radius-card-sm);
+  border: 1px solid var(--tw-border);
+  background: var(--tw-surface-card);
+  color: var(--tw-text-heading-display);
+  text-decoration: none;
+  transition:
+    border-color var(--tw-hover-duration) var(--tw-motion-ease),
+    box-shadow var(--tw-hover-duration) var(--tw-motion-ease),
+    transform var(--tw-hover-duration) var(--tw-motion-ease);
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--tw-line-strong);
+    box-shadow: var(--tw-glow-soft);
+    transform: var(--tw-hover-lift-sm);
+  }
+
+  @include motion-safe-only;
+}
+
+.primary {
+  border-color: var(--tw-accent);
+  @include accent-line(left, var(--tw-accent), 3px);
+}
+
+.gold {
+  border-color: var(--tw-mythic-gold);
+  background: var(--tw-mythic-gold-bg);
+  @include accent-line(left, var(--tw-mythic-gold), 3px);
+
+  &:hover {
+    border-color: var(--tw-mythic-gold);
+    box-shadow: var(--tw-glow-gold);
+  }
+
+  .label {
+    color: var(--tw-mythic-gold-text);
+  }
+}
+
+.text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.label {
+  overflow-wrap: anywhere;
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.description {
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-sm-size);
+  color: var(--tw-text-muted);
+}
+
+.arrow {
+  flex-shrink: 0;
+  font-size: 1.125rem;
+  color: var(--tw-accent);
+}
+
+.srOnly {
+  @include visually-hidden;
+}

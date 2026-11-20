@@ -1,3 +1,5 @@
+@use 'breakpoints' as *;
+
 /// Shared style patterns from the design system's visual foundations.
 ///
 /// Everything here composes CSS custom properties from styles/tokens/*, so the
@@ -65,6 +67,10 @@
 }
 
 /// The centred content column: 1220px with 32px gutters.
+/// Note: `width: 100%` plus padding overflows on content-box elements (there
+/// is no global border-box rule). On a plain block element, add
+/// `width: auto` after the include; kept as-is here so existing layouts
+/// (TwHero, TwContainer) don't shift.
 @mixin container-width {
   width: 100%;
   max-width: var(--tw-container);
@@ -107,4 +113,161 @@
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+/* ===========================================================================
+   Page primitives (redesign, 2026-11)
+   ---------------------------------------------------------------------------
+   Home, /about, /about-me and /contact each used to define their own
+   .section / .sectionAlt / .container / .prose / .viewAll with slightly
+   different numbers (96 / 88 / 72px sections, 60 / 62ch prose). These mixins
+   are the one shared version, built only from tokens.
+   =========================================================================== */
+
+/// A full-width page band with the shared vertical rhythm.
+/// $tone: 'base' (page background), 'alt' (feature gradient with hairlines),
+/// or 'deep' (the deepest surface, for statement moments).
+///
+/// @example scss
+///   .band { @include page-section('alt'); }
+@mixin page-section($tone: 'base') {
+  position: relative;
+  padding-block: var(--tw-section-pad);
+  scroll-margin-top: var(--tw-nav-height);
+
+  @if $tone == 'alt' {
+    background: var(--tw-gradient-feature);
+    border-block: 1px solid var(--tw-border-subtle);
+  } @else if $tone == 'deep' {
+    background: var(--tw-bg-deep);
+  } @else {
+    background: var(--tw-bg-page);
+  }
+
+  @include until('mobile-lg') {
+    padding-block: var(--tw-section-pad-sm);
+  }
+}
+
+/// Long-form body copy: Merriweather, comfortable measure, rem-based.
+@mixin prose($measure: var(--tw-measure)) {
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-prose-size);
+  line-height: var(--tw-prose-leading);
+  color: var(--tw-text-body);
+  max-width: $measure;
+  margin: 0;
+
+  & + & {
+    margin-top: var(--tw-space-m);
+  }
+
+  a {
+    color: var(--tw-accent);
+    text-underline-offset: 3px;
+  }
+
+  strong {
+    color: var(--tw-text-bright);
+  }
+}
+
+/// A row of text links with arrows (e.g. "Read the full story →").
+/// The arrow gap widens on hover; off under reduced motion.
+@mixin link-row($justify: flex-start) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-s) var(--tw-space-l);
+  justify-content: $justify;
+
+  a {
+    font-family: var(--tw-font);
+    font-weight: 700;
+    font-size: var(--tw-link-size);
+    color: var(--tw-accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: var(--tw-tap-target);
+    transition:
+      gap var(--tw-hover-duration) var(--tw-motion-ease),
+      color var(--tw-hover-duration) var(--tw-motion-ease);
+
+    @include focus-ring;
+
+    &:hover {
+      gap: 11px;
+      color: var(--tw-accent-hover);
+    }
+
+    @include motion-safe-only;
+  }
+}
+
+/// A thin glowing rule in the accent colour (Warm Futurism "light line").
+/// Use on a pseudo-element or an empty decorative element.
+@mixin light-line($direction: horizontal) {
+  background: var(--tw-line-color);
+  box-shadow: var(--tw-glow-soft);
+
+  @if $direction == vertical {
+    width: var(--tw-line-width);
+  } @else {
+    height: var(--tw-line-width);
+  }
+}
+
+/// Eyebrow / small label text.
+@mixin label {
+  font-family: var(--tw-font);
+  font-size: var(--tw-label-size);
+  font-weight: 700;
+  letter-spacing: var(--tw-kicker-tracking);
+  text-transform: uppercase;
+  color: var(--tw-text-muted);
+}
+
+/// A straight accent line on one edge of a rounded card (owner, 2026-11-18).
+///
+/// A thick `border-top` (or an inset box-shadow) follows the corner radius,
+/// so the line curves down the card's corners. This draws the line as a
+/// pseudo-element and clips it with `overflow: clip`, so it reads as a
+/// straight band cut off cleanly by the radius. Uses ::after; the host needs
+/// no other ::after.
+///
+/// @example scss
+///   .card { @include accent-line(top, var(--tw-mythic-gold), 4px); }
+@mixin accent-line($side: top, $color: var(--tw-line-strong), $width: 2px) {
+  position: relative;
+  overflow: clip;
+
+  &::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    background: $color;
+
+    @if $side == left {
+      inset: 0 auto 0 0;
+      width: $width;
+    } @else {
+      inset: 0 0 auto 0;
+      height: $width;
+    }
+  }
+}
+
+/// A blockquote with a Mythic Gold rule: italic body type, a gold line on
+/// the left (owner, 2026-11-18: "a gold blockquote, not a heading"). Shared by
+/// TwHero's quote and the /about pull quote.
+@mixin gold-quote {
+  margin: var(--tw-space-l) 0 0;
+  padding: var(--tw-space-xs) var(--tw-space-m);
+  border-left: 3px solid var(--tw-gold-line);
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-body-size);
+  font-style: italic;
+  line-height: var(--tw-body-leading);
+  color: var(--tw-text-heading-display);
 }

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useId } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Typography } from '../Typography';
 import { ThemedLink } from '../ThemedLink';
@@ -35,12 +36,11 @@ const footerLinks = {
       label: 'The Resonance Core Framework™',
     },
     { href: '/portfolio', label: 'Portfolio' },
-    { href: 'https://www.fluxline.pro/case-studies', label: 'Case Studies' },
   ],
   connect: [
     { href: '/about', label: 'About' },
-    { href: '/#contact', label: 'Contact' },
-    { href: '/#newsletter', label: 'Newsletter' },
+    { href: '/contact/', label: 'Contact' },
+    { href: '/contact/#newsletter', label: 'Newsletter' },
   ],
 };
 
@@ -108,11 +108,16 @@ function FooterLinkSection({
 }
 
 /**
- * FooterNewsletterMini — Compact newsletter signup for tablet/desktop footer
- * Hidden on mobile via `hidden md:block`.
+ * FooterNewsletter: The Resonant Identity newsletter signup, the footer's lead
+ * block (#285). Bigger than the old corner form and set in the heading font;
+ * on phones it is a single row of input and button. `id="newsletter"` is the
+ * home page's #newsletter anchor (older links); the site's newsletter links
+ * now go to /contact/#newsletter (#295).
  */
-function FooterNewsletterMini() {
-  const { theme } = useAppTheme();
+export function FooterNewsletter({ isAnchor = true }: { isAnchor?: boolean }) {
+  const uid = useId();
+  const titleId = `${uid}-title`;
+  const errorId = `${uid}-error`;
   const { newsletterSubscribed, setNewsletterSubscribed } =
     useNewsletterStore();
   const [email, setEmail] = useState('');
@@ -162,7 +167,8 @@ function FooterNewsletterMini() {
             recaptchaToken,
           }),
         });
-        const data = await response.json();
+        // 429 and 504 bodies may not be JSON; fall back to a generic message.
+        const data = await response.json().catch(() => ({}));
         if (!response.ok) {
           setError(data.error || 'Failed to subscribe');
           return;
@@ -185,85 +191,70 @@ function FooterNewsletterMini() {
     ]
   );
 
-  // Show subscribed state if: just subscribed (5s confirmation) OR persisted Zustand flag
+  const intro = (
+    <div className={styles.newsletterIntro}>
+      <div className={styles.newsletterHead}>
+        <Image
+          src={ResonantIdentityIcon}
+          alt=''
+          width={32}
+          height={32}
+          className={styles.newsletterIcon}
+        />
+        <p className={styles.newsletterKicker}>The Resonant Identity</p>
+      </div>
+      <h2 id={titleId} className={styles.newsletterTitle}>
+        Get new writing in your inbox
+      </h2>
+      <p className={styles.newsletterText}>
+        Occasional notes on resonance, systems, and the work in progress. No
+        spam, and you can unsubscribe anytime.
+      </p>
+    </div>
+  );
+
+  // Subscribed: just subscribed (5s confirmation) or the persisted flag.
   if (isSuccess || newsletterSubscribed) {
     return (
-      <div className={styles.newsletterMini}>
-        <Typography
-          variant='caption'
-          style={{
-            color: theme.colorBrandForeground1,
-            fontSize: '0.75rem',
-            fontWeight: 600,
-          }}
-        >
-          ✓ You&apos;re subscribed!
-        </Typography>
-        <Typography
-          variant='caption'
-          style={{
-            color: theme.semanticColors.text.muted,
-            fontSize: '0.7rem',
-            marginTop: '0.25rem',
-            display: 'block',
-          }}
-        >
+      <section
+        id={isAnchor ? 'newsletter' : undefined}
+        className={styles.newsletter}
+        aria-labelledby={titleId}
+      >
+        {intro}
+        <div className={styles.newsletterAction}>
+          <p className={styles.newsletterDone} role='status'>
+            ✓ You&apos;re subscribed!
+          </p>
           <ThemedLink
-            href='/unsubscribe'
-            style={{
-              color: theme.colorBrandForeground1,
-            }}
+            href='/unsubscribe/'
+            className={styles.unsubscribe}
+            variant='small'
             isFooter
           >
             Unsubscribe
           </ThemedLink>
-        </Typography>
-      </div>
+        </div>
+      </section>
     );
   }
 
   return (
-    <div className={styles.newsletterMini}>
-      <div className={styles.newsletterHead}>
-        <Image
-          src={ResonantIdentityIcon}
-          alt='The Resonant Identity'
-          width={24}
-          height={24}
-          style={{ borderRadius: '4px' }}
-        />
-        <Typography
-          variant='h5'
-          style={{
-            fontSize: '0.875rem',
-            marginBottom: 0,
-            color: theme.semanticColors.text.primary,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-          }}
-        >
-          The Resonant Identity
-        </Typography>
-      </div>
-      <Typography
-        variant='caption'
-        style={{
-          color: theme.semanticColors.text.muted,
-          fontSize: '0.7rem',
-          marginBottom: '0.5rem',
-          display: 'block',
-        }}
+    <section
+      id={isAnchor ? 'newsletter' : undefined}
+      className={styles.newsletter}
+      aria-labelledby={titleId}
+    >
+      {intro}
+      <form
+        className={styles.newsletterAction}
+        onSubmit={handleSubmit}
+        noValidate
       >
-        Subscribe to The Resonant Identity email newsletter
-      </Typography>
-      <form onSubmit={handleSubmit} noValidate>
-        <div
-          style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}
-        >
+        <div className={styles.newsletterRow}>
           <input
             type='email'
-            placeholder='your@email.com'
+            placeholder='you@example.com'
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -271,74 +262,33 @@ function FooterNewsletterMini() {
             }}
             maxLength={254}
             aria-label='Newsletter email address'
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
             className={`${styles.emailInput} ${error ? styles.emailInputError : ''}`}
-            style={{
-              width: '100%',
-              padding: '0.3rem 0.5rem',
-              fontSize: '0.75rem',
-              borderRadius: theme.borderRadius.container.small,
-              border: `1px solid ${
-                error
-                  ? theme.colorPaletteRedForeground1
-                  : theme.semanticColors.border.default
-              }`,
-              backgroundColor: theme.semanticColors.background.base,
-              color: theme.semanticColors.text.primary,
-            }}
           />
-          {error && (
-            <Typography
-              variant='caption'
-              style={{
-                color: theme.colorPaletteRedForeground1,
-                fontSize: '0.7rem',
-              }}
-            >
-              {error}
-            </Typography>
-          )}
           <button
             type='submit'
+            className={styles.subscribeButton}
             disabled={isLoading || !canSubmit}
-            style={{
-              padding: '0.3rem 0.625rem',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              borderRadius: theme.borderRadius.container.small,
-              backgroundColor: theme.colorBrandBackground,
-              color: theme.colorNeutralForegroundOnBrand,
-              border: 'none',
-              cursor: isLoading || !canSubmit ? 'not-allowed' : 'pointer',
-              opacity: isLoading || !canSubmit ? 0.7 : 1,
-              transition: 'opacity 0.2s',
-              fontFamily: theme.typography.fonts.body.fontFamily,
-            }}
           >
             {isLoading ? 'Subscribing…' : 'Subscribe'}
           </button>
-          <Typography
-            variant='caption'
-            style={{
-              color: theme.semanticColors.text.muted,
-              fontSize: '0.7rem',
-              marginTop: '0.125rem',
-            }}
-          >
-            <ThemedLink
-              href='/unsubscribe'
-              style={{
-                color: theme.semanticColors.text.muted,
-                textDecoration: 'underline',
-                fontSize: '0.7rem',
-              }}
-              isFooter
-            >
-              Unsubscribe
-            </ThemedLink>
-          </Typography>
         </div>
+        {error && (
+          <p id={errorId} className={styles.newsletterError} role='alert'>
+            {error}
+          </p>
+        )}
+        <ThemedLink
+          href='/unsubscribe/'
+          className={styles.unsubscribe}
+          variant='small'
+          isFooter
+        >
+          Unsubscribe
+        </ThemedLink>
       </form>
-    </div>
+    </section>
   );
 }
 
@@ -347,6 +297,11 @@ interface FooterContentProps {
   isCompact?: boolean;
   /** Optional additional content to prepend (e.g., hide button on mobile) */
   headerContent?: React.ReactNode;
+  /**
+   * False where the newsletter card is drawn above the footer instead
+   * (HomePageFooter, owner 2026-11-19); the overlay copy keeps it inside.
+   */
+  showNewsletter?: boolean;
 }
 
 /**
@@ -355,7 +310,9 @@ interface FooterContentProps {
 export function FooterContent({
   isCompact = false,
   headerContent,
+  showNewsletter = true,
 }: FooterContentProps) {
+  const pathname = usePathname() ?? '/';
   const year = new Date().getFullYear();
   const { theme } = useAppTheme();
   const { windowWidth } = useWindowSize();
@@ -370,6 +327,10 @@ export function FooterContent({
       <div
         className={`${styles.container} max-width-content-footer ${isCompact ? styles.containerCompact : ''}`}
       >
+        {/* Only the overlay copy draws the card in here; HomePageFooter draws
+            it above the footer line and owns Home's #newsletter anchor. */}
+        {showNewsletter ? <FooterNewsletter isAnchor={false} /> : null}
+
         <div
           className={`${styles.grid} ${isCompact ? styles.gridCompact : ''}`}
         >
@@ -436,15 +397,13 @@ export function FooterContent({
             isCompact={true}
             isAuthorTagline={isLargePortrait}
             windowWidth={windowWidth}
-          >
-            <FooterNewsletterMini />
-          </FooterLinkSection>
+          />
         </div>
 
         {/* Ecosystem links. TW uses this shorter block rather than the shared
-            Listen / Read / Work lines (owner, 2026-10-20). Plain same-tab
-            anchors with rel="me" so search engines tie the sites to one
-            identity. Short labels (owner, 2026-11-14); the nav's aria-label
+            Listen / Read / Work lines (owner, 2026-10-20). The owned sites
+            carry rel="me" so search engines tie them to one identity; the
+            store link opens in a new tab (2026-11-19). Short labels (owner, 2026-11-14); the nav's aria-label
             gives them their context. */}
         <nav className={styles.ecosystem} aria-label='More from Terence Waters'>
           <span className={styles.ecosystemTitle}>
@@ -456,7 +415,13 @@ export function FooterContent({
             The Resonant Identity
           </ThemedLink>
           {RCF_PREORDERS_OPEN && (
-            <ThemedLink href={RCF_PREORDER_HREF} variant='small' isFooter>
+            <ThemedLink
+              href={RCF_PREORDER_HREF}
+              target='_blank'
+              keepReferrer
+              variant='small'
+              isFooter
+            >
               Pre-order the Book
             </ThemedLink>
           )}

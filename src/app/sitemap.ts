@@ -11,8 +11,8 @@ import { getAllContent } from '@/lib/content';
  *   0.7 — Content hub
  *   0.6 — Blog, Portfolio, Videos, Podcasts, GitHub
  *
- * Services and contact are sections of the homepage now (and, for services, of
- * fluxline.pro), so they have no URLs of their own to list.
+ * Services are a section of fluxline.pro, so they have no URL of their own to
+ * list. /contact is listed (#295).
  *
  * Environment behavior:
  * - DEV/TEST: Returns minimal stub to prevent indexing
@@ -89,6 +89,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
+    {
+      // Book a Conversation: opens the booking dialog on load.
+      url: `${SITE_URL}/book`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      // Book a Conversation, send a message, or get the newsletter (#295).
+      url: `${SITE_URL}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
 
     // Priority 0.6 — Content listings
     {
@@ -147,7 +161,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
       })
     );
-
 
     return [...staticPages, ...blogPages, ...portfolioPages];
   } catch (error) {

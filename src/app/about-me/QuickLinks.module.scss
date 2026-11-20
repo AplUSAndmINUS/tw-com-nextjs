@@ -1,0 +1,118 @@
+@use 'abstracts' as *;
+
+/*
+ * /about-me quick links (#288). Small cards on one row: a gold icon over
+ * centred text. TwGrid sets the columns (one on phones, one per link from
+ * tablet up); this file only styles the cards. Tokens only.
+ */
+
+.root {
+  width: 100%;
+}
+
+.grid {
+  align-items: stretch;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tw-space-xs);
+  height: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: var(--tw-space-m) var(--tw-space-s);
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius-card-sm);
+  background: var(--tw-surface-card);
+  color: var(--tw-text-heading-display);
+  text-align: center;
+  text-decoration: none;
+  @include card-interactive;
+  @include focus-ring;
+
+  /* Phones: one compact row per link (icon, then text), so five links take
+     little height. */
+  @include until('mobile-lg') {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--tw-space-s);
+    padding: var(--tw-space-s) var(--tw-space-m);
+    text-align: left;
+  }
+}
+
+.icon,
+.brandIcon {
+  flex-shrink: 0;
+  color: var(--tw-mythic-gold-text);
+}
+
+/* Instagram's mark, tinted gold through a mask (like SocialRow's icons). */
+.brandIcon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  mask-image: url(/assets/icons/instagram.svg);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-image: url(/assets/icons/instagram.svg);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}
+
+.label {
+  font-family: var(--tw-font);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* The pre-order card: gold, and a little larger than the rest. */
+.highlight {
+  border-color: var(--tw-mythic-gold);
+  background: color-mix(
+    in srgb,
+    var(--tw-mythic-gold) 12%,
+    var(--tw-surface-card)
+  );
+  box-shadow: var(--tw-glow-gold);
+
+  .label {
+    font-size: 1.0625rem;
+    font-weight: 800;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  @include from('mobile-lg') {
+    transform: scale(1.06);
+    z-index: 1;
+
+    &:hover {
+      transform: scale(1.06) translateY(-2px);
+    }
+
+    &:focus-visible {
+      transform: scale(1.06);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &:hover {
+        transform: scale(1.06);
+      }
+    }
+
+    :global([data-tw-reduced-motion='true']) &:hover {
+      transform: scale(1.06);
+    }
+  }
+}

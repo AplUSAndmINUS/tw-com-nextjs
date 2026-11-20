@@ -6,6 +6,90 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-11-20
+
+The Resonance Core Framework™ book pre-order launch, with the rebuilt site: book pre-orders open (`RCF_PREORDERS_OPEN`), the Book a Conversation dialog and `/book`, the new `/about`, `/contact` and `/podcasts` pages, the RCF banner, and the footer newsletter above the footer line. The Instagram feed stays hidden. Tag: `v2_4_0.PROD`.
+
+### Added
+
+- `/book` (#306): like fluxline.pro/book, it opens the Book a Conversation dialog on load, with a button to reopen it, the steps, and a TidyCal link without JavaScript. Every Book a Conversation button now falls back to `/book/` (was `/contact/#conversation`); with JavaScript they still open the dialog in place. Listed in the sitemap.
+
+### Changed
+
+- /about (#324): The short version is now the owner's six paragraphs with key phrases in bold (it no longer shows the Canonical Identity Statement), and The body has the owner's fuller story, a link to personal training on fluxline.pro (new tab) and Book a Conversation.
+- `/podcasts`, `/podcasts/theresonantid` and the episode pages rebuilt on the design system (#318), off the old `PageLayout`: SiteNav and `main#main` (they leave navMode's legacy fixed slot), a compact `TwHero`, The Resonant Identity as a `TwCard` with View episodes and About (new tab), the episodes as `TwArticleCard`s that link to their page and play in the persistent mini-player (the old episode modal is retired on this route), the platforms as token-styled pills, the YouTube videos as cards, and episode pages laid out like a blog post with the shared player (no second Spreaker embed). URLs, metadata and `generateStaticParams` are unchanged. Alongside: `PodcastPlayerContext` gains `play(episode)`, which waits for the new source before playing (the Content Hub's "Listen to most recent episode" used load + toggle and stayed paused on a cold start; it uses `play` now); `TwArticleCard` gains an optional `actions` slot; the Spreaker parser decodes entities in titles (`&amp;`) and keeps paragraph and list breaks in show notes, with slugs still built from the raw title.
+- The footer's newsletter card now sits above the footer's top line, on the page (#315), centred at 640px; the footer starts after it. Only Home's copy is the `/#newsletter` target.
+- `/resonance-core-framework`: the hero backdrop is the RCF banner (#309) instead of the portrait, with a new `scrim='card-side'` option on `TwHero` that keeps the banner's own lettering behind the card.
+- Home and booking polish (#306): the hook line now ends "…becoming the best version of your self and your chosen identity"; the timeline's last step, The launch, is Mythic Gold and highlighted (`TwShiftTrack` gains `highlight`, with a new `--tw-glow-gold-node` token); the booking dialog fades in (the panel rises, like `TwReveal`) and fades out before closing, with reduced motion turning both off, and focus lands on the page's main content when there is no opener; option titles in steps 1 and 3 are white and their descriptions a very light grey.
+
+- Book a Conversation opens full screen (#278): the redesign's `BookingFlow` (the same three steps, the same `/api/leads` POST and prefilled TidyCal page) in a new `BookingModal` (a labelled modal dialog: focus kept inside and returned on close, Escape, the X or a tap outside closes it, the page behind is locked). `BookingModalProvider` is mounted once in `providers.tsx`; `<BookingTrigger />` and `useBookingModal()` open it, and the header's "Book a free consultation" button now does. The folder's README explains how to move it to another Fluxline app. Brought in from the redesign with it: `ConsultationStepper/lead.ts` and its updated stepper files, `content/site/booking.ts`, `contact.ts`, `copy.ts`, the shared style tokens and mixins it uses (`_mixins.scss`, `spacing.css`, `typography.css`, `effects.css`; new tokens and mixins, some used only by the later home and nav work), its tests and test harness, and the `/api/leads` test. Vitest renders links with trailing slashes, as the static export does.
+- One site nav on every page (#281): About, The Book, Content (a dropdown on desktop, a drawer in the phone menu; the Content link itself still goes to the Content Hub) and Contact, with Display and Book a Conversation at the top and a thumb-reach Book a Conversation pill on phones. It replaces each page's own nav; /podcasts and /unsubscribe, still on the older layout, get it in a fixed slot, and only the internal /dsm-preview keeps the old header. Book a Conversation opens the full-screen booking dialog from the bar, the phone menu and the pill. Contact goes to the home page's contact section until /contact/ is rebuilt. A "Skip to content" link comes first on every page, and blog, portfolio and video detail pages get a back link.
+- Text size in the Display panel (#281): 100%, 125% or 150%, applied before the page paints so it never flashes at 100% first.
+- The rebuilt home page (#285), in the owner's order:
+  - The hero photo stays pinned while the card scrolls up over it, as on /about-me, at full height (the sub-pages use the compact hero, #288). The hero card leads with Pre-order the book and Read my full story.
+  - The book section: "MY RCF BOOK", "Because I hate self-help books." and the pre-order card.
+  - The Shifts, introduced by the old About paragraphs and a "Structure. Clarity…" quote.
+  - Humans FIRST, with drifting light traces behind it and glacier-cyan periods.
+  - "What I stand for", now with a heading.
+  - Design, architecture, and coaching.
+  - The Content Hub: the three newest posts and episodes, with their cover art, and "See what I've been building".
+  - Let's talk: Book a Conversation opens the booking dialog, beside the message form.
+  - The closing quote.
+- New design-system pieces from the redesign (#285): `TwHook`, `TwCredo` (with an `animated` option) and `TwShiftTrack`, with their copy in `content/site/home.ts`, `shifts.ts` and `microcopy.ts`.
+
+- The rebuilt /about-me (#288), in the owner's order:
+  - The compact pinned-photo hero, without the "I rejected the mission…" quote.
+  - Five quick links on one row (gold icons; "Pre-order my book!" highlighted). They stack on phones, and Book a Conversation opens the booking dialog.
+  - In 60 seconds ("Three roles, one system"): the blurb and quick facts, then the role cards (Founder, Host, 20+ years, shortened) and the numbers.
+  - The user copy's book and podcast cards, "Everything I'm making", and "Some of the work".
+  - Off the page: the latest Instagram posts in a lead-plus-four layout. Hidden for now behind `INSTAGRAM_FEED_ENABLED` (#321), until the account connects; the quick link to the profile stays.
+  - What I bring to the table, with the owner's new paragraph under "I still build".
+  - Find me online, and Want to go deeper?
+  - Recent writing is gone.
+- A second In 60 seconds paragraph on /about-me (#291), the owner's own wording: helping individuals, solopreneurs, and small- to medium-sized businesses find their _why_, so their decisions _land_, and **_Structure the Shift_**.
+- The Instagram feed behind Off the page (#288, from the Instagram build):
+  - An `/api/instagram` Azure Function. It reads NoCodeAPI through `INSTAGRAM_FEED_URL`, caches the result, and maps a timeout to 504.
+  - `src/lib/instagram.ts`, which normalises the feed and backfills posts whose image fails.
+  - The `InstagramGrid` component, with a new `feature` layout.
+  - A Faker mock mode for DEV/TEST builds (`NEXT_PUBLIC_INSTAGRAM_MOCK`). A postbuild check fails any production build that contains Faker.
+  - The setup guide is `docs/instagram/INSTAGRAM_README.md`.
+- `TwMeter`/`TwMeterGroup` and the Content Hub tile copy (`content/site/contentHub.ts`) from the redesign (#288).
+
+- The rebuilt /about (#294), from the redesign with the owner's changes:
+  - Nine numbered sections, each with a gold number, a one-word category and a title.
+  - The hero's two sentences on separate lines.
+  - The short version as one paragraph.
+  - The Shifts in depth.
+  - Learning to play by feel, without the "back seat" line, and The body as its own section with the owner's personal-training photo.
+  - What I stand for, with the combined needs sentence and without "Accepting people…".
+  - How I work, led by a gold "Humans First. AI Second." callout, with the pull quote on two lines and glowing approach cards.
+  - I still build and what I do now; experience.
+  - Skills, degrees, and certifications in the previous design at full width.
+  - The closing band, whose Book a Conversation opens the booking dialog.
+  - Motifs throughout: the ripple, the sound wave, gold rules, and slow gold light traces.
+- `TwRipple`, `TwWave` and `TwAside`, plus the /about and services copy (`content/site/about.ts`, `services.ts`), from the redesign (#294).
+
+- /contact (#295), as in the redesign: "Let's talk" with a jump list, Book a Conversation, Send a message (the contact form), Get new writing in your inbox (the newsletter form) and Find me online. Book a Conversation, in the jump list and in its section, opens the same full-screen booking dialog as the rest of the site. Without JavaScript the section offers TidyCal directly. Brought in from the redesign with it: `ContactForm`, `NewsletterForm`, `TwLinkStack` (now with an optional click handler), `lib/formErrors.ts` and the updated `contactValidation.ts`.
+- The nav's Contact link, the footer's Contact and Newsletter links, the blog's newsletter button, /about's "Send a message" and the booking flow's "send me a message instead" now go to /contact (#295) instead of the home page's sections. The footer keeps its #newsletter anchor on Home only, so /contact has one.
+- Home's Let's talk band uses the same `ContactForm` as /contact (#295), replacing `HomeContactForm`. One set of rules: a name of 2+ characters, inline field errors, a clear message when the network or rate limit fails. /contact is in the sitemap.
+- The footer (#285): the newsletter signup is its own larger block at the top, in the heading font, and shows on phones too (it is the `/#newsletter` target). "Case Studies" is gone from the links. On phones the tagline is hidden and the "More from" links wrap, so the footer is shorter.
+- Every Book a Conversation opener on the home page uses the booking dialog (#285), including the Fractional service drawer. The direct TidyCal links are gone.
+- Book pre-orders are announced on the site (#285): `RCF_PREORDERS_OPEN` is on, so the site-wide pre-order bar, the home callout, the /about-me badge and button, the /about sentence, the book page's pre-order row and button, the footer link, the content hub note and the book's structured data are back. The "Building a Book the Way I Build Systems" post and `llms.txt` say pre-orders are open again (restoring what #273 removed).
+- The home page follows the chosen theme from the first paint (#281): the pre-paint script no longer forces it dark, which had caused a dark-to-light flash for light-mode visitors.
+- The Ko-fi "Tip Me" button is hidden while the booking dialog is open (#281); on phones it sat on top of the dialog.
+
+### Removed
+
+- Case studies (#309): the Content Hub card and drawer that linked to Fluxline.pro, the unrouted `public/case-studies/` content (about 33 MB that shipped with every build), the unused `getCaseStudySchema()`, and the docs that listed them.
+- The /about numbered image-rail layout (`AboutSection`), its stats row, audience trio and role chips, replaced by the redesign's sections (#294).
+- Home sections the owner dropped (#285): the separate About ("Hi! I'm Terence"), Portfolio, and the large "Get new writing" band. Also removed: the content filter chips and their client fetches, and `HomeNewsletterForm`.
+- The per-page navs (`TwPageNav`, the home page's `HomeNav`, the blog and portfolio link lists) and the old Book a Conversation pop-up (`ConsultationStepper` and its step components), all replaced by the site nav and the booking dialog (#281). The stepper's data and helpers stay; the booking dialog uses them.
+
+### Fixed
+
+- Nav background in the protanopia, deuteranopia, tritanopia and grayscale modes (#278, from the redesign's `effects.css`): those light-family palettes inherited the dark nav colour, so the nav text was unreadable; each now uses its own page colour.
+- Booking failure link (#278): "send me a message instead" in the old stepper had been changed to a `/contact/` page that does not exist yet; it and the new flow go to the home page's contact section (`MESSAGE_FALLBACK_HREF`).
+
 ## [2.3.0] - 2026-11-18
 
 **The rebuilt `/about-me` page, newsletter bot protection, and the Fluxline
@@ -182,5 +266,7 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
+[2.4.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_3_0.PROD...v2_4_0.PROD
+[2.3.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2_3_0.PROD
 [2.2.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_1_1.PROD...v2_2_0.PROD
 [2.1.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2.1.0

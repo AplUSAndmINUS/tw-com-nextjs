@@ -10,6 +10,11 @@ export interface TwHeroCta {
   href: string;
   /** Overrides the default (primary for the first CTA, outline for the second). */
   variant?: TwButtonVariant;
+  /**
+   * Opens in a new tab (links out to our own sites, e.g. the Fluxline Store),
+   * with rel="noopener" so the destination still sees the referrer.
+   */
+  newTab?: boolean;
 }
 
 export interface TwHeroProps {
@@ -41,6 +46,12 @@ export interface TwHeroProps {
   location?: string;
   /** Shorter hero for interior pages so they don't look identical to the homepage. */
   compact?: boolean;
+  /**
+   * 'card-side' darkens the copy side almost fully and fades out toward the
+   * right: for a banner with its own lettering (the RCF banner), so the
+   * lettering doesn't show around the card. Default: the photo scrim.
+   */
+  scrim?: 'photo' | 'card-side';
   /**
    * Below tablet width, place the copy card under the photo instead of over
    * it: the photo is seen first, and the card rises out of its faded lower
@@ -96,6 +107,7 @@ export function TwHero({
   tagline,
   location,
   compact = false,
+  scrim = 'photo',
   stackOnMobile = false,
   scrollReveal = false,
   id,
@@ -112,7 +124,9 @@ export function TwHero({
 
   const heroStyle = {
     ...(focalPoint ? { '--tw-hero-focal': focalPoint } : {}),
-    ...(compact ? { '--tw-hero-height': '420px', '--tw-hero-height-mobile': '360px' } : {}),
+    ...(compact
+      ? { '--tw-hero-height': '420px', '--tw-hero-height-mobile': '360px' }
+      : {}),
   } as React.CSSProperties;
 
   return (
@@ -155,7 +169,14 @@ export function TwHero({
         </TwParallax>
       ) : null}
 
-      <div className={styles.scrim} aria-hidden='true' />
+      <div
+        className={
+          scrim === 'card-side'
+            ? `${styles.scrim} ${styles.scrimCardSide}`
+            : styles.scrim
+        }
+        aria-hidden='true'
+      />
 
       <Inner className={styles.inner}>
         <div className={styles.card}>
@@ -171,7 +192,9 @@ export function TwHero({
             </div>
           ) : null}
 
-          {quote ? <blockquote className={styles.quote}>{quote}</blockquote> : null}
+          {quote ? (
+            <blockquote className={styles.quote}>{quote}</blockquote>
+          ) : null}
 
           {primaryCta || secondaryCta ? (
             <div className={styles.actions}>
@@ -180,6 +203,8 @@ export function TwHero({
                   href={primaryCta.href}
                   size='lg'
                   variant={primaryCta.variant ?? 'primary'}
+                  target={primaryCta.newTab ? '_blank' : undefined}
+                  rel={primaryCta.newTab ? 'noopener' : undefined}
                 >
                   {primaryCta.label}
                 </TwButton>
@@ -189,6 +214,8 @@ export function TwHero({
                   href={secondaryCta.href}
                   size='lg'
                   variant={secondaryCta.variant ?? 'outline'}
+                  target={secondaryCta.newTab ? '_blank' : undefined}
+                  rel={secondaryCta.newTab ? 'noopener' : undefined}
                 >
                   {secondaryCta.label}
                 </TwButton>

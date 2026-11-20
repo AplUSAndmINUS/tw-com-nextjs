@@ -83,7 +83,6 @@ src/
 public/
   blog/           # Blog posts (Markdown/MDX in {slug}/markdown/post.md)
   portfolio/      # Portfolio entries
-  case-studies/   # Case studies
   images/         # Static assets
 docs/             # Developer documentation
 prompts/        # AI prompt logs
@@ -153,7 +152,7 @@ Retries are also switched off for the non-idempotent writes — the subscribe an
 | `src/hooks/useNewsletterRateLimit.ts`                        | Front-end rate limiting hook (3 attempts / 1 hour)            |
 | `src/components/NewsletterDrawer/NewsletterDrawer.tsx`       | Slide-up drawer (Framer Motion) with subscribe form           |
 | `src/components/NewsletterSignupCTA/NewsletterSignupCTA.tsx` | Inline subscribe CTA (used on /about and /contact)            |
-| `src/components/Footer/FooterContent.tsx`                    | Compact footer subscribe form (`FooterNewsletterMini`)        |
+| `src/components/Footer/FooterContent.tsx`                    | Footer subscribe block (`FooterNewsletter`, `#newsletter`)    |
 | `src/app/unsubscribe/UnsubscribePageClient.tsx`              | Unsubscribe page form                                         |
 | `src/store/newsletterStore.ts`                               | Zustand store — persists dismissed/subscribed state           |
 

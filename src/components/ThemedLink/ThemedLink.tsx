@@ -4,6 +4,7 @@
 import { useAppTheme } from '@/theme/hooks/useAppTheme';
 import { TypographyVariant } from '@/theme/fluentTheme';
 import Link from 'next/link';
+import { NewTabHint } from '@/components/NewTabHint';
 import { useState } from 'react';
 import type { LinkProps } from 'next/link';
 
@@ -21,6 +22,11 @@ interface ThemedLinkProps
   children: React.ReactNode;
   className?: string;
   isFooter?: boolean; // New prop to indicate if this is a footer link
+  /**
+   * With target="_blank", leave out noreferrer so our own sites (the
+   * Fluxline Store) still see where visitors came from. noopener stays.
+   */
+  keepReferrer?: boolean;
   variant?: Extract<
     TypographyVariant,
     'body' | 'bodySmall' | 'small' | 'caption'
@@ -37,6 +43,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
   children,
   className,
   isFooter = false,
+  keepReferrer = false,
   variant = 'body',
   hoverScale,
   invertOnPress = false,
@@ -155,7 +162,9 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
 
   const resolvedRel =
     target === '_blank'
-      ? [rel, 'noopener', 'noreferrer'].filter(Boolean).join(' ')
+      ? [rel, 'noopener', keepReferrer ? null : 'noreferrer']
+          .filter(Boolean)
+          .join(' ')
       : rel;
 
   if (isExternalHref) {
@@ -178,6 +187,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
         {...restLinkProps}
       >
         {children}
+        {target === '_blank' ? <NewTabHint /> : null}
       </a>
     );
   }
@@ -201,6 +211,7 @@ export const ThemedLink: React.FC<ThemedLinkProps> = ({
       {...restLinkProps}
     >
       {children}
+      {target === '_blank' ? <NewTabHint /> : null}
     </Link>
   );
 };

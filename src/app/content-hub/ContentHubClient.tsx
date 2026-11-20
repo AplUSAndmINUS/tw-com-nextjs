@@ -1,5 +1,6 @@
 'use client';
 
+import { NewTabHint } from '@/components/NewTabHint';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { TwSectionHeading, TwChip, TwButton, TwDrawer } from '@/components/dsm';
@@ -18,7 +19,7 @@ import {
 import styles from './ContentHubClient.module.scss';
 import { RCF_PREORDERS_OPEN, RCF_PREORDER_HREF } from '@/lib/rcf';
 
-type Drawer = 'podcasts' | 'case-studies' | 'books' | null;
+type Drawer = 'podcasts' | 'books' | null;
 
 export interface ContentHubClientProps {
   /** Newest podcast episode, resolved at build time (may be null if offline). */
@@ -65,7 +66,6 @@ const NAV_CARDS = [
 ] as const;
 
 const TRI_URL = 'https://theresonantidentity.com';
-const FLUXLINE_CASE_STUDIES = 'https://www.fluxline.pro/case-studies';
 const FLUXLINE_BOOKS = 'https://www.fluxline.pro/books';
 
 /**
@@ -76,20 +76,22 @@ const FLUXLINE_BOOKS = 'https://www.fluxline.pro/books';
  *
  *   - Podcasts    — plays the most recent episode in the persistent mini-player
  *                   without leaving the site, or jumps to The Resonant Identity.
- *   - Case Studies — these live on Fluxline.pro (same content, not duplicated
- *                    here), so the drawer explains that and links out.
+ *   - Books       — coming soon, with a link to Fluxline.pro.
+ *
+ * Case studies are not part of this site (owner, 2026-11-19).
  */
 export default function ContentHubClient({
   latestEpisode,
 }: ContentHubClientProps) {
   const [drawer, setDrawer] = useState<Drawer>(null);
-  const { load, toggle } = usePodcastPlayer();
+  const { play } = usePodcastPlayer();
 
   const playLatest = () => {
     if (!latestEpisode) return;
-    // One user gesture: load the episode into the shared player and start it.
-    load(latestEpisode);
-    toggle();
+    // One user gesture: load the episode into the shared player and start it
+    // once its source is in place (load + toggle played an element that had
+    // no source yet, so a cold start stayed paused).
+    play(latestEpisode);
     setDrawer(null);
   };
 
@@ -130,23 +132,6 @@ export default function ContentHubClient({
             </span>
           </Link>
         ))}
-
-        {/* Case Studies — drawer trigger (content lives on Fluxline) */}
-        <button
-          type='button'
-          className={`${styles.card} ${styles.cardButton}`}
-          onClick={() => setDrawer('case-studies')}
-          aria-haspopup='dialog'
-        >
-          <BookIcon size={40} className={styles.icon} />
-          <span className={styles.cardTitle}>Case Studies</span>
-          <span className={styles.cardBody}>
-            In-depth project write-ups — hosted on Fluxline.pro.
-          </span>
-          <span className={styles.cardCta}>
-            View on Fluxline <ArrowRightIcon size={16} />
-          </span>
-        </button>
 
         {/* Books — Coming Soon */}
         <button
@@ -226,7 +211,7 @@ export default function ContentHubClient({
         <a
           href={TRI_URL}
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noopener'
           className={styles.secondaryAction}
         >
           Visit The Resonant Identity &#8599;
@@ -234,38 +219,6 @@ export default function ContentHubClient({
         <Link href='/podcasts' className={styles.tertiaryAction}>
           Browse all episodes on TW.com
         </Link>
-      </TwDrawer>
-
-      {/* ===== Case Studies drawer ===== */}
-      <TwDrawer
-        open={drawer === 'case-studies'}
-        onClose={() => setDrawer(null)}
-        title='Case Studies'
-        chipLabel='Fluxline'
-      >
-        <p className={styles.drawerBody}>
-          My in-depth project case studies live on Fluxline.pro, where the
-          client work is documented in full. Rather than duplicate them here,
-          I&apos;ll point you straight to the source.
-        </p>
-        <p className={styles.drawerBody}>
-          You&apos;ll find the enterprise platforms, design systems, and
-          transformation work — each written up with context, process, and
-          outcomes.
-        </p>
-        <a
-          href={FLUXLINE_CASE_STUDIES}
-          target='_blank'
-          rel='noopener noreferrer'
-          className={styles.primaryAction}
-        >
-          View case studies on Fluxline.pro &#8599;
-        </a>
-        <div className={styles.drawerButtonRow}>
-          <TwButton variant='outline' href='/portfolio'>
-            See the portfolio instead
-          </TwButton>
-        </div>
       </TwDrawer>
 
       {/* ===== Books drawer ===== */}
@@ -285,7 +238,11 @@ export default function ContentHubClient({
             <>
               The full launch is coming soon on Fluxline.pro, and pre-orders for
               the digital editions are open on the{' '}
-              <a href={RCF_PREORDER_HREF}>Fluxline Store</a>.
+              <a href={RCF_PREORDER_HREF} target='_blank' rel='noopener'>
+                Fluxline Store
+                <NewTabHint />
+              </a>
+              .
             </>
           ) : (
             <>
@@ -297,7 +254,7 @@ export default function ContentHubClient({
         <a
           href={FLUXLINE_BOOKS}
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noopener'
           className={styles.primaryAction}
         >
           Preview on Fluxline.pro &#8599;

@@ -1,50 +1,68 @@
 import type { Metadata } from 'next';
+import React from 'react';
 import Link from 'next/link';
 import { getRobotsConfig } from '@/utils/metadata';
 import { safeJsonLd } from '@/utils/safeJsonLd';
 import { getPersonSchema, getAboutPageSchema } from '@/utils/structuredData';
 import {
+  TwAside,
   TwButton,
   TwCTABand,
   TwChip,
   TwHero,
-  TwPageNav,
   TwReveal,
-  TwStatCard,
+  TwRipple,
+  TwWave,
 } from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
-import { Footer } from '@/components/Footer';
-import { ABOUT_SKILLS } from '@/content/aboutSkills';
-import { AboutSection } from './AboutSection';
-import { AboutTimeline } from './AboutTimeline';
 import {
+  BookIcon,
+  CodeIcon,
+  DesignIdeasIcon,
+  HeartIcon,
+  MicIcon,
+  PenIcon,
+  PeopleCommunityIcon,
+  PeopleIcon,
+  PersonIcon,
+  SearchIcon,
+  SettingsIcon,
+} from '@/components/icons';
+import type { IconProps } from '@/components/icons';
+import { BookingTrigger } from '@/components/BookingFlow';
+import { Footer } from '@/components/Footer';
+import { SiteNav } from '@/components/SiteNav';
+import {
+  ABOUT,
   APPROACH,
-  AUDIENCES,
   BELIEFS,
   BUILD_QUALITIES,
-  CERTIFICATIONS,
-  EDUCATION,
-  HATS,
-  INTRO_PARAGRAPHS,
-  PROJECTS,
-  SECTIONS,
-  SKILL_GROUPS,
-  STATS,
-} from './aboutData';
+} from '@/content/site/about';
 import {
-  FLUXLINE_URL,
-  RCF_PATH,
-  RCF_PREORDER_HREF,
-  TRI_URL,
-  RCF_PREORDERS_OPEN,
-} from '@/lib/rcf';
-import { serviceHref } from '@/app/home/homeData';
+  CORE_SELF,
+  HUMAN_ELEMENT_HUMAN,
+  LOCATION,
+  PERSON_NAME,
+  QUOTES,
+  ROLE_LINE,
+  VALUES,
+  type StatementSegment,
+} from '@/content/site/identity';
+import {
+  BUILD_SERVICES,
+  GROWING_WORK,
+  serviceHref,
+  type GrowingWork,
+} from '@/content/site/services';
+import { SHIFTS } from '@/content/site/shifts';
+import { AboutTimeline } from './AboutTimeline';
+import { CredentialsBody } from './CredentialsSection';
+import { PROJECTS } from './aboutData';
 import styles from './page.module.scss';
 
 const ABOUT_TITLE =
   'About Me: Author, Architect, Identity Coach | Terence Waters';
 const ABOUT_DESCRIPTION =
-  'Terence Waters is an author, architect, and solopreneur in Salt Lake City who founded Fluxline Resonance Group, and an identity coach. His story and work.';
+  'The full story of Terence Waters: the Shifts that shaped him, what he stands for, how he works, and the experience behind it.';
 
 export const metadata: Metadata = {
   title: { absolute: ABOUT_TITLE },
@@ -52,19 +70,17 @@ export const metadata: Metadata = {
   keywords: [
     'Terence Waters',
     'about Terence Waters',
+    'Terence Waters bio',
+    'Terence Waters story',
     'Resonance Core Framework author',
     'Fluxline Resonance Group founder',
     'The Resonant Identity podcast host',
     'systems architect',
     'identity coach',
-    'creative technologist',
-    'Salt Lake City',
-    'IT architecture',
-    'full-stack web development',
-    'brand identity',
-    'curriculum design',
-    'personal transformation',
+    'Intermountain Healthcare',
+    'Salt Lake Community College adjunct professor',
     'NASM Certified Personal Trainer',
+    'Salt Lake City',
   ],
   metadataBase: new URL('https://terencewaters.com'),
   openGraph: {
@@ -85,36 +101,116 @@ export const metadata: Metadata = {
   },
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub' },
-  { label: 'Portfolio', href: '/portfolio' },
-];
+/**
+ * Small icons that make the build section scannable. Decorative: the text
+ * beside each one says what it is.
+ */
+const GROWING_ICONS: Record<
+  GrowingWork['key'],
+  React.ComponentType<IconProps>
+> = {
+  coaching: PeopleIcon,
+  podcast: MicIcon,
+  writing: PenIcon,
+  research: SearchIcon,
+  speaking: PersonIcon,
+  teaching: BookIcon,
+  founders: PeopleCommunityIcon,
+};
 
-/** The meters get crowded past a dozen rows; the tail is all 90%+ anyway. */
-const PROFICIENCY = ABOUT_SKILLS.slice(0, 12);
+const SERVICE_ICONS: Record<string, React.ComponentType<IconProps>> = {
+  consulting: SettingsIcon,
+  development: CodeIcon,
+  design: DesignIdeasIcon,
+  'personal-training': HeartIcon,
+};
+
+/** Bold-italic, bold or italic runs, as Terence wrote them. */
+function Segment({ seg }: { seg: StatementSegment }) {
+  if (seg.strong && seg.em) {
+    return (
+      <strong>
+        <em>{seg.text}</em>
+      </strong>
+    );
+  }
+  if (seg.strong) return <strong>{seg.text}</strong>;
+  if (seg.em) return <em>{seg.text}</em>;
+  return <>{seg.text}</>;
+}
 
 /**
- * About — the one interior page that is about the person rather than the work.
+ * A numbered section heading (owner, #294): the number in Mythic Gold, a
+ * one-word category, a short gold rule, then the section title.
+ */
+function SectionHeading({
+  num,
+  label,
+  id,
+  children,
+}: {
+  num: string;
+  label: string;
+  id: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <p className={styles.numRow}>
+        <span className={styles.secNum}>{num}</span>{' '}
+        <span className={styles.secRule} aria-hidden='true' />{' '}
+        <span className={styles.secLabel}>{label}</span>
+      </p>
+      <h2 id={id} className={styles.h2}>
+        {children}
+      </h2>
+    </>
+  );
+}
+
+/** The hero's two sentences on their own lines (owner, #294). */
+function HeroBody() {
+  const [first, ...rest] = ABOUT.hero.body.split(/(?<=\.)\s+/);
+  if (rest.length === 0) return <>{first}</>;
+  return (
+    <>
+      {first} <br />
+      {rest.join(' ')}
+    </>
+  );
+}
+
+/** "Your job… identity." and "My job…" on two lines (owner, #294). */
+function TwoLineQuote({ text }: { text: string }) {
+  const [first, ...rest] = text.split(/(?<=identity\.)\s+/);
+  if (rest.length === 0) return <>{first}</>;
+  return (
+    <>
+      {first} <br />
+      {rest.join(' ')}
+    </>
+  );
+}
+
+/**
+ * /about: the full story (rebuild, #294).
  *
- * Rebuilt on the design system. The previous version ran on the legacy stack
- * (PageLayout's split media pane, Hero, Typography, AboutSectionWrapper,
- * PercentageBullet) with ~1,800 words of centred prose and no scannable
- * structure. This version:
+ * Nine numbered sections, each with a one-word category: the short version
+ * (the Canonical Identity Statement, as written, in one paragraph) → the
+ * Shifts in depth → learning to play by feel (the music) → the body (the
+ * personal-training photo) → what I stand for → how I work (Humans First. AI Second. leads) → I still
+ * build and what I do now → experience → skills, degrees and certifications
+ * (the design that was on TEST, at full width) → closing.
  *
- *  - renders its own TwPageNav (see providers.tsx `ownsNav`) rather than the
- *    legacy Header, so the chrome matches Blog / Portfolio / GitHub / Videos;
- *  - uses the numbered image-rail section shape from the homepage and from
- *    fluxline.pro/services — image left, content right;
- *  - cuts each idea to a header plus one or two lines, with stats, chips,
- *    meters, and a timeline carrying the weight the prose used to;
- *  - animates in via TwReveal, which no-ops under reduced motion.
- *
- * Everything is a server component apart from TwReveal and the nav.
+ * Motifs: gold section numerals and rules, the ripple, the sound wave, the
+ * gold-framed body photo, the glowing HCSA callout and approach cards. A
+ * server component; TwReveal, the hero's scroll reveal, the booking trigger
+ * and the nav are the client pieces.
  */
 export default function AboutPage() {
   const personSchema = getPersonSchema('https://terencewaters.com/about');
   const aboutPageSchema = getAboutPageSchema();
+  const S = ABOUT.sections;
 
   return (
     <div className={styles.page}>
@@ -129,314 +225,478 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutPageSchema) }}
       />
 
-      <TwPageNav
-        back={{ label: 'Back to Home', href: '/' }}
-        links={NAV_LINKS}
-      />
+      <SiteNav />
 
-      <main>
+      <main id='main'>
         <TwHero
-          eyebrow='About'
-          title='Terence Waters'
-          body='Author, architect, and solopreneur. Twenty years turning complexity into something people can actually live and work inside.'
-          primaryCta={{ label: 'How I work', href: '#how-i-work' }}
-          secondaryCta={{ label: 'Start a conversation', href: '/#contact' }}
+          eyebrow={ABOUT.hero.eyebrow}
+          title={PERSON_NAME}
+          subtitle={ROLE_LINE}
+          body={<HeroBody />}
           backgroundImage='/assets/images/hero-landscape.jpg'
-          tagline='Founder, Fluxline Resonance Group'
-          location='Salt Lake City, Utah'
+          backgroundImagePortrait='/assets/images/hero-portrait.jpg'
+          backgroundAlt=''
+          location={LOCATION}
           focalPoint='center 20%'
           compact
+          scrollReveal
         />
 
-        {/* ===== 01 The short version ===== */}
-        <AboutSection
-          meta={SECTIONS.intro}
-          title="Hi, I'm Terence"
-          lede="Most people don't need more information. We need clarity, structure, and a way back to ourselves."
+        {/* ===== 01 The short version: the owner's paragraphs (#324) ===== */}
+        <section
+          id='intro'
+          className={styles.section}
+          aria-labelledby='about-intro'
         >
-          <TwReveal>
-            {INTRO_PARAGRAPHS.map((paragraph, i) => (
-              <p
-                key={paragraph}
-                className={`${styles.prose} ${i === 0 ? styles.lead : ''}`}
-              >
-                {paragraph}
-              </p>
-            ))}
-
-            {/* RCF authorship — placed after the opening summary, before the
-                stats and credentials, so "who wrote the Resonance Core
-                Framework" has a direct answer high on the page. */}
-            <p className={styles.prose}>
-              As the author of{' '}
-              <Link href={RCF_PATH}>The Resonance Core Framework™</Link>{' '}
-              (Fluxline Resonance Group, targeted for Q1 2027
-              {RCF_PREORDERS_OPEN && (
-                <>
-                  , with <a href={RCF_PREORDER_HREF}>pre-orders open</a> on the
-                  Fluxline Store
-                </>
-              )}
-              ), Terence developed a 31-chapter book and identity system
-              bridging somatic intelligence, decision science, and behavioral
-              psychology. The framework&apos;s core concepts, including
-              Behavioral Gravity, Identity Coherence, the Window of Choice, and
-              The Decision Integrity Index (The DII), emerged from over a decade
-              of applied work at the intersection of systems design and human
-              transformation. The RCF is the theoretical foundation of{' '}
-              <a href={TRI_URL}>The Resonant Identity podcast</a> and the
-              coaching practice at{' '}
-              <a href={FLUXLINE_URL}>Fluxline Resonance Group</a>.
-            </p>
-
-            <div className={styles.statGrid}>
-              {STATS.map((stat) => (
-                <TwStatCard
-                  key={stat.label}
-                  value={stat.value}
-                  label={stat.label}
-                />
+          <div className={`${styles.container} ${styles.introGrid}`}>
+            <TwReveal>
+              <SectionHeading num='01' label={S.intro} id='about-intro'>
+                {ABOUT.intro.title}
+              </SectionHeading>
+              {ABOUT.intro.paragraphs.map((para, i) => (
+                <p key={i} className={styles.statementOne}>
+                  {para.map((seg, j) => (
+                    <Segment key={j} seg={seg} />
+                  ))}
+                </p>
               ))}
+            </TwReveal>
+            {/* The ripple: one aligned decision spreading outward. */}
+            <div className={styles.introRipple}>
+              <TwRipple />
             </div>
-          </TwReveal>
-        </AboutSection>
-
-        {/* ===== 02 What I believe ===== */}
-        <AboutSection
-          meta={SECTIONS.believe}
-          title='Three things I keep coming back to'
-          alt
-        >
-          <ul className={styles.beliefList}>
-            {BELIEFS.map((belief, i) => (
-              <TwReveal as='li' fill key={belief.num} delay={i * 90}>
-                <div className={styles.belief}>
-                  <span className={styles.beliefNum} aria-hidden='true'>
-                    {belief.num}
-                  </span>
-                  <div>
-                    <h3 className={styles.beliefTitle}>{belief.title}</h3>
-                    <p className={styles.beliefText}>{belief.text}</p>
-                  </div>
-                </div>
-              </TwReveal>
-            ))}
-          </ul>
-
-          <TwReveal>
-            <p className={styles.pullQuote}>
-              Whether I&apos;m building a platform, designing a brand, or
-              coaching someone through a transition, the work is the same:
-              helping people return to their resonance.
-            </p>
-          </TwReveal>
-        </AboutSection>
-
-        {/* ===== 03 What I do ===== */}
-        <AboutSection
-          meta={SECTIONS.work}
-          title='Systems for people, founders, and teams'
-          lede='Technical, personal, and organizational — the kind you can operate with more clarity and less friction.'
-        >
-          <div className={styles.audienceGrid}>
-            {AUDIENCES.map((item, i) => (
-              <TwReveal fill key={item.label} delay={i * 90}>
-                <div className={styles.audience}>
-                  <div className={styles.audienceLabel}>{item.label}</div>
-                  <p className={styles.audienceText}>{item.text}</p>
-                </div>
-              </TwReveal>
-            ))}
           </div>
+        </section>
 
-          <TwReveal>
-            <p className={styles.chipLabel}>Everything I build is</p>
-            <div className={styles.chipRow}>
-              {BUILD_QUALITIES.map((quality) => (
-                <TwChip key={quality} variant='teal' size='sm'>
-                  {quality}
-                </TwChip>
-              ))}
-            </div>
-
-            <div className={styles.viewAll}>
-              <a href={serviceHref('')}>
-                See the coaching and consulting services on Fluxline.pro &#8599;
-              </a>
-            </div>
-          </TwReveal>
-        </AboutSection>
-
-        {/* ===== 04 How I work ===== */}
-        <AboutSection
-          meta={SECTIONS.how}
-          title='A strange mix, on purpose'
-          lede='I see patterns quickly, translate complexity into clarity, and build the thing that helps someone feel more like themselves.'
-          alt
+        {/* ===== 02 The Shifts, in depth ===== */}
+        <section
+          id='shifts'
+          className={styles.sectionAlt}
+          aria-labelledby='about-shifts'
         >
-          <TwReveal>
-            <div className={styles.chipRow}>
-              {HATS.map((hat) => (
-                <TwChip key={hat} size='sm'>
-                  {hat}
-                </TwChip>
-              ))}
-            </div>
-          </TwReveal>
+          <div className={styles.container}>
+            <TwReveal>
+              <SectionHeading num='02' label={S.shifts} id='about-shifts'>
+                {ABOUT.shifts.title}
+              </SectionHeading>
+              <p className={styles.lede}>{ABOUT.shifts.lede}</p>
+            </TwReveal>
 
-          <ul className={styles.approachList}>
-            {APPROACH.map((item, i) => (
-              <TwReveal as='li' fill key={item.title} delay={i * 90}>
-                <div className={styles.approach}>
+            <ol className={styles.chapters}>
+              {SHIFTS.map((shift) => (
+                <TwReveal as='li' key={shift.id} className={styles.chapter}>
+                  <article id={shift.id} aria-labelledby={`${shift.id}-title`}>
+                    <div className={styles.chapterHead}>
+                      {shift.number ? (
+                        <p className={styles.chapterNumber}>{shift.number}</p>
+                      ) : null}
+                      <h3
+                        id={`${shift.id}-title`}
+                        className={styles.chapterTitle}
+                      >
+                        {shift.title}
+                      </h3>
+                    </div>
+                    <div className={styles.chapterBody}>
+                      {shift.story.map((paragraph) => (
+                        <p key={paragraph} className={styles.prose}>
+                          {paragraph}
+                        </p>
+                      ))}
+                      {shift.quote ? (
+                        <blockquote className={styles.chapterQuote}>
+                          &ldquo;{shift.quote}&rdquo;
+                        </blockquote>
+                      ) : null}
+                      <ul
+                        className={styles.roles}
+                        aria-label={ABOUT.shifts.rolesLabel}
+                      >
+                        {shift.roles.map((role) => (
+                          <li key={role}>
+                            <TwChip size='sm'>{role}</TwChip>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                </TwReveal>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ===== 03 Learning to play by feel: the music =====
+            Music and the body are two sections now (owner, #294). */}
+        <section
+          id='by-feel'
+          className={styles.section}
+          aria-labelledby='about-by-feel'
+        >
+          <div className={`${styles.container} ${styles.musicGrid}`}>
+            <TwReveal>
+              <SectionHeading num='03' label={S.byFeel} id='about-by-feel'>
+                {ABOUT.byFeel.title}
+              </SectionHeading>
+              <TwWave className={styles.wave} />
+              {ABOUT.byFeel.music.map((p) => (
+                <p key={p} className={styles.prose}>
+                  {p}
+                </p>
+              ))}
+            </TwReveal>
+            <TwReveal delay={90}>
+              <blockquote className={styles.musicQuote}>
+                &ldquo;{QUOTES.music}&rdquo;
+              </blockquote>
+            </TwReveal>
+          </div>
+        </section>
+
+        {/* ===== 04 The body: the personal-training photo and its story ===== */}
+        <section
+          id='body'
+          className={styles.sectionAlt}
+          aria-labelledby='about-body'
+        >
+          <div className={`${styles.container} ${styles.bodyGrid}`}>
+            <TwReveal>
+              <div className={styles.bodyPhoto}>
+                {/* eslint-disable-next-line @next/next/no-img-element --
+                    static export with images.unoptimized; see TwHero. */}
+                <img
+                  src='/assets/images/personal-training-portrait.jpg'
+                  alt={ABOUT.byFeel.bodyImageAlt}
+                  width={1365}
+                  height={1821}
+                  loading='lazy'
+                  decoding='async'
+                />
+              </div>
+            </TwReveal>
+            <TwReveal delay={90}>
+              <SectionHeading num='04' label={S.body} id='about-body'>
+                {ABOUT.byFeel.bodyTitle}
+              </SectionHeading>
+              {ABOUT.byFeel.body.map((p) => (
+                <p key={p} className={styles.bodyText}>
+                  {p}
+                </p>
+              ))}
+              {/* Personal training at Fluxline (new tab), then the booking
+                  dialog (owner, #324). */}
+              <div className={styles.bodyActions}>
+                <TwButton
+                  variant='outline'
+                  href={ABOUT.byFeel.trainingHref}
+                  target='_blank'
+                  rel='noopener'
+                >
+                  {ABOUT.byFeel.trainingLink}{' '}
+                  <span aria-hidden='true'>&#8599;</span>
+                </TwButton>
+                <BookingTrigger />
+              </div>
+            </TwReveal>
+          </div>
+        </section>
+
+        {/* ===== 05 What I stand for ===== */}
+        <section
+          id='values'
+          className={styles.section}
+          aria-labelledby='about-values'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <SectionHeading num='05' label={S.values} id='about-values'>
+                {ABOUT.values.title}
+              </SectionHeading>
+              <p className={styles.lede}>
+                {ABOUT.values.humanNeeds.map((part) =>
+                  'strongEm' in part && part.strongEm ? (
+                    <strong key={part.text}>
+                      <em>{part.text}</em>
+                    </strong>
+                  ) : (
+                    <React.Fragment key={part.text}>{part.text}</React.Fragment>
+                  )
+                )}
+              </p>
+              <blockquote className={styles.pullQuote}>
+                &ldquo;{HUMAN_ELEMENT_HUMAN}&rdquo;
+              </blockquote>
+            </TwReveal>
+
+            <ul className={styles.values}>
+              {VALUES.map((value, i) => (
+                <TwReveal
+                  as='li'
+                  key={value.name}
+                  delay={i * 90}
+                  className={`${styles.value} ${styles.valueGold}`}
+                >
+                  <h3 className={styles.valueName}>{value.name}</h3>
+                  <p className={styles.valueText}>&ldquo;{value.text}&rdquo;</p>
+                </TwReveal>
+              ))}
+            </ul>
+
+            <TwReveal>
+              <h3 className={styles.h3}>{ABOUT.values.beliefsTitle}</h3>
+              <ul className={styles.beliefs}>
+                {BELIEFS.map((belief) => (
+                  <li key={belief.title} className={styles.belief}>
+                    <p className={styles.beliefTitle}>{belief.title}</p>
+                    <p className={styles.beliefText}>{belief.text}</p>
+                  </li>
+                ))}
+              </ul>
+            </TwReveal>
+          </div>
+        </section>
+
+        {/* ===== 06 How I work ===== */}
+        <section
+          id='how-i-work'
+          className={styles.sectionAlt}
+          aria-labelledby='about-how'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <SectionHeading num='06' label={S.how} id='about-how'>
+                {ABOUT.how.title}
+              </SectionHeading>
+            </TwReveal>
+
+            {/* Humans First. AI Second. leads the section as a callout
+                (owner, #294). */}
+            <TwReveal>
+              <div className={styles.hcsaCallout}>
+                <span className={styles.hcsaTraces} aria-hidden='true'>
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <h3 className={styles.hcsaTitle}>{ABOUT.how.hcsaTitle}</h3>
+                <p className={styles.hcsaBody}>{ABOUT.how.hcsaBody}</p>
+                <TwAside as='p' className={styles.hcsaAside}>
+                  {ABOUT.how.aside}
+                </TwAside>
+              </div>
+            </TwReveal>
+
+            <TwReveal>
+              <p className={styles.lede}>{ABOUT.how.lede}</p>
+              <p className={styles.prose}>&ldquo;{CORE_SELF}&rdquo;</p>
+              <blockquote className={styles.goldQuote}>
+                <TwoLineQuote text={ABOUT.how.pullQuote} />
+              </blockquote>
+            </TwReveal>
+
+            <ul className={styles.approach}>
+              {APPROACH.map((item, i) => (
+                <TwReveal
+                  as='li'
+                  key={item.title}
+                  delay={i * 90}
+                  className={`${styles.approachItem} ${styles.glowCard}`}
+                >
                   <h3 className={styles.approachTitle}>{item.title}</h3>
                   <p className={styles.approachText}>{item.text}</p>
-                </div>
-              </TwReveal>
-            ))}
-          </ul>
-
-          <TwReveal>
-            <blockquote className={styles.pullQuote}>
-              Your job is to find your resonant identity. <br />
-              My job is to help you get there and <strong>express it</strong>.
-            </blockquote>
-          </TwReveal>
-        </AboutSection>
-
-        {/* ===== 05 Experience ===== */}
-        <AboutSection
-          meta={SECTIONS.experience}
-          title='Where the reps came from'
-          lede='Enterprise healthcare, higher education, and two companies of my own.'
-        >
-          <AboutTimeline />
-        </AboutSection>
-
-        {/* ===== 06 Selected work ===== */}
-        <AboutSection
-          meta={SECTIONS.projects}
-          title='Selected projects'
-          lede='Platforms and programs I led or helped architect.'
-          alt
-        >
-          <div className={styles.projectGrid}>
-            {PROJECTS.map((project, i) => (
-              <TwReveal fill key={project.name} delay={i * 70}>
-                <article className={styles.project}>
-                  <p className={styles.projectPeriod}>{project.period}</p>
-                  <h3 className={styles.projectName}>{project.name}</h3>
-                  <p className={styles.projectRole}>{project.role}</p>
-                  <p className={styles.projectStack}>{project.stack}</p>
-                </article>
-              </TwReveal>
-            ))}
-          </div>
-
-          <TwReveal>
-            <div className={styles.viewAll}>
-              <Link href='/portfolio'>View the full portfolio &#8594;</Link>
-            </div>
-          </TwReveal>
-        </AboutSection>
-
-        {/* ===== 07 Credentials ===== */}
-        <AboutSection
-          meta={SECTIONS.credentials}
-          title='Skills, degrees, and certifications'
-          lede='The short list. Depth by category, then the paper.'
-        >
-          <div className={styles.skillGroups}>
-            {SKILL_GROUPS.map((group, i) => (
-              <TwReveal fill key={group.title} delay={i * 90}>
-                <div className={styles.skillGroup}>
-                  <h3 className={styles.skillGroupTitle}>{group.title}</h3>
-                  <ul className={styles.skillList}>
-                    {group.skills.map((skill) => (
-                      <li key={skill}>{skill}</li>
-                    ))}
-                  </ul>
-                </div>
-              </TwReveal>
-            ))}
-          </div>
-
-          <TwReveal>
-            <p className={styles.chipLabel}>Proficiency</p>
-            <div className={styles.meterGrid}>
-              {PROFICIENCY.map((skill) => (
-                <div key={skill.name}>
-                  <div className={styles.meterHead}>
-                    <span className={styles.meterName}>{skill.name}</span>
-                    <span className={styles.meterValue}>
-                      {skill.percentage}%
-                    </span>
-                  </div>
-                  <div
-                    className={styles.meterTrack}
-                    role='meter'
-                    aria-valuenow={skill.percentage}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={skill.name}
-                  >
-                    <span
-                      className={styles.meterFill}
-                      style={
-                        {
-                          '--tw-meter-pct': skill.percentage / 100,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </div>
-                </div>
+                </TwReveal>
               ))}
-            </div>
-          </TwReveal>
-
-          <div className={styles.credGrid}>
-            <TwReveal>
-              <h3 className={styles.credHeading}>Degrees</h3>
-              <ul className={styles.credList}>
-                {EDUCATION.map((item) => (
-                  <li key={item.credential}>
-                    <p className={styles.credName}>{item.credential}</p>
-                    <p className={styles.credMeta}>
-                      {item.school} · {item.year}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </TwReveal>
-
-            <TwReveal delay={90}>
-              <h3 className={styles.credHeading}>Certifications</h3>
-              <ul className={styles.certList}>
-                {CERTIFICATIONS.map((cert) => (
-                  <li key={cert.name} className={styles.certItem}>
-                    <span className={styles.certName}>{cert.name}</span>
-                    <span className={styles.certYear}>{cert.year}</span>
-                  </li>
-                ))}
-              </ul>
-            </TwReveal>
+              <TwReveal
+                as='li'
+                delay={270}
+                className={`${styles.approachItem} ${styles.glowCard}`}
+              >
+                <h3 className={styles.approachTitle}>
+                  {ABOUT.how.intuitionTitle}
+                </h3>
+                <p className={styles.approachText}>
+                  &ldquo;{ABOUT.how.intuitionQuote}&rdquo;
+                </p>
+              </TwReveal>
+            </ul>
           </div>
-        </AboutSection>
+        </section>
+
+        {/* ===== 07 I still build + what I do now ===== */}
+        <section
+          id='build'
+          className={styles.section}
+          aria-labelledby='still-build'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <p className={styles.numRow}>
+                <span className={styles.secNum}>07</span>{' '}
+                <span className={styles.secRule} aria-hidden='true' />{' '}
+                <span className={styles.secLabel}>{S.build}</span>
+              </p>
+            </TwReveal>
+            <div className={styles.twoCol}>
+              <TwReveal>
+                <h2 id='still-build' className={styles.h2}>
+                  {ABOUT.build.stillBuildTitle}
+                </h2>
+                <p className={styles.stillBuildQuote}>
+                  &ldquo;{QUOTES.stillBuild}&rdquo;
+                </p>
+                <ul className={styles.services}>
+                  {BUILD_SERVICES.map((service) => {
+                    const Icon = SERVICE_ICONS[service.slug] ?? SettingsIcon;
+                    return (
+                      <li key={service.slug} className={styles.iconItem}>
+                        <span
+                          className={`${styles.iconBadge} ${styles.iconBadgeGold}`}
+                        >
+                          <Icon className={styles.icon} />
+                        </span>
+                        <span>
+                          <span className={styles.serviceName}>
+                            {service.name}
+                          </span>
+                          <span className={styles.serviceText}>
+                            {service.summary}
+                          </span>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <p className={styles.label}>{ABOUT.build.qualitiesLabel}</p>
+                <ul className={styles.chipRow}>
+                  {BUILD_QUALITIES.map((quality) => (
+                    <li key={quality}>
+                      <TwChip variant='teal' size='sm'>
+                        {quality}
+                      </TwChip>
+                    </li>
+                  ))}
+                </ul>
+                <div className={styles.linkRow}>
+                  <a
+                    href={serviceHref()}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {ABOUT.build.fluxlineLink}{' '}
+                    <span aria-hidden='true'>&#8599;</span>
+                  </a>
+                </div>
+              </TwReveal>
+              <TwReveal delay={90}>
+                <h2 id='now' className={styles.h2}>
+                  {ABOUT.build.title}
+                </h2>
+                <ul className={styles.growing}>
+                  {GROWING_WORK.map((item) => {
+                    const Icon = GROWING_ICONS[item.key];
+                    return (
+                      <li key={item.key} className={styles.iconItem}>
+                        <span className={styles.iconBadge}>
+                          <Icon className={styles.icon} />
+                        </span>
+                        <span className={styles.growingText}>{item.text}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </TwReveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== 08 Experience ===== */}
+        <section
+          id='experience'
+          className={`${styles.sectionAlt} ${styles.experienceGlow}`}
+          aria-labelledby='about-experience'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <SectionHeading
+                num='08'
+                label={S.experience}
+                id='about-experience'
+              >
+                {ABOUT.experience.title}
+              </SectionHeading>
+              <p className={styles.lede}>{ABOUT.experience.lede}</p>
+            </TwReveal>
+            <AboutTimeline />
+
+            <TwReveal>
+              <h3 className={styles.h3}>{ABOUT.experience.projectsTitle}</h3>
+            </TwReveal>
+            <ul className={styles.projects}>
+              {PROJECTS.map((project, i) => (
+                <TwReveal
+                  as='li'
+                  key={project.name}
+                  delay={i * 60}
+                  className={styles.project}
+                >
+                  <p className={styles.projectPeriod}>{project.period}</p>
+                  <p className={styles.projectName}>{project.name}</p>
+                  <p className={styles.projectMeta}>
+                    {project.role}
+                    <br />
+                    {project.stack}
+                  </p>
+                </TwReveal>
+              ))}
+            </ul>
+            <div className={styles.linkRow}>
+              <Link href='/portfolio/'>
+                {ABOUT.experience.portfolioLink}{' '}
+                <span aria-hidden='true'>&#8594;</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== 09 Skills, degrees, and certifications =====
+            The design that was on TEST, at full width (owner, #294). */}
+        <section
+          id='credentials'
+          className={styles.section}
+          aria-labelledby='about-credentials'
+        >
+          <div className={styles.container}>
+            <TwReveal>
+              <SectionHeading
+                num='09'
+                label={S.credentials}
+                id='about-credentials'
+              >
+                {ABOUT.credentials.title}
+              </SectionHeading>
+              <p className={styles.lede}>{ABOUT.credentials.lede}</p>
+            </TwReveal>
+            <CredentialsBody />
+          </div>
+        </section>
 
         {/* ===== Closing ===== */}
-        <section className={styles.closing}>
+        <section
+          id='closing'
+          className={styles.closing}
+          aria-label={ABOUT.closing.title}
+        >
           <div className={styles.container}>
             <TwReveal>
               <TwCTABand
                 as='div'
-                kicker='If you got this far'
-                title="You're probably navigating a transition"
-                body="Personal, professional, creative, or internal. You don't need it figured out — you need somewhere to think and rebuild with intention. I'd be honored to walk with you."
+                kicker={ABOUT.closing.kicker}
+                title={ABOUT.closing.title}
+                body={ABOUT.closing.body}
               >
-                <TwButton href='https://tidycal.com/terencewaters'>
-                  Book a free consultation
-                </TwButton>
-                <TwButton variant='outline' href='/#contact'>
-                  Send a message
+                <BookingTrigger />
+                <TwButton variant='outline' href='/contact/#message'>
+                  {ABOUT.closing.message}
                 </TwButton>
               </TwCTABand>
             </TwReveal>

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { episodeToCard, videoToCard } from './contentCards';
+import { episodeToCard, mergeHomeCards } from './contentCards';
+import type { HomeCard } from '@/app/HomePageClient';
 
 describe('episodeToCard', () => {
   it('links to the on-site episode page and trims long descriptions', () => {
@@ -21,20 +22,41 @@ describe('episodeToCard', () => {
   });
 });
 
-describe('videoToCard', () => {
-  it('deep-links to YouTube as an external card', () => {
-    const card = videoToCard({
-      id: 'abc123',
-      title: 'Studio notes',
-      description: 'Short.',
-      thumbnailUrl: 'https://i.ytimg.com/vi/abc123/hq.jpg',
-      publishedAt: '2026-08-20T15:00:00Z',
-      type: 'video',
-    });
-    expect(card.href).toBe('https://www.youtube.com/watch?v=abc123');
-    expect(card.external).toBe(true);
-    expect(card.category).toBe('Video');
-    expect(card.date).toBe('2026-08-20');
-    expect(card.excerpt).toBe('Short.');
+const card = (slug: string, date?: string): HomeCard => ({
+  slug,
+  title: slug,
+  excerpt: '',
+  href: `/${slug}`,
+  date,
+});
+
+describe('mergeHomeCards', () => {
+  it('mixes writing and episodes, newest first, three in all', () => {
+    const merged = mergeHomeCards(
+      [card('post-a', '2026-11-02'), card('post-b', '2026-10-01')],
+      [card('ep-a', '2026-11-16'), card('ep-b', '2026-11-09')]
+    );
+    expect(merged.map((c) => c.slug)).toEqual(['ep-a', 'ep-b', 'post-a']);
+  });
+
+  it('is writing only when the podcast feed is empty', () => {
+    const merged = mergeHomeCards(
+      [
+        card('a', '2026-11-02'),
+        card('b', '2026-11-01'),
+        card('c', '2026-10-01'),
+        card('d', '2026-09-01'),
+      ],
+      []
+    );
+    expect(merged.map((c) => c.slug)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('puts undated or unparseable items last', () => {
+    const merged = mergeHomeCards(
+      [card('none'), card('bad', 'soon'), card('dated', '2026-01-01')],
+      []
+    );
+    expect(merged[0].slug).toBe('dated');
   });
 });

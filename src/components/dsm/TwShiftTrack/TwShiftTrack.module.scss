@@ -1,0 +1,260 @@
+@use 'abstracts' as *;
+
+/*
+ * Vertical below tablet (line on the left), horizontal from tablet up (line
+ * through the nodes). --tw-track-progress (0–1) drives the lit part of the line.
+ */
+
+.wrap {
+  --node: 14px;
+}
+
+.track {
+  position: relative;
+  display: grid;
+  gap: var(--tw-space-xl);
+  margin: 0;
+  padding: 0 0 0 calc(var(--node) + var(--tw-space-l));
+  list-style: none;
+
+  /* Base line (dim) and lit line (glowing, grows with progress). */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--node) / 2 - 1px);
+    top: var(--tw-track-start, calc(var(--node) / 2));
+    bottom: calc(var(--node) / 2);
+    width: 2px;
+    border-radius: var(--tw-radius-pill);
+  }
+
+  /* Once measured (TwShiftTrack.tsx), stop at the last node's centre. */
+  @include until('tablet') {
+    &::before,
+    &::after {
+      bottom: auto;
+      height: var(--tw-track-length, calc(100% - var(--node)));
+    }
+  }
+
+  &::before {
+    background: var(--tw-border);
+  }
+
+  &::after {
+    background: var(--tw-line-strong);
+    box-shadow: var(--tw-glow-soft);
+    transform-origin: top;
+    transform: scaleY(var(--tw-track-progress, 1));
+    transition: transform 0.9s var(--tw-motion-ease);
+    @include motion-safe-only;
+  }
+
+  @include from('tablet') {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: var(--tw-space-l);
+    padding: calc(var(--node) + var(--tw-space-l)) 0 0;
+
+    &::before,
+    &::after {
+      left: calc(var(--node) / 2);
+      /* Stop at the last node: one column width (minus half a node) from the
+         right edge. --steps is set inline from the number of steps. */
+      right: calc(
+        (100% - (var(--steps, 1) - 1) * var(--tw-space-l)) /
+          var(--steps, 1) - var(--node) / 2
+      );
+      top: calc(var(--node) / 2 - 1px);
+      bottom: auto;
+      width: auto;
+      height: 2px;
+    }
+
+    &::after {
+      transform-origin: left;
+      transform: scaleX(var(--tw-track-progress, 1));
+    }
+  }
+}
+
+.step {
+  position: relative;
+  min-width: 0;
+}
+
+.node {
+  position: absolute;
+  left: calc(-1 * (var(--node) + var(--tw-space-l)));
+  top: 2px;
+  width: var(--node);
+  height: var(--node);
+  border-radius: 50%;
+  background: var(--tw-bg-page);
+  border: 2px solid var(--tw-border-strong);
+  transition:
+    background-color 0.5s var(--tw-motion-ease),
+    border-color 0.5s var(--tw-motion-ease),
+    box-shadow 0.5s var(--tw-motion-ease);
+  @include motion-safe-only;
+
+  @include from('tablet') {
+    left: 0;
+    top: calc(-1 * (var(--node) + var(--tw-space-l)));
+  }
+}
+
+.step[data-reached='true'] .node {
+  background: var(--tw-line-strong);
+  border-color: var(--tw-line-strong);
+  box-shadow: var(--tw-glow-node);
+}
+
+.number {
+  @include label;
+  margin: 0 0 var(--tw-space-xxs);
+  color: var(--tw-accent);
+}
+
+/* Keeps titles aligned across columns when a step has no number. */
+.numberEmpty {
+  visibility: hidden;
+
+  @include until('tablet') {
+    display: none;
+  }
+}
+
+.title {
+  margin: 0;
+  font-family: var(--tw-font);
+  font-size: var(--tw-h3-size);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tw-text-heading-display);
+}
+
+.short {
+  margin: var(--tw-space-xs) 0 0;
+  font-family: var(--tw-font-body);
+  font-size: var(--tw-aside-size);
+  line-height: var(--tw-aside-leading);
+  color: var(--tw-text-body);
+}
+
+.roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tw-space-xs);
+  margin: var(--tw-space-s) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.role {
+  font-family: var(--tw-font);
+  font-size: var(--tw-chip-tag-size);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: var(--tw-radius-pill);
+  border: 1px solid var(--tw-border);
+  color: var(--tw-text-muted);
+  transition:
+    color 0.5s var(--tw-motion-ease),
+    border-color 0.5s var(--tw-motion-ease),
+    box-shadow 0.5s var(--tw-motion-ease);
+  @include motion-safe-only;
+}
+
+.step[data-reached='true'] .role {
+  color: var(--tw-text-heading);
+  border-color: var(--tw-line-color);
+  box-shadow: var(--tw-glow-soft);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tw-tap-target);
+  margin-top: var(--tw-space-xs);
+  font-family: var(--tw-font);
+  font-weight: 700;
+  font-size: var(--tw-link-size);
+  color: var(--tw-accent);
+  text-decoration: none;
+
+  @include focus-ring;
+}
+
+/*
+ * The highlighted step (The launch): Mythic Gold node, number, title and role
+ * chips on a soft gold panel. The panel's negative margin keeps the title
+ * aligned with the other steps. Gold lines and glows come from effects.css,
+ * so light, high-contrast, grayscale and reduced-transparency modes apply.
+ */
+.step[data-highlight='true'] {
+  .node {
+    border-color: var(--tw-gold-line);
+  }
+
+  .body {
+    margin: calc(-1 * var(--tw-space-m));
+    padding: var(--tw-space-m);
+    border: 1px solid var(--tw-gold-line);
+    border-radius: var(--tw-radius-card);
+    background: var(--tw-mythic-gold-bg);
+  }
+
+  .number,
+  .title {
+    color: var(--tw-mythic-gold-text);
+  }
+}
+
+.step[data-highlight='true'][data-reached='true'] {
+  .node {
+    background: var(--tw-gold-line);
+    border-color: var(--tw-gold-line);
+    box-shadow: var(--tw-glow-gold-node);
+  }
+
+  .body {
+    box-shadow: var(--tw-glow-gold);
+  }
+
+  .role {
+    color: var(--tw-mythic-gold-text);
+    border-color: var(--tw-gold-line);
+    box-shadow: var(--tw-glow-gold);
+  }
+}
+
+/* Running total: the roles collected so far. */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--tw-space-xs) var(--tw-space-s);
+  margin: var(--tw-space-xxl) 0 0;
+  font-family: var(--tw-font);
+}
+
+.stackLabel {
+  @include label;
+}
+
+.stackRole {
+  font-size: var(--tw-body-sm-size);
+  font-weight: 600;
+  color: var(--tw-text-heading);
+
+  /* The dot trails each role, so a wrapped line never starts with one. */
+  &:not(:last-child)::after {
+    content: '·';
+    margin-left: var(--tw-space-s);
+    color: var(--tw-text-faint);
+  }
+}

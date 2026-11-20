@@ -1,38 +1,30 @@
 import Link from 'next/link';
-import {
-  TwButton,
-  TwCard,
-  TwPageNav,
-  TwReveal,
-  TwSectionHeading,
-} from '@/components/dsm';
-import type { TwPageNavLink } from '@/components/dsm';
+import { TwButton, TwCard, TwReveal, TwSectionHeading } from '@/components/dsm';
 import { Footer } from '@/components/Footer';
 import styles from './not-found.module.scss';
+import { SiteNav } from '@/components/SiteNav';
 
 export const metadata = {
   title: '404 - Page Not Found',
   description: 'The page you are looking for could not be found.',
 };
 
-const NAV_LINKS: TwPageNavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Content Hub', href: '/content-hub' },
-  { label: 'Portfolio', href: '/portfolio' },
-];
-
 const POPULAR = [
   { href: '/blog', label: 'Blog', desc: 'Read articles and insights' },
-  { href: '/portfolio', label: 'Portfolio', desc: 'View work and case studies' },
+  {
+    href: '/portfolio',
+    label: 'Portfolio',
+    desc: 'View my work',
+  },
   { href: '/about', label: 'About', desc: 'Learn more about Terence' },
 ];
 
 export default function NotFound() {
   return (
     <div className={styles.page}>
-      <TwPageNav back={{ label: 'Back to Home', href: '/' }} links={NAV_LINKS} />
+      <SiteNav />
 
-      <main className={styles.main}>
+      <main id='main' className={styles.main}>
         <TwReveal>
           <div className={styles.hero}>
             <span className={styles.code}>404</span>
