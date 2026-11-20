@@ -6,6 +6,19 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.4.1] - 2026-11-20
+
+Launch-day fixes from the owner's smoke test. Tag: `v2_4_1.PROD`.
+
+### Changed
+
+- The home page uses the new square RCF logo, `RCF_logo.jpg` (#335).
+
+### Fixed
+
+- `/podcasts/theresonantid`: the Videos on YouTube heading no longer sets one letter per line beside View all on YouTube (#334).
+- YouTube video titles and descriptions show apostrophes and other characters instead of HTML entities such as `You&#39;re` (#334). `api/youtube` decodes them, which fixes `/videos` too.
+
 ## [2.4.0] - 2026-11-20
 
 The Resonance Core Framework™ book pre-order launch, with the rebuilt site: book pre-orders open (`RCF_PREORDERS_OPEN`), the Book a Conversation dialog and `/book`, the new `/about`, `/contact` and `/podcasts` pages, the RCF banner, and the footer newsletter above the footer line. The Instagram feed stays hidden. Tag: `v2_4_0.PROD`.
@@ -266,6 +279,8 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
+[Unreleased]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_1.PROD...HEAD
+[2.4.1]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_0.PROD...v2_4_1.PROD
 [2.4.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_3_0.PROD...v2_4_0.PROD
 [2.3.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2_3_0.PROD
 [2.2.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_1_1.PROD...v2_2_0.PROD

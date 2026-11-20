@@ -92,6 +92,23 @@ async function getChannelId(apiKey, channelHandle) {
 }
 
 /**
+ * YouTube's search endpoint returns titles and descriptions HTML-escaped
+ * ("You&#39;re"), and React then shows the entity as text (#334). Decode the
+ * entities it uses; an out-of-range code point is left as it is.
+ */
+const NAMED_ENTITIES = { lt: '<', gt: '>', quot: '"', apos: "'", nbsp: '\u00a0' };
+function decodeEntities(text) {
+  if (typeof text !== 'string') return text;
+  const fromCode = (code, raw) =>
+    code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : raw;
+  return text
+    .replace(/&#(\d+);/g, (raw, n) => fromCode(Number(n), raw))
+    .replace(/&#x([0-9a-f]+);/gi, (raw, n) => fromCode(parseInt(n, 16), raw))
+    .replace(/&(lt|gt|quot|apos|nbsp);/g, (_, name) => NAMED_ENTITIES[name])
+    .replace(/&amp;/g, '&');
+}
+
+/**
  * Fetch videos, live streams, or playlists from the channel.
  * @param {string} apiKey
  * @param {string} channelId
@@ -114,8 +131,8 @@ async function fetchVideos(apiKey, channelId, type, pageToken) {
 
     const videos = (data.items || []).map((item) => ({
       id: item.id,
-      title: item.snippet.title,
-      description: item.snippet.description,
+      title: decodeEntities(item.snippet.title),
+      description: decodeEntities(item.snippet.description),
       thumbnailUrl:
         item.snippet.thumbnails?.high?.url ||
         item.snippet.thumbnails?.default?.url ||
@@ -177,8 +194,8 @@ async function fetchVideos(apiKey, channelId, type, pageToken) {
       const detail = detailsMap[videoId];
       return {
         id: videoId,
-        title: item.snippet.title,
-        description: item.snippet.description,
+        title: decodeEntities(item.snippet.title),
+        description: decodeEntities(item.snippet.description),
         thumbnailUrl:
           item.snippet.thumbnails?.high?.url ||
           item.snippet.thumbnails?.default?.url ||
@@ -367,3 +384,5 @@ module.exports = async function (context, req) {
     };
   }
 };
+
+module.exports.decodeEntities = decodeEntities;
