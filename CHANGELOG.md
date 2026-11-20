@@ -6,6 +6,14 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.4.2] - 2026-11-20
+
+The new RCF logo on the remaining pages. Tag: `v2_4_2.PROD`.
+
+### Changed
+
+- `/about-me` and `/resonance-core-framework` (its page image and its social-share image) use the new square RCF logo, `RCF_logo.jpg`, like the home page (#343).
+
 ## [2.4.1] - 2026-11-20
 
 Launch-day fixes from the owner's smoke test. Tag: `v2_4_1.PROD`.
@@ -279,7 +287,8 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
-[Unreleased]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_1.PROD...HEAD
+[Unreleased]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_2.PROD...HEAD
+[2.4.2]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_1.PROD...v2_4_2.PROD
 [2.4.1]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_0.PROD...v2_4_1.PROD
 [2.4.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_3_0.PROD...v2_4_0.PROD
 [2.3.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/releases/tag/v2_3_0.PROD
