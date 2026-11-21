@@ -6,6 +6,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+### Security
+
+- Next.js upgraded from 16.4.1 to 16.4.6 for the advisories published 2026-11-19 (16.0.0 through 16.4.4 affected): SVG rejection bypass in image optimization, HttpOnly cookie exposure on Edge routes, cache disclosure and poisoning, and cross-client response injection (#359).
+
 ## [2.4.2] - 2026-11-20
 
 The new RCF logo on the remaining pages. Tag: `v2_4_2.PROD`.
