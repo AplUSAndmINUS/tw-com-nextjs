@@ -8,7 +8,11 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [2.4.3] - 2026-11-21
 
-The Next.js security upgrade. Tag: `v2_4_3.PROD`.
+The Next.js security upgrade, plus the new RCF logo in the two RCF blog posts. Tag: `v2_4_3.PROD`.
+
+### Changed
+
+- The two RCF blog posts use the new RCF logo (#351). It reached production on 2026-11-20 as a content-only change.
 
 ### Security
 
