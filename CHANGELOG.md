@@ -6,6 +6,10 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.4.3] - 2026-11-21
+
+The Next.js security upgrade. Tag: `v2_4_3.PROD`.
+
 ### Security
 
 - Next.js upgraded from 16.4.1 to 16.4.6 for the advisories published 2026-11-19 (16.0.0 through 16.4.4 affected): SVG rejection bypass in image optimization, HttpOnly cookie exposure on Edge routes, cache disclosure and poisoning, and cross-client response injection (#359).
@@ -299,7 +303,8 @@ The v2.0 site: the DSM design system rebuild of the home, About, Content Hub
 and `/resonance-core-framework` pages, with the podcast and video cards and the
 Case Studies button fixes (issue #181). Released to `master` without a tag.
 
-[Unreleased]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_2.PROD...HEAD
+[Unreleased]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_3.PROD...HEAD
+[2.4.3]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_2.PROD...v2_4_3.PROD
 [2.4.2]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_1.PROD...v2_4_2.PROD
 [2.4.1]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_4_0.PROD...v2_4_1.PROD
 [2.4.0]: https://github.com/AplUSAndmINUS/tw-com-nextjs/compare/v2_3_0.PROD...v2_4_0.PROD
