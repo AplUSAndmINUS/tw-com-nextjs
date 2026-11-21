@@ -185,6 +185,14 @@ Notes for the release:
 
 ## [2.2.0] - 2026-11-02
 
+### Added
+
+- Personal post "When the Work Feels Forced, Nothing Shines Through," with a
+  hero graphic.
+- Drafting rules in `CLAUDE.md`: a voice-first rule so drafts read like the
+  owner wrote them, and a section on how RCF constructs are capitalized
+  (docs only).
+
 ### Changed
 
 - SEO and AI-crawler pass: `robots.txt` names the major search and AI crawlers
