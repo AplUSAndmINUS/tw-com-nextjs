@@ -6,6 +6,14 @@ All notable changes to terencewaters.com are recorded here. The format follows
 
 ## [Unreleased]
 
+## [2.4.4] - 2026-11-21
+
+A dev-tool security fix. Nothing on the live site changes. Tag: `v2_4_4.PROD`.
+
+### Security
+
+- Vitest upgraded from 4.1.11 to 4.1.12, which patches two moderate `@vitest/mocker` advisories: code injection via manual mock registration, and a Windows path traversal past the mocker's redirect allowlist (#368). Vitest runs only in development and is not part of the deployed site.
+
 ## [2.4.3] - 2026-11-21
 
 The Next.js security upgrade, plus the new RCF logo in the two RCF blog posts. Tag: `v2_4_3.PROD`.
